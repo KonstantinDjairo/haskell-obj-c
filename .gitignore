@@ -1,7 +1,23 @@
 .stack-work/
 dist/
 *~
+# .gitignore
 
+*~
+*#
+.#*
+*rej
+*orig
+pinentry*
+*.hi
+*.o
+*.a
+
+# Haskell build artifacts
+dist/
+dist-newstyle/
+.stack-work/
+.cabal-hoogle-generated/dist-newstyle/
 # Logs
 logs
 *.log
