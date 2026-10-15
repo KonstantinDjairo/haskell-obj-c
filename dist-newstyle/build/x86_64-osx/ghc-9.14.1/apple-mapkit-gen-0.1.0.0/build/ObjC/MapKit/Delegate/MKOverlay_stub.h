@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmmapkitzmgenzm0zi1zi0zi0zminplacezdObjCziMapKitziDelegateziMKOverlayzdapplezzmmapkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMapKitzziDelegatezziMKOverlayzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsWord64 zdapplezmmapkitzmgenzm0zi1zi0zi0zminplacezdObjCziMapKitziDelegateziMKOverlayzdapplezzmmapkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMapKitzziDelegatezziMKOverlayzuwrapzzuB(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2);
+#if defined(__cplusplus)
+}
+#endif
+

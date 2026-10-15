@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmfoundationzmgenzm0zi1zi0zi0zminplacezdObjCziFoundationziDelegateziNSFastEnumerationzdapplezzmfoundationzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziFoundationzziDelegatezziNSFastEnumerationzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsWord64 zdapplezmfoundationzmgenzm0zi1zi0zi0zminplacezdObjCziFoundationziDelegateziNSFastEnumerationzdapplezzmfoundationzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziFoundationzziDelegatezziNSFastEnumerationzuwrapzzuatzzuatzzuQzzuQ(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4, HsWord64 a5);
+#if defined(__cplusplus)
+}
+#endif
+

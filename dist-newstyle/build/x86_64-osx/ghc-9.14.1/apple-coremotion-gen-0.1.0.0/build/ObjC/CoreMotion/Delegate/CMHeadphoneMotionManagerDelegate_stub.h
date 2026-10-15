@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmcoremotionzmgenzm0zi1zi0zi0zminplacezdObjCziCoreMotionziDelegateziCMHeadphoneMotionManagerDelegatezdapplezzmcoremotionzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCoreMotionzziDelegatezziCMHeadphoneMotionManagerDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmcoremotionzmgenzm0zi1zi0zi0zminplacezdObjCziCoreMotionziDelegateziCMHeadphoneMotionManagerDelegatezdapplezzmcoremotionzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCoreMotionzziDelegatezziCMHeadphoneMotionManagerDelegatezuwrapzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+#if defined(__cplusplus)
+}
+#endif
+

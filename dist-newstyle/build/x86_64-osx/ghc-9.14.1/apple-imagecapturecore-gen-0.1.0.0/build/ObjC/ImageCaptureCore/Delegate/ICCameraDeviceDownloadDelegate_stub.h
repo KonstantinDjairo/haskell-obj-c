@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmimagecapturecorezmgenzm0zi1zi0zi0zminplacezdObjCziImageCaptureCoreziDelegateziICCameraDeviceDownloadDelegatezdapplezzmimagecapturecorezzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziImageCaptureCorezziDelegatezziICCameraDeviceDownloadDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmimagecapturecorezmgenzm0zi1zi0zi0zminplacezdObjCziImageCaptureCoreziDelegateziICCameraDeviceDownloadDelegatezdapplezzmimagecapturecorezzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziImageCaptureCorezziDelegatezziICCameraDeviceDownloadDelegatezuwrapzzuatzzuqzzuqzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsInt64 a4, HsInt64 a5);
+#if defined(__cplusplus)
+}
+#endif
+

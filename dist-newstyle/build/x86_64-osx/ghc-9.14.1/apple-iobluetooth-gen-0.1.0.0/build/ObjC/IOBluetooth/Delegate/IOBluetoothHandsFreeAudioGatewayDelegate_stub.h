@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmiobluetoothzmgenzm0zi1zi0zi0zminplacezdObjCziIOBluetoothziDelegateziIOBluetoothHandsFreeAudioGatewayDelegatezdapplezzmiobluetoothzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziIOBluetoothzziDelegatezziIOBluetoothHandsFreeAudioGatewayDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmiobluetoothzmgenzm0zi1zi0zi0zminplacezdObjCziIOBluetoothziDelegateziIOBluetoothHandsFreeAudioGatewayDelegatezdapplezzmiobluetoothzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziIOBluetoothzziDelegatezziIOBluetoothHandsFreeAudioGatewayDelegatezuwrapzzuatzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+#if defined(__cplusplus)
+}
+#endif
+

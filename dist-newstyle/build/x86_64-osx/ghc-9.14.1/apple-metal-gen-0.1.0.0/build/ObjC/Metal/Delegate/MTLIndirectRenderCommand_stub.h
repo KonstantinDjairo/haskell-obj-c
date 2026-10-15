@@ -1,0 +1,14 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmmetalzmgenzm0zi1zi0zi0zminplacezdObjCziMetalziDelegateziMTLIndirectRenderCommandzdapplezzmmetalzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalzziDelegatezziMTLIndirectRenderCommandzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmmetalzmgenzm0zi1zi0zi0zminplacezdObjCziMetalziDelegateziMTLIndirectRenderCommandzdapplezzmmetalzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalzziDelegatezziMTLIndirectRenderCommandzuwrapzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmmetalzmgenzm0zi1zi0zi0zminplacezdObjCziMetalziDelegateziMTLIndirectRenderCommandzdapplezzmmetalzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalzziDelegatezziMTLIndirectRenderCommandzuwrapzzuatzzuQzzuQzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsWord64 a4, HsWord64 a5);
+extern void zdapplezmmetalzmgenzm0zi1zi0zi0zminplacezdObjCziMetalziDelegateziMTLIndirectRenderCommandzdapplezzmmetalzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalzziDelegatezziMTLIndirectRenderCommandzuwrapzzuQzzuQzzuQzzuatzzuQzzuQzzuQzzuatzzuQzzuQzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsWord64 a3, HsWord64 a4, HsWord64 a5, HsPtr a6, void* original_return_addr, HsWord64 a7, HsWord64 a8, HsWord64 a9, HsPtr a10, HsWord64 a11, HsWord64 a12);
+extern void zdapplezmmetalzmgenzm0zi1zi0zi0zminplacezdObjCziMetalziDelegateziMTLIndirectRenderCommandzdapplezzmmetalzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalzziDelegatezziMTLIndirectRenderCommandzuwrapzzuQzzuQzzuQzzuatzzuQzzuatzzuQzzuQzzuQzzuatzzuQzzuQzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsWord64 a3, HsWord64 a4, HsWord64 a5, HsPtr a6, void* original_return_addr, HsWord64 a7, HsPtr a8, HsWord64 a9, HsWord64 a10, HsWord64 a11, HsPtr a12, HsWord64 a13, HsWord64 a14);
+extern void zdapplezmmetalzmgenzm0zi1zi0zi0zminplacezdObjCziMetalziDelegateziMTLIndirectRenderCommandzdapplezzmmetalzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalzziDelegatezziMTLIndirectRenderCommandzuwrapzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2);
+#if defined(__cplusplus)
+}
+#endif
+

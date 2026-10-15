@@ -1,0 +1,11 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmcryptotokenkitzmgenzm0zi1zi0zi0zminplacezdObjCziCryptoTokenKitziDelegateziTKTokenDelegatezdapplezzmcryptotokenkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCryptoTokenKitzziDelegatezziTKTokenDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsPtr zdapplezmcryptotokenkitzmgenzm0zi1zi0zi0zminplacezdObjCziCryptoTokenKitziDelegateziTKTokenDelegatezdapplezzmcryptotokenkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCryptoTokenKitzziDelegatezziTKTokenDelegatezuwrapzzuatzzuatzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+extern void zdapplezmcryptotokenkitzmgenzm0zi1zi0zi0zminplacezdObjCziCryptoTokenKitziDelegateziTKTokenDelegatezdapplezzmcryptotokenkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCryptoTokenKitzziDelegatezziTKTokenDelegatezuwrapzzuatzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+#if defined(__cplusplus)
+}
+#endif
+

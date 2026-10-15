@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmgamekitzmgenzm0zi1zi0zi0zminplacezdObjCziGameKitziDelegateziGKAchievementViewControllerDelegatezdapplezzmgamekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziGameKitzziDelegatezziGKAchievementViewControllerDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmgamekitzmgenzm0zi1zi0zi0zminplacezdObjCziGameKitziDelegateziGKAchievementViewControllerDelegatezdapplezzmgamekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziGameKitzziDelegatezziGKAchievementViewControllerDelegatezuwrapzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+#if defined(__cplusplus)
+}
+#endif
+

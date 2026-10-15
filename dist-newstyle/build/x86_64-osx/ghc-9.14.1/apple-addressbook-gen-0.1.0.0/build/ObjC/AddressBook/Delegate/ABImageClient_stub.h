@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmaddressbookzmgenzm0zi1zi0zi0zminplacezdObjCziAddressBookziDelegateziABImageClientzdapplezzmaddressbookzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziAddressBookzziDelegatezziABImageClientzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmaddressbookzmgenzm0zi1zi0zi0zminplacezdObjCziAddressBookziDelegateziABImageClientzdapplezzmaddressbookzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziAddressBookzziDelegatezziABImageClientzuwrapzzuatzzuqzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsInt64 a4);
+#if defined(__cplusplus)
+}
+#endif
+

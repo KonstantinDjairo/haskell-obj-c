@@ -1,0 +1,11 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmgamekitzmgenzm0zi1zi0zi0zminplacezdObjCziGameKitziDelegateziGKSessionDelegatezdapplezzmgamekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziGameKitzziDelegatezziGKSessionDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmgamekitzmgenzm0zi1zi0zi0zminplacezdObjCziGameKitziDelegateziGKSessionDelegatezdapplezzmgamekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziGameKitzziDelegatezziGKSessionDelegatezuwrapzzuatzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+extern void zdapplezmgamekitzmgenzm0zi1zi0zi0zminplacezdObjCziGameKitziDelegateziGKSessionDelegatezdapplezzmgamekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziGameKitzziDelegatezziGKSessionDelegatezuwrapzzuatzzuatzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4, HsPtr a5);
+#if defined(__cplusplus)
+}
+#endif
+

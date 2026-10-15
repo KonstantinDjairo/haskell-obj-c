@@ -1,0 +1,11 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmappkitzmgenzm0zi1zi0zi0zminplacezdObjCziAppKitziDelegateziNSColorPickingCustomzdapplezzmappkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziAppKitzziDelegatezziNSColorPickingCustomzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsPtr zdapplezmappkitzmgenzm0zi1zi0zi0zminplacezdObjCziAppKitziDelegateziNSColorPickingCustomzdapplezzmappkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziAppKitzziDelegatezziNSColorPickingCustomzuwrapzzuBzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsWord64 a3);
+extern void zdapplezmappkitzmgenzm0zi1zi0zi0zminplacezdObjCziAppKitziDelegateziNSColorPickingCustomzdapplezzmappkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziAppKitzziDelegatezziNSColorPickingCustomzuwrapzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+#if defined(__cplusplus)
+}
+#endif
+

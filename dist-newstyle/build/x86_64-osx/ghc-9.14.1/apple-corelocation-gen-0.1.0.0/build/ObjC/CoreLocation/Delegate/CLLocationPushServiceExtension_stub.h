@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmcorelocationzmgenzm0zi1zi0zi0zminplacezdObjCziCoreLocationziDelegateziCLLocationPushServiceExtensionzdapplezzmcorelocationzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCoreLocationzziDelegatezziCLLocationPushServiceExtensionzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmcorelocationzmgenzm0zi1zi0zi0zminplacezdObjCziCoreLocationziDelegateziCLLocationPushServiceExtensionzdapplezzmcorelocationzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCoreLocationzziDelegatezziCLLocationPushServiceExtensionzuwrapzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2);
+#if defined(__cplusplus)
+}
+#endif
+

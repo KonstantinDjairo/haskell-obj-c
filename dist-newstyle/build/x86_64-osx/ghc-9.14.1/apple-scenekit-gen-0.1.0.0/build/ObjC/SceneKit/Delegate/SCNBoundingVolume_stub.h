@@ -1,0 +1,11 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmscenekitzmgenzm0zi1zi0zi0zminplacezdObjCziSceneKitziDelegateziSCNBoundingVolumezdapplezzmscenekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziSceneKitzziDelegatezziSCNBoundingVolumezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsWord64 zdapplezmscenekitzmgenzm0zi1zi0zi0zminplacezdObjCziSceneKitziDelegateziSCNBoundingVolumezdapplezzmscenekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziSceneKitzziDelegatezziSCNBoundingVolumezuwrapzzuatzzuatzzuB(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+extern void zdapplezmscenekitzmgenzm0zi1zi0zi0zminplacezdObjCziSceneKitziDelegateziSCNBoundingVolumezdapplezzmscenekitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziSceneKitzziDelegatezziSCNBoundingVolumezuwrapzzuatzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+#if defined(__cplusplus)
+}
+#endif
+

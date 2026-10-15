@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmwebkitzmgenzm0zi1zi0zi0zminplacezdObjCziWebKitziDelegateziDOMEventListenerzdapplezzmwebkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziWebKitzziDelegatezziDOMEventListenerzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmwebkitzmgenzm0zi1zi0zi0zminplacezdObjCziWebKitziDelegateziDOMEventListenerzdapplezzmwebkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziWebKitzziDelegatezziDOMEventListenerzuwrapzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+#if defined(__cplusplus)
+}
+#endif
+

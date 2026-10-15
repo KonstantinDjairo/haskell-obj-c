@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE ForeignFunctionInterface #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-comment">-- | Dynamic Objective-C message sending via @libffi@.</span><span>
+</span><span id="line-4"></span><span class="hs-comment">--</span><span>
+</span><span id="line-5"></span><span class="hs-comment">-- On ARM64, @objc_msgSend@ is a trampoline whose calling convention must</span><span>
+</span><span id="line-6"></span><span class="hs-comment">-- match the target method exactly. We use @libffi@ to construct the</span><span>
+</span><span id="line-7"></span><span class="hs-comment">-- correct call frame at runtime, given the argument and return types.</span><span>
+</span><span id="line-8"></span><span class="hs-comment">--</span><span>
+</span><span id="line-9"></span><span class="hs-comment">-- Usage example (sending @length@ to an NSString):</span><span>
+</span><span id="line-10"></span><span class="hs-comment">--</span><span>
+</span><span id="line-11"></span><span class="hs-comment">-- @</span><span>
+</span><span id="line-12"></span><span class="hs-comment">-- len &lt;- sendMsg nsString lengthSel (retCULong) []</span><span>
+</span><span id="line-13"></span><span class="hs-comment">-- @</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">module</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html"><span class="hs-identifier">ObjC.Runtime.MsgSend</span></a></span><span>
+</span><span id="line-15"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-comment">-- * Core message sending (polymorphic receiver)</span></span><span>
+</span><span id="line-16"></span><span>    </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendMsg"><span class="hs-identifier">sendMsg</span></a></span><span>
+</span><span id="line-17"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendMsgFpret"><span class="hs-identifier">sendMsgFpret</span></a></span><span>
+</span><span id="line-18"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendMsgStret"><span class="hs-identifier">sendMsgStret</span></a></span><span>
+</span><span id="line-19"></span><span>
+</span><span id="line-20"></span><span>    </span><span class="annot"><span class="hs-comment">-- * Raw message sending (takes 'RawId')</span></span><span>
+</span><span id="line-21"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendRawMsg"><span class="hs-identifier">sendRawMsg</span></a></span><span>
+</span><span id="line-22"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendRawMsgFpret"><span class="hs-identifier">sendRawMsgFpret</span></a></span><span>
+</span><span id="line-23"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendRawMsgStret"><span class="hs-identifier">sendRawMsgStret</span></a></span><span>
+</span><span id="line-24"></span><span>
+</span><span id="line-25"></span><span>    </span><span class="annot"><span class="hs-comment">-- * Class message sending</span></span><span>
+</span><span id="line-26"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendClassMsg"><span class="hs-identifier">sendClassMsg</span></a></span><span>
+</span><span id="line-27"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendClassMsgFpret"><span class="hs-identifier">sendClassMsgFpret</span></a></span><span>
+</span><span id="line-28"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendClassMsgStret"><span class="hs-identifier">sendClassMsgStret</span></a></span><span>
+</span><span id="line-29"></span><span>
+</span><span id="line-30"></span><span>    </span><span class="annot"><span class="hs-comment">-- * Super message sending</span></span><span>
+</span><span id="line-31"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendSuperMsg"><span class="hs-identifier">sendSuperMsg</span></a></span><span>
+</span><span id="line-32"></span><span>
+</span><span id="line-33"></span><span>    </span><span class="annot"><span class="hs-comment">-- * Low-level access to objc_msgSend function pointers</span></span><span>
+</span><span id="line-34"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendPtr"><span class="hs-identifier">objcMsgSendPtr</span></a></span><span>
+</span><span id="line-35"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendSuperPtr"><span class="hs-identifier">objcMsgSendSuperPtr</span></a></span><span>
+</span><span id="line-36"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendStretPtr"><span class="hs-identifier">objcMsgSendStretPtr</span></a></span><span>
+</span><span id="line-37"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendFpretPtr"><span class="hs-identifier">objcMsgSendFpretPtr</span></a></span><span>
+</span><span id="line-38"></span><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-39"></span><span>
+</span><span id="line-40"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Foreign.Ptr</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Ptr</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">FunPtr</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">castPtrToFunPtr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-41"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Foreign.Marshal.Alloc</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">alloca</span></span><span class="hs-special">)</span><span>
+</span><span id="line-42"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Foreign.Storable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">poke</span></span><span class="hs-special">)</span><span>
+</span><span id="line-43"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Foreign.LibFFI</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Arg</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">RetType</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">callFFI</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">argPtr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.IO.Unsafe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">unsafePerformIO</span></span><span class="hs-special">)</span><span>
+</span><span id="line-45"></span><span>
+</span><span id="line-46"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html"><span class="hs-identifier">ObjC.Runtime.Types</span></a></span><span>
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-49"></span><span class="hs-comment">-- FFI imports for the C stubs that return objc_msgSend addresses</span><span>
+</span><span id="line-50"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-51"></span><span>
+</span><span id="line-52"></span><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-keyword">ccall</span></span><span> </span><span class="annot"><span class="hs-keyword">unsafe</span></span><span> </span><span class="annot"><span class="hs-string">&quot;hs_objc_msgSend_ptr&quot;</span></span><span>
+</span><span id="line-53"></span><span>  </span><span id="c_hs_objc_msgSend_ptr"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSend_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSend_ptr</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ptr</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-54"></span><span>
+</span><span id="line-55"></span><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-keyword">ccall</span></span><span> </span><span class="annot"><span class="hs-keyword">unsafe</span></span><span> </span><span class="annot"><span class="hs-string">&quot;hs_objc_msgSendSuper_ptr&quot;</span></span><span>
+</span><span id="line-56"></span><span>  </span><span id="c_hs_objc_msgSendSuper_ptr"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSendSuper_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSendSuper_ptr</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ptr</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-57"></span><span>
+</span><span id="line-58"></span><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-keyword">ccall</span></span><span> </span><span class="annot"><span class="hs-keyword">unsafe</span></span><span> </span><span class="annot"><span class="hs-string">&quot;hs_objc_msgSend_stret_ptr&quot;</span></span><span>
+</span><span id="line-59"></span><span>  </span><span id="c_hs_objc_msgSend_stret_ptr"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSend_stret_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSend_stret_ptr</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ptr</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-60"></span><span>
+</span><span id="line-61"></span><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-keyword">ccall</span></span><span> </span><span class="annot"><span class="hs-keyword">unsafe</span></span><span> </span><span class="annot"><span class="hs-string">&quot;hs_objc_msgSend_fpret_ptr&quot;</span></span><span>
+</span><span id="line-62"></span><span>  </span><span id="c_hs_objc_msgSend_fpret_ptr"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSend_fpret_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSend_fpret_ptr</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ptr</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-63"></span><span>
+</span><span id="line-64"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-65"></span><span class="hs-comment">-- Cached function pointers (evaluated once via unsafePerformIO)</span><span>
+</span><span id="line-66"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-67"></span><span>
+</span><span id="line-68"></span><span class="annot"><span class="hs-comment">-- | Function pointer to @objc_msgSend@.</span></span><span>
+</span><span id="line-69"></span><span id="local-6989586621679115360"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendPtr"><span class="hs-identifier hs-type">objcMsgSendPtr</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FunPtr</span></span><span> </span><span class="annot"><a href="#local-6989586621679115360"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-70"></span><span id="objcMsgSendPtr"><span class="annot"><span class="annottext">objcMsgSendPtr :: forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendPtr"><span class="hs-identifier hs-var hs-var">objcMsgSendPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO (FunPtr a) -&gt; FunPtr a
+forall a. IO a -&gt; a
+</span><span class="hs-identifier hs-var">unsafePerformIO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr () -&gt; FunPtr a
+forall a b. Ptr a -&gt; FunPtr b
+</span><span class="hs-identifier hs-var">castPtrToFunPtr</span></span><span> </span><span class="annot"><span class="annottext">(Ptr () -&gt; FunPtr a) -&gt; IO (Ptr ()) -&gt; IO (FunPtr a)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">IO (Ptr ())
+</span><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSend_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSend_ptr</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-71"></span><span class="hs-pragma">{-# NOINLINE</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendPtr"><span class="hs-pragma hs-type">objcMsgSendPtr</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-72"></span><span>
+</span><span id="line-73"></span><span class="annot"><span class="hs-comment">-- | Function pointer to @objc_msgSendSuper@.</span></span><span>
+</span><span id="line-74"></span><span id="local-6989586621679115469"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendSuperPtr"><span class="hs-identifier hs-type">objcMsgSendSuperPtr</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FunPtr</span></span><span> </span><span class="annot"><a href="#local-6989586621679115469"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-75"></span><span id="objcMsgSendSuperPtr"><span class="annot"><span class="annottext">objcMsgSendSuperPtr :: forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendSuperPtr"><span class="hs-identifier hs-var hs-var">objcMsgSendSuperPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO (FunPtr a) -&gt; FunPtr a
+forall a. IO a -&gt; a
+</span><span class="hs-identifier hs-var">unsafePerformIO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr () -&gt; FunPtr a
+forall a b. Ptr a -&gt; FunPtr b
+</span><span class="hs-identifier hs-var">castPtrToFunPtr</span></span><span> </span><span class="annot"><span class="annottext">(Ptr () -&gt; FunPtr a) -&gt; IO (Ptr ()) -&gt; IO (FunPtr a)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">IO (Ptr ())
+</span><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSendSuper_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSendSuper_ptr</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-76"></span><span class="hs-pragma">{-# NOINLINE</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendSuperPtr"><span class="hs-pragma hs-type">objcMsgSendSuperPtr</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-77"></span><span>
+</span><span id="line-78"></span><span class="annot"><span class="hs-comment">-- | Function pointer to @objc_msgSend_stret@ (or @objc_msgSend@ on ARM64).</span></span><span>
+</span><span id="line-79"></span><span id="local-6989586621679115471"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendStretPtr"><span class="hs-identifier hs-type">objcMsgSendStretPtr</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FunPtr</span></span><span> </span><span class="annot"><a href="#local-6989586621679115471"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-80"></span><span id="objcMsgSendStretPtr"><span class="annot"><span class="annottext">objcMsgSendStretPtr :: forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendStretPtr"><span class="hs-identifier hs-var hs-var">objcMsgSendStretPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO (FunPtr a) -&gt; FunPtr a
+forall a. IO a -&gt; a
+</span><span class="hs-identifier hs-var">unsafePerformIO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr () -&gt; FunPtr a
+forall a b. Ptr a -&gt; FunPtr b
+</span><span class="hs-identifier hs-var">castPtrToFunPtr</span></span><span> </span><span class="annot"><span class="annottext">(Ptr () -&gt; FunPtr a) -&gt; IO (Ptr ()) -&gt; IO (FunPtr a)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">IO (Ptr ())
+</span><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSend_stret_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSend_stret_ptr</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-81"></span><span class="hs-pragma">{-# NOINLINE</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendStretPtr"><span class="hs-pragma hs-type">objcMsgSendStretPtr</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-82"></span><span>
+</span><span id="line-83"></span><span class="annot"><span class="hs-comment">-- | Function pointer to @objc_msgSend_fpret@ (or @objc_msgSend@ on ARM64).</span></span><span>
+</span><span id="line-84"></span><span id="local-6989586621679115473"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendFpretPtr"><span class="hs-identifier hs-type">objcMsgSendFpretPtr</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FunPtr</span></span><span> </span><span class="annot"><a href="#local-6989586621679115473"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-85"></span><span id="objcMsgSendFpretPtr"><span class="annot"><span class="annottext">objcMsgSendFpretPtr :: forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendFpretPtr"><span class="hs-identifier hs-var hs-var">objcMsgSendFpretPtr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO (FunPtr a) -&gt; FunPtr a
+forall a. IO a -&gt; a
+</span><span class="hs-identifier hs-var">unsafePerformIO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr () -&gt; FunPtr a
+forall a b. Ptr a -&gt; FunPtr b
+</span><span class="hs-identifier hs-var">castPtrToFunPtr</span></span><span> </span><span class="annot"><span class="annottext">(Ptr () -&gt; FunPtr a) -&gt; IO (Ptr ()) -&gt; IO (FunPtr a)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">IO (Ptr ())
+</span><a href="ObjC.Runtime.MsgSend.html#c_hs_objc_msgSend_fpret_ptr"><span class="hs-identifier hs-var">c_hs_objc_msgSend_fpret_ptr</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-86"></span><span class="hs-pragma">{-# NOINLINE</span><span> </span><span class="annot"><a href="ObjC.Runtime.MsgSend.html#objcMsgSendFpretPtr"><span class="hs-pragma hs-type">objcMsgSendFpretPtr</span></a></span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><span id="line-87"></span><span>
+</span><span id="line-88"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-89"></span><span class="hs-comment">-- Polymorphic message sending (receiver is any IsObjCObject)</span><span>
+</span><span id="line-90"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-91"></span><span>
+</span><span id="line-92"></span><span class="hs-comment">-- | Send a message to any 'IsObjCObject' receiver.</span><span>
+</span><span id="line-93"></span><span class="hs-comment">--</span><span>
+</span><span id="line-94"></span><span class="hs-comment">-- Uses 'withObjCPtr' to keep the receiver alive for the duration of the call.</span><span>
+</span><span id="line-95"></span><span id="local-6989586621679115371"><span id="local-6989586621679115373"><span id="local-6989586621679115374"><span id="local-6989586621679115376"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendMsg"><span class="hs-identifier hs-type">sendMsg</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#IsObjCObject"><span class="hs-identifier hs-type">IsObjCObject</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115371"><span class="hs-identifier hs-type">recv</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679115371"><span class="hs-identifier hs-type">recv</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115373"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115374"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115376"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115376"><span class="hs-identifier hs-type">a</span></a></span></span></span></span></span><span>
+</span><span id="line-96"></span><span id="sendMsg"><span class="annot"><span class="annottext">sendMsg :: forall recv (args :: [*]) ret a.
+IsObjCObject recv =&gt;
+recv -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendMsg"><span class="hs-identifier hs-var hs-var">sendMsg</span></a></span></span><span> </span><span id="local-6989586621679115478"><span class="annot"><span class="annottext">recv
+</span><a href="#local-6989586621679115478"><span class="hs-identifier hs-var">recv</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115480"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115480"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115481"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115481"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115482"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115482"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-97"></span><span>  </span><span class="annot"><span class="annottext">recv -&gt; (Ptr ObjCObject -&gt; IO a) -&gt; IO a
+forall b. recv -&gt; (Ptr ObjCObject -&gt; IO b) -&gt; IO b
+forall a b. IsObjCObject a =&gt; a -&gt; (Ptr ObjCObject -&gt; IO b) -&gt; IO b
+</span><a href="ObjC.Runtime.Types.html#withObjCPtr"><span class="hs-identifier hs-var">withObjCPtr</span></a></span><span> </span><span class="annot"><span class="annottext">recv
+</span><a href="#local-6989586621679115478"><span class="hs-identifier hs-var">recv</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr ObjCObject -&gt; IO a) -&gt; IO a)
+-&gt; (Ptr ObjCObject -&gt; IO a) -&gt; IO a
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679115483"><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115483"><span class="hs-identifier hs-var">ptr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-98"></span><span>    </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 7) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 7)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendPtr"><span class="hs-identifier hs-var">objcMsgSendPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115481"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCObject -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115483"><span class="hs-identifier hs-var">ptr</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115480"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115482"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-99"></span><span>
+</span><span id="line-100"></span><span class="hs-comment">-- | Send a message that returns a floating-point value.</span><span>
+</span><span id="line-101"></span><span class="hs-comment">-- On x86_64, this uses @objc_msgSend_fpret@. On ARM64, identical to 'sendMsg'.</span><span>
+</span><span id="line-102"></span><span id="local-6989586621679115484"><span id="local-6989586621679115485"><span id="local-6989586621679115486"><span id="local-6989586621679115487"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendMsgFpret"><span class="hs-identifier hs-type">sendMsgFpret</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#IsObjCObject"><span class="hs-identifier hs-type">IsObjCObject</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115484"><span class="hs-identifier hs-type">recv</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679115484"><span class="hs-identifier hs-type">recv</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115485"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115486"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115487"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115487"><span class="hs-identifier hs-type">a</span></a></span></span></span></span></span><span>
+</span><span id="line-103"></span><span id="sendMsgFpret"><span class="annot"><span class="annottext">sendMsgFpret :: forall recv (args :: [*]) ret a.
+IsObjCObject recv =&gt;
+recv -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendMsgFpret"><span class="hs-identifier hs-var hs-var">sendMsgFpret</span></a></span></span><span> </span><span id="local-6989586621679115490"><span class="annot"><span class="annottext">recv
+</span><a href="#local-6989586621679115490"><span class="hs-identifier hs-var">recv</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115491"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115491"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115492"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115492"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115493"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115493"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-104"></span><span>  </span><span class="annot"><span class="annottext">recv -&gt; (Ptr ObjCObject -&gt; IO a) -&gt; IO a
+forall b. recv -&gt; (Ptr ObjCObject -&gt; IO b) -&gt; IO b
+forall a b. IsObjCObject a =&gt; a -&gt; (Ptr ObjCObject -&gt; IO b) -&gt; IO b
+</span><a href="ObjC.Runtime.Types.html#withObjCPtr"><span class="hs-identifier hs-var">withObjCPtr</span></a></span><span> </span><span class="annot"><span class="annottext">recv
+</span><a href="#local-6989586621679115490"><span class="hs-identifier hs-var">recv</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr ObjCObject -&gt; IO a) -&gt; IO a)
+-&gt; (Ptr ObjCObject -&gt; IO a) -&gt; IO a
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679115494"><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115494"><span class="hs-identifier hs-var">ptr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-105"></span><span>    </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 0) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 0)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendFpretPtr"><span class="hs-identifier hs-var">objcMsgSendFpretPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115492"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCObject -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115494"><span class="hs-identifier hs-var">ptr</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115491"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115493"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-106"></span><span>
+</span><span id="line-107"></span><span class="hs-comment">-- | Send a message that returns a struct.</span><span>
+</span><span id="line-108"></span><span class="hs-comment">-- On x86_64, this uses @objc_msgSend_stret@. On ARM64, identical to 'sendMsg'.</span><span>
+</span><span id="line-109"></span><span id="local-6989586621679115495"><span id="local-6989586621679115496"><span id="local-6989586621679115497"><span id="local-6989586621679115498"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendMsgStret"><span class="hs-identifier hs-type">sendMsgStret</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#IsObjCObject"><span class="hs-identifier hs-type">IsObjCObject</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115495"><span class="hs-identifier hs-type">recv</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679115495"><span class="hs-identifier hs-type">recv</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115496"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115497"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115498"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115498"><span class="hs-identifier hs-type">a</span></a></span></span></span></span></span><span>
+</span><span id="line-110"></span><span id="sendMsgStret"><span class="annot"><span class="annottext">sendMsgStret :: forall recv (args :: [*]) ret a.
+IsObjCObject recv =&gt;
+recv -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendMsgStret"><span class="hs-identifier hs-var hs-var">sendMsgStret</span></a></span></span><span> </span><span id="local-6989586621679115501"><span class="annot"><span class="annottext">recv
+</span><a href="#local-6989586621679115501"><span class="hs-identifier hs-var">recv</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115502"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115502"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115503"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115503"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115504"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115504"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-111"></span><span>  </span><span class="annot"><span class="annottext">recv -&gt; (Ptr ObjCObject -&gt; IO a) -&gt; IO a
+forall b. recv -&gt; (Ptr ObjCObject -&gt; IO b) -&gt; IO b
+forall a b. IsObjCObject a =&gt; a -&gt; (Ptr ObjCObject -&gt; IO b) -&gt; IO b
+</span><a href="ObjC.Runtime.Types.html#withObjCPtr"><span class="hs-identifier hs-var">withObjCPtr</span></a></span><span> </span><span class="annot"><span class="annottext">recv
+</span><a href="#local-6989586621679115501"><span class="hs-identifier hs-var">recv</span></a></span><span> </span><span class="annot"><span class="annottext">((Ptr ObjCObject -&gt; IO a) -&gt; IO a)
+-&gt; (Ptr ObjCObject -&gt; IO a) -&gt; IO a
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679115505"><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115505"><span class="hs-identifier hs-var">ptr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-112"></span><span>    </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 3) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 3)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendStretPtr"><span class="hs-identifier hs-var">objcMsgSendStretPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115503"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCObject -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115505"><span class="hs-identifier hs-var">ptr</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115502"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115504"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-113"></span><span>
+</span><span id="line-114"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-115"></span><span class="hs-comment">-- Raw message sending (takes RawId directly)</span><span>
+</span><span id="line-116"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-117"></span><span>
+</span><span id="line-118"></span><span class="annot"><span class="hs-comment">-- | Send a message using a raw 'RawId' receiver. For low-level FFI use.</span></span><span>
+</span><span id="line-119"></span><span id="local-6989586621679115404"><span id="local-6989586621679115405"><span id="local-6989586621679115406"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendRawMsg"><span class="hs-identifier hs-type">sendRawMsg</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#RawId"><span class="hs-identifier hs-type">RawId</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115404"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115405"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115406"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115406"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-120"></span><span id="sendRawMsg"><span class="annot"><span class="annottext">sendRawMsg :: forall (args :: [*]) ret a.
+RawId -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendRawMsg"><span class="hs-identifier hs-var hs-var">sendRawMsg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#RawId"><span class="hs-identifier hs-type">RawId</span></a></span><span> </span><span id="local-6989586621679115506"><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115506"><span class="hs-identifier hs-var">obj</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115507"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115507"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115508"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115508"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115509"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115509"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-121"></span><span>  </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 8) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 8)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendPtr"><span class="hs-identifier hs-var">objcMsgSendPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115508"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCObject -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115506"><span class="hs-identifier hs-var">obj</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115507"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115509"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-122"></span><span>
+</span><span id="line-123"></span><span class="annot"><span class="hs-comment">-- | Raw variant of 'sendMsgFpret'.</span></span><span>
+</span><span id="line-124"></span><span id="local-6989586621679115510"><span id="local-6989586621679115511"><span id="local-6989586621679115512"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendRawMsgFpret"><span class="hs-identifier hs-type">sendRawMsgFpret</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#RawId"><span class="hs-identifier hs-type">RawId</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115510"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115511"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115512"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115512"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-125"></span><span id="sendRawMsgFpret"><span class="annot"><span class="annottext">sendRawMsgFpret :: forall (args :: [*]) ret a.
+RawId -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendRawMsgFpret"><span class="hs-identifier hs-var hs-var">sendRawMsgFpret</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#RawId"><span class="hs-identifier hs-type">RawId</span></a></span><span> </span><span id="local-6989586621679115513"><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115513"><span class="hs-identifier hs-var">obj</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115514"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115514"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115515"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115515"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115516"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115516"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-126"></span><span>  </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 1) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 1)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendFpretPtr"><span class="hs-identifier hs-var">objcMsgSendFpretPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115515"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCObject -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115513"><span class="hs-identifier hs-var">obj</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115514"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115516"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-127"></span><span>
+</span><span id="line-128"></span><span class="annot"><span class="hs-comment">-- | Raw variant of 'sendMsgStret'.</span></span><span>
+</span><span id="line-129"></span><span id="local-6989586621679115517"><span id="local-6989586621679115518"><span id="local-6989586621679115519"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendRawMsgStret"><span class="hs-identifier hs-type">sendRawMsgStret</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#RawId"><span class="hs-identifier hs-type">RawId</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115517"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115518"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115519"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115519"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-130"></span><span id="sendRawMsgStret"><span class="annot"><span class="annottext">sendRawMsgStret :: forall (args :: [*]) ret a.
+RawId -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendRawMsgStret"><span class="hs-identifier hs-var hs-var">sendRawMsgStret</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#RawId"><span class="hs-identifier hs-type">RawId</span></a></span><span> </span><span id="local-6989586621679115520"><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115520"><span class="hs-identifier hs-var">obj</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115521"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115521"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115522"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115522"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115523"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115523"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-131"></span><span>  </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 4) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 4)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendStretPtr"><span class="hs-identifier hs-var">objcMsgSendStretPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115522"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCObject -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCObject
+</span><a href="#local-6989586621679115520"><span class="hs-identifier hs-var">obj</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115521"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115523"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-132"></span><span>
+</span><span id="line-133"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-134"></span><span class="hs-comment">-- Class message sending (unchanged &#8212; Class is already a raw pointer)</span><span>
+</span><span id="line-135"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-136"></span><span>
+</span><span id="line-137"></span><span class="annot"><span class="hs-comment">-- | Send a message to an Objective-C class (class method).</span></span><span>
+</span><span id="line-138"></span><span id="local-6989586621679115417"><span id="local-6989586621679115418"><span id="local-6989586621679115419"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendClassMsg"><span class="hs-identifier hs-type">sendClassMsg</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Class"><span class="hs-identifier hs-type">Class</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115417"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115418"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115419"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115419"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-139"></span><span id="sendClassMsg"><span class="annot"><span class="annottext">sendClassMsg :: forall (args :: [*]) ret a.
+Class -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendClassMsg"><span class="hs-identifier hs-var hs-var">sendClassMsg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Class"><span class="hs-identifier hs-type">Class</span></a></span><span> </span><span id="local-6989586621679115525"><span class="annot"><span class="annottext">Ptr ObjCClass
+</span><a href="#local-6989586621679115525"><span class="hs-identifier hs-var">cls</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115526"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115526"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115527"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115527"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115528"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115528"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-140"></span><span>  </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 9) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 9)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendPtr"><span class="hs-identifier hs-var">objcMsgSendPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115527"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCClass -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCClass
+</span><a href="#local-6989586621679115525"><span class="hs-identifier hs-var">cls</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115526"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115528"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-141"></span><span>
+</span><span id="line-142"></span><span class="annot"><span class="hs-comment">-- | Class method variant of 'sendMsgFpret'.</span></span><span>
+</span><span id="line-143"></span><span id="local-6989586621679115529"><span id="local-6989586621679115530"><span id="local-6989586621679115531"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendClassMsgFpret"><span class="hs-identifier hs-type">sendClassMsgFpret</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Class"><span class="hs-identifier hs-type">Class</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115529"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115530"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115531"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115531"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-144"></span><span id="sendClassMsgFpret"><span class="annot"><span class="annottext">sendClassMsgFpret :: forall (args :: [*]) ret a.
+Class -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendClassMsgFpret"><span class="hs-identifier hs-var hs-var">sendClassMsgFpret</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Class"><span class="hs-identifier hs-type">Class</span></a></span><span> </span><span id="local-6989586621679115532"><span class="annot"><span class="annottext">Ptr ObjCClass
+</span><a href="#local-6989586621679115532"><span class="hs-identifier hs-var">cls</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115533"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115533"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115534"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115534"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115535"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115535"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-145"></span><span>  </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 2) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 2)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendFpretPtr"><span class="hs-identifier hs-var">objcMsgSendFpretPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115534"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCClass -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCClass
+</span><a href="#local-6989586621679115532"><span class="hs-identifier hs-var">cls</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115533"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115535"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-146"></span><span>
+</span><span id="line-147"></span><span class="annot"><span class="hs-comment">-- | Class method variant of 'sendMsgStret'.</span></span><span>
+</span><span id="line-148"></span><span id="local-6989586621679115536"><span id="local-6989586621679115537"><span id="local-6989586621679115538"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendClassMsgStret"><span class="hs-identifier hs-type">sendClassMsgStret</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Class"><span class="hs-identifier hs-type">Class</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115536"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115537"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115538"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115538"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-149"></span><span id="sendClassMsgStret"><span class="annot"><span class="annottext">sendClassMsgStret :: forall (args :: [*]) ret a.
+Class -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendClassMsgStret"><span class="hs-identifier hs-var hs-var">sendClassMsgStret</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Class"><span class="hs-identifier hs-type">Class</span></a></span><span> </span><span id="local-6989586621679115539"><span class="annot"><span class="annottext">Ptr ObjCClass
+</span><a href="#local-6989586621679115539"><span class="hs-identifier hs-var">cls</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115540"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115540"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115541"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115541"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115542"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115542"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-150"></span><span>  </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 5) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 5)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendStretPtr"><span class="hs-identifier hs-var">objcMsgSendStretPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115541"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCClass -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCClass
+</span><a href="#local-6989586621679115539"><span class="hs-identifier hs-var">cls</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115540"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115542"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-151"></span><span>
+</span><span id="line-152"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-153"></span><span class="hs-comment">-- Super message sending</span><span>
+</span><span id="line-154"></span><span class="hs-comment">-- ---------------------------------------------------------------------------</span><span>
+</span><span id="line-155"></span><span>
+</span><span id="line-156"></span><span class="hs-comment">-- | Send a message to the superclass implementation.</span><span>
+</span><span id="line-157"></span><span class="hs-comment">--</span><span>
+</span><span id="line-158"></span><span class="hs-comment">-- You must construct an 'ObjCSuper' struct and pass a pointer to it as</span><span>
+</span><span id="line-159"></span><span class="hs-comment">-- the first argument. The selector is the second argument.</span><span>
+</span><span id="line-160"></span><span id="local-6989586621679115431"><span id="local-6989586621679115432"><span id="local-6989586621679115433"><span class="annot"><a href="ObjC.Runtime.MsgSend.html#sendSuperMsg"><span class="hs-identifier hs-type">sendSuperMsg</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#ObjCSuper"><span class="hs-identifier hs-type">ObjCSuper</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115431"><span class="hs-identifier hs-type">args</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679115432"><span class="hs-identifier hs-type">ret</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RetType</span></span><span> </span><span class="annot"><a href="#local-6989586621679115433"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Arg</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679115433"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-161"></span><span id="sendSuperMsg"><span class="annot"><span class="annottext">sendSuperMsg :: forall (args :: [*]) ret a.
+ObjCSuper -&gt; Selector args ret -&gt; RetType a -&gt; [Arg] -&gt; IO a
+</span><a href="ObjC.Runtime.MsgSend.html#sendSuperMsg"><span class="hs-identifier hs-var hs-var">sendSuperMsg</span></a></span></span><span> </span><span id="local-6989586621679115549"><span class="annot"><span class="annottext">ObjCSuper
+</span><a href="#local-6989586621679115549"><span class="hs-identifier hs-var">super_</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="ObjC.Runtime.Types.html#Selector"><span class="hs-identifier hs-type">Selector</span></a></span><span> </span><span id="local-6989586621679115550"><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115550"><span class="hs-identifier hs-var">sel</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679115551"><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115551"><span class="hs-identifier hs-var">retType</span></a></span></span><span> </span><span id="local-6989586621679115552"><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115552"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-162"></span><span>  </span><span class="annot"><span class="annottext">(Ptr ObjCSuper -&gt; IO a) -&gt; IO a
+forall a b. Storable a =&gt; (Ptr a -&gt; IO b) -&gt; IO b
+</span><span class="hs-identifier hs-var">alloca</span></span><span> </span><span class="annot"><span class="annottext">((Ptr ObjCSuper -&gt; IO a) -&gt; IO a)
+-&gt; (Ptr ObjCSuper -&gt; IO a) -&gt; IO a
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679115553"><span class="annot"><span class="annottext">Ptr ObjCSuper
+</span><a href="#local-6989586621679115553"><span class="hs-identifier hs-var">superPtr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-163"></span><span>    </span><span class="annot"><span class="annottext">Ptr ObjCSuper -&gt; ObjCSuper -&gt; IO ()
+forall a. Storable a =&gt; Ptr a -&gt; a -&gt; IO ()
+</span><span class="hs-identifier hs-var">poke</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSuper
+</span><a href="#local-6989586621679115553"><span class="hs-identifier hs-var">superPtr</span></a></span><span> </span><span class="annot"><span class="annottext">ObjCSuper
+</span><a href="#local-6989586621679115549"><span class="hs-identifier hs-var">super_</span></a></span><span>
+</span><span id="line-164"></span><span>    </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 6) -&gt; RetType a -&gt; [Arg] -&gt; IO a
+forall a b. FunPtr a -&gt; RetType b -&gt; [Arg] -&gt; IO b
+</span><span class="hs-identifier hs-var">callFFI</span></span><span> </span><span class="annot"><span class="annottext">FunPtr (ZonkAny 6)
+forall a. FunPtr a
+</span><a href="ObjC.Runtime.MsgSend.html#objcMsgSendSuperPtr"><span class="hs-identifier hs-var">objcMsgSendSuperPtr</span></a></span><span> </span><span class="annot"><span class="annottext">RetType a
+</span><a href="#local-6989586621679115551"><span class="hs-identifier hs-var">retType</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Ptr ObjCSuper -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSuper
+</span><a href="#local-6989586621679115553"><span class="hs-identifier hs-var">superPtr</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel -&gt; Arg
+forall a. Ptr a -&gt; Arg
+</span><span class="hs-identifier hs-var">argPtr</span></span><span> </span><span class="annot"><span class="annottext">Ptr ObjCSel
+</span><a href="#local-6989586621679115550"><span class="hs-identifier hs-var">sel</span></a></span><span> </span><span class="annot"><span class="annottext">Arg -&gt; [Arg] -&gt; [Arg]
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Arg]
+</span><a href="#local-6989586621679115552"><span class="hs-identifier hs-var">args</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-165"></span></pre></body></html>

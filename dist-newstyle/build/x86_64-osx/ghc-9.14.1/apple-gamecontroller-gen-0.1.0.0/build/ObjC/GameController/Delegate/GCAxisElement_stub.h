@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmgamecontrollerzmgenzm0zi1zi0zi0zminplacezdObjCziGameControllerziDelegateziGCAxisElementzdapplezzmgamecontrollerzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziGameControllerzziDelegatezziGCAxisElementzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsPtr zdapplezmgamecontrollerzmgenzm0zi1zi0zi0zminplacezdObjCziGameControllerziDelegateziGCAxisElementzdapplezzmgamecontrollerzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziGameControllerzziDelegatezziGCAxisElementzuwrapzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2);
+#if defined(__cplusplus)
+}
+#endif
+

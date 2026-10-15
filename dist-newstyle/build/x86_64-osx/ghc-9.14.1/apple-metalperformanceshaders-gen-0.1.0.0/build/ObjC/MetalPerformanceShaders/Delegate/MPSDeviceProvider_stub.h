@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmmetalperformanceshaderszmgenzm0zi1zi0zi0zminplacezdObjCziMetalPerformanceShadersziDelegateziMPSDeviceProviderzdapplezzmmetalperformanceshaderszzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalPerformanceShaderszziDelegatezziMPSDeviceProviderzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsPtr zdapplezmmetalperformanceshaderszmgenzm0zi1zi0zi0zminplacezdObjCziMetalPerformanceShadersziDelegateziMPSDeviceProviderzdapplezzmmetalperformanceshaderszzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziMetalPerformanceShaderszziDelegatezziMPSDeviceProviderzuwrapzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2);
+#if defined(__cplusplus)
+}
+#endif
+

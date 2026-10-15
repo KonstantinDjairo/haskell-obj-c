@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmfoundationzmgenzm0zi1zi0zi0zminplacezdObjCziFoundationziDelegateziNSXPCProxyCreatingzdapplezzmfoundationzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziFoundationzziDelegatezziNSXPCProxyCreatingzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsPtr zdapplezmfoundationzmgenzm0zi1zi0zi0zminplacezdObjCziFoundationziDelegateziNSXPCProxyCreatingzdapplezzmfoundationzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziFoundationzziDelegatezziNSXPCProxyCreatingzuwrapzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2);
+#if defined(__cplusplus)
+}
+#endif
+

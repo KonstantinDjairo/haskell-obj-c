@@ -1,0 +1,11 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmcoremlzmgenzm0zi1zi0zi0zminplacezdObjCziCoreMLziDelegateziMLBatchProviderzdapplezzmcoremlzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCoreMLzziDelegatezziMLBatchProviderzuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsPtr zdapplezmcoremlzmgenzm0zi1zi0zi0zminplacezdObjCziCoreMLziDelegateziMLBatchProviderzdapplezzmcoremlzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCoreMLzziDelegatezziMLBatchProviderzuwrapzzuqzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsInt64 a3);
+extern HsInt64 zdapplezmcoremlzmgenzm0zi1zi0zi0zminplacezdObjCziCoreMLziDelegateziMLBatchProviderzdapplezzmcoremlzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCoreMLzziDelegatezziMLBatchProviderzuwrapzzuq(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2);
+#if defined(__cplusplus)
+}
+#endif
+

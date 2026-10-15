@@ -1,0 +1,11 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmcryptotokenkitzmgenzm0zi1zi0zi0zminplacezdObjCziCryptoTokenKitziDelegateziTKTokenSessionDelegatezdapplezzmcryptotokenkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCryptoTokenKitzziDelegatezziTKTokenSessionDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern HsPtr zdapplezmcryptotokenkitzmgenzm0zi1zi0zi0zminplacezdObjCziCryptoTokenKitziDelegateziTKTokenSessionDelegatezdapplezzmcryptotokenkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCryptoTokenKitzziDelegatezziTKTokenSessionDelegatezuwrapzzuatzzuatzzuatzzuatzzuatzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4, HsPtr a5, HsPtr a6, void* original_return_addr, HsPtr a7);
+extern HsPtr zdapplezmcryptotokenkitzmgenzm0zi1zi0zi0zminplacezdObjCziCryptoTokenKitziDelegateziTKTokenSessionDelegatezdapplezzmcryptotokenkitzzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziCryptoTokenKitzziDelegatezziTKTokenSessionDelegatezuwrapzzuatzzuatzzuatzzuatzzuatzzuatzzuat(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4, HsPtr a5, HsPtr a6, void* original_return_addr, HsPtr a7, HsPtr a8);
+#if defined(__cplusplus)
+}
+#endif
+

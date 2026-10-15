@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmavfaudiozmgenzm0zi1zi0zi0zminplacezdObjCziAVFAudioziDelegateziAVSpeechSynthesizzerDelegatezdapplezzmavfaudiozzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziAVFAudiozziDelegatezziAVSpeechSynthesizzzzerDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmavfaudiozmgenzm0zi1zi0zi0zminplacezdObjCziAVFAudioziDelegateziAVSpeechSynthesizzerDelegatezdapplezzmavfaudiozzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziAVFAudiozziDelegatezziAVSpeechSynthesizzzzerDelegatezuwrapzzuatzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+#if defined(__cplusplus)
+}
+#endif
+

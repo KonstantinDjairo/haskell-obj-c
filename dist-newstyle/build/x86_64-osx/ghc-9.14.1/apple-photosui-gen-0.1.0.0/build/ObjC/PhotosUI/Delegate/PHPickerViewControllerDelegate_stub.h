@@ -1,0 +1,10 @@
+#include <HsFFI.h>
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern HsWord64 zdapplezmphotosuizmgenzm0zi1zi0zi0zminplacezdObjCziPhotosUIziDelegateziPHPickerViewControllerDelegatezdapplezzmphotosuizzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziPhotosUIzziDelegatezziPHPickerViewControllerDelegatezuwrapzzurespondsToSel(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3);
+extern void zdapplezmphotosuizmgenzm0zi1zi0zi0zminplacezdObjCziPhotosUIziDelegateziPHPickerViewControllerDelegatezdapplezzmphotosuizzmgenzzm0zzi1zzi0zzi0zzminplacezuObjCzziPhotosUIzziDelegatezziPHPickerViewControllerDelegatezuwrapzzuatzzuatzzuv(StgStablePtr the_stableptr, HsPtr a1, HsPtr a2, HsPtr a3, HsPtr a4);
+#if defined(__cplusplus)
+}
+#endif
+
