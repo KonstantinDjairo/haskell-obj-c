@@ -39,8 +39,6 @@ module ObjC.AVFoundation.AVAssetExportSession
   , setOutputURL
   , shouldOptimizeForNetworkUse
   , setShouldOptimizeForNetworkUse
-  , allowsParallelizedExport
-  , setAllowsParallelizedExport
   , status
   , error_
   , progress
@@ -66,7 +64,6 @@ module ObjC.AVFoundation.AVAssetExportSession
   , setFileLengthLimit
   , supportedFileTypes
   , allExportPresetsSelector
-  , allowsParallelizedExportSelector
   , assetSelector
   , audioMixSelector
   , audioTimePitchAlgorithmSelector
@@ -93,7 +90,6 @@ module ObjC.AVFoundation.AVAssetExportSession
   , outputURLSelector
   , presetNameSelector
   , progressSelector
-  , setAllowsParallelizedExportSelector
   , setAudioMixSelector
   , setAudioTimePitchAlgorithmSelector
   , setAudioTrackGroupHandlingSelector
@@ -328,28 +324,6 @@ shouldOptimizeForNetworkUse avAssetExportSession =
 setShouldOptimizeForNetworkUse :: IsAVAssetExportSession avAssetExportSession => avAssetExportSession -> Bool -> IO ()
 setShouldOptimizeForNetworkUse avAssetExportSession value =
   sendMessage avAssetExportSession setShouldOptimizeForNetworkUseSelector value
-
--- | allowsParallelizedExport
---
--- Determines whether or not parallelization can be employed in the export.
---
--- On select platforms, there may be opportunities to expedite the export by using additional resources in parallel.				If set to YES, export parallelization will be enabled, only if parallelization requirements are met.  There will				be no error signaled if export parallelization is not achievable, and instead the export will proceed as normal				(without parallelization).				If set to NO, export parallelization will not be used.
---
--- ObjC selector: @- allowsParallelizedExport@
-allowsParallelizedExport :: IsAVAssetExportSession avAssetExportSession => avAssetExportSession -> IO Bool
-allowsParallelizedExport avAssetExportSession =
-  sendMessage avAssetExportSession allowsParallelizedExportSelector
-
--- | allowsParallelizedExport
---
--- Determines whether or not parallelization can be employed in the export.
---
--- On select platforms, there may be opportunities to expedite the export by using additional resources in parallel.				If set to YES, export parallelization will be enabled, only if parallelization requirements are met.  There will				be no error signaled if export parallelization is not achievable, and instead the export will proceed as normal				(without parallelization).				If set to NO, export parallelization will not be used.
---
--- ObjC selector: @- setAllowsParallelizedExport:@
-setAllowsParallelizedExport :: IsAVAssetExportSession avAssetExportSession => avAssetExportSession -> Bool -> IO ()
-setAllowsParallelizedExport avAssetExportSession value =
-  sendMessage avAssetExportSession setAllowsParallelizedExportSelector value
 
 -- | @- status@
 status :: IsAVAssetExportSession avAssetExportSession => avAssetExportSession -> IO AVAssetExportSessionStatus
@@ -602,14 +576,6 @@ shouldOptimizeForNetworkUseSelector = mkSelector "shouldOptimizeForNetworkUse"
 -- | @Selector@ for @setShouldOptimizeForNetworkUse:@
 setShouldOptimizeForNetworkUseSelector :: Selector '[Bool] ()
 setShouldOptimizeForNetworkUseSelector = mkSelector "setShouldOptimizeForNetworkUse:"
-
--- | @Selector@ for @allowsParallelizedExport@
-allowsParallelizedExportSelector :: Selector '[] Bool
-allowsParallelizedExportSelector = mkSelector "allowsParallelizedExport"
-
--- | @Selector@ for @setAllowsParallelizedExport:@
-setAllowsParallelizedExportSelector :: Selector '[Bool] ()
-setAllowsParallelizedExportSelector = mkSelector "setAllowsParallelizedExport:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] AVAssetExportSessionStatus

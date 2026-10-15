@@ -20,11 +20,8 @@ module ObjC.AuthenticationServices.ASAuthorizationController
   , setDelegate
   , presentationContextProvider
   , setPresentationContextProvider
-  , customAuthorizationMethods
-  , setCustomAuthorizationMethods
   , authorizationRequestsSelector
   , cancelSelector
-  , customAuthorizationMethodsSelector
   , delegateSelector
   , initSelector
   , initWithAuthorizationRequestsSelector
@@ -33,7 +30,6 @@ module ObjC.AuthenticationServices.ASAuthorizationController
   , performRequestsSelector
   , performRequestsWithOptionsSelector
   , presentationContextProviderSelector
-  , setCustomAuthorizationMethodsSelector
   , setDelegateSelector
   , setPresentationContextProviderSelector
 
@@ -145,24 +141,6 @@ setPresentationContextProvider :: IsASAuthorizationController asAuthorizationCon
 setPresentationContextProvider asAuthorizationController value =
   sendMessage asAuthorizationController setPresentationContextProviderSelector value
 
--- | A list of custom authorization methods that may be displayed in the authorization UI.
---
--- If the user selects one of these methods, instead of attempting to secure an authorization for the requests, the controller will call authorizationController:didCompleteWithCustomMethod: with the selected method, allowing the client to perform the requested authorization.
---
--- ObjC selector: @- customAuthorizationMethods@
-customAuthorizationMethods :: IsASAuthorizationController asAuthorizationController => asAuthorizationController -> IO (Id NSArray)
-customAuthorizationMethods asAuthorizationController =
-  sendMessage asAuthorizationController customAuthorizationMethodsSelector
-
--- | A list of custom authorization methods that may be displayed in the authorization UI.
---
--- If the user selects one of these methods, instead of attempting to secure an authorization for the requests, the controller will call authorizationController:didCompleteWithCustomMethod: with the selected method, allowing the client to perform the requested authorization.
---
--- ObjC selector: @- setCustomAuthorizationMethods:@
-setCustomAuthorizationMethods :: (IsASAuthorizationController asAuthorizationController, IsNSArray value) => asAuthorizationController -> value -> IO ()
-setCustomAuthorizationMethods asAuthorizationController value =
-  sendMessage asAuthorizationController setCustomAuthorizationMethodsSelector (toNSArray value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -214,12 +192,4 @@ presentationContextProviderSelector = mkSelector "presentationContextProvider"
 -- | @Selector@ for @setPresentationContextProvider:@
 setPresentationContextProviderSelector :: Selector '[RawId] ()
 setPresentationContextProviderSelector = mkSelector "setPresentationContextProvider:"
-
--- | @Selector@ for @customAuthorizationMethods@
-customAuthorizationMethodsSelector :: Selector '[] (Id NSArray)
-customAuthorizationMethodsSelector = mkSelector "customAuthorizationMethods"
-
--- | @Selector@ for @setCustomAuthorizationMethods:@
-setCustomAuthorizationMethodsSelector :: Selector '[Id NSArray] ()
-setCustomAuthorizationMethodsSelector = mkSelector "setCustomAuthorizationMethods:"
 

@@ -25,13 +25,10 @@ module ObjC.AppKit.NSSearchField
   , setMaximumRecents
   , sendsSearchStringImmediately
   , setSendsSearchStringImmediately
-  , delegate
-  , setDelegate
   , centersPlaceholder
   , setCentersPlaceholder
   , cancelButtonBoundsSelector
   , centersPlaceholderSelector
-  , delegateSelector
   , maximumRecentsSelector
   , recentSearchesSelector
   , recentsAutosaveNameSelector
@@ -44,7 +41,6 @@ module ObjC.AppKit.NSSearchField
   , sendsSearchStringImmediatelySelector
   , sendsWholeSearchStringSelector
   , setCentersPlaceholderSelector
-  , setDelegateSelector
   , setMaximumRecentsSelector
   , setRecentSearchesSelector
   , setRecentsAutosaveNameSelector
@@ -118,14 +114,14 @@ setRecentsAutosaveName nsSearchField value =
   sendMessage nsSearchField setRecentsAutosaveNameSelector (toNSString value)
 
 -- | @- searchMenuTemplate@
-searchMenuTemplate :: IsNSSearchField nsSearchField => nsSearchField -> IO (Id NSMenu)
+searchMenuTemplate :: IsNSSearchField nsSearchField => nsSearchField -> IO RawId
 searchMenuTemplate nsSearchField =
   sendMessage nsSearchField searchMenuTemplateSelector
 
 -- | @- setSearchMenuTemplate:@
-setSearchMenuTemplate :: (IsNSSearchField nsSearchField, IsNSMenu value) => nsSearchField -> value -> IO ()
+setSearchMenuTemplate :: IsNSSearchField nsSearchField => nsSearchField -> RawId -> IO ()
 setSearchMenuTemplate nsSearchField value =
-  sendMessage nsSearchField setSearchMenuTemplateSelector (toNSMenu value)
+  sendMessage nsSearchField setSearchMenuTemplateSelector value
 
 -- | @- sendsWholeSearchString@
 sendsWholeSearchString :: IsNSSearchField nsSearchField => nsSearchField -> IO Bool
@@ -156,16 +152,6 @@ sendsSearchStringImmediately nsSearchField =
 setSendsSearchStringImmediately :: IsNSSearchField nsSearchField => nsSearchField -> Bool -> IO ()
 setSendsSearchStringImmediately nsSearchField value =
   sendMessage nsSearchField setSendsSearchStringImmediatelySelector value
-
--- | @- delegate@
-delegate :: IsNSSearchField nsSearchField => nsSearchField -> IO RawId
-delegate nsSearchField =
-  sendMessage nsSearchField delegateSelector
-
--- | @- setDelegate:@
-setDelegate :: IsNSSearchField nsSearchField => nsSearchField -> RawId -> IO ()
-setDelegate nsSearchField value =
-  sendMessage nsSearchField setDelegateSelector value
 
 -- | @- centersPlaceholder@
 centersPlaceholder :: IsNSSearchField nsSearchField => nsSearchField -> IO Bool
@@ -222,11 +208,11 @@ setRecentsAutosaveNameSelector :: Selector '[Id NSString] ()
 setRecentsAutosaveNameSelector = mkSelector "setRecentsAutosaveName:"
 
 -- | @Selector@ for @searchMenuTemplate@
-searchMenuTemplateSelector :: Selector '[] (Id NSMenu)
+searchMenuTemplateSelector :: Selector '[] RawId
 searchMenuTemplateSelector = mkSelector "searchMenuTemplate"
 
 -- | @Selector@ for @setSearchMenuTemplate:@
-setSearchMenuTemplateSelector :: Selector '[Id NSMenu] ()
+setSearchMenuTemplateSelector :: Selector '[RawId] ()
 setSearchMenuTemplateSelector = mkSelector "setSearchMenuTemplate:"
 
 -- | @Selector@ for @sendsWholeSearchString@
@@ -252,14 +238,6 @@ sendsSearchStringImmediatelySelector = mkSelector "sendsSearchStringImmediately"
 -- | @Selector@ for @setSendsSearchStringImmediately:@
 setSendsSearchStringImmediatelySelector :: Selector '[Bool] ()
 setSendsSearchStringImmediatelySelector = mkSelector "setSendsSearchStringImmediately:"
-
--- | @Selector@ for @delegate@
-delegateSelector :: Selector '[] RawId
-delegateSelector = mkSelector "delegate"
-
--- | @Selector@ for @setDelegate:@
-setDelegateSelector :: Selector '[RawId] ()
-setDelegateSelector = mkSelector "setDelegate:"
 
 -- | @Selector@ for @centersPlaceholder@
 centersPlaceholderSelector :: Selector '[] Bool

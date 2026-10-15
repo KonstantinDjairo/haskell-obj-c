@@ -110,12 +110,6 @@ module ObjC.Metal.MTLFunctionConstantValues
   , pattern MTLDataTypeIntersectionFunctionTable
   , pattern MTLDataTypePrimitiveAccelerationStructure
   , pattern MTLDataTypeInstanceAccelerationStructure
-  , pattern MTLDataTypeBFloat
-  , pattern MTLDataTypeBFloat2
-  , pattern MTLDataTypeBFloat3
-  , pattern MTLDataTypeBFloat4
-  , pattern MTLDataTypeDepthStencilState
-  , pattern MTLDataTypeTensor
 
   ) where
 

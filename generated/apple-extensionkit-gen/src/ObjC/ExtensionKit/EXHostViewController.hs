@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A view controller that hosts remote views provided by an app extension.
---
--- Present this view controller from your app’s interface to display the content for an associated app extension. Configure the view controller with the app extension identity and the specific scene you want to display. Use the associated delegate object to receive notifications when the app extension becomes active or inactive.
---
--- For more information about presenting this view controller and using it to display an app extension’s UI, see <doc://com.apple.documentation/documentation/extensionkit/including-extension-based-ui-in-your-interface>.
---
--- Generated bindings for @EXHostViewController@.
+-- | Generated bindings for @EXHostViewController@.
 module ObjC.ExtensionKit.EXHostViewController
   ( EXHostViewController
   , IsEXHostViewController(..)
@@ -39,41 +33,33 @@ import ObjC.ExtensionKit.Internal.Classes
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initiates an XPC connection to the app extension’s scene.
---
--- Call this method from your delegate's ``EXHostViewControllerDelegate/hostViewControllerDidActivate:`` method to initiate a scene-specific connection to the app extension.
---
--- - Returns: An object representing the connection.
+-- | Returns the connection, the caller is responsible for configuring the connection.
 --
 -- ObjC selector: @- makeXPCConnectionWithError:@
 makeXPCConnectionWithError :: (IsEXHostViewController exHostViewController, IsNSError error_) => exHostViewController -> error_ -> IO (Id NSXPCConnection)
 makeXPCConnectionWithError exHostViewController error_ =
   sendMessage exHostViewController makeXPCConnectionWithErrorSelector (toNSError error_)
 
--- | A custom delegate object you use to receive notifications about the activation and deactivation of the app extension.
+-- | The view controller's delegate. The delegate will receive callbacks when the hosting state changes.
 --
 -- ObjC selector: @- delegate@
 delegate :: IsEXHostViewController exHostViewController => exHostViewController -> IO RawId
 delegate exHostViewController =
   sendMessage exHostViewController delegateSelector
 
--- | A custom delegate object you use to receive notifications about the activation and deactivation of the app extension.
+-- | The view controller's delegate. The delegate will receive callbacks when the hosting state changes.
 --
 -- ObjC selector: @- setDelegate:@
 setDelegate :: IsEXHostViewController exHostViewController => exHostViewController -> RawId -> IO ()
 setDelegate exHostViewController value =
   sendMessage exHostViewController setDelegateSelector value
 
--- | The view to display when the view controller has no app extension content to display.
---
--- ObjC selector: @- placeholderView@
+-- | @- placeholderView@
 placeholderView :: IsEXHostViewController exHostViewController => exHostViewController -> IO (Id NSView)
 placeholderView exHostViewController =
   sendMessage exHostViewController placeholderViewSelector
 
--- | The view to display when the view controller has no app extension content to display.
---
--- ObjC selector: @- setPlaceholderView:@
+-- | @- setPlaceholderView:@
 setPlaceholderView :: (IsEXHostViewController exHostViewController, IsNSView value) => exHostViewController -> value -> IO ()
 setPlaceholderView exHostViewController value =
   sendMessage exHostViewController setPlaceholderViewSelector (toNSView value)

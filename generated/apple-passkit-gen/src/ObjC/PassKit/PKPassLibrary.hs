@@ -16,7 +16,6 @@ module ObjC.PassKit.PKPassLibrary
   , isPaymentPassActivationAvailable
   , passes
   , passWithPassTypeIdentifier_serialNumber
-  , passesWithReaderIdentifier
   , passesOfType
   , remotePaymentPasses
   , removePass
@@ -35,15 +34,11 @@ module ObjC.PassKit.PKPassLibrary
   , signData_withSecureElementPass_completion
   , encryptedServiceProviderDataForSecureElementPass_completion
   , serviceProviderDataForSecureElementPass_completion
-  , authorizationStatusForCapability
-  , requestAuthorizationForCapability_completion
   , secureElementPassActivationAvailable
-  , remoteSecureElementPasses
   , activatePaymentPass_withActivationCode_completionSelector
   , activatePaymentPass_withActivationData_completionSelector
   , activateSecureElementPass_withActivationData_completionSelector
   , addPasses_withCompletionHandlerSelector
-  , authorizationStatusForCapabilitySelector
   , canAddFelicaPassSelector
   , canAddPaymentPassWithPrimaryAccountIdentifierSelector
   , canAddSecureElementPassWithPrimaryAccountIdentifierSelector
@@ -57,28 +52,18 @@ module ObjC.PassKit.PKPassLibrary
   , passWithPassTypeIdentifier_serialNumberSelector
   , passesOfTypeSelector
   , passesSelector
-  , passesWithReaderIdentifierSelector
   , pkPassLibraryIsPaymentPassActivationAvailableSelector
   , presentPaymentPassSelector
   , presentSecureElementPassSelector
   , remotePaymentPassesSelector
-  , remoteSecureElementPassesSelector
   , removePassSelector
   , replacePassWithPassSelector
-  , requestAuthorizationForCapability_completionSelector
   , requestAutomaticPassPresentationSuppressionWithResponseHandlerSelector
   , secureElementPassActivationAvailableSelector
   , serviceProviderDataForSecureElementPass_completionSelector
   , signData_withSecureElementPass_completionSelector
 
   -- * Enum types
-  , PKPassLibraryAuthorizationStatus(PKPassLibraryAuthorizationStatus)
-  , pattern PKPassLibraryAuthorizationStatusNotDetermined
-  , pattern PKPassLibraryAuthorizationStatusDenied
-  , pattern PKPassLibraryAuthorizationStatusAuthorized
-  , pattern PKPassLibraryAuthorizationStatusRestricted
-  , PKPassLibraryCapability(PKPassLibraryCapability)
-  , pattern PKPassLibraryCapabilityBackgroundAddPasses
   , PKPassType(PKPassType)
   , pattern PKPassTypeBarcode
   , pattern PKPassTypeSecureElement
@@ -148,11 +133,6 @@ passes pkPassLibrary =
 passWithPassTypeIdentifier_serialNumber :: (IsPKPassLibrary pkPassLibrary, IsNSString identifier, IsNSString serialNumber) => pkPassLibrary -> identifier -> serialNumber -> IO (Id PKPass)
 passWithPassTypeIdentifier_serialNumber pkPassLibrary identifier serialNumber =
   sendMessage pkPassLibrary passWithPassTypeIdentifier_serialNumberSelector (toNSString identifier) (toNSString serialNumber)
-
--- | @- passesWithReaderIdentifier:@
-passesWithReaderIdentifier :: (IsPKPassLibrary pkPassLibrary, IsNSString readerIdentifier) => pkPassLibrary -> readerIdentifier -> IO (Id NSSet)
-passesWithReaderIdentifier pkPassLibrary readerIdentifier =
-  sendMessage pkPassLibrary passesWithReaderIdentifierSelector (toNSString readerIdentifier)
 
 -- | @- passesOfType:@
 passesOfType :: IsPKPassLibrary pkPassLibrary => pkPassLibrary -> PKPassType -> IO (Id NSArray)
@@ -244,25 +224,10 @@ serviceProviderDataForSecureElementPass_completion :: (IsPKPassLibrary pkPassLib
 serviceProviderDataForSecureElementPass_completion pkPassLibrary secureElementPass completion =
   sendMessage pkPassLibrary serviceProviderDataForSecureElementPass_completionSelector (toPKSecureElementPass secureElementPass) completion
 
--- | @- authorizationStatusForCapability:@
-authorizationStatusForCapability :: IsPKPassLibrary pkPassLibrary => pkPassLibrary -> PKPassLibraryCapability -> IO PKPassLibraryAuthorizationStatus
-authorizationStatusForCapability pkPassLibrary capability =
-  sendMessage pkPassLibrary authorizationStatusForCapabilitySelector capability
-
--- | @- requestAuthorizationForCapability:completion:@
-requestAuthorizationForCapability_completion :: IsPKPassLibrary pkPassLibrary => pkPassLibrary -> PKPassLibraryCapability -> Ptr () -> IO ()
-requestAuthorizationForCapability_completion pkPassLibrary capability completion =
-  sendMessage pkPassLibrary requestAuthorizationForCapability_completionSelector capability completion
-
 -- | @- secureElementPassActivationAvailable@
 secureElementPassActivationAvailable :: IsPKPassLibrary pkPassLibrary => pkPassLibrary -> IO Bool
 secureElementPassActivationAvailable pkPassLibrary =
   sendMessage pkPassLibrary secureElementPassActivationAvailableSelector
-
--- | @- remoteSecureElementPasses@
-remoteSecureElementPasses :: IsPKPassLibrary pkPassLibrary => pkPassLibrary -> IO (Id NSArray)
-remoteSecureElementPasses pkPassLibrary =
-  sendMessage pkPassLibrary remoteSecureElementPassesSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -299,10 +264,6 @@ passesSelector = mkSelector "passes"
 -- | @Selector@ for @passWithPassTypeIdentifier:serialNumber:@
 passWithPassTypeIdentifier_serialNumberSelector :: Selector '[Id NSString, Id NSString] (Id PKPass)
 passWithPassTypeIdentifier_serialNumberSelector = mkSelector "passWithPassTypeIdentifier:serialNumber:"
-
--- | @Selector@ for @passesWithReaderIdentifier:@
-passesWithReaderIdentifierSelector :: Selector '[Id NSString] (Id NSSet)
-passesWithReaderIdentifierSelector = mkSelector "passesWithReaderIdentifier:"
 
 -- | @Selector@ for @passesOfType:@
 passesOfTypeSelector :: Selector '[PKPassType] (Id NSArray)
@@ -376,19 +337,7 @@ encryptedServiceProviderDataForSecureElementPass_completionSelector = mkSelector
 serviceProviderDataForSecureElementPass_completionSelector :: Selector '[Id PKSecureElementPass, Ptr ()] ()
 serviceProviderDataForSecureElementPass_completionSelector = mkSelector "serviceProviderDataForSecureElementPass:completion:"
 
--- | @Selector@ for @authorizationStatusForCapability:@
-authorizationStatusForCapabilitySelector :: Selector '[PKPassLibraryCapability] PKPassLibraryAuthorizationStatus
-authorizationStatusForCapabilitySelector = mkSelector "authorizationStatusForCapability:"
-
--- | @Selector@ for @requestAuthorizationForCapability:completion:@
-requestAuthorizationForCapability_completionSelector :: Selector '[PKPassLibraryCapability, Ptr ()] ()
-requestAuthorizationForCapability_completionSelector = mkSelector "requestAuthorizationForCapability:completion:"
-
 -- | @Selector@ for @secureElementPassActivationAvailable@
 secureElementPassActivationAvailableSelector :: Selector '[] Bool
 secureElementPassActivationAvailableSelector = mkSelector "secureElementPassActivationAvailable"
-
--- | @Selector@ for @remoteSecureElementPasses@
-remoteSecureElementPassesSelector :: Selector '[] (Id NSArray)
-remoteSecureElementPassesSelector = mkSelector "remoteSecureElementPasses"
 

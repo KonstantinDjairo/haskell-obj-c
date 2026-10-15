@@ -14,7 +14,7 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | An error type that you create, or the system creates, to indicate problems with a catalog, match attempt, or signature, or when saving to a user's Shazam library.
+-- | Error codes returned when generating and matching signatures
 -- | @SHErrorCode@
 newtype SHErrorCode = SHErrorCode CLong
   deriving stock (Eq, Ord, Show)
@@ -46,9 +46,6 @@ pattern SHErrorCodeMediaLibrarySyncFailed = SHErrorCode 400
 
 pattern SHErrorCodeInternalError :: SHErrorCode
 pattern SHErrorCodeInternalError = SHErrorCode 500
-
-pattern SHErrorCodeMediaItemFetchFailed :: SHErrorCode
-pattern SHErrorCodeMediaItemFetchFailed = SHErrorCode 600
 
 instance ObjCArgument SHErrorCode where
   withObjCArg (SHErrorCode x) k = k (argCLong x)

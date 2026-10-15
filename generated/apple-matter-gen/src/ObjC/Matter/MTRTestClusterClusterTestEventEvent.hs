@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterTestEventEvent
   ( MTRTestClusterClusterTestEventEvent
   , IsMTRTestClusterClusterTestEventEvent(..)
+  , init_
+  , copyWithZone
   , arg1
   , setArg1
   , arg2
@@ -25,6 +27,8 @@ module ObjC.Matter.MTRTestClusterClusterTestEventEvent
   , arg4Selector
   , arg5Selector
   , arg6Selector
+  , copyWithZoneSelector
+  , initSelector
   , setArg1Selector
   , setArg2Selector
   , setArg3Selector
@@ -45,6 +49,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestEventEvent mtrTestClusterClusterTestEventEvent => mtrTestClusterClusterTestEventEvent -> IO (Id MTRTestClusterClusterTestEventEvent)
+init_ mtrTestClusterClusterTestEventEvent =
+  sendOwnedMessage mtrTestClusterClusterTestEventEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestEventEvent mtrTestClusterClusterTestEventEvent => mtrTestClusterClusterTestEventEvent -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestEventEvent zone =
+  sendOwnedMessage mtrTestClusterClusterTestEventEvent copyWithZoneSelector zone
 
 -- | @- arg1@
 arg1 :: IsMTRTestClusterClusterTestEventEvent mtrTestClusterClusterTestEventEvent => mtrTestClusterClusterTestEventEvent -> IO (Id NSNumber)
@@ -109,6 +123,14 @@ setArg6 mtrTestClusterClusterTestEventEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestEventEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @arg1@
 arg1Selector :: Selector '[] (Id NSNumber)

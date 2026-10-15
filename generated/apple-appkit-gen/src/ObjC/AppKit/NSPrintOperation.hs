@@ -263,14 +263,14 @@ preferredRenderingQuality nsPrintOperation =
   sendMessage nsPrintOperation preferredRenderingQualitySelector
 
 -- | @- jobTitle@
-jobTitle :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> IO (Id NSString)
+jobTitle :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> IO RawId
 jobTitle nsPrintOperation =
   sendMessage nsPrintOperation jobTitleSelector
 
 -- | @- setJobTitle:@
-setJobTitle :: (IsNSPrintOperation nsPrintOperation, IsNSString value) => nsPrintOperation -> value -> IO ()
+setJobTitle :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> RawId -> IO ()
 setJobTitle nsPrintOperation value =
-  sendMessage nsPrintOperation setJobTitleSelector (toNSString value)
+  sendMessage nsPrintOperation setJobTitleSelector value
 
 -- | @- showsPrintPanel@
 showsPrintPanel :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> IO Bool
@@ -303,14 +303,14 @@ setPrintPanel nsPrintOperation value =
   sendMessage nsPrintOperation setPrintPanelSelector (toNSPrintPanel value)
 
 -- | @- PDFPanel@
-pdfPanel :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> IO (Id NSPDFPanel)
+pdfPanel :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> IO RawId
 pdfPanel nsPrintOperation =
   sendMessage nsPrintOperation pdfPanelSelector
 
 -- | @- setPDFPanel:@
-setPDFPanel :: (IsNSPrintOperation nsPrintOperation, IsNSPDFPanel value) => nsPrintOperation -> value -> IO ()
+setPDFPanel :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> RawId -> IO ()
 setPDFPanel nsPrintOperation value =
-  sendMessage nsPrintOperation setPDFPanelSelector (toNSPDFPanel value)
+  sendMessage nsPrintOperation setPDFPanelSelector value
 
 -- | @- canSpawnSeparateThread@
 canSpawnSeparateThread :: IsNSPrintOperation nsPrintOperation => nsPrintOperation -> IO Bool
@@ -463,11 +463,11 @@ preferredRenderingQualitySelector :: Selector '[] NSPrintRenderingQuality
 preferredRenderingQualitySelector = mkSelector "preferredRenderingQuality"
 
 -- | @Selector@ for @jobTitle@
-jobTitleSelector :: Selector '[] (Id NSString)
+jobTitleSelector :: Selector '[] RawId
 jobTitleSelector = mkSelector "jobTitle"
 
 -- | @Selector@ for @setJobTitle:@
-setJobTitleSelector :: Selector '[Id NSString] ()
+setJobTitleSelector :: Selector '[RawId] ()
 setJobTitleSelector = mkSelector "setJobTitle:"
 
 -- | @Selector@ for @showsPrintPanel@
@@ -495,11 +495,11 @@ setPrintPanelSelector :: Selector '[Id NSPrintPanel] ()
 setPrintPanelSelector = mkSelector "setPrintPanel:"
 
 -- | @Selector@ for @PDFPanel@
-pdfPanelSelector :: Selector '[] (Id NSPDFPanel)
+pdfPanelSelector :: Selector '[] RawId
 pdfPanelSelector = mkSelector "PDFPanel"
 
 -- | @Selector@ for @setPDFPanel:@
-setPDFPanelSelector :: Selector '[Id NSPDFPanel] ()
+setPDFPanelSelector :: Selector '[RawId] ()
 setPDFPanelSelector = mkSelector "setPDFPanel:"
 
 -- | @Selector@ for @canSpawnSeparateThread@

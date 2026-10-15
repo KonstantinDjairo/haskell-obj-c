@@ -10,9 +10,11 @@ module ObjC.AppKit.NSStringDrawingContext
   , minimumScaleFactor
   , setMinimumScaleFactor
   , actualScaleFactor
+  , totalBounds
   , actualScaleFactorSelector
   , minimumScaleFactorSelector
   , setMinimumScaleFactorSelector
+  , totalBoundsSelector
 
 
   ) where
@@ -26,6 +28,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.AppKit.Internal.Classes
+import ObjC.Foundation.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
 -- | @- minimumScaleFactor@
@@ -43,6 +46,11 @@ actualScaleFactor :: IsNSStringDrawingContext nsStringDrawingContext => nsString
 actualScaleFactor nsStringDrawingContext =
   sendMessage nsStringDrawingContext actualScaleFactorSelector
 
+-- | @- totalBounds@
+totalBounds :: IsNSStringDrawingContext nsStringDrawingContext => nsStringDrawingContext -> IO NSRect
+totalBounds nsStringDrawingContext =
+  sendMessage nsStringDrawingContext totalBoundsSelector
+
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -58,4 +66,8 @@ setMinimumScaleFactorSelector = mkSelector "setMinimumScaleFactor:"
 -- | @Selector@ for @actualScaleFactor@
 actualScaleFactorSelector :: Selector '[] CDouble
 actualScaleFactorSelector = mkSelector "actualScaleFactor"
+
+-- | @Selector@ for @totalBounds@
+totalBoundsSelector :: Selector '[] NSRect
+totalBoundsSelector = mkSelector "totalBounds"
 

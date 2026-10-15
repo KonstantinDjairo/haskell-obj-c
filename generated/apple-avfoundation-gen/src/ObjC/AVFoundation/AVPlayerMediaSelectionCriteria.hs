@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVPlayerMediaSelectionCriteria
---
--- The preferred languages and media characteristics for a player.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVPlayerMediaSelectionCriteria@.
+-- | Generated bindings for @AVPlayerMediaSelectionCriteria@.
 module ObjC.AVFoundation.AVPlayerMediaSelectionCriteria
   ( AVPlayerMediaSelectionCriteria
   , IsAVPlayerMediaSelectionCriteria(..)

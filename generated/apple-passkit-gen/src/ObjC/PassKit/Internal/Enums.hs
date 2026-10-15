@@ -14,30 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | @PKAddIdentityDocumentType@
-newtype PKAddIdentityDocumentType = PKAddIdentityDocumentType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PKAddIdentityDocumentTypeIDCard :: PKAddIdentityDocumentType
-pattern PKAddIdentityDocumentTypeIDCard = PKAddIdentityDocumentType 0
-
-pattern PKAddIdentityDocumentTypeMDL :: PKAddIdentityDocumentType
-pattern PKAddIdentityDocumentTypeMDL = PKAddIdentityDocumentType 1
-
-pattern PKAddIdentityDocumentTypePhotoID :: PKAddIdentityDocumentType
-pattern PKAddIdentityDocumentTypePhotoID = PKAddIdentityDocumentType 2
-
-instance ObjCArgument PKAddIdentityDocumentType where
-  withObjCArg (PKAddIdentityDocumentType x) k = k (argCLong x)
-
-instance ObjCReturn PKAddIdentityDocumentType where
-  type RawReturn PKAddIdentityDocumentType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PKAddIdentityDocumentType x)
-  fromOwned x = pure (PKAddIdentityDocumentType x)
-
 -- | @PKAddPaymentPassError@
 newtype PKAddPaymentPassError = PKAddPaymentPassError CLong
   deriving stock (Eq, Ord, Show)
@@ -87,9 +63,6 @@ instance ObjCReturn PKAddPaymentPassStyle where
 newtype PKAddSecureElementPassErrorCode = PKAddSecureElementPassErrorCode CLong
   deriving stock (Eq, Ord, Show)
   deriving newtype (Storable)
-
-pattern PKAddSecureElementPassGenericError :: PKAddSecureElementPassErrorCode
-pattern PKAddSecureElementPassGenericError = PKAddSecureElementPassErrorCode 0
 
 pattern PKAddSecureElementPassUnknownError :: PKAddSecureElementPassErrorCode
 pattern PKAddSecureElementPassUnknownError = PKAddSecureElementPassErrorCode 0
@@ -182,30 +155,6 @@ instance ObjCReturn PKAddressField where
   fromRetained x = pure (PKAddressField x)
   fromOwned x = pure (PKAddressField x)
 
--- | @PKApplePayLaterAvailability@
-newtype PKApplePayLaterAvailability = PKApplePayLaterAvailability CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PKApplePayLaterAvailable :: PKApplePayLaterAvailability
-pattern PKApplePayLaterAvailable = PKApplePayLaterAvailability 0
-
-pattern PKApplePayLaterUnavailableItemIneligible :: PKApplePayLaterAvailability
-pattern PKApplePayLaterUnavailableItemIneligible = PKApplePayLaterAvailability 1
-
-pattern PKApplePayLaterUnavailableRecurringTransaction :: PKApplePayLaterAvailability
-pattern PKApplePayLaterUnavailableRecurringTransaction = PKApplePayLaterAvailability 2
-
-instance ObjCArgument PKApplePayLaterAvailability where
-  withObjCArg (PKApplePayLaterAvailability x) k = k (argCLong x)
-
-instance ObjCReturn PKApplePayLaterAvailability where
-  type RawReturn PKApplePayLaterAvailability = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PKApplePayLaterAvailability x)
-  fromOwned x = pure (PKApplePayLaterAvailability x)
-
 -- | @PKAutomaticPassPresentationSuppressionResult@
 newtype PKAutomaticPassPresentationSuppressionResult = PKAutomaticPassPresentationSuppressionResult CULong
   deriving stock (Eq, Ord, Show)
@@ -260,29 +209,26 @@ instance ObjCReturn PKBarcodeEventConfigurationDataType where
   fromRetained x = pure (PKBarcodeEventConfigurationDataType x)
   fromOwned x = pure (PKBarcodeEventConfigurationDataType x)
 
--- | @PKDisbursementErrorCode@
-newtype PKDisbursementErrorCode = PKDisbursementErrorCode CLong
+-- | @PKDisbursementRequestSchedule@
+newtype PKDisbursementRequestSchedule = PKDisbursementRequestSchedule CLong
   deriving stock (Eq, Ord, Show)
   deriving newtype (Storable)
 
-pattern PKDisbursementUnknownError :: PKDisbursementErrorCode
-pattern PKDisbursementUnknownError = PKDisbursementErrorCode (-1)
+pattern PKDisbursementRequestScheduleOneTime :: PKDisbursementRequestSchedule
+pattern PKDisbursementRequestScheduleOneTime = PKDisbursementRequestSchedule 0
 
-pattern PKDisbursementUnsupportedCardError :: PKDisbursementErrorCode
-pattern PKDisbursementUnsupportedCardError = PKDisbursementErrorCode 1
+pattern PKDisbursementRequestScheduleFuture :: PKDisbursementRequestSchedule
+pattern PKDisbursementRequestScheduleFuture = PKDisbursementRequestSchedule 1
 
-pattern PKDisbursementRecipientContactInvalidError :: PKDisbursementErrorCode
-pattern PKDisbursementRecipientContactInvalidError = PKDisbursementErrorCode 2
+instance ObjCArgument PKDisbursementRequestSchedule where
+  withObjCArg (PKDisbursementRequestSchedule x) k = k (argCLong x)
 
-instance ObjCArgument PKDisbursementErrorCode where
-  withObjCArg (PKDisbursementErrorCode x) k = k (argCLong x)
-
-instance ObjCReturn PKDisbursementErrorCode where
-  type RawReturn PKDisbursementErrorCode = CLong
+instance ObjCReturn PKDisbursementRequestSchedule where
+  type RawReturn PKDisbursementRequestSchedule = CLong
   objcRetType = retCLong
   msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PKDisbursementErrorCode x)
-  fromOwned x = pure (PKDisbursementErrorCode x)
+  fromRetained x = pure (PKDisbursementRequestSchedule x)
+  fromOwned x = pure (PKDisbursementRequestSchedule x)
 
 -- | Identity error codes.
 -- | @PKIdentityError@
@@ -313,9 +259,6 @@ pattern PKIdentityErrorInvalidNonce = PKIdentityError 6
 
 pattern PKIdentityErrorInvalidElement :: PKIdentityError
 pattern PKIdentityErrorInvalidElement = PKIdentityError 7
-
-pattern PKIdentityErrorRegionNotSupported :: PKIdentityError
-pattern PKIdentityErrorRegionNotSupported = PKIdentityError 8
 
 instance ObjCArgument PKIdentityError where
   withObjCArg (PKIdentityError x) k = k (argCLong x)
@@ -370,9 +313,6 @@ pattern PKMerchantCapabilityCredit = PKMerchantCapability 4
 
 pattern PKMerchantCapabilityDebit :: PKMerchantCapability
 pattern PKMerchantCapabilityDebit = PKMerchantCapability 8
-
-pattern PKMerchantCapabilityInstantFundsOut :: PKMerchantCapability
-pattern PKMerchantCapabilityInstantFundsOut = PKMerchantCapability 128
 
 instance ObjCArgument PKMerchantCapability where
   withObjCArg (PKMerchantCapability x) k = k (argCULong x)
@@ -437,51 +377,6 @@ instance ObjCReturn PKPassLibraryAddPassesStatus where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (PKPassLibraryAddPassesStatus x)
   fromOwned x = pure (PKPassLibraryAddPassesStatus x)
-
--- | @PKPassLibraryAuthorizationStatus@
-newtype PKPassLibraryAuthorizationStatus = PKPassLibraryAuthorizationStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PKPassLibraryAuthorizationStatusNotDetermined :: PKPassLibraryAuthorizationStatus
-pattern PKPassLibraryAuthorizationStatusNotDetermined = PKPassLibraryAuthorizationStatus (-1)
-
-pattern PKPassLibraryAuthorizationStatusDenied :: PKPassLibraryAuthorizationStatus
-pattern PKPassLibraryAuthorizationStatusDenied = PKPassLibraryAuthorizationStatus 0
-
-pattern PKPassLibraryAuthorizationStatusAuthorized :: PKPassLibraryAuthorizationStatus
-pattern PKPassLibraryAuthorizationStatusAuthorized = PKPassLibraryAuthorizationStatus 1
-
-pattern PKPassLibraryAuthorizationStatusRestricted :: PKPassLibraryAuthorizationStatus
-pattern PKPassLibraryAuthorizationStatusRestricted = PKPassLibraryAuthorizationStatus 2
-
-instance ObjCArgument PKPassLibraryAuthorizationStatus where
-  withObjCArg (PKPassLibraryAuthorizationStatus x) k = k (argCLong x)
-
-instance ObjCReturn PKPassLibraryAuthorizationStatus where
-  type RawReturn PKPassLibraryAuthorizationStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PKPassLibraryAuthorizationStatus x)
-  fromOwned x = pure (PKPassLibraryAuthorizationStatus x)
-
--- | @PKPassLibraryCapability@
-newtype PKPassLibraryCapability = PKPassLibraryCapability CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PKPassLibraryCapabilityBackgroundAddPasses :: PKPassLibraryCapability
-pattern PKPassLibraryCapabilityBackgroundAddPasses = PKPassLibraryCapability 0
-
-instance ObjCArgument PKPassLibraryCapability where
-  withObjCArg (PKPassLibraryCapability x) k = k (argCLong x)
-
-instance ObjCReturn PKPassLibraryCapability where
-  type RawReturn PKPassLibraryCapability = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PKPassLibraryCapability x)
-  fromOwned x = pure (PKPassLibraryCapability x)
 
 -- | @PKPassType@
 newtype PKPassType = PKPassType CULong
@@ -845,14 +740,11 @@ newtype PKShippingContactEditingMode = PKShippingContactEditingMode CULong
   deriving stock (Eq, Ord, Show)
   deriving newtype (Storable)
 
-pattern PKShippingContactEditingModeAvailable :: PKShippingContactEditingMode
-pattern PKShippingContactEditingModeAvailable = PKShippingContactEditingMode 1
+pattern PKShippingContactEditingModeEnabled :: PKShippingContactEditingMode
+pattern PKShippingContactEditingModeEnabled = PKShippingContactEditingMode 1
 
 pattern PKShippingContactEditingModeStorePickup :: PKShippingContactEditingMode
 pattern PKShippingContactEditingModeStorePickup = PKShippingContactEditingMode 2
-
-pattern PKShippingContactEditingModeEnabled :: PKShippingContactEditingMode
-pattern PKShippingContactEditingModeEnabled = PKShippingContactEditingMode 1
 
 instance ObjCArgument PKShippingContactEditingMode where
   withObjCArg (PKShippingContactEditingMode x) k = k (argCULong x)

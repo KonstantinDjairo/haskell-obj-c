@@ -11,18 +11,10 @@ module ObjC.AuthenticationServices.ASAuthorizationPlatformPublicKeyCredentialAss
   , init_
   , allowedCredentials
   , setAllowedCredentials
-  , largeBlob
-  , setLargeBlob
-  , prf
-  , setPrf
   , allowedCredentialsSelector
   , initSelector
-  , largeBlobSelector
   , newSelector
-  , prfSelector
   , setAllowedCredentialsSelector
-  , setLargeBlobSelector
-  , setPrfSelector
 
 
   ) where
@@ -64,26 +56,6 @@ setAllowedCredentials :: (IsASAuthorizationPlatformPublicKeyCredentialAssertionR
 setAllowedCredentials asAuthorizationPlatformPublicKeyCredentialAssertionRequest value =
   sendMessage asAuthorizationPlatformPublicKeyCredentialAssertionRequest setAllowedCredentialsSelector (toNSArray value)
 
--- | @- largeBlob@
-largeBlob :: IsASAuthorizationPlatformPublicKeyCredentialAssertionRequest asAuthorizationPlatformPublicKeyCredentialAssertionRequest => asAuthorizationPlatformPublicKeyCredentialAssertionRequest -> IO (Id ASAuthorizationPublicKeyCredentialLargeBlobAssertionInput)
-largeBlob asAuthorizationPlatformPublicKeyCredentialAssertionRequest =
-  sendMessage asAuthorizationPlatformPublicKeyCredentialAssertionRequest largeBlobSelector
-
--- | @- setLargeBlob:@
-setLargeBlob :: (IsASAuthorizationPlatformPublicKeyCredentialAssertionRequest asAuthorizationPlatformPublicKeyCredentialAssertionRequest, IsASAuthorizationPublicKeyCredentialLargeBlobAssertionInput value) => asAuthorizationPlatformPublicKeyCredentialAssertionRequest -> value -> IO ()
-setLargeBlob asAuthorizationPlatformPublicKeyCredentialAssertionRequest value =
-  sendMessage asAuthorizationPlatformPublicKeyCredentialAssertionRequest setLargeBlobSelector (toASAuthorizationPublicKeyCredentialLargeBlobAssertionInput value)
-
--- | @- prf@
-prf :: IsASAuthorizationPlatformPublicKeyCredentialAssertionRequest asAuthorizationPlatformPublicKeyCredentialAssertionRequest => asAuthorizationPlatformPublicKeyCredentialAssertionRequest -> IO (Id ASAuthorizationPublicKeyCredentialPRFAssertionInput)
-prf asAuthorizationPlatformPublicKeyCredentialAssertionRequest =
-  sendMessage asAuthorizationPlatformPublicKeyCredentialAssertionRequest prfSelector
-
--- | @- setPrf:@
-setPrf :: (IsASAuthorizationPlatformPublicKeyCredentialAssertionRequest asAuthorizationPlatformPublicKeyCredentialAssertionRequest, IsASAuthorizationPublicKeyCredentialPRFAssertionInput value) => asAuthorizationPlatformPublicKeyCredentialAssertionRequest -> value -> IO ()
-setPrf asAuthorizationPlatformPublicKeyCredentialAssertionRequest value =
-  sendMessage asAuthorizationPlatformPublicKeyCredentialAssertionRequest setPrfSelector (toASAuthorizationPublicKeyCredentialPRFAssertionInput value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -103,20 +75,4 @@ allowedCredentialsSelector = mkSelector "allowedCredentials"
 -- | @Selector@ for @setAllowedCredentials:@
 setAllowedCredentialsSelector :: Selector '[Id NSArray] ()
 setAllowedCredentialsSelector = mkSelector "setAllowedCredentials:"
-
--- | @Selector@ for @largeBlob@
-largeBlobSelector :: Selector '[] (Id ASAuthorizationPublicKeyCredentialLargeBlobAssertionInput)
-largeBlobSelector = mkSelector "largeBlob"
-
--- | @Selector@ for @setLargeBlob:@
-setLargeBlobSelector :: Selector '[Id ASAuthorizationPublicKeyCredentialLargeBlobAssertionInput] ()
-setLargeBlobSelector = mkSelector "setLargeBlob:"
-
--- | @Selector@ for @prf@
-prfSelector :: Selector '[] (Id ASAuthorizationPublicKeyCredentialPRFAssertionInput)
-prfSelector = mkSelector "prf"
-
--- | @Selector@ for @setPrf:@
-setPrfSelector :: Selector '[Id ASAuthorizationPublicKeyCredentialPRFAssertionInput] ()
-setPrfSelector = mkSelector "setPrf:"
 

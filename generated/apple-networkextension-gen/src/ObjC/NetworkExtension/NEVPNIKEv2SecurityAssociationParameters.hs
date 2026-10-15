@@ -20,20 +20,16 @@ module ObjC.NetworkExtension.NEVPNIKEv2SecurityAssociationParameters
   , setIntegrityAlgorithm
   , diffieHellmanGroup
   , setDiffieHellmanGroup
-  , postQuantumKeyExchangeMethods
-  , setPostQuantumKeyExchangeMethods
   , lifetimeMinutes
   , setLifetimeMinutes
   , diffieHellmanGroupSelector
   , encryptionAlgorithmSelector
   , integrityAlgorithmSelector
   , lifetimeMinutesSelector
-  , postQuantumKeyExchangeMethodsSelector
   , setDiffieHellmanGroupSelector
   , setEncryptionAlgorithmSelector
   , setIntegrityAlgorithmSelector
   , setLifetimeMinutesSelector
-  , setPostQuantumKeyExchangeMethodsSelector
 
   -- * Enum types
   , NEVPNIKEv2DiffieHellmanGroup(NEVPNIKEv2DiffieHellmanGroup)
@@ -50,7 +46,6 @@ module ObjC.NetworkExtension.NEVPNIKEv2SecurityAssociationParameters
   , pattern NEVPNIKEv2DiffieHellmanGroup20
   , pattern NEVPNIKEv2DiffieHellmanGroup21
   , pattern NEVPNIKEv2DiffieHellmanGroup31
-  , pattern NEVPNIKEv2DiffieHellmanGroup32
   , NEVPNIKEv2EncryptionAlgorithm(NEVPNIKEv2EncryptionAlgorithm)
   , pattern NEVPNIKEv2EncryptionAlgorithmDES
   , pattern NEVPNIKEv2EncryptionAlgorithm3DES
@@ -82,7 +77,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | encryptionAlgorithm
 --
--- The algorithm used by the Security Association to encrypt and decrypt data. On macOS and iOS, the default is NEVPNIKEv2EncryptionAlgorithmAES256 starting in macOS 11 and iOS 14. Prior to that the default was NEVPNIKEv2EncryptionAlgorithm3DES. On tvOS, the default is NEVPNIKEv2EncryptionAlgorithmAES256GCM.
+-- The algorithm used by the Security Association to encrypt and decrypt data. Default is NEVPNIKEv2EncryptionAlgorithm3DES.
 --
 -- ObjC selector: @- encryptionAlgorithm@
 encryptionAlgorithm :: IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters => nevpnikEv2SecurityAssociationParameters -> IO NEVPNIKEv2EncryptionAlgorithm
@@ -91,7 +86,7 @@ encryptionAlgorithm nevpnikEv2SecurityAssociationParameters =
 
 -- | encryptionAlgorithm
 --
--- The algorithm used by the Security Association to encrypt and decrypt data. On macOS and iOS, the default is NEVPNIKEv2EncryptionAlgorithmAES256 starting in macOS 11 and iOS 14. Prior to that the default was NEVPNIKEv2EncryptionAlgorithm3DES. On tvOS, the default is NEVPNIKEv2EncryptionAlgorithmAES256GCM.
+-- The algorithm used by the Security Association to encrypt and decrypt data. Default is NEVPNIKEv2EncryptionAlgorithm3DES.
 --
 -- ObjC selector: @- setEncryptionAlgorithm:@
 setEncryptionAlgorithm :: IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters => nevpnikEv2SecurityAssociationParameters -> NEVPNIKEv2EncryptionAlgorithm -> IO ()
@@ -100,7 +95,7 @@ setEncryptionAlgorithm nevpnikEv2SecurityAssociationParameters value =
 
 -- | integrityAlgorithm
 --
--- The algorithm used by the Security Association to verify the integrity of data.  The IKE psedo-random function algorithm will be inferred based on the integrity algorithm. Default is NEVPNIKEv2IntegrityAlgorithmSHA256 starting in macOS 11, iOS 14, and tvOS 17.  Prior to that the default was NEVPNIKEv2IntegrityAlgorithmSHA96.
+-- The algorithm used by the Security Association to verify the integrity of data. Default is NEVPNIKEv2IntegrityAlgorithmSHA96. The IKE psedo-random function algorithm will be inferred based on the integrity algorithm.
 --
 -- ObjC selector: @- integrityAlgorithm@
 integrityAlgorithm :: IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters => nevpnikEv2SecurityAssociationParameters -> IO NEVPNIKEv2IntegrityAlgorithm
@@ -109,7 +104,7 @@ integrityAlgorithm nevpnikEv2SecurityAssociationParameters =
 
 -- | integrityAlgorithm
 --
--- The algorithm used by the Security Association to verify the integrity of data.  The IKE psedo-random function algorithm will be inferred based on the integrity algorithm. Default is NEVPNIKEv2IntegrityAlgorithmSHA256 starting in macOS 11, iOS 14, and tvOS 17.  Prior to that the default was NEVPNIKEv2IntegrityAlgorithmSHA96.
+-- The algorithm used by the Security Association to verify the integrity of data. Default is NEVPNIKEv2IntegrityAlgorithmSHA96. The IKE psedo-random function algorithm will be inferred based on the integrity algorithm.
 --
 -- ObjC selector: @- setIntegrityAlgorithm:@
 setIntegrityAlgorithm :: IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters => nevpnikEv2SecurityAssociationParameters -> NEVPNIKEv2IntegrityAlgorithm -> IO ()
@@ -118,7 +113,7 @@ setIntegrityAlgorithm nevpnikEv2SecurityAssociationParameters value =
 
 -- | diffieHellmanGroup
 --
--- The Diffie Hellman group used by the Security Association. Default is NEVPNIKEv2DiffieHellmanGroup14 starting in macOS 11, iOS 14, and tvOS 17. Prior to that the default was NEVPNIKEv2DiffieHellmanGroup2.
+-- The Diffie Hellman group used by the Security Association. Default is NEVPNIKEv2DiffieHellmanGroup2.
 --
 -- ObjC selector: @- diffieHellmanGroup@
 diffieHellmanGroup :: IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters => nevpnikEv2SecurityAssociationParameters -> IO NEVPNIKEv2DiffieHellmanGroup
@@ -127,30 +122,12 @@ diffieHellmanGroup nevpnikEv2SecurityAssociationParameters =
 
 -- | diffieHellmanGroup
 --
--- The Diffie Hellman group used by the Security Association. Default is NEVPNIKEv2DiffieHellmanGroup14 starting in macOS 11, iOS 14, and tvOS 17. Prior to that the default was NEVPNIKEv2DiffieHellmanGroup2.
+-- The Diffie Hellman group used by the Security Association. Default is NEVPNIKEv2DiffieHellmanGroup2.
 --
 -- ObjC selector: @- setDiffieHellmanGroup:@
 setDiffieHellmanGroup :: IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters => nevpnikEv2SecurityAssociationParameters -> NEVPNIKEv2DiffieHellmanGroup -> IO ()
 setDiffieHellmanGroup nevpnikEv2SecurityAssociationParameters value =
   sendMessage nevpnikEv2SecurityAssociationParameters setDiffieHellmanGroupSelector value
-
--- | postQuantumKeyExchangeMethods
---
--- The post-quantum key exchange method(s) used by the Security Association, if any. Values are taken from NEVPNIKEv2PostQuantumKeyExchangeMethod. Up to 7 methods may be specified, mapping to ADDKE1 - ADDKE7 from RFC 9370.
---
--- ObjC selector: @- postQuantumKeyExchangeMethods@
-postQuantumKeyExchangeMethods :: IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters => nevpnikEv2SecurityAssociationParameters -> IO (Id NSArray)
-postQuantumKeyExchangeMethods nevpnikEv2SecurityAssociationParameters =
-  sendMessage nevpnikEv2SecurityAssociationParameters postQuantumKeyExchangeMethodsSelector
-
--- | postQuantumKeyExchangeMethods
---
--- The post-quantum key exchange method(s) used by the Security Association, if any. Values are taken from NEVPNIKEv2PostQuantumKeyExchangeMethod. Up to 7 methods may be specified, mapping to ADDKE1 - ADDKE7 from RFC 9370.
---
--- ObjC selector: @- setPostQuantumKeyExchangeMethods:@
-setPostQuantumKeyExchangeMethods :: (IsNEVPNIKEv2SecurityAssociationParameters nevpnikEv2SecurityAssociationParameters, IsNSArray value) => nevpnikEv2SecurityAssociationParameters -> value -> IO ()
-setPostQuantumKeyExchangeMethods nevpnikEv2SecurityAssociationParameters value =
-  sendMessage nevpnikEv2SecurityAssociationParameters setPostQuantumKeyExchangeMethodsSelector (toNSArray value)
 
 -- | lifetimeMinutes
 --
@@ -197,14 +174,6 @@ diffieHellmanGroupSelector = mkSelector "diffieHellmanGroup"
 -- | @Selector@ for @setDiffieHellmanGroup:@
 setDiffieHellmanGroupSelector :: Selector '[NEVPNIKEv2DiffieHellmanGroup] ()
 setDiffieHellmanGroupSelector = mkSelector "setDiffieHellmanGroup:"
-
--- | @Selector@ for @postQuantumKeyExchangeMethods@
-postQuantumKeyExchangeMethodsSelector :: Selector '[] (Id NSArray)
-postQuantumKeyExchangeMethodsSelector = mkSelector "postQuantumKeyExchangeMethods"
-
--- | @Selector@ for @setPostQuantumKeyExchangeMethods:@
-setPostQuantumKeyExchangeMethodsSelector :: Selector '[Id NSArray] ()
-setPostQuantumKeyExchangeMethodsSelector = mkSelector "setPostQuantumKeyExchangeMethods:"
 
 -- | @Selector@ for @lifetimeMinutes@
 lifetimeMinutesSelector :: Selector '[] CInt

@@ -9,7 +9,6 @@ module ObjC.AppKit.NSMenuItem
   ( NSMenuItem
   , IsNSMenuItem(..)
   , nsMenuItemSeparatorItem
-  , sectionHeaderWithTitle
   , initWithTitle_action_keyEquivalent
   , initWithCoder
   , setMnemonicLocation
@@ -18,7 +17,6 @@ module ObjC.AppKit.NSMenuItem
   , setTitleWithMnemonic
   , usesUserKeyEquivalents
   , setUsesUserKeyEquivalents
-  , writingToolsItems
   , menu
   , setMenu
   , hasSubmenu
@@ -29,10 +27,7 @@ module ObjC.AppKit.NSMenuItem
   , setTitle
   , attributedTitle
   , setAttributedTitle
-  , subtitle
-  , setSubtitle
   , separatorItem
-  , sectionHeader
   , keyEquivalent
   , setKeyEquivalent
   , keyEquivalentModifierMask
@@ -76,15 +71,12 @@ module ObjC.AppKit.NSMenuItem
   , hiddenOrHasHiddenAncestor
   , toolTip
   , setToolTip
-  , badge
-  , setBadge
   , actionSelector
   , allowsAutomaticKeyEquivalentLocalizationSelector
   , allowsAutomaticKeyEquivalentMirroringSelector
   , allowsKeyEquivalentWhenHiddenSelector
   , alternateSelector
   , attributedTitleSelector
-  , badgeSelector
   , enabledSelector
   , hasSubmenuSelector
   , hiddenOrHasHiddenAncestorSelector
@@ -105,8 +97,6 @@ module ObjC.AppKit.NSMenuItem
   , onStateImageSelector
   , parentItemSelector
   , representedObjectSelector
-  , sectionHeaderSelector
-  , sectionHeaderWithTitleSelector
   , separatorItemSelector
   , setActionSelector
   , setAllowsAutomaticKeyEquivalentLocalizationSelector
@@ -114,7 +104,6 @@ module ObjC.AppKit.NSMenuItem
   , setAllowsKeyEquivalentWhenHiddenSelector
   , setAlternateSelector
   , setAttributedTitleSelector
-  , setBadgeSelector
   , setEnabledSelector
   , setHiddenSelector
   , setImageSelector
@@ -129,7 +118,6 @@ module ObjC.AppKit.NSMenuItem
   , setRepresentedObjectSelector
   , setStateSelector
   , setSubmenuSelector
-  , setSubtitleSelector
   , setTagSelector
   , setTargetSelector
   , setTitleSelector
@@ -139,7 +127,6 @@ module ObjC.AppKit.NSMenuItem
   , setViewSelector
   , stateSelector
   , submenuSelector
-  , subtitleSelector
   , tagSelector
   , targetSelector
   , titleSelector
@@ -147,7 +134,6 @@ module ObjC.AppKit.NSMenuItem
   , userKeyEquivalentSelector
   , usesUserKeyEquivalentsSelector
   , viewSelector
-  , writingToolsItemsSelector
 
   -- * Enum types
   , NSEventModifierFlags(NSEventModifierFlags)
@@ -181,15 +167,6 @@ nsMenuItemSeparatorItem  =
   do
     cls' <- getRequiredClass "NSMenuItem"
     sendClassMessage cls' nsMenuItemSeparatorItemSelector
-
--- | Creates a menu item representing a section header with the provided title. Section header items are used to provide context to a grouping of menu items. Items created using this method are non-interactive and do not perform an action.
---
--- ObjC selector: @+ sectionHeaderWithTitle:@
-sectionHeaderWithTitle :: IsNSString title => title -> IO (Id NSMenuItem)
-sectionHeaderWithTitle title =
-  do
-    cls' <- getRequiredClass "NSMenuItem"
-    sendClassMessage cls' sectionHeaderWithTitleSelector (toNSString title)
 
 -- | @- initWithTitle:action:keyEquivalent:@
 initWithTitle_action_keyEquivalent :: (IsNSMenuItem nsMenuItem, IsNSString string, IsNSString charCode) => nsMenuItem -> string -> Sel -> charCode -> IO (Id NSMenuItem)
@@ -235,25 +212,12 @@ setUsesUserKeyEquivalents value =
     cls' <- getRequiredClass "NSMenuItem"
     sendClassMessage cls' setUsesUserKeyEquivalentsSelector value
 
--- | An array of standard menu items related to Writing Tools. Each call to this method returns an array of newly allocated instances of NSMenuItem.
---
--- ObjC selector: @+ writingToolsItems@
-writingToolsItems :: IO (Id NSArray)
-writingToolsItems  =
-  do
-    cls' <- getRequiredClass "NSMenuItem"
-    sendClassMessage cls' writingToolsItemsSelector
-
--- | Note: Never call the setter method directly: it is there only for subclassers.
---
--- ObjC selector: @- menu@
+-- | @- menu@
 menu :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO (Id NSMenu)
 menu nsMenuItem =
   sendMessage nsMenuItem menuSelector
 
--- | Note: Never call the setter method directly: it is there only for subclassers.
---
--- ObjC selector: @- setMenu:@
+-- | @- setMenu:@
 setMenu :: (IsNSMenuItem nsMenuItem, IsNSMenu value) => nsMenuItem -> value -> IO ()
 setMenu nsMenuItem value =
   sendMessage nsMenuItem setMenuSelector (toNSMenu value)
@@ -273,10 +237,8 @@ setSubmenu :: (IsNSMenuItem nsMenuItem, IsNSMenu value) => nsMenuItem -> value -
 setSubmenu nsMenuItem value =
   sendMessage nsMenuItem setSubmenuSelector (toNSMenu value)
 
--- | Returns: The @NSMenuItem@ whose submenu contains the receiver, or nil if the receiver does not have a parent item.
---
--- ObjC selector: @- parentItem@
-parentItem :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO (Id NSMenuItem)
+-- | @- parentItem@
+parentItem :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO RawId
 parentItem nsMenuItem =
   sendMessage nsMenuItem parentItemSelector
 
@@ -300,39 +262,10 @@ setAttributedTitle :: (IsNSMenuItem nsMenuItem, IsNSAttributedString value) => n
 setAttributedTitle nsMenuItem value =
   sendMessage nsMenuItem setAttributedTitleSelector (toNSAttributedString value)
 
--- | Used to specify a standard subtitle for the menu item.
---
--- The subtitle is displayed below the standard title.
---
--- Note: On macOS 14, a menu item with an attributed title does not show the subtitle. The subtitle is shown on macOS 15 and later.
---
--- ObjC selector: @- subtitle@
-subtitle :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO (Id NSString)
-subtitle nsMenuItem =
-  sendMessage nsMenuItem subtitleSelector
-
--- | Used to specify a standard subtitle for the menu item.
---
--- The subtitle is displayed below the standard title.
---
--- Note: On macOS 14, a menu item with an attributed title does not show the subtitle. The subtitle is shown on macOS 15 and later.
---
--- ObjC selector: @- setSubtitle:@
-setSubtitle :: (IsNSMenuItem nsMenuItem, IsNSString value) => nsMenuItem -> value -> IO ()
-setSubtitle nsMenuItem value =
-  sendMessage nsMenuItem setSubtitleSelector (toNSString value)
-
 -- | @- separatorItem@
 separatorItem :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO Bool
 separatorItem nsMenuItem =
   sendMessage nsMenuItem separatorItemSelector
-
--- | Indicates whether the item is a section header. Section header items are created using the @sectionHeader(title:)@ class method.
---
--- ObjC selector: @- sectionHeader@
-sectionHeader :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO Bool
-sectionHeader nsMenuItem =
-  sendMessage nsMenuItem sectionHeaderSelector
 
 -- | @- keyEquivalent@
 keyEquivalent :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO (Id NSString)
@@ -510,14 +443,14 @@ setRepresentedObject nsMenuItem value =
   sendMessage nsMenuItem setRepresentedObjectSelector value
 
 -- | @- view@
-view :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO (Id NSView)
+view :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO RawId
 view nsMenuItem =
   sendMessage nsMenuItem viewSelector
 
 -- | @- setView:@
-setView :: (IsNSMenuItem nsMenuItem, IsNSView value) => nsMenuItem -> value -> IO ()
+setView :: IsNSMenuItem nsMenuItem => nsMenuItem -> RawId -> IO ()
 setView nsMenuItem value =
-  sendMessage nsMenuItem setViewSelector (toNSView value)
+  sendMessage nsMenuItem setViewSelector value
 
 -- | @- highlighted@
 highlighted :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO Bool
@@ -549,24 +482,6 @@ setToolTip :: (IsNSMenuItem nsMenuItem, IsNSString value) => nsMenuItem -> value
 setToolTip nsMenuItem value =
   sendMessage nsMenuItem setToolTipSelector (toNSString value)
 
--- | A badge used to provide additional quantitative information specific to the menu item, such as the number of available updates.
---
--- Note: The default value of this property is @nil.@
---
--- ObjC selector: @- badge@
-badge :: IsNSMenuItem nsMenuItem => nsMenuItem -> IO (Id NSMenuItemBadge)
-badge nsMenuItem =
-  sendMessage nsMenuItem badgeSelector
-
--- | A badge used to provide additional quantitative information specific to the menu item, such as the number of available updates.
---
--- Note: The default value of this property is @nil.@
---
--- ObjC selector: @- setBadge:@
-setBadge :: (IsNSMenuItem nsMenuItem, IsNSMenuItemBadge value) => nsMenuItem -> value -> IO ()
-setBadge nsMenuItem value =
-  sendMessage nsMenuItem setBadgeSelector (toNSMenuItemBadge value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -574,10 +489,6 @@ setBadge nsMenuItem value =
 -- | @Selector@ for @separatorItem@
 nsMenuItemSeparatorItemSelector :: Selector '[] (Id NSMenuItem)
 nsMenuItemSeparatorItemSelector = mkSelector "separatorItem"
-
--- | @Selector@ for @sectionHeaderWithTitle:@
-sectionHeaderWithTitleSelector :: Selector '[Id NSString] (Id NSMenuItem)
-sectionHeaderWithTitleSelector = mkSelector "sectionHeaderWithTitle:"
 
 -- | @Selector@ for @initWithTitle:action:keyEquivalent:@
 initWithTitle_action_keyEquivalentSelector :: Selector '[Id NSString, Sel, Id NSString] (Id NSMenuItem)
@@ -611,10 +522,6 @@ usesUserKeyEquivalentsSelector = mkSelector "usesUserKeyEquivalents"
 setUsesUserKeyEquivalentsSelector :: Selector '[Bool] ()
 setUsesUserKeyEquivalentsSelector = mkSelector "setUsesUserKeyEquivalents:"
 
--- | @Selector@ for @writingToolsItems@
-writingToolsItemsSelector :: Selector '[] (Id NSArray)
-writingToolsItemsSelector = mkSelector "writingToolsItems"
-
 -- | @Selector@ for @menu@
 menuSelector :: Selector '[] (Id NSMenu)
 menuSelector = mkSelector "menu"
@@ -636,7 +543,7 @@ setSubmenuSelector :: Selector '[Id NSMenu] ()
 setSubmenuSelector = mkSelector "setSubmenu:"
 
 -- | @Selector@ for @parentItem@
-parentItemSelector :: Selector '[] (Id NSMenuItem)
+parentItemSelector :: Selector '[] RawId
 parentItemSelector = mkSelector "parentItem"
 
 -- | @Selector@ for @title@
@@ -655,21 +562,9 @@ attributedTitleSelector = mkSelector "attributedTitle"
 setAttributedTitleSelector :: Selector '[Id NSAttributedString] ()
 setAttributedTitleSelector = mkSelector "setAttributedTitle:"
 
--- | @Selector@ for @subtitle@
-subtitleSelector :: Selector '[] (Id NSString)
-subtitleSelector = mkSelector "subtitle"
-
--- | @Selector@ for @setSubtitle:@
-setSubtitleSelector :: Selector '[Id NSString] ()
-setSubtitleSelector = mkSelector "setSubtitle:"
-
 -- | @Selector@ for @separatorItem@
 separatorItemSelector :: Selector '[] Bool
 separatorItemSelector = mkSelector "separatorItem"
-
--- | @Selector@ for @sectionHeader@
-sectionHeaderSelector :: Selector '[] Bool
-sectionHeaderSelector = mkSelector "sectionHeader"
 
 -- | @Selector@ for @keyEquivalent@
 keyEquivalentSelector :: Selector '[] (Id NSString)
@@ -812,11 +707,11 @@ setRepresentedObjectSelector :: Selector '[RawId] ()
 setRepresentedObjectSelector = mkSelector "setRepresentedObject:"
 
 -- | @Selector@ for @view@
-viewSelector :: Selector '[] (Id NSView)
+viewSelector :: Selector '[] RawId
 viewSelector = mkSelector "view"
 
 -- | @Selector@ for @setView:@
-setViewSelector :: Selector '[Id NSView] ()
+setViewSelector :: Selector '[RawId] ()
 setViewSelector = mkSelector "setView:"
 
 -- | @Selector@ for @highlighted@
@@ -842,12 +737,4 @@ toolTipSelector = mkSelector "toolTip"
 -- | @Selector@ for @setToolTip:@
 setToolTipSelector :: Selector '[Id NSString] ()
 setToolTipSelector = mkSelector "setToolTip:"
-
--- | @Selector@ for @badge@
-badgeSelector :: Selector '[] (Id NSMenuItemBadge)
-badgeSelector = mkSelector "badge"
-
--- | @Selector@ for @setBadge:@
-setBadgeSelector :: Selector '[Id NSMenuItemBadge] ()
-setBadgeSelector = mkSelector "setBadge:"
 

@@ -31,8 +31,6 @@ module ObjC.Metal.MTLAccelerationStructureTriangleGeometryDescriptor
   , setTransformationMatrixBuffer
   , transformationMatrixBufferOffset
   , setTransformationMatrixBufferOffset
-  , transformationMatrixLayout
-  , setTransformationMatrixLayout
   , descriptorSelector
   , indexBufferOffsetSelector
   , indexBufferSelector
@@ -42,7 +40,6 @@ module ObjC.Metal.MTLAccelerationStructureTriangleGeometryDescriptor
   , setIndexTypeSelector
   , setTransformationMatrixBufferOffsetSelector
   , setTransformationMatrixBufferSelector
-  , setTransformationMatrixLayoutSelector
   , setTriangleCountSelector
   , setVertexBufferOffsetSelector
   , setVertexBufferSelector
@@ -50,7 +47,6 @@ module ObjC.Metal.MTLAccelerationStructureTriangleGeometryDescriptor
   , setVertexStrideSelector
   , transformationMatrixBufferOffsetSelector
   , transformationMatrixBufferSelector
-  , transformationMatrixLayoutSelector
   , triangleCountSelector
   , vertexBufferOffsetSelector
   , vertexBufferSelector
@@ -111,14 +107,9 @@ module ObjC.Metal.MTLAccelerationStructureTriangleGeometryDescriptor
   , pattern MTLAttributeFormatUShortNormalized
   , pattern MTLAttributeFormatShortNormalized
   , pattern MTLAttributeFormatHalf
-  , pattern MTLAttributeFormatFloatRG11B10
-  , pattern MTLAttributeFormatFloatRGB9E5
   , MTLIndexType(MTLIndexType)
   , pattern MTLIndexTypeUInt16
   , pattern MTLIndexTypeUInt32
-  , MTLMatrixLayout(MTLMatrixLayout)
-  , pattern MTLMatrixLayoutColumnMajor
-  , pattern MTLMatrixLayoutRowMajor
 
   ) where
 
@@ -281,20 +272,6 @@ setTransformationMatrixBufferOffset :: IsMTLAccelerationStructureTriangleGeometr
 setTransformationMatrixBufferOffset mtlAccelerationStructureTriangleGeometryDescriptor value =
   sendMessage mtlAccelerationStructureTriangleGeometryDescriptor setTransformationMatrixBufferOffsetSelector value
 
--- | Matrix layout for the transformation matrix in the transformation matrix buffer. Defaults to MTLMatrixLayoutColumnMajor.
---
--- ObjC selector: @- transformationMatrixLayout@
-transformationMatrixLayout :: IsMTLAccelerationStructureTriangleGeometryDescriptor mtlAccelerationStructureTriangleGeometryDescriptor => mtlAccelerationStructureTriangleGeometryDescriptor -> IO MTLMatrixLayout
-transformationMatrixLayout mtlAccelerationStructureTriangleGeometryDescriptor =
-  sendMessage mtlAccelerationStructureTriangleGeometryDescriptor transformationMatrixLayoutSelector
-
--- | Matrix layout for the transformation matrix in the transformation matrix buffer. Defaults to MTLMatrixLayoutColumnMajor.
---
--- ObjC selector: @- setTransformationMatrixLayout:@
-setTransformationMatrixLayout :: IsMTLAccelerationStructureTriangleGeometryDescriptor mtlAccelerationStructureTriangleGeometryDescriptor => mtlAccelerationStructureTriangleGeometryDescriptor -> MTLMatrixLayout -> IO ()
-setTransformationMatrixLayout mtlAccelerationStructureTriangleGeometryDescriptor value =
-  sendMessage mtlAccelerationStructureTriangleGeometryDescriptor setTransformationMatrixLayoutSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -382,12 +359,4 @@ transformationMatrixBufferOffsetSelector = mkSelector "transformationMatrixBuffe
 -- | @Selector@ for @setTransformationMatrixBufferOffset:@
 setTransformationMatrixBufferOffsetSelector :: Selector '[CULong] ()
 setTransformationMatrixBufferOffsetSelector = mkSelector "setTransformationMatrixBufferOffset:"
-
--- | @Selector@ for @transformationMatrixLayout@
-transformationMatrixLayoutSelector :: Selector '[] MTLMatrixLayout
-transformationMatrixLayoutSelector = mkSelector "transformationMatrixLayout"
-
--- | @Selector@ for @setTransformationMatrixLayout:@
-setTransformationMatrixLayoutSelector :: Selector '[MTLMatrixLayout] ()
-setTransformationMatrixLayoutSelector = mkSelector "setTransformationMatrixLayout:"
 

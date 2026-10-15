@@ -3,7 +3,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @AVAssetWriterInputPixelBufferAdaptor@.
+-- | AVAssetWriterInputPixelBufferAdaptor
+--
+-- Defines an interface for appending video samples packaged as CVPixelBuffer objects to a single AVAssetWriterInput object.
+--
+-- Instances of AVAssetWriterInputPixelBufferAdaptor provide a CVPixelBufferPool that can be used to allocate pixel buffers for writing to the output file.  Using the provided pixel buffer pool for buffer allocation is typically more efficient than appending pixel buffers allocated using a separate pool.
+--
+-- Generated bindings for @AVAssetWriterInputPixelBufferAdaptor@.
 module ObjC.AVFoundation.AVAssetWriterInputPixelBufferAdaptor
   ( AVAssetWriterInputPixelBufferAdaptor
   , IsAVAssetWriterInputPixelBufferAdaptor(..)
@@ -48,19 +54,23 @@ new  =
     cls' <- getRequiredClass "AVAssetWriterInputPixelBufferAdaptor"
     sendOwnedClassMessage cls' newSelector
 
--- | Creates a new pixel buffer adaptor to receive pixel buffers for writing to the output file.
+-- | assetWriterInputPixelBufferAdaptorWithAssetWriterInput:sourcePixelBufferAttributes:
+--
+-- Creates a new pixel buffer adaptor to receive pixel buffers for writing to the output file.
+--
+-- @input@ — An instance of AVAssetWriterInput to which the receiver should append pixel buffers.  Currently, only asset writer inputs that accept media data of type AVMediaTypeVideo can be used to initialize a pixel buffer adaptor.
+--
+-- @sourcePixelBufferAttributes@ — Specifies the attributes of pixel buffers that will be vended by the input's CVPixelBufferPool.
+--
+-- Returns: An instance of AVAssetWriterInputPixelBufferAdaptor.
 --
 -- In order to take advantage of the improved efficiency of appending buffers created from the adaptor's pixel buffer pool, clients should specify pixel buffer attributes that most closely accommodate the source format of the video frames being appended.
 --
--- Pixel buffer attributes keys for the pixel buffer pool are defined in <CoreVideo/CVPixelBuffer.h>. To specify the pixel format type, the pixelBufferAttributes dictionary should contain a value for kCVPixelBufferPixelFormatTypeKey. For example, use [NSNumber numberWithInt:kCVPixelFormatType_32BGRA] for 8-bit-per-channel BGRA. See the discussion under appendPixelBuffer:withPresentationTime: for advice on choosing a pixel format.
+-- Pixel buffer attributes keys for the pixel buffer pool are defined in <CoreVideo/CVPixelBuffer.h>. To specify the pixel format type, the pixelBufferAttributes dictionary should contain a value for kCVPixelBufferPixelFormatTypeKey.  For example, use [NSNumber numberWithInt:kCVPixelFormatType_32BGRA] for 8-bit-per-channel BGRA. See the discussion under appendPixelBuffer:withPresentationTime: for advice on choosing a pixel format.
 --
 -- Clients that do not need a pixel buffer pool for allocating buffers should set sourcePixelBufferAttributes to nil.
 --
 -- This method throws an exception if the input is already attached to another asset writer input pixel buffer adaptor or if the input has already started writing (the asset writer has progressed beyond AVAssetWriterStatusUnknown).
---
--- - Parameter input: An instance of AVAssetWriterInput to which the receiver should append pixel buffers. Currently, only asset writer inputs that accept media data of type AVMediaTypeVideo can be used to initialize a pixel buffer adaptor. - Parameter sourcePixelBufferAttributes: Specifies the attributes of pixel buffers that will be vended by the input's CVPixelBufferPool.
---
--- - Returns: An instance of AVAssetWriterInputPixelBufferAdaptor.
 --
 -- ObjC selector: @+ assetWriterInputPixelBufferAdaptorWithAssetWriterInput:sourcePixelBufferAttributes:@
 assetWriterInputPixelBufferAdaptorWithAssetWriterInput_sourcePixelBufferAttributes :: (IsAVAssetWriterInput input, IsNSDictionary sourcePixelBufferAttributes) => input -> sourcePixelBufferAttributes -> IO (Id AVAssetWriterInputPixelBufferAdaptor)
@@ -69,33 +79,41 @@ assetWriterInputPixelBufferAdaptorWithAssetWriterInput_sourcePixelBufferAttribut
     cls' <- getRequiredClass "AVAssetWriterInputPixelBufferAdaptor"
     sendClassMessage cls' assetWriterInputPixelBufferAdaptorWithAssetWriterInput_sourcePixelBufferAttributesSelector (toAVAssetWriterInput input) (toNSDictionary sourcePixelBufferAttributes)
 
--- | Creates a new pixel buffer adaptor to receive pixel buffers for writing to the output file.
+-- | initWithAssetWriterInput:sourcePixelBufferAttributes:
+--
+-- Creates a new pixel buffer adaptor to receive pixel buffers for writing to the output file.
+--
+-- @input@ — An instance of AVAssetWriterInput to which the receiver should append pixel buffers.  Currently, only asset writer inputs that accept media data of type AVMediaTypeVideo can be used to initialize a pixel buffer adaptor.
+--
+-- @sourcePixelBufferAttributes@ — Specifies the attributes of pixel buffers that will be vended by the input's CVPixelBufferPool.
+--
+-- Returns: An instance of AVAssetWriterInputPixelBufferAdaptor.
 --
 -- In order to take advantage of the improved efficiency of appending buffers created from the adaptor's pixel buffer pool, clients should specify pixel buffer attributes that most closely accommodate the source format of the video frames being appended.
 --
--- Pixel buffer attributes keys for the pixel buffer pool are defined in <CoreVideo/CVPixelBuffer.h>. To specify the pixel format type, the pixelBufferAttributes dictionary should contain a value for kCVPixelBufferPixelFormatTypeKey. For example, use [NSNumber numberWithInt:kCVPixelFormatType_32BGRA] for 8-bit-per-channel BGRA. See the discussion under appendPixelBuffer:withPresentationTime: for advice on choosing a pixel format.
+-- Pixel buffer attributes keys for the pixel buffer pool are defined in <CoreVideo/CVPixelBuffer.h>. To specify the pixel format type, the pixelBufferAttributes dictionary should contain a value for kCVPixelBufferPixelFormatTypeKey.  For example, use [NSNumber numberWithInt:kCVPixelFormatType_32BGRA] for 8-bit-per-channel BGRA. See the discussion under appendPixelBuffer:withPresentationTime: for advice on choosing a pixel format.
 --
 -- Clients that do not need a pixel buffer pool for allocating buffers should set sourcePixelBufferAttributes to nil.
 --
 -- This method throws an exception if the input is already attached to another asset writer input pixel buffer adaptor or if the input has already started writing (the asset writer has progressed beyond AVAssetWriterStatusUnknown).
---
--- - Parameter input: An instance of AVAssetWriterInput to which the receiver should append pixel buffers. Currently, only asset writer inputs that accept media data of type AVMediaTypeVideo can be used to initialize a pixel buffer adaptor. - Parameter sourcePixelBufferAttributes: Specifies the attributes of pixel buffers that will be vended by the input's CVPixelBufferPool.
---
--- - Returns: An instance of AVAssetWriterInputPixelBufferAdaptor.
 --
 -- ObjC selector: @- initWithAssetWriterInput:sourcePixelBufferAttributes:@
 initWithAssetWriterInput_sourcePixelBufferAttributes :: (IsAVAssetWriterInputPixelBufferAdaptor avAssetWriterInputPixelBufferAdaptor, IsAVAssetWriterInput input, IsNSDictionary sourcePixelBufferAttributes) => avAssetWriterInputPixelBufferAdaptor -> input -> sourcePixelBufferAttributes -> IO (Id AVAssetWriterInputPixelBufferAdaptor)
 initWithAssetWriterInput_sourcePixelBufferAttributes avAssetWriterInputPixelBufferAdaptor input sourcePixelBufferAttributes =
   sendOwnedMessage avAssetWriterInputPixelBufferAdaptor initWithAssetWriterInput_sourcePixelBufferAttributesSelector (toAVAssetWriterInput input) (toNSDictionary sourcePixelBufferAttributes)
 
--- | The asset writer input to which the receiver should append pixel buffers.
+-- | assetWriterInput
+--
+-- The asset writer input to which the receiver should append pixel buffers.
 --
 -- ObjC selector: @- assetWriterInput@
 assetWriterInput :: IsAVAssetWriterInputPixelBufferAdaptor avAssetWriterInputPixelBufferAdaptor => avAssetWriterInputPixelBufferAdaptor -> IO (Id AVAssetWriterInput)
 assetWriterInput avAssetWriterInputPixelBufferAdaptor =
   sendMessage avAssetWriterInputPixelBufferAdaptor assetWriterInputSelector
 
--- | The pixel buffer attributes of pixel buffers that will be vended by the receiver's CVPixelBufferPool.
+-- | sourcePixelBufferAttributes
+--
+-- The pixel buffer attributes of pixel buffers that will be vended by the receiver's CVPixelBufferPool.
 --
 -- The value of this property is a dictionary containing pixel buffer attributes keys defined in <CoreVideo/CVPixelBuffer.h>.
 --
@@ -104,7 +122,9 @@ sourcePixelBufferAttributes :: IsAVAssetWriterInputPixelBufferAdaptor avAssetWri
 sourcePixelBufferAttributes avAssetWriterInputPixelBufferAdaptor =
   sendMessage avAssetWriterInputPixelBufferAdaptor sourcePixelBufferAttributesSelector
 
--- | A pixel buffer pool that will vend and efficiently recycle CVPixelBuffer objects that can be appended to the receiver.
+-- | pixelBufferPool
+--
+-- A pixel buffer pool that will vend and efficiently recycle CVPixelBuffer objects that can be appended to the receiver.
 --
 -- For maximum efficiency, clients should create CVPixelBuffer objects for appendPixelBuffer:withPresentationTime: by using this pool with the CVPixelBufferPoolCreatePixelBuffer() function.
 --

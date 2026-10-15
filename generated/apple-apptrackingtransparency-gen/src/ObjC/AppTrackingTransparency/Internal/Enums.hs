@@ -14,15 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | The status values for app tracking authorization.
---
--- After a device receives an authorization request to approve access to app-related data that can be used for tracking the user or the device, the returned value is either:
---
--- - ``AppTrackingTransparency/ATTrackingManager/AuthorizationStatus/authorized``, or - ``AppTrackingTransparency/ATTrackingManager/AuthorizationStatus/denied``.
---
--- Before a device receives an authorization request to approve access to app-related data that can be used for tracking the user or the device, the returned value is: ``AppTrackingTransparency/ATTrackingManager/AuthorizationStatus/notDetermined``.
---
--- If authorization to use app tracking data is restricted, the value is: ``AppTrackingTransparency/ATTrackingManager/AuthorizationStatus/restricted``.
 -- | @ATTrackingManagerAuthorizationStatus@
 newtype ATTrackingManagerAuthorizationStatus = ATTrackingManagerAuthorizationStatus CULong
   deriving stock (Eq, Ord, Show)

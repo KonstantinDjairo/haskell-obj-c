@@ -260,7 +260,6 @@ module ObjC.MetalPerformanceShaders.MPSImage
   , pattern MTLPixelFormatDepth32Float_Stencil8
   , pattern MTLPixelFormatX32_Stencil8
   , pattern MTLPixelFormatX24_Stencil8
-  , pattern MTLPixelFormatUnspecialized
   , MTLTextureType(MTLTextureType)
   , pattern MTLTextureType1D
   , pattern MTLTextureType1DArray
@@ -278,7 +277,6 @@ module ObjC.MetalPerformanceShaders.MPSImage
   , pattern MTLTextureUsageShaderWrite
   , pattern MTLTextureUsageRenderTarget
   , pattern MTLTextureUsagePixelFormatView
-  , pattern MTLTextureUsageShaderAtomic
 
   ) where
 

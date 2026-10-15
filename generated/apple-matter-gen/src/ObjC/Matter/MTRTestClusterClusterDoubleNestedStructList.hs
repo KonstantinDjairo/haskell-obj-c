@@ -7,9 +7,13 @@
 module ObjC.Matter.MTRTestClusterClusterDoubleNestedStructList
   ( MTRTestClusterClusterDoubleNestedStructList
   , IsMTRTestClusterClusterDoubleNestedStructList(..)
+  , init_
+  , copyWithZone
   , a
   , setA
   , aSelector
+  , copyWithZoneSelector
+  , initSelector
   , setASelector
 
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRTestClusterClusterDoubleNestedStructList mtrTestClusterClusterDoubleNestedStructList => mtrTestClusterClusterDoubleNestedStructList -> IO (Id MTRTestClusterClusterDoubleNestedStructList)
+init_ mtrTestClusterClusterDoubleNestedStructList =
+  sendOwnedMessage mtrTestClusterClusterDoubleNestedStructList initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterDoubleNestedStructList mtrTestClusterClusterDoubleNestedStructList => mtrTestClusterClusterDoubleNestedStructList -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterDoubleNestedStructList zone =
+  sendOwnedMessage mtrTestClusterClusterDoubleNestedStructList copyWithZoneSelector zone
+
 -- | @- a@
 a :: IsMTRTestClusterClusterDoubleNestedStructList mtrTestClusterClusterDoubleNestedStructList => mtrTestClusterClusterDoubleNestedStructList -> IO (Id NSArray)
 a mtrTestClusterClusterDoubleNestedStructList =
@@ -39,6 +53,14 @@ setA mtrTestClusterClusterDoubleNestedStructList value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterDoubleNestedStructList)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @a@
 aSelector :: Selector '[] (Id NSArray)

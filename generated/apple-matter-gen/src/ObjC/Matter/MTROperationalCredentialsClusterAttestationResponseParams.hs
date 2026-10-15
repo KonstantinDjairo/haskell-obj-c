@@ -7,20 +7,18 @@
 module ObjC.Matter.MTROperationalCredentialsClusterAttestationResponseParams
   ( MTROperationalCredentialsClusterAttestationResponseParams
   , IsMTROperationalCredentialsClusterAttestationResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , attestationElements
   , setAttestationElements
-  , attestationSignature
-  , setAttestationSignature
-  , timedInvokeTimeoutMs
-  , setTimedInvokeTimeoutMs
   , signature
   , setSignature
+  , timedInvokeTimeoutMs
+  , setTimedInvokeTimeoutMs
   , attestationElementsSelector
-  , attestationSignatureSelector
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , setAttestationElementsSelector
-  , setAttestationSignatureSelector
   , setSignatureSelector
   , setTimedInvokeTimeoutMsSelector
   , signatureSelector
@@ -40,16 +38,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTROperationalCredentialsClusterAttestationResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrOperationalCredentialsClusterAttestationResponseParams -> responseValue -> error_ -> IO (Id MTROperationalCredentialsClusterAttestationResponseParams)
-initWithResponseValue_error mtrOperationalCredentialsClusterAttestationResponseParams responseValue error_ =
-  sendOwnedMessage mtrOperationalCredentialsClusterAttestationResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams => mtrOperationalCredentialsClusterAttestationResponseParams -> IO (Id MTROperationalCredentialsClusterAttestationResponseParams)
+init_ mtrOperationalCredentialsClusterAttestationResponseParams =
+  sendOwnedMessage mtrOperationalCredentialsClusterAttestationResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams => mtrOperationalCredentialsClusterAttestationResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrOperationalCredentialsClusterAttestationResponseParams zone =
+  sendOwnedMessage mtrOperationalCredentialsClusterAttestationResponseParams copyWithZoneSelector zone
 
 -- | @- attestationElements@
 attestationElements :: IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams => mtrOperationalCredentialsClusterAttestationResponseParams -> IO (Id NSData)
@@ -61,15 +58,15 @@ setAttestationElements :: (IsMTROperationalCredentialsClusterAttestationResponse
 setAttestationElements mtrOperationalCredentialsClusterAttestationResponseParams value =
   sendMessage mtrOperationalCredentialsClusterAttestationResponseParams setAttestationElementsSelector (toNSData value)
 
--- | @- attestationSignature@
-attestationSignature :: IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams => mtrOperationalCredentialsClusterAttestationResponseParams -> IO (Id NSData)
-attestationSignature mtrOperationalCredentialsClusterAttestationResponseParams =
-  sendMessage mtrOperationalCredentialsClusterAttestationResponseParams attestationSignatureSelector
+-- | @- signature@
+signature :: IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams => mtrOperationalCredentialsClusterAttestationResponseParams -> IO (Id NSData)
+signature mtrOperationalCredentialsClusterAttestationResponseParams =
+  sendMessage mtrOperationalCredentialsClusterAttestationResponseParams signatureSelector
 
--- | @- setAttestationSignature:@
-setAttestationSignature :: (IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams, IsNSData value) => mtrOperationalCredentialsClusterAttestationResponseParams -> value -> IO ()
-setAttestationSignature mtrOperationalCredentialsClusterAttestationResponseParams value =
-  sendMessage mtrOperationalCredentialsClusterAttestationResponseParams setAttestationSignatureSelector (toNSData value)
+-- | @- setSignature:@
+setSignature :: (IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams, IsNSData value) => mtrOperationalCredentialsClusterAttestationResponseParams -> value -> IO ()
+setSignature mtrOperationalCredentialsClusterAttestationResponseParams value =
+  sendMessage mtrOperationalCredentialsClusterAttestationResponseParams setSignatureSelector (toNSData value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -93,23 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTROperationalCredentialsClusterAttestationRespons
 setTimedInvokeTimeoutMs mtrOperationalCredentialsClusterAttestationResponseParams value =
   sendMessage mtrOperationalCredentialsClusterAttestationResponseParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | @- signature@
-signature :: IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams => mtrOperationalCredentialsClusterAttestationResponseParams -> IO (Id NSData)
-signature mtrOperationalCredentialsClusterAttestationResponseParams =
-  sendMessage mtrOperationalCredentialsClusterAttestationResponseParams signatureSelector
-
--- | @- setSignature:@
-setSignature :: (IsMTROperationalCredentialsClusterAttestationResponseParams mtrOperationalCredentialsClusterAttestationResponseParams, IsNSData value) => mtrOperationalCredentialsClusterAttestationResponseParams -> value -> IO ()
-setSignature mtrOperationalCredentialsClusterAttestationResponseParams value =
-  sendMessage mtrOperationalCredentialsClusterAttestationResponseParams setSignatureSelector (toNSData value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTROperationalCredentialsClusterAttestationResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROperationalCredentialsClusterAttestationResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @attestationElements@
 attestationElementsSelector :: Selector '[] (Id NSData)
@@ -119,13 +110,13 @@ attestationElementsSelector = mkSelector "attestationElements"
 setAttestationElementsSelector :: Selector '[Id NSData] ()
 setAttestationElementsSelector = mkSelector "setAttestationElements:"
 
--- | @Selector@ for @attestationSignature@
-attestationSignatureSelector :: Selector '[] (Id NSData)
-attestationSignatureSelector = mkSelector "attestationSignature"
+-- | @Selector@ for @signature@
+signatureSelector :: Selector '[] (Id NSData)
+signatureSelector = mkSelector "signature"
 
--- | @Selector@ for @setAttestationSignature:@
-setAttestationSignatureSelector :: Selector '[Id NSData] ()
-setAttestationSignatureSelector = mkSelector "setAttestationSignature:"
+-- | @Selector@ for @setSignature:@
+setSignatureSelector :: Selector '[Id NSData] ()
+setSignatureSelector = mkSelector "setSignature:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
@@ -134,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @signature@
-signatureSelector :: Selector '[] (Id NSData)
-signatureSelector = mkSelector "signature"
-
--- | @Selector@ for @setSignature:@
-setSignatureSelector :: Selector '[Id NSData] ()
-setSignatureSelector = mkSelector "setSignature:"
 

@@ -16,7 +16,6 @@ module ObjC.AudioVideoBridging.AVB17221AECPAEMMessage
   , IsAVB17221AECPAEMMessage(..)
   , commandMessage
   , responseMessage
-  , responseMessageFromCommandMessage
   , commandType
   , setCommandType
   , unsolicited
@@ -29,7 +28,6 @@ module ObjC.AudioVideoBridging.AVB17221AECPAEMMessage
   , commandSpecificDataSelector
   , commandTypeSelector
   , controllerRequestSelector
-  , responseMessageFromCommandMessageSelector
   , responseMessageSelector
   , setCommandSpecificDataSelector
   , setCommandTypeSelector
@@ -94,16 +92,16 @@ module ObjC.AudioVideoBridging.AVB17221AECPAEMMessage
   , pattern AVB17221AEMCommandTypeStartOperation
   , pattern AVB17221AEMCommandTypeAbortOperation
   , pattern AVB17221AEMCommandTypeOperationStatus
-  , pattern AVB17221AEMCommandTypeAuthenticationAddKey
-  , pattern AVB17221AEMCommandTypeAuthenticationDeleteKey
-  , pattern AVB17221AEMCommandTypeAuthenticationGetKeyList
-  , pattern AVB17221AEMCommandTypeAuthenticationGetKey
-  , pattern AVB17221AEMCommandTypeAuthenticationAddKeyToChain
-  , pattern AVB17221AEMCommandTypeAuthenticationDeleteKeyFromChain
-  , pattern AVB17221AEMCommandTypeAuthenticationGetKeychainList
-  , pattern AVB17221AEMCommandTypeAuthenticationGetIdentity
-  , pattern AVB17221AEMCommandTypeAuthenticationAddToken
-  , pattern AVB17221AEMCommandTypeAuthenticationDeleteToken
+  , pattern AVB17221AEMCommandTypeAuthenticateAddKey
+  , pattern AVB17221AEMCommandTypeAuthenticateDeleteKey
+  , pattern AVB17221AEMCommandTypeAuthenticateGetKeyList
+  , pattern AVB17221AEMCommandTypeAuthenticateGetKey
+  , pattern AVB17221AEMCommandTypeAuthenticateAddKeyToChain
+  , pattern AVB17221AEMCommandTypeAuthenticateDeleteKeyFromChain
+  , pattern AVB17221AEMCommandTypeAuthenticateGetKeychainList
+  , pattern AVB17221AEMCommandTypeAuthenticateGetIdentity
+  , pattern AVB17221AEMCommandTypeAuthenticateAddToken
+  , pattern AVB17221AEMCommandTypeAuthenticateDeleteToken
   , pattern AVB17221AEMCommandTypeAuthenticate
   , pattern AVB17221AEMCommandTypeDeauthenticate
   , pattern AVB17221AEMCommandTypeEnableTransportSecurity
@@ -141,8 +139,6 @@ module ObjC.AudioVideoBridging.AVB17221AECPAEMMessage
   , pattern AVB17221AEMCommandTypeGetPTPPortPerformanceMonitoringCount
   , pattern AVB17221AEMCommandTypeGetPTPPortPerformanceMonitoringRecord
   , pattern AVB17221AEMCommandTypeGetPathLatency
-  , pattern AVB17221AEMCommandTypeAuthenticationGetNonce
-  , pattern AVB17221AEMCommandTypeAuthenticationAddKeyNonce
 
   ) where
 
@@ -183,19 +179,6 @@ responseMessage  =
   do
     cls' <- getRequiredClass "AVB17221AECPAEMMessage"
     sendClassMessage cls' responseMessageSelector
-
--- | responseMessageFromCommandMessage
---
--- This method returns an AVB17221AECPAEMMessage instance setup as an AEM response with the appropriate info copied from the supplied command message.
---
--- Returns: An AVB17221AECPAEMMessage instance setup as an AEM response with all info copied from the command message..
---
--- ObjC selector: @+ responseMessageFromCommandMessage:@
-responseMessageFromCommandMessage :: IsAVB17221AECPAEMMessage commandMessage => commandMessage -> IO (Id AVB17221AECPAEMMessage)
-responseMessageFromCommandMessage commandMessage =
-  do
-    cls' <- getRequiredClass "AVB17221AECPAEMMessage"
-    sendClassMessage cls' responseMessageFromCommandMessageSelector (toAVB17221AECPAEMMessage commandMessage)
 
 -- | commandType
 --
@@ -280,10 +263,6 @@ commandMessageSelector = mkSelector "commandMessage"
 -- | @Selector@ for @responseMessage@
 responseMessageSelector :: Selector '[] (Id AVB17221AECPAEMMessage)
 responseMessageSelector = mkSelector "responseMessage"
-
--- | @Selector@ for @responseMessageFromCommandMessage:@
-responseMessageFromCommandMessageSelector :: Selector '[Id AVB17221AECPAEMMessage] (Id AVB17221AECPAEMMessage)
-responseMessageFromCommandMessageSelector = mkSelector "responseMessageFromCommandMessage:"
 
 -- | @Selector@ for @commandType@
 commandTypeSelector :: Selector '[] AVB17221AEMCommandType

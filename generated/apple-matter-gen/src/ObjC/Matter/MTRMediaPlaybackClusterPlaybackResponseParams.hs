@@ -7,15 +7,17 @@
 module ObjC.Matter.MTRMediaPlaybackClusterPlaybackResponseParams
   ( MTRMediaPlaybackClusterPlaybackResponseParams
   , IsMTRMediaPlaybackClusterPlaybackResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , status
   , setStatus
   , data_
   , setData
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , dataSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , setDataSelector
   , setStatusSelector
   , setTimedInvokeTimeoutMsSelector
@@ -36,16 +38,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRMediaPlaybackClusterPlaybackResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRMediaPlaybackClusterPlaybackResponseParams mtrMediaPlaybackClusterPlaybackResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrMediaPlaybackClusterPlaybackResponseParams -> responseValue -> error_ -> IO (Id MTRMediaPlaybackClusterPlaybackResponseParams)
-initWithResponseValue_error mtrMediaPlaybackClusterPlaybackResponseParams responseValue error_ =
-  sendOwnedMessage mtrMediaPlaybackClusterPlaybackResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRMediaPlaybackClusterPlaybackResponseParams mtrMediaPlaybackClusterPlaybackResponseParams => mtrMediaPlaybackClusterPlaybackResponseParams -> IO (Id MTRMediaPlaybackClusterPlaybackResponseParams)
+init_ mtrMediaPlaybackClusterPlaybackResponseParams =
+  sendOwnedMessage mtrMediaPlaybackClusterPlaybackResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRMediaPlaybackClusterPlaybackResponseParams mtrMediaPlaybackClusterPlaybackResponseParams => mtrMediaPlaybackClusterPlaybackResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrMediaPlaybackClusterPlaybackResponseParams zone =
+  sendOwnedMessage mtrMediaPlaybackClusterPlaybackResponseParams copyWithZoneSelector zone
 
 -- | @- status@
 status :: IsMTRMediaPlaybackClusterPlaybackResponseParams mtrMediaPlaybackClusterPlaybackResponseParams => mtrMediaPlaybackClusterPlaybackResponseParams -> IO (Id NSNumber)
@@ -93,9 +94,13 @@ setTimedInvokeTimeoutMs mtrMediaPlaybackClusterPlaybackResponseParams value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRMediaPlaybackClusterPlaybackResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRMediaPlaybackClusterPlaybackResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] (Id NSNumber)

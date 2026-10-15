@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterSetCredentialResponseParams
   ( MTRDoorLockClusterSetCredentialResponseParams
   , IsMTRDoorLockClusterSetCredentialResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , status
   , setStatus
   , userIndex
@@ -16,7 +17,8 @@ module ObjC.Matter.MTRDoorLockClusterSetCredentialResponseParams
   , setNextCredentialIndex
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , nextCredentialIndexSelector
   , setNextCredentialIndexSelector
   , setStatusSelector
@@ -40,16 +42,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRDoorLockClusterSetCredentialResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRDoorLockClusterSetCredentialResponseParams mtrDoorLockClusterSetCredentialResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrDoorLockClusterSetCredentialResponseParams -> responseValue -> error_ -> IO (Id MTRDoorLockClusterSetCredentialResponseParams)
-initWithResponseValue_error mtrDoorLockClusterSetCredentialResponseParams responseValue error_ =
-  sendOwnedMessage mtrDoorLockClusterSetCredentialResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRDoorLockClusterSetCredentialResponseParams mtrDoorLockClusterSetCredentialResponseParams => mtrDoorLockClusterSetCredentialResponseParams -> IO (Id MTRDoorLockClusterSetCredentialResponseParams)
+init_ mtrDoorLockClusterSetCredentialResponseParams =
+  sendOwnedMessage mtrDoorLockClusterSetCredentialResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterSetCredentialResponseParams mtrDoorLockClusterSetCredentialResponseParams => mtrDoorLockClusterSetCredentialResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterSetCredentialResponseParams zone =
+  sendOwnedMessage mtrDoorLockClusterSetCredentialResponseParams copyWithZoneSelector zone
 
 -- | @- status@
 status :: IsMTRDoorLockClusterSetCredentialResponseParams mtrDoorLockClusterSetCredentialResponseParams => mtrDoorLockClusterSetCredentialResponseParams -> IO (Id NSNumber)
@@ -107,9 +108,13 @@ setTimedInvokeTimeoutMs mtrDoorLockClusterSetCredentialResponseParams value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRDoorLockClusterSetCredentialResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterSetCredentialResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] (Id NSNumber)

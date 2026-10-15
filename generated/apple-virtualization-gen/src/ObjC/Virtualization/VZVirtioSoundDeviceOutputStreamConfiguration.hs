@@ -32,7 +32,7 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Virtualization.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize the output stream configuration.
+-- | Initialize the input stream configuration.
 --
 -- ObjC selector: @- init@
 init_ :: IsVZVirtioSoundDeviceOutputStreamConfiguration vzVirtioSoundDeviceOutputStreamConfiguration => vzVirtioSoundDeviceOutputStreamConfiguration -> IO (Id VZVirtioSoundDeviceOutputStreamConfiguration)

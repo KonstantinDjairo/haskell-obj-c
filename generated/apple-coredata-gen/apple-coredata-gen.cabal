@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -28,10 +28,8 @@ library
       ObjC.CoreData.NSBatchInsertResult
       ObjC.CoreData.NSBatchUpdateRequest
       ObjC.CoreData.NSBatchUpdateResult
-      ObjC.CoreData.NSCompositeAttributeDescription
       ObjC.CoreData.NSConstraintConflict
       ObjC.CoreData.NSCoreDataCoreSpotlightDelegate
-      ObjC.CoreData.NSCustomMigrationStage
       ObjC.CoreData.NSDerivedAttributeDescription
       ObjC.CoreData.NSEntityDescription
       ObjC.CoreData.NSEntityMapping
@@ -45,17 +43,14 @@ library
       ObjC.CoreData.NSFetchedResultsController
       ObjC.CoreData.NSIncrementalStore
       ObjC.CoreData.NSIncrementalStoreNode
-      ObjC.CoreData.NSLightweightMigrationStage
       ObjC.CoreData.NSManagedObject
       ObjC.CoreData.NSManagedObjectContext
       ObjC.CoreData.NSManagedObjectID
       ObjC.CoreData.NSManagedObjectModel
-      ObjC.CoreData.NSManagedObjectModelReference
       ObjC.CoreData.NSMappingModel
       ObjC.CoreData.NSMergeConflict
       ObjC.CoreData.NSMergePolicy
       ObjC.CoreData.NSMigrationManager
-      ObjC.CoreData.NSMigrationStage
       ObjC.CoreData.NSPersistentCloudKitContainer
       ObjC.CoreData.NSPersistentCloudKitContainerEvent
       ObjC.CoreData.NSPersistentCloudKitContainerEventRequest
@@ -78,14 +73,13 @@ library
       ObjC.CoreData.NSQueryGenerationToken
       ObjC.CoreData.NSRelationshipDescription
       ObjC.CoreData.NSSaveChangesRequest
-      ObjC.CoreData.NSStagedMigrationManager
   other-modules:
       Paths_apple_coredata_gen
   autogen-modules:
       Paths_apple_coredata_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-cloudkit-gen
     , apple-corespotlight-gen

@@ -18,8 +18,6 @@ module ObjC.AVFoundation.AVAssetImageGenerator
   , setAppliesPreferredTrackTransform
   , apertureMode
   , setApertureMode
-  , dynamicRangePolicy
-  , setDynamicRangePolicy
   , videoComposition
   , setVideoComposition
   , customVideoCompositor
@@ -29,14 +27,12 @@ module ObjC.AVFoundation.AVAssetImageGenerator
   , assetSelector
   , cancelAllCGImageGenerationSelector
   , customVideoCompositorSelector
-  , dynamicRangePolicySelector
   , generateCGImagesAsynchronouslyForTimes_completionHandlerSelector
   , initSelector
   , initWithAssetSelector
   , newSelector
   , setApertureModeSelector
   , setAppliesPreferredTrackTransformSelector
-  , setDynamicRangePolicySelector
   , setVideoCompositionSelector
   , videoCompositionSelector
 
@@ -161,33 +157,11 @@ setApertureMode :: (IsAVAssetImageGenerator avAssetImageGenerator, IsNSString va
 setApertureMode avAssetImageGenerator value =
   sendMessage avAssetImageGenerator setApertureModeSelector (toNSString value)
 
--- | dynamicRangePolicy
---
--- Configures the video dynamic range for the output CGImage
---
--- Default is AVAssetImageGeneratorDynamicRangePolicyForceSDR
---
--- ObjC selector: @- dynamicRangePolicy@
-dynamicRangePolicy :: IsAVAssetImageGenerator avAssetImageGenerator => avAssetImageGenerator -> IO (Id NSString)
-dynamicRangePolicy avAssetImageGenerator =
-  sendMessage avAssetImageGenerator dynamicRangePolicySelector
-
--- | dynamicRangePolicy
---
--- Configures the video dynamic range for the output CGImage
---
--- Default is AVAssetImageGeneratorDynamicRangePolicyForceSDR
---
--- ObjC selector: @- setDynamicRangePolicy:@
-setDynamicRangePolicy :: (IsAVAssetImageGenerator avAssetImageGenerator, IsNSString value) => avAssetImageGenerator -> value -> IO ()
-setDynamicRangePolicy avAssetImageGenerator value =
-  sendMessage avAssetImageGenerator setDynamicRangePolicySelector (toNSString value)
-
 -- | videoComposition
 --
 -- Specifies the video composition to use when extracting images from assets with multiple video tracks.
 --
--- If no videoComposition is specified, only the first enabled video track will be used.				If a videoComposition is specified, the value of appliesPreferredTrackTransform is ignored.				This property throws an exception if a video composition is set with any of the following property values:					- "renderScale" is not equal to one					- "renderSize" width or height is less than zero					- "frameDuration" is invalid or less than or equal to zero					- "sourceTrackIDForFrameTiming" is less than zero					- "outputBufferDescription" is non-nil
+-- If no videoComposition is specified, only the first enabled video track will be used.				If a videoComposition is specified, the value of appliesPreferredTrackTransform is ignored.				This property throws an exception if a video composition is set with any of the following property values:					- "renderScale" is not equal to one					- "renderSize" width or height is less than zero					- "frameDuration" is invalid or less than or equal to zero					- "sourceTrackIDForFrameTiming" is less than zero
 --
 -- ObjC selector: @- videoComposition@
 videoComposition :: IsAVAssetImageGenerator avAssetImageGenerator => avAssetImageGenerator -> IO (Id AVVideoComposition)
@@ -198,7 +172,7 @@ videoComposition avAssetImageGenerator =
 --
 -- Specifies the video composition to use when extracting images from assets with multiple video tracks.
 --
--- If no videoComposition is specified, only the first enabled video track will be used.				If a videoComposition is specified, the value of appliesPreferredTrackTransform is ignored.				This property throws an exception if a video composition is set with any of the following property values:					- "renderScale" is not equal to one					- "renderSize" width or height is less than zero					- "frameDuration" is invalid or less than or equal to zero					- "sourceTrackIDForFrameTiming" is less than zero					- "outputBufferDescription" is non-nil
+-- If no videoComposition is specified, only the first enabled video track will be used.				If a videoComposition is specified, the value of appliesPreferredTrackTransform is ignored.				This property throws an exception if a video composition is set with any of the following property values:					- "renderScale" is not equal to one					- "renderSize" width or height is less than zero					- "frameDuration" is invalid or less than or equal to zero					- "sourceTrackIDForFrameTiming" is less than zero
 --
 -- ObjC selector: @- setVideoComposition:@
 setVideoComposition :: (IsAVAssetImageGenerator avAssetImageGenerator, IsAVVideoComposition value) => avAssetImageGenerator -> value -> IO ()
@@ -257,14 +231,6 @@ apertureModeSelector = mkSelector "apertureMode"
 -- | @Selector@ for @setApertureMode:@
 setApertureModeSelector :: Selector '[Id NSString] ()
 setApertureModeSelector = mkSelector "setApertureMode:"
-
--- | @Selector@ for @dynamicRangePolicy@
-dynamicRangePolicySelector :: Selector '[] (Id NSString)
-dynamicRangePolicySelector = mkSelector "dynamicRangePolicy"
-
--- | @Selector@ for @setDynamicRangePolicy:@
-setDynamicRangePolicySelector :: Selector '[Id NSString] ()
-setDynamicRangePolicySelector = mkSelector "setDynamicRangePolicy:"
 
 -- | @Selector@ for @videoComposition@
 videoCompositionSelector :: Selector '[] (Id AVVideoComposition)

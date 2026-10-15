@@ -50,14 +50,14 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.CallKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Handle for the remote party (for an incoming call, the caller; for an outgoing call, the callee).
+-- | Handle for the remote party (for an incoming call, the caller; for an outgoing call, the callee)
 --
 -- ObjC selector: @- remoteHandle@
 remoteHandle :: IsCXCallUpdate cxCallUpdate => cxCallUpdate -> IO (Id CXHandle)
 remoteHandle cxCallUpdate =
   sendMessage cxCallUpdate remoteHandleSelector
 
--- | Handle for the remote party (for an incoming call, the caller; for an outgoing call, the callee).
+-- | Handle for the remote party (for an incoming call, the caller; for an outgoing call, the callee)
 --
 -- ObjC selector: @- setRemoteHandle:@
 setRemoteHandle :: (IsCXCallUpdate cxCallUpdate, IsCXHandle value) => cxCallUpdate -> value -> IO ()

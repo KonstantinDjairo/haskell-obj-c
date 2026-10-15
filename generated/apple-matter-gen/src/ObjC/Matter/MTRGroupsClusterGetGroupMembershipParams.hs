@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRGroupsClusterGetGroupMembershipParams
   ( MTRGroupsClusterGetGroupMembershipParams
   , IsMTRGroupsClusterGetGroupMembershipParams(..)
+  , init_
+  , copyWithZone
   , groupList
   , setGroupList
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , groupListSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setGroupListSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGroupsClusterGetGroupMembershipParams mtrGroupsClusterGetGroupMembershipParams => mtrGroupsClusterGetGroupMembershipParams -> IO (Id MTRGroupsClusterGetGroupMembershipParams)
+init_ mtrGroupsClusterGetGroupMembershipParams =
+  sendOwnedMessage mtrGroupsClusterGetGroupMembershipParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupsClusterGetGroupMembershipParams mtrGroupsClusterGetGroupMembershipParams => mtrGroupsClusterGetGroupMembershipParams -> Ptr () -> IO RawId
+copyWithZone mtrGroupsClusterGetGroupMembershipParams zone =
+  sendOwnedMessage mtrGroupsClusterGetGroupMembershipParams copyWithZoneSelector zone
 
 -- | @- groupList@
 groupList :: IsMTRGroupsClusterGetGroupMembershipParams mtrGroupsClusterGetGroupMembershipParams => mtrGroupsClusterGetGroupMembershipParams -> IO (Id NSArray)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRGroupsClusterGetGroupMembershipParams mtrGroups
 setTimedInvokeTimeoutMs mtrGroupsClusterGetGroupMembershipParams value =
   sendMessage mtrGroupsClusterGetGroupMembershipParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRGroupsClusterGetGroupMembershipParams mtrGroupsClusterGetGroupMembershipParams => mtrGroupsClusterGetGroupMembershipParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrGroupsClusterGetGroupMembershipParams =
-  sendMessage mtrGroupsClusterGetGroupMembershipParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRGroupsClusterGetGroupMembershipParams mtrGroupsClusterGetGroupMembershipParams, IsNSNumber value) => mtrGroupsClusterGetGroupMembershipParams -> value -> IO ()
-setServerSideProcessingTimeout mtrGroupsClusterGetGroupMembershipParams value =
-  sendMessage mtrGroupsClusterGetGroupMembershipParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupsClusterGetGroupMembershipParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @groupList@
 groupListSelector :: Selector '[] (Id NSArray)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

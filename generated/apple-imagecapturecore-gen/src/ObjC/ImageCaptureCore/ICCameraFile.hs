@@ -12,13 +12,10 @@
 module ObjC.ImageCaptureCore.ICCameraFile
   ( ICCameraFile
   , IsICCameraFile(..)
-  , fingerprintForFileAtURL
   , requestThumbnailDataWithOptions_completion
   , requestMetadataDictionaryWithOptions_completion
   , requestDownloadWithOptions_completion
   , requestReadDataAtOffset_length_completion
-  , requestSecurityScopedURLWithCompletion
-  , requestFingerprintWithCompletion
   , width
   , height
   , originalFilename
@@ -43,7 +40,6 @@ module ObjC.ImageCaptureCore.ICCameraFile
   , fileModificationDate
   , exifCreationDate
   , exifModificationDate
-  , fingerprint
   , burstFavoriteSelector
   , burstPickedSelector
   , burstUUIDSelector
@@ -54,8 +50,6 @@ module ObjC.ImageCaptureCore.ICCameraFile
   , fileCreationDateSelector
   , fileModificationDateSelector
   , fileSizeSelector
-  , fingerprintForFileAtURLSelector
-  , fingerprintSelector
   , firstPickedSelector
   , gpsStringSelector
   , groupUUIDSelector
@@ -67,10 +61,8 @@ module ObjC.ImageCaptureCore.ICCameraFile
   , pairedRawImageSelector
   , relatedUUIDSelector
   , requestDownloadWithOptions_completionSelector
-  , requestFingerprintWithCompletionSelector
   , requestMetadataDictionaryWithOptions_completionSelector
   , requestReadDataAtOffset_length_completionSelector
-  , requestSecurityScopedURLWithCompletionSelector
   , requestThumbnailDataWithOptions_completionSelector
   , setOrientationSelector
   , sidecarFilesSelector
@@ -101,17 +93,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.ImageCaptureCore.Internal.Classes
 import ObjC.ImageCaptureCore.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | fingerprintForFileAtURL
---
--- Generates a fingerprint given a URL date, or nil.
---
--- ObjC selector: @+ fingerprintForFileAtURL:@
-fingerprintForFileAtURL :: IsNSURL url => url -> IO (Id NSString)
-fingerprintForFileAtURL url =
-  do
-    cls' <- getRequiredClass "ICCameraFile"
-    sendClassMessage cls' fingerprintForFileAtURLSelector (toNSURL url)
 
 -- | requestThumbnailDataWithOptions:completion
 --
@@ -178,32 +159,6 @@ requestDownloadWithOptions_completion icCameraFile options completion =
 requestReadDataAtOffset_length_completion :: IsICCameraFile icCameraFile => icCameraFile -> CLong -> CLong -> Ptr () -> IO ()
 requestReadDataAtOffset_length_completion icCameraFile offset length_ completion =
   sendMessage icCameraFile requestReadDataAtOffset_length_completionSelector offset length_ completion
-
--- | requestSecurityScopedURLWithCompletion
---
--- ￼Requests a security scoped NSURL* for a media file on a mass storage volume. The returned NSURL* requires the use of startAccessingSecurityScopedResource, and stopAccessingSecurityScopedResource for access.
---
--- @completion@ — Completion block called with an NSURL*, and an NSError* for status.
---
--- Note: The completion block will execute on an any available queue, often this will not be the main queue.
---
--- ObjC selector: @- requestSecurityScopedURLWithCompletion:@
-requestSecurityScopedURLWithCompletion :: IsICCameraFile icCameraFile => icCameraFile -> Ptr () -> IO ()
-requestSecurityScopedURLWithCompletion icCameraFile completion =
-  sendMessage icCameraFile requestSecurityScopedURLWithCompletionSelector completion
-
--- | requestFingerprintWithCompletion
---
--- ￼Requests a fingerprint be generated for camera file.
---
--- @completion@ — Completion block called with an NSString*, and an NSError* for status.
---
--- Note: The completion block will execute on an any available queue, often this will not be the main queue.
---
--- ObjC selector: @- requestFingerprintWithCompletion:@
-requestFingerprintWithCompletion :: IsICCameraFile icCameraFile => icCameraFile -> Ptr () -> IO ()
-requestFingerprintWithCompletion icCameraFile completion =
-  sendMessage icCameraFile requestFingerprintWithCompletionSelector completion
 
 -- | width
 --
@@ -425,22 +380,9 @@ exifModificationDate :: IsICCameraFile icCameraFile => icCameraFile -> IO (Id NS
 exifModificationDate icCameraFile =
   sendMessage icCameraFile exifModificationDateSelector
 
--- | fingerprint
---
--- A fingerprint generated from the camera file data date, or nil.
---
--- ObjC selector: @- fingerprint@
-fingerprint :: IsICCameraFile icCameraFile => icCameraFile -> IO (Id NSString)
-fingerprint icCameraFile =
-  sendMessage icCameraFile fingerprintSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @fingerprintForFileAtURL:@
-fingerprintForFileAtURLSelector :: Selector '[Id NSURL] (Id NSString)
-fingerprintForFileAtURLSelector = mkSelector "fingerprintForFileAtURL:"
 
 -- | @Selector@ for @requestThumbnailDataWithOptions:completion:@
 requestThumbnailDataWithOptions_completionSelector :: Selector '[Id NSDictionary, Ptr ()] ()
@@ -457,14 +399,6 @@ requestDownloadWithOptions_completionSelector = mkSelector "requestDownloadWithO
 -- | @Selector@ for @requestReadDataAtOffset:length:completion:@
 requestReadDataAtOffset_length_completionSelector :: Selector '[CLong, CLong, Ptr ()] ()
 requestReadDataAtOffset_length_completionSelector = mkSelector "requestReadDataAtOffset:length:completion:"
-
--- | @Selector@ for @requestSecurityScopedURLWithCompletion:@
-requestSecurityScopedURLWithCompletionSelector :: Selector '[Ptr ()] ()
-requestSecurityScopedURLWithCompletionSelector = mkSelector "requestSecurityScopedURLWithCompletion:"
-
--- | @Selector@ for @requestFingerprintWithCompletion:@
-requestFingerprintWithCompletionSelector :: Selector '[Ptr ()] ()
-requestFingerprintWithCompletionSelector = mkSelector "requestFingerprintWithCompletion:"
 
 -- | @Selector@ for @width@
 widthSelector :: Selector '[] CLong
@@ -561,8 +495,4 @@ exifCreationDateSelector = mkSelector "exifCreationDate"
 -- | @Selector@ for @exifModificationDate@
 exifModificationDateSelector :: Selector '[] (Id NSDate)
 exifModificationDateSelector = mkSelector "exifModificationDate"
-
--- | @Selector@ for @fingerprint@
-fingerprintSelector :: Selector '[] (Id NSString)
-fingerprintSelector = mkSelector "fingerprint"
 

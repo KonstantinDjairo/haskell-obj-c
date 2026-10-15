@@ -48,12 +48,12 @@ profileNumber inSaveProfileInCarIntent =
   sendMessage inSaveProfileInCarIntent profileNumberSelector
 
 -- | @- profileName@
-profileName :: IsINSaveProfileInCarIntent inSaveProfileInCarIntent => inSaveProfileInCarIntent -> IO (Id NSString)
+profileName :: IsINSaveProfileInCarIntent inSaveProfileInCarIntent => inSaveProfileInCarIntent -> IO RawId
 profileName inSaveProfileInCarIntent =
   sendMessage inSaveProfileInCarIntent profileNameSelector
 
 -- | @- profileLabel@
-profileLabel :: IsINSaveProfileInCarIntent inSaveProfileInCarIntent => inSaveProfileInCarIntent -> IO (Id NSString)
+profileLabel :: IsINSaveProfileInCarIntent inSaveProfileInCarIntent => inSaveProfileInCarIntent -> IO RawId
 profileLabel inSaveProfileInCarIntent =
   sendMessage inSaveProfileInCarIntent profileLabelSelector
 
@@ -74,10 +74,10 @@ profileNumberSelector :: Selector '[] (Id NSNumber)
 profileNumberSelector = mkSelector "profileNumber"
 
 -- | @Selector@ for @profileName@
-profileNameSelector :: Selector '[] (Id NSString)
+profileNameSelector :: Selector '[] RawId
 profileNameSelector = mkSelector "profileName"
 
 -- | @Selector@ for @profileLabel@
-profileLabelSelector :: Selector '[] (Id NSString)
+profileLabelSelector :: Selector '[] RawId
 profileLabelSelector = mkSelector "profileLabel"
 

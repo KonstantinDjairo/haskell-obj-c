@@ -20,13 +20,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- FIFinderSync ----------
 
--- | A type to subclass to add badges, custom shortcut menus, and toolbar buttons to the Finder.
---
--- Subclass the FIFinderSync class when you want to customize the appearance of the Finder. Although the FIFinderSync class doesn’t provide any developer accessible API, it does adopt the ``FIFinderSyncProtocol`` protocol. This protocol declares methods you can implement to modify the appearance of the Finder. For more information on these methods, see ``FIFinderSyncProtocol``. To learn more about creating a Finder Sync extension, see [Finder Sync](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Finder.html#//apple_ref/doc/uid/TP40014214-CH15) in [App Extension Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/index.html#//apple_ref/doc/uid/TP40014214).
---
--- ## See Also   - ``FinderSync/FIFinderSyncProtocol``
--- 
--- Phantom type for @FIFinderSync@.
+-- | Phantom type for @FIFinderSync@.
 data FIFinderSync
 
 instance IsObjCObject (Id FIFinderSync) where
@@ -45,11 +39,7 @@ instance IsNSObject (Id FIFinderSync) where
 
 -- ---------- FIFinderSyncController ----------
 
--- | A controller that acts as a bridge between your Finder Sync extension and the Finder itself.
---
--- Use the Finder Sync controller to configure your extension, to set badges on items in the Finder’s window, and to get a list of selected and targeted items.
--- 
--- Phantom type for @FIFinderSyncController@.
+-- | Phantom type for @FIFinderSyncController@.
 data FIFinderSyncController
 
 instance IsObjCObject (Id FIFinderSyncController) where

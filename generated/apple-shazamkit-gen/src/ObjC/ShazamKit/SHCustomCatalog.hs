@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object for storing the reference signatures for custom audio recordings and their associated metadata.
+-- | Configure a custom catalog of @SHSignature@ objects to match against
 --
--- Create a custom catalog by adding reference signatures that you generate from audio that you provide. You also add the associated metadata for each signature. Save your custom catalog and share it with others. You can also load a saved catalog.
+-- Use a custom catalog if you intend to search against reference signatures that you have provided yourself. All matches will be performed locally on the device against the signatures added to this Catalog. @SHMediaItem@ can be built using custom data that will be returned when a match is made. Once this catalog has been built it can be written to disk and loaded again at a later date.
 --
 -- Generated bindings for @SHCustomCatalog@.
 module ObjC.ShazamKit.SHCustomCatalog
@@ -16,13 +16,9 @@ module ObjC.ShazamKit.SHCustomCatalog
   , writeToURL_error
   , new
   , init_
-  , initWithDataRepresentation_error
-  , dataRepresentation
   , addCustomCatalogFromURL_errorSelector
   , addReferenceSignature_representingMediaItems_errorSelector
-  , dataRepresentationSelector
   , initSelector
-  , initWithDataRepresentation_errorSelector
   , newSelector
   , writeToURL_errorSelector
 
@@ -40,74 +36,62 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.ShazamKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Adds a reference signature and its associated metadata to a catalog.
+-- | Add a reference @SHSignature@ and its associated @SHMediaItem@ for matching
 --
--- > Note: > This system ignores calls to @addReferenceSignature(_:representing:)@ after adding the catalog to an @SHSession@.
+-- @signature@ — The reference to match against
 --
--- - Parameters:   - signature: The reference signature for the audio recording.   - mediaItems: The metadata for the recording.
+-- @mediaItems@ — The metadata associated with the @SHSignature@
+--
+-- Once the @SHCatalog@ had been added to a @SHSession@ further calls to this method will be ignored
+--
+-- Returns: YES if the data was successfully added, NO on failure with a populated error parameter
 --
 -- ObjC selector: @- addReferenceSignature:representingMediaItems:error:@
 addReferenceSignature_representingMediaItems_error :: (IsSHCustomCatalog shCustomCatalog, IsSHSignature signature, IsNSArray mediaItems, IsNSError error_) => shCustomCatalog -> signature -> mediaItems -> error_ -> IO Bool
 addReferenceSignature_representingMediaItems_error shCustomCatalog signature mediaItems error_ =
   sendMessage shCustomCatalog addReferenceSignature_representingMediaItems_errorSelector (toSHSignature signature) (toNSArray mediaItems) (toNSError error_)
 
--- | Loads a saved custom catalog from a file.
+-- | Load a @shazamcatalog@ file from a file path URL
 --
--- - Parameters:  - customCatalogURL: The file URL for a custom catalog.  - error: An output value in Objective-C that indicates the type of error; otherwise, @nil@.
+-- @customCatalogURL@ — The path to the @shazamcatalog@ file.
+--
+-- @error@ — An error if the catalog could not be loaded
+--
+-- Returns: YES if the data was successfully added, NO on failure with a populated error parameter
 --
 -- ObjC selector: @- addCustomCatalogFromURL:error:@
 addCustomCatalogFromURL_error :: (IsSHCustomCatalog shCustomCatalog, IsNSURL customCatalogURL, IsNSError error_) => shCustomCatalog -> customCatalogURL -> error_ -> IO Bool
 addCustomCatalogFromURL_error shCustomCatalog customCatalogURL error_ =
   sendMessage shCustomCatalog addCustomCatalogFromURL_errorSelector (toNSURL customCatalogURL) (toNSError error_)
 
--- | Saves the custom catalog to a local file.
+-- | Write this Catalog to a URL
 --
--- If @destinationURL@ is a directory, the system creates a @Signatures.shazamcatalog@ file.
+-- A Catalog can safely be shared among devices
 --
--- - Parameters:   - destinationURL: A URL for the saved custom catalog file.   - error: An output value in Objective-C that indicates the type of error; otherwise, @nil@.
+-- Note: If the @destinationURL@ is a directory, a file named Signatures.shazamcatalog will be created
 --
--- - Returns: @YES@ if the catalog writes to the file; otherwise, @NO@.
+-- @destinationURL@ — The location to write to
+--
+-- @error@ — populated on error, otherwise nil
+--
+-- Returns: YES on success, NO on failure with a populated error parameter
 --
 -- ObjC selector: @- writeToURL:error:@
 writeToURL_error :: (IsSHCustomCatalog shCustomCatalog, IsNSURL destinationURL, IsNSError error_) => shCustomCatalog -> destinationURL -> error_ -> IO Bool
 writeToURL_error shCustomCatalog destinationURL error_ =
   sendMessage shCustomCatalog writeToURL_errorSelector (toNSURL destinationURL) (toNSError error_)
 
--- | Creates a new custom catalog object for storing reference audio signatures and their associated metadata.
---
--- - Returns: A new custom catalog for storing processed reference audio recordings and their associated metadata.
---
--- ObjC selector: @+ new@
+-- | @+ new@
 new :: IO (Id SHCustomCatalog)
 new  =
   do
     cls' <- getRequiredClass "SHCustomCatalog"
     sendOwnedClassMessage cls' newSelector
 
--- | Creates a new custom catalog object for storing reference audio signatures and their associated metadata.
---
--- ObjC selector: @- init@
+-- | @- init@
 init_ :: IsSHCustomCatalog shCustomCatalog => shCustomCatalog -> IO (Id SHCustomCatalog)
 init_ shCustomCatalog =
   sendOwnedMessage shCustomCatalog initSelector
-
--- | Load a @SHCustomCatalog@ from data
---
--- @dataRepresentation@ — The data representation of the @SHCustomCatalog@
---
--- @error@ — Error populated if not a valid data representation
---
--- ObjC selector: @- initWithDataRepresentation:error:@
-initWithDataRepresentation_error :: (IsSHCustomCatalog shCustomCatalog, IsNSData dataRepresentation, IsNSError error_) => shCustomCatalog -> dataRepresentation -> error_ -> IO (Id SHCustomCatalog)
-initWithDataRepresentation_error shCustomCatalog dataRepresentation error_ =
-  sendOwnedMessage shCustomCatalog initWithDataRepresentation_errorSelector (toNSData dataRepresentation) (toNSError error_)
-
--- | The data representation of this file, it can be written to disk
---
--- ObjC selector: @- dataRepresentation@
-dataRepresentation :: IsSHCustomCatalog shCustomCatalog => shCustomCatalog -> IO (Id NSData)
-dataRepresentation shCustomCatalog =
-  sendMessage shCustomCatalog dataRepresentationSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -132,12 +116,4 @@ newSelector = mkSelector "new"
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id SHCustomCatalog)
 initSelector = mkSelector "init"
-
--- | @Selector@ for @initWithDataRepresentation:error:@
-initWithDataRepresentation_errorSelector :: Selector '[Id NSData, Id NSError] (Id SHCustomCatalog)
-initWithDataRepresentation_errorSelector = mkSelector "initWithDataRepresentation:error:"
-
--- | @Selector@ for @dataRepresentation@
-dataRepresentationSelector :: Selector '[] (Id NSData)
-dataRepresentationSelector = mkSelector "dataRepresentation"
 

@@ -46,7 +46,7 @@ data_ gkTurnBasedExchangeReply =
   sendMessage gkTurnBasedExchangeReply dataSelector
 
 -- | @- replyDate@
-replyDate :: IsGKTurnBasedExchangeReply gkTurnBasedExchangeReply => gkTurnBasedExchangeReply -> IO (Id NSDate)
+replyDate :: IsGKTurnBasedExchangeReply gkTurnBasedExchangeReply => gkTurnBasedExchangeReply -> IO RawId
 replyDate gkTurnBasedExchangeReply =
   sendMessage gkTurnBasedExchangeReply replyDateSelector
 
@@ -67,6 +67,6 @@ dataSelector :: Selector '[] (Id NSData)
 dataSelector = mkSelector "data"
 
 -- | @Selector@ for @replyDate@
-replyDateSelector :: Selector '[] (Id NSDate)
+replyDateSelector :: Selector '[] RawId
 replyDateSelector = mkSelector "replyDate"
 

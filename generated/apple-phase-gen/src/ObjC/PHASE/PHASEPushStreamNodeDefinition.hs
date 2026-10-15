@@ -61,7 +61,7 @@ new  =
 --
 -- @mixerDefinition@ — The mixer definition this stream will be assigned to
 --
--- @format@ — The AVAudioFormat object that will define the attributes of the audio this node will accept.        Only Core Audio's standard deinterleaved 32-bit floating-point formats are supported.
+-- @format@ — The AVAudioFormat object that will define the attributes of the audio this node will accept.
 --
 -- @identifier@ — An optional custom identifier to give to this object
 --
@@ -78,7 +78,7 @@ initWithMixerDefinition_format_identifier phasePushStreamNodeDefinition mixerDef
 --
 -- @mixerDefinition@ — The mixer definition this stream will be assigned to
 --
--- @format@ — The AVAudioFormat object that will define the attributes of the audio this node will accept.        Only Core Audio's standard deinterleaved 32-bit floating-point formats are supported.
+-- @format@ — The AVAudioFormat object that will define the attributes of the audio this node will accept.
 --
 -- Returns: A new PHASEPushStreamNodeDefinition object
 --
@@ -100,7 +100,7 @@ format phasePushStreamNodeDefinition =
 --
 -- Determines whether or not the engine should normalize the stream. The default value is NO.
 --
--- In general, clients are advised to normalize the input. Normalization is required to properly calibrate the output level.        If you set this value to NO, it's advised that you do custom normalization of the audio data prior to passing the buffers to PHASE.
+-- In general, client's are advised to normalize the input. Normalization is required to properly calibrate the output level.        If you set this value to NO, it's advised that you do custom normalization of the audio data prior to passing the buffers to PHASE.
 --
 -- ObjC selector: @- normalize@
 normalize :: IsPHASEPushStreamNodeDefinition phasePushStreamNodeDefinition => phasePushStreamNodeDefinition -> IO Bool
@@ -111,7 +111,7 @@ normalize phasePushStreamNodeDefinition =
 --
 -- Determines whether or not the engine should normalize the stream. The default value is NO.
 --
--- In general, clients are advised to normalize the input. Normalization is required to properly calibrate the output level.        If you set this value to NO, it's advised that you do custom normalization of the audio data prior to passing the buffers to PHASE.
+-- In general, client's are advised to normalize the input. Normalization is required to properly calibrate the output level.        If you set this value to NO, it's advised that you do custom normalization of the audio data prior to passing the buffers to PHASE.
 --
 -- ObjC selector: @- setNormalize:@
 setNormalize :: IsPHASEPushStreamNodeDefinition phasePushStreamNodeDefinition => phasePushStreamNodeDefinition -> Bool -> IO ()

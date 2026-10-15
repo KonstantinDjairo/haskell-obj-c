@@ -19,7 +19,6 @@ module ObjC.CoreData.NSManagedObjectModel
   , mergedModelFromBundles_forStoreMetadata
   , modelByMergingModels_forStoreMetadata
   , isConfiguration_compatibleWithStoreMetadata
-  , checksumsForVersionedModelAtURL_error
   , entitiesByName
   , entities
   , setEntities
@@ -30,8 +29,6 @@ module ObjC.CoreData.NSManagedObjectModel
   , versionIdentifiers
   , setVersionIdentifiers
   , entityVersionHashesByName
-  , versionChecksum
-  , checksumsForVersionedModelAtURL_errorSelector
   , configurationsSelector
   , entitiesByNameSelector
   , entitiesForConfigurationSelector
@@ -53,7 +50,6 @@ module ObjC.CoreData.NSManagedObjectModel
   , setFetchRequestTemplate_forNameSelector
   , setLocalizationDictionarySelector
   , setVersionIdentifiersSelector
-  , versionChecksumSelector
   , versionIdentifiersSelector
 
 
@@ -138,13 +134,6 @@ isConfiguration_compatibleWithStoreMetadata :: (IsNSManagedObjectModel nsManaged
 isConfiguration_compatibleWithStoreMetadata nsManagedObjectModel configuration metadata =
   sendMessage nsManagedObjectModel isConfiguration_compatibleWithStoreMetadataSelector (toNSString configuration) (toNSDictionary metadata)
 
--- | @+ checksumsForVersionedModelAtURL:error:@
-checksumsForVersionedModelAtURL_error :: (IsNSURL modelURL, IsNSError error_) => modelURL -> error_ -> IO (Id NSDictionary)
-checksumsForVersionedModelAtURL_error modelURL error_ =
-  do
-    cls' <- getRequiredClass "NSManagedObjectModel"
-    sendClassMessage cls' checksumsForVersionedModelAtURL_errorSelector (toNSURL modelURL) (toNSError error_)
-
 -- | @- entitiesByName@
 entitiesByName :: IsNSManagedObjectModel nsManagedObjectModel => nsManagedObjectModel -> IO (Id NSDictionary)
 entitiesByName nsManagedObjectModel =
@@ -194,11 +183,6 @@ setVersionIdentifiers nsManagedObjectModel value =
 entityVersionHashesByName :: IsNSManagedObjectModel nsManagedObjectModel => nsManagedObjectModel -> IO (Id NSDictionary)
 entityVersionHashesByName nsManagedObjectModel =
   sendMessage nsManagedObjectModel entityVersionHashesByNameSelector
-
--- | @- versionChecksum@
-versionChecksum :: IsNSManagedObjectModel nsManagedObjectModel => nsManagedObjectModel -> IO (Id NSString)
-versionChecksum nsManagedObjectModel =
-  sendMessage nsManagedObjectModel versionChecksumSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -252,10 +236,6 @@ modelByMergingModels_forStoreMetadataSelector = mkSelector "modelByMergingModels
 isConfiguration_compatibleWithStoreMetadataSelector :: Selector '[Id NSString, Id NSDictionary] Bool
 isConfiguration_compatibleWithStoreMetadataSelector = mkSelector "isConfiguration:compatibleWithStoreMetadata:"
 
--- | @Selector@ for @checksumsForVersionedModelAtURL:error:@
-checksumsForVersionedModelAtURL_errorSelector :: Selector '[Id NSURL, Id NSError] (Id NSDictionary)
-checksumsForVersionedModelAtURL_errorSelector = mkSelector "checksumsForVersionedModelAtURL:error:"
-
 -- | @Selector@ for @entitiesByName@
 entitiesByNameSelector :: Selector '[] (Id NSDictionary)
 entitiesByNameSelector = mkSelector "entitiesByName"
@@ -295,8 +275,4 @@ setVersionIdentifiersSelector = mkSelector "setVersionIdentifiers:"
 -- | @Selector@ for @entityVersionHashesByName@
 entityVersionHashesByNameSelector :: Selector '[] (Id NSDictionary)
 entityVersionHashesByNameSelector = mkSelector "entityVersionHashesByName"
-
--- | @Selector@ for @versionChecksum@
-versionChecksumSelector :: Selector '[] (Id NSString)
-versionChecksumSelector = mkSelector "versionChecksum"
 

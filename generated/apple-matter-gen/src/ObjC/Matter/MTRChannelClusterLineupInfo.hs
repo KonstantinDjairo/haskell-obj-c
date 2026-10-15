@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRChannelClusterLineupInfo
   ( MTRChannelClusterLineupInfo
   , IsMTRChannelClusterLineupInfo(..)
+  , init_
+  , copyWithZone
   , operatorName
   , setOperatorName
   , lineupName
@@ -15,6 +17,8 @@ module ObjC.Matter.MTRChannelClusterLineupInfo
   , setPostalCode
   , lineupInfoType
   , setLineupInfoType
+  , copyWithZoneSelector
+  , initSelector
   , lineupInfoTypeSelector
   , lineupNameSelector
   , operatorNameSelector
@@ -37,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRChannelClusterLineupInfo mtrChannelClusterLineupInfo => mtrChannelClusterLineupInfo -> IO (Id MTRChannelClusterLineupInfo)
+init_ mtrChannelClusterLineupInfo =
+  sendOwnedMessage mtrChannelClusterLineupInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRChannelClusterLineupInfo mtrChannelClusterLineupInfo => mtrChannelClusterLineupInfo -> Ptr () -> IO RawId
+copyWithZone mtrChannelClusterLineupInfo zone =
+  sendOwnedMessage mtrChannelClusterLineupInfo copyWithZoneSelector zone
 
 -- | @- operatorName@
 operatorName :: IsMTRChannelClusterLineupInfo mtrChannelClusterLineupInfo => mtrChannelClusterLineupInfo -> IO (Id NSString)
@@ -81,6 +95,14 @@ setLineupInfoType mtrChannelClusterLineupInfo value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRChannelClusterLineupInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @operatorName@
 operatorNameSelector :: Selector '[] (Id NSString)

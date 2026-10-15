@@ -224,14 +224,14 @@ setResizingMask nsTableColumn value =
   sendMessage nsTableColumn setResizingMaskSelector value
 
 -- | @- headerToolTip@
-headerToolTip :: IsNSTableColumn nsTableColumn => nsTableColumn -> IO (Id NSString)
+headerToolTip :: IsNSTableColumn nsTableColumn => nsTableColumn -> IO RawId
 headerToolTip nsTableColumn =
   sendMessage nsTableColumn headerToolTipSelector
 
 -- | @- setHeaderToolTip:@
-setHeaderToolTip :: (IsNSTableColumn nsTableColumn, IsNSString value) => nsTableColumn -> value -> IO ()
+setHeaderToolTip :: IsNSTableColumn nsTableColumn => nsTableColumn -> RawId -> IO ()
 setHeaderToolTip nsTableColumn value =
-  sendMessage nsTableColumn setHeaderToolTipSelector (toNSString value)
+  sendMessage nsTableColumn setHeaderToolTipSelector value
 
 -- | @- hidden@
 hidden :: IsNSTableColumn nsTableColumn => nsTableColumn -> IO Bool
@@ -362,11 +362,11 @@ setResizingMaskSelector :: Selector '[NSTableColumnResizingOptions] ()
 setResizingMaskSelector = mkSelector "setResizingMask:"
 
 -- | @Selector@ for @headerToolTip@
-headerToolTipSelector :: Selector '[] (Id NSString)
+headerToolTipSelector :: Selector '[] RawId
 headerToolTipSelector = mkSelector "headerToolTip"
 
 -- | @Selector@ for @setHeaderToolTip:@
-setHeaderToolTipSelector :: Selector '[Id NSString] ()
+setHeaderToolTipSelector :: Selector '[RawId] ()
 setHeaderToolTipSelector = mkSelector "setHeaderToolTip:"
 
 -- | @Selector@ for @hidden@

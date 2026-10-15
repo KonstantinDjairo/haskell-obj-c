@@ -44,9 +44,9 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Initializes an enumerated-type constraint.
 --
--- - Parameter enumeratedDurations: A discrete set of duration values (represented as CMTime values boxed in NSValue instances) permitted by this constraint.
+-- @enumeratedDurations@ — A discrete set of duration values (represented as CMTime values boxed in NSValue instances) permitted by this constraint.
 --
--- - Returns: An instance whose @type@ is @SNTimeDurationConstraintTypeEnumerated@, and which constrains duration values to the provided set of discrete values.
+-- Returns: An instance whose @type@ is @SNTimeDurationConstraintTypeEnumerated@, and which constrains duration values to the provided set of discrete values.
 --
 -- ObjC selector: @- initWithEnumeratedDurations:@
 initWithEnumeratedDurations :: (IsSNTimeDurationConstraint snTimeDurationConstraint, IsNSArray enumeratedDurations) => snTimeDurationConstraint -> enumeratedDurations -> IO (Id SNTimeDurationConstraint)
@@ -76,7 +76,7 @@ type_ snTimeDurationConstraint =
 
 -- | If the constraint type is enumerated, then the set of discrete allowable time durations.
 --
--- - Returns: If the constraint type is enumerated, an array of CMTime structures (boxed in NSValue instances) representing the set of allowable time durations. The durations will always be provided sorted in order of ascending time. If the constraint type is not enumerated, an empty array will be returned.
+-- Returns: If the constraint type is enumerated, an array of CMTime structures (boxed in NSValue instances) representing the set of allowable time durations. The durations will always be provided sorted in order of ascending time. If the constraint type is not enumerated, an empty array will be returned.
 --
 -- The @type@ property should be queried before this property is accessed. This property will only yield meaningful values if the constraint type is considered to be 'enumerated'. The constraint type is considered to be 'enumerated' if the @type@ property is equal to @SNTimeDurationConstraintTypeEnumerated@.
 --

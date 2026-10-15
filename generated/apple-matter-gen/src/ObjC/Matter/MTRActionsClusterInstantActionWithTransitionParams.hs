@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRActionsClusterInstantActionWithTransitionParams
   ( MTRActionsClusterInstantActionWithTransitionParams
   , IsMTRActionsClusterInstantActionWithTransitionParams(..)
+  , init_
+  , copyWithZone
   , actionID
   , setActionID
   , invokeID
@@ -15,14 +17,12 @@ module ObjC.Matter.MTRActionsClusterInstantActionWithTransitionParams
   , setTransitionTime
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , actionIDSelector
+  , copyWithZoneSelector
+  , initSelector
   , invokeIDSelector
-  , serverSideProcessingTimeoutSelector
   , setActionIDSelector
   , setInvokeIDSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , setTransitionTimeSelector
   , timedInvokeTimeoutMsSelector
@@ -41,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRActionsClusterInstantActionWithTransitionParams mtrActionsClusterInstantActionWithTransitionParams => mtrActionsClusterInstantActionWithTransitionParams -> IO (Id MTRActionsClusterInstantActionWithTransitionParams)
+init_ mtrActionsClusterInstantActionWithTransitionParams =
+  sendOwnedMessage mtrActionsClusterInstantActionWithTransitionParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRActionsClusterInstantActionWithTransitionParams mtrActionsClusterInstantActionWithTransitionParams => mtrActionsClusterInstantActionWithTransitionParams -> Ptr () -> IO RawId
+copyWithZone mtrActionsClusterInstantActionWithTransitionParams zone =
+  sendOwnedMessage mtrActionsClusterInstantActionWithTransitionParams copyWithZoneSelector zone
 
 -- | @- actionID@
 actionID :: IsMTRActionsClusterInstantActionWithTransitionParams mtrActionsClusterInstantActionWithTransitionParams => mtrActionsClusterInstantActionWithTransitionParams -> IO (Id NSNumber)
@@ -94,31 +104,17 @@ setTimedInvokeTimeoutMs :: (IsMTRActionsClusterInstantActionWithTransitionParams
 setTimedInvokeTimeoutMs mtrActionsClusterInstantActionWithTransitionParams value =
   sendMessage mtrActionsClusterInstantActionWithTransitionParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRActionsClusterInstantActionWithTransitionParams mtrActionsClusterInstantActionWithTransitionParams => mtrActionsClusterInstantActionWithTransitionParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrActionsClusterInstantActionWithTransitionParams =
-  sendMessage mtrActionsClusterInstantActionWithTransitionParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRActionsClusterInstantActionWithTransitionParams mtrActionsClusterInstantActionWithTransitionParams, IsNSNumber value) => mtrActionsClusterInstantActionWithTransitionParams -> value -> IO ()
-setServerSideProcessingTimeout mtrActionsClusterInstantActionWithTransitionParams value =
-  sendMessage mtrActionsClusterInstantActionWithTransitionParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRActionsClusterInstantActionWithTransitionParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @actionID@
 actionIDSelector :: Selector '[] (Id NSNumber)
@@ -151,12 +147,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

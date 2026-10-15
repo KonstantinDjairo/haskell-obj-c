@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An extension context provided to File Provider UI extensions.
---
--- Generated bindings for @FPUIActionExtensionContext@.
+-- | Generated bindings for @FPUIActionExtensionContext@.
 module ObjC.FileProviderUI.FPUIActionExtensionContext
   ( FPUIActionExtensionContext
   , IsFPUIActionExtensionContext(..)
@@ -32,9 +30,7 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.FileProviderUI.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Marks the action as complete.
---
--- Call this method when the action completes successfully.
+-- | The extension should call this method when the action did terminate successfully.
 --
 -- ObjC selector: @- completeRequest@
 completeRequest :: IsFPUIActionExtensionContext fpuiActionExtensionContext => fpuiActionExtensionContext -> IO ()
@@ -46,18 +42,14 @@ completeRequestReturningItems_completionHandler :: (IsFPUIActionExtensionContext
 completeRequestReturningItems_completionHandler fpuiActionExtensionContext items completionHandler =
   sendMessage fpuiActionExtensionContext completeRequestReturningItems_completionHandlerSelector (toNSArray items) completionHandler
 
--- | Cancels the action and returns the provided error.
---
--- Call this method if the action fails. Set the error's domain to ``FPUIErrorDomain``. Set the error code to a ``FPUIExtensionErrorCode`` value.
+-- | The extension should call this method when the action failed. The error's Domain should be FPUIErrorDomain and the code should be a value of type FPUIErrorCode.
 --
 -- ObjC selector: @- cancelRequestWithError:@
 cancelRequestWithError :: (IsFPUIActionExtensionContext fpuiActionExtensionContext, IsNSError error_) => fpuiActionExtensionContext -> error_ -> IO ()
 cancelRequestWithError fpuiActionExtensionContext error_ =
   sendMessage fpuiActionExtensionContext cancelRequestWithErrorSelector (toNSError error_)
 
--- | The identifier for the domain managed by the current file provider.
---
--- ObjC selector: @- domainIdentifier@
+-- | @- domainIdentifier@
 domainIdentifier :: IsFPUIActionExtensionContext fpuiActionExtensionContext => fpuiActionExtensionContext -> IO (Id NSString)
 domainIdentifier fpuiActionExtensionContext =
   sendMessage fpuiActionExtensionContext domainIdentifierSelector

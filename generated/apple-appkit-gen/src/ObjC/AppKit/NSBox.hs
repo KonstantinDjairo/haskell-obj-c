@@ -224,24 +224,24 @@ setCornerRadius nsBox value =
   sendMessage nsBox setCornerRadiusSelector value
 
 -- | @- borderColor@
-borderColor :: IsNSBox nsBox => nsBox -> IO (Id NSColor)
+borderColor :: IsNSBox nsBox => nsBox -> IO RawId
 borderColor nsBox =
   sendMessage nsBox borderColorSelector
 
 -- | @- setBorderColor:@
-setBorderColor :: (IsNSBox nsBox, IsNSColor value) => nsBox -> value -> IO ()
+setBorderColor :: IsNSBox nsBox => nsBox -> RawId -> IO ()
 setBorderColor nsBox value =
-  sendMessage nsBox setBorderColorSelector (toNSColor value)
+  sendMessage nsBox setBorderColorSelector value
 
 -- | @- fillColor@
-fillColor :: IsNSBox nsBox => nsBox -> IO (Id NSColor)
+fillColor :: IsNSBox nsBox => nsBox -> IO RawId
 fillColor nsBox =
   sendMessage nsBox fillColorSelector
 
 -- | @- setFillColor:@
-setFillColor :: (IsNSBox nsBox, IsNSColor value) => nsBox -> value -> IO ()
+setFillColor :: IsNSBox nsBox => nsBox -> RawId -> IO ()
 setFillColor nsBox value =
-  sendMessage nsBox setFillColorSelector (toNSColor value)
+  sendMessage nsBox setFillColorSelector value
 
 -- | @- borderType@
 borderType :: IsNSBox nsBox => nsBox -> IO NSBorderType
@@ -354,19 +354,19 @@ setCornerRadiusSelector :: Selector '[CDouble] ()
 setCornerRadiusSelector = mkSelector "setCornerRadius:"
 
 -- | @Selector@ for @borderColor@
-borderColorSelector :: Selector '[] (Id NSColor)
+borderColorSelector :: Selector '[] RawId
 borderColorSelector = mkSelector "borderColor"
 
 -- | @Selector@ for @setBorderColor:@
-setBorderColorSelector :: Selector '[Id NSColor] ()
+setBorderColorSelector :: Selector '[RawId] ()
 setBorderColorSelector = mkSelector "setBorderColor:"
 
 -- | @Selector@ for @fillColor@
-fillColorSelector :: Selector '[] (Id NSColor)
+fillColorSelector :: Selector '[] RawId
 fillColorSelector = mkSelector "fillColor"
 
 -- | @Selector@ for @setFillColor:@
-setFillColorSelector :: Selector '[Id NSColor] ()
+setFillColorSelector :: Selector '[RawId] ()
 setFillColorSelector = mkSelector "setFillColor:"
 
 -- | @Selector@ for @borderType@

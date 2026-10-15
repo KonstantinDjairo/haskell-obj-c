@@ -64,8 +64,6 @@ module ObjC.Foundation.NSCoder
   , decodeFloatForKey
   , decodeDoubleForKey
   , decodeBytesForKey_returnedLength
-  , decodeBytesWithMinimumLength
-  , decodeBytesForKey_minimumLength
   , encodeInteger_forKey
   , decodeIntegerForKey
   , decodeObjectOfClass_forKey
@@ -91,9 +89,7 @@ module ObjC.Foundation.NSCoder
   , decodeArrayOfObjectsOfClass_forKeySelector
   , decodeArrayOfObjectsOfClasses_forKeySelector
   , decodeBoolForKeySelector
-  , decodeBytesForKey_minimumLengthSelector
   , decodeBytesForKey_returnedLengthSelector
-  , decodeBytesWithMinimumLengthSelector
   , decodeBytesWithReturnedLengthSelector
   , decodeDataObjectSelector
   , decodeDictionaryWithKeysOfClass_objectsOfClass_forKeySelector
@@ -459,20 +455,6 @@ decodeDoubleForKey nsCoder key =
 decodeBytesForKey_returnedLength :: (IsNSCoder nsCoder, IsNSString key) => nsCoder -> key -> Ptr CULong -> IO (Const (Ptr CUChar))
 decodeBytesForKey_returnedLength nsCoder key lengthp =
   sendMessage nsCoder decodeBytesForKey_returnedLengthSelector (toNSString key) lengthp
-
--- | Decode bytes from the decoder. The length of the bytes must be greater than or equal to the @length@ parameter. If the result exists, but is of insufficient length, then the decoder uses @failWithError@ to fail the entire decode operation. The result of that is configurable on a per-NSCoder basis using @NSDecodingFailurePolicy@.
---
--- ObjC selector: @- decodeBytesWithMinimumLength:@
-decodeBytesWithMinimumLength :: IsNSCoder nsCoder => nsCoder -> CULong -> IO (Ptr ())
-decodeBytesWithMinimumLength nsCoder length_ =
-  sendMessage nsCoder decodeBytesWithMinimumLengthSelector length_
-
--- | Decode bytes from the decoder for a given key. The length of the bytes must be greater than or equal to the @length@ parameter. If the result exists, but is of insufficient length, then the decoder uses @failWithError@ to fail the entire decode operation. The result of that is configurable on a per-NSCoder basis using @NSDecodingFailurePolicy@.
---
--- ObjC selector: @- decodeBytesForKey:minimumLength:@
-decodeBytesForKey_minimumLength :: (IsNSCoder nsCoder, IsNSString key) => nsCoder -> key -> CULong -> IO (Const (Ptr CUChar))
-decodeBytesForKey_minimumLength nsCoder key length_ =
-  sendMessage nsCoder decodeBytesForKey_minimumLengthSelector (toNSString key) length_
 
 -- | @- encodeInteger:forKey:@
 encodeInteger_forKey :: (IsNSCoder nsCoder, IsNSString key) => nsCoder -> CLong -> key -> IO ()
@@ -845,14 +827,6 @@ decodeDoubleForKeySelector = mkSelector "decodeDoubleForKey:"
 -- | @Selector@ for @decodeBytesForKey:returnedLength:@
 decodeBytesForKey_returnedLengthSelector :: Selector '[Id NSString, Ptr CULong] (Const (Ptr CUChar))
 decodeBytesForKey_returnedLengthSelector = mkSelector "decodeBytesForKey:returnedLength:"
-
--- | @Selector@ for @decodeBytesWithMinimumLength:@
-decodeBytesWithMinimumLengthSelector :: Selector '[CULong] (Ptr ())
-decodeBytesWithMinimumLengthSelector = mkSelector "decodeBytesWithMinimumLength:"
-
--- | @Selector@ for @decodeBytesForKey:minimumLength:@
-decodeBytesForKey_minimumLengthSelector :: Selector '[Id NSString, CULong] (Const (Ptr CUChar))
-decodeBytesForKey_minimumLengthSelector = mkSelector "decodeBytesForKey:minimumLength:"
 
 -- | @Selector@ for @encodeInteger:forKey:@
 encodeInteger_forKeySelector :: Selector '[CLong, Id NSString] ()

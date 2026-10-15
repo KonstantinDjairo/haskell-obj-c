@@ -59,7 +59,7 @@ profileNumber inSetProfileInCarIntent =
   sendMessage inSetProfileInCarIntent profileNumberSelector
 
 -- | @- profileName@
-profileName :: IsINSetProfileInCarIntent inSetProfileInCarIntent => inSetProfileInCarIntent -> IO (Id NSString)
+profileName :: IsINSetProfileInCarIntent inSetProfileInCarIntent => inSetProfileInCarIntent -> IO RawId
 profileName inSetProfileInCarIntent =
   sendMessage inSetProfileInCarIntent profileNameSelector
 
@@ -69,12 +69,12 @@ defaultProfile inSetProfileInCarIntent =
   sendMessage inSetProfileInCarIntent defaultProfileSelector
 
 -- | @- carName@
-carName :: IsINSetProfileInCarIntent inSetProfileInCarIntent => inSetProfileInCarIntent -> IO (Id INSpeakableString)
+carName :: IsINSetProfileInCarIntent inSetProfileInCarIntent => inSetProfileInCarIntent -> IO RawId
 carName inSetProfileInCarIntent =
   sendMessage inSetProfileInCarIntent carNameSelector
 
 -- | @- profileLabel@
-profileLabel :: IsINSetProfileInCarIntent inSetProfileInCarIntent => inSetProfileInCarIntent -> IO (Id NSString)
+profileLabel :: IsINSetProfileInCarIntent inSetProfileInCarIntent => inSetProfileInCarIntent -> IO RawId
 profileLabel inSetProfileInCarIntent =
   sendMessage inSetProfileInCarIntent profileLabelSelector
 
@@ -99,7 +99,7 @@ profileNumberSelector :: Selector '[] (Id NSNumber)
 profileNumberSelector = mkSelector "profileNumber"
 
 -- | @Selector@ for @profileName@
-profileNameSelector :: Selector '[] (Id NSString)
+profileNameSelector :: Selector '[] RawId
 profileNameSelector = mkSelector "profileName"
 
 -- | @Selector@ for @defaultProfile@
@@ -107,10 +107,10 @@ defaultProfileSelector :: Selector '[] (Id NSNumber)
 defaultProfileSelector = mkSelector "defaultProfile"
 
 -- | @Selector@ for @carName@
-carNameSelector :: Selector '[] (Id INSpeakableString)
+carNameSelector :: Selector '[] RawId
 carNameSelector = mkSelector "carName"
 
 -- | @Selector@ for @profileLabel@
-profileLabelSelector :: Selector '[] (Id NSString)
+profileLabelSelector :: Selector '[] RawId
 profileLabelSelector = mkSelector "profileLabel"
 

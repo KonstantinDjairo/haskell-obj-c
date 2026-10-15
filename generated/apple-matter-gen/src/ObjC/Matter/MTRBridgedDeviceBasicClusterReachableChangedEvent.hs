@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRBridgedDeviceBasicClusterReachableChangedEvent
   ( MTRBridgedDeviceBasicClusterReachableChangedEvent
   , IsMTRBridgedDeviceBasicClusterReachableChangedEvent(..)
+  , init_
+  , copyWithZone
   , reachableNewValue
   , setReachableNewValue
+  , copyWithZoneSelector
+  , initSelector
   , reachableNewValueSelector
   , setReachableNewValueSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRBridgedDeviceBasicClusterReachableChangedEvent mtrBridgedDeviceBasicClusterReachableChangedEvent => mtrBridgedDeviceBasicClusterReachableChangedEvent -> IO (Id MTRBridgedDeviceBasicClusterReachableChangedEvent)
+init_ mtrBridgedDeviceBasicClusterReachableChangedEvent =
+  sendOwnedMessage mtrBridgedDeviceBasicClusterReachableChangedEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBridgedDeviceBasicClusterReachableChangedEvent mtrBridgedDeviceBasicClusterReachableChangedEvent => mtrBridgedDeviceBasicClusterReachableChangedEvent -> Ptr () -> IO RawId
+copyWithZone mtrBridgedDeviceBasicClusterReachableChangedEvent zone =
+  sendOwnedMessage mtrBridgedDeviceBasicClusterReachableChangedEvent copyWithZoneSelector zone
+
 -- | @- reachableNewValue@
 reachableNewValue :: IsMTRBridgedDeviceBasicClusterReachableChangedEvent mtrBridgedDeviceBasicClusterReachableChangedEvent => mtrBridgedDeviceBasicClusterReachableChangedEvent -> IO (Id NSNumber)
 reachableNewValue mtrBridgedDeviceBasicClusterReachableChangedEvent =
@@ -39,6 +53,14 @@ setReachableNewValue mtrBridgedDeviceBasicClusterReachableChangedEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBridgedDeviceBasicClusterReachableChangedEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @reachableNewValue@
 reachableNewValueSelector :: Selector '[] (Id NSNumber)

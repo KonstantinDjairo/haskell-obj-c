@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -15,21 +14,12 @@ module ObjC.PencilKit.PKStroke
   , mask
   , maskedPathRanges
   , randomSeed
-  , requiredContentVersion
   , inkSelector
   , maskSelector
   , maskedPathRangesSelector
   , pathSelector
   , randomSeedSelector
-  , requiredContentVersionSelector
 
-  -- * Enum types
-  , PKContentVersion(PKContentVersion)
-  , pattern PKContentVersion1
-  , pattern PKContentVersion2
-  , pattern PKContentVersion3
-  , pattern PKContentVersion4
-  , pattern PKContentVersionLatest
 
   ) where
 
@@ -42,7 +32,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PencilKit.Internal.Classes
-import ObjC.PencilKit.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
@@ -79,13 +68,6 @@ randomSeed :: IsPKStroke pkStroke => pkStroke -> IO CUInt
 randomSeed pkStroke =
   sendMessage pkStroke randomSeedSelector
 
--- | The PencilKit version required to use this stroke.
---
--- ObjC selector: @- requiredContentVersion@
-requiredContentVersion :: IsPKStroke pkStroke => pkStroke -> IO PKContentVersion
-requiredContentVersion pkStroke =
-  sendMessage pkStroke requiredContentVersionSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -109,8 +91,4 @@ maskedPathRangesSelector = mkSelector "maskedPathRanges"
 -- | @Selector@ for @randomSeed@
 randomSeedSelector :: Selector '[] CUInt
 randomSeedSelector = mkSelector "randomSeed"
-
--- | @Selector@ for @requiredContentVersion@
-requiredContentVersionSelector :: Selector '[] PKContentVersion
-requiredContentVersionSelector = mkSelector "requiredContentVersion"
 

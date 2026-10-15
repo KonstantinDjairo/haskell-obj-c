@@ -14,7 +14,17 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | Values that indicate the reason for a routing event.
+-- | AVCustomRoutingEventReasonActivate
+--
+-- Represents an activation event, e.g. a user selected a route in the picker.
+--
+-- AVCustomRoutingEventReasonDeactivate
+--
+-- Represents a deactivation event, e.g. a user deselected a route in the picker.
+--
+-- AVCustomRoutingEventReasonReactivate
+--
+-- Represents a reactivation event, e.g. a route that is already authorized is selected by the user.
 -- | @AVCustomRoutingEventReason@
 newtype AVCustomRoutingEventReason = AVCustomRoutingEventReason CLong
   deriving stock (Eq, Ord, Show)

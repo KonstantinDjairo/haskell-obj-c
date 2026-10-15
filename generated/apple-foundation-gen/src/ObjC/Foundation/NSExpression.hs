@@ -10,7 +10,6 @@ module ObjC.Foundation.NSExpression
   , IsNSExpression(..)
   , expressionWithFormat_argumentArray
   , expressionWithFormat
-  , expressionWithFormat_arguments
   , expressionForConstantValue
   , expressionForEvaluatedObject
   , expressionForVariable
@@ -62,7 +61,6 @@ module ObjC.Foundation.NSExpression
   , expressionValueWithObject_contextSelector
   , expressionWithFormatSelector
   , expressionWithFormat_argumentArraySelector
-  , expressionWithFormat_argumentsSelector
   , falseExpressionSelector
   , functionSelector
   , initWithCoderSelector
@@ -117,13 +115,6 @@ expressionWithFormat expressionFormat =
   do
     cls' <- getRequiredClass "NSExpression"
     sendClassMessage cls' expressionWithFormatSelector (toNSString expressionFormat)
-
--- | @+ expressionWithFormat:arguments:@
-expressionWithFormat_arguments :: IsNSString expressionFormat => expressionFormat -> RawId -> IO (Id NSExpression)
-expressionWithFormat_arguments expressionFormat argList =
-  do
-    cls' <- getRequiredClass "NSExpression"
-    sendClassMessage cls' expressionWithFormat_argumentsSelector (toNSString expressionFormat) argList
 
 -- | @+ expressionForConstantValue:@
 expressionForConstantValue :: RawId -> IO (Id NSExpression)
@@ -312,10 +303,6 @@ expressionWithFormat_argumentArraySelector = mkSelector "expressionWithFormat:ar
 -- | @Selector@ for @expressionWithFormat:@
 expressionWithFormatSelector :: Selector '[Id NSString] (Id NSExpression)
 expressionWithFormatSelector = mkSelector "expressionWithFormat:"
-
--- | @Selector@ for @expressionWithFormat:arguments:@
-expressionWithFormat_argumentsSelector :: Selector '[Id NSString, RawId] (Id NSExpression)
-expressionWithFormat_argumentsSelector = mkSelector "expressionWithFormat:arguments:"
 
 -- | @Selector@ for @expressionForConstantValue:@
 expressionForConstantValueSelector :: Selector '[RawId] (Id NSExpression)

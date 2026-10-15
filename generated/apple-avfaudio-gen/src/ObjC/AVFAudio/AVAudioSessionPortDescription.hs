@@ -19,8 +19,6 @@ module ObjC.AVFAudio.AVAudioSessionPortDescription
   , dataSources
   , selectedDataSource
   , preferredDataSource
-  , bluetoothMicrophoneExtension
-  , bluetoothMicrophoneExtensionSelector
   , channelsSelector
   , dataSourcesSelector
   , hasHardwareVoiceCallProcessingSelector
@@ -118,15 +116,6 @@ preferredDataSource :: IsAVAudioSessionPortDescription avAudioSessionPortDescrip
 preferredDataSource avAudioSessionPortDescription =
   sendMessage avAudioSessionPortDescription preferredDataSourceSelector
 
--- | An optional port extension that describes capabilities relevant to Bluetooth microphone ports.
---
--- This property is optional and will be @nil@ for all ports for which this capability set doesn't apply.
---
--- ObjC selector: @- bluetoothMicrophoneExtension@
-bluetoothMicrophoneExtension :: IsAVAudioSessionPortDescription avAudioSessionPortDescription => avAudioSessionPortDescription -> IO (Id AVAudioSessionPortExtensionBluetoothMicrophone)
-bluetoothMicrophoneExtension avAudioSessionPortDescription =
-  sendMessage avAudioSessionPortDescription bluetoothMicrophoneExtensionSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -170,8 +159,4 @@ selectedDataSourceSelector = mkSelector "selectedDataSource"
 -- | @Selector@ for @preferredDataSource@
 preferredDataSourceSelector :: Selector '[] (Id AVAudioSessionDataSourceDescription)
 preferredDataSourceSelector = mkSelector "preferredDataSource"
-
--- | @Selector@ for @bluetoothMicrophoneExtension@
-bluetoothMicrophoneExtensionSelector :: Selector '[] (Id AVAudioSessionPortExtensionBluetoothMicrophone)
-bluetoothMicrophoneExtensionSelector = mkSelector "bluetoothMicrophoneExtension"
 

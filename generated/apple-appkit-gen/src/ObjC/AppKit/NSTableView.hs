@@ -160,7 +160,6 @@ module ObjC.AppKit.NSTableView
   , rowActionsVisible
   , setRowActionsVisible
   , hiddenRowIndexes
-  , registeredNibsByIdentifier
   , usesStaticContents
   , setUsesStaticContents
   , userInterfaceLayoutDirection
@@ -242,7 +241,6 @@ module ObjC.AppKit.NSTableView
   , rectOfColumnSelector
   , rectOfRowSelector
   , registerNib_forIdentifierSelector
-  , registeredNibsByIdentifierSelector
   , reloadDataForRowIndexes_columnIndexesSelector
   , reloadDataSelector
   , removeRowsAtIndexes_withAnimationSelector
@@ -1158,14 +1156,9 @@ setRowActionsVisible nsTableView value =
   sendMessage nsTableView setRowActionsVisibleSelector value
 
 -- | @- hiddenRowIndexes@
-hiddenRowIndexes :: IsNSTableView nsTableView => nsTableView -> IO (Id NSIndexSet)
+hiddenRowIndexes :: IsNSTableView nsTableView => nsTableView -> IO RawId
 hiddenRowIndexes nsTableView =
   sendMessage nsTableView hiddenRowIndexesSelector
-
--- | @- registeredNibsByIdentifier@
-registeredNibsByIdentifier :: IsNSTableView nsTableView => nsTableView -> IO (Id NSDictionary)
-registeredNibsByIdentifier nsTableView =
-  sendMessage nsTableView registeredNibsByIdentifierSelector
 
 -- | @- usesStaticContents@
 usesStaticContents :: IsNSTableView nsTableView => nsTableView -> IO Bool
@@ -1806,12 +1799,8 @@ setRowActionsVisibleSelector :: Selector '[Bool] ()
 setRowActionsVisibleSelector = mkSelector "setRowActionsVisible:"
 
 -- | @Selector@ for @hiddenRowIndexes@
-hiddenRowIndexesSelector :: Selector '[] (Id NSIndexSet)
+hiddenRowIndexesSelector :: Selector '[] RawId
 hiddenRowIndexesSelector = mkSelector "hiddenRowIndexes"
-
--- | @Selector@ for @registeredNibsByIdentifier@
-registeredNibsByIdentifierSelector :: Selector '[] (Id NSDictionary)
-registeredNibsByIdentifierSelector = mkSelector "registeredNibsByIdentifier"
 
 -- | @Selector@ for @usesStaticContents@
 usesStaticContentsSelector :: Selector '[] Bool

@@ -4,9 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The class that defines the parameters for a variable.
---
--- Generated bindings for @MPSGraphVariableOp@.
+-- | Generated bindings for @MPSGraphVariableOp@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphVariableOp
   ( MPSGraphVariableOp
   , IsMPSGraphVariableOp(..)
@@ -26,21 +24,16 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraphVariableOp
   , pattern MPSDataTypeComplexFloat16
   , pattern MPSDataTypeSignedBit
   , pattern MPSDataTypeIntBit
-  , pattern MPSDataTypeInt2
-  , pattern MPSDataTypeInt4
   , pattern MPSDataTypeInt8
   , pattern MPSDataTypeInt16
   , pattern MPSDataTypeInt32
   , pattern MPSDataTypeInt64
-  , pattern MPSDataTypeUInt2
-  , pattern MPSDataTypeUInt4
   , pattern MPSDataTypeUInt8
   , pattern MPSDataTypeUInt16
   , pattern MPSDataTypeUInt32
   , pattern MPSDataTypeUInt64
   , pattern MPSDataTypeAlternateEncodingBit
   , pattern MPSDataTypeBool
-  , pattern MPSDataTypeBFloat16
   , pattern MPSDataTypeNormalizedBit
   , pattern MPSDataTypeUnorm1
   , pattern MPSDataTypeUnorm8
@@ -59,14 +52,18 @@ import ObjC.MetalPerformanceShadersGraph.Internal.Classes
 import ObjC.MetalPerformanceShaders.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | The shape of the variable.
+-- | shape
+--
+-- shape of the variable
 --
 -- ObjC selector: @- shape@
 shape :: IsMPSGraphVariableOp mpsGraphVariableOp => mpsGraphVariableOp -> IO RawId
 shape mpsGraphVariableOp =
   sendMessage mpsGraphVariableOp shapeSelector
 
--- | The data type of the variable.
+-- | dataType
+--
+-- dataType of the variable
 --
 -- ObjC selector: @- dataType@
 dataType :: IsMPSGraphVariableOp mpsGraphVariableOp => mpsGraphVariableOp -> IO MPSDataType

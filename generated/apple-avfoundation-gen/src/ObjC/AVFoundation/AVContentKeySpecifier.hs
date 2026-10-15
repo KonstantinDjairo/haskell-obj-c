@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVContentKeySpecifier@.
+-- | Generated bindings for @AVContentKeySpecifier@.
 module ObjC.AVFoundation.AVContentKeySpecifier
   ( AVContentKeySpecifier
   , IsAVContentKeySpecifier(..)
@@ -34,13 +32,19 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a new instance of AVContentKeySpecifier.
+-- | contentKeySpecifierForKeySystem:identifier:options:
+--
+-- Creates a new instance of AVContentKeySpecifier.
+--
+-- @keySystem@ — A valid key system for content keys.
+--
+-- @contentKeyIdentifier@ — Container and protocol-specific key identifier.
+--
+-- @options@ — Additional information necessary to obtain the key, can be empty if none needed.
+--
+-- Returns: A new AVContentKeySpecifier
 --
 -- This method returns an AVContentKeySpecifier instance that represents a content key in a specific content key system.
---
--- - Parameter keySystem: A valid key system for content keys. - Parameter contentKeyIdentifier: Container and protocol-specific key identifier. - Parameter options: Additional information necessary to obtain the key, can be empty if none needed.
---
--- - Returns: A new AVContentKeySpecifier
 --
 -- ObjC selector: @+ contentKeySpecifierForKeySystem:identifier:options:@
 contentKeySpecifierForKeySystem_identifier_options :: (IsNSString keySystem, IsNSDictionary options) => keySystem -> RawId -> options -> IO (Id AVContentKeySpecifier)
@@ -49,36 +53,44 @@ contentKeySpecifierForKeySystem_identifier_options keySystem contentKeyIdentifie
     cls' <- getRequiredClass "AVContentKeySpecifier"
     sendClassMessage cls' contentKeySpecifierForKeySystem_identifier_optionsSelector (toNSString keySystem) contentKeyIdentifier (toNSDictionary options)
 
--- | Initialize an instance of AVContentKeySpecifier.
+-- | initForKeySystem:identifier:options:
+--
+-- Initialize an instance of AVContentKeySpecifier.
+--
+-- @keySystem@ — A valid key system for content keys.
+--
+-- @contentKeyIdentifier@ — Container and protocol-specific key identifier.
+--
+-- @options@ — Additional information necessary to obtain the key, can be empty if none needed.
+--
+-- Returns: An instance of AVContentKeySpecifier
 --
 -- This method returns an AVContentKeySpecifier instance that represents a content key in a specific content key system.
---
--- - Parameter keySystem: A valid key system for content keys. - Parameter contentKeyIdentifier: Container and protocol-specific key identifier. - Parameter options: Additional information necessary to obtain the key, can be empty if none needed.
---
--- - Returns: An instance of AVContentKeySpecifier
 --
 -- ObjC selector: @- initForKeySystem:identifier:options:@
 initForKeySystem_identifier_options :: (IsAVContentKeySpecifier avContentKeySpecifier, IsNSString keySystem, IsNSDictionary options) => avContentKeySpecifier -> keySystem -> RawId -> options -> IO (Id AVContentKeySpecifier)
 initForKeySystem_identifier_options avContentKeySpecifier keySystem contentKeyIdentifier options =
   sendOwnedMessage avContentKeySpecifier initForKeySystem_identifier_optionsSelector (toNSString keySystem) contentKeyIdentifier (toNSDictionary options)
 
--- | A valid key system for content keys.
+-- | keySystem
+--
+-- A valid key system for content keys.
 --
 -- ObjC selector: @- keySystem@
 keySystem :: IsAVContentKeySpecifier avContentKeySpecifier => avContentKeySpecifier -> IO (Id NSString)
 keySystem avContentKeySpecifier =
   sendMessage avContentKeySpecifier keySystemSelector
 
--- | Container and protocol-specific key identifier.
+-- | identifier
+--
+-- Container and protocol-specific key identifier.
 --
 -- ObjC selector: @- identifier@
 identifier :: IsAVContentKeySpecifier avContentKeySpecifier => avContentKeySpecifier -> IO RawId
 identifier avContentKeySpecifier =
   sendMessage avContentKeySpecifier identifierSelector
 
--- | Additional information necessary to obtain the key, can be empty if none needed.
---
--- ObjC selector: @- options@
+-- | @- options@
 options :: IsAVContentKeySpecifier avContentKeySpecifier => avContentKeySpecifier -> IO (Id NSDictionary)
 options avContentKeySpecifier =
   sendMessage avContentKeySpecifier optionsSelector

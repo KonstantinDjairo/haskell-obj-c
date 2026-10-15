@@ -110,14 +110,14 @@ pageNumbersEnabled phProjectInfo =
 -- | The product identifier of the originating Apple Print Product.
 --
 -- ObjC selector: @- productIdentifier@
-productIdentifier :: IsPHProjectInfo phProjectInfo => phProjectInfo -> IO (Id NSString)
+productIdentifier :: IsPHProjectInfo phProjectInfo => phProjectInfo -> IO RawId
 productIdentifier phProjectInfo =
   sendMessage phProjectInfo productIdentifierSelector
 
 -- | The product theme identifier of the originating Apple Print Product.
 --
 -- ObjC selector: @- themeIdentifier@
-themeIdentifier :: IsPHProjectInfo phProjectInfo => phProjectInfo -> IO (Id NSString)
+themeIdentifier :: IsPHProjectInfo phProjectInfo => phProjectInfo -> IO RawId
 themeIdentifier phProjectInfo =
   sendMessage phProjectInfo themeIdentifierSelector
 
@@ -154,10 +154,10 @@ pageNumbersEnabledSelector :: Selector '[] Bool
 pageNumbersEnabledSelector = mkSelector "pageNumbersEnabled"
 
 -- | @Selector@ for @productIdentifier@
-productIdentifierSelector :: Selector '[] (Id NSString)
+productIdentifierSelector :: Selector '[] RawId
 productIdentifierSelector = mkSelector "productIdentifier"
 
 -- | @Selector@ for @themeIdentifier@
-themeIdentifierSelector :: Selector '[] (Id NSString)
+themeIdentifierSelector :: Selector '[] RawId
 themeIdentifierSelector = mkSelector "themeIdentifier"
 

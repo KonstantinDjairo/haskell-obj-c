@@ -9,7 +9,8 @@
 module ObjC.Matter.MTRClusterModeSelect
   ( MTRClusterModeSelect
   , IsMTRClusterModeSelect(..)
-  , changeToModeWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , changeToModeWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeDescriptionWithParams
   , readAttributeStandardNamespaceWithParams
   , readAttributeSupportedModesWithParams
@@ -27,13 +28,8 @@ module ObjC.Matter.MTRClusterModeSelect
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , changeToModeWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , changeToModeWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , changeToModeWithParams_expectedValues_expectedValueInterval_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -66,10 +62,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- changeToModeWithParams:expectedValues:expectedValueInterval:completion:@
-changeToModeWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterModeSelect mtrClusterModeSelect, IsMTRModeSelectClusterChangeToModeParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterModeSelect -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-changeToModeWithParams_expectedValues_expectedValueInterval_completion mtrClusterModeSelect params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterModeSelect changeToModeWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRModeSelectClusterChangeToModeParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterModeSelect mtrClusterModeSelect, IsMTRDevice device, IsNSObject queue) => mtrClusterModeSelect -> device -> CUShort -> queue -> IO (Id MTRClusterModeSelect)
+initWithDevice_endpoint_queue mtrClusterModeSelect device endpoint queue =
+  sendOwnedMessage mtrClusterModeSelect initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
+
+-- | @- changeToModeWithParams:expectedValues:expectedValueInterval:completionHandler:@
+changeToModeWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterModeSelect mtrClusterModeSelect, IsMTRModeSelectClusterChangeToModeParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterModeSelect -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+changeToModeWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterModeSelect params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterModeSelect changeToModeWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRModeSelectClusterChangeToModeParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeDescriptionWithParams:@
 readAttributeDescriptionWithParams :: (IsMTRClusterModeSelect mtrClusterModeSelect, IsMTRReadParams params) => mtrClusterModeSelect -> params -> IO (Id NSDictionary)
@@ -158,30 +159,17 @@ new  =
     cls' <- getRequiredClass "MTRClusterModeSelect"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterModeSelect mtrClusterModeSelect, IsMTRDevice device, IsNSObject queue) => mtrClusterModeSelect -> device -> CUShort -> queue -> IO (Id MTRClusterModeSelect)
-initWithDevice_endpoint_queue mtrClusterModeSelect device endpoint queue =
-  sendOwnedMessage mtrClusterModeSelect initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- changeToModeWithParams:expectedValues:expectedValueInterval:completionHandler:@
-changeToModeWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterModeSelect mtrClusterModeSelect, IsMTRModeSelectClusterChangeToModeParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterModeSelect -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-changeToModeWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterModeSelect params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterModeSelect changeToModeWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRModeSelectClusterChangeToModeParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterModeSelect mtrClusterModeSelect, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterModeSelect -> device -> endpointID -> queue -> IO (Id MTRClusterModeSelect)
-initWithDevice_endpointID_queue mtrClusterModeSelect device endpointID queue =
-  sendOwnedMessage mtrClusterModeSelect initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @changeToModeWithParams:expectedValues:expectedValueInterval:completion:@
-changeToModeWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRModeSelectClusterChangeToModeParams, Id NSArray, Id NSNumber, Ptr ()] ()
-changeToModeWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "changeToModeWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterModeSelect)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
+
+-- | @Selector@ for @changeToModeWithParams:expectedValues:expectedValueInterval:completionHandler:@
+changeToModeWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRModeSelectClusterChangeToModeParams, Id NSArray, Id NSNumber, Ptr ()] ()
+changeToModeWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "changeToModeWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeDescriptionWithParams:@
 readAttributeDescriptionWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -250,16 +238,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterModeSelect)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterModeSelect)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @changeToModeWithParams:expectedValues:expectedValueInterval:completionHandler:@
-changeToModeWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRModeSelectClusterChangeToModeParams, Id NSArray, Id NSNumber, Ptr ()] ()
-changeToModeWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "changeToModeWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterModeSelect)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

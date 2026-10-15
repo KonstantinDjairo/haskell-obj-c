@@ -54,8 +54,6 @@ import ObjC.Foundation.Internal.Classes
 --
 -- The client is responsible for calling CFRelease on the returned CMSampleBuffer object when finished with it. This method will return NULL if there are no more sample buffers available for the receiver within the time range specified by its AVAssetReader's timeRange property, or if there is an error that prevents the AVAssetReader from reading more media data. When this method returns NULL, clients should check the value of the associated AVAssetReader's status property to determine why no more samples could be read.
 --
--- In certain configurations, such as when outputSettings is nil, copyNextSampleBuffer may return marker-only sample buffers as well as sample buffers containing media data. Marker-only sample buffers can be identified by CMSampleBufferGetNumSamples returning 0. Clients who do not need the information attached to marker-only sample buffers may skip them.
---
 -- This method throws an exception if this output is not added to an instance of AVAssetReader (using -addOutput:) and -startReading is not called on that asset reader.
 --
 -- ObjC selector: @- copyNextSampleBuffer@
@@ -148,7 +146,7 @@ setAlwaysCopiesSampleData avAssetReaderOutput value =
 --
 -- The default value is NO, which means that the asset reader output may not be reconfigured once reading has begun.  When the value of this property is NO, AVAssetReader may be able to read media data more efficiently, particularly when multiple asset reader outputs are attached.
 --
--- This property throws an exception if a value is set after reading has started (the asset reader has progressed beyond AVAssetReaderStatusUnknown) or after an AVAssetReaderOutput.Provider is attached.
+-- This property throws an exception if a value is set after reading has started (the asset reader has progressed beyond AVAssetReaderStatusUnknown).
 --
 -- ObjC selector: @- supportsRandomAccess@
 supportsRandomAccess :: IsAVAssetReaderOutput avAssetReaderOutput => avAssetReaderOutput -> IO Bool
@@ -163,7 +161,7 @@ supportsRandomAccess avAssetReaderOutput =
 --
 -- The default value is NO, which means that the asset reader output may not be reconfigured once reading has begun.  When the value of this property is NO, AVAssetReader may be able to read media data more efficiently, particularly when multiple asset reader outputs are attached.
 --
--- This property throws an exception if a value is set after reading has started (the asset reader has progressed beyond AVAssetReaderStatusUnknown) or after an AVAssetReaderOutput.Provider is attached.
+-- This property throws an exception if a value is set after reading has started (the asset reader has progressed beyond AVAssetReaderStatusUnknown).
 --
 -- ObjC selector: @- setSupportsRandomAccess:@
 setSupportsRandomAccess :: IsAVAssetReaderOutput avAssetReaderOutput => avAssetReaderOutput -> Bool -> IO ()

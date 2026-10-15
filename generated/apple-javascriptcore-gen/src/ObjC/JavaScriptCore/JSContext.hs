@@ -28,8 +28,6 @@ module ObjC.JavaScriptCore.JSContext
   , virtualMachine
   , name
   , setName
-  , inspectable
-  , setInspectable
   , jsGlobalContextRef
   , contextWithJSGlobalContextRefSelector
   , currentArgumentsSelector
@@ -43,13 +41,11 @@ module ObjC.JavaScriptCore.JSContext
   , globalObjectSelector
   , initSelector
   , initWithVirtualMachineSelector
-  , inspectableSelector
   , jsGlobalContextRefSelector
   , nameSelector
   , objectForKeyedSubscriptSelector
   , setExceptionHandlerSelector
   , setExceptionSelector
-  , setInspectableSelector
   , setNameSelector
   , setObject_forKeyedSubscriptSelector
   , virtualMachineSelector
@@ -251,41 +247,19 @@ virtualMachine :: IsJSContext jsContext => jsContext -> IO (Id JSVirtualMachine)
 virtualMachine jsContext =
   sendMessage jsContext virtualMachineSelector
 
--- | Name of the JSContext. Exposed when inspecting the context.
+-- | Name of the JSContext. Exposed when remote debugging the context.
 --
 -- ObjC selector: @- name@
 name :: IsJSContext jsContext => jsContext -> IO (Id NSString)
 name jsContext =
   sendMessage jsContext nameSelector
 
--- | Name of the JSContext. Exposed when inspecting the context.
+-- | Name of the JSContext. Exposed when remote debugging the context.
 --
 -- ObjC selector: @- setName:@
 setName :: (IsJSContext jsContext, IsNSString value) => jsContext -> value -> IO ()
 setName jsContext value =
   sendMessage jsContext setNameSelector (toNSString value)
-
--- | Controls whether this
---
--- JSContext
---
--- is inspectable in Web Inspector. The default value is NO.
---
--- ObjC selector: @- inspectable@
-inspectable :: IsJSContext jsContext => jsContext -> IO Bool
-inspectable jsContext =
-  sendMessage jsContext inspectableSelector
-
--- | Controls whether this
---
--- JSContext
---
--- is inspectable in Web Inspector. The default value is NO.
---
--- ObjC selector: @- setInspectable:@
-setInspectable :: IsJSContext jsContext => jsContext -> Bool -> IO ()
-setInspectable jsContext value =
-  sendMessage jsContext setInspectableSelector value
 
 -- | Get the C API counterpart wrapped by a JSContext.
 --
@@ -375,14 +349,6 @@ nameSelector = mkSelector "name"
 -- | @Selector@ for @setName:@
 setNameSelector :: Selector '[Id NSString] ()
 setNameSelector = mkSelector "setName:"
-
--- | @Selector@ for @inspectable@
-inspectableSelector :: Selector '[] Bool
-inspectableSelector = mkSelector "inspectable"
-
--- | @Selector@ for @setInspectable:@
-setInspectableSelector :: Selector '[Bool] ()
-setInspectableSelector = mkSelector "setInspectable:"
 
 -- | @Selector@ for @JSGlobalContextRef@
 jsGlobalContextRefSelector :: Selector '[] (Ptr ())

@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRColorControlClusterMoveColorTemperatureParams
   ( MTRColorControlClusterMoveColorTemperatureParams
   , IsMTRColorControlClusterMoveColorTemperatureParams(..)
+  , init_
+  , copyWithZone
   , moveMode
   , setMoveMode
   , rate
@@ -21,22 +23,20 @@ module ObjC.Matter.MTRColorControlClusterMoveColorTemperatureParams
   , setOptionsOverride
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , colorTemperatureMaximumMiredsSelector
   , colorTemperatureMinimumMiredsSelector
+  , copyWithZoneSelector
+  , initSelector
   , moveModeSelector
   , optionsMaskSelector
   , optionsOverrideSelector
   , rateSelector
-  , serverSideProcessingTimeoutSelector
   , setColorTemperatureMaximumMiredsSelector
   , setColorTemperatureMinimumMiredsSelector
   , setMoveModeSelector
   , setOptionsMaskSelector
   , setOptionsOverrideSelector
   , setRateSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -53,6 +53,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRColorControlClusterMoveColorTemperatureParams mtrColorControlClusterMoveColorTemperatureParams => mtrColorControlClusterMoveColorTemperatureParams -> IO (Id MTRColorControlClusterMoveColorTemperatureParams)
+init_ mtrColorControlClusterMoveColorTemperatureParams =
+  sendOwnedMessage mtrColorControlClusterMoveColorTemperatureParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRColorControlClusterMoveColorTemperatureParams mtrColorControlClusterMoveColorTemperatureParams => mtrColorControlClusterMoveColorTemperatureParams -> Ptr () -> IO RawId
+copyWithZone mtrColorControlClusterMoveColorTemperatureParams zone =
+  sendOwnedMessage mtrColorControlClusterMoveColorTemperatureParams copyWithZoneSelector zone
 
 -- | @- moveMode@
 moveMode :: IsMTRColorControlClusterMoveColorTemperatureParams mtrColorControlClusterMoveColorTemperatureParams => mtrColorControlClusterMoveColorTemperatureParams -> IO (Id NSNumber)
@@ -136,31 +146,17 @@ setTimedInvokeTimeoutMs :: (IsMTRColorControlClusterMoveColorTemperatureParams m
 setTimedInvokeTimeoutMs mtrColorControlClusterMoveColorTemperatureParams value =
   sendMessage mtrColorControlClusterMoveColorTemperatureParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRColorControlClusterMoveColorTemperatureParams mtrColorControlClusterMoveColorTemperatureParams => mtrColorControlClusterMoveColorTemperatureParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrColorControlClusterMoveColorTemperatureParams =
-  sendMessage mtrColorControlClusterMoveColorTemperatureParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRColorControlClusterMoveColorTemperatureParams mtrColorControlClusterMoveColorTemperatureParams, IsNSNumber value) => mtrColorControlClusterMoveColorTemperatureParams -> value -> IO ()
-setServerSideProcessingTimeout mtrColorControlClusterMoveColorTemperatureParams value =
-  sendMessage mtrColorControlClusterMoveColorTemperatureParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRColorControlClusterMoveColorTemperatureParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @moveMode@
 moveModeSelector :: Selector '[] (Id NSNumber)
@@ -217,12 +213,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

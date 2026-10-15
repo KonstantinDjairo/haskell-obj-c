@@ -95,7 +95,7 @@ currentVideoFrameRate avPlayerItemTrack =
 -- Before macOS 13, iOS 16, tvOS 16, and watchOS 9, this property must be accessed on the main thread/queue.
 --
 -- ObjC selector: @- videoFieldMode@
-videoFieldMode :: IsAVPlayerItemTrack avPlayerItemTrack => avPlayerItemTrack -> IO (Id NSString)
+videoFieldMode :: IsAVPlayerItemTrack avPlayerItemTrack => avPlayerItemTrack -> IO RawId
 videoFieldMode avPlayerItemTrack =
   sendMessage avPlayerItemTrack videoFieldModeSelector
 
@@ -108,9 +108,9 @@ videoFieldMode avPlayerItemTrack =
 -- Before macOS 13, iOS 16, tvOS 16, and watchOS 9, this property must be accessed on the main thread/queue.
 --
 -- ObjC selector: @- setVideoFieldMode:@
-setVideoFieldMode :: (IsAVPlayerItemTrack avPlayerItemTrack, IsNSString value) => avPlayerItemTrack -> value -> IO ()
+setVideoFieldMode :: IsAVPlayerItemTrack avPlayerItemTrack => avPlayerItemTrack -> RawId -> IO ()
 setVideoFieldMode avPlayerItemTrack value =
-  sendMessage avPlayerItemTrack setVideoFieldModeSelector (toNSString value)
+  sendMessage avPlayerItemTrack setVideoFieldModeSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -133,10 +133,10 @@ currentVideoFrameRateSelector :: Selector '[] CFloat
 currentVideoFrameRateSelector = mkSelector "currentVideoFrameRate"
 
 -- | @Selector@ for @videoFieldMode@
-videoFieldModeSelector :: Selector '[] (Id NSString)
+videoFieldModeSelector :: Selector '[] RawId
 videoFieldModeSelector = mkSelector "videoFieldMode"
 
 -- | @Selector@ for @setVideoFieldMode:@
-setVideoFieldModeSelector :: Selector '[Id NSString] ()
+setVideoFieldModeSelector :: Selector '[RawId] ()
 setVideoFieldModeSelector = mkSelector "setVideoFieldMode:"
 

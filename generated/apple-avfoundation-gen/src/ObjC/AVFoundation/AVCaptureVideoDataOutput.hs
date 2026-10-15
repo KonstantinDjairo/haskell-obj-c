@@ -19,13 +19,10 @@ module ObjC.AVFoundation.AVCaptureVideoDataOutput
   , recommendedVideoSettingsForAssetWriterWithOutputFileType
   , availableVideoCodecTypesForAssetWriterWithOutputFileType
   , recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType
-  , recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType_outputFileURL
-  , recommendedMovieMetadataForVideoCodecType_assetWriterOutputFileType
   , sampleBufferDelegate
   , sampleBufferCallbackQueue
   , videoSettings
   , setVideoSettings
-  , recommendedMediaTimeScaleForAssetWriter
   , availableVideoCVPixelFormatTypes
   , availableVideoCodecTypes
   , alwaysDiscardsLateVideoFrames
@@ -34,10 +31,6 @@ module ObjC.AVFoundation.AVCaptureVideoDataOutput
   , setAutomaticallyConfiguresOutputBufferDimensions
   , deliversPreviewSizedOutputBuffers
   , setDeliversPreviewSizedOutputBuffers
-  , preparesCellularRadioForNetworkConnection
-  , setPreparesCellularRadioForNetworkConnection
-  , preservesDynamicHDRMetadata
-  , setPreservesDynamicHDRMetadata
   , alwaysDiscardsLateVideoFramesSelector
   , automaticallyConfiguresOutputBufferDimensionsSelector
   , availableVideoCVPixelFormatTypesSelector
@@ -46,20 +39,13 @@ module ObjC.AVFoundation.AVCaptureVideoDataOutput
   , deliversPreviewSizedOutputBuffersSelector
   , initSelector
   , newSelector
-  , preparesCellularRadioForNetworkConnectionSelector
-  , preservesDynamicHDRMetadataSelector
-  , recommendedMediaTimeScaleForAssetWriterSelector
-  , recommendedMovieMetadataForVideoCodecType_assetWriterOutputFileTypeSelector
   , recommendedVideoSettingsForAssetWriterWithOutputFileTypeSelector
   , recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileTypeSelector
-  , recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType_outputFileURLSelector
   , sampleBufferCallbackQueueSelector
   , sampleBufferDelegateSelector
   , setAlwaysDiscardsLateVideoFramesSelector
   , setAutomaticallyConfiguresOutputBufferDimensionsSelector
   , setDeliversPreviewSizedOutputBuffersSelector
-  , setPreparesCellularRadioForNetworkConnectionSelector
-  , setPreservesDynamicHDRMetadataSelector
   , setSampleBufferDelegate_queueSelector
   , setVideoSettingsSelector
   , videoSettingsSelector
@@ -102,7 +88,7 @@ new  =
 --
 -- Clients that need to minimize the chances of frames being dropped should specify a queue on which a sufficiently small amount of processing is being done outside of receiving sample buffers. However, if such clients migrate extra processing to another queue, they are responsible for ensuring that memory usage does not grow without bound from frames that have not been processed.
 --
--- A serial dispatch queue must be used to guarantee that video frames will be delivered in order. The sampleBufferCallbackQueue parameter may not be NULL, except when setting the sampleBufferDelegate to nil otherwise -setSampleBufferDelegate:queue: throws an NSInvalidArgumentException.
+-- A serial dispatch queue must be used to guarantee that video frames will be delivered in order. The sampleBufferCallbackQueue parameter may not be NULL, except when setting the sampleBufferDelegate to nil.
 --
 -- ObjC selector: @- setSampleBufferDelegate:queue:@
 setSampleBufferDelegate_queue :: (IsAVCaptureVideoDataOutput avCaptureVideoDataOutput, IsNSObject sampleBufferCallbackQueue) => avCaptureVideoDataOutput -> RawId -> sampleBufferCallbackQueue -> IO ()
@@ -170,54 +156,6 @@ recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType :: (IsAVCapt
 recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType avCaptureVideoDataOutput videoCodecType outputFileType =
   sendMessage avCaptureVideoDataOutput recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileTypeSelector (toNSString videoCodecType) (toNSString outputFileType)
 
--- | recommendedVideoSettingsForVideoCodecType:assetWriterOutputFileType:outputFileURL:
---
--- Specifies the recommended settings for a particular video codec type with output file URL, to be used with an AVAssetWriterInput.
---
--- @videoCodecType@ — Specifies the desired AVVideoCodecKey to be used for compression (see AVVideoSettings.h).
---
--- @outputFileType@ — Specifies the UTI of the file type to be written (see AVMediaFormat.h for a list of file format UTIs).
---
--- @outputFileURL@ — Specifies the output URL of the file to be written.
---
--- If you wish to capture onto an external storage device get an externalStorageDevice of type AVExternalStorageDevice (as defined in AVExternalStorageDevice.h):		[AVExternalStorageDeviceDiscoverySession sharedSession] externalStorageDevices]
---
--- Then use [externalStorageDevice nextAvailableURLsWithPathExtensions:pathExtensions error:&error] to get the output file URL.
---
--- Returns: A fully populated dictionary of keys and values that are compatible with AVAssetWriter.
---
--- The value of this property is an NSDictionary containing values for compression settings keys defined in AVVideoSettings.h. This dictionary is suitable for use as the "outputSettings" parameter when creating an AVAssetWriterInput, such as,
---
--- [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:outputSettings sourceFormatHint:hint];
---
--- The dictionary returned contains all necessary keys and values needed by AVAssetWriter (see AVAssetWriterInput.h, -initWithMediaType:outputSettings: for a more in depth discussion). For QuickTime movie and ISO file types, the recommended video settings will produce output comparable to that of AVCaptureMovieFileOutput.
---
--- The videoCodecType string provided must be present in the availableVideoCodecTypesForAssetWriterWithOutputFileType: array, or an NSInvalidArgumentException is thrown.
---
--- Note that the dictionary of settings is dependent on the current configuration of the receiver's AVCaptureSession and its inputs. The settings dictionary may change if the session's configuration changes. As such, you should configure your session first, then query the recommended video settings. As of iOS 8.3, movies produced with these settings successfully import into the iOS camera roll and sync to and from like devices via iTunes.
---
--- ObjC selector: @- recommendedVideoSettingsForVideoCodecType:assetWriterOutputFileType:outputFileURL:@
-recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType_outputFileURL :: (IsAVCaptureVideoDataOutput avCaptureVideoDataOutput, IsNSString videoCodecType, IsNSString outputFileType, IsNSURL outputFileURL) => avCaptureVideoDataOutput -> videoCodecType -> outputFileType -> outputFileURL -> IO (Id NSDictionary)
-recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType_outputFileURL avCaptureVideoDataOutput videoCodecType outputFileType outputFileURL =
-  sendMessage avCaptureVideoDataOutput recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType_outputFileURLSelector (toNSString videoCodecType) (toNSString outputFileType) (toNSURL outputFileURL)
-
--- | Recommends movie-level metadata for a particular video codec type and output file type, to be used with an asset writer input.
---
--- - Parameter videoCodecType: The desired ``AVVideoCodecKey`` to be used for compression (see <doc://com.apple.documentation/documentation/avfoundation/video-settings>). - Parameter outputFileType: Specifies the UTI of the file type to be written (see <doc://com.apple.documentation/documentation/avfoundation/avfiletype>). - Returns: A fully populated array of ``AVMetadataItem`` objects compatible with ``AVAssetWriter``.
---
--- The value of this property is an array of ``AVMetadataItem`` objects representing the collection of top-level metadata to be written in each output file. This array is suitable to use as the ``AVAssetWriter/metadata`` property before you have called ``AVAssetWriter/startWriting``. For more details see <doc://com.apple.documentation/documentation/avfoundation/avassetwriter/startwriting()>.
---
--- The ``videoCodecType`` string you provide must be present in ``availableVideoCodecTypesForAssetWriterWithOutputFileType:`` array, or an @NSInvalidArgumentException@ is thrown.
---
--- For clients writing files using a ProRes Raw codec type, white balance must be locked (call ``AVCaptureDevice/setWhiteBalanceModeLockedWithDeviceWhiteBalanceGains:completionHandler:``) before querying this property, or an @NSIvalidArgumentException@ is thrown.
---
--- - Note: The array of metadata is dependent on the current configuration of the receiver's ``AVCaptureSession`` and its inputs. The array may change when the session's configuration changes. As such, you should configure and start your session first, then query this method.
---
--- ObjC selector: @- recommendedMovieMetadataForVideoCodecType:assetWriterOutputFileType:@
-recommendedMovieMetadataForVideoCodecType_assetWriterOutputFileType :: (IsAVCaptureVideoDataOutput avCaptureVideoDataOutput, IsNSString videoCodecType, IsNSString outputFileType) => avCaptureVideoDataOutput -> videoCodecType -> outputFileType -> IO (Id NSArray)
-recommendedMovieMetadataForVideoCodecType_assetWriterOutputFileType avCaptureVideoDataOutput videoCodecType outputFileType =
-  sendMessage avCaptureVideoDataOutput recommendedMovieMetadataForVideoCodecType_assetWriterOutputFileTypeSelector (toNSString videoCodecType) (toNSString outputFileType)
-
 -- | sampleBufferDelegate
 --
 -- The receiver's delegate.
@@ -265,15 +203,6 @@ videoSettings avCaptureVideoDataOutput =
 setVideoSettings :: (IsAVCaptureVideoDataOutput avCaptureVideoDataOutput, IsNSDictionary value) => avCaptureVideoDataOutput -> value -> IO ()
 setVideoSettings avCaptureVideoDataOutput value =
   sendMessage avCaptureVideoDataOutput setVideoSettingsSelector (toNSDictionary value)
-
--- | Indicates the recommended media timescale for the video track.
---
--- - Returns: The recommended media timescale based on the active capture session's inputs. It is never less than 600. It may or may not be a multiple of 600.
---
--- ObjC selector: @- recommendedMediaTimeScaleForAssetWriter@
-recommendedMediaTimeScaleForAssetWriter :: IsAVCaptureVideoDataOutput avCaptureVideoDataOutput => avCaptureVideoDataOutput -> IO CInt
-recommendedMediaTimeScaleForAssetWriter avCaptureVideoDataOutput =
-  sendMessage avCaptureVideoDataOutput recommendedMediaTimeScaleForAssetWriterSelector
 
 -- | availableVideoCVPixelFormatTypes
 --
@@ -347,8 +276,6 @@ setAutomaticallyConfiguresOutputBufferDimensions avCaptureVideoDataOutput value 
 --
 -- If you wish to manually set deliversPreviewSizedOutputBuffers, you must first set automaticallyConfiguresOutputBufferDimensions to NO. When deliversPreviewSizedOutputBuffers is set to YES, auto focus, exposure, and white balance changes are quicker. AVCaptureVideoDataOutput assumes that the buffers are being used for on-screen preview rather than recording.
 --
--- When AVCaptureDevice.activeFormat supports ProRes Raw video, setting deliversPreviewSizedOutputBuffers gives out buffers with 422 format that can be used for proxy video recording.
---
 -- ObjC selector: @- deliversPreviewSizedOutputBuffers@
 deliversPreviewSizedOutputBuffers :: IsAVCaptureVideoDataOutput avCaptureVideoDataOutput => avCaptureVideoDataOutput -> IO Bool
 deliversPreviewSizedOutputBuffers avCaptureVideoDataOutput =
@@ -360,52 +287,10 @@ deliversPreviewSizedOutputBuffers avCaptureVideoDataOutput =
 --
 -- If you wish to manually set deliversPreviewSizedOutputBuffers, you must first set automaticallyConfiguresOutputBufferDimensions to NO. When deliversPreviewSizedOutputBuffers is set to YES, auto focus, exposure, and white balance changes are quicker. AVCaptureVideoDataOutput assumes that the buffers are being used for on-screen preview rather than recording.
 --
--- When AVCaptureDevice.activeFormat supports ProRes Raw video, setting deliversPreviewSizedOutputBuffers gives out buffers with 422 format that can be used for proxy video recording.
---
 -- ObjC selector: @- setDeliversPreviewSizedOutputBuffers:@
 setDeliversPreviewSizedOutputBuffers :: IsAVCaptureVideoDataOutput avCaptureVideoDataOutput => avCaptureVideoDataOutput -> Bool -> IO ()
 setDeliversPreviewSizedOutputBuffers avCaptureVideoDataOutput value =
   sendMessage avCaptureVideoDataOutput setDeliversPreviewSizedOutputBuffersSelector value
-
--- | Indicates whether the receiver should prepare the cellular radio for imminent network activity.
---
--- Apps that scan video data output buffers for information that will result in network activity (such as detecting a QRCode containing a URL) should set this property @true@ to allow the cellular radio to prepare for an imminent network request. Enabling this property requires a lengthy reconfiguration of the capture render pipeline, so you should set this property to @true@ before calling ``AVCaptureSession/startRunning``.
---
--- Using this API requires your app to adopt the entitlement @com.apple.developer.avfoundation.video-data-output-prepares-cellular-radio-for-machine-readable-code-scanning@.
---
--- ObjC selector: @- preparesCellularRadioForNetworkConnection@
-preparesCellularRadioForNetworkConnection :: IsAVCaptureVideoDataOutput avCaptureVideoDataOutput => avCaptureVideoDataOutput -> IO Bool
-preparesCellularRadioForNetworkConnection avCaptureVideoDataOutput =
-  sendMessage avCaptureVideoDataOutput preparesCellularRadioForNetworkConnectionSelector
-
--- | Indicates whether the receiver should prepare the cellular radio for imminent network activity.
---
--- Apps that scan video data output buffers for information that will result in network activity (such as detecting a QRCode containing a URL) should set this property @true@ to allow the cellular radio to prepare for an imminent network request. Enabling this property requires a lengthy reconfiguration of the capture render pipeline, so you should set this property to @true@ before calling ``AVCaptureSession/startRunning``.
---
--- Using this API requires your app to adopt the entitlement @com.apple.developer.avfoundation.video-data-output-prepares-cellular-radio-for-machine-readable-code-scanning@.
---
--- ObjC selector: @- setPreparesCellularRadioForNetworkConnection:@
-setPreparesCellularRadioForNetworkConnection :: IsAVCaptureVideoDataOutput avCaptureVideoDataOutput => avCaptureVideoDataOutput -> Bool -> IO ()
-setPreparesCellularRadioForNetworkConnection avCaptureVideoDataOutput value =
-  sendMessage avCaptureVideoDataOutput setPreparesCellularRadioForNetworkConnectionSelector value
-
--- | Indicates whether the receiver should preserve dynamic HDR metadata as an attachment on the output sample buffer's underlying pixel buffer.
---
--- Set this property to @true@ if you wish to use ``AVCaptureVideoDataOutput`` with ``AVAssetWriter`` to record HDR movies. You must also set ``kVTCompressionPropertyKey_PreserveDynamicHDRMetadata`` to @true@ in the compression settings you pass to your ``AVAssetWriterInput``. These compression settings are represented under the ``AVVideoCompressionPropertiesKey`` sub-dictionary of your top-level AVVideoSettings (see <doc://com.apple.documentation/documentation/avfoundation/video-settings>). When you set this key to @true@, performance improves, as the encoder is able to skip HDR metadata calculation for every frame. The default value is @false@.
---
--- ObjC selector: @- preservesDynamicHDRMetadata@
-preservesDynamicHDRMetadata :: IsAVCaptureVideoDataOutput avCaptureVideoDataOutput => avCaptureVideoDataOutput -> IO Bool
-preservesDynamicHDRMetadata avCaptureVideoDataOutput =
-  sendMessage avCaptureVideoDataOutput preservesDynamicHDRMetadataSelector
-
--- | Indicates whether the receiver should preserve dynamic HDR metadata as an attachment on the output sample buffer's underlying pixel buffer.
---
--- Set this property to @true@ if you wish to use ``AVCaptureVideoDataOutput`` with ``AVAssetWriter`` to record HDR movies. You must also set ``kVTCompressionPropertyKey_PreserveDynamicHDRMetadata`` to @true@ in the compression settings you pass to your ``AVAssetWriterInput``. These compression settings are represented under the ``AVVideoCompressionPropertiesKey`` sub-dictionary of your top-level AVVideoSettings (see <doc://com.apple.documentation/documentation/avfoundation/video-settings>). When you set this key to @true@, performance improves, as the encoder is able to skip HDR metadata calculation for every frame. The default value is @false@.
---
--- ObjC selector: @- setPreservesDynamicHDRMetadata:@
-setPreservesDynamicHDRMetadata :: IsAVCaptureVideoDataOutput avCaptureVideoDataOutput => avCaptureVideoDataOutput -> Bool -> IO ()
-setPreservesDynamicHDRMetadata avCaptureVideoDataOutput value =
-  sendMessage avCaptureVideoDataOutput setPreservesDynamicHDRMetadataSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -435,14 +320,6 @@ availableVideoCodecTypesForAssetWriterWithOutputFileTypeSelector = mkSelector "a
 recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileTypeSelector :: Selector '[Id NSString, Id NSString] (Id NSDictionary)
 recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileTypeSelector = mkSelector "recommendedVideoSettingsForVideoCodecType:assetWriterOutputFileType:"
 
--- | @Selector@ for @recommendedVideoSettingsForVideoCodecType:assetWriterOutputFileType:outputFileURL:@
-recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType_outputFileURLSelector :: Selector '[Id NSString, Id NSString, Id NSURL] (Id NSDictionary)
-recommendedVideoSettingsForVideoCodecType_assetWriterOutputFileType_outputFileURLSelector = mkSelector "recommendedVideoSettingsForVideoCodecType:assetWriterOutputFileType:outputFileURL:"
-
--- | @Selector@ for @recommendedMovieMetadataForVideoCodecType:assetWriterOutputFileType:@
-recommendedMovieMetadataForVideoCodecType_assetWriterOutputFileTypeSelector :: Selector '[Id NSString, Id NSString] (Id NSArray)
-recommendedMovieMetadataForVideoCodecType_assetWriterOutputFileTypeSelector = mkSelector "recommendedMovieMetadataForVideoCodecType:assetWriterOutputFileType:"
-
 -- | @Selector@ for @sampleBufferDelegate@
 sampleBufferDelegateSelector :: Selector '[] RawId
 sampleBufferDelegateSelector = mkSelector "sampleBufferDelegate"
@@ -458,10 +335,6 @@ videoSettingsSelector = mkSelector "videoSettings"
 -- | @Selector@ for @setVideoSettings:@
 setVideoSettingsSelector :: Selector '[Id NSDictionary] ()
 setVideoSettingsSelector = mkSelector "setVideoSettings:"
-
--- | @Selector@ for @recommendedMediaTimeScaleForAssetWriter@
-recommendedMediaTimeScaleForAssetWriterSelector :: Selector '[] CInt
-recommendedMediaTimeScaleForAssetWriterSelector = mkSelector "recommendedMediaTimeScaleForAssetWriter"
 
 -- | @Selector@ for @availableVideoCVPixelFormatTypes@
 availableVideoCVPixelFormatTypesSelector :: Selector '[] (Id NSArray)
@@ -494,20 +367,4 @@ deliversPreviewSizedOutputBuffersSelector = mkSelector "deliversPreviewSizedOutp
 -- | @Selector@ for @setDeliversPreviewSizedOutputBuffers:@
 setDeliversPreviewSizedOutputBuffersSelector :: Selector '[Bool] ()
 setDeliversPreviewSizedOutputBuffersSelector = mkSelector "setDeliversPreviewSizedOutputBuffers:"
-
--- | @Selector@ for @preparesCellularRadioForNetworkConnection@
-preparesCellularRadioForNetworkConnectionSelector :: Selector '[] Bool
-preparesCellularRadioForNetworkConnectionSelector = mkSelector "preparesCellularRadioForNetworkConnection"
-
--- | @Selector@ for @setPreparesCellularRadioForNetworkConnection:@
-setPreparesCellularRadioForNetworkConnectionSelector :: Selector '[Bool] ()
-setPreparesCellularRadioForNetworkConnectionSelector = mkSelector "setPreparesCellularRadioForNetworkConnection:"
-
--- | @Selector@ for @preservesDynamicHDRMetadata@
-preservesDynamicHDRMetadataSelector :: Selector '[] Bool
-preservesDynamicHDRMetadataSelector = mkSelector "preservesDynamicHDRMetadata"
-
--- | @Selector@ for @setPreservesDynamicHDRMetadata:@
-setPreservesDynamicHDRMetadataSelector :: Selector '[Bool] ()
-setPreservesDynamicHDRMetadataSelector = mkSelector "setPreservesDynamicHDRMetadata:"
 

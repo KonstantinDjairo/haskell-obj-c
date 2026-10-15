@@ -41,9 +41,7 @@ init_ :: IsVSAccountApplicationProvider vsAccountApplicationProvider => vsAccoun
 init_ vsAccountApplicationProvider =
   sendOwnedMessage vsAccountApplicationProvider initSelector
 
--- | Unavailable for this class.
---
--- ObjC selector: @+ new@
+-- | @+ new@
 new :: IO (Id VSAccountApplicationProvider)
 new  =
   do

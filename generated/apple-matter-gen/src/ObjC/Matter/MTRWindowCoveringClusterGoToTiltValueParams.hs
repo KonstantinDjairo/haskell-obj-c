@@ -7,14 +7,14 @@
 module ObjC.Matter.MTRWindowCoveringClusterGoToTiltValueParams
   ( MTRWindowCoveringClusterGoToTiltValueParams
   , IsMTRWindowCoveringClusterGoToTiltValueParams(..)
+  , init_
+  , copyWithZone
   , tiltValue
   , setTiltValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , serverSideProcessingTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTiltValueSelector
   , setTimedInvokeTimeoutMsSelector
   , tiltValueSelector
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRWindowCoveringClusterGoToTiltValueParams mtrWindowCoveringClusterGoToTiltValueParams => mtrWindowCoveringClusterGoToTiltValueParams -> IO (Id MTRWindowCoveringClusterGoToTiltValueParams)
+init_ mtrWindowCoveringClusterGoToTiltValueParams =
+  sendOwnedMessage mtrWindowCoveringClusterGoToTiltValueParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRWindowCoveringClusterGoToTiltValueParams mtrWindowCoveringClusterGoToTiltValueParams => mtrWindowCoveringClusterGoToTiltValueParams -> Ptr () -> IO RawId
+copyWithZone mtrWindowCoveringClusterGoToTiltValueParams zone =
+  sendOwnedMessage mtrWindowCoveringClusterGoToTiltValueParams copyWithZoneSelector zone
 
 -- | @- tiltValue@
 tiltValue :: IsMTRWindowCoveringClusterGoToTiltValueParams mtrWindowCoveringClusterGoToTiltValueParams => mtrWindowCoveringClusterGoToTiltValueParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRWindowCoveringClusterGoToTiltValueParams mtrWin
 setTimedInvokeTimeoutMs mtrWindowCoveringClusterGoToTiltValueParams value =
   sendMessage mtrWindowCoveringClusterGoToTiltValueParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRWindowCoveringClusterGoToTiltValueParams mtrWindowCoveringClusterGoToTiltValueParams => mtrWindowCoveringClusterGoToTiltValueParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrWindowCoveringClusterGoToTiltValueParams =
-  sendMessage mtrWindowCoveringClusterGoToTiltValueParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRWindowCoveringClusterGoToTiltValueParams mtrWindowCoveringClusterGoToTiltValueParams, IsNSNumber value) => mtrWindowCoveringClusterGoToTiltValueParams -> value -> IO ()
-setServerSideProcessingTimeout mtrWindowCoveringClusterGoToTiltValueParams value =
-  sendMessage mtrWindowCoveringClusterGoToTiltValueParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRWindowCoveringClusterGoToTiltValueParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @tiltValue@
 tiltValueSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

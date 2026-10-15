@@ -64,9 +64,7 @@ anonymousGuestPlayerWithIdentifier guestIdentifier =
     cls' <- getRequiredClass "GKPlayer"
     sendClassMessage cls' anonymousGuestPlayerWithIdentifierSelector (toNSString guestIdentifier)
 
--- | Asynchronously load the player's photo. Error will be nil on success. Possible reasons for error: 1. Communications failure
---
--- ObjC selector: @- loadPhotoForSize:withCompletionHandler:@
+-- | @- loadPhotoForSize:withCompletionHandler:@
 loadPhotoForSize_withCompletionHandler :: IsGKPlayer gkPlayer => gkPlayer -> GKPhotoSize -> Ptr () -> IO ()
 loadPhotoForSize_withCompletionHandler gkPlayer size completionHandler =
   sendMessage gkPlayer loadPhotoForSize_withCompletionHandlerSelector size completionHandler
@@ -88,7 +86,7 @@ teamPlayerID gkPlayer =
 -- | This is player's alias to be displayed. The display name may be very long, so be sure to use appropriate string truncation API when drawing.
 --
 -- ObjC selector: @- displayName@
-displayName :: IsGKPlayer gkPlayer => gkPlayer -> IO (Id NSString)
+displayName :: IsGKPlayer gkPlayer => gkPlayer -> IO RawId
 displayName gkPlayer =
   sendMessage gkPlayer displayNameSelector
 
@@ -100,7 +98,7 @@ alias gkPlayer =
   sendMessage gkPlayer aliasSelector
 
 -- | @- guestIdentifier@
-guestIdentifier :: IsGKPlayer gkPlayer => gkPlayer -> IO (Id NSString)
+guestIdentifier :: IsGKPlayer gkPlayer => gkPlayer -> IO RawId
 guestIdentifier gkPlayer =
   sendMessage gkPlayer guestIdentifierSelector
 
@@ -144,7 +142,7 @@ teamPlayerIDSelector :: Selector '[] (Id NSString)
 teamPlayerIDSelector = mkSelector "teamPlayerID"
 
 -- | @Selector@ for @displayName@
-displayNameSelector :: Selector '[] (Id NSString)
+displayNameSelector :: Selector '[] RawId
 displayNameSelector = mkSelector "displayName"
 
 -- | @Selector@ for @alias@
@@ -152,7 +150,7 @@ aliasSelector :: Selector '[] (Id NSString)
 aliasSelector = mkSelector "alias"
 
 -- | @Selector@ for @guestIdentifier@
-guestIdentifierSelector :: Selector '[] (Id NSString)
+guestIdentifierSelector :: Selector '[] RawId
 guestIdentifierSelector = mkSelector "guestIdentifier"
 
 -- | @Selector@ for @isInvitable@

@@ -12,8 +12,6 @@ module ObjC.MetricKit.MXCPUMetric
   ( MXCPUMetric
   , IsMXCPUMetric(..)
   , cumulativeCPUTime
-  , cumulativeCPUInstructions
-  , cumulativeCPUInstructionsSelector
   , cumulativeCPUTimeSelector
 
 
@@ -43,19 +41,6 @@ cumulativeCPUTime :: IsMXCPUMetric mxcpuMetric => mxcpuMetric -> IO (Id NSMeasur
 cumulativeCPUTime mxcpuMetric =
   sendMessage mxcpuMetric cumulativeCPUTimeSelector
 
--- | cumulativeCPUInstructions
---
--- CPU instructions retired aggregated cumulatively.
---
--- The data here represents the total number of CPU instructions an application retired over the date range of the containing payload.
---
--- Dimensionless.
---
--- ObjC selector: @- cumulativeCPUInstructions@
-cumulativeCPUInstructions :: IsMXCPUMetric mxcpuMetric => mxcpuMetric -> IO (Id NSMeasurement)
-cumulativeCPUInstructions mxcpuMetric =
-  sendMessage mxcpuMetric cumulativeCPUInstructionsSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -63,8 +48,4 @@ cumulativeCPUInstructions mxcpuMetric =
 -- | @Selector@ for @cumulativeCPUTime@
 cumulativeCPUTimeSelector :: Selector '[] (Id NSMeasurement)
 cumulativeCPUTimeSelector = mkSelector "cumulativeCPUTime"
-
--- | @Selector@ for @cumulativeCPUInstructions@
-cumulativeCPUInstructionsSelector :: Selector '[] (Id NSMeasurement)
-cumulativeCPUInstructionsSelector = mkSelector "cumulativeCPUInstructions"
 

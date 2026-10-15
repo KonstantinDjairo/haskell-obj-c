@@ -9,8 +9,9 @@
 module ObjC.Matter.MTRClusterAudioOutput
   ( MTRClusterAudioOutput
   , IsMTRClusterAudioOutput(..)
-  , selectOutputWithParams_expectedValues_expectedValueInterval_completion
-  , renameOutputWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , selectOutputWithParams_expectedValues_expectedValueInterval_completionHandler
+  , renameOutputWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeOutputListWithParams
   , readAttributeCurrentOutputWithParams
   , readAttributeGeneratedCommandListWithParams
@@ -20,12 +21,7 @@ module ObjC.Matter.MTRClusterAudioOutput
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , selectOutputWithParams_expectedValues_expectedValueInterval_completionHandler
-  , renameOutputWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -36,9 +32,7 @@ module ObjC.Matter.MTRClusterAudioOutput
   , readAttributeGeneratedCommandListWithParamsSelector
   , readAttributeOutputListWithParamsSelector
   , renameOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , renameOutputWithParams_expectedValues_expectedValueInterval_completionSelector
   , selectOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , selectOutputWithParams_expectedValues_expectedValueInterval_completionSelector
 
 
   ) where
@@ -54,15 +48,20 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- selectOutputWithParams:expectedValues:expectedValueInterval:completion:@
-selectOutputWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRAudioOutputClusterSelectOutputParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterAudioOutput -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-selectOutputWithParams_expectedValues_expectedValueInterval_completion mtrClusterAudioOutput params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterAudioOutput selectOutputWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRAudioOutputClusterSelectOutputParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRDevice device, IsNSObject queue) => mtrClusterAudioOutput -> device -> CUShort -> queue -> IO (Id MTRClusterAudioOutput)
+initWithDevice_endpoint_queue mtrClusterAudioOutput device endpoint queue =
+  sendOwnedMessage mtrClusterAudioOutput initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- renameOutputWithParams:expectedValues:expectedValueInterval:completion:@
-renameOutputWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRAudioOutputClusterRenameOutputParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterAudioOutput -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-renameOutputWithParams_expectedValues_expectedValueInterval_completion mtrClusterAudioOutput params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterAudioOutput renameOutputWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRAudioOutputClusterRenameOutputParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- selectOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
+selectOutputWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRAudioOutputClusterSelectOutputParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterAudioOutput -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+selectOutputWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterAudioOutput params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterAudioOutput selectOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRAudioOutputClusterSelectOutputParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
+
+-- | @- renameOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
+renameOutputWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRAudioOutputClusterRenameOutputParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterAudioOutput -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+renameOutputWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterAudioOutput params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterAudioOutput renameOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRAudioOutputClusterRenameOutputParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeOutputListWithParams:@
 readAttributeOutputListWithParams :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRReadParams params) => mtrClusterAudioOutput -> params -> IO (Id NSDictionary)
@@ -111,39 +110,21 @@ new  =
     cls' <- getRequiredClass "MTRClusterAudioOutput"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRDevice device, IsNSObject queue) => mtrClusterAudioOutput -> device -> CUShort -> queue -> IO (Id MTRClusterAudioOutput)
-initWithDevice_endpoint_queue mtrClusterAudioOutput device endpoint queue =
-  sendOwnedMessage mtrClusterAudioOutput initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- selectOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
-selectOutputWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRAudioOutputClusterSelectOutputParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterAudioOutput -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-selectOutputWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterAudioOutput params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterAudioOutput selectOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRAudioOutputClusterSelectOutputParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- renameOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
-renameOutputWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRAudioOutputClusterRenameOutputParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterAudioOutput -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-renameOutputWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterAudioOutput params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterAudioOutput renameOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRAudioOutputClusterRenameOutputParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterAudioOutput mtrClusterAudioOutput, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterAudioOutput -> device -> endpointID -> queue -> IO (Id MTRClusterAudioOutput)
-initWithDevice_endpointID_queue mtrClusterAudioOutput device endpointID queue =
-  sendOwnedMessage mtrClusterAudioOutput initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @selectOutputWithParams:expectedValues:expectedValueInterval:completion:@
-selectOutputWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRAudioOutputClusterSelectOutputParams, Id NSArray, Id NSNumber, Ptr ()] ()
-selectOutputWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "selectOutputWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterAudioOutput)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @renameOutputWithParams:expectedValues:expectedValueInterval:completion:@
-renameOutputWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRAudioOutputClusterRenameOutputParams, Id NSArray, Id NSNumber, Ptr ()] ()
-renameOutputWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "renameOutputWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @selectOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
+selectOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRAudioOutputClusterSelectOutputParams, Id NSArray, Id NSNumber, Ptr ()] ()
+selectOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "selectOutputWithParams:expectedValues:expectedValueInterval:completionHandler:"
+
+-- | @Selector@ for @renameOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
+renameOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRAudioOutputClusterRenameOutputParams, Id NSArray, Id NSNumber, Ptr ()] ()
+renameOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "renameOutputWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeOutputListWithParams:@
 readAttributeOutputListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -180,20 +161,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterAudioOutput)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterAudioOutput)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @selectOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
-selectOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRAudioOutputClusterSelectOutputParams, Id NSArray, Id NSNumber, Ptr ()] ()
-selectOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "selectOutputWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @renameOutputWithParams:expectedValues:expectedValueInterval:completionHandler:@
-renameOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRAudioOutputClusterRenameOutputParams, Id NSArray, Id NSNumber, Ptr ()] ()
-renameOutputWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "renameOutputWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterAudioOutput)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

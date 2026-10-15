@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterGetYearDayScheduleResponseParams
   ( MTRDoorLockClusterGetYearDayScheduleResponseParams
   , IsMTRDoorLockClusterGetYearDayScheduleResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , yearDayIndex
   , setYearDayIndex
   , userIndex
@@ -20,7 +21,8 @@ module ObjC.Matter.MTRDoorLockClusterGetYearDayScheduleResponseParams
   , setLocalEndTime
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , localEndTimeSelector
   , localStartTimeSelector
   , setLocalEndTimeSelector
@@ -48,16 +50,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRDoorLockClusterGetYearDayScheduleResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRDoorLockClusterGetYearDayScheduleResponseParams mtrDoorLockClusterGetYearDayScheduleResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrDoorLockClusterGetYearDayScheduleResponseParams -> responseValue -> error_ -> IO (Id MTRDoorLockClusterGetYearDayScheduleResponseParams)
-initWithResponseValue_error mtrDoorLockClusterGetYearDayScheduleResponseParams responseValue error_ =
-  sendOwnedMessage mtrDoorLockClusterGetYearDayScheduleResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRDoorLockClusterGetYearDayScheduleResponseParams mtrDoorLockClusterGetYearDayScheduleResponseParams => mtrDoorLockClusterGetYearDayScheduleResponseParams -> IO (Id MTRDoorLockClusterGetYearDayScheduleResponseParams)
+init_ mtrDoorLockClusterGetYearDayScheduleResponseParams =
+  sendOwnedMessage mtrDoorLockClusterGetYearDayScheduleResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterGetYearDayScheduleResponseParams mtrDoorLockClusterGetYearDayScheduleResponseParams => mtrDoorLockClusterGetYearDayScheduleResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterGetYearDayScheduleResponseParams zone =
+  sendOwnedMessage mtrDoorLockClusterGetYearDayScheduleResponseParams copyWithZoneSelector zone
 
 -- | @- yearDayIndex@
 yearDayIndex :: IsMTRDoorLockClusterGetYearDayScheduleResponseParams mtrDoorLockClusterGetYearDayScheduleResponseParams => mtrDoorLockClusterGetYearDayScheduleResponseParams -> IO (Id NSNumber)
@@ -135,9 +136,13 @@ setTimedInvokeTimeoutMs mtrDoorLockClusterGetYearDayScheduleResponseParams value
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRDoorLockClusterGetYearDayScheduleResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterGetYearDayScheduleResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @yearDayIndex@
 yearDayIndexSelector :: Selector '[] (Id NSNumber)

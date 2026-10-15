@@ -14,55 +14,13 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | @BGContinuedProcessingTaskRequestResources@ (bitmask)
-newtype BGContinuedProcessingTaskRequestResources = BGContinuedProcessingTaskRequestResources CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup BGContinuedProcessingTaskRequestResources where
-  (<>) = (.|.)
-
-instance Monoid BGContinuedProcessingTaskRequestResources where
-  mempty = BGContinuedProcessingTaskRequestResources 0
-
-pattern BGContinuedProcessingTaskRequestResourcesDefault :: BGContinuedProcessingTaskRequestResources
-pattern BGContinuedProcessingTaskRequestResourcesDefault = BGContinuedProcessingTaskRequestResources 0
-
-pattern BGContinuedProcessingTaskRequestResourcesGPU :: BGContinuedProcessingTaskRequestResources
-pattern BGContinuedProcessingTaskRequestResourcesGPU = BGContinuedProcessingTaskRequestResources 1
-
-instance ObjCArgument BGContinuedProcessingTaskRequestResources where
-  withObjCArg (BGContinuedProcessingTaskRequestResources x) k = k (argCLong x)
-
-instance ObjCReturn BGContinuedProcessingTaskRequestResources where
-  type RawReturn BGContinuedProcessingTaskRequestResources = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (BGContinuedProcessingTaskRequestResources x)
-  fromOwned x = pure (BGContinuedProcessingTaskRequestResources x)
-
--- | @BGContinuedProcessingTaskRequestSubmissionStrategy@
-newtype BGContinuedProcessingTaskRequestSubmissionStrategy = BGContinuedProcessingTaskRequestSubmissionStrategy CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern BGContinuedProcessingTaskRequestSubmissionStrategyFail :: BGContinuedProcessingTaskRequestSubmissionStrategy
-pattern BGContinuedProcessingTaskRequestSubmissionStrategyFail = BGContinuedProcessingTaskRequestSubmissionStrategy 0
-
-pattern BGContinuedProcessingTaskRequestSubmissionStrategyQueue :: BGContinuedProcessingTaskRequestSubmissionStrategy
-pattern BGContinuedProcessingTaskRequestSubmissionStrategyQueue = BGContinuedProcessingTaskRequestSubmissionStrategy 1
-
-instance ObjCArgument BGContinuedProcessingTaskRequestSubmissionStrategy where
-  withObjCArg (BGContinuedProcessingTaskRequestSubmissionStrategy x) k = k (argCLong x)
-
-instance ObjCReturn BGContinuedProcessingTaskRequestSubmissionStrategy where
-  type RawReturn BGContinuedProcessingTaskRequestSubmissionStrategy = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (BGContinuedProcessingTaskRequestSubmissionStrategy x)
-  fromOwned x = pure (BGContinuedProcessingTaskRequestSubmissionStrategy x)
-
--- | An enumeration of the task scheduling errors.
+-- | BGTaskSchedulerErrorCode
+--
+-- BGTaskSchedulerErrorCodeUnavailable Background task scheduling functionality is not available for this app/extension. Background App Refresh may have been disabled in Settings.
+--
+-- BGTaskSchedulerErrorCodeTooManyPendingTaskRequests The task request could not be submitted because there are too many pending task requests of this type. Cancel some existing task requests before trying again.
+--
+-- BGTaskSchedulerErrorCodeNotPermitted The task request could not be submitted because the appropriate background mode is not included in the UIBackgroundModes array, or its identifier was not present in the BGTaskSchedulerPermittedIdentifiers array in the app's Info.plist.
 -- | @BGTaskSchedulerErrorCode@
 newtype BGTaskSchedulerErrorCode = BGTaskSchedulerErrorCode CLong
   deriving stock (Eq, Ord, Show)
@@ -76,9 +34,6 @@ pattern BGTaskSchedulerErrorCodeTooManyPendingTaskRequests = BGTaskSchedulerErro
 
 pattern BGTaskSchedulerErrorCodeNotPermitted :: BGTaskSchedulerErrorCode
 pattern BGTaskSchedulerErrorCodeNotPermitted = BGTaskSchedulerErrorCode 3
-
-pattern BGTaskSchedulerErrorCodeImmediateRunIneligible :: BGTaskSchedulerErrorCode
-pattern BGTaskSchedulerErrorCodeImmediateRunIneligible = BGTaskSchedulerErrorCode 4
 
 instance ObjCArgument BGTaskSchedulerErrorCode where
   withObjCArg (BGTaskSchedulerErrorCode x) k = k (argCLong x)

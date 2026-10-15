@@ -38,7 +38,7 @@ initWithStringValue phCloudIdentifier stringValue =
 -- | DEPRECATED: If there is a failure to determine the global identifier for a local identifier, the notFoundIdentifier is provided in that array slot.
 --
 -- ObjC selector: @+ notFoundIdentifier@
-notFoundIdentifier :: IO (Id PHCloudIdentifier)
+notFoundIdentifier :: IO RawId
 notFoundIdentifier  =
   do
     cls' <- getRequiredClass "PHCloudIdentifier"
@@ -58,7 +58,7 @@ initWithStringValueSelector :: Selector '[Id NSString] (Id PHCloudIdentifier)
 initWithStringValueSelector = mkSelector "initWithStringValue:"
 
 -- | @Selector@ for @notFoundIdentifier@
-notFoundIdentifierSelector :: Selector '[] (Id PHCloudIdentifier)
+notFoundIdentifierSelector :: Selector '[] RawId
 notFoundIdentifierSelector = mkSelector "notFoundIdentifier"
 
 -- | @Selector@ for @stringValue@

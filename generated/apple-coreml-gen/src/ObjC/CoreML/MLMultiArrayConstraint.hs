@@ -25,7 +25,6 @@ module ObjC.CoreML.MLMultiArrayConstraint
   , pattern MLMultiArrayDataTypeFloat16
   , pattern MLMultiArrayDataTypeFloat
   , pattern MLMultiArrayDataTypeInt32
-  , pattern MLMultiArrayDataTypeInt8
 
   ) where
 

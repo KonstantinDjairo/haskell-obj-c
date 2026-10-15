@@ -7,13 +7,17 @@
 module ObjC.Matter.MTRContentLauncherClusterLaunchResponseParams
   ( MTRContentLauncherClusterLaunchResponseParams
   , IsMTRContentLauncherClusterLaunchResponseParams(..)
+  , init_
+  , copyWithZone
   , status
   , setStatus
   , data_
   , setData
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , dataSelector
+  , initSelector
   , setDataSelector
   , setStatusSelector
   , setTimedInvokeTimeoutMsSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRContentLauncherClusterLaunchResponseParams mtrContentLauncherClusterLaunchResponseParams => mtrContentLauncherClusterLaunchResponseParams -> IO (Id MTRContentLauncherClusterLaunchResponseParams)
+init_ mtrContentLauncherClusterLaunchResponseParams =
+  sendOwnedMessage mtrContentLauncherClusterLaunchResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRContentLauncherClusterLaunchResponseParams mtrContentLauncherClusterLaunchResponseParams => mtrContentLauncherClusterLaunchResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrContentLauncherClusterLaunchResponseParams zone =
+  sendOwnedMessage mtrContentLauncherClusterLaunchResponseParams copyWithZoneSelector zone
 
 -- | @- status@
 status :: IsMTRContentLauncherClusterLaunchResponseParams mtrContentLauncherClusterLaunchResponseParams => mtrContentLauncherClusterLaunchResponseParams -> IO (Id NSNumber)
@@ -79,6 +93,14 @@ setTimedInvokeTimeoutMs mtrContentLauncherClusterLaunchResponseParams value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRContentLauncherClusterLaunchResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] (Id NSNumber)

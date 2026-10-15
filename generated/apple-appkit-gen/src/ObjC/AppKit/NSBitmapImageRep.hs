@@ -354,7 +354,7 @@ cgImage nsBitmapImageRep =
   sendMessage nsBitmapImageRep cgImageSelector
 
 -- | @- colorSpace@
-colorSpace :: IsNSBitmapImageRep nsBitmapImageRep => nsBitmapImageRep -> IO (Id NSColorSpace)
+colorSpace :: IsNSBitmapImageRep nsBitmapImageRep => nsBitmapImageRep -> IO RawId
 colorSpace nsBitmapImageRep =
   sendMessage nsBitmapImageRep colorSpaceSelector
 
@@ -523,6 +523,6 @@ cgImageSelector :: Selector '[] (Ptr ())
 cgImageSelector = mkSelector "CGImage"
 
 -- | @Selector@ for @colorSpace@
-colorSpaceSelector :: Selector '[] (Id NSColorSpace)
+colorSpaceSelector :: Selector '[] RawId
 colorSpaceSelector = mkSelector "colorSpace"
 

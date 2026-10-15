@@ -532,12 +532,6 @@ pattern MPSDataTypeSignedBit = MPSDataType 536870912
 pattern MPSDataTypeIntBit :: MPSDataType
 pattern MPSDataTypeIntBit = MPSDataType 536870912
 
-pattern MPSDataTypeInt2 :: MPSDataType
-pattern MPSDataTypeInt2 = MPSDataType 536870914
-
-pattern MPSDataTypeInt4 :: MPSDataType
-pattern MPSDataTypeInt4 = MPSDataType 536870916
-
 pattern MPSDataTypeInt8 :: MPSDataType
 pattern MPSDataTypeInt8 = MPSDataType 536870920
 
@@ -549,12 +543,6 @@ pattern MPSDataTypeInt32 = MPSDataType 536870944
 
 pattern MPSDataTypeInt64 :: MPSDataType
 pattern MPSDataTypeInt64 = MPSDataType 536870976
-
-pattern MPSDataTypeUInt2 :: MPSDataType
-pattern MPSDataTypeUInt2 = MPSDataType 2
-
-pattern MPSDataTypeUInt4 :: MPSDataType
-pattern MPSDataTypeUInt4 = MPSDataType 4
 
 pattern MPSDataTypeUInt8 :: MPSDataType
 pattern MPSDataTypeUInt8 = MPSDataType 8
@@ -573,9 +561,6 @@ pattern MPSDataTypeAlternateEncodingBit = MPSDataType 2147483648
 
 pattern MPSDataTypeBool :: MPSDataType
 pattern MPSDataTypeBool = MPSDataType 2147483656
-
-pattern MPSDataTypeBFloat16 :: MPSDataType
-pattern MPSDataTypeBFloat16 = MPSDataType 2415919120
 
 pattern MPSDataTypeNormalizedBit :: MPSDataType
 pattern MPSDataTypeNormalizedBit = MPSDataType 1073741824
@@ -625,54 +610,6 @@ instance ObjCReturn MPSDeviceOptions where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MPSDeviceOptions x)
   fromOwned x = pure (MPSDeviceOptions x)
-
--- | @MPSFloatDataTypeBit@
-newtype MPSFloatDataTypeBit = MPSFloatDataTypeBit CUInt
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MPSFloatDataTypeSignBit :: MPSFloatDataTypeBit
-pattern MPSFloatDataTypeSignBit = MPSFloatDataTypeBit 8388608
-
-pattern MPSFloatDataTypeExponentBit :: MPSFloatDataTypeBit
-pattern MPSFloatDataTypeExponentBit = MPSFloatDataTypeBit 8126464
-
-pattern MPSFloatDataTypeMantissaBit :: MPSFloatDataTypeBit
-pattern MPSFloatDataTypeMantissaBit = MPSFloatDataTypeBit 261120
-
-instance ObjCArgument MPSFloatDataTypeBit where
-  withObjCArg (MPSFloatDataTypeBit x) k = k (argCUInt x)
-
-instance ObjCReturn MPSFloatDataTypeBit where
-  type RawReturn MPSFloatDataTypeBit = CUInt
-  objcRetType = retCUInt
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MPSFloatDataTypeBit x)
-  fromOwned x = pure (MPSFloatDataTypeBit x)
-
--- | @MPSFloatDataTypeShift@
-newtype MPSFloatDataTypeShift = MPSFloatDataTypeShift CUInt
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MPSFloatDataTypeSignShift :: MPSFloatDataTypeShift
-pattern MPSFloatDataTypeSignShift = MPSFloatDataTypeShift 23
-
-pattern MPSFloatDataTypeExponentShift :: MPSFloatDataTypeShift
-pattern MPSFloatDataTypeExponentShift = MPSFloatDataTypeShift 18
-
-pattern MPSFloatDataTypeMantissaShift :: MPSFloatDataTypeShift
-pattern MPSFloatDataTypeMantissaShift = MPSFloatDataTypeShift 10
-
-instance ObjCArgument MPSFloatDataTypeShift where
-  withObjCArg (MPSFloatDataTypeShift x) k = k (argCUInt x)
-
-instance ObjCReturn MPSFloatDataTypeShift where
-  type RawReturn MPSFloatDataTypeShift = CUInt
-  objcRetType = retCUInt
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MPSFloatDataTypeShift x)
-  fromOwned x = pure (MPSFloatDataTypeShift x)
 
 -- | @MPSImageEdgeMode@
 newtype MPSImageEdgeMode = MPSImageEdgeMode CULong
@@ -900,36 +837,6 @@ instance ObjCReturn MPSMatrixRandomDistribution where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MPSMatrixRandomDistribution x)
   fromOwned x = pure (MPSMatrixRandomDistribution x)
-
--- | @MPSNDArrayQuantizationScheme@ (bitmask)
-newtype MPSNDArrayQuantizationScheme = MPSNDArrayQuantizationScheme CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MPSNDArrayQuantizationScheme where
-  (<>) = (.|.)
-
-instance Monoid MPSNDArrayQuantizationScheme where
-  mempty = MPSNDArrayQuantizationScheme 0
-
-pattern MPSNDArrayQuantizationTypeNone :: MPSNDArrayQuantizationScheme
-pattern MPSNDArrayQuantizationTypeNone = MPSNDArrayQuantizationScheme 0
-
-pattern MPSNDArrayQuantizationTypeAffine :: MPSNDArrayQuantizationScheme
-pattern MPSNDArrayQuantizationTypeAffine = MPSNDArrayQuantizationScheme 1
-
-pattern MPSNDArrayQuantizationTypeLUT :: MPSNDArrayQuantizationScheme
-pattern MPSNDArrayQuantizationTypeLUT = MPSNDArrayQuantizationScheme 2
-
-instance ObjCArgument MPSNDArrayQuantizationScheme where
-  withObjCArg (MPSNDArrayQuantizationScheme x) k = k (argCULong x)
-
-instance ObjCReturn MPSNDArrayQuantizationScheme where
-  type RawReturn MPSNDArrayQuantizationScheme = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MPSNDArrayQuantizationScheme x)
-  fromOwned x = pure (MPSNDArrayQuantizationScheme x)
 
 -- | @MPSNNComparisonType@ (bitmask)
 newtype MPSNNComparisonType = MPSNNComparisonType CULong

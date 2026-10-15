@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRBasicClusterStartUpEvent
   ( MTRBasicClusterStartUpEvent
   , IsMTRBasicClusterStartUpEvent(..)
+  , init_
+  , copyWithZone
   , softwareVersion
   , setSoftwareVersion
+  , copyWithZoneSelector
+  , initSelector
   , setSoftwareVersionSelector
   , softwareVersionSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRBasicClusterStartUpEvent mtrBasicClusterStartUpEvent => mtrBasicClusterStartUpEvent -> IO (Id MTRBasicClusterStartUpEvent)
+init_ mtrBasicClusterStartUpEvent =
+  sendOwnedMessage mtrBasicClusterStartUpEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBasicClusterStartUpEvent mtrBasicClusterStartUpEvent => mtrBasicClusterStartUpEvent -> Ptr () -> IO RawId
+copyWithZone mtrBasicClusterStartUpEvent zone =
+  sendOwnedMessage mtrBasicClusterStartUpEvent copyWithZoneSelector zone
+
 -- | @- softwareVersion@
 softwareVersion :: IsMTRBasicClusterStartUpEvent mtrBasicClusterStartUpEvent => mtrBasicClusterStartUpEvent -> IO (Id NSNumber)
 softwareVersion mtrBasicClusterStartUpEvent =
@@ -39,6 +53,14 @@ setSoftwareVersion mtrBasicClusterStartUpEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBasicClusterStartUpEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @softwareVersion@
 softwareVersionSelector :: Selector '[] (Id NSNumber)

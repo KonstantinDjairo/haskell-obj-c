@@ -64,7 +64,7 @@ setUserIdentityLookupInfos ckFetchShareParticipantsOperation value =
 
 -- | Called once for each share participant created from a submitted user identity lookup info.
 --
--- If the replacement callback @perShareParticipantCompletionBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- If the replacement callback @perShareParticipantCompletionBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- shareParticipantFetchedBlock@
 shareParticipantFetchedBlock :: IsCKFetchShareParticipantsOperation ckFetchShareParticipantsOperation => ckFetchShareParticipantsOperation -> IO (Ptr ())
@@ -73,7 +73,7 @@ shareParticipantFetchedBlock ckFetchShareParticipantsOperation =
 
 -- | Called once for each share participant created from a submitted user identity lookup info.
 --
--- If the replacement callback @perShareParticipantCompletionBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- If the replacement callback @perShareParticipantCompletionBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setShareParticipantFetchedBlock:@
 setShareParticipantFetchedBlock :: IsCKFetchShareParticipantsOperation ckFetchShareParticipantsOperation => ckFetchShareParticipantsOperation -> Ptr () -> IO ()
@@ -82,7 +82,7 @@ setShareParticipantFetchedBlock ckFetchShareParticipantsOperation value =
 
 -- | Called once for each lookup info.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perShareParticipantCompletionBlock@
 perShareParticipantCompletionBlock :: IsCKFetchShareParticipantsOperation ckFetchShareParticipantsOperation => ckFetchShareParticipantsOperation -> IO (Ptr ())
@@ -91,7 +91,7 @@ perShareParticipantCompletionBlock ckFetchShareParticipantsOperation =
 
 -- | Called once for each lookup info.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerShareParticipantCompletionBlock:@
 setPerShareParticipantCompletionBlock :: IsCKFetchShareParticipantsOperation ckFetchShareParticipantsOperation => ckFetchShareParticipantsOperation -> Ptr () -> IO ()
@@ -104,7 +104,7 @@ setPerShareParticipantCompletionBlock ckFetchShareParticipantsOperation value =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of lookup infos to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareParticipantCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of lookup infos to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareParticipantCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- fetchShareParticipantsCompletionBlock@
 fetchShareParticipantsCompletionBlock :: IsCKFetchShareParticipantsOperation ckFetchShareParticipantsOperation => ckFetchShareParticipantsOperation -> IO (Ptr ())
@@ -117,7 +117,7 @@ fetchShareParticipantsCompletionBlock ckFetchShareParticipantsOperation =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of lookup infos to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareParticipantCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of lookup infos to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareParticipantCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setFetchShareParticipantsCompletionBlock:@
 setFetchShareParticipantsCompletionBlock :: IsCKFetchShareParticipantsOperation ckFetchShareParticipantsOperation => ckFetchShareParticipantsOperation -> Ptr () -> IO ()

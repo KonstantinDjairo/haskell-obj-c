@@ -52,8 +52,6 @@ data NSTextViewDelegateOverrides = NSTextViewDelegateOverrides
   , _undoManagerForTextView :: !(Maybe (RawId -> IO RawId))
   , _textView_shouldUpdateTouchBarItemIdentifiers :: !(Maybe (RawId -> RawId -> IO RawId))
   , _textView_shouldSelectCandidateAtIndex :: !(Maybe (RawId -> Int -> IO Bool))
-  , _textViewWritingToolsWillBegin :: !(Maybe (RawId -> IO ()))
-  , _textViewWritingToolsDidEnd :: !(Maybe (RawId -> IO ()))
   , _textView_clickedOnLink :: !(Maybe (RawId -> RawId -> IO Bool))
   }
 
@@ -76,8 +74,6 @@ defaultNSTextViewDelegateOverrides = NSTextViewDelegateOverrides
   , _undoManagerForTextView = Nothing
   , _textView_shouldUpdateTouchBarItemIdentifiers = Nothing
   , _textView_shouldSelectCandidateAtIndex = Nothing
-  , _textViewWritingToolsWillBegin = Nothing
-  , _textViewWritingToolsDidEnd = Nothing
   , _textView_clickedOnLink = Nothing
   }
 
@@ -171,8 +167,6 @@ nsTextViewDelegateDelegateClass = unsafePerformIO $ do
       sel_undoManagerForTextView = unSelector (mkSelector "undoManagerForTextView:")
       sel_textView_shouldUpdateTouchBarItemIdentifiers = unSelector (mkSelector "textView:shouldUpdateTouchBarItemIdentifiers:")
       sel_textView_shouldSelectCandidateAtIndex = unSelector (mkSelector "textView:shouldSelectCandidateAtIndex:")
-      sel_textViewWritingToolsWillBegin = unSelector (mkSelector "textViewWritingToolsWillBegin:")
-      sel_textViewWritingToolsDidEnd = unSelector (mkSelector "textViewWritingToolsDidEnd:")
       sel_textView_clickedOnLink = unSelector (mkSelector "textView:clickedOnLink:")
   -- textView:clickedOnLink:atIndex:
   stub_0 <- wrap_at_at_Q_B $ \self _cmd arg0 arg1 arg2 -> do
@@ -346,26 +340,8 @@ nsTextViewDelegateDelegateClass = unsafePerformIO $ do
         pure (if r then 1 else 0)
   addObjCMethod cls "textView:shouldSelectCandidateAtIndex:" "B@:@Q" stub_15
 
-  -- textViewWritingToolsWillBegin:
-  stub_16 <- wrap_at_v $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSTextViewDelegateOverrides
-    case _textViewWritingToolsWillBegin rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0)
-  addObjCMethod cls "textViewWritingToolsWillBegin:" "v@:@" stub_16
-
-  -- textViewWritingToolsDidEnd:
-  stub_17 <- wrap_at_v $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSTextViewDelegateOverrides
-    case _textViewWritingToolsDidEnd rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0)
-  addObjCMethod cls "textViewWritingToolsDidEnd:" "v@:@" stub_17
-
   -- textView:clickedOnLink:
-  stub_18 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
+  stub_16 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSTextViewDelegateOverrides
     case _textView_clickedOnLink rec_ of
@@ -373,7 +349,7 @@ nsTextViewDelegateDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f (RawId arg0) (RawId arg1)
         pure (if r then 1 else 0)
-  addObjCMethod cls "textView:clickedOnLink:" "B@:@@" stub_18
+  addObjCMethod cls "textView:clickedOnLink:" "B@:@@" stub_16
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -395,8 +371,6 @@ nsTextViewDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_undoManagerForTextView then pure (maybe 0 (const 1) (_undoManagerForTextView rec_))
     else if queriedSel == sel_textView_shouldUpdateTouchBarItemIdentifiers then pure (maybe 0 (const 1) (_textView_shouldUpdateTouchBarItemIdentifiers rec_))
     else if queriedSel == sel_textView_shouldSelectCandidateAtIndex then pure (maybe 0 (const 1) (_textView_shouldSelectCandidateAtIndex rec_))
-    else if queriedSel == sel_textViewWritingToolsWillBegin then pure (maybe 0 (const 1) (_textViewWritingToolsWillBegin rec_))
-    else if queriedSel == sel_textViewWritingToolsDidEnd then pure (maybe 0 (const 1) (_textViewWritingToolsDidEnd rec_))
     else if queriedSel == sel_textView_clickedOnLink then pure (maybe 0 (const 1) (_textView_clickedOnLink rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls

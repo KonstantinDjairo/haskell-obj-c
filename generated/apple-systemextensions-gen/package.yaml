@@ -12,17 +12,15 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
   - ObjC.SystemExtensions.Delegate.OSSystemExtensionRequestDelegate
-  - ObjC.SystemExtensions.Delegate.OSSystemExtensionsWorkspaceObserver
   - ObjC.SystemExtensions.Enums
   - ObjC.SystemExtensions.Internal.Classes
   - ObjC.SystemExtensions.Internal.Enums
-  - ObjC.SystemExtensions.OSSystemExtensionInfo
   - ObjC.SystemExtensions.OSSystemExtensionManager
   - ObjC.SystemExtensions.OSSystemExtensionProperties
   - ObjC.SystemExtensions.OSSystemExtensionRequest
-  - ObjC.SystemExtensions.OSSystemExtensionsWorkspace

@@ -13,10 +13,12 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
+  - ObjC.PassKit.Delegate.PKDisbursementAuthorizationControllerDelegate
   - ObjC.PassKit.Delegate.PKIdentityDocumentDescriptor
   - ObjC.PassKit.Delegate.PKPaymentAuthorizationControllerDelegate
   - ObjC.PassKit.Delegate.PKPaymentAuthorizationViewControllerDelegate
@@ -25,9 +27,6 @@ library:
   - ObjC.PassKit.Internal.Classes
   - ObjC.PassKit.Internal.Enums
   - ObjC.PassKit.PKAddCarKeyPassConfiguration
-  - ObjC.PassKit.PKAddIdentityDocumentConfiguration
-  - ObjC.PassKit.PKAddIdentityDocumentMetadata
-  - ObjC.PassKit.PKAddPassMetadataPreview
   - ObjC.PassKit.PKAddPaymentPassRequest
   - ObjC.PassKit.PKAddPaymentPassRequestConfiguration
   - ObjC.PassKit.PKAddSecureElementPassConfiguration
@@ -41,30 +40,24 @@ library:
   - ObjC.PassKit.PKBarcodeEventSignatureResponse
   - ObjC.PassKit.PKContact
   - ObjC.PassKit.PKDateComponentsRange
-  - ObjC.PassKit.PKDeferredPaymentRequest
   - ObjC.PassKit.PKDeferredPaymentSummaryItem
+  - ObjC.PassKit.PKDisbursementAuthorizationController
   - ObjC.PassKit.PKDisbursementRequest
-  - ObjC.PassKit.PKDisbursementSummaryItem
-  - ObjC.PassKit.PKIdentityAnyOfDescriptor
+  - ObjC.PassKit.PKDisbursementVoucher
   - ObjC.PassKit.PKIdentityAuthorizationController
   - ObjC.PassKit.PKIdentityDocument
-  - ObjC.PassKit.PKIdentityDocumentMetadata
   - ObjC.PassKit.PKIdentityDriversLicenseDescriptor
   - ObjC.PassKit.PKIdentityElement
   - ObjC.PassKit.PKIdentityIntentToStore
-  - ObjC.PassKit.PKIdentityNationalIDCardDescriptor
-  - ObjC.PassKit.PKIdentityPhotoIDDescriptor
   - ObjC.PassKit.PKIdentityRequest
-  - ObjC.PassKit.PKInstantFundsOutFeeSummaryItem
   - ObjC.PassKit.PKIssuerProvisioningExtensionHandler
   - ObjC.PassKit.PKIssuerProvisioningExtensionPassEntry
   - ObjC.PassKit.PKIssuerProvisioningExtensionPaymentPassEntry
   - ObjC.PassKit.PKIssuerProvisioningExtensionStatus
-  - ObjC.PassKit.PKJapanIndividualNumberCardMetadata
   - ObjC.PassKit.PKLabeledValue
+  - ObjC.PassKit.PKObject
   - ObjC.PassKit.PKPass
   - ObjC.PassKit.PKPassLibrary
-  - ObjC.PassKit.PKPassRelevantDate
   - ObjC.PassKit.PKPayment
   - ObjC.PassKit.PKPaymentAuthorizationController
   - ObjC.PassKit.PKPaymentAuthorizationResult

@@ -9,11 +9,11 @@ dependencies:
 - libffi
 - apple-appkit-gen
 - apple-foundation-gen
-- apple-uniformtypeidentifiers-gen
 
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -34,8 +34,6 @@ library:
   - ObjC.Photos.PHAssetResourceCreationOptions
   - ObjC.Photos.PHAssetResourceManager
   - ObjC.Photos.PHAssetResourceRequestOptions
-  - ObjC.Photos.PHAssetResourceUploadJob
-  - ObjC.Photos.PHAssetResourceUploadJobChangeRequest
   - ObjC.Photos.PHCachingImageManager
   - ObjC.Photos.PHChange
   - ObjC.Photos.PHChangeRequest

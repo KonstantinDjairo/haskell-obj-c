@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -10,19 +9,9 @@ module ObjC.AuthenticationServices.ASAuthorizationPlatformPublicKeyCredentialAss
   , IsASAuthorizationPlatformPublicKeyCredentialAssertion(..)
   , new
   , init_
-  , attachment
-  , largeBlob
-  , prf
-  , attachmentSelector
   , initSelector
-  , largeBlobSelector
   , newSelector
-  , prfSelector
 
-  -- * Enum types
-  , ASAuthorizationPublicKeyCredentialAttachment(ASAuthorizationPublicKeyCredentialAttachment)
-  , pattern ASAuthorizationPublicKeyCredentialAttachmentPlatform
-  , pattern ASAuthorizationPublicKeyCredentialAttachmentCrossPlatform
 
   ) where
 
@@ -35,7 +24,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.AuthenticationServices.Internal.Classes
-import ObjC.AuthenticationServices.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | @+ new@
@@ -50,21 +38,6 @@ init_ :: IsASAuthorizationPlatformPublicKeyCredentialAssertion asAuthorizationPl
 init_ asAuthorizationPlatformPublicKeyCredentialAssertion =
   sendOwnedMessage asAuthorizationPlatformPublicKeyCredentialAssertion initSelector
 
--- | @- attachment@
-attachment :: IsASAuthorizationPlatformPublicKeyCredentialAssertion asAuthorizationPlatformPublicKeyCredentialAssertion => asAuthorizationPlatformPublicKeyCredentialAssertion -> IO ASAuthorizationPublicKeyCredentialAttachment
-attachment asAuthorizationPlatformPublicKeyCredentialAssertion =
-  sendMessage asAuthorizationPlatformPublicKeyCredentialAssertion attachmentSelector
-
--- | @- largeBlob@
-largeBlob :: IsASAuthorizationPlatformPublicKeyCredentialAssertion asAuthorizationPlatformPublicKeyCredentialAssertion => asAuthorizationPlatformPublicKeyCredentialAssertion -> IO (Id ASAuthorizationPublicKeyCredentialLargeBlobAssertionOutput)
-largeBlob asAuthorizationPlatformPublicKeyCredentialAssertion =
-  sendMessage asAuthorizationPlatformPublicKeyCredentialAssertion largeBlobSelector
-
--- | @- prf@
-prf :: IsASAuthorizationPlatformPublicKeyCredentialAssertion asAuthorizationPlatformPublicKeyCredentialAssertion => asAuthorizationPlatformPublicKeyCredentialAssertion -> IO (Id ASAuthorizationPublicKeyCredentialPRFAssertionOutput)
-prf asAuthorizationPlatformPublicKeyCredentialAssertion =
-  sendMessage asAuthorizationPlatformPublicKeyCredentialAssertion prfSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -76,16 +49,4 @@ newSelector = mkSelector "new"
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id ASAuthorizationPlatformPublicKeyCredentialAssertion)
 initSelector = mkSelector "init"
-
--- | @Selector@ for @attachment@
-attachmentSelector :: Selector '[] ASAuthorizationPublicKeyCredentialAttachment
-attachmentSelector = mkSelector "attachment"
-
--- | @Selector@ for @largeBlob@
-largeBlobSelector :: Selector '[] (Id ASAuthorizationPublicKeyCredentialLargeBlobAssertionOutput)
-largeBlobSelector = mkSelector "largeBlob"
-
--- | @Selector@ for @prf@
-prfSelector :: Selector '[] (Id ASAuthorizationPublicKeyCredentialPRFAssertionOutput)
-prfSelector = mkSelector "prf"
 

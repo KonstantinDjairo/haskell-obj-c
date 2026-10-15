@@ -51,7 +51,6 @@ module ObjC.AppKit.NSTreeController
   , selectedObjects
   , selectionIndexPaths
   , selectionIndexPath
-  , selectedNodes
   , addChildSelector
   , addSelectionIndexPathsSelector
   , addSelector
@@ -80,7 +79,6 @@ module ObjC.AppKit.NSTreeController
   , removeObjectsAtArrangedObjectIndexPathsSelector
   , removeSelectionIndexPathsSelector
   , removeSelector
-  , selectedNodesSelector
   , selectedObjectsSelector
   , selectionIndexPathSelector
   , selectionIndexPathsSelector
@@ -332,11 +330,6 @@ selectionIndexPath :: IsNSTreeController nsTreeController => nsTreeController ->
 selectionIndexPath nsTreeController =
   sendMessage nsTreeController selectionIndexPathSelector
 
--- | @- selectedNodes@
-selectedNodes :: IsNSTreeController nsTreeController => nsTreeController -> IO (Id NSArray)
-selectedNodes nsTreeController =
-  sendMessage nsTreeController selectedNodesSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -516,8 +509,4 @@ selectionIndexPathsSelector = mkSelector "selectionIndexPaths"
 -- | @Selector@ for @selectionIndexPath@
 selectionIndexPathSelector :: Selector '[] (Id NSIndexPath)
 selectionIndexPathSelector = mkSelector "selectionIndexPath"
-
--- | @Selector@ for @selectedNodes@
-selectedNodesSelector :: Selector '[] (Id NSArray)
-selectedNodesSelector = mkSelector "selectedNodes"
 

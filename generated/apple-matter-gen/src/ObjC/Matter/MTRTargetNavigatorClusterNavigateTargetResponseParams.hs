@@ -7,15 +7,17 @@
 module ObjC.Matter.MTRTargetNavigatorClusterNavigateTargetResponseParams
   ( MTRTargetNavigatorClusterNavigateTargetResponseParams
   , IsMTRTargetNavigatorClusterNavigateTargetResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , status
   , setStatus
   , data_
   , setData
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , dataSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , setDataSelector
   , setStatusSelector
   , setTimedInvokeTimeoutMsSelector
@@ -36,16 +38,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRTargetNavigatorClusterNavigateTargetResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRTargetNavigatorClusterNavigateTargetResponseParams mtrTargetNavigatorClusterNavigateTargetResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrTargetNavigatorClusterNavigateTargetResponseParams -> responseValue -> error_ -> IO (Id MTRTargetNavigatorClusterNavigateTargetResponseParams)
-initWithResponseValue_error mtrTargetNavigatorClusterNavigateTargetResponseParams responseValue error_ =
-  sendOwnedMessage mtrTargetNavigatorClusterNavigateTargetResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRTargetNavigatorClusterNavigateTargetResponseParams mtrTargetNavigatorClusterNavigateTargetResponseParams => mtrTargetNavigatorClusterNavigateTargetResponseParams -> IO (Id MTRTargetNavigatorClusterNavigateTargetResponseParams)
+init_ mtrTargetNavigatorClusterNavigateTargetResponseParams =
+  sendOwnedMessage mtrTargetNavigatorClusterNavigateTargetResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTargetNavigatorClusterNavigateTargetResponseParams mtrTargetNavigatorClusterNavigateTargetResponseParams => mtrTargetNavigatorClusterNavigateTargetResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTargetNavigatorClusterNavigateTargetResponseParams zone =
+  sendOwnedMessage mtrTargetNavigatorClusterNavigateTargetResponseParams copyWithZoneSelector zone
 
 -- | @- status@
 status :: IsMTRTargetNavigatorClusterNavigateTargetResponseParams mtrTargetNavigatorClusterNavigateTargetResponseParams => mtrTargetNavigatorClusterNavigateTargetResponseParams -> IO (Id NSNumber)
@@ -93,9 +94,13 @@ setTimedInvokeTimeoutMs mtrTargetNavigatorClusterNavigateTargetResponseParams va
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRTargetNavigatorClusterNavigateTargetResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTargetNavigatorClusterNavigateTargetResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] (Id NSNumber)

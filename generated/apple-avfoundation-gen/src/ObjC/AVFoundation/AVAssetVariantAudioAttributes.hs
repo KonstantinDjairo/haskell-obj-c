@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Audio attributes for an asset variant.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVAssetVariantAudioAttributes@.
+-- | Generated bindings for @AVAssetVariantAudioAttributes@.
 module ObjC.AVFoundation.AVAssetVariantAudioAttributes
   ( AVAssetVariantAudioAttributes
   , IsAVAssetVariantAudioAttributes(..)
@@ -46,16 +42,20 @@ new  =
     cls' <- getRequiredClass "AVAssetVariantAudioAttributes"
     sendOwnedClassMessage cls' newSelector
 
--- | Provides attributes for a specific audio media selection option. If no rendition specific attributes are declared, it will be nil.
+-- | renditionSpecificAttributesForMediaOption:
 --
--- - Parameter mediaSelectionOption: The option to return rendition specific information for.
+-- Provides attributes for a specific audio media selection option. If no rendition specific attributes are declared, it will be nil.
+--
+-- @mediaSelectionOption@ — The option to return rendition specific information for.
 --
 -- ObjC selector: @- renditionSpecificAttributesForMediaOption:@
 renditionSpecificAttributesForMediaOption :: (IsAVAssetVariantAudioAttributes avAssetVariantAudioAttributes, IsAVMediaSelectionOption mediaSelectionOption) => avAssetVariantAudioAttributes -> mediaSelectionOption -> IO (Id AVAssetVariantAudioRenditionSpecificAttributes)
 renditionSpecificAttributesForMediaOption avAssetVariantAudioAttributes mediaSelectionOption =
   sendMessage avAssetVariantAudioAttributes renditionSpecificAttributesForMediaOptionSelector (toAVMediaSelectionOption mediaSelectionOption)
 
--- | Provides an array of audio formats present in the variant's renditions if any are declared. Each value in the array is a NSNumber representation of AudioFormatID.
+-- | formatIDs
+--
+-- Provides an array of audio formats present in the variant's renditions if any are declared. Each value in the array is a NSNumber representation of AudioFormatID.
 --
 -- ObjC selector: @- formatIDs@
 formatIDs :: IsAVAssetVariantAudioAttributes avAssetVariantAudioAttributes => avAssetVariantAudioAttributes -> IO (Id NSArray)

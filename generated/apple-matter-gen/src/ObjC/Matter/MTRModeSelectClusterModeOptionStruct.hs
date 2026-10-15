@@ -7,12 +7,16 @@
 module ObjC.Matter.MTRModeSelectClusterModeOptionStruct
   ( MTRModeSelectClusterModeOptionStruct
   , IsMTRModeSelectClusterModeOptionStruct(..)
+  , init_
+  , copyWithZone
   , label
   , setLabel
   , mode
   , setMode
   , semanticTags
   , setSemanticTags
+  , copyWithZoneSelector
+  , initSelector
   , labelSelector
   , modeSelector
   , semanticTagsSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRModeSelectClusterModeOptionStruct mtrModeSelectClusterModeOptionStruct => mtrModeSelectClusterModeOptionStruct -> IO (Id MTRModeSelectClusterModeOptionStruct)
+init_ mtrModeSelectClusterModeOptionStruct =
+  sendOwnedMessage mtrModeSelectClusterModeOptionStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRModeSelectClusterModeOptionStruct mtrModeSelectClusterModeOptionStruct => mtrModeSelectClusterModeOptionStruct -> Ptr () -> IO RawId
+copyWithZone mtrModeSelectClusterModeOptionStruct zone =
+  sendOwnedMessage mtrModeSelectClusterModeOptionStruct copyWithZoneSelector zone
 
 -- | @- label@
 label :: IsMTRModeSelectClusterModeOptionStruct mtrModeSelectClusterModeOptionStruct => mtrModeSelectClusterModeOptionStruct -> IO (Id NSString)
@@ -67,6 +81,14 @@ setSemanticTags mtrModeSelectClusterModeOptionStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRModeSelectClusterModeOptionStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @label@
 labelSelector :: Selector '[] (Id NSString)

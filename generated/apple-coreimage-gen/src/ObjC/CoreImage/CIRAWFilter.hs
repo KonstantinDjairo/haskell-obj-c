@@ -31,9 +31,6 @@ module ObjC.CoreImage.CIRAWFilter
   , setBoostAmount
   , boostShadowAmount
   , setBoostShadowAmount
-  , highlightRecoverySupported
-  , highlightRecoveryEnabled
-  , setHighlightRecoveryEnabled
   , gamutMappingEnabled
   , setGamutMappingEnabled
   , lensCorrectionSupported
@@ -92,8 +89,6 @@ module ObjC.CoreImage.CIRAWFilter
   , filterWithImageData_identifierHintSelector
   , filterWithImageURLSelector
   , gamutMappingEnabledSelector
-  , highlightRecoveryEnabledSelector
-  , highlightRecoverySupportedSelector
   , lensCorrectionEnabledSelector
   , lensCorrectionSupportedSelector
   , linearSpaceFilterSelector
@@ -126,7 +121,6 @@ module ObjC.CoreImage.CIRAWFilter
   , setExposureSelector
   , setExtendedDynamicRangeAmountSelector
   , setGamutMappingEnabledSelector
-  , setHighlightRecoveryEnabledSelector
   , setLensCorrectionEnabledSelector
   , setLinearSpaceFilterSelector
   , setLocalToneMapAmountSelector
@@ -285,21 +279,6 @@ boostShadowAmount cirawFilter =
 setBoostShadowAmount :: IsCIRAWFilter cirawFilter => cirawFilter -> CFloat -> IO ()
 setBoostShadowAmount cirawFilter value =
   sendMessage cirawFilter setBoostShadowAmountSelector value
-
--- | @- highlightRecoverySupported@
-highlightRecoverySupported :: IsCIRAWFilter cirawFilter => cirawFilter -> IO Bool
-highlightRecoverySupported cirawFilter =
-  sendMessage cirawFilter highlightRecoverySupportedSelector
-
--- | @- highlightRecoveryEnabled@
-highlightRecoveryEnabled :: IsCIRAWFilter cirawFilter => cirawFilter -> IO Bool
-highlightRecoveryEnabled cirawFilter =
-  sendMessage cirawFilter highlightRecoveryEnabledSelector
-
--- | @- setHighlightRecoveryEnabled:@
-setHighlightRecoveryEnabled :: IsCIRAWFilter cirawFilter => cirawFilter -> Bool -> IO ()
-setHighlightRecoveryEnabled cirawFilter value =
-  sendMessage cirawFilter setHighlightRecoveryEnabledSelector value
 
 -- | @- gamutMappingEnabled@
 gamutMappingEnabled :: IsCIRAWFilter cirawFilter => cirawFilter -> IO Bool
@@ -605,18 +584,6 @@ boostShadowAmountSelector = mkSelector "boostShadowAmount"
 -- | @Selector@ for @setBoostShadowAmount:@
 setBoostShadowAmountSelector :: Selector '[CFloat] ()
 setBoostShadowAmountSelector = mkSelector "setBoostShadowAmount:"
-
--- | @Selector@ for @highlightRecoverySupported@
-highlightRecoverySupportedSelector :: Selector '[] Bool
-highlightRecoverySupportedSelector = mkSelector "highlightRecoverySupported"
-
--- | @Selector@ for @highlightRecoveryEnabled@
-highlightRecoveryEnabledSelector :: Selector '[] Bool
-highlightRecoveryEnabledSelector = mkSelector "highlightRecoveryEnabled"
-
--- | @Selector@ for @setHighlightRecoveryEnabled:@
-setHighlightRecoveryEnabledSelector :: Selector '[Bool] ()
-setHighlightRecoveryEnabledSelector = mkSelector "setHighlightRecoveryEnabled:"
 
 -- | @Selector@ for @gamutMappingEnabled@
 gamutMappingEnabledSelector :: Selector '[] Bool

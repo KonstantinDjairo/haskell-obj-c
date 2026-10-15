@@ -615,44 +615,6 @@ instance IsINMessage (Id INMessage) where
 instance IsNSObject (Id INMessage) where
   toNSObject = unsafeCastId
 
--- ---------- INMessageLinkMetadata ----------
-
--- | Phantom type for @INMessageLinkMetadata@.
-data INMessageLinkMetadata
-
-instance IsObjCObject (Id INMessageLinkMetadata) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "INMessageLinkMetadata"
-
-class IsNSObject a => IsINMessageLinkMetadata a where
-  toINMessageLinkMetadata :: a -> Id INMessageLinkMetadata
-
-instance IsINMessageLinkMetadata (Id INMessageLinkMetadata) where
-  toINMessageLinkMetadata = unsafeCastId
-
-instance IsNSObject (Id INMessageLinkMetadata) where
-  toNSObject = unsafeCastId
-
--- ---------- INMessageReaction ----------
-
--- | Phantom type for @INMessageReaction@.
-data INMessageReaction
-
-instance IsObjCObject (Id INMessageReaction) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "INMessageReaction"
-
-class IsNSObject a => IsINMessageReaction a where
-  toINMessageReaction :: a -> Id INMessageReaction
-
-instance IsINMessageReaction (Id INMessageReaction) where
-  toINMessageReaction = unsafeCastId
-
-instance IsNSObject (Id INMessageReaction) where
-  toNSObject = unsafeCastId
-
 -- ---------- INNote ----------
 
 -- | Phantom type for @INNote@.
@@ -1349,27 +1311,6 @@ instance IsINSpeakableString (Id INSpeakableString) where
 instance IsNSObject (Id INSpeakableString) where
   toNSObject = unsafeCastId
 
--- ---------- INSticker ----------
-
--- | An object that describes a sticker someone sends in a message.
--- 
--- Phantom type for @INSticker@.
-data INSticker
-
-instance IsObjCObject (Id INSticker) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "INSticker"
-
-class IsNSObject a => IsINSticker a where
-  toINSticker :: a -> Id INSticker
-
-instance IsINSticker (Id INSticker) where
-  toINSticker = unsafeCastId
-
-instance IsNSObject (Id INSticker) where
-  toNSObject = unsafeCastId
-
 -- ---------- INTask ----------
 
 -- | Phantom type for @INTask@.
@@ -1825,28 +1766,6 @@ instance IsINIntent (Id INDeleteTasksIntent) where
   toINIntent = unsafeCastId
 
 instance IsNSObject (Id INDeleteTasksIntent) where
-  toNSObject = unsafeCastId
-
--- ---------- INEditMessageIntent ----------
-
--- | Phantom type for @INEditMessageIntent@.
-data INEditMessageIntent
-
-instance IsObjCObject (Id INEditMessageIntent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "INEditMessageIntent"
-
-class IsINIntent a => IsINEditMessageIntent a where
-  toINEditMessageIntent :: a -> Id INEditMessageIntent
-
-instance IsINEditMessageIntent (Id INEditMessageIntent) where
-  toINEditMessageIntent = unsafeCastId
-
-instance IsINIntent (Id INEditMessageIntent) where
-  toINIntent = unsafeCastId
-
-instance IsNSObject (Id INEditMessageIntent) where
   toNSObject = unsafeCastId
 
 -- ---------- INEndWorkoutIntent ----------
@@ -2881,28 +2800,6 @@ instance IsINIntent (Id INTransferMoneyIntent) where
   toINIntent = unsafeCastId
 
 instance IsNSObject (Id INTransferMoneyIntent) where
-  toNSObject = unsafeCastId
-
--- ---------- INUnsendMessagesIntent ----------
-
--- | Phantom type for @INUnsendMessagesIntent@.
-data INUnsendMessagesIntent
-
-instance IsObjCObject (Id INUnsendMessagesIntent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "INUnsendMessagesIntent"
-
-class IsINIntent a => IsINUnsendMessagesIntent a where
-  toINUnsendMessagesIntent :: a -> Id INUnsendMessagesIntent
-
-instance IsINUnsendMessagesIntent (Id INUnsendMessagesIntent) where
-  toINUnsendMessagesIntent = unsafeCastId
-
-instance IsINIntent (Id INUnsendMessagesIntent) where
-  toINIntent = unsafeCastId
-
-instance IsNSObject (Id INUnsendMessagesIntent) where
   toNSObject = unsafeCastId
 
 -- ---------- INUpdateMediaAffinityIntent ----------
@@ -4687,28 +4584,6 @@ instance IsINIntentResponse (Id INDeleteTasksIntentResponse) where
 instance IsNSObject (Id INDeleteTasksIntentResponse) where
   toNSObject = unsafeCastId
 
--- ---------- INEditMessageIntentResponse ----------
-
--- | Phantom type for @INEditMessageIntentResponse@.
-data INEditMessageIntentResponse
-
-instance IsObjCObject (Id INEditMessageIntentResponse) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "INEditMessageIntentResponse"
-
-class IsINIntentResponse a => IsINEditMessageIntentResponse a where
-  toINEditMessageIntentResponse :: a -> Id INEditMessageIntentResponse
-
-instance IsINEditMessageIntentResponse (Id INEditMessageIntentResponse) where
-  toINEditMessageIntentResponse = unsafeCastId
-
-instance IsINIntentResponse (Id INEditMessageIntentResponse) where
-  toINIntentResponse = unsafeCastId
-
-instance IsNSObject (Id INEditMessageIntentResponse) where
-  toNSObject = unsafeCastId
-
 -- ---------- INEndWorkoutIntentResponse ----------
 
 -- | Phantom type for @INEndWorkoutIntentResponse@.
@@ -5743,28 +5618,6 @@ instance IsINIntentResponse (Id INTransferMoneyIntentResponse) where
 instance IsNSObject (Id INTransferMoneyIntentResponse) where
   toNSObject = unsafeCastId
 
--- ---------- INUnsendMessagesIntentResponse ----------
-
--- | Phantom type for @INUnsendMessagesIntentResponse@.
-data INUnsendMessagesIntentResponse
-
-instance IsObjCObject (Id INUnsendMessagesIntentResponse) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "INUnsendMessagesIntentResponse"
-
-class IsINIntentResponse a => IsINUnsendMessagesIntentResponse a where
-  toINUnsendMessagesIntentResponse :: a -> Id INUnsendMessagesIntentResponse
-
-instance IsINUnsendMessagesIntentResponse (Id INUnsendMessagesIntentResponse) where
-  toINUnsendMessagesIntentResponse = unsafeCastId
-
-instance IsINIntentResponse (Id INUnsendMessagesIntentResponse) where
-  toINIntentResponse = unsafeCastId
-
-instance IsNSObject (Id INUnsendMessagesIntentResponse) where
-  toNSObject = unsafeCastId
-
 -- ---------- INUpdateMediaAffinityIntentResponse ----------
 
 -- | Phantom type for @INUpdateMediaAffinityIntentResponse@.
@@ -5927,7 +5780,11 @@ instance IsNSObject (Id INDateRelevanceProvider) where
 
 -- ---------- INLocationRelevanceProvider ----------
 
--- | Phantom type for @INLocationRelevanceProvider@.
+-- | A relevance provider to indicate relevance at a specific location.
+--
+-- Note: Your app needs Always or When in Use location authorization to use this relevance provider.
+-- 
+-- Phantom type for @INLocationRelevanceProvider@.
 data INLocationRelevanceProvider
 
 instance IsObjCObject (Id INLocationRelevanceProvider) where

@@ -31,7 +31,6 @@ module ObjC.QuartzCore.CAMetalLayer
   , setAllowsNextDrawableTimeout
   , developerHUDProperties
   , setDeveloperHUDProperties
-  , residencySet
   , allowsNextDrawableTimeoutSelector
   , colorspaceSelector
   , developerHUDPropertiesSelector
@@ -44,7 +43,6 @@ module ObjC.QuartzCore.CAMetalLayer
   , pixelFormatSelector
   , preferredDeviceSelector
   , presentsWithTransactionSelector
-  , residencySetSelector
   , setAllowsNextDrawableTimeoutSelector
   , setColorspaceSelector
   , setDeveloperHUDPropertiesSelector
@@ -192,11 +190,6 @@ setDeveloperHUDProperties :: (IsCAMetalLayer caMetalLayer, IsNSDictionary value)
 setDeveloperHUDProperties caMetalLayer value =
   sendMessage caMetalLayer setDeveloperHUDPropertiesSelector (toNSDictionary value)
 
--- | @- residencySet@
-residencySet :: IsCAMetalLayer caMetalLayer => caMetalLayer -> IO RawId
-residencySet caMetalLayer =
-  sendMessage caMetalLayer residencySetSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -296,8 +289,4 @@ developerHUDPropertiesSelector = mkSelector "developerHUDProperties"
 -- | @Selector@ for @setDeveloperHUDProperties:@
 setDeveloperHUDPropertiesSelector :: Selector '[Id NSDictionary] ()
 setDeveloperHUDPropertiesSelector = mkSelector "setDeveloperHUDProperties:"
-
--- | @Selector@ for @residencySet@
-residencySetSelector :: Selector '[] RawId
-residencySetSelector = mkSelector "residencySet"
 

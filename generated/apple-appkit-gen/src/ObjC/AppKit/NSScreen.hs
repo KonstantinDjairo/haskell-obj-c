@@ -13,7 +13,6 @@ module ObjC.AppKit.NSScreen
   , convertRectFromBacking
   , backingAlignedRect_options
   , userSpaceScaleFactor
-  , displayLinkWithTarget_selector
   , screens
   , mainScreen
   , deepestScreen
@@ -29,7 +28,6 @@ module ObjC.AppKit.NSScreen
   , safeAreaInsets
   , auxiliaryTopLeftArea
   , auxiliaryTopRightArea
-  , cgDirectDisplayID
   , maximumFramesPerSecond
   , minimumRefreshInterval
   , maximumRefreshInterval
@@ -43,14 +41,12 @@ module ObjC.AppKit.NSScreen
   , backingAlignedRect_optionsSelector
   , backingScaleFactorSelector
   , canRepresentDisplayGamutSelector
-  , cgDirectDisplayIDSelector
   , colorSpaceSelector
   , convertRectFromBackingSelector
   , convertRectToBackingSelector
   , deepestScreenSelector
   , depthSelector
   , deviceDescriptionSelector
-  , displayLinkWithTarget_selectorSelector
   , displayUpdateGranularitySelector
   , frameSelector
   , lastDisplayUpdateTimestampSelector
@@ -116,7 +112,6 @@ import ObjC.Foundation.Internal.Structs
 import ObjC.AppKit.Internal.Enums
 import ObjC.Foundation.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-import ObjC.QuartzCore.Internal.Classes
 
 -- | @- canRepresentDisplayGamut:@
 canRepresentDisplayGamut :: IsNSScreen nsScreen => nsScreen -> NSDisplayGamut -> IO Bool
@@ -142,11 +137,6 @@ backingAlignedRect_options nsScreen rect options =
 userSpaceScaleFactor :: IsNSScreen nsScreen => nsScreen -> IO CDouble
 userSpaceScaleFactor nsScreen =
   sendMessage nsScreen userSpaceScaleFactorSelector
-
--- | @- displayLinkWithTarget:selector:@
-displayLinkWithTarget_selector :: IsNSScreen nsScreen => nsScreen -> RawId -> Sel -> IO (Id CADisplayLink)
-displayLinkWithTarget_selector nsScreen target selector =
-  sendMessage nsScreen displayLinkWithTarget_selectorSelector target selector
 
 -- | @+ screens@
 screens :: IO (Id NSArray)
@@ -197,7 +187,7 @@ deviceDescription nsScreen =
   sendMessage nsScreen deviceDescriptionSelector
 
 -- | @- colorSpace@
-colorSpace :: IsNSScreen nsScreen => nsScreen -> IO (Id NSColorSpace)
+colorSpace :: IsNSScreen nsScreen => nsScreen -> IO RawId
 colorSpace nsScreen =
   sendMessage nsScreen colorSpaceSelector
 
@@ -212,7 +202,7 @@ backingScaleFactor nsScreen =
   sendMessage nsScreen backingScaleFactorSelector
 
 -- | @- localizedName@
-localizedName :: IsNSScreen nsScreen => nsScreen -> IO (Id NSString)
+localizedName :: IsNSScreen nsScreen => nsScreen -> IO RawId
 localizedName nsScreen =
   sendMessage nsScreen localizedNameSelector
 
@@ -230,13 +220,6 @@ auxiliaryTopLeftArea nsScreen =
 auxiliaryTopRightArea :: IsNSScreen nsScreen => nsScreen -> IO NSRect
 auxiliaryTopRightArea nsScreen =
   sendMessage nsScreen auxiliaryTopRightAreaSelector
-
--- | The CGDirectDisplayID for this screen. This will return kCGNullDirectDisplay if there isn't one.
---
--- ObjC selector: @- CGDirectDisplayID@
-cgDirectDisplayID :: IsNSScreen nsScreen => nsScreen -> IO CUInt
-cgDirectDisplayID nsScreen =
-  sendMessage nsScreen cgDirectDisplayIDSelector
 
 -- | The maximum frames per second this screen supports.
 --
@@ -318,10 +301,6 @@ backingAlignedRect_optionsSelector = mkSelector "backingAlignedRect:options:"
 userSpaceScaleFactorSelector :: Selector '[] CDouble
 userSpaceScaleFactorSelector = mkSelector "userSpaceScaleFactor"
 
--- | @Selector@ for @displayLinkWithTarget:selector:@
-displayLinkWithTarget_selectorSelector :: Selector '[RawId, Sel] (Id CADisplayLink)
-displayLinkWithTarget_selectorSelector = mkSelector "displayLinkWithTarget:selector:"
-
 -- | @Selector@ for @screens@
 screensSelector :: Selector '[] (Id NSArray)
 screensSelector = mkSelector "screens"
@@ -355,7 +334,7 @@ deviceDescriptionSelector :: Selector '[] (Id NSDictionary)
 deviceDescriptionSelector = mkSelector "deviceDescription"
 
 -- | @Selector@ for @colorSpace@
-colorSpaceSelector :: Selector '[] (Id NSColorSpace)
+colorSpaceSelector :: Selector '[] RawId
 colorSpaceSelector = mkSelector "colorSpace"
 
 -- | @Selector@ for @supportedWindowDepths@
@@ -367,7 +346,7 @@ backingScaleFactorSelector :: Selector '[] CDouble
 backingScaleFactorSelector = mkSelector "backingScaleFactor"
 
 -- | @Selector@ for @localizedName@
-localizedNameSelector :: Selector '[] (Id NSString)
+localizedNameSelector :: Selector '[] RawId
 localizedNameSelector = mkSelector "localizedName"
 
 -- | @Selector@ for @safeAreaInsets@
@@ -381,10 +360,6 @@ auxiliaryTopLeftAreaSelector = mkSelector "auxiliaryTopLeftArea"
 -- | @Selector@ for @auxiliaryTopRightArea@
 auxiliaryTopRightAreaSelector :: Selector '[] NSRect
 auxiliaryTopRightAreaSelector = mkSelector "auxiliaryTopRightArea"
-
--- | @Selector@ for @CGDirectDisplayID@
-cgDirectDisplayIDSelector :: Selector '[] CUInt
-cgDirectDisplayIDSelector = mkSelector "CGDirectDisplayID"
 
 -- | @Selector@ for @maximumFramesPerSecond@
 maximumFramesPerSecondSelector :: Selector '[] CLong

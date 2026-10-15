@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterTestComplexNullableOptionalResponseParams
   ( MTRTestClusterClusterTestComplexNullableOptionalResponseParams
   , IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams(..)
+  , init_
+  , copyWithZone
   , nullableIntWasNull
   , setNullableIntWasNull
   , nullableIntValue
@@ -65,6 +67,8 @@ module ObjC.Matter.MTRTestClusterClusterTestComplexNullableOptionalResponseParam
   , setNullableOptionalListValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
+  , initSelector
   , nullableIntValueSelector
   , nullableIntWasNullSelector
   , nullableListValueSelector
@@ -137,6 +141,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id MTRTestClusterClusterTestComplexNullableOptionalResponseParams)
+init_ mtrTestClusterClusterTestComplexNullableOptionalResponseParams =
+  sendOwnedMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestComplexNullableOptionalResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams copyWithZoneSelector zone
 
 -- | @- nullableIntWasNull@
 nullableIntWasNull :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id NSNumber)
@@ -289,14 +303,14 @@ setNullableStructWasNull mtrTestClusterClusterTestComplexNullableOptionalRespons
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setNullableStructWasNullSelector (toNSNumber value)
 
 -- | @- nullableStructValue@
-nullableStructValue :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id MTRUnitTestingClusterSimpleStruct)
+nullableStructValue :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id MTRTestClusterClusterSimpleStruct)
 nullableStructValue mtrTestClusterClusterTestComplexNullableOptionalResponseParams =
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams nullableStructValueSelector
 
 -- | @- setNullableStructValue:@
-setNullableStructValue :: (IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams, IsMTRUnitTestingClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> value -> IO ()
+setNullableStructValue :: (IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams, IsMTRTestClusterClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> value -> IO ()
 setNullableStructValue mtrTestClusterClusterTestComplexNullableOptionalResponseParams value =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setNullableStructValueSelector (toMTRUnitTestingClusterSimpleStruct value)
+  sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setNullableStructValueSelector (toMTRTestClusterClusterSimpleStruct value)
 
 -- | @- optionalStructWasPresent@
 optionalStructWasPresent :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id NSNumber)
@@ -309,14 +323,14 @@ setOptionalStructWasPresent mtrTestClusterClusterTestComplexNullableOptionalResp
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setOptionalStructWasPresentSelector (toNSNumber value)
 
 -- | @- optionalStructValue@
-optionalStructValue :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id MTRUnitTestingClusterSimpleStruct)
+optionalStructValue :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id MTRTestClusterClusterSimpleStruct)
 optionalStructValue mtrTestClusterClusterTestComplexNullableOptionalResponseParams =
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams optionalStructValueSelector
 
 -- | @- setOptionalStructValue:@
-setOptionalStructValue :: (IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams, IsMTRUnitTestingClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> value -> IO ()
+setOptionalStructValue :: (IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams, IsMTRTestClusterClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> value -> IO ()
 setOptionalStructValue mtrTestClusterClusterTestComplexNullableOptionalResponseParams value =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setOptionalStructValueSelector (toMTRUnitTestingClusterSimpleStruct value)
+  sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setOptionalStructValueSelector (toMTRTestClusterClusterSimpleStruct value)
 
 -- | @- nullableOptionalStructWasPresent@
 nullableOptionalStructWasPresent :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id NSNumber)
@@ -339,14 +353,14 @@ setNullableOptionalStructWasNull mtrTestClusterClusterTestComplexNullableOptiona
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setNullableOptionalStructWasNullSelector (toNSNumber value)
 
 -- | @- nullableOptionalStructValue@
-nullableOptionalStructValue :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id MTRUnitTestingClusterSimpleStruct)
+nullableOptionalStructValue :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id MTRTestClusterClusterSimpleStruct)
 nullableOptionalStructValue mtrTestClusterClusterTestComplexNullableOptionalResponseParams =
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams nullableOptionalStructValueSelector
 
 -- | @- setNullableOptionalStructValue:@
-setNullableOptionalStructValue :: (IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams, IsMTRUnitTestingClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> value -> IO ()
+setNullableOptionalStructValue :: (IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams, IsMTRTestClusterClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> value -> IO ()
 setNullableOptionalStructValue mtrTestClusterClusterTestComplexNullableOptionalResponseParams value =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setNullableOptionalStructValueSelector (toMTRUnitTestingClusterSimpleStruct value)
+  sendMessage mtrTestClusterClusterTestComplexNullableOptionalResponseParams setNullableOptionalStructValueSelector (toMTRTestClusterClusterSimpleStruct value)
 
 -- | @- nullableListWasNull@
 nullableListWasNull :: IsMTRTestClusterClusterTestComplexNullableOptionalResponseParams mtrTestClusterClusterTestComplexNullableOptionalResponseParams => mtrTestClusterClusterTestComplexNullableOptionalResponseParams -> IO (Id NSNumber)
@@ -443,6 +457,14 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterTestComplexNullableOptionalResponse
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestComplexNullableOptionalResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @nullableIntWasNull@
 nullableIntWasNullSelector :: Selector '[] (Id NSNumber)
@@ -565,11 +587,11 @@ setNullableStructWasNullSelector :: Selector '[Id NSNumber] ()
 setNullableStructWasNullSelector = mkSelector "setNullableStructWasNull:"
 
 -- | @Selector@ for @nullableStructValue@
-nullableStructValueSelector :: Selector '[] (Id MTRUnitTestingClusterSimpleStruct)
+nullableStructValueSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
 nullableStructValueSelector = mkSelector "nullableStructValue"
 
 -- | @Selector@ for @setNullableStructValue:@
-setNullableStructValueSelector :: Selector '[Id MTRUnitTestingClusterSimpleStruct] ()
+setNullableStructValueSelector :: Selector '[Id MTRTestClusterClusterSimpleStruct] ()
 setNullableStructValueSelector = mkSelector "setNullableStructValue:"
 
 -- | @Selector@ for @optionalStructWasPresent@
@@ -581,11 +603,11 @@ setOptionalStructWasPresentSelector :: Selector '[Id NSNumber] ()
 setOptionalStructWasPresentSelector = mkSelector "setOptionalStructWasPresent:"
 
 -- | @Selector@ for @optionalStructValue@
-optionalStructValueSelector :: Selector '[] (Id MTRUnitTestingClusterSimpleStruct)
+optionalStructValueSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
 optionalStructValueSelector = mkSelector "optionalStructValue"
 
 -- | @Selector@ for @setOptionalStructValue:@
-setOptionalStructValueSelector :: Selector '[Id MTRUnitTestingClusterSimpleStruct] ()
+setOptionalStructValueSelector :: Selector '[Id MTRTestClusterClusterSimpleStruct] ()
 setOptionalStructValueSelector = mkSelector "setOptionalStructValue:"
 
 -- | @Selector@ for @nullableOptionalStructWasPresent@
@@ -605,11 +627,11 @@ setNullableOptionalStructWasNullSelector :: Selector '[Id NSNumber] ()
 setNullableOptionalStructWasNullSelector = mkSelector "setNullableOptionalStructWasNull:"
 
 -- | @Selector@ for @nullableOptionalStructValue@
-nullableOptionalStructValueSelector :: Selector '[] (Id MTRUnitTestingClusterSimpleStruct)
+nullableOptionalStructValueSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
 nullableOptionalStructValueSelector = mkSelector "nullableOptionalStructValue"
 
 -- | @Selector@ for @setNullableOptionalStructValue:@
-setNullableOptionalStructValueSelector :: Selector '[Id MTRUnitTestingClusterSimpleStruct] ()
+setNullableOptionalStructValueSelector :: Selector '[Id MTRTestClusterClusterSimpleStruct] ()
 setNullableOptionalStructValueSelector = mkSelector "setNullableOptionalStructValue:"
 
 -- | @Selector@ for @nullableListWasNull@

@@ -9,7 +9,6 @@
 module ObjC.QuartzCore.CASpringAnimation
   ( CASpringAnimation
   , IsCASpringAnimation(..)
-  , initWithPerceptualDuration_bounce
   , mass
   , setMass
   , stiffness
@@ -18,19 +17,10 @@ module ObjC.QuartzCore.CASpringAnimation
   , setDamping
   , initialVelocity
   , setInitialVelocity
-  , allowsOverdamping
-  , setAllowsOverdamping
   , settlingDuration
-  , perceptualDuration
-  , bounce
-  , allowsOverdampingSelector
-  , bounceSelector
   , dampingSelector
-  , initWithPerceptualDuration_bounceSelector
   , initialVelocitySelector
   , massSelector
-  , perceptualDurationSelector
-  , setAllowsOverdampingSelector
   , setDampingSelector
   , setInitialVelocitySelector
   , setMassSelector
@@ -51,11 +41,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.QuartzCore.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | @- initWithPerceptualDuration:bounce:@
-initWithPerceptualDuration_bounce :: IsCASpringAnimation caSpringAnimation => caSpringAnimation -> CDouble -> CDouble -> IO (Id CASpringAnimation)
-initWithPerceptualDuration_bounce caSpringAnimation perceptualDuration bounce =
-  sendOwnedMessage caSpringAnimation initWithPerceptualDuration_bounceSelector perceptualDuration bounce
 
 -- | @- mass@
 mass :: IsCASpringAnimation caSpringAnimation => caSpringAnimation -> IO CDouble
@@ -97,38 +82,14 @@ setInitialVelocity :: IsCASpringAnimation caSpringAnimation => caSpringAnimation
 setInitialVelocity caSpringAnimation value =
   sendMessage caSpringAnimation setInitialVelocitySelector value
 
--- | @- allowsOverdamping@
-allowsOverdamping :: IsCASpringAnimation caSpringAnimation => caSpringAnimation -> IO Bool
-allowsOverdamping caSpringAnimation =
-  sendMessage caSpringAnimation allowsOverdampingSelector
-
--- | @- setAllowsOverdamping:@
-setAllowsOverdamping :: IsCASpringAnimation caSpringAnimation => caSpringAnimation -> Bool -> IO ()
-setAllowsOverdamping caSpringAnimation value =
-  sendMessage caSpringAnimation setAllowsOverdampingSelector value
-
 -- | @- settlingDuration@
 settlingDuration :: IsCASpringAnimation caSpringAnimation => caSpringAnimation -> IO CDouble
 settlingDuration caSpringAnimation =
   sendMessage caSpringAnimation settlingDurationSelector
 
--- | @- perceptualDuration@
-perceptualDuration :: IsCASpringAnimation caSpringAnimation => caSpringAnimation -> IO CDouble
-perceptualDuration caSpringAnimation =
-  sendMessage caSpringAnimation perceptualDurationSelector
-
--- | @- bounce@
-bounce :: IsCASpringAnimation caSpringAnimation => caSpringAnimation -> IO CDouble
-bounce caSpringAnimation =
-  sendMessage caSpringAnimation bounceSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @initWithPerceptualDuration:bounce:@
-initWithPerceptualDuration_bounceSelector :: Selector '[CDouble, CDouble] (Id CASpringAnimation)
-initWithPerceptualDuration_bounceSelector = mkSelector "initWithPerceptualDuration:bounce:"
 
 -- | @Selector@ for @mass@
 massSelector :: Selector '[] CDouble
@@ -162,23 +123,7 @@ initialVelocitySelector = mkSelector "initialVelocity"
 setInitialVelocitySelector :: Selector '[CDouble] ()
 setInitialVelocitySelector = mkSelector "setInitialVelocity:"
 
--- | @Selector@ for @allowsOverdamping@
-allowsOverdampingSelector :: Selector '[] Bool
-allowsOverdampingSelector = mkSelector "allowsOverdamping"
-
--- | @Selector@ for @setAllowsOverdamping:@
-setAllowsOverdampingSelector :: Selector '[Bool] ()
-setAllowsOverdampingSelector = mkSelector "setAllowsOverdamping:"
-
 -- | @Selector@ for @settlingDuration@
 settlingDurationSelector :: Selector '[] CDouble
 settlingDurationSelector = mkSelector "settlingDuration"
-
--- | @Selector@ for @perceptualDuration@
-perceptualDurationSelector :: Selector '[] CDouble
-perceptualDurationSelector = mkSelector "perceptualDuration"
-
--- | @Selector@ for @bounce@
-bounceSelector :: Selector '[] CDouble
-bounceSelector = mkSelector "bounce"
 

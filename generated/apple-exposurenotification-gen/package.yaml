@@ -1,0 +1,31 @@
+name:                apple-exposurenotification-gen
+version:             0.1.0.0
+synopsis:            Generated Haskell bindings for the ExposureNotification framework
+license:             BSD-3-Clause
+
+dependencies:
+- base >= 4.7 && < 5
+- haskell-obj-c
+- libffi
+- apple-foundation-gen
+
+ghc-options:
+- -Wall
+- -Wno-orphans
+- -Wno-unused-imports
+
+library:
+  source-dirs: src
+  exposed-modules:
+  - ObjC.ExposureNotification.ENExposureConfiguration
+  - ObjC.ExposureNotification.ENExposureDaySummary
+  - ObjC.ExposureNotification.ENExposureDetectionSummary
+  - ObjC.ExposureNotification.ENExposureInfo
+  - ObjC.ExposureNotification.ENExposureSummaryItem
+  - ObjC.ExposureNotification.ENExposureWindow
+  - ObjC.ExposureNotification.ENManager
+  - ObjC.ExposureNotification.ENScanInstance
+  - ObjC.ExposureNotification.ENTemporaryExposureKey
+  - ObjC.ExposureNotification.Enums
+  - ObjC.ExposureNotification.Internal.Classes
+  - ObjC.ExposureNotification.Internal.Enums

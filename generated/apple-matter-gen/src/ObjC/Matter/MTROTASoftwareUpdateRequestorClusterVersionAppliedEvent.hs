@@ -3,14 +3,18 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MTROTASoftwareUpdateRequestorClusterVersionAppliedEvent@.
-module ObjC.Matter.MTROTASoftwareUpdateRequestorClusterVersionAppliedEvent
-  ( MTROTASoftwareUpdateRequestorClusterVersionAppliedEvent
-  , IsMTROTASoftwareUpdateRequestorClusterVersionAppliedEvent(..)
+-- | Generated bindings for @MTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent@.
+module ObjC.Matter.MTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent
+  ( MTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent
+  , IsMTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent(..)
+  , init_
+  , copyWithZone
   , softwareVersion
   , setSoftwareVersion
   , productID
   , setProductID
+  , copyWithZoneSelector
+  , initSelector
   , productIDSelector
   , setProductIDSelector
   , setSoftwareVersionSelector
@@ -30,29 +34,47 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent => mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent -> IO (Id MTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent)
+init_ mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent =
+  sendOwnedMessage mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent => mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent -> Ptr () -> IO RawId
+copyWithZone mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent zone =
+  sendOwnedMessage mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent copyWithZoneSelector zone
+
 -- | @- softwareVersion@
-softwareVersion :: IsMTROTASoftwareUpdateRequestorClusterVersionAppliedEvent mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent => mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent -> IO (Id NSNumber)
-softwareVersion mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent softwareVersionSelector
+softwareVersion :: IsMTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent => mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent -> IO (Id NSNumber)
+softwareVersion mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent softwareVersionSelector
 
 -- | @- setSoftwareVersion:@
-setSoftwareVersion :: (IsMTROTASoftwareUpdateRequestorClusterVersionAppliedEvent mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent -> value -> IO ()
-setSoftwareVersion mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent setSoftwareVersionSelector (toNSNumber value)
+setSoftwareVersion :: (IsMTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent -> value -> IO ()
+setSoftwareVersion mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent setSoftwareVersionSelector (toNSNumber value)
 
 -- | @- productID@
-productID :: IsMTROTASoftwareUpdateRequestorClusterVersionAppliedEvent mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent => mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent -> IO (Id NSNumber)
-productID mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent productIDSelector
+productID :: IsMTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent => mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent -> IO (Id NSNumber)
+productID mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent productIDSelector
 
 -- | @- setProductID:@
-setProductID :: (IsMTROTASoftwareUpdateRequestorClusterVersionAppliedEvent mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent -> value -> IO ()
-setProductID mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterVersionAppliedEvent setProductIDSelector (toNSNumber value)
+setProductID :: (IsMTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent -> value -> IO ()
+setProductID mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterVersionAppliedEvent setProductIDSelector (toNSNumber value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROtaSoftwareUpdateRequestorClusterVersionAppliedEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @softwareVersion@
 softwareVersionSelector :: Selector '[] (Id NSNumber)

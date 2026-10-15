@@ -26,25 +26,15 @@ module ObjC.AVKit.AVPlayerView
   , contentOverlayView
   , updatesNowPlayingInfoCenter
   , setUpdatesNowPlayingInfoCenter
-  , delegate
-  , setDelegate
-  , speeds
-  , setSpeeds
   , selectedSpeed
   , allowsVideoFrameAnalysis
   , setAllowsVideoFrameAnalysis
-  , videoFrameAnalysisTypes
-  , setVideoFrameAnalysisTypes
   , allowsMagnification
   , setAllowsMagnification
   , magnification
   , setMagnification
-  , preferredDisplayDynamicRange
-  , setPreferredDisplayDynamicRange
   , allowsPictureInPicturePlayback
   , setAllowsPictureInPicturePlayback
-  , pictureInPictureDelegate
-  , setPictureInPictureDelegate
   , canBeginTrimming
   , showsFrameSteppingButtons
   , setShowsFrameSteppingButtons
@@ -64,12 +54,9 @@ module ObjC.AVKit.AVPlayerView
   , canBeginTrimmingSelector
   , contentOverlayViewSelector
   , controlsStyleSelector
-  , delegateSelector
   , flashChapterNumber_chapterTitleSelector
   , magnificationSelector
-  , pictureInPictureDelegateSelector
   , playerSelector
-  , preferredDisplayDynamicRangeSelector
   , readyForDisplaySelector
   , selectSpeedSelector
   , selectedSpeedSelector
@@ -78,48 +65,29 @@ module ObjC.AVKit.AVPlayerView
   , setAllowsPictureInPicturePlaybackSelector
   , setAllowsVideoFrameAnalysisSelector
   , setControlsStyleSelector
-  , setDelegateSelector
   , setMagnificationSelector
-  , setPictureInPictureDelegateSelector
   , setPlayerSelector
-  , setPreferredDisplayDynamicRangeSelector
   , setShowsFrameSteppingButtonsSelector
   , setShowsFullScreenToggleButtonSelector
   , setShowsSharingServiceButtonSelector
   , setShowsTimecodesSelector
-  , setSpeedsSelector
   , setUpdatesNowPlayingInfoCenterSelector
-  , setVideoFrameAnalysisTypesSelector
   , setVideoGravitySelector
   , showsFrameSteppingButtonsSelector
   , showsFullScreenToggleButtonSelector
   , showsSharingServiceButtonSelector
   , showsTimecodesSelector
-  , speedsSelector
   , updatesNowPlayingInfoCenterSelector
   , videoBoundsSelector
-  , videoFrameAnalysisTypesSelector
   , videoGravitySelector
 
   -- * Enum types
-  , AVDisplayDynamicRange(AVDisplayDynamicRange)
-  , pattern AVDisplayDynamicRangeAutomatic
-  , pattern AVDisplayDynamicRangeStandard
-  , pattern AVDisplayDynamicRangeConstrainedHigh
-  , pattern AVDisplayDynamicRangeHigh
   , AVPlayerViewControlsStyle(AVPlayerViewControlsStyle)
   , pattern AVPlayerViewControlsStyleNone
   , pattern AVPlayerViewControlsStyleInline
   , pattern AVPlayerViewControlsStyleFloating
   , pattern AVPlayerViewControlsStyleMinimal
   , pattern AVPlayerViewControlsStyleDefault
-  , AVVideoFrameAnalysisType(AVVideoFrameAnalysisType)
-  , pattern AVVideoFrameAnalysisTypeNone
-  , pattern AVVideoFrameAnalysisTypeDefault
-  , pattern AVVideoFrameAnalysisTypeText
-  , pattern AVVideoFrameAnalysisTypeSubject
-  , pattern AVVideoFrameAnalysisTypeVisualSearch
-  , pattern AVVideoFrameAnalysisTypeMachineReadableCode
 
   ) where
 
@@ -260,7 +228,7 @@ videoBounds avPlayerView =
 -- Use the content overlay view to add additional custom views between the video content and the controls.
 --
 -- ObjC selector: @- contentOverlayView@
-contentOverlayView :: IsAVPlayerView avPlayerView => avPlayerView -> IO (Id NSView)
+contentOverlayView :: IsAVPlayerView avPlayerView => avPlayerView -> IO RawId
 contentOverlayView avPlayerView =
   sendMessage avPlayerView contentOverlayViewSelector
 
@@ -282,50 +250,6 @@ setUpdatesNowPlayingInfoCenter :: IsAVPlayerView avPlayerView => avPlayerView ->
 setUpdatesNowPlayingInfoCenter avPlayerView value =
   sendMessage avPlayerView setUpdatesNowPlayingInfoCenterSelector value
 
--- | delegate
---
--- The receiver's delegate.
---
--- ObjC selector: @- delegate@
-delegate :: IsAVPlayerView avPlayerView => avPlayerView -> IO RawId
-delegate avPlayerView =
-  sendMessage avPlayerView delegateSelector
-
--- | delegate
---
--- The receiver's delegate.
---
--- ObjC selector: @- setDelegate:@
-setDelegate :: IsAVPlayerView avPlayerView => avPlayerView -> RawId -> IO ()
-setDelegate avPlayerView value =
-  sendMessage avPlayerView setDelegateSelector value
-
--- | speeds
---
--- A list of user selectable playback speeds to be shown in the playback speed control.
---
--- By default this property will be set to the systemDefaultSpeeds class property. Setting this property to nil will hide the playback speed selection UI.
---
--- To set the currently selected playback speed programmatically, either set the defaultRate on the AVPlayer associated with this view controller or use the selectSpeed method on AVPlayerView.
---
--- ObjC selector: @- speeds@
-speeds :: IsAVPlayerView avPlayerView => avPlayerView -> IO (Id NSArray)
-speeds avPlayerView =
-  sendMessage avPlayerView speedsSelector
-
--- | speeds
---
--- A list of user selectable playback speeds to be shown in the playback speed control.
---
--- By default this property will be set to the systemDefaultSpeeds class property. Setting this property to nil will hide the playback speed selection UI.
---
--- To set the currently selected playback speed programmatically, either set the defaultRate on the AVPlayer associated with this view controller or use the selectSpeed method on AVPlayerView.
---
--- ObjC selector: @- setSpeeds:@
-setSpeeds :: (IsAVPlayerView avPlayerView, IsNSArray value) => avPlayerView -> value -> IO ()
-setSpeeds avPlayerView value =
-  sendMessage avPlayerView setSpeedsSelector (toNSArray value)
-
 -- | selectedSpeed
 --
 -- The currently selected playback speed.
@@ -333,7 +257,7 @@ setSpeeds avPlayerView value =
 -- Changes to the associated AVPlayer's defaultRate will be reflected in this property and vice versa. If the associated AVPlayer's defaultRate is set to a value that does not match a speed in the speeds list property, the selected speed will be nil.
 --
 -- ObjC selector: @- selectedSpeed@
-selectedSpeed :: IsAVPlayerView avPlayerView => avPlayerView -> IO (Id AVPlaybackSpeed)
+selectedSpeed :: IsAVPlayerView avPlayerView => avPlayerView -> IO RawId
 selectedSpeed avPlayerView =
   sendMessage avPlayerView selectedSpeedSelector
 
@@ -354,24 +278,6 @@ allowsVideoFrameAnalysis avPlayerView =
 setAllowsVideoFrameAnalysis :: IsAVPlayerView avPlayerView => avPlayerView -> Bool -> IO ()
 setAllowsVideoFrameAnalysis avPlayerView value =
   sendMessage avPlayerView setAllowsVideoFrameAnalysisSelector value
-
--- | videoFrameAnalysisTypes
---
--- The types of items AVPlayerView looks for in a paused video frame.
---
--- ObjC selector: @- videoFrameAnalysisTypes@
-videoFrameAnalysisTypes :: IsAVPlayerView avPlayerView => avPlayerView -> IO AVVideoFrameAnalysisType
-videoFrameAnalysisTypes avPlayerView =
-  sendMessage avPlayerView videoFrameAnalysisTypesSelector
-
--- | videoFrameAnalysisTypes
---
--- The types of items AVPlayerView looks for in a paused video frame.
---
--- ObjC selector: @- setVideoFrameAnalysisTypes:@
-setVideoFrameAnalysisTypes :: IsAVPlayerView avPlayerView => avPlayerView -> AVVideoFrameAnalysisType -> IO ()
-setVideoFrameAnalysisTypes avPlayerView value =
-  sendMessage avPlayerView setVideoFrameAnalysisTypesSelector value
 
 -- | allowsMagnification
 --
@@ -417,28 +323,6 @@ setMagnification :: IsAVPlayerView avPlayerView => avPlayerView -> CDouble -> IO
 setMagnification avPlayerView value =
   sendMessage avPlayerView setMagnificationSelector value
 
--- | Describes how High Dynamic Range (HDR) video content renders.
---
--- Defaults to ``AVDisplayDynamicRangeAutomatic``.
---
--- - Note: This property will only have effect if the video content supports HDR.
---
--- ObjC selector: @- preferredDisplayDynamicRange@
-preferredDisplayDynamicRange :: IsAVPlayerView avPlayerView => avPlayerView -> IO AVDisplayDynamicRange
-preferredDisplayDynamicRange avPlayerView =
-  sendMessage avPlayerView preferredDisplayDynamicRangeSelector
-
--- | Describes how High Dynamic Range (HDR) video content renders.
---
--- Defaults to ``AVDisplayDynamicRangeAutomatic``.
---
--- - Note: This property will only have effect if the video content supports HDR.
---
--- ObjC selector: @- setPreferredDisplayDynamicRange:@
-setPreferredDisplayDynamicRange :: IsAVPlayerView avPlayerView => avPlayerView -> AVDisplayDynamicRange -> IO ()
-setPreferredDisplayDynamicRange avPlayerView value =
-  sendMessage avPlayerView setPreferredDisplayDynamicRangeSelector value
-
 -- | allowsPictureInPicturePlayback
 --
 -- Whether or not the receiver allows Picture in Picture playback. Default is NO.
@@ -456,24 +340,6 @@ allowsPictureInPicturePlayback avPlayerView =
 setAllowsPictureInPicturePlayback :: IsAVPlayerView avPlayerView => avPlayerView -> Bool -> IO ()
 setAllowsPictureInPicturePlayback avPlayerView value =
   sendMessage avPlayerView setAllowsPictureInPicturePlaybackSelector value
-
--- | pictureInPictureDelegate
---
--- A delegate for customizing Picture in Picture playback experience.
---
--- ObjC selector: @- pictureInPictureDelegate@
-pictureInPictureDelegate :: IsAVPlayerView avPlayerView => avPlayerView -> IO RawId
-pictureInPictureDelegate avPlayerView =
-  sendMessage avPlayerView pictureInPictureDelegateSelector
-
--- | pictureInPictureDelegate
---
--- A delegate for customizing Picture in Picture playback experience.
---
--- ObjC selector: @- setPictureInPictureDelegate:@
-setPictureInPictureDelegate :: IsAVPlayerView avPlayerView => avPlayerView -> RawId -> IO ()
-setPictureInPictureDelegate avPlayerView value =
-  sendMessage avPlayerView setPictureInPictureDelegateSelector value
 
 -- | canBeginTrimming
 --
@@ -623,7 +489,7 @@ videoBoundsSelector :: Selector '[] NSRect
 videoBoundsSelector = mkSelector "videoBounds"
 
 -- | @Selector@ for @contentOverlayView@
-contentOverlayViewSelector :: Selector '[] (Id NSView)
+contentOverlayViewSelector :: Selector '[] RawId
 contentOverlayViewSelector = mkSelector "contentOverlayView"
 
 -- | @Selector@ for @updatesNowPlayingInfoCenter@
@@ -634,24 +500,8 @@ updatesNowPlayingInfoCenterSelector = mkSelector "updatesNowPlayingInfoCenter"
 setUpdatesNowPlayingInfoCenterSelector :: Selector '[Bool] ()
 setUpdatesNowPlayingInfoCenterSelector = mkSelector "setUpdatesNowPlayingInfoCenter:"
 
--- | @Selector@ for @delegate@
-delegateSelector :: Selector '[] RawId
-delegateSelector = mkSelector "delegate"
-
--- | @Selector@ for @setDelegate:@
-setDelegateSelector :: Selector '[RawId] ()
-setDelegateSelector = mkSelector "setDelegate:"
-
--- | @Selector@ for @speeds@
-speedsSelector :: Selector '[] (Id NSArray)
-speedsSelector = mkSelector "speeds"
-
--- | @Selector@ for @setSpeeds:@
-setSpeedsSelector :: Selector '[Id NSArray] ()
-setSpeedsSelector = mkSelector "setSpeeds:"
-
 -- | @Selector@ for @selectedSpeed@
-selectedSpeedSelector :: Selector '[] (Id AVPlaybackSpeed)
+selectedSpeedSelector :: Selector '[] RawId
 selectedSpeedSelector = mkSelector "selectedSpeed"
 
 -- | @Selector@ for @allowsVideoFrameAnalysis@
@@ -661,14 +511,6 @@ allowsVideoFrameAnalysisSelector = mkSelector "allowsVideoFrameAnalysis"
 -- | @Selector@ for @setAllowsVideoFrameAnalysis:@
 setAllowsVideoFrameAnalysisSelector :: Selector '[Bool] ()
 setAllowsVideoFrameAnalysisSelector = mkSelector "setAllowsVideoFrameAnalysis:"
-
--- | @Selector@ for @videoFrameAnalysisTypes@
-videoFrameAnalysisTypesSelector :: Selector '[] AVVideoFrameAnalysisType
-videoFrameAnalysisTypesSelector = mkSelector "videoFrameAnalysisTypes"
-
--- | @Selector@ for @setVideoFrameAnalysisTypes:@
-setVideoFrameAnalysisTypesSelector :: Selector '[AVVideoFrameAnalysisType] ()
-setVideoFrameAnalysisTypesSelector = mkSelector "setVideoFrameAnalysisTypes:"
 
 -- | @Selector@ for @allowsMagnification@
 allowsMagnificationSelector :: Selector '[] Bool
@@ -686,14 +528,6 @@ magnificationSelector = mkSelector "magnification"
 setMagnificationSelector :: Selector '[CDouble] ()
 setMagnificationSelector = mkSelector "setMagnification:"
 
--- | @Selector@ for @preferredDisplayDynamicRange@
-preferredDisplayDynamicRangeSelector :: Selector '[] AVDisplayDynamicRange
-preferredDisplayDynamicRangeSelector = mkSelector "preferredDisplayDynamicRange"
-
--- | @Selector@ for @setPreferredDisplayDynamicRange:@
-setPreferredDisplayDynamicRangeSelector :: Selector '[AVDisplayDynamicRange] ()
-setPreferredDisplayDynamicRangeSelector = mkSelector "setPreferredDisplayDynamicRange:"
-
 -- | @Selector@ for @allowsPictureInPicturePlayback@
 allowsPictureInPicturePlaybackSelector :: Selector '[] Bool
 allowsPictureInPicturePlaybackSelector = mkSelector "allowsPictureInPicturePlayback"
@@ -701,14 +535,6 @@ allowsPictureInPicturePlaybackSelector = mkSelector "allowsPictureInPicturePlayb
 -- | @Selector@ for @setAllowsPictureInPicturePlayback:@
 setAllowsPictureInPicturePlaybackSelector :: Selector '[Bool] ()
 setAllowsPictureInPicturePlaybackSelector = mkSelector "setAllowsPictureInPicturePlayback:"
-
--- | @Selector@ for @pictureInPictureDelegate@
-pictureInPictureDelegateSelector :: Selector '[] RawId
-pictureInPictureDelegateSelector = mkSelector "pictureInPictureDelegate"
-
--- | @Selector@ for @setPictureInPictureDelegate:@
-setPictureInPictureDelegateSelector :: Selector '[RawId] ()
-setPictureInPictureDelegateSelector = mkSelector "setPictureInPictureDelegate:"
 
 -- | @Selector@ for @canBeginTrimming@
 canBeginTrimmingSelector :: Selector '[] Bool

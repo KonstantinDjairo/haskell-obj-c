@@ -32,7 +32,6 @@ module ObjC.Intents.INSendMessageIntentResponse
   , pattern INSendMessageIntentResponseCodeFailure
   , pattern INSendMessageIntentResponseCodeFailureRequiringAppLaunch
   , pattern INSendMessageIntentResponseCodeFailureMessageServiceNotAvailable
-  , pattern INSendMessageIntentResponseCodeFailureRequiringInAppAuthentication
 
   ) where
 

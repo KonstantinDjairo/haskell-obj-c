@@ -14,36 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | @VNBarcodeCompositeType@
-newtype VNBarcodeCompositeType = VNBarcodeCompositeType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern VNBarcodeCompositeTypeNone :: VNBarcodeCompositeType
-pattern VNBarcodeCompositeTypeNone = VNBarcodeCompositeType 0
-
-pattern VNBarcodeCompositeTypeLinked :: VNBarcodeCompositeType
-pattern VNBarcodeCompositeTypeLinked = VNBarcodeCompositeType 1
-
-pattern VNBarcodeCompositeTypeGS1TypeA :: VNBarcodeCompositeType
-pattern VNBarcodeCompositeTypeGS1TypeA = VNBarcodeCompositeType 2
-
-pattern VNBarcodeCompositeTypeGS1TypeB :: VNBarcodeCompositeType
-pattern VNBarcodeCompositeTypeGS1TypeB = VNBarcodeCompositeType 3
-
-pattern VNBarcodeCompositeTypeGS1TypeC :: VNBarcodeCompositeType
-pattern VNBarcodeCompositeTypeGS1TypeC = VNBarcodeCompositeType 4
-
-instance ObjCArgument VNBarcodeCompositeType where
-  withObjCArg (VNBarcodeCompositeType x) k = k (argCLong x)
-
-instance ObjCReturn VNBarcodeCompositeType where
-  type RawReturn VNBarcodeCompositeType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (VNBarcodeCompositeType x)
-  fromOwned x = pure (VNBarcodeCompositeType x)
-
 -- | @VNChirality@
 newtype VNChirality = VNChirality CLong
   deriving stock (Eq, Ord, Show)
@@ -163,12 +133,6 @@ pattern VNErrorUnsupportedRequest = VNErrorCode 19
 pattern VNErrorTimeout :: VNErrorCode
 pattern VNErrorTimeout = VNErrorCode 20
 
-pattern VNErrorUnsupportedComputeStage :: VNErrorCode
-pattern VNErrorUnsupportedComputeStage = VNErrorCode 21
-
-pattern VNErrorUnsupportedComputeDevice :: VNErrorCode
-pattern VNErrorUnsupportedComputeDevice = VNErrorCode 22
-
 instance ObjCArgument VNErrorCode where
   withObjCArg (VNErrorCode x) k = k (argCLong x)
 
@@ -180,6 +144,8 @@ instance ObjCReturn VNErrorCode where
   fromOwned x = pure (VNErrorCode x)
 
 -- | The level of optical flow computational accuracy.
+--
+-- Computational accuracy settings are only available for VNGenerateOpticalFlowRequestRevision1.
 -- | @VNGenerateOpticalFlowRequestComputationAccuracy@
 newtype VNGenerateOpticalFlowRequestComputationAccuracy = VNGenerateOpticalFlowRequestComputationAccuracy CULong
   deriving stock (Eq, Ord, Show)
@@ -207,7 +173,7 @@ instance ObjCReturn VNGenerateOpticalFlowRequestComputationAccuracy where
   fromRetained x = pure (VNGenerateOpticalFlowRequestComputationAccuracy x)
   fromOwned x = pure (VNGenerateOpticalFlowRequestComputationAccuracy x)
 
--- | Person segmentation level options to favor speed over recognition accuracy.            VNGeneratePersonSegmentationRequestQualityLevelAccurate is the default option.
+-- | Person segmentation level options to favor speed over recognition accuracy.            VNPersonSegmentationRequestLevelAccurate is the default option.
 --
 -- fast - generates a low accuracy segmentation mask that can be used in streaming scenarios on devices that have a neural engine            balanced - generates a high accuracy segmentation mask            accurate - generates a mask based on the balanced output that includes matting refinement            The request may hold on to previous masks to improve temporal stability.
 -- | @VNGeneratePersonSegmentationRequestQualityLevel@
@@ -233,30 +199,6 @@ instance ObjCReturn VNGeneratePersonSegmentationRequestQualityLevel where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (VNGeneratePersonSegmentationRequestQualityLevel x)
   fromOwned x = pure (VNGeneratePersonSegmentationRequestQualityLevel x)
-
--- | Height estimation technique used in observation based on available metadata            VNHumanBodyPose3DObservationHeightEstimationReference is the default if no LiDAR depth is present
---
--- reference -   Since no depth was present, a reference height of 1.8 meters is used            measured -   LiDAR depth was used to measure a more accurate @bodyHeight@ in meters
--- | @VNHumanBodyPose3DObservationHeightEstimation@
-newtype VNHumanBodyPose3DObservationHeightEstimation = VNHumanBodyPose3DObservationHeightEstimation CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern VNHumanBodyPose3DObservationHeightEstimationReference :: VNHumanBodyPose3DObservationHeightEstimation
-pattern VNHumanBodyPose3DObservationHeightEstimationReference = VNHumanBodyPose3DObservationHeightEstimation 0
-
-pattern VNHumanBodyPose3DObservationHeightEstimationMeasured :: VNHumanBodyPose3DObservationHeightEstimation
-pattern VNHumanBodyPose3DObservationHeightEstimationMeasured = VNHumanBodyPose3DObservationHeightEstimation 1
-
-instance ObjCArgument VNHumanBodyPose3DObservationHeightEstimation where
-  withObjCArg (VNHumanBodyPose3DObservationHeightEstimation x) k = k (argCLong x)
-
-instance ObjCReturn VNHumanBodyPose3DObservationHeightEstimation where
-  type RawReturn VNHumanBodyPose3DObservationHeightEstimation = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (VNHumanBodyPose3DObservationHeightEstimation x)
-  fromOwned x = pure (VNHumanBodyPose3DObservationHeightEstimation x)
 
 -- | @VNImageCropAndScaleOption@
 newtype VNImageCropAndScaleOption = VNImageCropAndScaleOption CULong
@@ -380,31 +322,3 @@ instance ObjCReturn VNRequestTrackingLevel where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (VNRequestTrackingLevel x)
   fromOwned x = pure (VNRequestTrackingLevel x)
-
--- | The level of optical flow computational accuracy.
--- | @VNTrackOpticalFlowRequestComputationAccuracy@
-newtype VNTrackOpticalFlowRequestComputationAccuracy = VNTrackOpticalFlowRequestComputationAccuracy CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern VNTrackOpticalFlowRequestComputationAccuracyLow :: VNTrackOpticalFlowRequestComputationAccuracy
-pattern VNTrackOpticalFlowRequestComputationAccuracyLow = VNTrackOpticalFlowRequestComputationAccuracy 0
-
-pattern VNTrackOpticalFlowRequestComputationAccuracyMedium :: VNTrackOpticalFlowRequestComputationAccuracy
-pattern VNTrackOpticalFlowRequestComputationAccuracyMedium = VNTrackOpticalFlowRequestComputationAccuracy 1
-
-pattern VNTrackOpticalFlowRequestComputationAccuracyHigh :: VNTrackOpticalFlowRequestComputationAccuracy
-pattern VNTrackOpticalFlowRequestComputationAccuracyHigh = VNTrackOpticalFlowRequestComputationAccuracy 2
-
-pattern VNTrackOpticalFlowRequestComputationAccuracyVeryHigh :: VNTrackOpticalFlowRequestComputationAccuracy
-pattern VNTrackOpticalFlowRequestComputationAccuracyVeryHigh = VNTrackOpticalFlowRequestComputationAccuracy 3
-
-instance ObjCArgument VNTrackOpticalFlowRequestComputationAccuracy where
-  withObjCArg (VNTrackOpticalFlowRequestComputationAccuracy x) k = k (argCULong x)
-
-instance ObjCReturn VNTrackOpticalFlowRequestComputationAccuracy where
-  type RawReturn VNTrackOpticalFlowRequestComputationAccuracy = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (VNTrackOpticalFlowRequestComputationAccuracy x)
-  fromOwned x = pure (VNTrackOpticalFlowRequestComputationAccuracy x)

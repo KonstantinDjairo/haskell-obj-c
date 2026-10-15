@@ -7,9 +7,13 @@
 module ObjC.Matter.MTRGeneralDiagnosticsClusterBootReasonEvent
   ( MTRGeneralDiagnosticsClusterBootReasonEvent
   , IsMTRGeneralDiagnosticsClusterBootReasonEvent(..)
+  , init_
+  , copyWithZone
   , bootReason
   , setBootReason
   , bootReasonSelector
+  , copyWithZoneSelector
+  , initSelector
   , setBootReasonSelector
 
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRGeneralDiagnosticsClusterBootReasonEvent mtrGeneralDiagnosticsClusterBootReasonEvent => mtrGeneralDiagnosticsClusterBootReasonEvent -> IO (Id MTRGeneralDiagnosticsClusterBootReasonEvent)
+init_ mtrGeneralDiagnosticsClusterBootReasonEvent =
+  sendOwnedMessage mtrGeneralDiagnosticsClusterBootReasonEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGeneralDiagnosticsClusterBootReasonEvent mtrGeneralDiagnosticsClusterBootReasonEvent => mtrGeneralDiagnosticsClusterBootReasonEvent -> Ptr () -> IO RawId
+copyWithZone mtrGeneralDiagnosticsClusterBootReasonEvent zone =
+  sendOwnedMessage mtrGeneralDiagnosticsClusterBootReasonEvent copyWithZoneSelector zone
+
 -- | @- bootReason@
 bootReason :: IsMTRGeneralDiagnosticsClusterBootReasonEvent mtrGeneralDiagnosticsClusterBootReasonEvent => mtrGeneralDiagnosticsClusterBootReasonEvent -> IO (Id NSNumber)
 bootReason mtrGeneralDiagnosticsClusterBootReasonEvent =
@@ -39,6 +53,14 @@ setBootReason mtrGeneralDiagnosticsClusterBootReasonEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGeneralDiagnosticsClusterBootReasonEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @bootReason@
 bootReasonSelector :: Selector '[] (Id NSNumber)

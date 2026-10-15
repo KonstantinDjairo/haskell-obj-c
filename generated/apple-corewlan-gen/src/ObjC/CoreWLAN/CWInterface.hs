@@ -187,10 +187,6 @@ activePHYMode cwInterface =
 --
 -- Returns nil if an error occurs, or if the interface is not participating in a Wi-Fi network, or if the SSID can not be encoded as a valid UTF-8 or WinLatin1 string.
 --
--- Note: SSID information is not available unless Location Services is enabled and the user has authorized the calling app to use location services.
---
--- CLLocationManager
---
 -- ObjC selector: @- ssid@
 ssid :: IsCWInterface cwInterface => cwInterface -> IO (Id NSString)
 ssid cwInterface =
@@ -199,10 +195,6 @@ ssid cwInterface =
 -- | Returns the current service set identifier (SSID) for the interface, encapsulated in an NSData object.
 --
 -- Returns nil if an error occurs, or if the interface is not participating in a Wi-Fi network.
---
--- Note: SSID information is not available unless Location Services is enabled and the user has authorized the calling app to use location services.
---
--- CLLocationManager
 --
 -- ObjC selector: @- ssidData@
 ssidData :: IsCWInterface cwInterface => cwInterface -> IO (Id NSData)
@@ -261,10 +253,6 @@ transmitRate cwInterface =
 -- | Returns the currently adopted country code (ISO/IEC 3166-1:1997) for the Wi-Fi interface.
 --
 -- Returns nil if an error occurs, or if the Wi-Fi interface is off.
---
--- Note: Country code information is not available unless Location Services is enabled and the user has authorized the calling app to use location services.
---
--- CLLocationManager
 --
 -- ObjC selector: @- countryCode@
 countryCode :: IsCWInterface cwInterface => cwInterface -> IO (Id NSString)
@@ -379,7 +367,7 @@ initWithInterfaceName cwInterface name =
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs.  This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Sets the Wi-Fi interface power state.
 --
@@ -392,7 +380,7 @@ setPower_error cwInterface power error_ =
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Sets the Wi-Fi interface channel.
 --
@@ -407,7 +395,7 @@ setWLANChannel_error cwInterface channel error_ =
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Sets the Wi-Fi interface pairwise master key (PMK).
 --
@@ -426,7 +414,7 @@ setPairwiseMasterKey_error cwInterface key error_ =
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Sets the Wi-Fi interface WEP key.
 --
@@ -521,7 +509,7 @@ scanForNetworksWithName_includeHidden_error cwInterface networkName includeHidde
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Associates to a W-Fi network using the specified passphrase.
 --
@@ -549,7 +537,7 @@ disassociate cwInterface =
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Associates to an enterprise W-Fi network using the specified 802.1X credentials.
 --
@@ -570,7 +558,7 @@ associateToEnterpriseNetwork_identity_username_password_error cwInterface networ
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Creates a computer-to-computer (IBSS) network.
 --
@@ -585,7 +573,7 @@ startIBSSModeWithSSID_security_channel_password_error cwInterface ssidData secur
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Commits a CWConfiguration for the given Wi-Fi interface.
 --

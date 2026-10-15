@@ -7,8 +7,6 @@
 --
 -- This class is vended by AVAssetSegmentTrackReport. It will provide information on a sample in a track.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVAssetSegmentReportSampleInformation@.
 module ObjC.AVFoundation.AVAssetSegmentReportSampleInformation
   ( AVAssetSegmentReportSampleInformation

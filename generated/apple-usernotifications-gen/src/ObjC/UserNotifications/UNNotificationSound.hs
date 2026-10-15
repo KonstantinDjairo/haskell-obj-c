@@ -88,7 +88,7 @@ defaultSound  =
     sendClassMessage cls' defaultSoundSelector
 
 -- | @+ defaultRingtoneSound@
-defaultRingtoneSound :: IO (Id UNNotificationSound)
+defaultRingtoneSound :: IO RawId
 defaultRingtoneSound  =
   do
     cls' <- getRequiredClass "UNNotificationSound"
@@ -134,7 +134,7 @@ defaultSoundSelector :: Selector '[] (Id UNNotificationSound)
 defaultSoundSelector = mkSelector "defaultSound"
 
 -- | @Selector@ for @defaultRingtoneSound@
-defaultRingtoneSoundSelector :: Selector '[] (Id UNNotificationSound)
+defaultRingtoneSoundSelector :: Selector '[] RawId
 defaultRingtoneSoundSelector = mkSelector "defaultRingtoneSound"
 
 -- | @Selector@ for @defaultCriticalSound@

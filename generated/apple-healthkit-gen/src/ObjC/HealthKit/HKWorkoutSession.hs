@@ -25,16 +25,12 @@ module ObjC.HealthKit.HKWorkoutSession
   , associatedWorkoutBuilder
   , beginNewActivityWithConfiguration_date_metadata
   , endCurrentActivityOnDate
-  , startMirroringToCompanionDeviceWithCompletion
-  , stopMirroringToCompanionDeviceWithCompletion
-  , sendDataToRemoteWorkoutSession_completion
   , activityType
   , locationType
   , workoutConfiguration
   , delegate
   , setDelegate
   , state
-  , type_
   , startDate
   , endDate
   , currentActivity
@@ -54,15 +50,11 @@ module ObjC.HealthKit.HKWorkoutSession
   , pauseSelector
   , prepareSelector
   , resumeSelector
-  , sendDataToRemoteWorkoutSession_completionSelector
   , setDelegateSelector
   , startActivityWithDateSelector
   , startDateSelector
-  , startMirroringToCompanionDeviceWithCompletionSelector
   , stateSelector
   , stopActivityWithDateSelector
-  , stopMirroringToCompanionDeviceWithCompletionSelector
-  , typeSelector
   , workoutConfigurationSelector
 
   -- * Enum types
@@ -149,7 +141,6 @@ module ObjC.HealthKit.HKWorkoutSession
   , pattern HKWorkoutActivityTypeCooldown
   , pattern HKWorkoutActivityTypeSwimBikeRun
   , pattern HKWorkoutActivityTypeTransition
-  , pattern HKWorkoutActivityTypeUnderwaterDiving
   , pattern HKWorkoutActivityTypeOther
   , HKWorkoutSessionLocationType(HKWorkoutSessionLocationType)
   , pattern HKWorkoutSessionLocationTypeUnknown
@@ -162,9 +153,6 @@ module ObjC.HealthKit.HKWorkoutSession
   , pattern HKWorkoutSessionStatePaused
   , pattern HKWorkoutSessionStatePrepared
   , pattern HKWorkoutSessionStateStopped
-  , HKWorkoutSessionType(HKWorkoutSessionType)
-  , pattern HKWorkoutSessionTypePrimary
-  , pattern HKWorkoutSessionTypeMirrored
 
   ) where
 
@@ -323,39 +311,6 @@ endCurrentActivityOnDate :: (IsHKWorkoutSession hkWorkoutSession, IsNSDate date)
 endCurrentActivityOnDate hkWorkoutSession date =
   sendMessage hkWorkoutSession endCurrentActivityOnDateSelector (toNSDate date)
 
--- | startMirroringToCompanionDeviceWithCompletion:
---
--- Starts mirroring the session to the companion device.
---
--- Calling this method will result in your app on the companion device being launched in the background.                When your app is launched set the @HKHealthStore@ @workoutSessionMirroringStartHandler@ property to retrieve                the mirrored session.                This method will fail if called for a session that is ended.                The completion handler will be executed on an arbitrary background queue.
---
--- ObjC selector: @- startMirroringToCompanionDeviceWithCompletion:@
-startMirroringToCompanionDeviceWithCompletion :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> Ptr () -> IO ()
-startMirroringToCompanionDeviceWithCompletion hkWorkoutSession completion =
-  sendMessage hkWorkoutSession startMirroringToCompanionDeviceWithCompletionSelector completion
-
--- | stopMirroringToCompanionDeviceWithCompletion:
---
--- Stops mirroring the session to the companion device.
---
--- Calling this method will stop sending data to the companion device. The mirrored session's delegate method                @didDisconnectFromRemoteDeviceWithError:@ will be called to indicate that.                When a workout session is ended, mirroring is automatically stopped.                The completion handler will be executed on an arbitrary background queue.
---
--- ObjC selector: @- stopMirroringToCompanionDeviceWithCompletion:@
-stopMirroringToCompanionDeviceWithCompletion :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> Ptr () -> IO ()
-stopMirroringToCompanionDeviceWithCompletion hkWorkoutSession completion =
-  sendMessage hkWorkoutSession stopMirroringToCompanionDeviceWithCompletionSelector completion
-
--- | sendDataToRemoteWorkoutSession:completion:
---
--- Sends an NSData object to the connected remote workout session.
---
--- This method can be called to send data from a primary session to its mirrored counterpart and vice-versa.                It's only intended to be used for data that describes the current state of the workout, such as accumulated metrics, and any                data needed to keep your app on both devices in sync.                The maximum amount of data that can be sent is 100 KB in any given 10-second time window.                If this limit is exceeded, an error will be returned in the completion handler.                An error will also be returned if the session is not mirroring.                The completion handler will be executed on an arbitrary background queue.
---
--- ObjC selector: @- sendDataToRemoteWorkoutSession:completion:@
-sendDataToRemoteWorkoutSession_completion :: (IsHKWorkoutSession hkWorkoutSession, IsNSData data_) => hkWorkoutSession -> data_ -> Ptr () -> IO ()
-sendDataToRemoteWorkoutSession_completion hkWorkoutSession data_ completion =
-  sendMessage hkWorkoutSession sendDataToRemoteWorkoutSession_completionSelector (toNSData data_) completion
-
 -- | activityType
 --
 -- Indicates the type of workout that will be performed during the session.
@@ -383,7 +338,7 @@ locationType hkWorkoutSession =
 -- This returns a copy of the configuration passed when creating the HKWorkoutSession. Changes made to                the returned object have no impact on the HKWorkoutSession.
 --
 -- ObjC selector: @- workoutConfiguration@
-workoutConfiguration :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> IO (Id HKWorkoutConfiguration)
+workoutConfiguration :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> IO RawId
 workoutConfiguration hkWorkoutSession =
   sendMessage hkWorkoutSession workoutConfigurationSelector
 
@@ -420,17 +375,6 @@ state :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> IO HKWorkout
 state hkWorkoutSession =
   sendMessage hkWorkoutSession stateSelector
 
--- | type
---
--- Indicates the type of the workout session.
---
--- A workout session created using an initializer will be primary, while a session retrieved with                the @HKHealthStore@ @workoutSessionMirroringStartHandler@ property will be mirrored.
---
--- ObjC selector: @- type@
-type_ :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> IO HKWorkoutSessionType
-type_ hkWorkoutSession =
-  sendMessage hkWorkoutSession typeSelector
-
 -- | startDate
 --
 -- Indicates the date when the workout session started running.
@@ -444,9 +388,9 @@ startDate hkWorkoutSession =
 
 -- | endDate
 --
--- Indicates the date when the workout session stopped.
+-- Indicates the date when the workout session ended.
 --
--- This value is nil when a workout session is initialized. It is set when the workout session state                changes to HKWorkoutSessionStateStopped.
+-- This value is nil when a workout session is initialized. It is set when the workout session state                changes to HKWorkoutSessionStateEnded.
 --
 -- ObjC selector: @- endDate@
 endDate :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> IO (Id NSDate)
@@ -460,7 +404,7 @@ endDate hkWorkoutSession =
 -- This returns a copy of the session's current workout activity. It will return                a copy of the main workout activity if no new activity has begun. Changes made                to the returned object have no impact on the HKWorkoutSession.
 --
 -- ObjC selector: @- currentActivity@
-currentActivity :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> IO (Id HKWorkoutActivity)
+currentActivity :: IsHKWorkoutSession hkWorkoutSession => hkWorkoutSession -> IO RawId
 currentActivity hkWorkoutSession =
   sendMessage hkWorkoutSession currentActivitySelector
 
@@ -520,18 +464,6 @@ beginNewActivityWithConfiguration_date_metadataSelector = mkSelector "beginNewAc
 endCurrentActivityOnDateSelector :: Selector '[Id NSDate] ()
 endCurrentActivityOnDateSelector = mkSelector "endCurrentActivityOnDate:"
 
--- | @Selector@ for @startMirroringToCompanionDeviceWithCompletion:@
-startMirroringToCompanionDeviceWithCompletionSelector :: Selector '[Ptr ()] ()
-startMirroringToCompanionDeviceWithCompletionSelector = mkSelector "startMirroringToCompanionDeviceWithCompletion:"
-
--- | @Selector@ for @stopMirroringToCompanionDeviceWithCompletion:@
-stopMirroringToCompanionDeviceWithCompletionSelector :: Selector '[Ptr ()] ()
-stopMirroringToCompanionDeviceWithCompletionSelector = mkSelector "stopMirroringToCompanionDeviceWithCompletion:"
-
--- | @Selector@ for @sendDataToRemoteWorkoutSession:completion:@
-sendDataToRemoteWorkoutSession_completionSelector :: Selector '[Id NSData, Ptr ()] ()
-sendDataToRemoteWorkoutSession_completionSelector = mkSelector "sendDataToRemoteWorkoutSession:completion:"
-
 -- | @Selector@ for @activityType@
 activityTypeSelector :: Selector '[] HKWorkoutActivityType
 activityTypeSelector = mkSelector "activityType"
@@ -541,7 +473,7 @@ locationTypeSelector :: Selector '[] HKWorkoutSessionLocationType
 locationTypeSelector = mkSelector "locationType"
 
 -- | @Selector@ for @workoutConfiguration@
-workoutConfigurationSelector :: Selector '[] (Id HKWorkoutConfiguration)
+workoutConfigurationSelector :: Selector '[] RawId
 workoutConfigurationSelector = mkSelector "workoutConfiguration"
 
 -- | @Selector@ for @delegate@
@@ -556,10 +488,6 @@ setDelegateSelector = mkSelector "setDelegate:"
 stateSelector :: Selector '[] HKWorkoutSessionState
 stateSelector = mkSelector "state"
 
--- | @Selector@ for @type@
-typeSelector :: Selector '[] HKWorkoutSessionType
-typeSelector = mkSelector "type"
-
 -- | @Selector@ for @startDate@
 startDateSelector :: Selector '[] (Id NSDate)
 startDateSelector = mkSelector "startDate"
@@ -569,6 +497,6 @@ endDateSelector :: Selector '[] (Id NSDate)
 endDateSelector = mkSelector "endDate"
 
 -- | @Selector@ for @currentActivity@
-currentActivitySelector :: Selector '[] (Id HKWorkoutActivity)
+currentActivitySelector :: Selector '[] RawId
 currentActivitySelector = mkSelector "currentActivity"
 

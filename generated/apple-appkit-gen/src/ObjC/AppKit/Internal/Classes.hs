@@ -12,7 +12,6 @@ module ObjC.AppKit.Internal.Classes (
     module ObjC.CoreImage.Internal.Classes,
     module ObjC.Foundation.Internal.Classes,
     module ObjC.QuartzCore.Internal.Classes,
-    module ObjC.Symbols.Internal.Classes,
     module ObjC.UniformTypeIdentifiers.Internal.Classes,
   ) where
 
@@ -23,7 +22,6 @@ import ObjC.CoreData.Internal.Classes
 import ObjC.CoreImage.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 import ObjC.QuartzCore.Internal.Classes
-import ObjC.Symbols.Internal.Classes
 import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- ---------- NSAccessibilityCustomAction ----------
@@ -127,30 +125,9 @@ instance IsNSAccessibilityElement (Id NSAccessibilityElement) where
 instance IsNSObject (Id NSAccessibilityElement) where
   toNSObject = unsafeCastId
 
--- ---------- NSAdaptiveImageGlyph ----------
-
--- | Phantom type for @NSAdaptiveImageGlyph@.
-data NSAdaptiveImageGlyph
-
-instance IsObjCObject (Id NSAdaptiveImageGlyph) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSAdaptiveImageGlyph"
-
-class IsNSObject a => IsNSAdaptiveImageGlyph a where
-  toNSAdaptiveImageGlyph :: a -> Id NSAdaptiveImageGlyph
-
-instance IsNSAdaptiveImageGlyph (Id NSAdaptiveImageGlyph) where
-  toNSAdaptiveImageGlyph = unsafeCastId
-
-instance IsNSObject (Id NSAdaptiveImageGlyph) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSAlert ----------
 
--- | A modal dialog or sheet attached to a document window. The @NSAlert@ class is not designed for subclassing.
--- 
--- Phantom type for @NSAlert@.
+-- | Phantom type for @NSAlert@.
 data NSAlert
 
 instance IsObjCObject (Id NSAlert) where
@@ -1309,29 +1286,6 @@ instance IsNSInputServer (Id NSInputServer) where
 instance IsNSObject (Id NSInputServer) where
   toNSObject = unsafeCastId
 
--- ---------- NSItemBadge ----------
-
--- | @NSItemBadge@ represents a badge that can be attached to an @NSToolbarItem@.
---
--- This badge provides a way to display small visual indicators, such as counts and text labels, within a toolbar item. Badges can be used to highlight important information, such as unread notifications or status indicators.
--- 
--- Phantom type for @NSItemBadge@.
-data NSItemBadge
-
-instance IsObjCObject (Id NSItemBadge) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSItemBadge"
-
-class IsNSObject a => IsNSItemBadge a where
-  toNSItemBadge :: a -> Id NSItemBadge
-
-instance IsNSItemBadge (Id NSItemBadge) where
-  toNSItemBadge = unsafeCastId
-
-instance IsNSObject (Id NSItemBadge) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSLayoutAnchor ----------
 
 -- | Phantom type for @NSLayoutAnchor@.
@@ -1410,11 +1364,7 @@ instance IsNSObject (Id NSLayoutManager) where
 
 -- ---------- NSMediaLibraryBrowserController ----------
 
--- | This class configures and displays a media browser panel.
---
--- This class provides no direct access to the panel, and its meaningful contents aren't in the calling process.
--- 
--- Phantom type for @NSMediaLibraryBrowserController@.
+-- | Phantom type for @NSMediaLibraryBrowserController@.
 data NSMediaLibraryBrowserController
 
 instance IsObjCObject (Id NSMediaLibraryBrowserController) where
@@ -1467,27 +1417,6 @@ instance IsNSMenuItem (Id NSMenuItem) where
   toNSMenuItem = unsafeCastId
 
 instance IsNSObject (Id NSMenuItem) where
-  toNSObject = unsafeCastId
-
--- ---------- NSMenuItemBadge ----------
-
--- | A badge used to provide additional quantitative information specific to the menu item, such as the number of available updates.
--- 
--- Phantom type for @NSMenuItemBadge@.
-data NSMenuItemBadge
-
-instance IsObjCObject (Id NSMenuItemBadge) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSMenuItemBadge"
-
-class IsNSObject a => IsNSMenuItemBadge a where
-  toNSMenuItemBadge :: a -> Id NSMenuItemBadge
-
-instance IsNSMenuItemBadge (Id NSMenuItemBadge) where
-  toNSMenuItemBadge = unsafeCastId
-
-instance IsNSObject (Id NSMenuItemBadge) where
   toNSObject = unsafeCastId
 
 -- ---------- NSMovie ----------
@@ -1893,19 +1822,7 @@ instance IsNSObject (Id NSRulerMarker) where
 
 -- ---------- NSRunningApplication ----------
 
--- | @NSRunningApplication@ is a class to manipulate and provide information for a single instance of an application.  Only user applications are tracked; this does not provide information about every process on the system.
---
--- Some properties of an application are fixed, such as the bundle identifier.  Other properties may vary over time, such as whether the app is hidden.  Properties that vary can be observed with KVO, in which case the description comment for the method will mention it.
---
--- Properties that vary over time are inherently race-prone.  For example, a hidden app may unhide itself at any time.  To ameliorate this, properties persist until the next turn of the main run loop in a common mode.  For example, if you repeatedly poll an unhidden app for its hidden property without allowing the run loop to run, it will continue to return @NO@, even if the app hides, until the next turn of the run loop.
---
--- @NSRunningApplication@ is thread safe, in that its properties are returned atomically.  However, it is still subject to the main run loop policy described above.  If you access an instance of @NSRunningApplication@ from a background thread, be aware that its time-varying properties may change from under you as the main run loop runs (or not).
---
--- An @NSRunningApplication@ instance remains valid after the application exits.  However, most properties lose their significance, and some properties may not be available on a terminated application.
---
--- To access the list of all running applications, use the @-runningApplications@ method on @NSWorkspace@.
--- 
--- Phantom type for @NSRunningApplication@.
+-- | Phantom type for @NSRunningApplication@.
 data NSRunningApplication
 
 instance IsObjCObject (Id NSRunningApplication) where
@@ -1939,27 +1856,6 @@ instance IsNSScreen (Id NSScreen) where
   toNSScreen = unsafeCastId
 
 instance IsNSObject (Id NSScreen) where
-  toNSObject = unsafeCastId
-
--- ---------- NSScrollEdgeEffectStyle ----------
-
--- | Styles for a scroll view’s edge effect.
--- 
--- Phantom type for @NSScrollEdgeEffectStyle@.
-data NSScrollEdgeEffectStyle
-
-instance IsObjCObject (Id NSScrollEdgeEffectStyle) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSScrollEdgeEffectStyle"
-
-class IsNSObject a => IsNSScrollEdgeEffectStyle a where
-  toNSScrollEdgeEffectStyle :: a -> Id NSScrollEdgeEffectStyle
-
-instance IsNSScrollEdgeEffectStyle (Id NSScrollEdgeEffectStyle) where
-  toNSScrollEdgeEffectStyle = unsafeCastId
-
-instance IsNSObject (Id NSScrollEdgeEffectStyle) where
   toNSObject = unsafeCastId
 
 -- ---------- NSScrubberLayout ----------
@@ -2050,27 +1946,6 @@ instance IsNSShadow (Id NSShadow) where
   toNSShadow = unsafeCastId
 
 instance IsNSObject (Id NSShadow) where
-  toNSObject = unsafeCastId
-
--- ---------- NSSharingCollaborationModeRestriction ----------
-
--- | Specifies whether a specific type of sharing should be disabled in the share picker, and if so, whether a reason should be provided for the disablement If a reason is provided, the corresponding mode will show up as an option, but an alert explaining why it is disabled will show if it is chosen, and the mode will switch back to the supported one Optionally, an extra alert button can be provided for a "recovery suggestion". This can give a user a way to fix whatever is causing this type of sharing to be disabled If no reason is provided, the corresponding mode will not show up as an option
--- 
--- Phantom type for @NSSharingCollaborationModeRestriction@.
-data NSSharingCollaborationModeRestriction
-
-instance IsObjCObject (Id NSSharingCollaborationModeRestriction) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSSharingCollaborationModeRestriction"
-
-class IsNSObject a => IsNSSharingCollaborationModeRestriction a where
-  toNSSharingCollaborationModeRestriction :: a -> Id NSSharingCollaborationModeRestriction
-
-instance IsNSSharingCollaborationModeRestriction (Id NSSharingCollaborationModeRestriction) where
-  toNSSharingCollaborationModeRestriction = unsafeCastId
-
-instance IsNSObject (Id NSSharingCollaborationModeRestriction) where
   toNSObject = unsafeCastId
 
 -- ---------- NSSharingService ----------
@@ -2685,38 +2560,9 @@ instance IsNSTextList (Id NSTextList) where
 instance IsNSObject (Id NSTextList) where
   toNSObject = unsafeCastId
 
--- ---------- NSTextPreview ----------
-
--- | A snapshot of the text in your view, which the system uses to create user-visible effects.
---
--- An @NSTextPreview@ object provides a static image of your view’s text content that the system can use to create animations. You provide preview objects in response to system requests, such as ones from Writing Tools. In addition to creating an image of your view’s text, you also specify the location of that text in your view’s frame rectangle. When creating animations, the system places the image on top of your view’s content and animates changes to the image instead of to your view.
---
--- Create an @NSTextPreview@ object in response to specific system requests. Create an image with a transparent background and render your view’s text into the image using the current text attributes. Construct your @NSTextPreview@ object with both the image and the frame rectangle that represents the location of the rendered text in your view’s coordinate system. To highlight specific portions of text, instead of all the text in the image, provide a set of candidate rectangles with the locations of the text you want to highlight.
--- 
--- Phantom type for @NSTextPreview@.
-data NSTextPreview
-
-instance IsObjCObject (Id NSTextPreview) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSTextPreview"
-
-class IsNSObject a => IsNSTextPreview a where
-  toNSTextPreview :: a -> Id NSTextPreview
-
-instance IsNSTextPreview (Id NSTextPreview) where
-  toNSTextPreview = unsafeCastId
-
-instance IsNSObject (Id NSTextPreview) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSTextRange ----------
 
--- | A class that represents a contiguous range between two locations inside document contents.
---
--- An @NSTextRange@ consists of the starting and terminating locations. There the two basic properties: ``location`` and ``endLocation``, respectively. The terminating ``location``, ``endLocation``, is directly following the last location in the range. For example, a location contains a range if `(range.location <= location) && (location < range.endLocation)@ is @true`.
--- 
--- Phantom type for @NSTextRange@.
+-- | Phantom type for @NSTextRange@.
 data NSTextRange
 
 instance IsObjCObject (Id NSTextRange) where
@@ -2999,25 +2845,6 @@ instance IsNSUserInterfaceCompressionOptions (Id NSUserInterfaceCompressionOptio
 instance IsNSObject (Id NSUserInterfaceCompressionOptions) where
   toNSObject = unsafeCastId
 
--- ---------- NSViewLayoutRegion ----------
-
--- | Phantom type for @NSViewLayoutRegion@.
-data NSViewLayoutRegion
-
-instance IsObjCObject (Id NSViewLayoutRegion) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSViewLayoutRegion"
-
-class IsNSObject a => IsNSViewLayoutRegion a where
-  toNSViewLayoutRegion :: a -> Id NSViewLayoutRegion
-
-instance IsNSViewLayoutRegion (Id NSViewLayoutRegion) where
-  toNSViewLayoutRegion = unsafeCastId
-
-instance IsNSObject (Id NSViewLayoutRegion) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSWindowTab ----------
 
 -- | Phantom type for @NSWindowTab@.
@@ -3111,91 +2938,6 @@ instance IsNSWorkspaceOpenConfiguration (Id NSWorkspaceOpenConfiguration) where
   toNSWorkspaceOpenConfiguration = unsafeCastId
 
 instance IsNSObject (Id NSWorkspaceOpenConfiguration) where
-  toNSObject = unsafeCastId
-
--- ---------- NSWritingToolsCoordinator ----------
-
--- | An object that manages interactions between Writing Tools and your custom text view.
---
--- Add a @NSWritingToolsCoordinator@ object to a custom view when you want to add Writing Tools support to that view. The coordinator manages interactions between your view and the Writing Tools UI and back-end capabilities. When creating a coordinator, you supply a delegate object to respond to requests from the system and provide needed information. Your delegate delivers your view’s text to Writing Tools, incorporates suggested changes back into your text storage, and supports the animations that Writing Tools creates to show the state of an operation.
---
--- Create the @NSWritingToolsCoordinator@ object when setting up your UI, and initialize it with a custom object that adopts the ``NSWritingToolsCoordinator/Delegate`` protocol. Add the coordinator to the ``NSView/writingToolsCoordinator`` property of your view. When a coordinator is present on a view, the system adds UI elements to initiate Writing Tools operations.
---
--- When defining the delegate, choose an object from your app that has access to your view and its text storage. You can adopt the ``NSWritingToolsCoordinator/Delegate`` protocol in the view itself, or in another type that your view uses to manage content. During the interactions with Writing Tools, the delegate gets and sets the contents of the view’s text storage and supports Writing Tools behaviors.
---
--- > Note: You don’t need to create an @NSWritingToolsCoordinator@  object if you display text using a <doc://com.apple.documentation/documentation/uikit/uitextview>, ``NSTextField``, ``NSTextView``, <doc://com.apple.documentation/documentation/swiftui/textfield>, or <doc://com.apple.documentation/documentation/swiftui/texteditor> view. Those views already include the required support to handle Writing Tools interactions.
--- 
--- Phantom type for @NSWritingToolsCoordinator@.
-data NSWritingToolsCoordinator
-
-instance IsObjCObject (Id NSWritingToolsCoordinator) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSWritingToolsCoordinator"
-
-class IsNSObject a => IsNSWritingToolsCoordinator a where
-  toNSWritingToolsCoordinator :: a -> Id NSWritingToolsCoordinator
-
-instance IsNSWritingToolsCoordinator (Id NSWritingToolsCoordinator) where
-  toNSWritingToolsCoordinator = unsafeCastId
-
-instance IsNSObject (Id NSWritingToolsCoordinator) where
-  toNSObject = unsafeCastId
-
--- ---------- NSWritingToolsCoordinatorAnimationParameters ----------
-
--- | An object you use to configure additional tasks or animations to run alongside the Writing Tools animations.
---
--- When Writing Tools replaces text in one of your context objects, it provides an @NSWritingToolsCoordinator.AnimationParameters@ object for you to use to configure any additional animations. During a Writing Tools session, you hide the text under evaluation and provide a targeted preview of your content. Writing Tools animations changes to that preview, but you might need to provide additional animations for other parts of your view’s content. For example, you might need to animate any layout changes caused by the insertion or removal of text in other parts of your view. Use this object to configure those animations.
---
--- You don’t create an @NSWritingToolsCoordinator.AnimationParameters@ object directly. Instead, the system creates one and passes it to the``NSWritingToolsCoordinator/writingToolsCoordinator(_:replaceRange:inContext:proposedText:reason:animationParameters:completion:)``method of your ``NSWritingToolsCoordinator/Delegate`` object. Use thatobject to specify the blocks to run during and after the system animations.
--- 
--- Phantom type for @NSWritingToolsCoordinatorAnimationParameters@.
-data NSWritingToolsCoordinatorAnimationParameters
-
-instance IsObjCObject (Id NSWritingToolsCoordinatorAnimationParameters) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSWritingToolsCoordinatorAnimationParameters"
-
-class IsNSObject a => IsNSWritingToolsCoordinatorAnimationParameters a where
-  toNSWritingToolsCoordinatorAnimationParameters :: a -> Id NSWritingToolsCoordinatorAnimationParameters
-
-instance IsNSWritingToolsCoordinatorAnimationParameters (Id NSWritingToolsCoordinatorAnimationParameters) where
-  toNSWritingToolsCoordinatorAnimationParameters = unsafeCastId
-
-instance IsNSObject (Id NSWritingToolsCoordinatorAnimationParameters) where
-  toNSObject = unsafeCastId
-
--- ---------- NSWritingToolsCoordinatorContext ----------
-
--- | A data object that you use to share your custom view’s text with Writing Tools.
---
--- At the start of every Writing Tools operation, you create one or more @NSWritingToolsCoordinator.Context@ objects with a copy of the text you want Writing Tools to evaluate. Each Writing Tools operation starts with a call to the ``NSWritingToolsCoordinator/Delegate/writingToolsCoordinator(_:requestsContextsFor:completion:)`` method of your ``NSWritingToolsCoordinator/Delegate`` object. Use the parameters of that method to determine how much of your view’s text to provide. For some operations, Writing Tools asks for all of your view’s text, but in others it asks for only a portion of the text. When Writing Tools finishes its evaluation, it reports changes back to your delegate relative to the context objects you provided.
---
--- When Writing Tools asks for your view’s text, create one or more @NSWritingToolsCoordinator.Context@ objects with the requested content. If your view contains only one text storage object, create only one context object for the request. However, if you use multiple text storage objects to manage different parts of your view’s content, you might need to create multiple context objects. The actual number depends on how much of your text Writing Tools asks for. For example, when Writing Tools asks for all of your view’s content, you return one context object for each text storage object in your view. However, if Writing Tools asks for the current selection, and one text storage object contains all of the selected text, you create only one context object for the content.
---
--- Writing Tools uses your context objects as the starting point for its evaluations, and as a reference point for any changes. Because Writing Tools doesn’t know anything about your view or its content, it makes suggestions only relative to your context objects. It’s your responsibility to take those suggestions and incorporate them back into your view’s text storage. In some cases, you might need to store additional information to update your storage correctly. For example, you might need to store, and update as needed, the offset from the start of your document to the start of the text in your context object.
---
--- When Writing Tools asks for the currently selected text in your view, include some of the surrounding text in your context object as well. Supply a string that includes the selection and any text up to the nearest paragraph boundary. When creating your context object, specify a range value that represents the portion of that string that corresponds to the text selection. Providing some additional text in your context object can help Writing Tools improve its evaluation of your content. Writing Tools uses the ``resolvedRange`` property of your context object to indicate what text it considered.
---
--- If your context object includes text that you don’t want Writing Tools to evaluate, add the @excludeFromWritingTools@ attribute to the corresponding characters of your <doc://com.apple.documentation/documentation/foundation/nsattributedstring> object. You might add this attribute if the text string includes a code listing or readonly content that you don’t want Writing Tools to change.
--- 
--- Phantom type for @NSWritingToolsCoordinatorContext@.
-data NSWritingToolsCoordinatorContext
-
-instance IsObjCObject (Id NSWritingToolsCoordinatorContext) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSWritingToolsCoordinatorContext"
-
-class IsNSObject a => IsNSWritingToolsCoordinatorContext a where
-  toNSWritingToolsCoordinatorContext :: a -> Id NSWritingToolsCoordinatorContext
-
-instance IsNSWritingToolsCoordinatorContext (Id NSWritingToolsCoordinatorContext) where
-  toNSWritingToolsCoordinatorContext = unsafeCastId
-
-instance IsNSObject (Id NSWritingToolsCoordinatorContext) where
   toNSObject = unsafeCastId
 
 -- ---------- NSViewAnimation ----------
@@ -3772,9 +3514,7 @@ instance IsNSObject (Id NSCustomImageRep) where
 
 -- ---------- NSEPSImageRep ----------
 
--- | An object that can render an image from encapsulated PostScript (EPS) code.
--- 
--- Phantom type for @NSEPSImageRep@.
+-- | Phantom type for @NSEPSImageRep@.
 data NSEPSImageRep
 
 instance IsObjCObject (Id NSEPSImageRep) where
@@ -4246,9 +3986,7 @@ instance IsNSToolbarItem (Id NSMenuToolbarItem) where
 
 -- ---------- NSSearchToolbarItem ----------
 
--- | @NSSearchToolbarItem@ provides the standard UI behavior for integrating a search field into the toolbar.
--- 
--- Phantom type for @NSSearchToolbarItem@.
+-- | Phantom type for @NSSearchToolbarItem@.
 data NSSearchToolbarItem
 
 instance IsObjCObject (Id NSSearchToolbarItem) where
@@ -4926,35 +4664,6 @@ instance IsNSObject (Id NSTreeController) where
 instance IsNSObjectController (Id NSTreeController) where
   toNSObjectController = unsafeCastId
 
--- ---------- NSBackgroundExtensionView ----------
-
--- | A view that extends content to fill its own bounds.
---
--- A background extension view can be laid out to extend outside the safe area, such as under the titlebar, sidebar, or inspector. By default it lays out its content to stay within the safe area, and uses modifications of the content along the edges to fill the container view.
--- 
--- Phantom type for @NSBackgroundExtensionView@.
-data NSBackgroundExtensionView
-
-instance IsObjCObject (Id NSBackgroundExtensionView) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSBackgroundExtensionView"
-
-class IsNSView a => IsNSBackgroundExtensionView a where
-  toNSBackgroundExtensionView :: a -> Id NSBackgroundExtensionView
-
-instance IsNSBackgroundExtensionView (Id NSBackgroundExtensionView) where
-  toNSBackgroundExtensionView = unsafeCastId
-
-instance IsNSObject (Id NSBackgroundExtensionView) where
-  toNSObject = unsafeCastId
-
-instance IsNSResponder (Id NSBackgroundExtensionView) where
-  toNSResponder = unsafeCastId
-
-instance IsNSView (Id NSBackgroundExtensionView) where
-  toNSView = unsafeCastId
-
 -- ---------- NSBox ----------
 
 -- | Phantom type for @NSBox@.
@@ -5053,62 +4762,6 @@ instance IsNSResponder (Id NSControl) where
   toNSResponder = unsafeCastId
 
 instance IsNSView (Id NSControl) where
-  toNSView = unsafeCastId
-
--- ---------- NSGlassEffectContainerView ----------
-
--- | A view that efficiently merges descendant glass effect views together when they are within a specified proximity to each other.
---
--- - Tip: Using a glass effect container view can improve performance by reducing the number of passes required to render similar glass effect views.
--- 
--- Phantom type for @NSGlassEffectContainerView@.
-data NSGlassEffectContainerView
-
-instance IsObjCObject (Id NSGlassEffectContainerView) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSGlassEffectContainerView"
-
-class IsNSView a => IsNSGlassEffectContainerView a where
-  toNSGlassEffectContainerView :: a -> Id NSGlassEffectContainerView
-
-instance IsNSGlassEffectContainerView (Id NSGlassEffectContainerView) where
-  toNSGlassEffectContainerView = unsafeCastId
-
-instance IsNSObject (Id NSGlassEffectContainerView) where
-  toNSObject = unsafeCastId
-
-instance IsNSResponder (Id NSGlassEffectContainerView) where
-  toNSResponder = unsafeCastId
-
-instance IsNSView (Id NSGlassEffectContainerView) where
-  toNSView = unsafeCastId
-
--- ---------- NSGlassEffectView ----------
-
--- | A view that embeds its content view in a dynamic glass effect.
--- 
--- Phantom type for @NSGlassEffectView@.
-data NSGlassEffectView
-
-instance IsObjCObject (Id NSGlassEffectView) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSGlassEffectView"
-
-class IsNSView a => IsNSGlassEffectView a where
-  toNSGlassEffectView :: a -> Id NSGlassEffectView
-
-instance IsNSGlassEffectView (Id NSGlassEffectView) where
-  toNSGlassEffectView = unsafeCastId
-
-instance IsNSObject (Id NSGlassEffectView) where
-  toNSObject = unsafeCastId
-
-instance IsNSResponder (Id NSGlassEffectView) where
-  toNSResponder = unsafeCastId
-
-instance IsNSView (Id NSGlassEffectView) where
   toNSView = unsafeCastId
 
 -- ---------- NSGridView ----------
@@ -5469,31 +5122,6 @@ instance IsNSResponder (Id NSText) where
 instance IsNSView (Id NSText) where
   toNSView = unsafeCastId
 
--- ---------- NSTextInsertionIndicator ----------
-
--- | Phantom type for @NSTextInsertionIndicator@.
-data NSTextInsertionIndicator
-
-instance IsObjCObject (Id NSTextInsertionIndicator) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSTextInsertionIndicator"
-
-class IsNSView a => IsNSTextInsertionIndicator a where
-  toNSTextInsertionIndicator :: a -> Id NSTextInsertionIndicator
-
-instance IsNSTextInsertionIndicator (Id NSTextInsertionIndicator) where
-  toNSTextInsertionIndicator = unsafeCastId
-
-instance IsNSObject (Id NSTextInsertionIndicator) where
-  toNSObject = unsafeCastId
-
-instance IsNSResponder (Id NSTextInsertionIndicator) where
-  toNSResponder = unsafeCastId
-
-instance IsNSView (Id NSTextInsertionIndicator) where
-  toNSView = unsafeCastId
-
 -- ---------- NSVisualEffectView ----------
 
 -- | Phantom type for @NSVisualEffectView@.
@@ -5594,31 +5222,6 @@ instance IsNSResponder (Id NSSplitViewController) where
   toNSResponder = unsafeCastId
 
 instance IsNSViewController (Id NSSplitViewController) where
-  toNSViewController = unsafeCastId
-
--- ---------- NSSplitViewItemAccessoryViewController ----------
-
--- | Phantom type for @NSSplitViewItemAccessoryViewController@.
-data NSSplitViewItemAccessoryViewController
-
-instance IsObjCObject (Id NSSplitViewItemAccessoryViewController) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSSplitViewItemAccessoryViewController"
-
-class IsNSViewController a => IsNSSplitViewItemAccessoryViewController a where
-  toNSSplitViewItemAccessoryViewController :: a -> Id NSSplitViewItemAccessoryViewController
-
-instance IsNSSplitViewItemAccessoryViewController (Id NSSplitViewItemAccessoryViewController) where
-  toNSSplitViewItemAccessoryViewController = unsafeCastId
-
-instance IsNSObject (Id NSSplitViewItemAccessoryViewController) where
-  toNSObject = unsafeCastId
-
-instance IsNSResponder (Id NSSplitViewItemAccessoryViewController) where
-  toNSResponder = unsafeCastId
-
-instance IsNSViewController (Id NSSplitViewItemAccessoryViewController) where
   toNSViewController = unsafeCastId
 
 -- ---------- NSTabViewController ----------
@@ -6663,7 +6266,7 @@ instance IsNSView (Id NSPopUpButton) where
 
 -- ---------- NSStatusBarButton ----------
 
--- | Status bar buttons are the visual representation of @NSStatusItem@s, and are primarily displayed on the right side of the menu bar. When a template image is set as the @image@ property of the status bar button, it is rendered with the correct menu bar style. This guarantees that the button will look correct in various button states and appearances (such as dark menu bar).
+-- | StatusBarButtons are the visual representation of NSStatusItems, and are primarily displayed on the right side of the menu bar. When a template image is set as the @image@ property of the status bar button, it is rendered with the correct menu bar style. This guarantees that the button will look correct in various button states and appearances (such as dark menu bar).
 -- 
 -- Phantom type for @NSStatusBarButton@.
 data NSStatusBarButton

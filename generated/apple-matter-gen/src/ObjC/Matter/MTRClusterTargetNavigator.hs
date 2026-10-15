@@ -9,7 +9,8 @@
 module ObjC.Matter.MTRClusterTargetNavigator
   ( MTRClusterTargetNavigator
   , IsMTRClusterTargetNavigator(..)
-  , navigateTargetWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeTargetListWithParams
   , readAttributeCurrentTargetWithParams
   , readAttributeGeneratedCommandListWithParams
@@ -19,14 +20,9 @@ module ObjC.Matter.MTRClusterTargetNavigator
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , navigateTargetWithParams_expectedValues_expectedValueInterval_completionSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
@@ -50,10 +46,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- navigateTargetWithParams:expectedValues:expectedValueInterval:completion:@
-navigateTargetWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterTargetNavigator mtrClusterTargetNavigator, IsMTRTargetNavigatorClusterNavigateTargetParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterTargetNavigator -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-navigateTargetWithParams_expectedValues_expectedValueInterval_completion mtrClusterTargetNavigator params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterTargetNavigator navigateTargetWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRTargetNavigatorClusterNavigateTargetParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterTargetNavigator mtrClusterTargetNavigator, IsMTRDevice device, IsNSObject queue) => mtrClusterTargetNavigator -> device -> CUShort -> queue -> IO (Id MTRClusterTargetNavigator)
+initWithDevice_endpoint_queue mtrClusterTargetNavigator device endpoint queue =
+  sendOwnedMessage mtrClusterTargetNavigator initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
+
+-- | @- navigateTargetWithParams:expectedValues:expectedValueInterval:completionHandler:@
+navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterTargetNavigator mtrClusterTargetNavigator, IsMTRTargetNavigatorClusterNavigateTargetParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterTargetNavigator -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterTargetNavigator params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterTargetNavigator navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRTargetNavigatorClusterNavigateTargetParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeTargetListWithParams:@
 readAttributeTargetListWithParams :: (IsMTRClusterTargetNavigator mtrClusterTargetNavigator, IsMTRReadParams params) => mtrClusterTargetNavigator -> params -> IO (Id NSDictionary)
@@ -102,30 +103,17 @@ new  =
     cls' <- getRequiredClass "MTRClusterTargetNavigator"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterTargetNavigator mtrClusterTargetNavigator, IsMTRDevice device, IsNSObject queue) => mtrClusterTargetNavigator -> device -> CUShort -> queue -> IO (Id MTRClusterTargetNavigator)
-initWithDevice_endpoint_queue mtrClusterTargetNavigator device endpoint queue =
-  sendOwnedMessage mtrClusterTargetNavigator initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- navigateTargetWithParams:expectedValues:expectedValueInterval:completionHandler:@
-navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterTargetNavigator mtrClusterTargetNavigator, IsMTRTargetNavigatorClusterNavigateTargetParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterTargetNavigator -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterTargetNavigator params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterTargetNavigator navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRTargetNavigatorClusterNavigateTargetParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterTargetNavigator mtrClusterTargetNavigator, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterTargetNavigator -> device -> endpointID -> queue -> IO (Id MTRClusterTargetNavigator)
-initWithDevice_endpointID_queue mtrClusterTargetNavigator device endpointID queue =
-  sendOwnedMessage mtrClusterTargetNavigator initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @navigateTargetWithParams:expectedValues:expectedValueInterval:completion:@
-navigateTargetWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRTargetNavigatorClusterNavigateTargetParams, Id NSArray, Id NSNumber, Ptr ()] ()
-navigateTargetWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "navigateTargetWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterTargetNavigator)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
+
+-- | @Selector@ for @navigateTargetWithParams:expectedValues:expectedValueInterval:completionHandler:@
+navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRTargetNavigatorClusterNavigateTargetParams, Id NSArray, Id NSNumber, Ptr ()] ()
+navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "navigateTargetWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeTargetListWithParams:@
 readAttributeTargetListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -162,16 +150,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterTargetNavigator)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterTargetNavigator)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @navigateTargetWithParams:expectedValues:expectedValueInterval:completionHandler:@
-navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRTargetNavigatorClusterNavigateTargetParams, Id NSArray, Id NSNumber, Ptr ()] ()
-navigateTargetWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "navigateTargetWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterTargetNavigator)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

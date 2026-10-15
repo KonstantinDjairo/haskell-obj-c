@@ -53,9 +53,7 @@ saveSnapshot :: IsGCGamepad gcGamepad => gcGamepad -> IO (Id GCGamepadSnapshot)
 saveSnapshot gcGamepad =
   sendMessage gcGamepad saveSnapshotSelector
 
--- | A profile keeps a reference to the controller that this profile is mapping input from.
---
--- ObjC selector: @- controller@
+-- | @- controller@
 controller :: IsGCGamepad gcGamepad => gcGamepad -> IO (Id GCController)
 controller gcGamepad =
   sendMessage gcGamepad controllerSelector

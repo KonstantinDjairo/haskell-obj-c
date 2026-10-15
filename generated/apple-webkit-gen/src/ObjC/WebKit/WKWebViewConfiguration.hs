@@ -24,8 +24,6 @@ module ObjC.WebKit.WKWebViewConfiguration
   , setPreferences
   , userContentController
   , setUserContentController
-  , webExtensionController
-  , setWebExtensionController
   , websiteDataStore
   , setWebsiteDataStore
   , suppressesIncrementalRendering
@@ -34,8 +32,6 @@ module ObjC.WebKit.WKWebViewConfiguration
   , setApplicationNameForUserAgent
   , allowsAirPlayForMediaPlayback
   , setAllowsAirPlayForMediaPlayback
-  , showsSystemScreenTimeBlockingView
-  , setShowsSystemScreenTimeBlockingView
   , upgradeKnownHostsToHTTPS
   , setUpgradeKnownHostsToHTTPS
   , mediaTypesRequiringUserActionForPlayback
@@ -44,16 +40,9 @@ module ObjC.WebKit.WKWebViewConfiguration
   , setDefaultWebpagePreferences
   , limitsNavigationsToAppBoundDomains
   , setLimitsNavigationsToAppBoundDomains
-  , allowsInlinePredictions
-  , setAllowsInlinePredictions
   , userInterfaceDirectionPolicy
   , setUserInterfaceDirectionPolicy
-  , supportsAdaptiveImageGlyph
-  , setSupportsAdaptiveImageGlyph
-  , writingToolsBehavior
-  , setWritingToolsBehavior
   , allowsAirPlayForMediaPlaybackSelector
-  , allowsInlinePredictionsSelector
   , applicationNameForUserAgentSelector
   , defaultWebpagePreferencesSelector
   , limitsNavigationsToAppBoundDomainsSelector
@@ -61,40 +50,26 @@ module ObjC.WebKit.WKWebViewConfiguration
   , preferencesSelector
   , processPoolSelector
   , setAllowsAirPlayForMediaPlaybackSelector
-  , setAllowsInlinePredictionsSelector
   , setApplicationNameForUserAgentSelector
   , setDefaultWebpagePreferencesSelector
   , setLimitsNavigationsToAppBoundDomainsSelector
   , setMediaTypesRequiringUserActionForPlaybackSelector
   , setPreferencesSelector
   , setProcessPoolSelector
-  , setShowsSystemScreenTimeBlockingViewSelector
-  , setSupportsAdaptiveImageGlyphSelector
   , setSuppressesIncrementalRenderingSelector
   , setURLSchemeHandler_forURLSchemeSelector
   , setUpgradeKnownHostsToHTTPSSelector
   , setUserContentControllerSelector
   , setUserInterfaceDirectionPolicySelector
-  , setWebExtensionControllerSelector
   , setWebsiteDataStoreSelector
-  , setWritingToolsBehaviorSelector
-  , showsSystemScreenTimeBlockingViewSelector
-  , supportsAdaptiveImageGlyphSelector
   , suppressesIncrementalRenderingSelector
   , upgradeKnownHostsToHTTPSSelector
   , urlSchemeHandlerForURLSchemeSelector
   , userContentControllerSelector
   , userInterfaceDirectionPolicySelector
-  , webExtensionControllerSelector
   , websiteDataStoreSelector
-  , writingToolsBehaviorSelector
 
   -- * Enum types
-  , NSWritingToolsBehavior(NSWritingToolsBehavior)
-  , pattern NSWritingToolsBehaviorNone
-  , pattern NSWritingToolsBehaviorDefault
-  , pattern NSWritingToolsBehaviorComplete
-  , pattern NSWritingToolsBehaviorLimited
   , WKAudiovisualMediaTypes(WKAudiovisualMediaTypes)
   , pattern WKAudiovisualMediaTypeNone
   , pattern WKAudiovisualMediaTypeAudio
@@ -116,7 +91,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.WebKit.Internal.Classes
 import ObjC.WebKit.Internal.Enums
-import ObjC.AppKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | @- setURLSchemeHandler:forURLScheme:@
@@ -174,20 +148,6 @@ userContentController wkWebViewConfiguration =
 setUserContentController :: (IsWKWebViewConfiguration wkWebViewConfiguration, IsWKUserContentController value) => wkWebViewConfiguration -> value -> IO ()
 setUserContentController wkWebViewConfiguration value =
   sendMessage wkWebViewConfiguration setUserContentControllerSelector (toWKUserContentController value)
-
--- | The web extension controller to associate with the web view.
---
--- ObjC selector: @- webExtensionController@
-webExtensionController :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> IO (Id WKWebExtensionController)
-webExtensionController wkWebViewConfiguration =
-  sendMessage wkWebViewConfiguration webExtensionControllerSelector
-
--- | The web extension controller to associate with the web view.
---
--- ObjC selector: @- setWebExtensionController:@
-setWebExtensionController :: (IsWKWebViewConfiguration wkWebViewConfiguration, IsWKWebExtensionController value) => wkWebViewConfiguration -> value -> IO ()
-setWebExtensionController wkWebViewConfiguration value =
-  sendMessage wkWebViewConfiguration setWebExtensionControllerSelector (toWKWebExtensionController value)
 
 -- | The website data store to be used by the web view.
 --
@@ -253,24 +213,6 @@ setAllowsAirPlayForMediaPlayback :: IsWKWebViewConfiguration wkWebViewConfigurat
 setAllowsAirPlayForMediaPlayback wkWebViewConfiguration value =
   sendMessage wkWebViewConfiguration setAllowsAirPlayForMediaPlaybackSelector value
 
--- | A Boolean value indicating whether the System Screen Time blocking view should be shown.
---
--- The default value is YES.
---
--- ObjC selector: @- showsSystemScreenTimeBlockingView@
-showsSystemScreenTimeBlockingView :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> IO Bool
-showsSystemScreenTimeBlockingView wkWebViewConfiguration =
-  sendMessage wkWebViewConfiguration showsSystemScreenTimeBlockingViewSelector
-
--- | A Boolean value indicating whether the System Screen Time blocking view should be shown.
---
--- The default value is YES.
---
--- ObjC selector: @- setShowsSystemScreenTimeBlockingView:@
-setShowsSystemScreenTimeBlockingView :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> Bool -> IO ()
-setShowsSystemScreenTimeBlockingView wkWebViewConfiguration value =
-  sendMessage wkWebViewConfiguration setShowsSystemScreenTimeBlockingViewSelector value
-
 -- | A Boolean value indicating whether HTTP requests to servers known to support HTTPS should be automatically upgraded to HTTPS requests.
 --
 -- The default value is YES.
@@ -327,24 +269,6 @@ setLimitsNavigationsToAppBoundDomains :: IsWKWebViewConfiguration wkWebViewConfi
 setLimitsNavigationsToAppBoundDomains wkWebViewConfiguration value =
   sendMessage wkWebViewConfiguration setLimitsNavigationsToAppBoundDomainsSelector value
 
--- | A Boolean value indicating whether inline predictions are allowed.
---
--- The default value is @NO@. If false, inline predictionsare disabled regardless of the system setting. If true, they are enabled basedon the system setting.
---
--- ObjC selector: @- allowsInlinePredictions@
-allowsInlinePredictions :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> IO Bool
-allowsInlinePredictions wkWebViewConfiguration =
-  sendMessage wkWebViewConfiguration allowsInlinePredictionsSelector
-
--- | A Boolean value indicating whether inline predictions are allowed.
---
--- The default value is @NO@. If false, inline predictionsare disabled regardless of the system setting. If true, they are enabled basedon the system setting.
---
--- ObjC selector: @- setAllowsInlinePredictions:@
-setAllowsInlinePredictions :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> Bool -> IO ()
-setAllowsInlinePredictions wkWebViewConfiguration value =
-  sendMessage wkWebViewConfiguration setAllowsInlinePredictionsSelector value
-
 -- | The directionality of user interface elements.
 --
 -- Possible values are described in WKUserInterfaceDirectionPolicy. The default value is WKUserInterfaceDirectionPolicyContent.
@@ -362,42 +286,6 @@ userInterfaceDirectionPolicy wkWebViewConfiguration =
 setUserInterfaceDirectionPolicy :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> WKUserInterfaceDirectionPolicy -> IO ()
 setUserInterfaceDirectionPolicy wkWebViewConfiguration value =
   sendMessage wkWebViewConfiguration setUserInterfaceDirectionPolicySelector value
-
--- | A Boolean value indicating whether insertion of adaptive image glyphs is allowed.
---
--- The default value is @NO@. If @NO@, adaptive image glyphs are inserted as regular    images. If @YES@, they are inserted with the full adaptive sizing behavior.
---
--- ObjC selector: @- supportsAdaptiveImageGlyph@
-supportsAdaptiveImageGlyph :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> IO Bool
-supportsAdaptiveImageGlyph wkWebViewConfiguration =
-  sendMessage wkWebViewConfiguration supportsAdaptiveImageGlyphSelector
-
--- | A Boolean value indicating whether insertion of adaptive image glyphs is allowed.
---
--- The default value is @NO@. If @NO@, adaptive image glyphs are inserted as regular    images. If @YES@, they are inserted with the full adaptive sizing behavior.
---
--- ObjC selector: @- setSupportsAdaptiveImageGlyph:@
-setSupportsAdaptiveImageGlyph :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> Bool -> IO ()
-setSupportsAdaptiveImageGlyph wkWebViewConfiguration value =
-  sendMessage wkWebViewConfiguration setSupportsAdaptiveImageGlyphSelector value
-
--- | The preferred behavior of Writing Tools.
---
--- The default behavior is equivalent to @NSWritingToolsBehaviorLimited@.
---
--- ObjC selector: @- writingToolsBehavior@
-writingToolsBehavior :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> IO NSWritingToolsBehavior
-writingToolsBehavior wkWebViewConfiguration =
-  sendMessage wkWebViewConfiguration writingToolsBehaviorSelector
-
--- | The preferred behavior of Writing Tools.
---
--- The default behavior is equivalent to @NSWritingToolsBehaviorLimited@.
---
--- ObjC selector: @- setWritingToolsBehavior:@
-setWritingToolsBehavior :: IsWKWebViewConfiguration wkWebViewConfiguration => wkWebViewConfiguration -> NSWritingToolsBehavior -> IO ()
-setWritingToolsBehavior wkWebViewConfiguration value =
-  sendMessage wkWebViewConfiguration setWritingToolsBehaviorSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -435,14 +323,6 @@ userContentControllerSelector = mkSelector "userContentController"
 setUserContentControllerSelector :: Selector '[Id WKUserContentController] ()
 setUserContentControllerSelector = mkSelector "setUserContentController:"
 
--- | @Selector@ for @webExtensionController@
-webExtensionControllerSelector :: Selector '[] (Id WKWebExtensionController)
-webExtensionControllerSelector = mkSelector "webExtensionController"
-
--- | @Selector@ for @setWebExtensionController:@
-setWebExtensionControllerSelector :: Selector '[Id WKWebExtensionController] ()
-setWebExtensionControllerSelector = mkSelector "setWebExtensionController:"
-
 -- | @Selector@ for @websiteDataStore@
 websiteDataStoreSelector :: Selector '[] (Id WKWebsiteDataStore)
 websiteDataStoreSelector = mkSelector "websiteDataStore"
@@ -474,14 +354,6 @@ allowsAirPlayForMediaPlaybackSelector = mkSelector "allowsAirPlayForMediaPlaybac
 -- | @Selector@ for @setAllowsAirPlayForMediaPlayback:@
 setAllowsAirPlayForMediaPlaybackSelector :: Selector '[Bool] ()
 setAllowsAirPlayForMediaPlaybackSelector = mkSelector "setAllowsAirPlayForMediaPlayback:"
-
--- | @Selector@ for @showsSystemScreenTimeBlockingView@
-showsSystemScreenTimeBlockingViewSelector :: Selector '[] Bool
-showsSystemScreenTimeBlockingViewSelector = mkSelector "showsSystemScreenTimeBlockingView"
-
--- | @Selector@ for @setShowsSystemScreenTimeBlockingView:@
-setShowsSystemScreenTimeBlockingViewSelector :: Selector '[Bool] ()
-setShowsSystemScreenTimeBlockingViewSelector = mkSelector "setShowsSystemScreenTimeBlockingView:"
 
 -- | @Selector@ for @upgradeKnownHostsToHTTPS@
 upgradeKnownHostsToHTTPSSelector :: Selector '[] Bool
@@ -515,14 +387,6 @@ limitsNavigationsToAppBoundDomainsSelector = mkSelector "limitsNavigationsToAppB
 setLimitsNavigationsToAppBoundDomainsSelector :: Selector '[Bool] ()
 setLimitsNavigationsToAppBoundDomainsSelector = mkSelector "setLimitsNavigationsToAppBoundDomains:"
 
--- | @Selector@ for @allowsInlinePredictions@
-allowsInlinePredictionsSelector :: Selector '[] Bool
-allowsInlinePredictionsSelector = mkSelector "allowsInlinePredictions"
-
--- | @Selector@ for @setAllowsInlinePredictions:@
-setAllowsInlinePredictionsSelector :: Selector '[Bool] ()
-setAllowsInlinePredictionsSelector = mkSelector "setAllowsInlinePredictions:"
-
 -- | @Selector@ for @userInterfaceDirectionPolicy@
 userInterfaceDirectionPolicySelector :: Selector '[] WKUserInterfaceDirectionPolicy
 userInterfaceDirectionPolicySelector = mkSelector "userInterfaceDirectionPolicy"
@@ -530,20 +394,4 @@ userInterfaceDirectionPolicySelector = mkSelector "userInterfaceDirectionPolicy"
 -- | @Selector@ for @setUserInterfaceDirectionPolicy:@
 setUserInterfaceDirectionPolicySelector :: Selector '[WKUserInterfaceDirectionPolicy] ()
 setUserInterfaceDirectionPolicySelector = mkSelector "setUserInterfaceDirectionPolicy:"
-
--- | @Selector@ for @supportsAdaptiveImageGlyph@
-supportsAdaptiveImageGlyphSelector :: Selector '[] Bool
-supportsAdaptiveImageGlyphSelector = mkSelector "supportsAdaptiveImageGlyph"
-
--- | @Selector@ for @setSupportsAdaptiveImageGlyph:@
-setSupportsAdaptiveImageGlyphSelector :: Selector '[Bool] ()
-setSupportsAdaptiveImageGlyphSelector = mkSelector "setSupportsAdaptiveImageGlyph:"
-
--- | @Selector@ for @writingToolsBehavior@
-writingToolsBehaviorSelector :: Selector '[] NSWritingToolsBehavior
-writingToolsBehaviorSelector = mkSelector "writingToolsBehavior"
-
--- | @Selector@ for @setWritingToolsBehavior:@
-setWritingToolsBehaviorSelector :: Selector '[NSWritingToolsBehavior] ()
-setWritingToolsBehaviorSelector = mkSelector "setWritingToolsBehavior:"
 

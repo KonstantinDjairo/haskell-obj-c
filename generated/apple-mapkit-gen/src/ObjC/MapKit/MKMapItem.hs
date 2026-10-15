@@ -9,17 +9,10 @@ module ObjC.MapKit.MKMapItem
   , IsMKMapItem(..)
   , mapItemForCurrentLocation
   , initWithPlacemark
-  , initWithLocation_address
   , openInMapsWithLaunchOptions
   , openMapsWithItems_launchOptions
-  , openInMapsWithLaunchOptions_completionHandler
-  , openMapsWithItems_launchOptions_completionHandler
-  , identifier
-  , alternateIdentifiers
   , placemark
   , isCurrentLocation
-  , address
-  , addressRepresentations
   , name
   , setName
   , phoneNumber
@@ -30,19 +23,12 @@ module ObjC.MapKit.MKMapItem
   , setTimeZone
   , pointOfInterestCategory
   , setPointOfInterestCategory
-  , addressRepresentationsSelector
-  , addressSelector
-  , alternateIdentifiersSelector
-  , identifierSelector
-  , initWithLocation_addressSelector
   , initWithPlacemarkSelector
   , isCurrentLocationSelector
   , mapItemForCurrentLocationSelector
   , nameSelector
   , openInMapsWithLaunchOptionsSelector
-  , openInMapsWithLaunchOptions_completionHandlerSelector
   , openMapsWithItems_launchOptionsSelector
-  , openMapsWithItems_launchOptions_completionHandlerSelector
   , phoneNumberSelector
   , placemarkSelector
   , pointOfInterestCategorySelector
@@ -80,11 +66,6 @@ initWithPlacemark :: (IsMKMapItem mkMapItem, IsMKPlacemark placemark) => mkMapIt
 initWithPlacemark mkMapItem placemark =
   sendOwnedMessage mkMapItem initWithPlacemarkSelector (toMKPlacemark placemark)
 
--- | @- initWithLocation:address:@
-initWithLocation_address :: (IsMKMapItem mkMapItem, IsMKAddress address) => mkMapItem -> RawId -> address -> IO (Id MKMapItem)
-initWithLocation_address mkMapItem location address =
-  sendOwnedMessage mkMapItem initWithLocation_addressSelector location (toMKAddress address)
-
 -- | @- openInMapsWithLaunchOptions:@
 openInMapsWithLaunchOptions :: (IsMKMapItem mkMapItem, IsNSDictionary launchOptions) => mkMapItem -> launchOptions -> IO Bool
 openInMapsWithLaunchOptions mkMapItem launchOptions =
@@ -97,28 +78,6 @@ openMapsWithItems_launchOptions mapItems launchOptions =
     cls' <- getRequiredClass "MKMapItem"
     sendClassMessage cls' openMapsWithItems_launchOptionsSelector (toNSArray mapItems) (toNSDictionary launchOptions)
 
--- | @- openInMapsWithLaunchOptions:completionHandler:@
-openInMapsWithLaunchOptions_completionHandler :: (IsMKMapItem mkMapItem, IsNSDictionary launchOptions) => mkMapItem -> launchOptions -> Ptr () -> IO ()
-openInMapsWithLaunchOptions_completionHandler mkMapItem launchOptions completion =
-  sendMessage mkMapItem openInMapsWithLaunchOptions_completionHandlerSelector (toNSDictionary launchOptions) completion
-
--- | @+ openMapsWithItems:launchOptions:completionHandler:@
-openMapsWithItems_launchOptions_completionHandler :: (IsNSArray mapItems, IsNSDictionary launchOptions) => mapItems -> launchOptions -> Ptr () -> IO ()
-openMapsWithItems_launchOptions_completionHandler mapItems launchOptions completion =
-  do
-    cls' <- getRequiredClass "MKMapItem"
-    sendClassMessage cls' openMapsWithItems_launchOptions_completionHandlerSelector (toNSArray mapItems) (toNSDictionary launchOptions) completion
-
--- | @- identifier@
-identifier :: IsMKMapItem mkMapItem => mkMapItem -> IO (Id MKMapItemIdentifier)
-identifier mkMapItem =
-  sendMessage mkMapItem identifierSelector
-
--- | @- alternateIdentifiers@
-alternateIdentifiers :: IsMKMapItem mkMapItem => mkMapItem -> IO (Id NSSet)
-alternateIdentifiers mkMapItem =
-  sendMessage mkMapItem alternateIdentifiersSelector
-
 -- | @- placemark@
 placemark :: IsMKMapItem mkMapItem => mkMapItem -> IO (Id MKPlacemark)
 placemark mkMapItem =
@@ -128,16 +87,6 @@ placemark mkMapItem =
 isCurrentLocation :: IsMKMapItem mkMapItem => mkMapItem -> IO Bool
 isCurrentLocation mkMapItem =
   sendMessage mkMapItem isCurrentLocationSelector
-
--- | @- address@
-address :: IsMKMapItem mkMapItem => mkMapItem -> IO (Id MKAddress)
-address mkMapItem =
-  sendMessage mkMapItem addressSelector
-
--- | @- addressRepresentations@
-addressRepresentations :: IsMKMapItem mkMapItem => mkMapItem -> IO (Id MKAddressRepresentations)
-addressRepresentations mkMapItem =
-  sendMessage mkMapItem addressRepresentationsSelector
 
 -- | @- name@
 name :: IsMKMapItem mkMapItem => mkMapItem -> IO (Id NSString)
@@ -201,10 +150,6 @@ mapItemForCurrentLocationSelector = mkSelector "mapItemForCurrentLocation"
 initWithPlacemarkSelector :: Selector '[Id MKPlacemark] (Id MKMapItem)
 initWithPlacemarkSelector = mkSelector "initWithPlacemark:"
 
--- | @Selector@ for @initWithLocation:address:@
-initWithLocation_addressSelector :: Selector '[RawId, Id MKAddress] (Id MKMapItem)
-initWithLocation_addressSelector = mkSelector "initWithLocation:address:"
-
 -- | @Selector@ for @openInMapsWithLaunchOptions:@
 openInMapsWithLaunchOptionsSelector :: Selector '[Id NSDictionary] Bool
 openInMapsWithLaunchOptionsSelector = mkSelector "openInMapsWithLaunchOptions:"
@@ -213,22 +158,6 @@ openInMapsWithLaunchOptionsSelector = mkSelector "openInMapsWithLaunchOptions:"
 openMapsWithItems_launchOptionsSelector :: Selector '[Id NSArray, Id NSDictionary] Bool
 openMapsWithItems_launchOptionsSelector = mkSelector "openMapsWithItems:launchOptions:"
 
--- | @Selector@ for @openInMapsWithLaunchOptions:completionHandler:@
-openInMapsWithLaunchOptions_completionHandlerSelector :: Selector '[Id NSDictionary, Ptr ()] ()
-openInMapsWithLaunchOptions_completionHandlerSelector = mkSelector "openInMapsWithLaunchOptions:completionHandler:"
-
--- | @Selector@ for @openMapsWithItems:launchOptions:completionHandler:@
-openMapsWithItems_launchOptions_completionHandlerSelector :: Selector '[Id NSArray, Id NSDictionary, Ptr ()] ()
-openMapsWithItems_launchOptions_completionHandlerSelector = mkSelector "openMapsWithItems:launchOptions:completionHandler:"
-
--- | @Selector@ for @identifier@
-identifierSelector :: Selector '[] (Id MKMapItemIdentifier)
-identifierSelector = mkSelector "identifier"
-
--- | @Selector@ for @alternateIdentifiers@
-alternateIdentifiersSelector :: Selector '[] (Id NSSet)
-alternateIdentifiersSelector = mkSelector "alternateIdentifiers"
-
 -- | @Selector@ for @placemark@
 placemarkSelector :: Selector '[] (Id MKPlacemark)
 placemarkSelector = mkSelector "placemark"
@@ -236,14 +165,6 @@ placemarkSelector = mkSelector "placemark"
 -- | @Selector@ for @isCurrentLocation@
 isCurrentLocationSelector :: Selector '[] Bool
 isCurrentLocationSelector = mkSelector "isCurrentLocation"
-
--- | @Selector@ for @address@
-addressSelector :: Selector '[] (Id MKAddress)
-addressSelector = mkSelector "address"
-
--- | @Selector@ for @addressRepresentations@
-addressRepresentationsSelector :: Selector '[] (Id MKAddressRepresentations)
-addressRepresentationsSelector = mkSelector "addressRepresentations"
 
 -- | @Selector@ for @name@
 nameSelector :: Selector '[] (Id NSString)

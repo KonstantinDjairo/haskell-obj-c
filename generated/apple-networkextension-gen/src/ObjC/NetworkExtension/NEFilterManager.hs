@@ -28,9 +28,6 @@ module ObjC.NetworkExtension.NEFilterManager
   , setEnabled
   , grade
   , setGrade
-  , disableEncryptedDNSSettings
-  , setDisableEncryptedDNSSettings
-  , disableEncryptedDNSSettingsSelector
   , enabledSelector
   , gradeSelector
   , loadFromPreferencesWithCompletionHandlerSelector
@@ -38,7 +35,6 @@ module ObjC.NetworkExtension.NEFilterManager
   , providerConfigurationSelector
   , removeFromPreferencesWithCompletionHandlerSelector
   , saveToPreferencesWithCompletionHandlerSelector
-  , setDisableEncryptedDNSSettingsSelector
   , setEnabledSelector
   , setGradeSelector
   , setLocalizedDescriptionSelector
@@ -180,24 +176,6 @@ setGrade :: IsNEFilterManager neFilterManager => neFilterManager -> NEFilterMana
 setGrade neFilterManager value =
   sendMessage neFilterManager setGradeSelector value
 
--- | disableEncryptedDNSSettings
---
--- Causes the content filter to disable any other installed encrypted DNS settings, including iCloud Private Relay system-wide DNS encryption. This should only be used if the content filter expects to intercept cleartext UDP DNS packets.
---
--- ObjC selector: @- disableEncryptedDNSSettings@
-disableEncryptedDNSSettings :: IsNEFilterManager neFilterManager => neFilterManager -> IO Bool
-disableEncryptedDNSSettings neFilterManager =
-  sendMessage neFilterManager disableEncryptedDNSSettingsSelector
-
--- | disableEncryptedDNSSettings
---
--- Causes the content filter to disable any other installed encrypted DNS settings, including iCloud Private Relay system-wide DNS encryption. This should only be used if the content filter expects to intercept cleartext UDP DNS packets.
---
--- ObjC selector: @- setDisableEncryptedDNSSettings:@
-setDisableEncryptedDNSSettings :: IsNEFilterManager neFilterManager => neFilterManager -> Bool -> IO ()
-setDisableEncryptedDNSSettings neFilterManager value =
-  sendMessage neFilterManager setDisableEncryptedDNSSettingsSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -249,12 +227,4 @@ gradeSelector = mkSelector "grade"
 -- | @Selector@ for @setGrade:@
 setGradeSelector :: Selector '[NEFilterManagerGrade] ()
 setGradeSelector = mkSelector "setGrade:"
-
--- | @Selector@ for @disableEncryptedDNSSettings@
-disableEncryptedDNSSettingsSelector :: Selector '[] Bool
-disableEncryptedDNSSettingsSelector = mkSelector "disableEncryptedDNSSettings"
-
--- | @Selector@ for @setDisableEncryptedDNSSettings:@
-setDisableEncryptedDNSSettingsSelector :: Selector '[Bool] ()
-setDisableEncryptedDNSSettingsSelector = mkSelector "setDisableEncryptedDNSSettings:"
 

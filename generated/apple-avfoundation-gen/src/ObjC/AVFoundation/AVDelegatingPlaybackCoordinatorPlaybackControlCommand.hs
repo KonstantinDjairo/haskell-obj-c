@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Abstract superclass for playback commands
+-- | AVDelegatingPlaybackCoordinatorPlaybackControlCommand
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Abstract superclass for playback commands
 --
 -- Generated bindings for @AVDelegatingPlaybackCoordinatorPlaybackControlCommand@.
 module ObjC.AVFoundation.AVDelegatingPlaybackCoordinatorPlaybackControlCommand
@@ -46,18 +46,22 @@ new  =
     cls' <- getRequiredClass "AVDelegatingPlaybackCoordinatorPlaybackControlCommand"
     sendOwnedClassMessage cls' newSelector
 
--- | The participant causing this command to be issued.
+-- | originator
 --
--- Only commands issued on behalf of another participant will contain an originator. Commands caused by local requests, e.g., requests to coordinate a rate change, will not contain an originator. Similarly, re-application of older commands, e.g., in response to a call to [AVDelegatingPlaybackCoordinator reapplyCurrentItemStateToPlaybackControlDelegate], will not contain an originator. If the originator is non-nil, it may be appropriate to show UI indicating someone else's action.
+-- The participant causing this command to be issued.
+--
+-- Only commands issued on behalf of another participant will contain an originator.				Commands caused by local requests, e.g., requests to coordinate a rate change, will not contain an originator.				Similarly, re-application of older commands, e.g., in response to a call to [AVDelegatingPlaybackCoordinator reapplyCurrentItemStateToPlaybackControlDelegate], will not contain an originator.				If the originator is non-nil, it may be appropriate to show UI indicating someone else's action.
 --
 -- ObjC selector: @- originator@
 originator :: IsAVDelegatingPlaybackCoordinatorPlaybackControlCommand avDelegatingPlaybackCoordinatorPlaybackControlCommand => avDelegatingPlaybackCoordinatorPlaybackControlCommand -> IO (Id AVCoordinatedPlaybackParticipant)
 originator avDelegatingPlaybackCoordinatorPlaybackControlCommand =
   sendMessage avDelegatingPlaybackCoordinatorPlaybackControlCommand originatorSelector
 
--- | Indicates the item this command was issued for.
+-- | expectedCurrentItemIdentifier
 --
--- Commands are always meant for the current item. A command handler should verify that the identifier of its current item matches this identifier. If it doesn't this command is obsolete and should be ignored. Note that any completion handler of the delegate method issuing the command must still be invoked.
+-- Indicates the item this command was issued for.
+--
+-- Commands are always meant for the current item. A command handler should verify that the identifier of its current item matches this identifier.				If it doesn't this command is obsolete and should be ignored. Note that any completion handler of the delegate method issuing the command must still be invoked.
 --
 -- ObjC selector: @- expectedCurrentItemIdentifier@
 expectedCurrentItemIdentifier :: IsAVDelegatingPlaybackCoordinatorPlaybackControlCommand avDelegatingPlaybackCoordinatorPlaybackControlCommand => avDelegatingPlaybackCoordinatorPlaybackControlCommand -> IO (Id NSString)

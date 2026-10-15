@@ -17,16 +17,12 @@ module ObjC.HealthKit.HKObjectType
   , characteristicTypeForIdentifier
   , correlationTypeForIdentifier
   , documentTypeForIdentifier
-  , scoredAssessmentTypeForIdentifier
   , seriesTypeForIdentifier
   , workoutType
   , activitySummaryType
   , audiogramSampleType
   , electrocardiogramType
-  , medicationDoseEventType
   , visionPrescriptionType
-  , stateOfMindType
-  , userAnnotatedMedicationType
   , requiresPerObjectAuthorization
   , clinicalTypeForIdentifier
   , identifier
@@ -40,13 +36,9 @@ module ObjC.HealthKit.HKObjectType
   , electrocardiogramTypeSelector
   , identifierSelector
   , initSelector
-  , medicationDoseEventTypeSelector
   , quantityTypeForIdentifierSelector
   , requiresPerObjectAuthorizationSelector
-  , scoredAssessmentTypeForIdentifierSelector
   , seriesTypeForIdentifierSelector
-  , stateOfMindTypeSelector
-  , userAnnotatedMedicationTypeSelector
   , visionPrescriptionTypeSelector
   , workoutTypeSelector
 
@@ -104,13 +96,6 @@ documentTypeForIdentifier identifier =
     cls' <- getRequiredClass "HKObjectType"
     sendClassMessage cls' documentTypeForIdentifierSelector (toNSString identifier)
 
--- | @+ scoredAssessmentTypeForIdentifier:@
-scoredAssessmentTypeForIdentifier :: IsNSString identifier => identifier -> IO (Id HKScoredAssessmentType)
-scoredAssessmentTypeForIdentifier identifier =
-  do
-    cls' <- getRequiredClass "HKObjectType"
-    sendClassMessage cls' scoredAssessmentTypeForIdentifierSelector (toNSString identifier)
-
 -- | @+ seriesTypeForIdentifier:@
 seriesTypeForIdentifier :: IsNSString identifier => identifier -> IO (Id HKSeriesType)
 seriesTypeForIdentifier identifier =
@@ -146,33 +131,12 @@ electrocardiogramType  =
     cls' <- getRequiredClass "HKObjectType"
     sendClassMessage cls' electrocardiogramTypeSelector
 
--- | @+ medicationDoseEventType@
-medicationDoseEventType :: IO (Id HKMedicationDoseEventType)
-medicationDoseEventType  =
-  do
-    cls' <- getRequiredClass "HKObjectType"
-    sendClassMessage cls' medicationDoseEventTypeSelector
-
 -- | @+ visionPrescriptionType@
 visionPrescriptionType :: IO (Id HKPrescriptionType)
 visionPrescriptionType  =
   do
     cls' <- getRequiredClass "HKObjectType"
     sendClassMessage cls' visionPrescriptionTypeSelector
-
--- | @+ stateOfMindType@
-stateOfMindType :: IO (Id HKStateOfMindType)
-stateOfMindType  =
-  do
-    cls' <- getRequiredClass "HKObjectType"
-    sendClassMessage cls' stateOfMindTypeSelector
-
--- | @+ userAnnotatedMedicationType@
-userAnnotatedMedicationType :: IO (Id HKUserAnnotatedMedicationType)
-userAnnotatedMedicationType  =
-  do
-    cls' <- getRequiredClass "HKObjectType"
-    sendClassMessage cls' userAnnotatedMedicationTypeSelector
 
 -- | requiresPerObjectAuthorization
 --
@@ -229,10 +193,6 @@ correlationTypeForIdentifierSelector = mkSelector "correlationTypeForIdentifier:
 documentTypeForIdentifierSelector :: Selector '[Id NSString] (Id HKDocumentType)
 documentTypeForIdentifierSelector = mkSelector "documentTypeForIdentifier:"
 
--- | @Selector@ for @scoredAssessmentTypeForIdentifier:@
-scoredAssessmentTypeForIdentifierSelector :: Selector '[Id NSString] (Id HKScoredAssessmentType)
-scoredAssessmentTypeForIdentifierSelector = mkSelector "scoredAssessmentTypeForIdentifier:"
-
 -- | @Selector@ for @seriesTypeForIdentifier:@
 seriesTypeForIdentifierSelector :: Selector '[Id NSString] (Id HKSeriesType)
 seriesTypeForIdentifierSelector = mkSelector "seriesTypeForIdentifier:"
@@ -253,21 +213,9 @@ audiogramSampleTypeSelector = mkSelector "audiogramSampleType"
 electrocardiogramTypeSelector :: Selector '[] (Id HKElectrocardiogramType)
 electrocardiogramTypeSelector = mkSelector "electrocardiogramType"
 
--- | @Selector@ for @medicationDoseEventType@
-medicationDoseEventTypeSelector :: Selector '[] (Id HKMedicationDoseEventType)
-medicationDoseEventTypeSelector = mkSelector "medicationDoseEventType"
-
 -- | @Selector@ for @visionPrescriptionType@
 visionPrescriptionTypeSelector :: Selector '[] (Id HKPrescriptionType)
 visionPrescriptionTypeSelector = mkSelector "visionPrescriptionType"
-
--- | @Selector@ for @stateOfMindType@
-stateOfMindTypeSelector :: Selector '[] (Id HKStateOfMindType)
-stateOfMindTypeSelector = mkSelector "stateOfMindType"
-
--- | @Selector@ for @userAnnotatedMedicationType@
-userAnnotatedMedicationTypeSelector :: Selector '[] (Id HKUserAnnotatedMedicationType)
-userAnnotatedMedicationTypeSelector = mkSelector "userAnnotatedMedicationType"
 
 -- | @Selector@ for @requiresPerObjectAuthorization@
 requiresPerObjectAuthorizationSelector :: Selector '[] Bool

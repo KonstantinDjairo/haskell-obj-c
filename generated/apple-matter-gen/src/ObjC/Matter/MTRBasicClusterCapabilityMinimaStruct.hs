@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRBasicClusterCapabilityMinimaStruct
   ( MTRBasicClusterCapabilityMinimaStruct
   , IsMTRBasicClusterCapabilityMinimaStruct(..)
+  , init_
+  , copyWithZone
   , caseSessionsPerFabric
   , setCaseSessionsPerFabric
   , subscriptionsPerFabric
   , setSubscriptionsPerFabric
   , caseSessionsPerFabricSelector
+  , copyWithZoneSelector
+  , initSelector
   , setCaseSessionsPerFabricSelector
   , setSubscriptionsPerFabricSelector
   , subscriptionsPerFabricSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRBasicClusterCapabilityMinimaStruct mtrBasicClusterCapabilityMinimaStruct => mtrBasicClusterCapabilityMinimaStruct -> IO (Id MTRBasicClusterCapabilityMinimaStruct)
+init_ mtrBasicClusterCapabilityMinimaStruct =
+  sendOwnedMessage mtrBasicClusterCapabilityMinimaStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBasicClusterCapabilityMinimaStruct mtrBasicClusterCapabilityMinimaStruct => mtrBasicClusterCapabilityMinimaStruct -> Ptr () -> IO RawId
+copyWithZone mtrBasicClusterCapabilityMinimaStruct zone =
+  sendOwnedMessage mtrBasicClusterCapabilityMinimaStruct copyWithZoneSelector zone
 
 -- | @- caseSessionsPerFabric@
 caseSessionsPerFabric :: IsMTRBasicClusterCapabilityMinimaStruct mtrBasicClusterCapabilityMinimaStruct => mtrBasicClusterCapabilityMinimaStruct -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setSubscriptionsPerFabric mtrBasicClusterCapabilityMinimaStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBasicClusterCapabilityMinimaStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @caseSessionsPerFabric@
 caseSessionsPerFabricSelector :: Selector '[] (Id NSNumber)

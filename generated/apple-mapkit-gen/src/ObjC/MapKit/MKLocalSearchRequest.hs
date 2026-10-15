@@ -13,36 +13,24 @@ module ObjC.MapKit.MKLocalSearchRequest
   , initWithCompletion
   , naturalLanguageQuery
   , setNaturalLanguageQuery
-  , regionPriority
-  , setRegionPriority
   , resultTypes
   , setResultTypes
   , pointOfInterestFilter
   , setPointOfInterestFilter
-  , addressFilter
-  , setAddressFilter
-  , addressFilterSelector
   , initSelector
   , initWithCompletionSelector
   , initWithNaturalLanguageQuerySelector
   , naturalLanguageQuerySelector
   , pointOfInterestFilterSelector
-  , regionPrioritySelector
   , resultTypesSelector
-  , setAddressFilterSelector
   , setNaturalLanguageQuerySelector
   , setPointOfInterestFilterSelector
-  , setRegionPrioritySelector
   , setResultTypesSelector
 
   -- * Enum types
-  , MKLocalSearchRegionPriority(MKLocalSearchRegionPriority)
-  , pattern MKLocalSearchRegionPriorityDefault
-  , pattern MKLocalSearchRegionPriorityRequired
   , MKLocalSearchResultType(MKLocalSearchResultType)
   , pattern MKLocalSearchResultTypeAddress
   , pattern MKLocalSearchResultTypePointOfInterest
-  , pattern MKLocalSearchResultTypePhysicalFeature
 
   ) where
 
@@ -83,16 +71,6 @@ setNaturalLanguageQuery :: (IsMKLocalSearchRequest mkLocalSearchRequest, IsNSStr
 setNaturalLanguageQuery mkLocalSearchRequest value =
   sendMessage mkLocalSearchRequest setNaturalLanguageQuerySelector (toNSString value)
 
--- | @- regionPriority@
-regionPriority :: IsMKLocalSearchRequest mkLocalSearchRequest => mkLocalSearchRequest -> IO MKLocalSearchRegionPriority
-regionPriority mkLocalSearchRequest =
-  sendMessage mkLocalSearchRequest regionPrioritySelector
-
--- | @- setRegionPriority:@
-setRegionPriority :: IsMKLocalSearchRequest mkLocalSearchRequest => mkLocalSearchRequest -> MKLocalSearchRegionPriority -> IO ()
-setRegionPriority mkLocalSearchRequest value =
-  sendMessage mkLocalSearchRequest setRegionPrioritySelector value
-
 -- | @- resultTypes@
 resultTypes :: IsMKLocalSearchRequest mkLocalSearchRequest => mkLocalSearchRequest -> IO MKLocalSearchResultType
 resultTypes mkLocalSearchRequest =
@@ -112,16 +90,6 @@ pointOfInterestFilter mkLocalSearchRequest =
 setPointOfInterestFilter :: (IsMKLocalSearchRequest mkLocalSearchRequest, IsMKPointOfInterestFilter value) => mkLocalSearchRequest -> value -> IO ()
 setPointOfInterestFilter mkLocalSearchRequest value =
   sendMessage mkLocalSearchRequest setPointOfInterestFilterSelector (toMKPointOfInterestFilter value)
-
--- | @- addressFilter@
-addressFilter :: IsMKLocalSearchRequest mkLocalSearchRequest => mkLocalSearchRequest -> IO (Id MKAddressFilter)
-addressFilter mkLocalSearchRequest =
-  sendMessage mkLocalSearchRequest addressFilterSelector
-
--- | @- setAddressFilter:@
-setAddressFilter :: (IsMKLocalSearchRequest mkLocalSearchRequest, IsMKAddressFilter value) => mkLocalSearchRequest -> value -> IO ()
-setAddressFilter mkLocalSearchRequest value =
-  sendMessage mkLocalSearchRequest setAddressFilterSelector (toMKAddressFilter value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -147,14 +115,6 @@ naturalLanguageQuerySelector = mkSelector "naturalLanguageQuery"
 setNaturalLanguageQuerySelector :: Selector '[Id NSString] ()
 setNaturalLanguageQuerySelector = mkSelector "setNaturalLanguageQuery:"
 
--- | @Selector@ for @regionPriority@
-regionPrioritySelector :: Selector '[] MKLocalSearchRegionPriority
-regionPrioritySelector = mkSelector "regionPriority"
-
--- | @Selector@ for @setRegionPriority:@
-setRegionPrioritySelector :: Selector '[MKLocalSearchRegionPriority] ()
-setRegionPrioritySelector = mkSelector "setRegionPriority:"
-
 -- | @Selector@ for @resultTypes@
 resultTypesSelector :: Selector '[] MKLocalSearchResultType
 resultTypesSelector = mkSelector "resultTypes"
@@ -170,12 +130,4 @@ pointOfInterestFilterSelector = mkSelector "pointOfInterestFilter"
 -- | @Selector@ for @setPointOfInterestFilter:@
 setPointOfInterestFilterSelector :: Selector '[Id MKPointOfInterestFilter] ()
 setPointOfInterestFilterSelector = mkSelector "setPointOfInterestFilter:"
-
--- | @Selector@ for @addressFilter@
-addressFilterSelector :: Selector '[] (Id MKAddressFilter)
-addressFilterSelector = mkSelector "addressFilter"
-
--- | @Selector@ for @setAddressFilter:@
-setAddressFilterSelector :: Selector '[Id MKAddressFilter] ()
-setAddressFilterSelector = mkSelector "setAddressFilter:"
 

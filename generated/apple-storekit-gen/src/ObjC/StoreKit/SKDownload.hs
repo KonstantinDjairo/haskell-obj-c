@@ -83,7 +83,7 @@ downloadState skDownload =
   sendMessage skDownload downloadStateSelector
 
 -- | @- contentLength@
-contentLength :: IsSKDownload skDownload => skDownload -> IO (Id NSNumber)
+contentLength :: IsSKDownload skDownload => skDownload -> IO RawId
 contentLength skDownload =
   sendMessage skDownload contentLengthSelector
 
@@ -148,7 +148,7 @@ downloadStateSelector :: Selector '[] SKDownloadState
 downloadStateSelector = mkSelector "downloadState"
 
 -- | @Selector@ for @contentLength@
-contentLengthSelector :: Selector '[] (Id NSNumber)
+contentLengthSelector :: Selector '[] RawId
 contentLengthSelector = mkSelector "contentLength"
 
 -- | @Selector@ for @expectedContentLength@

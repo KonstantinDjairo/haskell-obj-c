@@ -8,11 +8,7 @@ module ObjC.StoreKit.SKCloudServiceSetupViewController
   ( SKCloudServiceSetupViewController
   , IsSKCloudServiceSetupViewController(..)
   , loadWithOptions_completionHandler
-  , delegate
-  , setDelegate
-  , delegateSelector
   , loadWithOptions_completionHandlerSelector
-  , setDelegateSelector
 
 
   ) where
@@ -36,20 +32,6 @@ loadWithOptions_completionHandler :: (IsSKCloudServiceSetupViewController skClou
 loadWithOptions_completionHandler skCloudServiceSetupViewController options completionHandler =
   sendMessage skCloudServiceSetupViewController loadWithOptions_completionHandlerSelector (toNSDictionary options) completionHandler
 
--- | Optional delegate.
---
--- ObjC selector: @- delegate@
-delegate :: IsSKCloudServiceSetupViewController skCloudServiceSetupViewController => skCloudServiceSetupViewController -> IO RawId
-delegate skCloudServiceSetupViewController =
-  sendMessage skCloudServiceSetupViewController delegateSelector
-
--- | Optional delegate.
---
--- ObjC selector: @- setDelegate:@
-setDelegate :: IsSKCloudServiceSetupViewController skCloudServiceSetupViewController => skCloudServiceSetupViewController -> RawId -> IO ()
-setDelegate skCloudServiceSetupViewController value =
-  sendMessage skCloudServiceSetupViewController setDelegateSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -57,12 +39,4 @@ setDelegate skCloudServiceSetupViewController value =
 -- | @Selector@ for @loadWithOptions:completionHandler:@
 loadWithOptions_completionHandlerSelector :: Selector '[Id NSDictionary, Ptr ()] ()
 loadWithOptions_completionHandlerSelector = mkSelector "loadWithOptions:completionHandler:"
-
--- | @Selector@ for @delegate@
-delegateSelector :: Selector '[] RawId
-delegateSelector = mkSelector "delegate"
-
--- | @Selector@ for @setDelegate:@
-setDelegateSelector :: Selector '[RawId] ()
-setDelegateSelector = mkSelector "setDelegate:"
 

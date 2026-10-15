@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRSwitchClusterMultiPressCompleteEvent
   ( MTRSwitchClusterMultiPressCompleteEvent
   , IsMTRSwitchClusterMultiPressCompleteEvent(..)
-  , previousPosition
-  , setPreviousPosition
+  , init_
+  , copyWithZone
   , newPosition
   , setNewPosition
   , totalNumberOfPressesCounted
   , setTotalNumberOfPressesCounted
+  , copyWithZoneSelector
+  , initSelector
   , newPositionSelector
-  , previousPositionSelector
   , setNewPositionSelector
-  , setPreviousPositionSelector
   , setTotalNumberOfPressesCountedSelector
   , totalNumberOfPressesCountedSelector
 
@@ -34,15 +34,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- previousPosition@
-previousPosition :: IsMTRSwitchClusterMultiPressCompleteEvent mtrSwitchClusterMultiPressCompleteEvent => mtrSwitchClusterMultiPressCompleteEvent -> IO (Id NSNumber)
-previousPosition mtrSwitchClusterMultiPressCompleteEvent =
-  sendMessage mtrSwitchClusterMultiPressCompleteEvent previousPositionSelector
+-- | @- init@
+init_ :: IsMTRSwitchClusterMultiPressCompleteEvent mtrSwitchClusterMultiPressCompleteEvent => mtrSwitchClusterMultiPressCompleteEvent -> IO (Id MTRSwitchClusterMultiPressCompleteEvent)
+init_ mtrSwitchClusterMultiPressCompleteEvent =
+  sendOwnedMessage mtrSwitchClusterMultiPressCompleteEvent initSelector
 
--- | @- setPreviousPosition:@
-setPreviousPosition :: (IsMTRSwitchClusterMultiPressCompleteEvent mtrSwitchClusterMultiPressCompleteEvent, IsNSNumber value) => mtrSwitchClusterMultiPressCompleteEvent -> value -> IO ()
-setPreviousPosition mtrSwitchClusterMultiPressCompleteEvent value =
-  sendMessage mtrSwitchClusterMultiPressCompleteEvent setPreviousPositionSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSwitchClusterMultiPressCompleteEvent mtrSwitchClusterMultiPressCompleteEvent => mtrSwitchClusterMultiPressCompleteEvent -> Ptr () -> IO RawId
+copyWithZone mtrSwitchClusterMultiPressCompleteEvent zone =
+  sendOwnedMessage mtrSwitchClusterMultiPressCompleteEvent copyWithZoneSelector zone
 
 -- | @- newPosition@
 newPosition :: IsMTRSwitchClusterMultiPressCompleteEvent mtrSwitchClusterMultiPressCompleteEvent => mtrSwitchClusterMultiPressCompleteEvent -> IO (Id NSNumber)
@@ -68,13 +68,13 @@ setTotalNumberOfPressesCounted mtrSwitchClusterMultiPressCompleteEvent value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @previousPosition@
-previousPositionSelector :: Selector '[] (Id NSNumber)
-previousPositionSelector = mkSelector "previousPosition"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSwitchClusterMultiPressCompleteEvent)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setPreviousPosition:@
-setPreviousPositionSelector :: Selector '[Id NSNumber] ()
-setPreviousPositionSelector = mkSelector "setPreviousPosition:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @newPosition@
 newPositionSelector :: Selector '[] (Id NSNumber)

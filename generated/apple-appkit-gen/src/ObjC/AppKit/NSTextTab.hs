@@ -9,12 +9,12 @@ module ObjC.AppKit.NSTextTab
   ( NSTextTab
   , IsNSTextTab(..)
   , columnTerminatorsForLocale
-  , initWithType_location
   , initWithTextAlignment_location_options
+  , initWithType_location
+  , alignment
   , location
   , options
   , tabStopType
-  , alignment
   , alignmentSelector
   , columnTerminatorsForLocaleSelector
   , initWithTextAlignment_location_optionsSelector
@@ -26,8 +26,8 @@ module ObjC.AppKit.NSTextTab
   -- * Enum types
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , NSTextTabType(NSTextTabType)
@@ -57,15 +57,20 @@ columnTerminatorsForLocale aLocale =
     cls' <- getRequiredClass "NSTextTab"
     sendClassMessage cls' columnTerminatorsForLocaleSelector (toNSLocale aLocale)
 
+-- | @- initWithTextAlignment:location:options:@
+initWithTextAlignment_location_options :: (IsNSTextTab nsTextTab, IsNSDictionary options) => nsTextTab -> NSTextAlignment -> CDouble -> options -> IO (Id NSTextTab)
+initWithTextAlignment_location_options nsTextTab alignment loc options =
+  sendOwnedMessage nsTextTab initWithTextAlignment_location_optionsSelector alignment loc (toNSDictionary options)
+
 -- | @- initWithType:location:@
 initWithType_location :: IsNSTextTab nsTextTab => nsTextTab -> NSTextTabType -> CDouble -> IO (Id NSTextTab)
 initWithType_location nsTextTab type_ loc =
   sendOwnedMessage nsTextTab initWithType_locationSelector type_ loc
 
--- | @- initWithTextAlignment:location:options:@
-initWithTextAlignment_location_options :: (IsNSTextTab nsTextTab, IsNSDictionary options) => nsTextTab -> NSTextAlignment -> CDouble -> options -> IO (Id NSTextTab)
-initWithTextAlignment_location_options nsTextTab alignment loc options =
-  sendOwnedMessage nsTextTab initWithTextAlignment_location_optionsSelector alignment loc (toNSDictionary options)
+-- | @- alignment@
+alignment :: IsNSTextTab nsTextTab => nsTextTab -> IO NSTextAlignment
+alignment nsTextTab =
+  sendMessage nsTextTab alignmentSelector
 
 -- | @- location@
 location :: IsNSTextTab nsTextTab => nsTextTab -> IO CDouble
@@ -82,11 +87,6 @@ tabStopType :: IsNSTextTab nsTextTab => nsTextTab -> IO NSTextTabType
 tabStopType nsTextTab =
   sendMessage nsTextTab tabStopTypeSelector
 
--- | @- alignment@
-alignment :: IsNSTextTab nsTextTab => nsTextTab -> IO NSTextAlignment
-alignment nsTextTab =
-  sendMessage nsTextTab alignmentSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -95,13 +95,17 @@ alignment nsTextTab =
 columnTerminatorsForLocaleSelector :: Selector '[Id NSLocale] (Id NSCharacterSet)
 columnTerminatorsForLocaleSelector = mkSelector "columnTerminatorsForLocale:"
 
+-- | @Selector@ for @initWithTextAlignment:location:options:@
+initWithTextAlignment_location_optionsSelector :: Selector '[NSTextAlignment, CDouble, Id NSDictionary] (Id NSTextTab)
+initWithTextAlignment_location_optionsSelector = mkSelector "initWithTextAlignment:location:options:"
+
 -- | @Selector@ for @initWithType:location:@
 initWithType_locationSelector :: Selector '[NSTextTabType, CDouble] (Id NSTextTab)
 initWithType_locationSelector = mkSelector "initWithType:location:"
 
--- | @Selector@ for @initWithTextAlignment:location:options:@
-initWithTextAlignment_location_optionsSelector :: Selector '[NSTextAlignment, CDouble, Id NSDictionary] (Id NSTextTab)
-initWithTextAlignment_location_optionsSelector = mkSelector "initWithTextAlignment:location:options:"
+-- | @Selector@ for @alignment@
+alignmentSelector :: Selector '[] NSTextAlignment
+alignmentSelector = mkSelector "alignment"
 
 -- | @Selector@ for @location@
 locationSelector :: Selector '[] CDouble
@@ -114,8 +118,4 @@ optionsSelector = mkSelector "options"
 -- | @Selector@ for @tabStopType@
 tabStopTypeSelector :: Selector '[] NSTextTabType
 tabStopTypeSelector = mkSelector "tabStopType"
-
--- | @Selector@ for @alignment@
-alignmentSelector :: Selector '[] NSTextAlignment
-alignmentSelector = mkSelector "alignment"
 

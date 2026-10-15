@@ -8,7 +8,7 @@
 --
 -- A CoreAnimation layer subclass for previewing the visual output of an AVCaptureSession.
 --
--- An AVCaptureVideoPreviewLayer instance is a subclass of CALayer and is therefore suitable for insertion in a layer hierarchy as part of a graphical interface. One creates an AVCaptureVideoPreviewLayer instance with the capture session to be previewed, using +layerWithSession: or -initWithSession:. Using the "videoGravity" property, one can influence how content is viewed relative to the layer bounds. On some hardware configurations, the orientation of the layer can be manipulated using \@"orientation" and \@"mirrored".
+-- An AVCaptureVideoPreviewLayer instance is a subclass of CALayer and is therefore suitable for insertion in a layer hierarchy as part of a graphical interface. One creates an AVCaptureVideoPreviewLayer instance with the capture session to be previewed, using +layerWithSession: or -initWithSession:. Using the "videoGravity" property, one can influence how content is viewed relative to the layer bounds. On some hardware configurations, the orientation of the layer can be manipulated using "orientation" and "mirrored".
 --
 -- Generated bindings for @AVCaptureVideoPreviewLayer@.
 module ObjC.AVFoundation.AVCaptureVideoPreviewLayer
@@ -34,13 +34,8 @@ module ObjC.AVFoundation.AVCaptureVideoPreviewLayer
   , setAutomaticallyAdjustsMirroring
   , mirrored
   , setMirrored
-  , deferredStartSupported
-  , deferredStartEnabled
-  , setDeferredStartEnabled
   , automaticallyAdjustsMirroringSelector
   , connectionSelector
-  , deferredStartEnabledSelector
-  , deferredStartSupportedSelector
   , initWithSessionSelector
   , initWithSessionWithNoConnectionSelector
   , layerWithSessionSelector
@@ -52,7 +47,6 @@ module ObjC.AVFoundation.AVCaptureVideoPreviewLayer
   , previewingSelector
   , sessionSelector
   , setAutomaticallyAdjustsMirroringSelector
-  , setDeferredStartEnabledSelector
   , setMirroredSelector
   , setOrientationSelector
   , setSessionSelector
@@ -246,7 +240,7 @@ orientationSupported avCaptureVideoPreviewLayer =
 --
 -- Specifies the orientation of the preview layer.
 --
--- AVCaptureVideoOrientation and its constants are defined in AVCaptureSession.h. The value of "orientationSupported" must be YES in order to set \@"orientation". An exception will be raised if this requirement is ignored. This property is deprecated. Use AVCaptureConnection's -videoOrientation instead.
+-- AVCaptureVideoOrientation and its constants are defined in AVCaptureSession.h. The value of "orientationSupported" must be YES in order to set "orientation". An exception will be raised if this requirement is ignored. This property is deprecated. Use AVCaptureConnection's -videoOrientation instead.
 --
 -- ObjC selector: @- orientation@
 orientation :: IsAVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer => avCaptureVideoPreviewLayer -> IO AVCaptureVideoOrientation
@@ -257,7 +251,7 @@ orientation avCaptureVideoPreviewLayer =
 --
 -- Specifies the orientation of the preview layer.
 --
--- AVCaptureVideoOrientation and its constants are defined in AVCaptureSession.h. The value of "orientationSupported" must be YES in order to set \@"orientation". An exception will be raised if this requirement is ignored. This property is deprecated. Use AVCaptureConnection's -videoOrientation instead.
+-- AVCaptureVideoOrientation and its constants are defined in AVCaptureSession.h. The value of "orientationSupported" must be YES in order to set "orientation". An exception will be raised if this requirement is ignored. This property is deprecated. Use AVCaptureConnection's -videoOrientation instead.
 --
 -- ObjC selector: @- setOrientation:@
 setOrientation :: IsAVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer => avCaptureVideoPreviewLayer -> AVCaptureVideoOrientation -> IO ()
@@ -301,7 +295,7 @@ setAutomaticallyAdjustsMirroring avCaptureVideoPreviewLayer value =
 --
 -- Specifies whether or not the preview is flipped over a vertical axis.
 --
--- For most applications, it is unnecessary to manipulate preview mirroring manually if "automaticallyAdjustsMirroring" is set to YES. The value of \@"automaticallyAdjustsMirroring" must be NO in order to set \@"mirrored". The value of \@"mirroringSupported" must be YES in order to set \@"mirrored". An exception will be raised if the value of \@"mirrored" is mutated without respecting these requirements. This property is deprecated. Use AVCaptureConnection's -videoMirrored instead.
+-- For most applications, it is unnecessary to manipulate preview mirroring manually if "automaticallyAdjustsMirroring" is set to YES. The value of "automaticallyAdjustsMirroring" must be NO in order to set "mirrored". The value of "mirroringSupported" must be YES in order to set "mirrored". An exception will be raised if the value of "mirrored" is mutated without respecting these requirements. This property is deprecated. Use AVCaptureConnection's -videoMirrored instead.
 --
 -- ObjC selector: @- mirrored@
 mirrored :: IsAVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer => avCaptureVideoPreviewLayer -> IO Bool
@@ -312,55 +306,12 @@ mirrored avCaptureVideoPreviewLayer =
 --
 -- Specifies whether or not the preview is flipped over a vertical axis.
 --
--- For most applications, it is unnecessary to manipulate preview mirroring manually if "automaticallyAdjustsMirroring" is set to YES. The value of \@"automaticallyAdjustsMirroring" must be NO in order to set \@"mirrored". The value of \@"mirroringSupported" must be YES in order to set \@"mirrored". An exception will be raised if the value of \@"mirrored" is mutated without respecting these requirements. This property is deprecated. Use AVCaptureConnection's -videoMirrored instead.
+-- For most applications, it is unnecessary to manipulate preview mirroring manually if "automaticallyAdjustsMirroring" is set to YES. The value of "automaticallyAdjustsMirroring" must be NO in order to set "mirrored". The value of "mirroringSupported" must be YES in order to set "mirrored". An exception will be raised if the value of "mirrored" is mutated without respecting these requirements. This property is deprecated. Use AVCaptureConnection's -videoMirrored instead.
 --
 -- ObjC selector: @- setMirrored:@
 setMirrored :: IsAVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer => avCaptureVideoPreviewLayer -> Bool -> IO ()
 setMirrored avCaptureVideoPreviewLayer value =
   sendMessage avCaptureVideoPreviewLayer setMirroredSelector value
-
--- | A @BOOL@ value that indicates whether the preview layer supports deferred start.
---
--- You can only set the ``deferredStartEnabled`` property to @true@ if the preview layer supports deferred start.
---
--- ObjC selector: @- deferredStartSupported@
-deferredStartSupported :: IsAVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer => avCaptureVideoPreviewLayer -> IO Bool
-deferredStartSupported avCaptureVideoPreviewLayer =
-  sendMessage avCaptureVideoPreviewLayer deferredStartSupportedSelector
-
--- | A @BOOL@ value that indicates whether to defer starting this preview layer.
---
--- When this value is @true@, the session does not prepare the output's resources until some time after ``AVCaptureSession/startRunning`` returns. You can start the visual parts of your user interface (e.g. preview) prior to other parts (e.g. photo/movie capture, metadata output, etc..) to improve startup performance. Set this value to @false@ if your app needs video preview immediately for startup, and @true@ if it does not.
---
--- By default, this value is @false@ for ``AVCaptureVideoPreviewLayer`` objects, since this object is used to display preview. For best session start performance, set ``deferredStartEnabled`` to @false@ for preview layers. If your app contains multiple preview layers, you may want to display the main preview layer as soon as possible and allow the remaining layers to display subsequently. In this case, set ``deferredStartEnabled`` to @true@ for the remaining layers.
---
--- - Note: Setting this property to the same value for all outputs, including ``AVCaptureVideoPreviewLayer`` and ``AVCaptureOutput``, is equivalent to not using deferred start.
---
--- If ``deferredStartSupported`` is @false@, setting this property value to @true@ results in the session throwing an @NSInvalidArgumentException@.
---
--- - Note: Set this value before calling ``AVCaptureSession/commitConfiguration`` as it requires a lengthy reconfiguration of the capture render pipeline.
---
--- ObjC selector: @- deferredStartEnabled@
-deferredStartEnabled :: IsAVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer => avCaptureVideoPreviewLayer -> IO Bool
-deferredStartEnabled avCaptureVideoPreviewLayer =
-  sendMessage avCaptureVideoPreviewLayer deferredStartEnabledSelector
-
--- | A @BOOL@ value that indicates whether to defer starting this preview layer.
---
--- When this value is @true@, the session does not prepare the output's resources until some time after ``AVCaptureSession/startRunning`` returns. You can start the visual parts of your user interface (e.g. preview) prior to other parts (e.g. photo/movie capture, metadata output, etc..) to improve startup performance. Set this value to @false@ if your app needs video preview immediately for startup, and @true@ if it does not.
---
--- By default, this value is @false@ for ``AVCaptureVideoPreviewLayer`` objects, since this object is used to display preview. For best session start performance, set ``deferredStartEnabled`` to @false@ for preview layers. If your app contains multiple preview layers, you may want to display the main preview layer as soon as possible and allow the remaining layers to display subsequently. In this case, set ``deferredStartEnabled`` to @true@ for the remaining layers.
---
--- - Note: Setting this property to the same value for all outputs, including ``AVCaptureVideoPreviewLayer`` and ``AVCaptureOutput``, is equivalent to not using deferred start.
---
--- If ``deferredStartSupported`` is @false@, setting this property value to @true@ results in the session throwing an @NSInvalidArgumentException@.
---
--- - Note: Set this value before calling ``AVCaptureSession/commitConfiguration`` as it requires a lengthy reconfiguration of the capture render pipeline.
---
--- ObjC selector: @- setDeferredStartEnabled:@
-setDeferredStartEnabled :: IsAVCaptureVideoPreviewLayer avCaptureVideoPreviewLayer => avCaptureVideoPreviewLayer -> Bool -> IO ()
-setDeferredStartEnabled avCaptureVideoPreviewLayer value =
-  sendMessage avCaptureVideoPreviewLayer setDeferredStartEnabledSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -445,16 +396,4 @@ mirroredSelector = mkSelector "mirrored"
 -- | @Selector@ for @setMirrored:@
 setMirroredSelector :: Selector '[Bool] ()
 setMirroredSelector = mkSelector "setMirrored:"
-
--- | @Selector@ for @deferredStartSupported@
-deferredStartSupportedSelector :: Selector '[] Bool
-deferredStartSupportedSelector = mkSelector "deferredStartSupported"
-
--- | @Selector@ for @deferredStartEnabled@
-deferredStartEnabledSelector :: Selector '[] Bool
-deferredStartEnabledSelector = mkSelector "deferredStartEnabled"
-
--- | @Selector@ for @setDeferredStartEnabled:@
-setDeferredStartEnabledSelector :: Selector '[Bool] ()
-setDeferredStartEnabledSelector = mkSelector "setDeferredStartEnabled:"
 

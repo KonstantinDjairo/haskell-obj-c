@@ -58,14 +58,14 @@ decline gkChallenge =
 -- | The GKPlayer who issued the challenge
 --
 -- ObjC selector: @- issuingPlayer@
-issuingPlayer :: IsGKChallenge gkChallenge => gkChallenge -> IO (Id GKPlayer)
+issuingPlayer :: IsGKChallenge gkChallenge => gkChallenge -> IO RawId
 issuingPlayer gkChallenge =
   sendMessage gkChallenge issuingPlayerSelector
 
 -- | The GKPlayer who has received the challenge
 --
 -- ObjC selector: @- receivingPlayer@
-receivingPlayer :: IsGKChallenge gkChallenge => gkChallenge -> IO (Id GKPlayer)
+receivingPlayer :: IsGKChallenge gkChallenge => gkChallenge -> IO RawId
 receivingPlayer gkChallenge =
   sendMessage gkChallenge receivingPlayerSelector
 
@@ -100,14 +100,14 @@ message gkChallenge =
 -- | * This property is obsolete. **
 --
 -- ObjC selector: @- issuingPlayerID@
-issuingPlayerID :: IsGKChallenge gkChallenge => gkChallenge -> IO (Id NSString)
+issuingPlayerID :: IsGKChallenge gkChallenge => gkChallenge -> IO RawId
 issuingPlayerID gkChallenge =
   sendMessage gkChallenge issuingPlayerIDSelector
 
 -- | * This property is obsolete. **
 --
 -- ObjC selector: @- receivingPlayerID@
-receivingPlayerID :: IsGKChallenge gkChallenge => gkChallenge -> IO (Id NSString)
+receivingPlayerID :: IsGKChallenge gkChallenge => gkChallenge -> IO RawId
 receivingPlayerID gkChallenge =
   sendMessage gkChallenge receivingPlayerIDSelector
 
@@ -120,11 +120,11 @@ declineSelector :: Selector '[] ()
 declineSelector = mkSelector "decline"
 
 -- | @Selector@ for @issuingPlayer@
-issuingPlayerSelector :: Selector '[] (Id GKPlayer)
+issuingPlayerSelector :: Selector '[] RawId
 issuingPlayerSelector = mkSelector "issuingPlayer"
 
 -- | @Selector@ for @receivingPlayer@
-receivingPlayerSelector :: Selector '[] (Id GKPlayer)
+receivingPlayerSelector :: Selector '[] RawId
 receivingPlayerSelector = mkSelector "receivingPlayer"
 
 -- | @Selector@ for @state@
@@ -144,10 +144,10 @@ messageSelector :: Selector '[] (Id NSString)
 messageSelector = mkSelector "message"
 
 -- | @Selector@ for @issuingPlayerID@
-issuingPlayerIDSelector :: Selector '[] (Id NSString)
+issuingPlayerIDSelector :: Selector '[] RawId
 issuingPlayerIDSelector = mkSelector "issuingPlayerID"
 
 -- | @Selector@ for @receivingPlayerID@
-receivingPlayerIDSelector :: Selector '[] (Id NSString)
+receivingPlayerIDSelector :: Selector '[] RawId
 receivingPlayerIDSelector = mkSelector "receivingPlayerID"
 

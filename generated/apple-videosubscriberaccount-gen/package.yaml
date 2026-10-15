@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -26,9 +27,6 @@ library:
   - ObjC.VideoSubscriberAccount.VSAccountMetadata
   - ObjC.VideoSubscriberAccount.VSAccountMetadataRequest
   - ObjC.VideoSubscriberAccount.VSAccountProviderResponse
-  - ObjC.VideoSubscriberAccount.VSAppleSubscription
-  - ObjC.VideoSubscriberAccount.VSAutoSignInToken
-  - ObjC.VideoSubscriberAccount.VSAutoSignInTokenUpdateContext
   - ObjC.VideoSubscriberAccount.VSSubscription
   - ObjC.VideoSubscriberAccount.VSSubscriptionRegistrationCenter
   - ObjC.VideoSubscriberAccount.VSUserAccount

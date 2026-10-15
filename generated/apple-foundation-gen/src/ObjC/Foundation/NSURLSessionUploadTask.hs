@@ -9,8 +9,6 @@ module ObjC.Foundation.NSURLSessionUploadTask
   , IsNSURLSessionUploadTask(..)
   , init_
   , new
-  , cancelByProducingResumeData
-  , cancelByProducingResumeDataSelector
   , initSelector
   , newSelector
 
@@ -39,15 +37,6 @@ new  =
     cls' <- getRequiredClass "NSURLSessionUploadTask"
     sendOwnedClassMessage cls' newSelector
 
--- | Cancels an upload and calls the completion handler with resume data for later use. resumeData will be nil if the server does not support the latest resumable uploads Internet-Draft from the HTTP Working Group, found at https://datatracker.ietf.org/doc/draft-ietf-httpbis-resumable-upload/
---
--- - Parameter completionHandler: The completion handler to call when the upload has been successfully canceled.
---
--- ObjC selector: @- cancelByProducingResumeData:@
-cancelByProducingResumeData :: IsNSURLSessionUploadTask nsurlSessionUploadTask => nsurlSessionUploadTask -> Ptr () -> IO ()
-cancelByProducingResumeData nsurlSessionUploadTask completionHandler =
-  sendMessage nsurlSessionUploadTask cancelByProducingResumeDataSelector completionHandler
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -59,8 +48,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id NSURLSessionUploadTask)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @cancelByProducingResumeData:@
-cancelByProducingResumeDataSelector :: Selector '[Ptr ()] ()
-cancelByProducingResumeDataSelector = mkSelector "cancelByProducingResumeData:"
 

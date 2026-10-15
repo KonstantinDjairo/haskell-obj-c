@@ -3,7 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @AVAssetReaderOutputCaptionAdaptor@.
+-- | AVAssetReaderOutputCaptionAdaptor
+--
+-- An adaptor class for reading instances of AVCaptionGroup from a track containing timed text (i.e. subtitles or closed captions).
+--
+-- Generated bindings for @AVAssetReaderOutputCaptionAdaptor@.
 module ObjC.AVFoundation.AVAssetReaderOutputCaptionAdaptor
   ( AVAssetReaderOutputCaptionAdaptor
   , IsAVAssetReaderOutputCaptionAdaptor(..)

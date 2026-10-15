@@ -7,6 +7,10 @@
 module ObjC.Matter.MTRPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent
   ( MTRPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent
   , IsMTRPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent(..)
+  , init_
+  , copyWithZone
+  , copyWithZoneSelector
+  , initSelector
 
 
   ) where
@@ -22,7 +26,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent => mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent -> IO (Id MTRPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent)
+init_ mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent =
+  sendOwnedMessage mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent => mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent -> Ptr () -> IO RawId
+copyWithZone mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent zone =
+  sendOwnedMessage mtrPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent copyWithZoneSelector zone
+
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRPumpConfigurationAndControlClusterElectronicNonFatalFailureEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 

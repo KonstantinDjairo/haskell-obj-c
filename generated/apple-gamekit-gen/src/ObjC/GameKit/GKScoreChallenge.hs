@@ -8,8 +8,6 @@ module ObjC.GameKit.GKScoreChallenge
   ( GKScoreChallenge
   , IsGKScoreChallenge(..)
   , score
-  , leaderboardEntry
-  , leaderboardEntrySelector
   , scoreSelector
 
 
@@ -33,13 +31,6 @@ score :: IsGKScoreChallenge gkScoreChallenge => gkScoreChallenge -> IO (Id GKSco
 score gkScoreChallenge =
   sendMessage gkScoreChallenge scoreSelector
 
--- | The leaderboard entry to meet to satisfy this challenge
---
--- ObjC selector: @- leaderboardEntry@
-leaderboardEntry :: IsGKScoreChallenge gkScoreChallenge => gkScoreChallenge -> IO (Id GKLeaderboardEntry)
-leaderboardEntry gkScoreChallenge =
-  sendMessage gkScoreChallenge leaderboardEntrySelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -47,8 +38,4 @@ leaderboardEntry gkScoreChallenge =
 -- | @Selector@ for @score@
 scoreSelector :: Selector '[] (Id GKScore)
 scoreSelector = mkSelector "score"
-
--- | @Selector@ for @leaderboardEntry@
-leaderboardEntrySelector :: Selector '[] (Id GKLeaderboardEntry)
-leaderboardEntrySelector = mkSelector "leaderboardEntry"
 

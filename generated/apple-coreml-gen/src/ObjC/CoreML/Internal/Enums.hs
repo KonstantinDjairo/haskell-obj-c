@@ -71,9 +71,6 @@ pattern MLFeatureTypeDictionary = MLFeatureType 6
 pattern MLFeatureTypeSequence :: MLFeatureType
 pattern MLFeatureTypeSequence = MLFeatureType 7
 
-pattern MLFeatureTypeState :: MLFeatureType
-pattern MLFeatureTypeState = MLFeatureType 8
-
 instance ObjCArgument MLFeatureType where
   withObjCArg (MLFeatureType x) k = k (argCLong x)
 
@@ -148,9 +145,6 @@ pattern MLModelErrorModelDecryption = MLModelError 9
 pattern MLModelErrorModelCollection :: MLModelError
 pattern MLModelErrorModelCollection = MLModelError 10
 
-pattern MLModelErrorPredictionCancelled :: MLModelError
-pattern MLModelErrorPredictionCancelled = MLModelError 11
-
 instance ObjCArgument MLModelError where
   withObjCArg (MLModelError x) k = k (argCLong x)
 
@@ -161,7 +155,7 @@ instance ObjCReturn MLModelError where
   fromRetained x = pure (MLModelError x)
   fromOwned x = pure (MLModelError x)
 
--- | The data type of scalars in the multi-array.
+-- | Allowed data types for multidimensional arrays
 -- | @MLMultiArrayDataType@
 newtype MLMultiArrayDataType = MLMultiArrayDataType CLong
   deriving stock (Eq, Ord, Show)
@@ -184,9 +178,6 @@ pattern MLMultiArrayDataTypeFloat = MLMultiArrayDataType 65568
 
 pattern MLMultiArrayDataTypeInt32 :: MLMultiArrayDataType
 pattern MLMultiArrayDataTypeInt32 = MLMultiArrayDataType 131104
-
-pattern MLMultiArrayDataTypeInt8 :: MLMultiArrayDataType
-pattern MLMultiArrayDataTypeInt8 = MLMultiArrayDataType 131080
 
 instance ObjCArgument MLMultiArrayDataType where
   withObjCArg (MLMultiArrayDataType x) k = k (argCLong x)
@@ -221,50 +212,6 @@ instance ObjCReturn MLMultiArrayShapeConstraintType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MLMultiArrayShapeConstraintType x)
   fromOwned x = pure (MLMultiArrayShapeConstraintType x)
-
--- | The anticipated frequency of changing input shapes
--- | @MLReshapeFrequencyHint@
-newtype MLReshapeFrequencyHint = MLReshapeFrequencyHint CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MLReshapeFrequencyHintFrequent :: MLReshapeFrequencyHint
-pattern MLReshapeFrequencyHintFrequent = MLReshapeFrequencyHint 0
-
-pattern MLReshapeFrequencyHintInfrequent :: MLReshapeFrequencyHint
-pattern MLReshapeFrequencyHintInfrequent = MLReshapeFrequencyHint 1
-
-instance ObjCArgument MLReshapeFrequencyHint where
-  withObjCArg (MLReshapeFrequencyHint x) k = k (argCLong x)
-
-instance ObjCReturn MLReshapeFrequencyHint where
-  type RawReturn MLReshapeFrequencyHint = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MLReshapeFrequencyHint x)
-  fromOwned x = pure (MLReshapeFrequencyHint x)
-
--- | The optimization strategy for the model specialization.
--- | @MLSpecializationStrategy@
-newtype MLSpecializationStrategy = MLSpecializationStrategy CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MLSpecializationStrategyDefault :: MLSpecializationStrategy
-pattern MLSpecializationStrategyDefault = MLSpecializationStrategy 0
-
-pattern MLSpecializationStrategyFastPrediction :: MLSpecializationStrategy
-pattern MLSpecializationStrategyFastPrediction = MLSpecializationStrategy 1
-
-instance ObjCArgument MLSpecializationStrategy where
-  withObjCArg (MLSpecializationStrategy x) k = k (argCLong x)
-
-instance ObjCReturn MLSpecializationStrategy where
-  type RawReturn MLSpecializationStrategy = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MLSpecializationStrategy x)
-  fromOwned x = pure (MLSpecializationStrategy x)
 
 -- | All possible states an MLTask can be in.
 -- | @MLTaskState@

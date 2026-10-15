@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRSwitchClusterMultiPressOngoingEvent
   ( MTRSwitchClusterMultiPressOngoingEvent
   , IsMTRSwitchClusterMultiPressOngoingEvent(..)
+  , init_
+  , copyWithZone
   , newPosition
   , setNewPosition
   , currentNumberOfPressesCounted
   , setCurrentNumberOfPressesCounted
+  , copyWithZoneSelector
   , currentNumberOfPressesCountedSelector
+  , initSelector
   , newPositionSelector
   , setCurrentNumberOfPressesCountedSelector
   , setNewPositionSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRSwitchClusterMultiPressOngoingEvent mtrSwitchClusterMultiPressOngoingEvent => mtrSwitchClusterMultiPressOngoingEvent -> IO (Id MTRSwitchClusterMultiPressOngoingEvent)
+init_ mtrSwitchClusterMultiPressOngoingEvent =
+  sendOwnedMessage mtrSwitchClusterMultiPressOngoingEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSwitchClusterMultiPressOngoingEvent mtrSwitchClusterMultiPressOngoingEvent => mtrSwitchClusterMultiPressOngoingEvent -> Ptr () -> IO RawId
+copyWithZone mtrSwitchClusterMultiPressOngoingEvent zone =
+  sendOwnedMessage mtrSwitchClusterMultiPressOngoingEvent copyWithZoneSelector zone
 
 -- | @- newPosition@
 newPosition :: IsMTRSwitchClusterMultiPressOngoingEvent mtrSwitchClusterMultiPressOngoingEvent => mtrSwitchClusterMultiPressOngoingEvent -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setCurrentNumberOfPressesCounted mtrSwitchClusterMultiPressOngoingEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSwitchClusterMultiPressOngoingEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @newPosition@
 newPositionSelector :: Selector '[] (Id NSNumber)

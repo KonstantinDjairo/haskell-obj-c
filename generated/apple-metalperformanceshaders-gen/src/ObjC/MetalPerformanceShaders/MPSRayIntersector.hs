@@ -326,21 +326,16 @@ module ObjC.MetalPerformanceShaders.MPSRayIntersector
   , pattern MPSDataTypeComplexFloat16
   , pattern MPSDataTypeSignedBit
   , pattern MPSDataTypeIntBit
-  , pattern MPSDataTypeInt2
-  , pattern MPSDataTypeInt4
   , pattern MPSDataTypeInt8
   , pattern MPSDataTypeInt16
   , pattern MPSDataTypeInt32
   , pattern MPSDataTypeInt64
-  , pattern MPSDataTypeUInt2
-  , pattern MPSDataTypeUInt4
   , pattern MPSDataTypeUInt8
   , pattern MPSDataTypeUInt16
   , pattern MPSDataTypeUInt32
   , pattern MPSDataTypeUInt64
   , pattern MPSDataTypeAlternateEncodingBit
   , pattern MPSDataTypeBool
-  , pattern MPSDataTypeBFloat16
   , pattern MPSDataTypeNormalizedBit
   , pattern MPSDataTypeUnorm1
   , pattern MPSDataTypeUnorm8

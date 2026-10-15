@@ -3,17 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The Core Image context class provides an evaluation context for Core Image processing with Metal, OpenGL, or OpenCL.
---
--- You use a @CIContext@ instance to render a ``CIImage`` instance which represents a graph of image processing operations which are built using other Core Image classes, such as ``CIFilter-class``, ``CIKernel``, ``CIColor`` and ``CIImage``.  You can also use a @CIContext@ with the ``CIDetector`` class to analyze images — for example, to detect faces  or barcodes.
---
--- Contexts support automatic color management by performing all processing operations in a working color space. This means that unless told otherwise: * All input images are color matched from the input's color space to the working space. * All renders are color matched from the working space to the destination space. (For more information on @CGColorSpace@ see <doc://com.apple.documentation/documentation/coregraphics/cgcolorspace>)
---
--- @CIContext@ and ``CIImage`` instances are immutable, so multiple threads can use the same ``CIContext`` instance  to render ``CIImage`` instances. However, ``CIFilter-class`` instances are mutable and thus cannot be shared safely among  threads. Each thread must take case not to access or modify a ``CIFilter-class`` instance while it is being used by  another thread.
---
--- The @CIContext@ manages various internal state such as @MTLCommandQueue@ and caches for compiled kernels and intermediate buffers.  For this reason it is not recommended to create many @CIContext@ instances.  As a rule, it recommended that you create one @CIContext@ instance for each view that renders ``CIImage`` or each background task.
---
--- Generated bindings for @CIContext@.
+-- | Generated bindings for @CIContext@.
 module ObjC.CoreImage.CIContext
   ( CIContext
   , IsCIContext(..)
@@ -43,26 +33,16 @@ module ObjC.CoreImage.CIContext
   , heifRepresentationOfImage_format_colorSpace_options
   , heiF10RepresentationOfImage_colorSpace_options_error
   , pngRepresentationOfImage_format_colorSpace_options
-  , openEXRRepresentationOfImage_options_error
   , writeTIFFRepresentationOfImage_toURL_format_colorSpace_options_error
   , writePNGRepresentationOfImage_toURL_format_colorSpace_options_error
   , writeJPEGRepresentationOfImage_toURL_colorSpace_options_error
   , writeHEIFRepresentationOfImage_toURL_format_colorSpace_options_error
   , writeHEIF10RepresentationOfImage_toURL_colorSpace_options_error
-  , writeOpenEXRRepresentationOfImage_toURL_options_error
   , offlineGPUCount
   , contextForOfflineGPUAtIndex
   , contextForOfflineGPUAtIndex_colorSpace_options_sharedContext
-  , calculateHDRStatsForIOSurface
-  , calculateHDRStatsForCVPixelBuffer
-  , calculateHDRStatsForCGImage
-  , calculateHDRStatsForImage
   , workingColorSpace
   , workingFormat
-  , calculateHDRStatsForCGImageSelector
-  , calculateHDRStatsForCVPixelBufferSelector
-  , calculateHDRStatsForIOSurfaceSelector
-  , calculateHDRStatsForImageSelector
   , clearCachesSelector
   , contextForOfflineGPUAtIndexSelector
   , contextForOfflineGPUAtIndex_colorSpace_options_sharedContextSelector
@@ -86,7 +66,6 @@ module ObjC.CoreImage.CIContext
   , initWithOptionsSelector
   , jpegRepresentationOfImage_colorSpace_optionsSelector
   , offlineGPUCountSelector
-  , openEXRRepresentationOfImage_options_errorSelector
   , pngRepresentationOfImage_format_colorSpace_optionsSelector
   , reclaimResourcesSelector
   , render_toCVPixelBufferSelector
@@ -98,7 +77,6 @@ module ObjC.CoreImage.CIContext
   , writeHEIF10RepresentationOfImage_toURL_colorSpace_options_errorSelector
   , writeHEIFRepresentationOfImage_toURL_format_colorSpace_options_errorSelector
   , writeJPEGRepresentationOfImage_toURL_colorSpace_options_errorSelector
-  , writeOpenEXRRepresentationOfImage_toURL_options_errorSelector
   , writePNGRepresentationOfImage_toURL_format_colorSpace_options_errorSelector
   , writeTIFFRepresentationOfImage_toURL_format_colorSpace_options_errorSelector
 
@@ -264,11 +242,6 @@ pngRepresentationOfImage_format_colorSpace_options :: (IsCIContext ciContext, Is
 pngRepresentationOfImage_format_colorSpace_options ciContext image format colorSpace options =
   sendMessage ciContext pngRepresentationOfImage_format_colorSpace_optionsSelector (toCIImage image) format colorSpace (toNSDictionary options)
 
--- | @- OpenEXRRepresentationOfImage:options:error:@
-openEXRRepresentationOfImage_options_error :: (IsCIContext ciContext, IsCIImage image, IsNSDictionary options, IsNSError errorPtr) => ciContext -> image -> options -> errorPtr -> IO (Id NSData)
-openEXRRepresentationOfImage_options_error ciContext image options errorPtr =
-  sendMessage ciContext openEXRRepresentationOfImage_options_errorSelector (toCIImage image) (toNSDictionary options) (toNSError errorPtr)
-
 -- | @- writeTIFFRepresentationOfImage:toURL:format:colorSpace:options:error:@
 writeTIFFRepresentationOfImage_toURL_format_colorSpace_options_error :: (IsCIContext ciContext, IsCIImage image, IsNSURL url, IsNSDictionary options, IsNSError errorPtr) => ciContext -> image -> url -> CInt -> Ptr () -> options -> errorPtr -> IO Bool
 writeTIFFRepresentationOfImage_toURL_format_colorSpace_options_error ciContext image url format colorSpace options errorPtr =
@@ -294,11 +267,6 @@ writeHEIF10RepresentationOfImage_toURL_colorSpace_options_error :: (IsCIContext 
 writeHEIF10RepresentationOfImage_toURL_colorSpace_options_error ciContext image url colorSpace options errorPtr =
   sendMessage ciContext writeHEIF10RepresentationOfImage_toURL_colorSpace_options_errorSelector (toCIImage image) (toNSURL url) colorSpace (toNSDictionary options) (toNSError errorPtr)
 
--- | @- writeOpenEXRRepresentationOfImage:toURL:options:error:@
-writeOpenEXRRepresentationOfImage_toURL_options_error :: (IsCIContext ciContext, IsCIImage image, IsNSURL url, IsNSDictionary options, IsNSError errorPtr) => ciContext -> image -> url -> options -> errorPtr -> IO Bool
-writeOpenEXRRepresentationOfImage_toURL_options_error ciContext image url options errorPtr =
-  sendMessage ciContext writeOpenEXRRepresentationOfImage_toURL_options_errorSelector (toCIImage image) (toNSURL url) (toNSDictionary options) (toNSError errorPtr)
-
 -- | @+ offlineGPUCount@
 offlineGPUCount :: IO CUInt
 offlineGPUCount  =
@@ -320,64 +288,12 @@ contextForOfflineGPUAtIndex_colorSpace_options_sharedContext index colorSpace op
     cls' <- getRequiredClass "CIContext"
     sendClassMessage cls' contextForOfflineGPUAtIndex_colorSpace_options_sharedContextSelector index colorSpace (toNSDictionary options) sharedContext
 
--- | Given an IOSurface, use the receiving Core Image context to calculate its  HDR statistics (content headroom and content average light level) and then update the surface's attachments to store the values.
---
--- If the @IOSurface@ has a Clean Aperture rectangle then only pixels within that rectangle are considered.
---
--- - Parameters:    - surface: A mutable @IOSurfaceRef@ for which to calculate and attach statistics.
---
--- ObjC selector: @- calculateHDRStatsForIOSurface:@
-calculateHDRStatsForIOSurface :: IsCIContext ciContext => ciContext -> Ptr () -> IO ()
-calculateHDRStatsForIOSurface ciContext surface =
-  sendMessage ciContext calculateHDRStatsForIOSurfaceSelector surface
-
--- | Given a CVPixelBuffer, use the receiving Core Image context to calculate its  HDR statistics (content headroom and content average light level) and then update the buffers's attachments to store the values.
---
--- If the @CVPixelBuffer@ has a Clean Aperture rectangle then only pixels within that rectangle are considered.
---
--- - Parameters:    - buffer: A mutable @CVPixelBuffer@ for which to calculate and attach statistics.
---
--- ObjC selector: @- calculateHDRStatsForCVPixelBuffer:@
-calculateHDRStatsForCVPixelBuffer :: IsCIContext ciContext => ciContext -> Ptr () -> IO ()
-calculateHDRStatsForCVPixelBuffer ciContext buffer =
-  sendMessage ciContext calculateHDRStatsForCVPixelBufferSelector buffer
-
--- | Given a Core Graphics image, use the receiving Core Image context to calculate its  HDR statistics (content headroom and content average light level) and then return a new Core Graphics image that has the calculated values.
---
--- - Parameters:    - cgimage: An immutable @CGImage@ for which to calculate statistics. - Returns:    Returns a new @CGImage@ instance that has the calculated statistics attached.
---
--- ObjC selector: @- calculateHDRStatsForCGImage:@
-calculateHDRStatsForCGImage :: IsCIContext ciContext => ciContext -> Ptr () -> IO (Ptr ())
-calculateHDRStatsForCGImage ciContext cgimage =
-  sendMessage ciContext calculateHDRStatsForCGImageSelector cgimage
-
--- | Given a Core Image image, use the receiving Core Image context to calculate its  HDR statistics (content headroom and content average light level) and then return a new Core Image image that has the calculated values.
---
--- If the image extent is not finite, then nil will be returned.
---
--- - Parameters:    - image: An immutable ``CIImage`` for which to calculate statistics. - Returns:    Returns a new ``CIImage`` instance that has the calculated statistics attached.
---
--- ObjC selector: @- calculateHDRStatsForImage:@
-calculateHDRStatsForImage :: (IsCIContext ciContext, IsCIImage image) => ciContext -> image -> IO (Id CIImage)
-calculateHDRStatsForImage ciContext image =
-  sendMessage ciContext calculateHDRStatsForImageSelector (toCIImage image)
-
--- | The working color space of the CIContext.
---
--- The working color space determines the color space used when executing filter kernels.  You specify a working color space using the ``kCIContextWorkingColorSpace`` option when creating a ``CIContext``. * All input images are color matched from the input's color space to the working space. * All renders are color matched from the working space to the destination space.
---
--- The property will be @null@ if the context was created with color management disabled.
---
--- ObjC selector: @- workingColorSpace@
+-- | @- workingColorSpace@
 workingColorSpace :: IsCIContext ciContext => ciContext -> IO (Ptr ())
 workingColorSpace ciContext =
   sendMessage ciContext workingColorSpaceSelector
 
--- | The working pixel format that the CIContext uses for intermediate buffers.
---
--- The working format determines the pixel format that Core Image uses to create intermediate buffers for rendering images.  You specify a working pixel format using the ``kCIContextWorkingFormat`` option when creating a ``CIContext``.
---
--- ObjC selector: @- workingFormat@
+-- | @- workingFormat@
 workingFormat :: IsCIContext ciContext => ciContext -> IO CInt
 workingFormat ciContext =
   sendMessage ciContext workingFormatSelector
@@ -490,10 +406,6 @@ heiF10RepresentationOfImage_colorSpace_options_errorSelector = mkSelector "HEIF1
 pngRepresentationOfImage_format_colorSpace_optionsSelector :: Selector '[Id CIImage, CInt, Ptr (), Id NSDictionary] (Id NSData)
 pngRepresentationOfImage_format_colorSpace_optionsSelector = mkSelector "PNGRepresentationOfImage:format:colorSpace:options:"
 
--- | @Selector@ for @OpenEXRRepresentationOfImage:options:error:@
-openEXRRepresentationOfImage_options_errorSelector :: Selector '[Id CIImage, Id NSDictionary, Id NSError] (Id NSData)
-openEXRRepresentationOfImage_options_errorSelector = mkSelector "OpenEXRRepresentationOfImage:options:error:"
-
 -- | @Selector@ for @writeTIFFRepresentationOfImage:toURL:format:colorSpace:options:error:@
 writeTIFFRepresentationOfImage_toURL_format_colorSpace_options_errorSelector :: Selector '[Id CIImage, Id NSURL, CInt, Ptr (), Id NSDictionary, Id NSError] Bool
 writeTIFFRepresentationOfImage_toURL_format_colorSpace_options_errorSelector = mkSelector "writeTIFFRepresentationOfImage:toURL:format:colorSpace:options:error:"
@@ -514,10 +426,6 @@ writeHEIFRepresentationOfImage_toURL_format_colorSpace_options_errorSelector = m
 writeHEIF10RepresentationOfImage_toURL_colorSpace_options_errorSelector :: Selector '[Id CIImage, Id NSURL, Ptr (), Id NSDictionary, Id NSError] Bool
 writeHEIF10RepresentationOfImage_toURL_colorSpace_options_errorSelector = mkSelector "writeHEIF10RepresentationOfImage:toURL:colorSpace:options:error:"
 
--- | @Selector@ for @writeOpenEXRRepresentationOfImage:toURL:options:error:@
-writeOpenEXRRepresentationOfImage_toURL_options_errorSelector :: Selector '[Id CIImage, Id NSURL, Id NSDictionary, Id NSError] Bool
-writeOpenEXRRepresentationOfImage_toURL_options_errorSelector = mkSelector "writeOpenEXRRepresentationOfImage:toURL:options:error:"
-
 -- | @Selector@ for @offlineGPUCount@
 offlineGPUCountSelector :: Selector '[] CUInt
 offlineGPUCountSelector = mkSelector "offlineGPUCount"
@@ -529,22 +437,6 @@ contextForOfflineGPUAtIndexSelector = mkSelector "contextForOfflineGPUAtIndex:"
 -- | @Selector@ for @contextForOfflineGPUAtIndex:colorSpace:options:sharedContext:@
 contextForOfflineGPUAtIndex_colorSpace_options_sharedContextSelector :: Selector '[CUInt, Ptr (), Id NSDictionary, Ptr ()] (Id CIContext)
 contextForOfflineGPUAtIndex_colorSpace_options_sharedContextSelector = mkSelector "contextForOfflineGPUAtIndex:colorSpace:options:sharedContext:"
-
--- | @Selector@ for @calculateHDRStatsForIOSurface:@
-calculateHDRStatsForIOSurfaceSelector :: Selector '[Ptr ()] ()
-calculateHDRStatsForIOSurfaceSelector = mkSelector "calculateHDRStatsForIOSurface:"
-
--- | @Selector@ for @calculateHDRStatsForCVPixelBuffer:@
-calculateHDRStatsForCVPixelBufferSelector :: Selector '[Ptr ()] ()
-calculateHDRStatsForCVPixelBufferSelector = mkSelector "calculateHDRStatsForCVPixelBuffer:"
-
--- | @Selector@ for @calculateHDRStatsForCGImage:@
-calculateHDRStatsForCGImageSelector :: Selector '[Ptr ()] (Ptr ())
-calculateHDRStatsForCGImageSelector = mkSelector "calculateHDRStatsForCGImage:"
-
--- | @Selector@ for @calculateHDRStatsForImage:@
-calculateHDRStatsForImageSelector :: Selector '[Id CIImage] (Id CIImage)
-calculateHDRStatsForImageSelector = mkSelector "calculateHDRStatsForImage:"
 
 -- | @Selector@ for @workingColorSpace@
 workingColorSpaceSelector :: Selector '[] (Ptr ())

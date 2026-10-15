@@ -14,37 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | A version specifying which PencilKit features are used/allowed.
--- | @PKContentVersion@
-newtype PKContentVersion = PKContentVersion CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PKContentVersion1 :: PKContentVersion
-pattern PKContentVersion1 = PKContentVersion 1
-
-pattern PKContentVersion2 :: PKContentVersion
-pattern PKContentVersion2 = PKContentVersion 2
-
-pattern PKContentVersion3 :: PKContentVersion
-pattern PKContentVersion3 = PKContentVersion 3
-
-pattern PKContentVersion4 :: PKContentVersion
-pattern PKContentVersion4 = PKContentVersion 4
-
-pattern PKContentVersionLatest :: PKContentVersion
-pattern PKContentVersionLatest = PKContentVersion 4
-
-instance ObjCArgument PKContentVersion where
-  withObjCArg (PKContentVersion x) k = k (argCLong x)
-
-instance ObjCReturn PKContentVersion where
-  type RawReturn PKContentVersion = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PKContentVersion x)
-  fromOwned x = pure (PKContentVersion x)
-
 -- | @PKEraserType@
 newtype PKEraserType = PKEraserType CLong
   deriving stock (Eq, Ord, Show)
@@ -55,9 +24,6 @@ pattern PKEraserTypeVector = PKEraserType 0
 
 pattern PKEraserTypeBitmap :: PKEraserType
 pattern PKEraserTypeBitmap = PKEraserType 1
-
-pattern PKEraserTypeFixedWidthBitmap :: PKEraserType
-pattern PKEraserTypeFixedWidthBitmap = PKEraserType 2
 
 instance ObjCArgument PKEraserType where
   withObjCArg (PKEraserType x) k = k (argCLong x)

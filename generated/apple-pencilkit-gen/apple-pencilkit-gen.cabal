@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -25,16 +25,13 @@ library
       ObjC.PencilKit.PKStrokePath
       ObjC.PencilKit.PKStrokePoint
       ObjC.PencilKit.PKTool
-      ObjC.PencilKit.PKToolPickerEraserItem
-      ObjC.PencilKit.PKToolPickerInkingItem
-      ObjC.PencilKit.PKToolPickerItem
   other-modules:
       Paths_apple_pencilkit_gen
   autogen-modules:
       Paths_apple_pencilkit_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-appkit-gen
     , apple-foundation-gen

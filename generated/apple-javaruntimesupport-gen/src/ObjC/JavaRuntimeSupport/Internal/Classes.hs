@@ -92,6 +92,25 @@ instance IsJRSRenderServer (Id JRSRenderServer) where
 instance IsNSObject (Id JRSRenderServer) where
   toNSObject = unsafeCastId
 
+-- ---------- JRSSecurity ----------
+
+-- | Phantom type for @JRSSecurity@.
+data JRSSecurity
+
+instance IsObjCObject (Id JRSSecurity) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "JRSSecurity"
+
+class IsNSObject a => IsJRSSecurity a where
+  toJRSSecurity :: a -> Id JRSSecurity
+
+instance IsJRSSecurity (Id JRSSecurity) where
+  toJRSSecurity = unsafeCastId
+
+instance IsNSObject (Id JRSSecurity) where
+  toNSObject = unsafeCastId
+
 -- ---------- JRSSymbolicator ----------
 
 -- | Phantom type for @JRSSymbolicator@.

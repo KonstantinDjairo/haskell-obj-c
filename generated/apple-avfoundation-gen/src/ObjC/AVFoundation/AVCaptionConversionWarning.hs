@@ -7,8 +7,6 @@
 --
 -- Reports a specific problem encountered during the validation of a caption conversion.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVCaptionConversionWarning@.
 module ObjC.AVFoundation.AVCaptionConversionWarning
   ( AVCaptionConversionWarning

@@ -92,6 +92,25 @@ instance IsISyncManager (Id ISyncManager) where
 instance IsNSObject (Id ISyncManager) where
   toNSObject = unsafeCastId
 
+-- ---------- ISyncRecordReference ----------
+
+-- | Phantom type for @ISyncRecordReference@.
+data ISyncRecordReference
+
+instance IsObjCObject (Id ISyncRecordReference) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "ISyncRecordReference"
+
+class IsNSObject a => IsISyncRecordReference a where
+  toISyncRecordReference :: a -> Id ISyncRecordReference
+
+instance IsISyncRecordReference (Id ISyncRecordReference) where
+  toISyncRecordReference = unsafeCastId
+
+instance IsNSObject (Id ISyncRecordReference) where
+  toNSObject = unsafeCastId
+
 -- ---------- ISyncRecordSnapshot ----------
 
 -- | Phantom type for @ISyncRecordSnapshot@.

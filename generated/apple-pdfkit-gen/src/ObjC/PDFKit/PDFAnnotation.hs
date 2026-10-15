@@ -71,7 +71,6 @@ module ObjC.PDFKit.PDFAnnotation
   , setWidgetControlType
   , multiline
   , setMultiline
-  , activatableTextField
   , isPasswordField
   , comb
   , setComb
@@ -116,7 +115,6 @@ module ObjC.PDFKit.PDFAnnotation
   , mouseUpAction
   , setMouseUpAction
   , actionSelector
-  , activatableTextFieldSelector
   , addBezierPathSelector
   , alignmentSelector
   , allowsToggleToOffSelector
@@ -226,8 +224,8 @@ module ObjC.PDFKit.PDFAnnotation
   -- * Enum types
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , PDFDisplayBox(PDFDisplayBox)
@@ -601,11 +599,6 @@ multiline pdfAnnotation =
 setMultiline :: IsPDFAnnotation pdfAnnotation => pdfAnnotation -> Bool -> IO ()
 setMultiline pdfAnnotation value =
   sendMessage pdfAnnotation setMultilineSelector value
-
--- | @- activatableTextField@
-activatableTextField :: IsPDFAnnotation pdfAnnotation => pdfAnnotation -> IO Bool
-activatableTextField pdfAnnotation =
-  sendMessage pdfAnnotation activatableTextFieldSelector
 
 -- | @- isPasswordField@
 isPasswordField :: IsPDFAnnotation pdfAnnotation => pdfAnnotation -> IO Bool
@@ -1077,10 +1070,6 @@ multilineSelector = mkSelector "multiline"
 -- | @Selector@ for @setMultiline:@
 setMultilineSelector :: Selector '[Bool] ()
 setMultilineSelector = mkSelector "setMultiline:"
-
--- | @Selector@ for @activatableTextField@
-activatableTextFieldSelector :: Selector '[] Bool
-activatableTextFieldSelector = mkSelector "activatableTextField"
 
 -- | @Selector@ for @isPasswordField@
 isPasswordFieldSelector :: Selector '[] Bool

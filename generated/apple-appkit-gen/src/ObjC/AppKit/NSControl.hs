@@ -20,6 +20,7 @@ module ObjC.AppKit.NSControl
   , takeStringValueFrom
   , takeObjectValueFrom
   , takeIntegerValueFrom
+  , mouseDown
   , performClick
   , expansionFrameWithFrame
   , drawWithExpansionFrame_inView
@@ -121,6 +122,7 @@ module ObjC.AppKit.NSControl
   , integerValueSelector
   , invalidateIntrinsicContentSizeForCellSelector
   , lineBreakModeSelector
+  , mouseDownSelector
   , objectValueSelector
   , performClickSelector
   , refusesFirstResponderSelector
@@ -179,7 +181,6 @@ module ObjC.AppKit.NSControl
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
   , NSEventMask(NSEventMask)
   , pattern NSEventMaskLeftMouseDown
   , pattern NSEventMaskLeftMouseUp
@@ -214,7 +215,6 @@ module ObjC.AppKit.NSControl
   , pattern NSEventMaskPressure
   , pattern NSEventMaskDirectTouch
   , pattern NSEventMaskChangeMode
-  , pattern NSEventMaskMouseCancelled
   , pattern NSEventMaskAny
   , NSLineBreakMode(NSLineBreakMode)
   , pattern NSLineBreakByWordWrapping
@@ -225,8 +225,8 @@ module ObjC.AppKit.NSControl
   , pattern NSLineBreakByTruncatingMiddle
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , NSWritingDirection(NSWritingDirection)
@@ -308,6 +308,11 @@ takeObjectValueFrom nsControl sender =
 takeIntegerValueFrom :: IsNSControl nsControl => nsControl -> RawId -> IO ()
 takeIntegerValueFrom nsControl sender =
   sendMessage nsControl takeIntegerValueFromSelector sender
+
+-- | @- mouseDown:@
+mouseDown :: (IsNSControl nsControl, IsNSEvent event) => nsControl -> event -> IO ()
+mouseDown nsControl event =
+  sendMessage nsControl mouseDownSelector (toNSEvent event)
 
 -- | @- performClick:@
 performClick :: IsNSControl nsControl => nsControl -> RawId -> IO ()
@@ -714,6 +719,10 @@ takeObjectValueFromSelector = mkSelector "takeObjectValueFrom:"
 -- | @Selector@ for @takeIntegerValueFrom:@
 takeIntegerValueFromSelector :: Selector '[RawId] ()
 takeIntegerValueFromSelector = mkSelector "takeIntegerValueFrom:"
+
+-- | @Selector@ for @mouseDown:@
+mouseDownSelector :: Selector '[Id NSEvent] ()
+mouseDownSelector = mkSelector "mouseDown:"
 
 -- | @Selector@ for @performClick:@
 performClickSelector :: Selector '[RawId] ()

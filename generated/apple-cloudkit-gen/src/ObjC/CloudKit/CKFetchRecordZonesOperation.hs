@@ -65,7 +65,7 @@ setRecordZoneIDs ckFetchRecordZonesOperation value =
 
 -- | Called on success or failure for each record zone.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordZoneCompletionBlock@
 perRecordZoneCompletionBlock :: IsCKFetchRecordZonesOperation ckFetchRecordZonesOperation => ckFetchRecordZonesOperation -> IO (Ptr ())
@@ -74,7 +74,7 @@ perRecordZoneCompletionBlock ckFetchRecordZonesOperation =
 
 -- | Called on success or failure for each record zone.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordZoneCompletionBlock:@
 setPerRecordZoneCompletionBlock :: IsCKFetchRecordZonesOperation ckFetchRecordZonesOperation => ckFetchRecordZonesOperation -> Ptr () -> IO ()

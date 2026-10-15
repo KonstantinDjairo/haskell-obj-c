@@ -13,7 +13,6 @@ module ObjC.AppKit.NSPrintPanel
   , removeAccessoryController
   , setDefaultButtonTitle
   , defaultButtonTitle
-  , beginSheetUsingPrintInfo_onWindow_completionHandler
   , beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo
   , runModalWithPrintInfo
   , runModal
@@ -21,7 +20,6 @@ module ObjC.AppKit.NSPrintPanel
   , accessoryView
   , updateFromPrintInfo
   , finalWritePrintInfo
-  , accessoryControllers
   , options
   , setOptions
   , helpAnchor
@@ -29,10 +27,8 @@ module ObjC.AppKit.NSPrintPanel
   , jobStyleHint
   , setJobStyleHint
   , printInfo
-  , accessoryControllersSelector
   , accessoryViewSelector
   , addAccessoryControllerSelector
-  , beginSheetUsingPrintInfo_onWindow_completionHandlerSelector
   , beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfoSelector
   , defaultButtonTitleSelector
   , finalWritePrintInfoSelector
@@ -103,11 +99,6 @@ defaultButtonTitle :: IsNSPrintPanel nsPrintPanel => nsPrintPanel -> IO (Id NSSt
 defaultButtonTitle nsPrintPanel =
   sendMessage nsPrintPanel defaultButtonTitleSelector
 
--- | @- beginSheetUsingPrintInfo:onWindow:completionHandler:@
-beginSheetUsingPrintInfo_onWindow_completionHandler :: (IsNSPrintPanel nsPrintPanel, IsNSPrintInfo printInfo, IsNSWindow parentWindow) => nsPrintPanel -> printInfo -> parentWindow -> Ptr () -> IO ()
-beginSheetUsingPrintInfo_onWindow_completionHandler nsPrintPanel printInfo parentWindow handler =
-  sendMessage nsPrintPanel beginSheetUsingPrintInfo_onWindow_completionHandlerSelector (toNSPrintInfo printInfo) (toNSWindow parentWindow) handler
-
 -- | @- beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:@
 beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo :: (IsNSPrintPanel nsPrintPanel, IsNSPrintInfo printInfo, IsNSWindow docWindow) => nsPrintPanel -> printInfo -> docWindow -> RawId -> Sel -> Ptr () -> IO ()
 beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo nsPrintPanel printInfo docWindow delegate didEndSelector contextInfo =
@@ -143,11 +134,6 @@ finalWritePrintInfo :: IsNSPrintPanel nsPrintPanel => nsPrintPanel -> IO ()
 finalWritePrintInfo nsPrintPanel =
   sendMessage nsPrintPanel finalWritePrintInfoSelector
 
--- | @- accessoryControllers@
-accessoryControllers :: IsNSPrintPanel nsPrintPanel => nsPrintPanel -> IO (Id NSArray)
-accessoryControllers nsPrintPanel =
-  sendMessage nsPrintPanel accessoryControllersSelector
-
 -- | @- options@
 options :: IsNSPrintPanel nsPrintPanel => nsPrintPanel -> IO NSPrintPanelOptions
 options nsPrintPanel =
@@ -179,7 +165,7 @@ setJobStyleHint nsPrintPanel value =
   sendMessage nsPrintPanel setJobStyleHintSelector (toNSString value)
 
 -- | @- printInfo@
-printInfo :: IsNSPrintPanel nsPrintPanel => nsPrintPanel -> IO (Id NSPrintInfo)
+printInfo :: IsNSPrintPanel nsPrintPanel => nsPrintPanel -> IO RawId
 printInfo nsPrintPanel =
   sendMessage nsPrintPanel printInfoSelector
 
@@ -206,10 +192,6 @@ setDefaultButtonTitleSelector = mkSelector "setDefaultButtonTitle:"
 -- | @Selector@ for @defaultButtonTitle@
 defaultButtonTitleSelector :: Selector '[] (Id NSString)
 defaultButtonTitleSelector = mkSelector "defaultButtonTitle"
-
--- | @Selector@ for @beginSheetUsingPrintInfo:onWindow:completionHandler:@
-beginSheetUsingPrintInfo_onWindow_completionHandlerSelector :: Selector '[Id NSPrintInfo, Id NSWindow, Ptr ()] ()
-beginSheetUsingPrintInfo_onWindow_completionHandlerSelector = mkSelector "beginSheetUsingPrintInfo:onWindow:completionHandler:"
 
 -- | @Selector@ for @beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:@
 beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfoSelector :: Selector '[Id NSPrintInfo, Id NSWindow, RawId, Sel, Ptr ()] ()
@@ -239,10 +221,6 @@ updateFromPrintInfoSelector = mkSelector "updateFromPrintInfo"
 finalWritePrintInfoSelector :: Selector '[] ()
 finalWritePrintInfoSelector = mkSelector "finalWritePrintInfo"
 
--- | @Selector@ for @accessoryControllers@
-accessoryControllersSelector :: Selector '[] (Id NSArray)
-accessoryControllersSelector = mkSelector "accessoryControllers"
-
 -- | @Selector@ for @options@
 optionsSelector :: Selector '[] NSPrintPanelOptions
 optionsSelector = mkSelector "options"
@@ -268,6 +246,6 @@ setJobStyleHintSelector :: Selector '[Id NSString] ()
 setJobStyleHintSelector = mkSelector "setJobStyleHint:"
 
 -- | @Selector@ for @printInfo@
-printInfoSelector :: Selector '[] (Id NSPrintInfo)
+printInfoSelector :: Selector '[] RawId
 printInfoSelector = mkSelector "printInfo"
 

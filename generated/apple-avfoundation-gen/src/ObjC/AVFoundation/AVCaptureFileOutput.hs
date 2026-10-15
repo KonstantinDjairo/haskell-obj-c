@@ -106,10 +106,6 @@ stopRecording avCaptureFileOutput =
 --
 -- On macOS, if this method is called within the captureOutput:didOutputSampleBuffer:fromConnection: delegate method, the last samples written to the current file are guaranteed to be those that were output immediately before those in the sample buffer passed to that method.
 --
--- A recording can be stopped as normal, even when it's paused.
---
--- A format or device change will result in the recording being stopped, even when it's paused.
---
 -- ObjC selector: @- pauseRecording@
 pauseRecording :: IsAVCaptureFileOutput avCaptureFileOutput => avCaptureFileOutput -> IO ()
 pauseRecording avCaptureFileOutput =

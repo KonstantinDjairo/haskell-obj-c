@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -16,51 +16,31 @@ library
       ObjC.SensorKit.Enums
       ObjC.SensorKit.Internal.Classes
       ObjC.SensorKit.Internal.Enums
-      ObjC.SensorKit.SRAcousticSettings
-      ObjC.SensorKit.SRAcousticSettingsAccessibility
-      ObjC.SensorKit.SRAcousticSettingsAccessibilityBackgroundSounds
-      ObjC.SensorKit.SRAcousticSettingsAccessibilityHeadphoneAccommodations
-      ObjC.SensorKit.SRAcousticSettingsMusicEQ
       ObjC.SensorKit.SRAmbientLightSample
       ObjC.SensorKit.SRApplicationUsage
-      ObjC.SensorKit.SRAudioLevel
       ObjC.SensorKit.SRDeletionRecord
       ObjC.SensorKit.SRDevice
       ObjC.SensorKit.SRDeviceUsageReport
-      ObjC.SensorKit.SRElectrocardiogramData
-      ObjC.SensorKit.SRElectrocardiogramSample
-      ObjC.SensorKit.SRElectrocardiogramSession
-      ObjC.SensorKit.SRFaceMetrics
-      ObjC.SensorKit.SRFaceMetricsExpression
       ObjC.SensorKit.SRFetchRequest
       ObjC.SensorKit.SRFetchResult
       ObjC.SensorKit.SRKeyboardMetrics
       ObjC.SensorKit.SRKeyboardProbabilityMetric
-      ObjC.SensorKit.SRMediaEvent
       ObjC.SensorKit.SRMessagesUsageReport
       ObjC.SensorKit.SRNotificationUsage
       ObjC.SensorKit.SRPhoneUsageReport
-      ObjC.SensorKit.SRPhotoplethysmogramAccelerometerSample
-      ObjC.SensorKit.SRPhotoplethysmogramOpticalSample
-      ObjC.SensorKit.SRPhotoplethysmogramSample
       ObjC.SensorKit.SRSensorReader
-      ObjC.SensorKit.SRSleepSession
-      ObjC.SensorKit.SRSpeechExpression
-      ObjC.SensorKit.SRSpeechMetrics
       ObjC.SensorKit.SRSupplementalCategory
       ObjC.SensorKit.SRTextInputSession
       ObjC.SensorKit.SRVisit
       ObjC.SensorKit.SRWebUsage
       ObjC.SensorKit.SRWristDetection
-      ObjC.SensorKit.SRWristTemperature
-      ObjC.SensorKit.SRWristTemperatureSession
   other-modules:
       Paths_apple_sensorkit_gen
   autogen-modules:
       Paths_apple_sensorkit_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-foundation-gen
     , base >=4.7 && <5

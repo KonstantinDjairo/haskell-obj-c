@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The AVVideoCompositionRenderContext class defines the context within which custom compositors render new output pixels buffers.
---
--- An instance of AVVideoCompositionRenderContext provides size and scaling information and offers a service for efficiently providing pixel buffers from a managed pool of buffers.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVVideoCompositionRenderContext@.
+-- | Generated bindings for @AVVideoCompositionRenderContext@.
 module ObjC.AVFoundation.AVVideoCompositionRenderContext
   ( AVVideoCompositionRenderContext
   , IsAVVideoCompositionRenderContext(..)
@@ -36,7 +30,9 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Vends a CVPixelBuffer to use for rendering
+-- | newPixelBuffer
+--
+-- Vends a CVPixelBuffer to use for rendering
 --
 -- The buffer will have its kCVImageBufferCleanApertureKey and kCVImageBufferPixelAspectRatioKey attachments set to match the current composition processor properties.
 --
@@ -45,23 +41,17 @@ newPixelBuffer :: IsAVVideoCompositionRenderContext avVideoCompositionRenderCont
 newPixelBuffer avVideoCompositionRenderContext =
   sendOwnedMessage avVideoCompositionRenderContext newPixelBufferSelector
 
--- | Indicates a scaling ratio that should be applied when rendering frames.
---
--- ObjC selector: @- renderScale@
+-- | @- renderScale@
 renderScale :: IsAVVideoCompositionRenderContext avVideoCompositionRenderContext => avVideoCompositionRenderContext -> IO CFloat
 renderScale avVideoCompositionRenderContext =
   sendMessage avVideoCompositionRenderContext renderScaleSelector
 
--- | Hints the custom compositor that it may use higher quality, potentially slower algorithms. Generally true for non real time use cases.
---
--- ObjC selector: @- highQualityRendering@
+-- | @- highQualityRendering@
 highQualityRendering :: IsAVVideoCompositionRenderContext avVideoCompositionRenderContext => avVideoCompositionRenderContext -> IO Bool
 highQualityRendering avVideoCompositionRenderContext =
   sendMessage avVideoCompositionRenderContext highQualityRenderingSelector
 
--- | The AVVideoComposition being rendered.
---
--- ObjC selector: @- videoComposition@
+-- | @- videoComposition@
 videoComposition :: IsAVVideoCompositionRenderContext avVideoCompositionRenderContext => avVideoCompositionRenderContext -> IO (Id AVVideoComposition)
 videoComposition avVideoCompositionRenderContext =
   sendMessage avVideoCompositionRenderContext videoCompositionSelector

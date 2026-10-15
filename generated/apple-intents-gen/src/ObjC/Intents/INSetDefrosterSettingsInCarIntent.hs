@@ -61,7 +61,7 @@ defroster inSetDefrosterSettingsInCarIntent =
   sendMessage inSetDefrosterSettingsInCarIntent defrosterSelector
 
 -- | @- carName@
-carName :: IsINSetDefrosterSettingsInCarIntent inSetDefrosterSettingsInCarIntent => inSetDefrosterSettingsInCarIntent -> IO (Id INSpeakableString)
+carName :: IsINSetDefrosterSettingsInCarIntent inSetDefrosterSettingsInCarIntent => inSetDefrosterSettingsInCarIntent -> IO RawId
 carName inSetDefrosterSettingsInCarIntent =
   sendMessage inSetDefrosterSettingsInCarIntent carNameSelector
 
@@ -86,6 +86,6 @@ defrosterSelector :: Selector '[] INCarDefroster
 defrosterSelector = mkSelector "defroster"
 
 -- | @Selector@ for @carName@
-carNameSelector :: Selector '[] (Id INSpeakableString)
+carNameSelector :: Selector '[] RawId
 carNameSelector = mkSelector "carName"
 

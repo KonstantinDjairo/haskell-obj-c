@@ -36,9 +36,13 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.ShazamKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a range with the bounds you specify.
+-- | Convenience constructor for creating a range
 --
--- - Parameters:   - lowerBound: The lower bound of the range.   - upperBound: The upper bound of the range.
+-- @lowerBound@ — The lower bound of this range
+--
+-- @upperBound@ — The upper bound of this range
+--
+-- Note: lowerBound should be less than or equal to upperBound
 --
 -- ObjC selector: @+ rangeWithLowerBound:upperBound:@
 rangeWithLowerBound_upperBound :: CDouble -> CDouble -> IO (Id SHRange)
@@ -47,9 +51,13 @@ rangeWithLowerBound_upperBound lowerBound upperBound =
     cls' <- getRequiredClass "SHRange"
     sendClassMessage cls' rangeWithLowerBound_upperBoundSelector lowerBound upperBound
 
--- | Creates a range with the bounds you specify.
+-- | Convenience constructor for creating a range
 --
--- - Parameters:   - lowerBound: The lower bound of the range.   - upperBound: The upper bound of the range.
+-- @lowerBound@ — The lower bound of this range
+--
+-- @upperBound@ — The upper bound of this range
+--
+-- Note: lowerBound should be less than or equal to upperBound
 --
 -- ObjC selector: @- initWithLowerBound:upperBound:@
 initWithLowerBound_upperBound :: IsSHRange shRange => shRange -> CDouble -> CDouble -> IO (Id SHRange)
@@ -75,7 +83,7 @@ lowerBound :: IsSHRange shRange => shRange -> IO CDouble
 lowerBound shRange =
   sendMessage shRange lowerBoundSelector
 
--- | The range's upper bound.
+-- | The upperBound of this time range, not included in this range
 --
 -- ObjC selector: @- upperBound@
 upperBound :: IsSHRange shRange => shRange -> IO CDouble

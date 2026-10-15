@@ -3,19 +3,20 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Wi-Fi Network Diagnostics    The Wi-Fi Network Diagnostics Cluster provides a means to acquire standardized diagnostics metrics that MAY be used by a Node to assist a user or Administrative Node in diagnosing potential problems.
+-- | Cluster WiFi Network Diagnostics    The Wi-Fi Network Diagnostics Cluster provides a means to acquire standardized diagnostics metrics that MAY be used by a Node to assist a user or Administrative Node in diagnosing potential problems.
 --
 -- Generated bindings for @MTRClusterWiFiNetworkDiagnostics@.
 module ObjC.Matter.MTRClusterWiFiNetworkDiagnostics
   ( MTRClusterWiFiNetworkDiagnostics
   , IsMTRClusterWiFiNetworkDiagnostics(..)
-  , resetCountsWithParams_expectedValues_expectedValueInterval_completion
-  , resetCountsWithExpectedValues_expectedValueInterval_completion
-  , readAttributeBSSIDWithParams
+  , initWithDevice_endpoint_queue
+  , resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler
+  , resetCountsWithExpectedValues_expectedValueInterval_completionHandler
+  , readAttributeBssidWithParams
   , readAttributeSecurityTypeWithParams
   , readAttributeWiFiVersionWithParams
   , readAttributeChannelNumberWithParams
-  , readAttributeRSSIWithParams
+  , readAttributeRssiWithParams
   , readAttributeBeaconLostCountWithParams
   , readAttributeBeaconRxCountWithParams
   , readAttributePacketMulticastRxCountWithParams
@@ -31,19 +32,11 @@ module ObjC.Matter.MTRClusterWiFiNetworkDiagnostics
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler
-  , resetCountsWithExpectedValues_expectedValueInterval_completionHandler
-  , readAttributeBssidWithParams
-  , readAttributeRssiWithParams
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
-  , readAttributeBSSIDWithParamsSelector
   , readAttributeBeaconLostCountWithParamsSelector
   , readAttributeBeaconRxCountWithParamsSelector
   , readAttributeBssidWithParamsSelector
@@ -57,14 +50,11 @@ module ObjC.Matter.MTRClusterWiFiNetworkDiagnostics
   , readAttributePacketMulticastTxCountWithParamsSelector
   , readAttributePacketUnicastRxCountWithParamsSelector
   , readAttributePacketUnicastTxCountWithParamsSelector
-  , readAttributeRSSIWithParamsSelector
   , readAttributeRssiWithParamsSelector
   , readAttributeSecurityTypeWithParamsSelector
   , readAttributeWiFiVersionWithParamsSelector
   , resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , resetCountsWithExpectedValues_expectedValueInterval_completionSelector
   , resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector
 
 
   ) where
@@ -80,20 +70,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- resetCountsWithParams:expectedValues:expectedValueInterval:completion:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRWiFiNetworkDiagnosticsClusterResetCountsParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWiFiNetworkDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completion mtrClusterWiFiNetworkDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWiFiNetworkDiagnostics resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWiFiNetworkDiagnosticsClusterResetCountsParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRDevice device, IsNSObject queue) => mtrClusterWiFiNetworkDiagnostics -> device -> CUShort -> queue -> IO (Id MTRClusterWiFiNetworkDiagnostics)
+initWithDevice_endpoint_queue mtrClusterWiFiNetworkDiagnostics device endpoint queue =
+  sendOwnedMessage mtrClusterWiFiNetworkDiagnostics initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- resetCountsWithExpectedValues:expectedValueInterval:completion:@
-resetCountsWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWiFiNetworkDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithExpectedValues_expectedValueInterval_completion mtrClusterWiFiNetworkDiagnostics expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterWiFiNetworkDiagnostics resetCountsWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRWiFiNetworkDiagnosticsClusterResetCountsParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWiFiNetworkDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWiFiNetworkDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWiFiNetworkDiagnostics resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWiFiNetworkDiagnosticsClusterResetCountsParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- readAttributeBSSIDWithParams:@
-readAttributeBSSIDWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
-readAttributeBSSIDWithParams mtrClusterWiFiNetworkDiagnostics params =
-  sendMessage mtrClusterWiFiNetworkDiagnostics readAttributeBSSIDWithParamsSelector (toMTRReadParams params)
+-- | @- resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWiFiNetworkDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+resetCountsWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWiFiNetworkDiagnostics expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWiFiNetworkDiagnostics resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
+
+-- | @- readAttributeBssidWithParams:@
+readAttributeBssidWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
+readAttributeBssidWithParams mtrClusterWiFiNetworkDiagnostics params =
+  sendMessage mtrClusterWiFiNetworkDiagnostics readAttributeBssidWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeSecurityTypeWithParams:@
 readAttributeSecurityTypeWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
@@ -110,10 +105,10 @@ readAttributeChannelNumberWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrC
 readAttributeChannelNumberWithParams mtrClusterWiFiNetworkDiagnostics params =
   sendMessage mtrClusterWiFiNetworkDiagnostics readAttributeChannelNumberWithParamsSelector (toMTRReadParams params)
 
--- | @- readAttributeRSSIWithParams:@
-readAttributeRSSIWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
-readAttributeRSSIWithParams mtrClusterWiFiNetworkDiagnostics params =
-  sendMessage mtrClusterWiFiNetworkDiagnostics readAttributeRSSIWithParamsSelector (toMTRReadParams params)
+-- | @- readAttributeRssiWithParams:@
+readAttributeRssiWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
+readAttributeRssiWithParams mtrClusterWiFiNetworkDiagnostics params =
+  sendMessage mtrClusterWiFiNetworkDiagnostics readAttributeRssiWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeBeaconLostCountWithParams:@
 readAttributeBeaconLostCountWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
@@ -192,53 +187,25 @@ new  =
     cls' <- getRequiredClass "MTRClusterWiFiNetworkDiagnostics"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRDevice device, IsNSObject queue) => mtrClusterWiFiNetworkDiagnostics -> device -> CUShort -> queue -> IO (Id MTRClusterWiFiNetworkDiagnostics)
-initWithDevice_endpoint_queue mtrClusterWiFiNetworkDiagnostics device endpoint queue =
-  sendOwnedMessage mtrClusterWiFiNetworkDiagnostics initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRWiFiNetworkDiagnosticsClusterResetCountsParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWiFiNetworkDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWiFiNetworkDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWiFiNetworkDiagnostics resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWiFiNetworkDiagnosticsClusterResetCountsParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWiFiNetworkDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWiFiNetworkDiagnostics expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWiFiNetworkDiagnostics resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- readAttributeBssidWithParams:@
-readAttributeBssidWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
-readAttributeBssidWithParams mtrClusterWiFiNetworkDiagnostics params =
-  sendMessage mtrClusterWiFiNetworkDiagnostics readAttributeBssidWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeRssiWithParams:@
-readAttributeRssiWithParams :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRReadParams params) => mtrClusterWiFiNetworkDiagnostics -> params -> IO (Id NSDictionary)
-readAttributeRssiWithParams mtrClusterWiFiNetworkDiagnostics params =
-  sendMessage mtrClusterWiFiNetworkDiagnostics readAttributeRssiWithParamsSelector (toMTRReadParams params)
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterWiFiNetworkDiagnostics mtrClusterWiFiNetworkDiagnostics, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterWiFiNetworkDiagnostics -> device -> endpointID -> queue -> IO (Id MTRClusterWiFiNetworkDiagnostics)
-initWithDevice_endpointID_queue mtrClusterWiFiNetworkDiagnostics device endpointID queue =
-  sendOwnedMessage mtrClusterWiFiNetworkDiagnostics initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @resetCountsWithParams:expectedValues:expectedValueInterval:completion:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWiFiNetworkDiagnosticsClusterResetCountsParams, Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "resetCountsWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterWiFiNetworkDiagnostics)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @resetCountsWithExpectedValues:expectedValueInterval:completion:@
-resetCountsWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "resetCountsWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWiFiNetworkDiagnosticsClusterResetCountsParams, Id NSArray, Id NSNumber, Ptr ()] ()
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @readAttributeBSSIDWithParams:@
-readAttributeBSSIDWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeBSSIDWithParamsSelector = mkSelector "readAttributeBSSIDWithParams:"
+-- | @Selector@ for @resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithExpectedValues:expectedValueInterval:completionHandler:"
+
+-- | @Selector@ for @readAttributeBssidWithParams:@
+readAttributeBssidWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributeBssidWithParamsSelector = mkSelector "readAttributeBssidWithParams:"
 
 -- | @Selector@ for @readAttributeSecurityTypeWithParams:@
 readAttributeSecurityTypeWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -252,9 +219,9 @@ readAttributeWiFiVersionWithParamsSelector = mkSelector "readAttributeWiFiVersio
 readAttributeChannelNumberWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributeChannelNumberWithParamsSelector = mkSelector "readAttributeChannelNumberWithParams:"
 
--- | @Selector@ for @readAttributeRSSIWithParams:@
-readAttributeRSSIWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeRSSIWithParamsSelector = mkSelector "readAttributeRSSIWithParams:"
+-- | @Selector@ for @readAttributeRssiWithParams:@
+readAttributeRssiWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributeRssiWithParamsSelector = mkSelector "readAttributeRssiWithParams:"
 
 -- | @Selector@ for @readAttributeBeaconLostCountWithParams:@
 readAttributeBeaconLostCountWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -315,28 +282,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterWiFiNetworkDiagnostics)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterWiFiNetworkDiagnostics)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWiFiNetworkDiagnosticsClusterResetCountsParams, Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @readAttributeBssidWithParams:@
-readAttributeBssidWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeBssidWithParamsSelector = mkSelector "readAttributeBssidWithParams:"
-
--- | @Selector@ for @readAttributeRssiWithParams:@
-readAttributeRssiWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeRssiWithParamsSelector = mkSelector "readAttributeRssiWithParams:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterWiFiNetworkDiagnostics)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

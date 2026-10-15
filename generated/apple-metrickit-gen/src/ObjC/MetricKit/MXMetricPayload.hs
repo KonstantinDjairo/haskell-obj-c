@@ -38,7 +38,6 @@ module ObjC.MetricKit.MXMetricPayload
   , displayMetrics
   , animationMetrics
   , applicationExitMetrics
-  , diskSpaceUsageMetrics
   , signpostMetrics
   , metaData
   , animationMetricsSelector
@@ -50,7 +49,6 @@ module ObjC.MetricKit.MXMetricPayload
   , cpuMetricsSelector
   , dictionaryRepresentationSelector
   , diskIOMetricsSelector
-  , diskSpaceUsageMetricsSelector
   , displayMetricsSelector
   , gpuMetricsSelector
   , includesMultipleApplicationVersionsSelector
@@ -246,7 +244,7 @@ displayMetrics mxMetricPayload =
 -- An object containing animation metrics for this application.
 --
 -- ObjC selector: @- animationMetrics@
-animationMetrics :: IsMXMetricPayload mxMetricPayload => mxMetricPayload -> IO (Id MXAnimationMetric)
+animationMetrics :: IsMXMetricPayload mxMetricPayload => mxMetricPayload -> IO RawId
 animationMetrics mxMetricPayload =
   sendMessage mxMetricPayload animationMetricsSelector
 
@@ -255,18 +253,9 @@ animationMetrics mxMetricPayload =
 -- An object containing exit metrics for this application.
 --
 -- ObjC selector: @- applicationExitMetrics@
-applicationExitMetrics :: IsMXMetricPayload mxMetricPayload => mxMetricPayload -> IO (Id MXAppExitMetric)
+applicationExitMetrics :: IsMXMetricPayload mxMetricPayload => mxMetricPayload -> IO RawId
 applicationExitMetrics mxMetricPayload =
   sendMessage mxMetricPayload applicationExitMetricsSelector
-
--- | diskSpaceUsageMetrics
---
--- An object containing disk space usage metrics for this application.
---
--- ObjC selector: @- diskSpaceUsageMetrics@
-diskSpaceUsageMetrics :: IsMXMetricPayload mxMetricPayload => mxMetricPayload -> IO (Id MXDiskSpaceUsageMetric)
-diskSpaceUsageMetrics mxMetricPayload =
-  sendMessage mxMetricPayload diskSpaceUsageMetricsSelector
 
 -- | signpostMetrics
 --
@@ -359,16 +348,12 @@ displayMetricsSelector :: Selector '[] (Id MXDisplayMetric)
 displayMetricsSelector = mkSelector "displayMetrics"
 
 -- | @Selector@ for @animationMetrics@
-animationMetricsSelector :: Selector '[] (Id MXAnimationMetric)
+animationMetricsSelector :: Selector '[] RawId
 animationMetricsSelector = mkSelector "animationMetrics"
 
 -- | @Selector@ for @applicationExitMetrics@
-applicationExitMetricsSelector :: Selector '[] (Id MXAppExitMetric)
+applicationExitMetricsSelector :: Selector '[] RawId
 applicationExitMetricsSelector = mkSelector "applicationExitMetrics"
-
--- | @Selector@ for @diskSpaceUsageMetrics@
-diskSpaceUsageMetricsSelector :: Selector '[] (Id MXDiskSpaceUsageMetric)
-diskSpaceUsageMetricsSelector = mkSelector "diskSpaceUsageMetrics"
 
 -- | @Selector@ for @signpostMetrics@
 signpostMetricsSelector :: Selector '[] (Id NSArray)

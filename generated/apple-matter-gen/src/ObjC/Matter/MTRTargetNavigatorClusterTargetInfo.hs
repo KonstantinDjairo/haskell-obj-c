@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRTargetNavigatorClusterTargetInfo
   ( MTRTargetNavigatorClusterTargetInfo
   , IsMTRTargetNavigatorClusterTargetInfo(..)
+  , init_
+  , copyWithZone
   , identifier
   , setIdentifier
   , name
   , setName
+  , copyWithZoneSelector
   , identifierSelector
+  , initSelector
   , nameSelector
   , setIdentifierSelector
   , setNameSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTargetNavigatorClusterTargetInfo mtrTargetNavigatorClusterTargetInfo => mtrTargetNavigatorClusterTargetInfo -> IO (Id MTRTargetNavigatorClusterTargetInfo)
+init_ mtrTargetNavigatorClusterTargetInfo =
+  sendOwnedMessage mtrTargetNavigatorClusterTargetInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTargetNavigatorClusterTargetInfo mtrTargetNavigatorClusterTargetInfo => mtrTargetNavigatorClusterTargetInfo -> Ptr () -> IO RawId
+copyWithZone mtrTargetNavigatorClusterTargetInfo zone =
+  sendOwnedMessage mtrTargetNavigatorClusterTargetInfo copyWithZoneSelector zone
 
 -- | @- identifier@
 identifier :: IsMTRTargetNavigatorClusterTargetInfo mtrTargetNavigatorClusterTargetInfo => mtrTargetNavigatorClusterTargetInfo -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setName mtrTargetNavigatorClusterTargetInfo value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTargetNavigatorClusterTargetInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @identifier@
 identifierSelector :: Selector '[] (Id NSNumber)

@@ -55,14 +55,14 @@ recordsWithMatchingAttributes iSyncRecordSnapshot attributes =
   sendMessage iSyncRecordSnapshot recordsWithMatchingAttributesSelector (toNSDictionary attributes)
 
 -- | @- recordReferenceForRecordWithIdentifier:@
-recordReferenceForRecordWithIdentifier :: (IsISyncRecordSnapshot iSyncRecordSnapshot, IsNSString identifier) => iSyncRecordSnapshot -> identifier -> IO RawId
+recordReferenceForRecordWithIdentifier :: (IsISyncRecordSnapshot iSyncRecordSnapshot, IsNSString identifier) => iSyncRecordSnapshot -> identifier -> IO (Id ISyncRecordReference)
 recordReferenceForRecordWithIdentifier iSyncRecordSnapshot identifier =
   sendMessage iSyncRecordSnapshot recordReferenceForRecordWithIdentifierSelector (toNSString identifier)
 
 -- | @- recordIdentifierForReference:isModified:@
-recordIdentifierForReference_isModified :: IsISyncRecordSnapshot iSyncRecordSnapshot => iSyncRecordSnapshot -> RawId -> Ptr Bool -> IO (Id NSString)
+recordIdentifierForReference_isModified :: (IsISyncRecordSnapshot iSyncRecordSnapshot, IsISyncRecordReference reference) => iSyncRecordSnapshot -> reference -> Ptr Bool -> IO (Id NSString)
 recordIdentifierForReference_isModified iSyncRecordSnapshot reference pModified =
-  sendMessage iSyncRecordSnapshot recordIdentifierForReference_isModifiedSelector reference pModified
+  sendMessage iSyncRecordSnapshot recordIdentifierForReference_isModifiedSelector (toISyncRecordReference reference) pModified
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -85,10 +85,10 @@ recordsWithMatchingAttributesSelector :: Selector '[Id NSDictionary] (Id NSDicti
 recordsWithMatchingAttributesSelector = mkSelector "recordsWithMatchingAttributes:"
 
 -- | @Selector@ for @recordReferenceForRecordWithIdentifier:@
-recordReferenceForRecordWithIdentifierSelector :: Selector '[Id NSString] RawId
+recordReferenceForRecordWithIdentifierSelector :: Selector '[Id NSString] (Id ISyncRecordReference)
 recordReferenceForRecordWithIdentifierSelector = mkSelector "recordReferenceForRecordWithIdentifier:"
 
 -- | @Selector@ for @recordIdentifierForReference:isModified:@
-recordIdentifierForReference_isModifiedSelector :: Selector '[RawId, Ptr Bool] (Id NSString)
+recordIdentifierForReference_isModifiedSelector :: Selector '[Id ISyncRecordReference, Ptr Bool] (Id NSString)
 recordIdentifierForReference_isModifiedSelector = mkSelector "recordIdentifierForReference:isModified:"
 

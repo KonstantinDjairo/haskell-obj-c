@@ -9,8 +9,9 @@
 module ObjC.Matter.MTRClusterEthernetNetworkDiagnostics
   ( MTRClusterEthernetNetworkDiagnostics
   , IsMTRClusterEthernetNetworkDiagnostics(..)
-  , resetCountsWithParams_expectedValues_expectedValueInterval_completion
-  , resetCountsWithExpectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler
+  , resetCountsWithExpectedValues_expectedValueInterval_completionHandler
   , readAttributePHYRateWithParams
   , readAttributeFullDuplexWithParams
   , readAttributePacketRxCountWithParams
@@ -27,12 +28,7 @@ module ObjC.Matter.MTRClusterEthernetNetworkDiagnostics
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler
-  , resetCountsWithExpectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -50,9 +46,7 @@ module ObjC.Matter.MTRClusterEthernetNetworkDiagnostics
   , readAttributeTimeSinceResetWithParamsSelector
   , readAttributeTxErrCountWithParamsSelector
   , resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , resetCountsWithExpectedValues_expectedValueInterval_completionSelector
   , resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector
 
 
   ) where
@@ -68,15 +62,20 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- resetCountsWithParams:expectedValues:expectedValueInterval:completion:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsMTREthernetNetworkDiagnosticsClusterResetCountsParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterEthernetNetworkDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completion mtrClusterEthernetNetworkDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterEthernetNetworkDiagnostics resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector (toMTREthernetNetworkDiagnosticsClusterResetCountsParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsMTRDevice device, IsNSObject queue) => mtrClusterEthernetNetworkDiagnostics -> device -> CUShort -> queue -> IO (Id MTRClusterEthernetNetworkDiagnostics)
+initWithDevice_endpoint_queue mtrClusterEthernetNetworkDiagnostics device endpoint queue =
+  sendOwnedMessage mtrClusterEthernetNetworkDiagnostics initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- resetCountsWithExpectedValues:expectedValueInterval:completion:@
-resetCountsWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterEthernetNetworkDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithExpectedValues_expectedValueInterval_completion mtrClusterEthernetNetworkDiagnostics expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterEthernetNetworkDiagnostics resetCountsWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsMTREthernetNetworkDiagnosticsClusterResetCountsParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterEthernetNetworkDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterEthernetNetworkDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterEthernetNetworkDiagnostics resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTREthernetNetworkDiagnosticsClusterResetCountsParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
+
+-- | @- resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterEthernetNetworkDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+resetCountsWithExpectedValues_expectedValueInterval_completionHandler mtrClusterEthernetNetworkDiagnostics expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterEthernetNetworkDiagnostics resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributePHYRateWithParams:@
 readAttributePHYRateWithParams :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsMTRReadParams params) => mtrClusterEthernetNetworkDiagnostics -> params -> IO (Id NSDictionary)
@@ -160,39 +159,21 @@ new  =
     cls' <- getRequiredClass "MTRClusterEthernetNetworkDiagnostics"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsMTRDevice device, IsNSObject queue) => mtrClusterEthernetNetworkDiagnostics -> device -> CUShort -> queue -> IO (Id MTRClusterEthernetNetworkDiagnostics)
-initWithDevice_endpoint_queue mtrClusterEthernetNetworkDiagnostics device endpoint queue =
-  sendOwnedMessage mtrClusterEthernetNetworkDiagnostics initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsMTREthernetNetworkDiagnosticsClusterResetCountsParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterEthernetNetworkDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterEthernetNetworkDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterEthernetNetworkDiagnostics resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTREthernetNetworkDiagnosticsClusterResetCountsParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterEthernetNetworkDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetCountsWithExpectedValues_expectedValueInterval_completionHandler mtrClusterEthernetNetworkDiagnostics expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterEthernetNetworkDiagnostics resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterEthernetNetworkDiagnostics mtrClusterEthernetNetworkDiagnostics, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterEthernetNetworkDiagnostics -> device -> endpointID -> queue -> IO (Id MTRClusterEthernetNetworkDiagnostics)
-initWithDevice_endpointID_queue mtrClusterEthernetNetworkDiagnostics device endpointID queue =
-  sendOwnedMessage mtrClusterEthernetNetworkDiagnostics initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @resetCountsWithParams:expectedValues:expectedValueInterval:completion:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTREthernetNetworkDiagnosticsClusterResetCountsParams, Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "resetCountsWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterEthernetNetworkDiagnostics)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @resetCountsWithExpectedValues:expectedValueInterval:completion:@
-resetCountsWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "resetCountsWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTREthernetNetworkDiagnosticsClusterResetCountsParams, Id NSArray, Id NSNumber, Ptr ()] ()
+resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:"
+
+-- | @Selector@ for @resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
+resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithExpectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributePHYRateWithParams:@
 readAttributePHYRateWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -257,20 +238,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterEthernetNetworkDiagnostics)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterEthernetNetworkDiagnostics)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTREthernetNetworkDiagnosticsClusterResetCountsParams, Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @resetCountsWithExpectedValues:expectedValueInterval:completionHandler:@
-resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-resetCountsWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetCountsWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterEthernetNetworkDiagnostics)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

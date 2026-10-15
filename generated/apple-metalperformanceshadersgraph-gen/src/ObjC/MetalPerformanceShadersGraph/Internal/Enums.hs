@@ -14,35 +14,11 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | The options available to a graph.
--- | @MPSGraphDeploymentPlatform@
-newtype MPSGraphDeploymentPlatform = MPSGraphDeploymentPlatform CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MPSGraphDeploymentPlatformMacOS :: MPSGraphDeploymentPlatform
-pattern MPSGraphDeploymentPlatformMacOS = MPSGraphDeploymentPlatform 0
-
-pattern MPSGraphDeploymentPlatformIOS :: MPSGraphDeploymentPlatform
-pattern MPSGraphDeploymentPlatformIOS = MPSGraphDeploymentPlatform 1
-
-pattern MPSGraphDeploymentPlatformTvOS :: MPSGraphDeploymentPlatform
-pattern MPSGraphDeploymentPlatformTvOS = MPSGraphDeploymentPlatform 2
-
-pattern MPSGraphDeploymentPlatformVisionOS :: MPSGraphDeploymentPlatform
-pattern MPSGraphDeploymentPlatformVisionOS = MPSGraphDeploymentPlatform 3
-
-instance ObjCArgument MPSGraphDeploymentPlatform where
-  withObjCArg (MPSGraphDeploymentPlatform x) k = k (argCULong x)
-
-instance ObjCReturn MPSGraphDeploymentPlatform where
-  type RawReturn MPSGraphDeploymentPlatform = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MPSGraphDeploymentPlatform x)
-  fromOwned x = pure (MPSGraphDeploymentPlatform x)
-
--- | The device type.
+-- | MPSGraphDeviceType
+--
+-- Device type, Metal
+--
+-- MPSGraphDeviceTypeMetal           Device of type Metal
 -- | @MPSGraphDeviceType@
 newtype MPSGraphDeviceType = MPSGraphDeviceType CUInt
   deriving stock (Eq, Ord, Show)
@@ -61,7 +37,11 @@ instance ObjCReturn MPSGraphDeviceType where
   fromRetained x = pure (MPSGraphDeviceType x)
   fromOwned x = pure (MPSGraphDeviceType x)
 
--- | Execution events that can be used with shared events.
+-- | MPSGraphExecutionStage
+--
+-- Execution events that can be used with shared events
+--
+-- MPSGraphExecutionStageCompleted                          execution complete
 -- | @MPSGraphExecutionStage@
 newtype MPSGraphExecutionStage = MPSGraphExecutionStage CULong
   deriving stock (Eq, Ord, Show)
@@ -80,39 +60,19 @@ instance ObjCReturn MPSGraphExecutionStage where
   fromRetained x = pure (MPSGraphExecutionStage x)
   fromOwned x = pure (MPSGraphExecutionStage x)
 
--- | The scaling modes for Fourier transform operations.
--- | @MPSGraphFFTScalingMode@
-newtype MPSGraphFFTScalingMode = MPSGraphFFTScalingMode CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MPSGraphFFTScalingModeNone :: MPSGraphFFTScalingMode
-pattern MPSGraphFFTScalingModeNone = MPSGraphFFTScalingMode 0
-
-pattern MPSGraphFFTScalingModeSize :: MPSGraphFFTScalingMode
-pattern MPSGraphFFTScalingModeSize = MPSGraphFFTScalingMode 1
-
-pattern MPSGraphFFTScalingModeUnitary :: MPSGraphFFTScalingMode
-pattern MPSGraphFFTScalingModeUnitary = MPSGraphFFTScalingMode 2
-
-instance ObjCArgument MPSGraphFFTScalingMode where
-  withObjCArg (MPSGraphFFTScalingMode x) k = k (argCULong x)
-
-instance ObjCReturn MPSGraphFFTScalingMode where
-  type RawReturn MPSGraphFFTScalingMode = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MPSGraphFFTScalingMode x)
-  fromOwned x = pure (MPSGraphFFTScalingMode x)
-
--- | The type of the reduction the graph applies in the loss operations.
+-- | MPSGraphLossReductionType
+--
+-- Options to be utilized by the graph
+--
+-- MPSGraphLossReductionTypeAxis                                   No Reductions
+--
+-- MPSGraphLossReductionTypeSum                                    ReduceSum down to a scalar
+--
+-- MPSGraphLossReductionTypeMean                                   ReduceMean down to a scalar
 -- | @MPSGraphLossReductionType@
 newtype MPSGraphLossReductionType = MPSGraphLossReductionType CULong
   deriving stock (Eq, Ord, Show)
   deriving newtype (Storable)
-
-pattern MPSGraphLossReductionTypeNone :: MPSGraphLossReductionType
-pattern MPSGraphLossReductionTypeNone = MPSGraphLossReductionType 0
 
 pattern MPSGraphLossReductionTypeAxis :: MPSGraphLossReductionType
 pattern MPSGraphLossReductionTypeAxis = MPSGraphLossReductionType 0
@@ -133,37 +93,13 @@ instance ObjCReturn MPSGraphLossReductionType where
   fromRetained x = pure (MPSGraphLossReductionType x)
   fromOwned x = pure (MPSGraphLossReductionType x)
 
--- | The non-maximum suppression coordinate mode.
+-- | MPSGraphOptimization
 --
--- The coordinate mode to use. At initialization defaults to MPSGraphNonMaximumSuppressionCoordinateModeCornersHeightFirst. This mode specifies the representation used for the 4 box coordinate values. Center coordinate modes define a centered box and the box dimensions. ```md CornersHeightFirst:     [h_start, w_start, h_end, w_end] CornersWidthFirst:     [w_start, h_start, w_end, h_end] CentersHeightFirst:     [h_center, w_center, box_height, box_width] CentersWidthFirst:     [w_center, w_center, box_height, box_width] ```
--- | @MPSGraphNonMaximumSuppressionCoordinateMode@
-newtype MPSGraphNonMaximumSuppressionCoordinateMode = MPSGraphNonMaximumSuppressionCoordinateMode CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCornersHeightFirst :: MPSGraphNonMaximumSuppressionCoordinateMode
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCornersHeightFirst = MPSGraphNonMaximumSuppressionCoordinateMode 0
-
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCornersWidthFirst :: MPSGraphNonMaximumSuppressionCoordinateMode
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCornersWidthFirst = MPSGraphNonMaximumSuppressionCoordinateMode 1
-
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCentersHeightFirst :: MPSGraphNonMaximumSuppressionCoordinateMode
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCentersHeightFirst = MPSGraphNonMaximumSuppressionCoordinateMode 2
-
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCentersWidthFirst :: MPSGraphNonMaximumSuppressionCoordinateMode
-pattern MPSGraphNonMaximumSuppressionCoordinateModeCentersWidthFirst = MPSGraphNonMaximumSuppressionCoordinateMode 3
-
-instance ObjCArgument MPSGraphNonMaximumSuppressionCoordinateMode where
-  withObjCArg (MPSGraphNonMaximumSuppressionCoordinateMode x) k = k (argCULong x)
-
-instance ObjCReturn MPSGraphNonMaximumSuppressionCoordinateMode where
-  type RawReturn MPSGraphNonMaximumSuppressionCoordinateMode = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MPSGraphNonMaximumSuppressionCoordinateMode x)
-  fromOwned x = pure (MPSGraphNonMaximumSuppressionCoordinateMode x)
-
--- | The optimization levels to trade compilation time for even more runtime performance by running more passes.
+-- Optimization levels
+--
+-- MPSGraphOptimizationLevel0                               Default optimizations
+--
+-- MPSGraphOptimizationLevel1                               Additional Optimizations
 -- | @MPSGraphOptimization@
 newtype MPSGraphOptimization = MPSGraphOptimization CULong
   deriving stock (Eq, Ord, Show)
@@ -185,7 +121,13 @@ instance ObjCReturn MPSGraphOptimization where
   fromRetained x = pure (MPSGraphOptimization x)
   fromOwned x = pure (MPSGraphOptimization x)
 
--- | The optimization profile used as a heuristic as the graph compiler optimizes the network.
+-- | MPSGraphOptimizationProfile
+--
+-- Optimization profile used as heuristic as graph compiler optimizes network
+--
+-- MPSGraphOptimizationProfilePerformance                               Default, optimize for performance
+--
+-- MPSGraphOptimizationProfilePowerEfficiency                          optimize for power efficiency
 -- | @MPSGraphOptimizationProfile@
 newtype MPSGraphOptimizationProfile = MPSGraphOptimizationProfile CULong
   deriving stock (Eq, Ord, Show)
@@ -207,7 +149,15 @@ instance ObjCReturn MPSGraphOptimizationProfile where
   fromRetained x = pure (MPSGraphOptimizationProfile x)
   fromOwned x = pure (MPSGraphOptimizationProfile x)
 
--- | The options available to a graph.
+-- | MPSGraphOptions
+--
+-- Options to be utilized by the graph
+--
+-- MPSGraphOptionsNone                                   No Options
+--
+-- MPSGraphOptionsSynchronizeResults            Synchronize results using a blit encoder if on a GPU
+--
+-- MPSGraphOptionsVerbose                               Prints more logging info
 -- | @MPSGraphOptions@
 newtype MPSGraphOptions = MPSGraphOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -235,7 +185,23 @@ instance ObjCReturn MPSGraphOptions where
   fromRetained x = pure (MPSGraphOptions x)
   fromOwned x = pure (MPSGraphOptions x)
 
--- | The tensor padding mode.
+-- | MPSGraphPaddingMode
+--
+-- Tensor Padding mode
+--
+-- MPSGraphPaddingModeConstant                    Constant
+--
+-- MPSGraphPaddingModeReflect                       Reflect
+--
+-- MPSGraphPaddingModeSymmetric                 Symmetric
+--
+-- MPSGraphPaddingModeClampToEdge           ClampToEdge (PyTorch ReplicationPad)
+--
+-- MPSGraphPaddingModeZero                           Zero
+--
+-- MPSGraphPaddingModePeriodic                     Periodic
+--
+-- MPSGraphPaddingModeAntiPeriodic               Anti Periodic
 -- | @MPSGraphPaddingMode@
 newtype MPSGraphPaddingMode = MPSGraphPaddingMode CLong
   deriving stock (Eq, Ord, Show)
@@ -272,7 +238,19 @@ instance ObjCReturn MPSGraphPaddingMode where
   fromRetained x = pure (MPSGraphPaddingMode x)
   fromOwned x = pure (MPSGraphPaddingMode x)
 
--- | The tensor padding style.
+-- | MPSGraphPaddingStyle
+--
+-- Tensor Layout
+--
+-- MPSGraphPaddingStyleExplicit                            Explicit
+--
+-- MPSGraphPaddingStyleONNX_SAME_LOWER  ONNX_SAME_LOWER
+--
+-- MPSGraphPaddingStyleTF_SAME                       TF_SAME
+--
+-- MPSGraphPaddingStyleTF_VALID                       TF_VALID
+--
+-- MPSGraphPaddingStyleExplicitOffset                   Explicit offsets
 -- | @MPSGraphPaddingStyle@
 newtype MPSGraphPaddingStyle = MPSGraphPaddingStyle CULong
   deriving stock (Eq, Ord, Show)
@@ -303,7 +281,27 @@ instance ObjCReturn MPSGraphPaddingStyle where
   fromRetained x = pure (MPSGraphPaddingStyle x)
   fromOwned x = pure (MPSGraphPaddingStyle x)
 
--- | The flattening mode for returned indices with max-pooling.
+-- | MPSGraphPoolingReturnIndicesMode
+--
+-- Flattening mode for returned indices with max pooling
+--
+-- MPSGraphPoolingReturnIndicesNone                            No indices returned
+--
+-- MPSGraphPoolingReturnIndicesGlobalFlatten1D           Return indices flattened in inner most (last) dimension
+--
+-- MPSGraphPoolingReturnIndicesGlobalFlatten2D           Return indices flattened in 2 innermost dimensions. eg: HW in NCHW
+--
+-- MPSGraphPoolingReturnIndicesGlobalFlatten3D           Return indices flattened in 3 innernost dimensions. eg: HWC in NHWC
+--
+-- MPSGraphPoolingReturnIndicesGlobalFlatten4D           Return indices flattened in 4 innermost dimensions.
+--
+-- MPSGraphPoolingReturnIndicesLocalFlatten1D             Return indices within pooling window, flattened in inner most dimension
+--
+-- MPSGraphPoolingReturnIndicesLocalFlatten2D             Return indices within pooling window, flattened in 2 innermost dimensions. eg: HW in NCHW
+--
+-- MPSGraphPoolingReturnIndicesLocalFlatten3D             Return indices within pooling window, flattened in 3 innernost dimensions. eg: HWC in NHWC
+--
+-- MPSGraphPoolingReturnIndicesLocalFlatten4D             Return indices within pooling window, flattened in 4 innermost dimensions.
 -- | @MPSGraphPoolingReturnIndicesMode@
 newtype MPSGraphPoolingReturnIndicesMode = MPSGraphPoolingReturnIndicesMode CULong
   deriving stock (Eq, Ord, Show)
@@ -346,7 +344,9 @@ instance ObjCReturn MPSGraphPoolingReturnIndicesMode where
   fromRetained x = pure (MPSGraphPoolingReturnIndicesMode x)
   fromOwned x = pure (MPSGraphPoolingReturnIndicesMode x)
 
--- | The activation modes for RNN operations.
+-- | MPSGraphRNNActivation
+--
+-- Activation mode for RNN ops.
 -- | @MPSGraphRNNActivation@
 newtype MPSGraphRNNActivation = MPSGraphRNNActivation CULong
   deriving stock (Eq, Ord, Show)
@@ -377,7 +377,15 @@ instance ObjCReturn MPSGraphRNNActivation where
   fromRetained x = pure (MPSGraphRNNActivation x)
   fromOwned x = pure (MPSGraphRNNActivation x)
 
--- | The distributions supported by random operations.
+-- | MPSGraphRandomDistribution
+--
+-- The distributions supported by MPSGraphRandom ops.
+--
+-- MPSGraphRandomDistributionUniform                    The uniform distribution, with samples drawn uniformly from [min, max) for float types, and [min, max] for integer types.
+--
+-- MPSGraphRandomDistributionNormal                     The normal distribution defined by mean and standardDeviation.
+--
+-- MPSGraphRandomDistributionTruncatedNormal                     The normal distribution defined by mean and standardDeviation, truncated to the range [min, max)
 -- | @MPSGraphRandomDistribution@
 newtype MPSGraphRandomDistribution = MPSGraphRandomDistribution CULong
   deriving stock (Eq, Ord, Show)
@@ -402,7 +410,13 @@ instance ObjCReturn MPSGraphRandomDistribution where
   fromRetained x = pure (MPSGraphRandomDistribution x)
   fromOwned x = pure (MPSGraphRandomDistribution x)
 
--- | The sampling method to use when generating values in the normal distribution.
+-- | MPSGraphRandomNormalSamplingMethod
+--
+-- Specify what sampling method to use when generating values in the normal distribution.
+--
+-- MPSGraphRandomNormalSamplingInvCDF                    Use inverse erf to convert uniform values to values in the normal distribution
+--
+-- MPSGraphRandomNormalSamplingBoxMuller                     Use Box Muller transform to convert uniform values to values in the normal distribution. For bounded distributions this is a rejection sampling method.
 -- | @MPSGraphRandomNormalSamplingMethod@
 newtype MPSGraphRandomNormalSamplingMethod = MPSGraphRandomNormalSamplingMethod CULong
   deriving stock (Eq, Ord, Show)
@@ -424,41 +438,21 @@ instance ObjCReturn MPSGraphRandomNormalSamplingMethod where
   fromRetained x = pure (MPSGraphRandomNormalSamplingMethod x)
   fromOwned x = pure (MPSGraphRandomNormalSamplingMethod x)
 
--- | MPSGraph could use these reduced precision paths to deliver faster math, but it is not guaranteed.
--- | @MPSGraphReducedPrecisionFastMath@ (bitmask)
-newtype MPSGraphReducedPrecisionFastMath = MPSGraphReducedPrecisionFastMath CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MPSGraphReducedPrecisionFastMath where
-  (<>) = (.|.)
-
-instance Monoid MPSGraphReducedPrecisionFastMath where
-  mempty = MPSGraphReducedPrecisionFastMath 0
-
-pattern MPSGraphReducedPrecisionFastMathNone :: MPSGraphReducedPrecisionFastMath
-pattern MPSGraphReducedPrecisionFastMathNone = MPSGraphReducedPrecisionFastMath 0
-
-pattern MPSGraphReducedPrecisionFastMathAllowFP16Conv2DWinogradTransformIntermediate :: MPSGraphReducedPrecisionFastMath
-pattern MPSGraphReducedPrecisionFastMathAllowFP16Conv2DWinogradTransformIntermediate = MPSGraphReducedPrecisionFastMath 2
-
-pattern MPSGraphReducedPrecisionFastMathAllowFP16Intermediates :: MPSGraphReducedPrecisionFastMath
-pattern MPSGraphReducedPrecisionFastMathAllowFP16Intermediates = MPSGraphReducedPrecisionFastMath 2
-
-pattern MPSGraphReducedPrecisionFastMathDefault :: MPSGraphReducedPrecisionFastMath
-pattern MPSGraphReducedPrecisionFastMathDefault = MPSGraphReducedPrecisionFastMath 0
-
-instance ObjCArgument MPSGraphReducedPrecisionFastMath where
-  withObjCArg (MPSGraphReducedPrecisionFastMath x) k = k (argCULong x)
-
-instance ObjCReturn MPSGraphReducedPrecisionFastMath where
-  type RawReturn MPSGraphReducedPrecisionFastMath = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MPSGraphReducedPrecisionFastMath x)
-  fromOwned x = pure (MPSGraphReducedPrecisionFastMath x)
-
--- | The reduction mode.
+-- | MPSGraphStencilReductionMode
+--
+-- Reduction Mode
+--
+-- MPSGraphReductionModeMin                        Min
+--
+-- MPSGraphReductionModeMax                       Max
+--
+-- MPSGraphReductionModeSum                       Sum
+--
+-- MPSGraphReductionModeProduct                  Product
+--
+-- MPSGraphReductionModeArgumentMin         Argument Min
+--
+-- MPSGraphReductionModeArgumentMax        Argument Max
 -- | @MPSGraphReductionMode@
 newtype MPSGraphReductionMode = MPSGraphReductionMode CULong
   deriving stock (Eq, Ord, Show)
@@ -492,7 +486,6 @@ instance ObjCReturn MPSGraphReductionMode where
   fromRetained x = pure (MPSGraphReductionMode x)
   fromOwned x = pure (MPSGraphReductionMode x)
 
--- | The resize mode to use for resizing.
 -- | @MPSGraphResizeMode@
 newtype MPSGraphResizeMode = MPSGraphResizeMode CULong
   deriving stock (Eq, Ord, Show)
@@ -514,7 +507,6 @@ instance ObjCReturn MPSGraphResizeMode where
   fromRetained x = pure (MPSGraphResizeMode x)
   fromOwned x = pure (MPSGraphResizeMode x)
 
--- | The rounding mode to use when using nearest resize mode.
 -- | @MPSGraphResizeNearestRoundingMode@
 newtype MPSGraphResizeNearestRoundingMode = MPSGraphResizeNearestRoundingMode CULong
   deriving stock (Eq, Ord, Show)
@@ -532,12 +524,6 @@ pattern MPSGraphResizeNearestRoundingModeCeil = MPSGraphResizeNearestRoundingMod
 pattern MPSGraphResizeNearestRoundingModeFloor :: MPSGraphResizeNearestRoundingMode
 pattern MPSGraphResizeNearestRoundingModeFloor = MPSGraphResizeNearestRoundingMode 3
 
-pattern MPSGraphResizeNearestRoundingModeRoundToEven :: MPSGraphResizeNearestRoundingMode
-pattern MPSGraphResizeNearestRoundingModeRoundToEven = MPSGraphResizeNearestRoundingMode 4
-
-pattern MPSGraphResizeNearestRoundingModeRoundToOdd :: MPSGraphResizeNearestRoundingMode
-pattern MPSGraphResizeNearestRoundingModeRoundToOdd = MPSGraphResizeNearestRoundingMode 5
-
 instance ObjCArgument MPSGraphResizeNearestRoundingMode where
   withObjCArg (MPSGraphResizeNearestRoundingMode x) k = k (argCULong x)
 
@@ -548,7 +534,23 @@ instance ObjCReturn MPSGraphResizeNearestRoundingMode where
   fromRetained x = pure (MPSGraphResizeNearestRoundingMode x)
   fromOwned x = pure (MPSGraphResizeNearestRoundingMode x)
 
--- | The scatter mode.
+-- | MPSGraphScatterMode
+--
+-- Scatter mode
+--
+-- MPSGraphScatterModeAdd              Add
+--
+-- MPSGraphScatterModeSub              Sub
+--
+-- MPSGraphScatterModeMul               Multiply
+--
+-- MPSGraphScatterModeDiv               Divide
+--
+-- MPSGraphScatterModeMin               Minimum
+--
+-- MPSGraphScatterModeMax              Maximum
+--
+-- MPSGraphScatterModeSet               Set
 -- | @MPSGraphScatterMode@
 newtype MPSGraphScatterMode = MPSGraphScatterMode CLong
   deriving stock (Eq, Ord, Show)
@@ -585,7 +587,15 @@ instance ObjCReturn MPSGraphScatterMode where
   fromRetained x = pure (MPSGraphScatterMode x)
   fromOwned x = pure (MPSGraphScatterMode x)
 
--- | The sparse storage options in the Metal Performance Shaders Graph framework.
+-- | MPSGraphSparseStorageType
+--
+-- Sparse Storage options in graph
+--
+-- MPSGraphSparseStorageCOO                                  COO Storage
+--
+-- MPSGraphSparseStorageCSC                                   CSC Storage
+--
+-- MPSGraphSparseStorageCSR                                   CSR Storage
 -- | @MPSGraphSparseStorageType@
 newtype MPSGraphSparseStorageType = MPSGraphSparseStorageType CULong
   deriving stock (Eq, Ord, Show)
@@ -610,7 +620,23 @@ instance ObjCReturn MPSGraphSparseStorageType where
   fromRetained x = pure (MPSGraphSparseStorageType x)
   fromOwned x = pure (MPSGraphSparseStorageType x)
 
--- | The tensor layout.
+-- | MPSGraphTensorNamedDataLayout
+--
+-- Tensor Layout
+--
+-- MPSGraphTensorNamedDataLayoutNCHW           LayoutNCHW
+--
+-- MPSGraphTensorNamedDataLayoutNHWC           LayoutNHWC
+--
+-- MPSGraphTensorNamedDataLayoutOIHW            LayoutOIHW
+--
+-- MPSGraphTensorNamedDataLayoutHWIO            LayoutHWIO
+--
+-- MPSGraphTensorNamedDataLayoutCHW             LayoutCHW
+--
+-- MPSGraphTensorNamedDataLayoutHWC             LayoutHWC
+--
+-- MPSGraphTensorNamedDataLayoutHW                LayoutHW
 -- | @MPSGraphTensorNamedDataLayout@
 newtype MPSGraphTensorNamedDataLayout = MPSGraphTensorNamedDataLayout CULong
   deriving stock (Eq, Ord, Show)
@@ -636,18 +662,6 @@ pattern MPSGraphTensorNamedDataLayoutHWC = MPSGraphTensorNamedDataLayout 5
 
 pattern MPSGraphTensorNamedDataLayoutHW :: MPSGraphTensorNamedDataLayout
 pattern MPSGraphTensorNamedDataLayoutHW = MPSGraphTensorNamedDataLayout 6
-
-pattern MPSGraphTensorNamedDataLayoutNCDHW :: MPSGraphTensorNamedDataLayout
-pattern MPSGraphTensorNamedDataLayoutNCDHW = MPSGraphTensorNamedDataLayout 7
-
-pattern MPSGraphTensorNamedDataLayoutNDHWC :: MPSGraphTensorNamedDataLayout
-pattern MPSGraphTensorNamedDataLayoutNDHWC = MPSGraphTensorNamedDataLayout 8
-
-pattern MPSGraphTensorNamedDataLayoutOIDHW :: MPSGraphTensorNamedDataLayout
-pattern MPSGraphTensorNamedDataLayoutOIDHW = MPSGraphTensorNamedDataLayout 9
-
-pattern MPSGraphTensorNamedDataLayoutDHWIO :: MPSGraphTensorNamedDataLayout
-pattern MPSGraphTensorNamedDataLayoutDHWIO = MPSGraphTensorNamedDataLayout 10
 
 instance ObjCArgument MPSGraphTensorNamedDataLayout where
   withObjCArg (MPSGraphTensorNamedDataLayout x) k = k (argCULong x)

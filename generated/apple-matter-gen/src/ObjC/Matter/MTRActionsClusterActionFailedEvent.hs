@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRActionsClusterActionFailedEvent
   ( MTRActionsClusterActionFailedEvent
   , IsMTRActionsClusterActionFailedEvent(..)
+  , init_
+  , copyWithZone
   , actionID
   , setActionID
   , invokeID
@@ -16,7 +18,9 @@ module ObjC.Matter.MTRActionsClusterActionFailedEvent
   , error_
   , setError
   , actionIDSelector
+  , copyWithZoneSelector
   , errorSelector
+  , initSelector
   , invokeIDSelector
   , newStateSelector
   , setActionIDSelector
@@ -37,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRActionsClusterActionFailedEvent mtrActionsClusterActionFailedEvent => mtrActionsClusterActionFailedEvent -> IO (Id MTRActionsClusterActionFailedEvent)
+init_ mtrActionsClusterActionFailedEvent =
+  sendOwnedMessage mtrActionsClusterActionFailedEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRActionsClusterActionFailedEvent mtrActionsClusterActionFailedEvent => mtrActionsClusterActionFailedEvent -> Ptr () -> IO RawId
+copyWithZone mtrActionsClusterActionFailedEvent zone =
+  sendOwnedMessage mtrActionsClusterActionFailedEvent copyWithZoneSelector zone
 
 -- | @- actionID@
 actionID :: IsMTRActionsClusterActionFailedEvent mtrActionsClusterActionFailedEvent => mtrActionsClusterActionFailedEvent -> IO (Id NSNumber)
@@ -81,6 +95,14 @@ setError mtrActionsClusterActionFailedEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRActionsClusterActionFailedEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @actionID@
 actionIDSelector :: Selector '[] (Id NSNumber)

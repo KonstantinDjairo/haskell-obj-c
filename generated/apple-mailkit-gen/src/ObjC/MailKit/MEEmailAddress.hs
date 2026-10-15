@@ -58,7 +58,7 @@ rawString :: IsMEEmailAddress meEmailAddress => meEmailAddress -> IO (Id NSStrin
 rawString meEmailAddress =
   sendMessage meEmailAddress rawStringSelector
 
--- | The simple address string portion of the raw string if it is valid. For example, the  @addressString@ of "John Appleseed <j.appleseed\@example.com>" will be "j.appleseed\@example.com".
+-- | The simple address string portion of the raw string if it is valid. For example, the  @addressString@ of "John Appleseed <j.appleseed.com>" will be "j.appleseed.com".
 --
 -- ObjC selector: @- addressString@
 addressString :: IsMEEmailAddress meEmailAddress => meEmailAddress -> IO (Id NSString)

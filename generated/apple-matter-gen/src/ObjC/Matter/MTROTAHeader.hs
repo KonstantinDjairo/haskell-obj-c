@@ -8,7 +8,6 @@
 module ObjC.Matter.MTROTAHeader
   ( MTROTAHeader
   , IsMTROTAHeader(..)
-  , initWithData
   , vendorID
   , setVendorID
   , productID
@@ -31,7 +30,6 @@ module ObjC.Matter.MTROTAHeader
   , setMaxApplicableVersion
   , imageDigestSelector
   , imageDigestTypeSelector
-  , initWithDataSelector
   , maxApplicableVersionSelector
   , minApplicableVersionSelector
   , payloadSizeSelector
@@ -79,15 +77,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Matter.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | Initialize the MTROTAHeader with the given Matter OTA software image data (as defined in the "Over-the-Air (OTA) Software Update File Format" section of the Matter specification).  The provided data is expected to point to a large enough initial chunk of an OTA software image that it includes the entire header (e.g. the entire image).
---
--- If the passed-in data is too small and does not contain the entire OTA image header, initWithData will return nil and the caller should try creating a new MTROTAHeader object and initializing it with a larger chunk of the image.
---
--- ObjC selector: @- initWithData:@
-initWithData :: (IsMTROTAHeader mtrotaHeader, IsNSData data_) => mtrotaHeader -> data_ -> IO (Id MTROTAHeader)
-initWithData mtrotaHeader data_ =
-  sendOwnedMessage mtrotaHeader initWithDataSelector (toNSData data_)
 
 -- | The identifier of the vendor whose product this image is meant for.
 --
@@ -240,10 +229,6 @@ setMaxApplicableVersion mtrotaHeader value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @initWithData:@
-initWithDataSelector :: Selector '[Id NSData] (Id MTROTAHeader)
-initWithDataSelector = mkSelector "initWithData:"
 
 -- | @Selector@ for @vendorID@
 vendorIDSelector :: Selector '[] (Id NSNumber)

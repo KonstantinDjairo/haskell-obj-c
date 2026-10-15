@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -33,11 +34,9 @@ library:
   - ObjC.MetricKit.MXCallStackTree
   - ObjC.MetricKit.MXCellularConditionMetric
   - ObjC.MetricKit.MXCrashDiagnostic
-  - ObjC.MetricKit.MXCrashDiagnosticObjectiveCExceptionReason
   - ObjC.MetricKit.MXDiagnostic
   - ObjC.MetricKit.MXDiagnosticPayload
   - ObjC.MetricKit.MXDiskIOMetric
-  - ObjC.MetricKit.MXDiskSpaceUsageMetric
   - ObjC.MetricKit.MXDiskWriteExceptionDiagnostic
   - ObjC.MetricKit.MXDisplayMetric
   - ObjC.MetricKit.MXForegroundExitData
@@ -54,6 +53,5 @@ library:
   - ObjC.MetricKit.MXNetworkTransferMetric
   - ObjC.MetricKit.MXSignpostIntervalData
   - ObjC.MetricKit.MXSignpostMetric
-  - ObjC.MetricKit.MXSignpostRecord
   - ObjC.MetricKit.MXUnitAveragePixelLuminance
   - ObjC.MetricKit.MXUnitSignalBars

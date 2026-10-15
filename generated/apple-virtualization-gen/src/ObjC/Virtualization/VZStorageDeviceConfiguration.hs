@@ -7,8 +7,6 @@
 --
 -- VZStorageDeviceConfiguration should not be instantiated directly.    One of its subclasses like VZVirtioBlockDeviceConfiguration should be used instead.
 --
--- See: VZNVMExpressControllerDeviceConfiguration
---
 -- See: VZUSBMassStorageDeviceConfiguration
 --
 -- See: VZVirtioBlockDeviceConfiguration

@@ -7,20 +7,20 @@
 module ObjC.Matter.MTRThermostatClusterSetpointRaiseLowerParams
   ( MTRThermostatClusterSetpointRaiseLowerParams
   , IsMTRThermostatClusterSetpointRaiseLowerParams(..)
+  , init_
+  , copyWithZone
   , mode
   , setMode
   , amount
   , setAmount
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , amountSelector
+  , copyWithZoneSelector
+  , initSelector
   , modeSelector
-  , serverSideProcessingTimeoutSelector
   , setAmountSelector
   , setModeSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRThermostatClusterSetpointRaiseLowerParams mtrThermostatClusterSetpointRaiseLowerParams => mtrThermostatClusterSetpointRaiseLowerParams -> IO (Id MTRThermostatClusterSetpointRaiseLowerParams)
+init_ mtrThermostatClusterSetpointRaiseLowerParams =
+  sendOwnedMessage mtrThermostatClusterSetpointRaiseLowerParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThermostatClusterSetpointRaiseLowerParams mtrThermostatClusterSetpointRaiseLowerParams => mtrThermostatClusterSetpointRaiseLowerParams -> Ptr () -> IO RawId
+copyWithZone mtrThermostatClusterSetpointRaiseLowerParams zone =
+  sendOwnedMessage mtrThermostatClusterSetpointRaiseLowerParams copyWithZoneSelector zone
 
 -- | @- mode@
 mode :: IsMTRThermostatClusterSetpointRaiseLowerParams mtrThermostatClusterSetpointRaiseLowerParams => mtrThermostatClusterSetpointRaiseLowerParams -> IO (Id NSNumber)
@@ -80,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRThermostatClusterSetpointRaiseLowerParams mtrTh
 setTimedInvokeTimeoutMs mtrThermostatClusterSetpointRaiseLowerParams value =
   sendMessage mtrThermostatClusterSetpointRaiseLowerParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRThermostatClusterSetpointRaiseLowerParams mtrThermostatClusterSetpointRaiseLowerParams => mtrThermostatClusterSetpointRaiseLowerParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrThermostatClusterSetpointRaiseLowerParams =
-  sendMessage mtrThermostatClusterSetpointRaiseLowerParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRThermostatClusterSetpointRaiseLowerParams mtrThermostatClusterSetpointRaiseLowerParams, IsNSNumber value) => mtrThermostatClusterSetpointRaiseLowerParams -> value -> IO ()
-setServerSideProcessingTimeout mtrThermostatClusterSetpointRaiseLowerParams value =
-  sendMessage mtrThermostatClusterSetpointRaiseLowerParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThermostatClusterSetpointRaiseLowerParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @mode@
 modeSelector :: Selector '[] (Id NSNumber)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

@@ -19,7 +19,7 @@ module ObjC.SceneKit.SCNAction
   , rotateToAxisAngle_duration
   , scaleBy_duration
   , scaleTo_duration
-  , sequence_
+  , sequence__
   , group
   , repeatAction_count
   , repeatActionForever
@@ -185,8 +185,8 @@ scaleTo_duration scale sec =
     sendClassMessage cls' scaleTo_durationSelector scale sec
 
 -- | @+ sequence:@
-sequence_ :: IsNSArray actions => actions -> IO (Id SCNAction)
-sequence_ actions =
+sequence__ :: IsNSArray actions => actions -> IO (Id SCNAction)
+sequence__ actions =
   do
     cls' <- getRequiredClass "SCNAction"
     sendClassMessage cls' sequenceSelector (toNSArray actions)

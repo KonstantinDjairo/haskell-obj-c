@@ -4,7 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A Quick Look preview of an item that you can embed into your view hierarchy.
+-- | A QLPreviewView shows a preview of an item.
 --
 -- Generated bindings for @QLPreviewView@.
 module ObjC.QuickLookUI.QLPreviewView
@@ -56,44 +56,30 @@ import ObjC.QuickLookUI.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a preview view with the provided frame and style.
---
--- This is the designated initializer for the @QLPreviewView@ class.
---
--- - Parameters:   - frame: The frame rectangle for the initialized @QLPreviewView@ object.   - style: The desired style for the @QLPreviewView@ object. For a list of possible styles, see ``QuickLookUI/QLPreviewViewStyle``.
---
--- - Returns: Returns a @QLPreviewView@ object with the designated frame and style.
+-- | This is the designated initializer
 --
 -- ObjC selector: @- initWithFrame:style:@
 initWithFrame_style :: IsQLPreviewView qlPreviewView => qlPreviewView -> NSRect -> QLPreviewViewStyle -> IO RawId
 initWithFrame_style qlPreviewView frame style =
   sendOwnedMessage qlPreviewView initWithFrame_styleSelector frame style
 
--- | Creates a preview view with the provided frame.
---
--- Calling this method is equivalent to calling ``QuickLookUI/QLPreviewView/initWithFrame:style:`` with the @style@ parameter being ``QuickLookUI/QLPreviewViewStyle/QLPreviewViewStyleNormal``.
---
--- - Parameters:   - frame: The frame rectangle for the initialized @QLPreviewView@ object.
---
--- - Returns: Returns a @QLPreviewView@ object with the designated frame and the default style.
+-- | Equivalent to initWithFrame:style: with style being QLPreviewViewStyleNormal
 --
 -- ObjC selector: @- initWithFrame:@
 initWithFrame :: IsQLPreviewView qlPreviewView => qlPreviewView -> NSRect -> IO RawId
 initWithFrame qlPreviewView frame =
   sendOwnedMessage qlPreviewView initWithFrameSelector frame
 
--- | Updates the preview to display the currently previewed item.
---
--- When you modify the object that the ``QuickLookUI/QLPreviewView/previewItem`` property points to, call this method to generate and display the new preview.
+-- | Asks the Preview view to recompute the preview of the currently previewed item.
 --
 -- ObjC selector: @- refreshPreviewItem@
 refreshPreviewItem :: IsQLPreviewView qlPreviewView => qlPreviewView -> IO ()
 refreshPreviewItem qlPreviewView =
   sendMessage qlPreviewView refreshPreviewItemSelector
 
--- | Closes the view, releasing the current preview item.
+-- | Closes the receiver, releasing the current preview item. Once the receiver has closed, it will no longer accept preview items.
 --
--- Once a ``QuickLookUI/QLPreviewView`` is closed, it won’t accept any more preview items. You only need to call this method if ``QuickLookUI/QLPreviewView/shouldCloseWithWindow`` is set to <doc://com.apple.documentation/documentation/objectivec/no>. If you don’t close a ``QuickLookUI/QLPreviewView`` when you are done using it, your app will leak memory.
+-- The application is required to call close when the receiver is no longer needed if shouldCloseWithWindow is NO. The close method will be called automatically when the window closes if shouldCloseWithWindow is YES.
 --
 -- ObjC selector: @- close@
 close :: IsQLPreviewView qlPreviewView => qlPreviewView -> IO ()
@@ -102,8 +88,6 @@ close qlPreviewView =
 
 -- | The item to preview.
 --
--- Quick Look requires Items you wish to conform to the <doc://com.apple.documentation/documentation/quicklook/qlpreviewitem> protocol. When you set this property, the ``QuickLookUI/QLPreviewView`` loads the preview asynchronously. Due to this asynchronous behavior, don’t assume that the preview is ready immediately after assigning it to this property.
---
 -- ObjC selector: @- previewItem@
 previewItem :: IsQLPreviewView qlPreviewView => qlPreviewView -> IO RawId
 previewItem qlPreviewView =
@@ -111,67 +95,49 @@ previewItem qlPreviewView =
 
 -- | The item to preview.
 --
--- Quick Look requires Items you wish to conform to the <doc://com.apple.documentation/documentation/quicklook/qlpreviewitem> protocol. When you set this property, the ``QuickLookUI/QLPreviewView`` loads the preview asynchronously. Due to this asynchronous behavior, don’t assume that the preview is ready immediately after assigning it to this property.
---
 -- ObjC selector: @- setPreviewItem:@
 setPreviewItem :: IsQLPreviewView qlPreviewView => qlPreviewView -> RawId -> IO ()
 setPreviewItem qlPreviewView value =
   sendMessage qlPreviewView setPreviewItemSelector value
 
--- | The current display state of the <doc://com.apple.documentation/documentation/quicklookui/qlpreviewview/1504747-previewitem>.
+-- | The current display state (e.g. visible page) of the preview item.
 --
--- This property is an opaque object that Quick Look uses to get and set the current display state of the preview. The display state could be, for example, the currently displayed page, the zoom factor on an image, or the position in a movie.
---
--- You can use this property to get and save the current display state of the preview before switching to another. This saving allows you to restore a preview later on when the user switches back to it.
+-- The display state is an opaque object used by the Preview Panel and Preview Views.
 --
 -- ObjC selector: @- displayState@
 displayState :: IsQLPreviewView qlPreviewView => qlPreviewView -> IO RawId
 displayState qlPreviewView =
   sendMessage qlPreviewView displayStateSelector
 
--- | The current display state of the <doc://com.apple.documentation/documentation/quicklookui/qlpreviewview/1504747-previewitem>.
+-- | The current display state (e.g. visible page) of the preview item.
 --
--- This property is an opaque object that Quick Look uses to get and set the current display state of the preview. The display state could be, for example, the currently displayed page, the zoom factor on an image, or the position in a movie.
---
--- You can use this property to get and save the current display state of the preview before switching to another. This saving allows you to restore a preview later on when the user switches back to it.
+-- The display state is an opaque object used by the Preview Panel and Preview Views.
 --
 -- ObjC selector: @- setDisplayState:@
 setDisplayState :: IsQLPreviewView qlPreviewView => qlPreviewView -> RawId -> IO ()
 setDisplayState qlPreviewView value =
   sendMessage qlPreviewView setDisplayStateSelector value
 
--- | A Boolean value that determines whether the preview should close when its window closes.
---
--- The default value of this property is <doc://com.apple.documentation/documentation/objectivec/yes>, which means that the preview automatically closes when its window closes. If you set this property to <doc://com.apple.documentation/documentation/objectivec/no>, close the preview by calling the ``QuickLookUI/QLPreviewView/close`` method when finished with it. Once you close a ``QuickLookUI/QLPreviewView``, it won’t accept any more preview items.
+-- | Set whether the receiver closes when its window closes (see discussion of -close).
 --
 -- ObjC selector: @- shouldCloseWithWindow@
 shouldCloseWithWindow :: IsQLPreviewView qlPreviewView => qlPreviewView -> IO Bool
 shouldCloseWithWindow qlPreviewView =
   sendMessage qlPreviewView shouldCloseWithWindowSelector
 
--- | A Boolean value that determines whether the preview should close when its window closes.
---
--- The default value of this property is <doc://com.apple.documentation/documentation/objectivec/yes>, which means that the preview automatically closes when its window closes. If you set this property to <doc://com.apple.documentation/documentation/objectivec/no>, close the preview by calling the ``QuickLookUI/QLPreviewView/close`` method when finished with it. Once you close a ``QuickLookUI/QLPreviewView``, it won’t accept any more preview items.
+-- | Set whether the receiver closes when its window closes (see discussion of -close).
 --
 -- ObjC selector: @- setShouldCloseWithWindow:@
 setShouldCloseWithWindow :: IsQLPreviewView qlPreviewView => qlPreviewView -> Bool -> IO ()
 setShouldCloseWithWindow qlPreviewView value =
   sendMessage qlPreviewView setShouldCloseWithWindowSelector value
 
--- | A Boolean value that determines whether the preview starts automatically.
---
--- Set this property to allow previews of movie files to start playback automatically when displayed.
---
--- ObjC selector: @- autostarts@
+-- | @- autostarts@
 autostarts :: IsQLPreviewView qlPreviewView => qlPreviewView -> IO Bool
 autostarts qlPreviewView =
   sendMessage qlPreviewView autostartsSelector
 
--- | A Boolean value that determines whether the preview starts automatically.
---
--- Set this property to allow previews of movie files to start playback automatically when displayed.
---
--- ObjC selector: @- setAutostarts:@
+-- | @- setAutostarts:@
 setAutostarts :: IsQLPreviewView qlPreviewView => qlPreviewView -> Bool -> IO ()
 setAutostarts qlPreviewView value =
   sendMessage qlPreviewView setAutostartsSelector value

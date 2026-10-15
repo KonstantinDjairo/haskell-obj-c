@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVVideoCompositionRenderHint instance contains the information necessary for announcing upcoming rendering request time ranges.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVVideoCompositionRenderHint@.
+-- | Generated bindings for @AVVideoCompositionRenderHint@.
 module ObjC.AVFoundation.AVVideoCompositionRenderHint
   ( AVVideoCompositionRenderHint
   , IsAVVideoCompositionRenderHint(..)

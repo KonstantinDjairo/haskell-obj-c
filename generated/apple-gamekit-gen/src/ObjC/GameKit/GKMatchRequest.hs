@@ -19,8 +19,6 @@ module ObjC.GameKit.GKMatchRequest
   , setPlayerGroup
   , playerAttributes
   , setPlayerAttributes
-  , recipients
-  , setRecipients
   , inviteMessage
   , setInviteMessage
   , defaultNumberOfPlayers
@@ -31,14 +29,6 @@ module ObjC.GameKit.GKMatchRequest
   , setRecipientResponseHandler
   , inviteeResponseHandler
   , setInviteeResponseHandler
-  , playersToInvite
-  , setPlayersToInvite
-  , queueName
-  , setQueueName
-  , properties
-  , setProperties
-  , recipientProperties
-  , setRecipientProperties
   , defaultNumberOfPlayersSelector
   , inviteMessageSelector
   , inviteeResponseHandlerSelector
@@ -47,12 +37,7 @@ module ObjC.GameKit.GKMatchRequest
   , minPlayersSelector
   , playerAttributesSelector
   , playerGroupSelector
-  , playersToInviteSelector
-  , propertiesSelector
-  , queueNameSelector
-  , recipientPropertiesSelector
   , recipientResponseHandlerSelector
-  , recipientsSelector
   , restrictToAutomatchSelector
   , setDefaultNumberOfPlayersSelector
   , setInviteMessageSelector
@@ -61,12 +46,7 @@ module ObjC.GameKit.GKMatchRequest
   , setMinPlayersSelector
   , setPlayerAttributesSelector
   , setPlayerGroupSelector
-  , setPlayersToInviteSelector
-  , setPropertiesSelector
-  , setQueueNameSelector
-  , setRecipientPropertiesSelector
   , setRecipientResponseHandlerSelector
-  , setRecipientsSelector
   , setRestrictToAutomatchSelector
 
   -- * Enum types
@@ -154,33 +134,19 @@ setPlayerAttributes :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> CUIn
 setPlayerAttributes gkMatchRequest value =
   sendMessage gkMatchRequest setPlayerAttributesSelector value
 
--- | Array of GKPlayers to invite, or nil if none. This array can also include local guest players.
---
--- ObjC selector: @- recipients@
-recipients :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> IO (Id NSArray)
-recipients gkMatchRequest =
-  sendMessage gkMatchRequest recipientsSelector
-
--- | Array of GKPlayers to invite, or nil if none. This array can also include local guest players.
---
--- ObjC selector: @- setRecipients:@
-setRecipients :: (IsGKMatchRequest gkMatchRequest, IsNSArray value) => gkMatchRequest -> value -> IO ()
-setRecipients gkMatchRequest value =
-  sendMessage gkMatchRequest setRecipientsSelector (toNSArray value)
-
 -- | Message sent to invited players, may be modified if using GKMatchmakerViewController Will return nil if the player is underage or restricted.
 --
 -- ObjC selector: @- inviteMessage@
-inviteMessage :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> IO (Id NSString)
+inviteMessage :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> IO RawId
 inviteMessage gkMatchRequest =
   sendMessage gkMatchRequest inviteMessageSelector
 
 -- | Message sent to invited players, may be modified if using GKMatchmakerViewController Will return nil if the player is underage or restricted.
 --
 -- ObjC selector: @- setInviteMessage:@
-setInviteMessage :: (IsGKMatchRequest gkMatchRequest, IsNSString value) => gkMatchRequest -> value -> IO ()
+setInviteMessage :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> RawId -> IO ()
 setInviteMessage gkMatchRequest value =
-  sendMessage gkMatchRequest setInviteMessageSelector (toNSString value)
+  sendMessage gkMatchRequest setInviteMessageSelector value
 
 -- | Default number of players to use during matchmaking. If not set we will default to the number that the player previously set for this game, or maxPlayers.
 --
@@ -234,58 +200,6 @@ setInviteeResponseHandler :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -
 setInviteeResponseHandler gkMatchRequest value =
   sendMessage gkMatchRequest setInviteeResponseHandlerSelector value
 
--- | @- playersToInvite@
-playersToInvite :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> IO (Id NSArray)
-playersToInvite gkMatchRequest =
-  sendMessage gkMatchRequest playersToInviteSelector
-
--- | @- setPlayersToInvite:@
-setPlayersToInvite :: (IsGKMatchRequest gkMatchRequest, IsNSArray value) => gkMatchRequest -> value -> IO ()
-setPlayersToInvite gkMatchRequest value =
-  sendMessage gkMatchRequest setPlayersToInviteSelector (toNSArray value)
-
--- | The name of the queue, if rule-based matchmaking is used.
---
--- ObjC selector: @- queueName@
-queueName :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> IO (Id NSString)
-queueName gkMatchRequest =
-  sendMessage gkMatchRequest queueNameSelector
-
--- | The name of the queue, if rule-based matchmaking is used.
---
--- ObjC selector: @- setQueueName:@
-setQueueName :: (IsGKMatchRequest gkMatchRequest, IsNSString value) => gkMatchRequest -> value -> IO ()
-setQueueName gkMatchRequest value =
-  sendMessage gkMatchRequest setQueueNameSelector (toNSString value)
-
--- | The match properties, if rule-based matchmaking is used.
---
--- ObjC selector: @- properties@
-properties :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> IO RawId
-properties gkMatchRequest =
-  sendMessage gkMatchRequest propertiesSelector
-
--- | The match properties, if rule-based matchmaking is used.
---
--- ObjC selector: @- setProperties:@
-setProperties :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> RawId -> IO ()
-setProperties gkMatchRequest value =
-  sendMessage gkMatchRequest setPropertiesSelector value
-
--- | The recipient specific match properties, if rule-based matchmaking is used when inviting players.
---
--- ObjC selector: @- recipientProperties@
-recipientProperties :: IsGKMatchRequest gkMatchRequest => gkMatchRequest -> IO (Id NSDictionary)
-recipientProperties gkMatchRequest =
-  sendMessage gkMatchRequest recipientPropertiesSelector
-
--- | The recipient specific match properties, if rule-based matchmaking is used when inviting players.
---
--- ObjC selector: @- setRecipientProperties:@
-setRecipientProperties :: (IsGKMatchRequest gkMatchRequest, IsNSDictionary value) => gkMatchRequest -> value -> IO ()
-setRecipientProperties gkMatchRequest value =
-  sendMessage gkMatchRequest setRecipientPropertiesSelector (toNSDictionary value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -326,20 +240,12 @@ playerAttributesSelector = mkSelector "playerAttributes"
 setPlayerAttributesSelector :: Selector '[CUInt] ()
 setPlayerAttributesSelector = mkSelector "setPlayerAttributes:"
 
--- | @Selector@ for @recipients@
-recipientsSelector :: Selector '[] (Id NSArray)
-recipientsSelector = mkSelector "recipients"
-
--- | @Selector@ for @setRecipients:@
-setRecipientsSelector :: Selector '[Id NSArray] ()
-setRecipientsSelector = mkSelector "setRecipients:"
-
 -- | @Selector@ for @inviteMessage@
-inviteMessageSelector :: Selector '[] (Id NSString)
+inviteMessageSelector :: Selector '[] RawId
 inviteMessageSelector = mkSelector "inviteMessage"
 
 -- | @Selector@ for @setInviteMessage:@
-setInviteMessageSelector :: Selector '[Id NSString] ()
+setInviteMessageSelector :: Selector '[RawId] ()
 setInviteMessageSelector = mkSelector "setInviteMessage:"
 
 -- | @Selector@ for @defaultNumberOfPlayers@
@@ -373,36 +279,4 @@ inviteeResponseHandlerSelector = mkSelector "inviteeResponseHandler"
 -- | @Selector@ for @setInviteeResponseHandler:@
 setInviteeResponseHandlerSelector :: Selector '[Ptr ()] ()
 setInviteeResponseHandlerSelector = mkSelector "setInviteeResponseHandler:"
-
--- | @Selector@ for @playersToInvite@
-playersToInviteSelector :: Selector '[] (Id NSArray)
-playersToInviteSelector = mkSelector "playersToInvite"
-
--- | @Selector@ for @setPlayersToInvite:@
-setPlayersToInviteSelector :: Selector '[Id NSArray] ()
-setPlayersToInviteSelector = mkSelector "setPlayersToInvite:"
-
--- | @Selector@ for @queueName@
-queueNameSelector :: Selector '[] (Id NSString)
-queueNameSelector = mkSelector "queueName"
-
--- | @Selector@ for @setQueueName:@
-setQueueNameSelector :: Selector '[Id NSString] ()
-setQueueNameSelector = mkSelector "setQueueName:"
-
--- | @Selector@ for @properties@
-propertiesSelector :: Selector '[] RawId
-propertiesSelector = mkSelector "properties"
-
--- | @Selector@ for @setProperties:@
-setPropertiesSelector :: Selector '[RawId] ()
-setPropertiesSelector = mkSelector "setProperties:"
-
--- | @Selector@ for @recipientProperties@
-recipientPropertiesSelector :: Selector '[] (Id NSDictionary)
-recipientPropertiesSelector = mkSelector "recipientProperties"
-
--- | @Selector@ for @setRecipientProperties:@
-setRecipientPropertiesSelector :: Selector '[Id NSDictionary] ()
-setRecipientPropertiesSelector = mkSelector "setRecipientProperties:"
 

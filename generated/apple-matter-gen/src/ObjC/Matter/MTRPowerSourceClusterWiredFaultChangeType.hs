@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRPowerSourceClusterWiredFaultChangeType
   ( MTRPowerSourceClusterWiredFaultChangeType
   , IsMTRPowerSourceClusterWiredFaultChangeType(..)
+  , init_
+  , copyWithZone
   , current
   , setCurrent
   , previous
   , setPrevious
+  , copyWithZoneSelector
   , currentSelector
+  , initSelector
   , previousSelector
   , setCurrentSelector
   , setPreviousSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRPowerSourceClusterWiredFaultChangeType mtrPowerSourceClusterWiredFaultChangeType => mtrPowerSourceClusterWiredFaultChangeType -> IO (Id MTRPowerSourceClusterWiredFaultChangeType)
+init_ mtrPowerSourceClusterWiredFaultChangeType =
+  sendOwnedMessage mtrPowerSourceClusterWiredFaultChangeType initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRPowerSourceClusterWiredFaultChangeType mtrPowerSourceClusterWiredFaultChangeType => mtrPowerSourceClusterWiredFaultChangeType -> Ptr () -> IO RawId
+copyWithZone mtrPowerSourceClusterWiredFaultChangeType zone =
+  sendOwnedMessage mtrPowerSourceClusterWiredFaultChangeType copyWithZoneSelector zone
 
 -- | @- current@
 current :: IsMTRPowerSourceClusterWiredFaultChangeType mtrPowerSourceClusterWiredFaultChangeType => mtrPowerSourceClusterWiredFaultChangeType -> IO (Id NSArray)
@@ -53,6 +67,14 @@ setPrevious mtrPowerSourceClusterWiredFaultChangeType value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRPowerSourceClusterWiredFaultChangeType)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @current@
 currentSelector :: Selector '[] (Id NSArray)

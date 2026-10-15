@@ -31,7 +31,6 @@ module ObjC.LocalAuthenticationEmbeddedUI.LAAuthenticationView
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
 
   ) where
 
@@ -62,7 +61,7 @@ initWithCoder laAuthenticationView coder =
 
 -- | Creates a new view and pairs it with the specified authentication context.
 --
--- The authentication is controlled using the provided authentication context. When @evaluatePolicy@ or @evaluateAccessControl@ is called on this context, the UI will be presented using this view rather than using the standard authentication alert. Since the view is designed for authentication with Touch ID or Watch the only supported policies for calling @evaluatePolicy@ on the context are - @LAPolicyDeviceOwnerAuthenticationWithBiometrics@ - @LAPolicyDeviceOwnerAuthenticationWithCompanion@ - @LAPolicyDeviceOwnerAuthenticationWitchBiometricsOrCompanion@ - @LAPolicyDeviceOwnerAuthentication@ (This one is supported just for convenience. If neither biometric nor watch authentication is available, the evaluation of the policy fails)
+-- The authentication is controlled using the provided authentication context. When 'evaluatePolicy' or 'evaluateAccessControl' is called on this context, the UI will be presented using this view rather than using the standard authentication alert.
 --
 -- @context@ — @LAContext@ instance to control the authentication.
 --
@@ -73,7 +72,7 @@ initWithContext laAuthenticationView context =
 
 -- | Creates a new view and pairs it with the specified authentication context.
 --
--- The authentication is controlled using the provided authentication context. When @evaluatePolicy@ or @evaluateAccessControl@ is called on this context, the UI will be presented using this view rather than using the standard authentication alert. Since the view is designed for authentication with Touch ID or Watch the only supported policies for calling @evaluatePolicy@ on the context are - @LAPolicyDeviceOwnerAuthenticationWithBiometrics@ - @LAPolicyDeviceOwnerAuthenticationWithCompanion@ - @LAPolicyDeviceOwnerAuthenticationWitchBiometricsOrCompanion@ - @LAPolicyDeviceOwnerAuthentication@ (This one is supported just for convenience. If neither biometric nor watch authentication is available, the evaluation of the policy fails)
+-- The authentication is controlled using the provided authentication context. When 'evaluatePolicy' or 'evaluateAccessControl' is called on this context, the UI will be presented using this view rather than using the standard authentication alert.
 --
 -- @context@ — @LAContext@ instance to control the authentication.
 --
@@ -87,7 +86,7 @@ initWithContext_controlSize laAuthenticationView context controlSize =
 -- | @LAContext@ instance passed to the initializer.
 --
 -- ObjC selector: @- context@
-context :: IsLAAuthenticationView laAuthenticationView => laAuthenticationView -> IO (Id LAContext)
+context :: IsLAAuthenticationView laAuthenticationView => laAuthenticationView -> IO RawId
 context laAuthenticationView =
   sendMessage laAuthenticationView contextSelector
 
@@ -119,7 +118,7 @@ initWithContext_controlSizeSelector :: Selector '[Id LAContext, NSControlSize] (
 initWithContext_controlSizeSelector = mkSelector "initWithContext:controlSize:"
 
 -- | @Selector@ for @context@
-contextSelector :: Selector '[] (Id LAContext)
+contextSelector :: Selector '[] RawId
 contextSelector = mkSelector "context"
 
 -- | @Selector@ for @controlSize@

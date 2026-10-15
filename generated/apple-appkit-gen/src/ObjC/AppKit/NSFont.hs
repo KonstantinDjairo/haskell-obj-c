@@ -149,7 +149,6 @@ module ObjC.AppKit.NSFont
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
   , NSFontRenderingMode(NSFontRenderingMode)
   , pattern NSFontDefaultRenderingMode
   , pattern NSFontAntialiasedRenderingMode
@@ -552,7 +551,7 @@ fixedPitch nsFont =
 -- | ******* Vertical mode ********
 --
 -- ObjC selector: @- verticalFont@
-verticalFont :: IsNSFont nsFont => nsFont -> IO (Id NSFont)
+verticalFont :: IsNSFont nsFont => nsFont -> IO RawId
 verticalFont nsFont =
   sendMessage nsFont verticalFontSelector
 
@@ -831,7 +830,7 @@ fixedPitchSelector :: Selector '[] Bool
 fixedPitchSelector = mkSelector "fixedPitch"
 
 -- | @Selector@ for @verticalFont@
-verticalFontSelector :: Selector '[] (Id NSFont)
+verticalFontSelector :: Selector '[] RawId
 verticalFontSelector = mkSelector "verticalFont"
 
 -- | @Selector@ for @vertical@

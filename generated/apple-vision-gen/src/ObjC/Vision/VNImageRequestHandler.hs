@@ -14,7 +14,6 @@ module ObjC.Vision.VNImageRequestHandler
   , init_
   , initWithCVPixelBuffer_options
   , initWithCVPixelBuffer_orientation_options
-  , initWithCVPixelBuffer_depthData_orientation_options
   , initWithCGImage_options
   , initWithCGImage_orientation_options
   , initWithCIImage_options
@@ -25,17 +24,14 @@ module ObjC.Vision.VNImageRequestHandler
   , initWithData_orientation_options
   , initWithCMSampleBuffer_options
   , initWithCMSampleBuffer_orientation_options
-  , initWithCMSampleBuffer_depthData_orientation_options
   , performRequests_error
   , initSelector
   , initWithCGImage_optionsSelector
   , initWithCGImage_orientation_optionsSelector
   , initWithCIImage_optionsSelector
   , initWithCIImage_orientation_optionsSelector
-  , initWithCMSampleBuffer_depthData_orientation_optionsSelector
   , initWithCMSampleBuffer_optionsSelector
   , initWithCMSampleBuffer_orientation_optionsSelector
-  , initWithCVPixelBuffer_depthData_orientation_optionsSelector
   , initWithCVPixelBuffer_optionsSelector
   , initWithCVPixelBuffer_orientation_optionsSelector
   , initWithData_optionsSelector
@@ -56,7 +52,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Vision.Internal.Classes
-import ObjC.AVFoundation.Internal.Classes
 import ObjC.CoreImage.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
@@ -88,21 +83,6 @@ initWithCVPixelBuffer_options vnImageRequestHandler pixelBuffer options =
 initWithCVPixelBuffer_orientation_options :: (IsVNImageRequestHandler vnImageRequestHandler, IsNSDictionary options) => vnImageRequestHandler -> Ptr () -> CInt -> options -> IO (Id VNImageRequestHandler)
 initWithCVPixelBuffer_orientation_options vnImageRequestHandler pixelBuffer orientation options =
   sendOwnedMessage vnImageRequestHandler initWithCVPixelBuffer_orientation_optionsSelector pixelBuffer orientation (toNSDictionary options)
-
--- | initWithCVPixelBuffer:depthData:orientation:options creates a VNImageRequestHandler to be used for performing requests against the image passed in as buffer with depth information.
---
--- @pixelBuffer@ — A CVPixelBuffer containing the image to be used for performing the requests. The content of the buffer cannot be modified for the lifetime of the VNImageRequestHandler.
---
--- @depthData@ — An AVDepthData instance associated with the pixelBuffer
---
--- @orientation@ — The orientation of the image and depth buffers based on the EXIF specification. For details see kCGImagePropertyOrientation. The value has to be an integer from 1 to 8. This supersedes every other orientation information and should match for both buffers.
---
--- @options@ — A dictionary with options specifying auxiliary information for the buffer/image
---
--- ObjC selector: @- initWithCVPixelBuffer:depthData:orientation:options:@
-initWithCVPixelBuffer_depthData_orientation_options :: (IsVNImageRequestHandler vnImageRequestHandler, IsAVDepthData depthData, IsNSDictionary options) => vnImageRequestHandler -> Ptr () -> depthData -> CInt -> options -> IO (Id VNImageRequestHandler)
-initWithCVPixelBuffer_depthData_orientation_options vnImageRequestHandler pixelBuffer depthData orientation options =
-  sendOwnedMessage vnImageRequestHandler initWithCVPixelBuffer_depthData_orientation_optionsSelector pixelBuffer (toAVDepthData depthData) orientation (toNSDictionary options)
 
 -- | initWithCGImage:options creates a VNImageRequestHandler to be used for performing requests against the image passed in as a CGImageRef.
 --
@@ -242,25 +222,6 @@ initWithCMSampleBuffer_orientation_options :: (IsVNImageRequestHandler vnImageRe
 initWithCMSampleBuffer_orientation_options vnImageRequestHandler sampleBuffer orientation options =
   sendOwnedMessage vnImageRequestHandler initWithCMSampleBuffer_orientation_optionsSelector sampleBuffer orientation (toNSDictionary options)
 
--- | Creates a VNImageRequestHandler to be used for performing requests against the image buffer contained in the CMSampleBufferRef
---
--- @sampleBuffer@ — A CMSampleBuffer containing the imageBuffer that will be used for performing the requests. Not all types of sample buffers are supported. They need to contain a CVImageBuffer, be valid and ready.
---
--- @depthData@ — An AVDepthData instance associated with the pixelBuffer
---
--- @orientation@ — The orientation of the image and depth buffers based on the EXIF specification. For details see kCGImagePropertyOrientation. The value has to be an integer from 1 to 8. This supersedes every other orientation information and should match for both buffers.
---
--- @options@ — A dictionary with options specifying auxiliary information for the buffer/image
---
--- Note: CMSampleBuffers can contain metadata like camera intrinsics that will be used by algorithms supporting it unless overwritten by the options.
---
--- Note: :  Because CoreImage is unable to render certain pixel formats in the iOS simulator, request results may not be accurate in those cases.
---
--- ObjC selector: @- initWithCMSampleBuffer:depthData:orientation:options:@
-initWithCMSampleBuffer_depthData_orientation_options :: (IsVNImageRequestHandler vnImageRequestHandler, IsAVDepthData depthData, IsNSDictionary options) => vnImageRequestHandler -> Ptr () -> depthData -> CInt -> options -> IO (Id VNImageRequestHandler)
-initWithCMSampleBuffer_depthData_orientation_options vnImageRequestHandler sampleBuffer depthData orientation options =
-  sendOwnedMessage vnImageRequestHandler initWithCMSampleBuffer_depthData_orientation_optionsSelector sampleBuffer (toAVDepthData depthData) orientation (toNSDictionary options)
-
 -- | performRequests schedules one or more VNRequests to be performed. The function returns once all requests have been finished.
 --
 -- The results of the VNRequests as well any possible errors of the individual requests are reported in the VNRequests results and error properties.
@@ -291,10 +252,6 @@ initWithCVPixelBuffer_optionsSelector = mkSelector "initWithCVPixelBuffer:option
 -- | @Selector@ for @initWithCVPixelBuffer:orientation:options:@
 initWithCVPixelBuffer_orientation_optionsSelector :: Selector '[Ptr (), CInt, Id NSDictionary] (Id VNImageRequestHandler)
 initWithCVPixelBuffer_orientation_optionsSelector = mkSelector "initWithCVPixelBuffer:orientation:options:"
-
--- | @Selector@ for @initWithCVPixelBuffer:depthData:orientation:options:@
-initWithCVPixelBuffer_depthData_orientation_optionsSelector :: Selector '[Ptr (), Id AVDepthData, CInt, Id NSDictionary] (Id VNImageRequestHandler)
-initWithCVPixelBuffer_depthData_orientation_optionsSelector = mkSelector "initWithCVPixelBuffer:depthData:orientation:options:"
 
 -- | @Selector@ for @initWithCGImage:options:@
 initWithCGImage_optionsSelector :: Selector '[Ptr (), Id NSDictionary] (Id VNImageRequestHandler)
@@ -335,10 +292,6 @@ initWithCMSampleBuffer_optionsSelector = mkSelector "initWithCMSampleBuffer:opti
 -- | @Selector@ for @initWithCMSampleBuffer:orientation:options:@
 initWithCMSampleBuffer_orientation_optionsSelector :: Selector '[Ptr (), CInt, Id NSDictionary] (Id VNImageRequestHandler)
 initWithCMSampleBuffer_orientation_optionsSelector = mkSelector "initWithCMSampleBuffer:orientation:options:"
-
--- | @Selector@ for @initWithCMSampleBuffer:depthData:orientation:options:@
-initWithCMSampleBuffer_depthData_orientation_optionsSelector :: Selector '[Ptr (), Id AVDepthData, CInt, Id NSDictionary] (Id VNImageRequestHandler)
-initWithCMSampleBuffer_depthData_orientation_optionsSelector = mkSelector "initWithCMSampleBuffer:depthData:orientation:options:"
 
 -- | @Selector@ for @performRequests:error:@
 performRequests_errorSelector :: Selector '[Id NSArray, Id NSError] Bool

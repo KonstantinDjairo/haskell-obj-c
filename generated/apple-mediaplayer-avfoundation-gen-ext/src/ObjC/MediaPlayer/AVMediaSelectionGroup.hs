@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVMediaSelectionGroup provides a collection of mutually exclusive options for the presentation of media within an asset.
---
--- Generated bindings for @AVMediaSelectionGroup@.
+-- | Generated bindings for @AVMediaSelectionGroup@.
 module ObjC.MediaPlayer.AVMediaSelectionGroup
   ( AVMediaSelectionGroup
   , IsAVMediaSelectionGroup(..)

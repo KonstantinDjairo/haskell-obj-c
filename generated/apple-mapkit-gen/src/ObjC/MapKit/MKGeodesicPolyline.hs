@@ -24,6 +24,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.MapKit.Internal.Classes
+import ObjC.CoreLocation.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
 -- | @+ polylineWithPoints:count:@
@@ -34,7 +35,7 @@ polylineWithPoints_count points count =
     sendClassMessage cls' polylineWithPoints_countSelector points count
 
 -- | @+ polylineWithCoordinates:count:@
-polylineWithCoordinates_count :: Const RawId -> CULong -> IO (Id MKGeodesicPolyline)
+polylineWithCoordinates_count :: Const (Ptr CLLocationCoordinate2D) -> CULong -> IO (Id MKGeodesicPolyline)
 polylineWithCoordinates_count coords count =
   do
     cls' <- getRequiredClass "MKGeodesicPolyline"
@@ -49,6 +50,6 @@ polylineWithPoints_countSelector :: Selector '[Const RawId, CULong] (Id MKGeodes
 polylineWithPoints_countSelector = mkSelector "polylineWithPoints:count:"
 
 -- | @Selector@ for @polylineWithCoordinates:count:@
-polylineWithCoordinates_countSelector :: Selector '[Const RawId, CULong] (Id MKGeodesicPolyline)
+polylineWithCoordinates_countSelector :: Selector '[Const (Ptr CLLocationCoordinate2D), CULong] (Id MKGeodesicPolyline)
 polylineWithCoordinates_countSelector = mkSelector "polylineWithCoordinates:count:"
 

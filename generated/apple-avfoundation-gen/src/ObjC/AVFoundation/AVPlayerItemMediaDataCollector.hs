@@ -13,8 +13,6 @@
 --
 -- • addMediaDataCollector:		• removeMediaDataCollector:
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVPlayerItemMediaDataCollector@.
 module ObjC.AVFoundation.AVPlayerItemMediaDataCollector
   ( AVPlayerItemMediaDataCollector

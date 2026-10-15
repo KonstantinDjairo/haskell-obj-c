@@ -12,10 +12,8 @@ module ObjC.CoreMotion.CMWaterSubmersionManager
   , setDelegate
   , waterSubmersionAvailable
   , authorizationStatus
-  , maximumDepth
   , authorizationStatusSelector
   , delegateSelector
-  , maximumDepthSelector
   , setDelegateSelector
   , waterSubmersionAvailableSelector
 
@@ -64,11 +62,6 @@ authorizationStatus  =
     cls' <- getRequiredClass "CMWaterSubmersionManager"
     sendClassMessage cls' authorizationStatusSelector
 
--- | @- maximumDepth@
-maximumDepth :: IsCMWaterSubmersionManager cmWaterSubmersionManager => cmWaterSubmersionManager -> IO (Id NSMeasurement)
-maximumDepth cmWaterSubmersionManager =
-  sendMessage cmWaterSubmersionManager maximumDepthSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -88,8 +81,4 @@ waterSubmersionAvailableSelector = mkSelector "waterSubmersionAvailable"
 -- | @Selector@ for @authorizationStatus@
 authorizationStatusSelector :: Selector '[] CMAuthorizationStatus
 authorizationStatusSelector = mkSelector "authorizationStatus"
-
--- | @Selector@ for @maximumDepth@
-maximumDepthSelector :: Selector '[] (Id NSMeasurement)
-maximumDepthSelector = mkSelector "maximumDepth"
 

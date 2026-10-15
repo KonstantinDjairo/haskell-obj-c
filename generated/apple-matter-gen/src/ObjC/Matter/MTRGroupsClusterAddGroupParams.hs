@@ -7,24 +7,20 @@
 module ObjC.Matter.MTRGroupsClusterAddGroupParams
   ( MTRGroupsClusterAddGroupParams
   , IsMTRGroupsClusterAddGroupParams(..)
-  , groupID
-  , setGroupID
+  , init_
+  , copyWithZone
+  , groupId
+  , setGroupId
   , groupName
   , setGroupName
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , groupId
-  , setGroupId
-  , groupIDSelector
+  , copyWithZoneSelector
   , groupIdSelector
   , groupNameSelector
-  , serverSideProcessingTimeoutSelector
-  , setGroupIDSelector
+  , initSelector
   , setGroupIdSelector
   , setGroupNameSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -42,15 +38,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- groupID@
-groupID :: IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams => mtrGroupsClusterAddGroupParams -> IO (Id NSNumber)
-groupID mtrGroupsClusterAddGroupParams =
-  sendMessage mtrGroupsClusterAddGroupParams groupIDSelector
+-- | @- init@
+init_ :: IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams => mtrGroupsClusterAddGroupParams -> IO (Id MTRGroupsClusterAddGroupParams)
+init_ mtrGroupsClusterAddGroupParams =
+  sendOwnedMessage mtrGroupsClusterAddGroupParams initSelector
 
--- | @- setGroupID:@
-setGroupID :: (IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams, IsNSNumber value) => mtrGroupsClusterAddGroupParams -> value -> IO ()
-setGroupID mtrGroupsClusterAddGroupParams value =
-  sendMessage mtrGroupsClusterAddGroupParams setGroupIDSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams => mtrGroupsClusterAddGroupParams -> Ptr () -> IO RawId
+copyWithZone mtrGroupsClusterAddGroupParams zone =
+  sendOwnedMessage mtrGroupsClusterAddGroupParams copyWithZoneSelector zone
+
+-- | @- groupId@
+groupId :: IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams => mtrGroupsClusterAddGroupParams -> IO (Id NSNumber)
+groupId mtrGroupsClusterAddGroupParams =
+  sendMessage mtrGroupsClusterAddGroupParams groupIdSelector
+
+-- | @- setGroupId:@
+setGroupId :: (IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams, IsNSNumber value) => mtrGroupsClusterAddGroupParams -> value -> IO ()
+setGroupId mtrGroupsClusterAddGroupParams value =
+  sendMessage mtrGroupsClusterAddGroupParams setGroupIdSelector (toNSNumber value)
 
 -- | @- groupName@
 groupName :: IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams => mtrGroupsClusterAddGroupParams -> IO (Id NSString)
@@ -84,49 +90,25 @@ setTimedInvokeTimeoutMs :: (IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAdd
 setTimedInvokeTimeoutMs mtrGroupsClusterAddGroupParams value =
   sendMessage mtrGroupsClusterAddGroupParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams => mtrGroupsClusterAddGroupParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrGroupsClusterAddGroupParams =
-  sendMessage mtrGroupsClusterAddGroupParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams, IsNSNumber value) => mtrGroupsClusterAddGroupParams -> value -> IO ()
-setServerSideProcessingTimeout mtrGroupsClusterAddGroupParams value =
-  sendMessage mtrGroupsClusterAddGroupParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
--- | @- groupId@
-groupId :: IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams => mtrGroupsClusterAddGroupParams -> IO (Id NSNumber)
-groupId mtrGroupsClusterAddGroupParams =
-  sendMessage mtrGroupsClusterAddGroupParams groupIdSelector
-
--- | @- setGroupId:@
-setGroupId :: (IsMTRGroupsClusterAddGroupParams mtrGroupsClusterAddGroupParams, IsNSNumber value) => mtrGroupsClusterAddGroupParams -> value -> IO ()
-setGroupId mtrGroupsClusterAddGroupParams value =
-  sendMessage mtrGroupsClusterAddGroupParams setGroupIdSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @groupID@
-groupIDSelector :: Selector '[] (Id NSNumber)
-groupIDSelector = mkSelector "groupID"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupsClusterAddGroupParams)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setGroupID:@
-setGroupIDSelector :: Selector '[Id NSNumber] ()
-setGroupIDSelector = mkSelector "setGroupID:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
+-- | @Selector@ for @groupId@
+groupIdSelector :: Selector '[] (Id NSNumber)
+groupIdSelector = mkSelector "groupId"
+
+-- | @Selector@ for @setGroupId:@
+setGroupIdSelector :: Selector '[Id NSNumber] ()
+setGroupIdSelector = mkSelector "setGroupId:"
 
 -- | @Selector@ for @groupName@
 groupNameSelector :: Selector '[] (Id NSString)
@@ -143,20 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
-
--- | @Selector@ for @groupId@
-groupIdSelector :: Selector '[] (Id NSNumber)
-groupIdSelector = mkSelector "groupId"
-
--- | @Selector@ for @setGroupId:@
-setGroupIdSelector :: Selector '[Id NSNumber] ()
-setGroupIdSelector = mkSelector "setGroupId:"
 

@@ -71,27 +71,6 @@ instance ObjCReturn VZDiskImageSynchronizationMode where
   fromRetained x = pure (VZDiskImageSynchronizationMode x)
   fromOwned x = pure (VZDiskImageSynchronizationMode x)
 
--- | @VZDiskSynchronizationMode@
-newtype VZDiskSynchronizationMode = VZDiskSynchronizationMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern VZDiskSynchronizationModeFull :: VZDiskSynchronizationMode
-pattern VZDiskSynchronizationModeFull = VZDiskSynchronizationMode 0
-
-pattern VZDiskSynchronizationModeNone :: VZDiskSynchronizationMode
-pattern VZDiskSynchronizationModeNone = VZDiskSynchronizationMode 1
-
-instance ObjCArgument VZDiskSynchronizationMode where
-  withObjCArg (VZDiskSynchronizationMode x) k = k (argCLong x)
-
-instance ObjCReturn VZDiskSynchronizationMode where
-  type RawReturn VZDiskSynchronizationMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (VZDiskSynchronizationMode x)
-  fromOwned x = pure (VZDiskSynchronizationMode x)
-
 -- | Options when creating a new EFI variable store.
 -- | @VZEFIVariableStoreInitializationOptions@ (bitmask)
 newtype VZEFIVariableStoreInitializationOptions = VZEFIVariableStoreInitializationOptions CULong
@@ -163,14 +142,6 @@ instance ObjCReturn VZEFIVariableStoreInitializationOptions where
 --
 -- The operation is not supported.
 --
--- VZErrorSave
---
--- The save operation failed.
---
--- VZErrorRestore
---
--- The restore operation failed.
---
 -- VZErrorRestoreImageCatalogLoadFailed
 --
 -- The restore image catalog failed to load.
@@ -198,30 +169,6 @@ instance ObjCReturn VZEFIVariableStoreInitializationOptions where
 -- VZErrorInstallationFailed
 --
 -- An error occurred during installation.
---
--- VZErrorNetworkBlockDeviceNegotiationFailed
---
--- The connection or the negotiation with the NBD server failed.
---
--- VZErrorNetworkBlockDeviceDisconnected
---
--- The NBD client is disconnected from the server.
---
--- VZErrorUSBControllerNotFound
---
--- Controller not found.
---
--- VZErrorDeviceAlreadyAttached
---
--- Device is already attached.
---
--- VZErrorDeviceInitializationFailure
---
--- Device initialization failure.
---
--- VZErrorDeviceNotFound
---
--- Device not found.
 -- | @VZErrorCode@
 newtype VZErrorCode = VZErrorCode CLong
   deriving stock (Eq, Ord, Show)
@@ -257,12 +204,6 @@ pattern VZErrorOperationCancelled = VZErrorCode 9
 pattern VZErrorNotSupported :: VZErrorCode
 pattern VZErrorNotSupported = VZErrorCode 10
 
-pattern VZErrorSave :: VZErrorCode
-pattern VZErrorSave = VZErrorCode 11
-
-pattern VZErrorRestore :: VZErrorCode
-pattern VZErrorRestore = VZErrorCode 12
-
 pattern VZErrorRestoreImageCatalogLoadFailed :: VZErrorCode
 pattern VZErrorRestoreImageCatalogLoadFailed = VZErrorCode 10001
 
@@ -284,24 +225,6 @@ pattern VZErrorInstallationRequiresUpdate = VZErrorCode 10006
 pattern VZErrorInstallationFailed :: VZErrorCode
 pattern VZErrorInstallationFailed = VZErrorCode 10007
 
-pattern VZErrorNetworkBlockDeviceNegotiationFailed :: VZErrorCode
-pattern VZErrorNetworkBlockDeviceNegotiationFailed = VZErrorCode 20001
-
-pattern VZErrorNetworkBlockDeviceDisconnected :: VZErrorCode
-pattern VZErrorNetworkBlockDeviceDisconnected = VZErrorCode 20002
-
-pattern VZErrorUSBControllerNotFound :: VZErrorCode
-pattern VZErrorUSBControllerNotFound = VZErrorCode 30001
-
-pattern VZErrorDeviceAlreadyAttached :: VZErrorCode
-pattern VZErrorDeviceAlreadyAttached = VZErrorCode 30002
-
-pattern VZErrorDeviceInitializationFailure :: VZErrorCode
-pattern VZErrorDeviceInitializationFailure = VZErrorCode 30003
-
-pattern VZErrorDeviceNotFound :: VZErrorCode
-pattern VZErrorDeviceNotFound = VZErrorCode 30004
-
 instance ObjCArgument VZErrorCode where
   withObjCArg (VZErrorCode x) k = k (argCLong x)
 
@@ -311,56 +234,6 @@ instance ObjCReturn VZErrorCode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (VZErrorCode x)
   fromOwned x = pure (VZErrorCode x)
-
--- | Availability of Rosetta support for Linux binaries.
--- | @VZLinuxRosettaAvailability@
-newtype VZLinuxRosettaAvailability = VZLinuxRosettaAvailability CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern VZLinuxRosettaAvailabilityNotSupported :: VZLinuxRosettaAvailability
-pattern VZLinuxRosettaAvailabilityNotSupported = VZLinuxRosettaAvailability 0
-
-pattern VZLinuxRosettaAvailabilityNotInstalled :: VZLinuxRosettaAvailability
-pattern VZLinuxRosettaAvailabilityNotInstalled = VZLinuxRosettaAvailability 1
-
-pattern VZLinuxRosettaAvailabilityInstalled :: VZLinuxRosettaAvailability
-pattern VZLinuxRosettaAvailabilityInstalled = VZLinuxRosettaAvailability 2
-
-instance ObjCArgument VZLinuxRosettaAvailability where
-  withObjCArg (VZLinuxRosettaAvailability x) k = k (argCLong x)
-
-instance ObjCReturn VZLinuxRosettaAvailability where
-  type RawReturn VZLinuxRosettaAvailability = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (VZLinuxRosettaAvailability x)
-  fromOwned x = pure (VZLinuxRosettaAvailability x)
-
--- | Options when creating a new auxiliary storage.
--- | @VZMacAuxiliaryStorageInitializationOptions@ (bitmask)
-newtype VZMacAuxiliaryStorageInitializationOptions = VZMacAuxiliaryStorageInitializationOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup VZMacAuxiliaryStorageInitializationOptions where
-  (<>) = (.|.)
-
-instance Monoid VZMacAuxiliaryStorageInitializationOptions where
-  mempty = VZMacAuxiliaryStorageInitializationOptions 0
-
-pattern VZMacAuxiliaryStorageInitializationOptionAllowOverwrite :: VZMacAuxiliaryStorageInitializationOptions
-pattern VZMacAuxiliaryStorageInitializationOptionAllowOverwrite = VZMacAuxiliaryStorageInitializationOptions 1
-
-instance ObjCArgument VZMacAuxiliaryStorageInitializationOptions where
-  withObjCArg (VZMacAuxiliaryStorageInitializationOptions x) k = k (argCULong x)
-
-instance ObjCReturn VZMacAuxiliaryStorageInitializationOptions where
-  type RawReturn VZMacAuxiliaryStorageInitializationOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (VZMacAuxiliaryStorageInitializationOptions x)
-  fromOwned x = pure (VZMacAuxiliaryStorageInitializationOptions x)
 
 -- | Execution state of the virtual machine.
 -- | @VZVirtualMachineState@
@@ -391,12 +264,6 @@ pattern VZVirtualMachineStateResuming = VZVirtualMachineState 6
 
 pattern VZVirtualMachineStateStopping :: VZVirtualMachineState
 pattern VZVirtualMachineStateStopping = VZVirtualMachineState 7
-
-pattern VZVirtualMachineStateSaving :: VZVirtualMachineState
-pattern VZVirtualMachineStateSaving = VZVirtualMachineState 8
-
-pattern VZVirtualMachineStateRestoring :: VZVirtualMachineState
-pattern VZVirtualMachineStateRestoring = VZVirtualMachineState 9
 
 instance ObjCArgument VZVirtualMachineState where
   withObjCArg (VZVirtualMachineState x) k = k (argCLong x)

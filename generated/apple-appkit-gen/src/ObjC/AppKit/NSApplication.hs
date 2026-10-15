@@ -14,9 +14,6 @@ module ObjC.AppKit.NSApplication
   , windowWithWindowNumber
   , deactivate
   , activateIgnoringOtherApps
-  , activate
-  , yieldActivationToApplication
-  , yieldActivationToApplicationWithBundleIdentifier
   , hideOtherApplications
   , unhideAllApplications
   , finishLaunching
@@ -92,7 +89,6 @@ module ObjC.AppKit.NSApplication
   , active
   , hidden
   , running
-  , applicationShouldSuppressHighDynamicRangeContent
   , modalWindow
   , windows
   , mainMenu
@@ -129,13 +125,11 @@ module ObjC.AppKit.NSApplication
   , abortModalSelector
   , activateContextHelpModeSelector
   , activateIgnoringOtherAppsSelector
-  , activateSelector
   , activationPolicySelector
   , activeSelector
   , addWindowsItem_title_filenameSelector
   , appearanceSelector
   , applicationIconImageSelector
-  , applicationShouldSuppressHighDynamicRangeContentSelector
   , application_printFilesSelector
   , arrangeInFrontSelector
   , automaticCustomizeTouchBarMenuItemEnabledSelector
@@ -242,8 +236,6 @@ module ObjC.AppKit.NSApplication
   , windowWithWindowNumberSelector
   , windowsMenuSelector
   , windowsSelector
-  , yieldActivationToApplicationSelector
-  , yieldActivationToApplicationWithBundleIdentifierSelector
 
   -- * Enum types
   , NSApplicationActivationPolicy(NSApplicationActivationPolicy)
@@ -305,7 +297,6 @@ module ObjC.AppKit.NSApplication
   , pattern NSEventMaskPressure
   , pattern NSEventMaskDirectTouch
   , pattern NSEventMaskChangeMode
-  , pattern NSEventMaskMouseCancelled
   , pattern NSEventMaskAny
   , NSRemoteNotificationType(NSRemoteNotificationType)
   , pattern NSRemoteNotificationTypeNone
@@ -361,43 +352,10 @@ deactivate :: IsNSApplication nsApplication => nsApplication -> IO ()
 deactivate nsApplication =
   sendMessage nsApplication deactivateSelector
 
--- | Makes the receiver the active app. - Parameter ignoreOtherApps: If @NO@, the app is activated only if no other app is currently active. If @YES@, the app activates regardless.
---
--- ObjC selector: @- activateIgnoringOtherApps:@
+-- | @- activateIgnoringOtherApps:@
 activateIgnoringOtherApps :: IsNSApplication nsApplication => nsApplication -> Bool -> IO ()
-activateIgnoringOtherApps nsApplication ignoreOtherApps =
-  sendMessage nsApplication activateIgnoringOtherAppsSelector ignoreOtherApps
-
--- | Makes the receiver the active app, if possible.
---
--- You shouldn’t assume the app will be active immediately after sending this message. The framework also does not guarantee that the app will be activated at all.
---
--- For cooperative activation, the other application should call @-yieldActivationToApplication:@ or equivalent prior to the target application invoking @-activate@.
---
--- Invoking @-activate@ on an already-active application cancels any pending activation yields by the receiver.
---
--- ObjC selector: @- activate@
-activate :: IsNSApplication nsApplication => nsApplication -> IO ()
-activate nsApplication =
-  sendMessage nsApplication activateSelector
-
--- | Explicitly allows another application to make itself active.
---
--- Calling this method will not deactivate the current app, nor will it activate the other app. For cooperative or coordinated activation, the other app should request to be activated at some point in the future by calling @activate@ or equivalent.
---
--- ObjC selector: @- yieldActivationToApplication:@
-yieldActivationToApplication :: (IsNSApplication nsApplication, IsNSRunningApplication application) => nsApplication -> application -> IO ()
-yieldActivationToApplication nsApplication application =
-  sendMessage nsApplication yieldActivationToApplicationSelector (toNSRunningApplication application)
-
--- | Same as @-yieldActivationToApplication:@, but the provided bundle identifier does not have to correspond to a currently running application.
---
--- This method should be used to yield activation to apps that may not be running at the time of invoking it. If it is known that the target application is currently running, use @-yieldActivationToApplication:@ instead.
---
--- ObjC selector: @- yieldActivationToApplicationWithBundleIdentifier:@
-yieldActivationToApplicationWithBundleIdentifier :: (IsNSApplication nsApplication, IsNSString bundleIdentifier) => nsApplication -> bundleIdentifier -> IO ()
-yieldActivationToApplicationWithBundleIdentifier nsApplication bundleIdentifier =
-  sendMessage nsApplication yieldActivationToApplicationWithBundleIdentifierSelector (toNSString bundleIdentifier)
+activateIgnoringOtherApps nsApplication flag =
+  sendMessage nsApplication activateIgnoringOtherAppsSelector flag
 
 -- | @- hideOtherApplications:@
 hideOtherApplications :: IsNSApplication nsApplication => nsApplication -> RawId -> IO ()
@@ -464,9 +422,7 @@ terminate :: IsNSApplication nsApplication => nsApplication -> RawId -> IO ()
 terminate nsApplication sender =
   sendMessage nsApplication terminateSelector sender
 
--- | Inform the user that this application needs attention - call this method only if your application is not already active.
---
--- ObjC selector: @- requestUserAttention:@
+-- | @- requestUserAttention:@
 requestUserAttention :: IsNSApplication nsApplication => nsApplication -> NSRequestUserAttentionType -> IO CLong
 requestUserAttention nsApplication requestType =
   sendMessage nsApplication requestUserAttentionSelector requestType
@@ -476,9 +432,7 @@ cancelUserAttentionRequest :: IsNSApplication nsApplication => nsApplication -> 
 cancelUserAttentionRequest nsApplication request =
   sendMessage nsApplication cancelUserAttentionRequestSelector request
 
--- | Execute a block for each of the app's windows. Set @*stop = YES@ if desired, to halt the enumeration early.
---
--- ObjC selector: @- enumerateWindowsWithOptions:usingBlock:@
+-- | @- enumerateWindowsWithOptions:usingBlock:@
 enumerateWindowsWithOptions_usingBlock :: IsNSApplication nsApplication => nsApplication -> NSWindowListOptions -> Ptr () -> IO ()
 enumerateWindowsWithOptions_usingBlock nsApplication options block =
   sendMessage nsApplication enumerateWindowsWithOptions_usingBlockSelector options block
@@ -498,16 +452,12 @@ updateWindows :: IsNSApplication nsApplication => nsApplication -> IO ()
 updateWindows nsApplication =
   sendMessage nsApplication updateWindowsSelector
 
--- | Returns: The activation policy of the application.
---
--- ObjC selector: @- activationPolicy@
+-- | @- activationPolicy@
 activationPolicy :: IsNSApplication nsApplication => nsApplication -> IO NSApplicationActivationPolicy
 activationPolicy nsApplication =
   sendMessage nsApplication activationPolicySelector
 
--- | Attempts to modify the application's activation policy.  In OS X 10.9, any policy may be set; prior to 10.9, the activation policy may be changed to @NSApplicationActivationPolicyProhibited@ or @NSApplicationActivationPolicyRegular,@ but may not be changed to @NSApplicationActivationPolicyAccessory.@  This returns @YES@ if setting the activation policy is successful, and @NO@ if not.
---
--- ObjC selector: @- setActivationPolicy:@
+-- | @- setActivationPolicy:@
 setActivationPolicy :: IsNSApplication nsApplication => nsApplication -> NSApplicationActivationPolicy -> IO Bool
 setActivationPolicy nsApplication activationPolicy =
   sendMessage nsApplication setActivationPolicySelector activationPolicy
@@ -524,23 +474,17 @@ detachDrawingThread_toTarget_withObject selector target argument =
     cls' <- getRequiredClass "NSApplication"
     sendClassMessage cls' detachDrawingThread_toTarget_withObjectSelector selector target argument
 
--- | If an application delegate returns NSTerminateLater from -applicationShouldTerminate:, -replyToApplicationShouldTerminate: must be called with YES or NO once the application decides if it can terminate.
---
--- ObjC selector: @- replyToApplicationShouldTerminate:@
+-- | @- replyToApplicationShouldTerminate:@
 replyToApplicationShouldTerminate :: IsNSApplication nsApplication => nsApplication -> Bool -> IO ()
 replyToApplicationShouldTerminate nsApplication shouldTerminate =
   sendMessage nsApplication replyToApplicationShouldTerminateSelector shouldTerminate
 
--- | If an application delegate encounters an error while handling @-application:openFiles:@ or@ -application:printFiles:@, @-replyToOpenOrPrint:@ should be called with @NSApplicationDelegateReplyFailure.@  If the user cancels the operation, @NSApplicationDelegateReplyCancel@ should be used, and if the operation succeeds, @NSApplicationDelegateReplySuccess@ should be used .
---
--- ObjC selector: @- replyToOpenOrPrint:@
+-- | @- replyToOpenOrPrint:@
 replyToOpenOrPrint :: IsNSApplication nsApplication => nsApplication -> NSApplicationDelegateReply -> IO ()
 replyToOpenOrPrint nsApplication reply =
   sendMessage nsApplication replyToOpenOrPrintSelector reply
 
--- | Opens the character palette.
---
--- ObjC selector: @- orderFrontCharacterPalette:@
+-- | @- orderFrontCharacterPalette:@
 orderFrontCharacterPalette :: IsNSApplication nsApplication => nsApplication -> RawId -> IO ()
 orderFrontCharacterPalette nsApplication sender =
   sendMessage nsApplication orderFrontCharacterPaletteSelector sender
@@ -602,30 +546,22 @@ showHelp :: IsNSApplication nsApplication => nsApplication -> RawId -> IO ()
 showHelp nsApplication sender =
   sendMessage nsApplication showHelpSelector sender
 
--- | @-runModalForWindow:relativeToWindow:@ was deprecated in Mac OS X 10.0. Please use @-[NSWindow beginSheet:completionHandler:]@ instead.
---
--- ObjC selector: @- runModalForWindow:relativeToWindow:@
+-- | @- runModalForWindow:relativeToWindow:@
 runModalForWindow_relativeToWindow :: (IsNSApplication nsApplication, IsNSWindow window, IsNSWindow docWindow) => nsApplication -> window -> docWindow -> IO CLong
 runModalForWindow_relativeToWindow nsApplication window docWindow =
   sendMessage nsApplication runModalForWindow_relativeToWindowSelector (toNSWindow window) (toNSWindow docWindow)
 
--- | @-beginModalSessionForWindow:relativeToWindow:@ was deprecated in Mac OS X 10.0. Please use @-[NSWindow beginSheet:completionHandler:]@ instead.
---
--- ObjC selector: @- beginModalSessionForWindow:relativeToWindow:@
+-- | @- beginModalSessionForWindow:relativeToWindow:@
 beginModalSessionForWindow_relativeToWindow :: (IsNSApplication nsApplication, IsNSWindow window, IsNSWindow docWindow) => nsApplication -> window -> docWindow -> IO (Ptr ())
 beginModalSessionForWindow_relativeToWindow nsApplication window docWindow =
   sendMessage nsApplication beginModalSessionForWindow_relativeToWindowSelector (toNSWindow window) (toNSWindow docWindow)
 
--- | @-application:printFiles:@ was deprecated in Mac OS X 10.4. Implement @-application:printFiles:withSettings:showPrintPanels:@ in your application delegate instead.
---
--- ObjC selector: @- application:printFiles:@
+-- | @- application:printFiles:@
 application_printFiles :: (IsNSApplication nsApplication, IsNSApplication sender, IsNSArray filenames) => nsApplication -> sender -> filenames -> IO ()
 application_printFiles nsApplication sender filenames =
   sendMessage nsApplication application_printFilesSelector (toNSApplication sender) (toNSArray filenames)
 
--- | @NSWindow@'s @-beginSheet:completionHandler:@ and @-endSheet:returnCode:@ should be used instead.  @NSApplication@'s @-beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo:@ will continue to work as it previously did, leaking contextInfo and failing when there is already an existing sheet.
---
--- ObjC selector: @- beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo:@
+-- | @- beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo:@
 beginSheet_modalForWindow_modalDelegate_didEndSelector_contextInfo :: (IsNSApplication nsApplication, IsNSWindow sheet, IsNSWindow docWindow) => nsApplication -> sheet -> docWindow -> RawId -> Sel -> Ptr () -> IO ()
 beginSheet_modalForWindow_modalDelegate_didEndSelector_contextInfo nsApplication sheet docWindow modalDelegate didEndSelector contextInfo =
   sendMessage nsApplication beginSheet_modalForWindow_modalDelegate_didEndSelector_contextInfoSelector (toNSWindow sheet) (toNSWindow docWindow) modalDelegate didEndSelector contextInfo
@@ -642,8 +578,8 @@ endSheet_returnCode nsApplication sheet returnCode =
 
 -- | @- makeWindowsPerform:inOrder:@
 makeWindowsPerform_inOrder :: IsNSApplication nsApplication => nsApplication -> Sel -> Bool -> IO (Id NSWindow)
-makeWindowsPerform_inOrder nsApplication selector inOrder =
-  sendMessage nsApplication makeWindowsPerform_inOrderSelector selector inOrder
+makeWindowsPerform_inOrder nsApplication selector flag =
+  sendMessage nsApplication makeWindowsPerform_inOrderSelector selector flag
 
 -- | @- registerForRemoteNotifications@
 registerForRemoteNotifications :: IsNSApplication nsApplication => nsApplication -> IO ()
@@ -655,22 +591,12 @@ unregisterForRemoteNotifications :: IsNSApplication nsApplication => nsApplicati
 unregisterForRemoteNotifications nsApplication =
   sendMessage nsApplication unregisterForRemoteNotificationsSelector
 
--- | The following are soft deprecated. Please use the @-registerForRemoteNotifications@ above and @-requestAuthorizationWithOptions:@ from @UserNotifications.framework@.
---
--- ObjC selector: @- registerForRemoteNotificationTypes:@
+-- | @- registerForRemoteNotificationTypes:@
 registerForRemoteNotificationTypes :: IsNSApplication nsApplication => nsApplication -> NSRemoteNotificationType -> IO ()
 registerForRemoteNotificationTypes nsApplication types =
   sendMessage nsApplication registerForRemoteNotificationTypesSelector types
 
--- | Disable or reenable relaunching this app on login, if the app was running at the time the user logged out.  These methods increment and decrement a counter respectively; if the counter is 0 at the time the user logs out, then the app may be relaunched when the user logs back in.  The counter is initially zero, so by default apps are relaunched.
---
--- If your app should not be relaunched because it launches via some other mechanism (e.g. launchd), then the recommended usage is to call @-[NSApp disableRelaunchOnLogin]@ once, and never pair it with an -enable call.
---
--- If your app should not be relaunched because it triggers a restart (e.g. an installer), then the recommended usage is to call @-[NSApp disableRelaunchOnLogin]@ immediately before you attempt to trigger a restart, and @-[NSApp enableRelaunchOnLogin]@ immediately after.  This is because the user may cancel restarting; if the user later restarts for another reason, then your app should be brought back.
---
--- These methods are thread safe.
---
--- ObjC selector: @- disableRelaunchOnLogin@
+-- | @- disableRelaunchOnLogin@
 disableRelaunchOnLogin :: IsNSApplication nsApplication => nsApplication -> IO ()
 disableRelaunchOnLogin nsApplication =
   sendMessage nsApplication disableRelaunchOnLoginSelector
@@ -757,8 +683,8 @@ sendEvent nsApplication event =
 
 -- | @- postEvent:atStart:@
 postEvent_atStart :: (IsNSApplication nsApplication, IsNSEvent event) => nsApplication -> event -> Bool -> IO ()
-postEvent_atStart nsApplication event atStart =
-  sendMessage nsApplication postEvent_atStartSelector (toNSEvent event) atStart
+postEvent_atStart nsApplication event flag =
+  sendMessage nsApplication postEvent_atStartSelector (toNSEvent event) flag
 
 -- | @- nextEventMatchingMask:untilDate:inMode:dequeue:@
 nextEventMatchingMask_untilDate_inMode_dequeue :: (IsNSApplication nsApplication, IsNSDate expiration, IsNSString mode) => nsApplication -> NSEventMask -> expiration -> mode -> Bool -> IO (Id NSEvent)
@@ -812,13 +738,6 @@ running :: IsNSApplication nsApplication => nsApplication -> IO Bool
 running nsApplication =
   sendMessage nsApplication runningSelector
 
--- | A boolean value indicating whether your application should suppress HDR content based on established policy. Built-in AppKit components such as NSImageView will automatically behave correctly with HDR content. You should use this value in conjunction with notifications (@NSApplicationShouldBeginSuppressingHighDynamicRangeContentNotification@ and @NSApplicationShouldEndSuppressingHighDynamicRangeContentNotification@) to suppress HDR content in your application when signaled to do so.
---
--- ObjC selector: @- applicationShouldSuppressHighDynamicRangeContent@
-applicationShouldSuppressHighDynamicRangeContent :: IsNSApplication nsApplication => nsApplication -> IO Bool
-applicationShouldSuppressHighDynamicRangeContent nsApplication =
-  sendMessage nsApplication applicationShouldSuppressHighDynamicRangeContentSelector
-
 -- | @- modalWindow@
 modalWindow :: IsNSApplication nsApplication => nsApplication -> IO (Id NSWindow)
 modalWindow nsApplication =
@@ -839,19 +758,15 @@ setMainMenu :: (IsNSApplication nsApplication, IsNSMenu value) => nsApplication 
 setMainMenu nsApplication value =
   sendMessage nsApplication setMainMenuSelector (toNSMenu value)
 
--- | Set or get the Help menu for the app.  If a non-nil menu is set as the Help menu, Spotlight for Help will be installed in it; otherwise AppKit will install Spotlight for Help into a menu of its choosing (and that menu is not returned from @-helpMenu@).  If you wish to completely suppress Spotlight for Help, you can set a menu that does not appear in the menu bar.  @NSApplication@ retains its Help menu and releases it when a different menu is set.
---
--- ObjC selector: @- helpMenu@
-helpMenu :: IsNSApplication nsApplication => nsApplication -> IO (Id NSMenu)
+-- | @- helpMenu@
+helpMenu :: IsNSApplication nsApplication => nsApplication -> IO RawId
 helpMenu nsApplication =
   sendMessage nsApplication helpMenuSelector
 
--- | Set or get the Help menu for the app.  If a non-nil menu is set as the Help menu, Spotlight for Help will be installed in it; otherwise AppKit will install Spotlight for Help into a menu of its choosing (and that menu is not returned from @-helpMenu@).  If you wish to completely suppress Spotlight for Help, you can set a menu that does not appear in the menu bar.  @NSApplication@ retains its Help menu and releases it when a different menu is set.
---
--- ObjC selector: @- setHelpMenu:@
-setHelpMenu :: (IsNSApplication nsApplication, IsNSMenu value) => nsApplication -> value -> IO ()
+-- | @- setHelpMenu:@
+setHelpMenu :: IsNSApplication nsApplication => nsApplication -> RawId -> IO ()
 setHelpMenu nsApplication value =
-  sendMessage nsApplication setHelpMenuSelector (toNSMenu value)
+  sendMessage nsApplication setHelpMenuSelector value
 
 -- | @- applicationIconImage@
 applicationIconImage :: IsNSApplication nsApplication => nsApplication -> IO (Id NSImage)
@@ -864,27 +779,21 @@ setApplicationIconImage nsApplication value =
   sendMessage nsApplication setApplicationIconImageSelector (toNSImage value)
 
 -- | @- dockTile@
-dockTile :: IsNSApplication nsApplication => nsApplication -> IO (Id NSDockTile)
+dockTile :: IsNSApplication nsApplication => nsApplication -> IO RawId
 dockTile nsApplication =
   sendMessage nsApplication dockTileSelector
 
--- | Gets or sets the @presentationOptions@ that should be in effect for the system when this application is the active application.  Only certain combinations of @NSApplicationPresentationOptions@ flags are allowed, as detailed in the AppKit Release Notes and the reference documentation for @-setPresentationOptions:@.  When given an invalid combination of option flags, @-setPresentationOptions:@ raises an exception.
---
--- ObjC selector: @- presentationOptions@
+-- | @- presentationOptions@
 presentationOptions :: IsNSApplication nsApplication => nsApplication -> IO NSApplicationPresentationOptions
 presentationOptions nsApplication =
   sendMessage nsApplication presentationOptionsSelector
 
--- | Gets or sets the @presentationOptions@ that should be in effect for the system when this application is the active application.  Only certain combinations of @NSApplicationPresentationOptions@ flags are allowed, as detailed in the AppKit Release Notes and the reference documentation for @-setPresentationOptions:@.  When given an invalid combination of option flags, @-setPresentationOptions:@ raises an exception.
---
--- ObjC selector: @- setPresentationOptions:@
+-- | @- setPresentationOptions:@
 setPresentationOptions :: IsNSApplication nsApplication => nsApplication -> NSApplicationPresentationOptions -> IO ()
 setPresentationOptions nsApplication value =
   sendMessage nsApplication setPresentationOptionsSelector value
 
--- | Returns: The set of application presentation options that are currently in effect for the system. These are the presentation options that have been put into effect by the currently active application.
---
--- ObjC selector: @- currentSystemPresentationOptions@
+-- | @- currentSystemPresentationOptions@
 currentSystemPresentationOptions :: IsNSApplication nsApplication => nsApplication -> IO NSApplicationPresentationOptions
 currentSystemPresentationOptions nsApplication =
   sendMessage nsApplication currentSystemPresentationOptionsSelector
@@ -923,16 +832,12 @@ setAutomaticCustomizeTouchBarMenuItemEnabled :: IsNSApplication nsApplication =>
 setAutomaticCustomizeTouchBarMenuItemEnabled nsApplication value =
   sendMessage nsApplication setAutomaticCustomizeTouchBarMenuItemEnabledSelector value
 
--- | This method is deprecated as of macOS 10.12. Beginning in OS X 10.11 it would always return nil. Prior to this it would return an undefined graphics context that was not generally suitable for drawing.
---
--- ObjC selector: @- context@
-context :: IsNSApplication nsApplication => nsApplication -> IO (Id NSGraphicsContext)
+-- | @- context@
+context :: IsNSApplication nsApplication => nsApplication -> IO RawId
 context nsApplication =
   sendMessage nsApplication contextSelector
 
--- | Returns: @YES@ if the application is currently registered for remote notifications, taking into account any systemwide settings; doesn't relate to connectivity.
---
--- ObjC selector: @- registeredForRemoteNotifications@
+-- | @- registeredForRemoteNotifications@
 registeredForRemoteNotifications :: IsNSApplication nsApplication => nsApplication -> IO Bool
 registeredForRemoteNotifications nsApplication =
   sendMessage nsApplication registeredForRemoteNotificationsSelector
@@ -967,9 +872,7 @@ setServicesMenu :: (IsNSApplication nsApplication, IsNSMenu value) => nsApplicat
 setServicesMenu nsApplication value =
   sendMessage nsApplication setServicesMenuSelector (toNSMenu value)
 
--- | A Boolean value indicating whether keyboard navigation is enabled in System Settings > Keyboard. - Note: The value of this property is @YES@ if keyboard navigation is enabled or @NO@ if it’s not. You might use this value to implement your own key loop or to implement in-control tabbing behavior similar to @NSTableView@. Because of the nature of the preference storage, you won’t be notified of changes to this property if you attempt to observe it through key-value observing; however, accessing this property is fairly inexpensive, so you can access it directly rather than caching it. - Note: This property’s value isn’t necessarily reflective of the separate accessibility setting named “Full Keyboard Access” in System Settings > Accessibility > Keyboard.
---
--- ObjC selector: @- fullKeyboardAccessEnabled@
+-- | @- fullKeyboardAccessEnabled@
 fullKeyboardAccessEnabled :: IsNSApplication nsApplication => nsApplication -> IO Bool
 fullKeyboardAccessEnabled nsApplication =
   sendMessage nsApplication fullKeyboardAccessEnabledSelector
@@ -990,17 +893,17 @@ currentEvent nsApplication =
   sendMessage nsApplication currentEventSelector
 
 -- | @- appearance@
-appearance :: IsNSApplication nsApplication => nsApplication -> IO (Id NSAppearance)
+appearance :: IsNSApplication nsApplication => nsApplication -> IO RawId
 appearance nsApplication =
   sendMessage nsApplication appearanceSelector
 
 -- | @- setAppearance:@
-setAppearance :: (IsNSApplication nsApplication, IsNSAppearance value) => nsApplication -> value -> IO ()
+setAppearance :: IsNSApplication nsApplication => nsApplication -> RawId -> IO ()
 setAppearance nsApplication value =
-  sendMessage nsApplication setAppearanceSelector (toNSAppearance value)
+  sendMessage nsApplication setAppearanceSelector value
 
 -- | @- effectiveAppearance@
-effectiveAppearance :: IsNSApplication nsApplication => nsApplication -> IO (Id NSAppearance)
+effectiveAppearance :: IsNSApplication nsApplication => nsApplication -> IO RawId
 effectiveAppearance nsApplication =
   sendMessage nsApplication effectiveAppearanceSelector
 
@@ -1031,18 +934,6 @@ deactivateSelector = mkSelector "deactivate"
 -- | @Selector@ for @activateIgnoringOtherApps:@
 activateIgnoringOtherAppsSelector :: Selector '[Bool] ()
 activateIgnoringOtherAppsSelector = mkSelector "activateIgnoringOtherApps:"
-
--- | @Selector@ for @activate@
-activateSelector :: Selector '[] ()
-activateSelector = mkSelector "activate"
-
--- | @Selector@ for @yieldActivationToApplication:@
-yieldActivationToApplicationSelector :: Selector '[Id NSRunningApplication] ()
-yieldActivationToApplicationSelector = mkSelector "yieldActivationToApplication:"
-
--- | @Selector@ for @yieldActivationToApplicationWithBundleIdentifier:@
-yieldActivationToApplicationWithBundleIdentifierSelector :: Selector '[Id NSString] ()
-yieldActivationToApplicationWithBundleIdentifierSelector = mkSelector "yieldActivationToApplicationWithBundleIdentifier:"
 
 -- | @Selector@ for @hideOtherApplications:@
 hideOtherApplicationsSelector :: Selector '[RawId] ()
@@ -1344,10 +1235,6 @@ hiddenSelector = mkSelector "hidden"
 runningSelector :: Selector '[] Bool
 runningSelector = mkSelector "running"
 
--- | @Selector@ for @applicationShouldSuppressHighDynamicRangeContent@
-applicationShouldSuppressHighDynamicRangeContentSelector :: Selector '[] Bool
-applicationShouldSuppressHighDynamicRangeContentSelector = mkSelector "applicationShouldSuppressHighDynamicRangeContent"
-
 -- | @Selector@ for @modalWindow@
 modalWindowSelector :: Selector '[] (Id NSWindow)
 modalWindowSelector = mkSelector "modalWindow"
@@ -1365,11 +1252,11 @@ setMainMenuSelector :: Selector '[Id NSMenu] ()
 setMainMenuSelector = mkSelector "setMainMenu:"
 
 -- | @Selector@ for @helpMenu@
-helpMenuSelector :: Selector '[] (Id NSMenu)
+helpMenuSelector :: Selector '[] RawId
 helpMenuSelector = mkSelector "helpMenu"
 
 -- | @Selector@ for @setHelpMenu:@
-setHelpMenuSelector :: Selector '[Id NSMenu] ()
+setHelpMenuSelector :: Selector '[RawId] ()
 setHelpMenuSelector = mkSelector "setHelpMenu:"
 
 -- | @Selector@ for @applicationIconImage@
@@ -1381,7 +1268,7 @@ setApplicationIconImageSelector :: Selector '[Id NSImage] ()
 setApplicationIconImageSelector = mkSelector "setApplicationIconImage:"
 
 -- | @Selector@ for @dockTile@
-dockTileSelector :: Selector '[] (Id NSDockTile)
+dockTileSelector :: Selector '[] RawId
 dockTileSelector = mkSelector "dockTile"
 
 -- | @Selector@ for @presentationOptions@
@@ -1421,7 +1308,7 @@ setAutomaticCustomizeTouchBarMenuItemEnabledSelector :: Selector '[Bool] ()
 setAutomaticCustomizeTouchBarMenuItemEnabledSelector = mkSelector "setAutomaticCustomizeTouchBarMenuItemEnabled:"
 
 -- | @Selector@ for @context@
-contextSelector :: Selector '[] (Id NSGraphicsContext)
+contextSelector :: Selector '[] RawId
 contextSelector = mkSelector "context"
 
 -- | @Selector@ for @registeredForRemoteNotifications@
@@ -1469,14 +1356,14 @@ currentEventSelector :: Selector '[] (Id NSEvent)
 currentEventSelector = mkSelector "currentEvent"
 
 -- | @Selector@ for @appearance@
-appearanceSelector :: Selector '[] (Id NSAppearance)
+appearanceSelector :: Selector '[] RawId
 appearanceSelector = mkSelector "appearance"
 
 -- | @Selector@ for @setAppearance:@
-setAppearanceSelector :: Selector '[Id NSAppearance] ()
+setAppearanceSelector :: Selector '[RawId] ()
 setAppearanceSelector = mkSelector "setAppearance:"
 
 -- | @Selector@ for @effectiveAppearance@
-effectiveAppearanceSelector :: Selector '[] (Id NSAppearance)
+effectiveAppearanceSelector :: Selector '[] RawId
 effectiveAppearanceSelector = mkSelector "effectiveAppearance"
 

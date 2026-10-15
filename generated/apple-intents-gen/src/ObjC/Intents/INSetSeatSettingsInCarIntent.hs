@@ -104,7 +104,7 @@ relativeLevelSetting inSetSeatSettingsInCarIntent =
   sendMessage inSetSeatSettingsInCarIntent relativeLevelSettingSelector
 
 -- | @- carName@
-carName :: IsINSetSeatSettingsInCarIntent inSetSeatSettingsInCarIntent => inSetSeatSettingsInCarIntent -> IO (Id INSpeakableString)
+carName :: IsINSetSeatSettingsInCarIntent inSetSeatSettingsInCarIntent => inSetSeatSettingsInCarIntent -> IO RawId
 carName inSetSeatSettingsInCarIntent =
   sendMessage inSetSeatSettingsInCarIntent carNameSelector
 
@@ -145,6 +145,6 @@ relativeLevelSettingSelector :: Selector '[] INRelativeSetting
 relativeLevelSettingSelector = mkSelector "relativeLevelSetting"
 
 -- | @Selector@ for @carName@
-carNameSelector :: Selector '[] (Id INSpeakableString)
+carNameSelector :: Selector '[] RawId
 carNameSelector = mkSelector "carName"
 

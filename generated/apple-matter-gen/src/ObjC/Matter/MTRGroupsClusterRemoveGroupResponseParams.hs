@@ -7,19 +7,17 @@
 module ObjC.Matter.MTRGroupsClusterRemoveGroupResponseParams
   ( MTRGroupsClusterRemoveGroupResponseParams
   , IsMTRGroupsClusterRemoveGroupResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , status
   , setStatus
-  , groupID
-  , setGroupID
-  , timedInvokeTimeoutMs
-  , setTimedInvokeTimeoutMs
   , groupId
   , setGroupId
-  , groupIDSelector
+  , timedInvokeTimeoutMs
+  , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , groupIdSelector
-  , initWithResponseValue_errorSelector
-  , setGroupIDSelector
+  , initSelector
   , setGroupIdSelector
   , setStatusSelector
   , setTimedInvokeTimeoutMsSelector
@@ -40,16 +38,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRGroupsClusterRemoveGroupResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrGroupsClusterRemoveGroupResponseParams -> responseValue -> error_ -> IO (Id MTRGroupsClusterRemoveGroupResponseParams)
-initWithResponseValue_error mtrGroupsClusterRemoveGroupResponseParams responseValue error_ =
-  sendOwnedMessage mtrGroupsClusterRemoveGroupResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams => mtrGroupsClusterRemoveGroupResponseParams -> IO (Id MTRGroupsClusterRemoveGroupResponseParams)
+init_ mtrGroupsClusterRemoveGroupResponseParams =
+  sendOwnedMessage mtrGroupsClusterRemoveGroupResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams => mtrGroupsClusterRemoveGroupResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrGroupsClusterRemoveGroupResponseParams zone =
+  sendOwnedMessage mtrGroupsClusterRemoveGroupResponseParams copyWithZoneSelector zone
 
 -- | @- status@
 status :: IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams => mtrGroupsClusterRemoveGroupResponseParams -> IO (Id NSNumber)
@@ -61,15 +58,15 @@ setStatus :: (IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemove
 setStatus mtrGroupsClusterRemoveGroupResponseParams value =
   sendMessage mtrGroupsClusterRemoveGroupResponseParams setStatusSelector (toNSNumber value)
 
--- | @- groupID@
-groupID :: IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams => mtrGroupsClusterRemoveGroupResponseParams -> IO (Id NSNumber)
-groupID mtrGroupsClusterRemoveGroupResponseParams =
-  sendMessage mtrGroupsClusterRemoveGroupResponseParams groupIDSelector
+-- | @- groupId@
+groupId :: IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams => mtrGroupsClusterRemoveGroupResponseParams -> IO (Id NSNumber)
+groupId mtrGroupsClusterRemoveGroupResponseParams =
+  sendMessage mtrGroupsClusterRemoveGroupResponseParams groupIdSelector
 
--- | @- setGroupID:@
-setGroupID :: (IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams, IsNSNumber value) => mtrGroupsClusterRemoveGroupResponseParams -> value -> IO ()
-setGroupID mtrGroupsClusterRemoveGroupResponseParams value =
-  sendMessage mtrGroupsClusterRemoveGroupResponseParams setGroupIDSelector (toNSNumber value)
+-- | @- setGroupId:@
+setGroupId :: (IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams, IsNSNumber value) => mtrGroupsClusterRemoveGroupResponseParams -> value -> IO ()
+setGroupId mtrGroupsClusterRemoveGroupResponseParams value =
+  sendMessage mtrGroupsClusterRemoveGroupResponseParams setGroupIdSelector (toNSNumber value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -93,23 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRGroupsClusterRemoveGroupResponseParams mtrGroup
 setTimedInvokeTimeoutMs mtrGroupsClusterRemoveGroupResponseParams value =
   sendMessage mtrGroupsClusterRemoveGroupResponseParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | @- groupId@
-groupId :: IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams => mtrGroupsClusterRemoveGroupResponseParams -> IO (Id NSNumber)
-groupId mtrGroupsClusterRemoveGroupResponseParams =
-  sendMessage mtrGroupsClusterRemoveGroupResponseParams groupIdSelector
-
--- | @- setGroupId:@
-setGroupId :: (IsMTRGroupsClusterRemoveGroupResponseParams mtrGroupsClusterRemoveGroupResponseParams, IsNSNumber value) => mtrGroupsClusterRemoveGroupResponseParams -> value -> IO ()
-setGroupId mtrGroupsClusterRemoveGroupResponseParams value =
-  sendMessage mtrGroupsClusterRemoveGroupResponseParams setGroupIdSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRGroupsClusterRemoveGroupResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupsClusterRemoveGroupResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] (Id NSNumber)
@@ -119,13 +110,13 @@ statusSelector = mkSelector "status"
 setStatusSelector :: Selector '[Id NSNumber] ()
 setStatusSelector = mkSelector "setStatus:"
 
--- | @Selector@ for @groupID@
-groupIDSelector :: Selector '[] (Id NSNumber)
-groupIDSelector = mkSelector "groupID"
+-- | @Selector@ for @groupId@
+groupIdSelector :: Selector '[] (Id NSNumber)
+groupIdSelector = mkSelector "groupId"
 
--- | @Selector@ for @setGroupID:@
-setGroupIDSelector :: Selector '[Id NSNumber] ()
-setGroupIDSelector = mkSelector "setGroupID:"
+-- | @Selector@ for @setGroupId:@
+setGroupIdSelector :: Selector '[Id NSNumber] ()
+setGroupIdSelector = mkSelector "setGroupId:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
@@ -134,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @groupId@
-groupIdSelector :: Selector '[] (Id NSNumber)
-groupIdSelector = mkSelector "groupId"
-
--- | @Selector@ for @setGroupId:@
-setGroupIdSelector :: Selector '[Id NSNumber] ()
-setGroupIdSelector = mkSelector "setGroupId:"
 

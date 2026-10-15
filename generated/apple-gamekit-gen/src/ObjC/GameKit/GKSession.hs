@@ -4,11 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The GKSession handles networking between peers for a game, which includes establishing and maintaining connections over a game network, and network data transport.
---
--- This a not a Game Center feature. To support Game Center and online play, see GKMatch.
---
--- Generated bindings for @GKSession@.
+-- | Generated bindings for @GKSession@.
 module ObjC.GameKit.GKSession
   ( GKSession
   , IsGKSession(..)

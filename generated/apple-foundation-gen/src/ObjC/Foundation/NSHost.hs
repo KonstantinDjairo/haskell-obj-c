@@ -119,7 +119,7 @@ addresses nsHost =
   sendMessage nsHost addressesSelector
 
 -- | @- localizedName@
-localizedName :: IsNSHost nsHost => nsHost -> IO (Id NSString)
+localizedName :: IsNSHost nsHost => nsHost -> IO RawId
 localizedName nsHost =
   sendMessage nsHost localizedNameSelector
 
@@ -172,6 +172,6 @@ addressesSelector :: Selector '[] (Id NSArray)
 addressesSelector = mkSelector "addresses"
 
 -- | @Selector@ for @localizedName@
-localizedNameSelector :: Selector '[] (Id NSString)
+localizedNameSelector :: Selector '[] RawId
 localizedNameSelector = mkSelector "localizedName"
 

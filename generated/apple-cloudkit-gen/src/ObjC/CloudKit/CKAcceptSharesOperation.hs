@@ -60,7 +60,7 @@ setShareMetadatas ckAcceptSharesOperation value =
 
 -- | Called once for each share metadata that the server processed
 --
--- If error is nil then the share was successfully accepted.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- If error is nil then the share was successfully accepted.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perShareCompletionBlock@
 perShareCompletionBlock :: IsCKAcceptSharesOperation ckAcceptSharesOperation => ckAcceptSharesOperation -> IO (Ptr ())
@@ -69,7 +69,7 @@ perShareCompletionBlock ckAcceptSharesOperation =
 
 -- | Called once for each share metadata that the server processed
 --
--- If error is nil then the share was successfully accepted.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- If error is nil then the share was successfully accepted.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerShareCompletionBlock:@
 setPerShareCompletionBlock :: IsCKAcceptSharesOperation ckAcceptSharesOperation => ckAcceptSharesOperation -> Ptr () -> IO ()
@@ -82,7 +82,7 @@ setPerShareCompletionBlock ckAcceptSharesOperation value =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- acceptSharesCompletionBlock@
 acceptSharesCompletionBlock :: IsCKAcceptSharesOperation ckAcceptSharesOperation => ckAcceptSharesOperation -> IO (Ptr ())
@@ -95,7 +95,7 @@ acceptSharesCompletionBlock ckAcceptSharesOperation =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareCompletionBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setAcceptSharesCompletionBlock:@
 setAcceptSharesCompletionBlock :: IsCKAcceptSharesOperation ckAcceptSharesOperation => ckAcceptSharesOperation -> Ptr () -> IO ()

@@ -34,7 +34,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.AVFoundation.Internal.Classes
-import ObjC.CoreImage.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | corners

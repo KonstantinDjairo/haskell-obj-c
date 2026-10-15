@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterPowerSource
   ( MTRClusterPowerSource
   , IsMTRClusterPowerSource(..)
+  , initWithDevice_endpoint_queue
   , readAttributeStatusWithParams
   , readAttributeOrderWithParams
   , readAttributeDescriptionWithParams
@@ -40,7 +41,6 @@ module ObjC.Matter.MTRClusterPowerSource
   , readAttributeBatFunctionalWhileChargingWithParams
   , readAttributeBatChargingCurrentWithParams
   , readAttributeActiveBatChargeFaultsWithParams
-  , readAttributeEndpointListWithParams
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
   , readAttributeAttributeListWithParams
@@ -48,10 +48,7 @@ module ObjC.Matter.MTRClusterPowerSource
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -79,7 +76,6 @@ module ObjC.Matter.MTRClusterPowerSource
   , readAttributeBatVoltageWithParamsSelector
   , readAttributeClusterRevisionWithParamsSelector
   , readAttributeDescriptionWithParamsSelector
-  , readAttributeEndpointListWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
   , readAttributeOrderWithParamsSelector
@@ -105,6 +101,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterPowerSource mtrClusterPowerSource, IsMTRDevice device, IsNSObject queue) => mtrClusterPowerSource -> device -> CUShort -> queue -> IO (Id MTRClusterPowerSource)
+initWithDevice_endpoint_queue mtrClusterPowerSource device endpoint queue =
+  sendOwnedMessage mtrClusterPowerSource initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeStatusWithParams:@
 readAttributeStatusWithParams :: (IsMTRClusterPowerSource mtrClusterPowerSource, IsMTRReadParams params) => mtrClusterPowerSource -> params -> IO (Id NSDictionary)
@@ -261,11 +262,6 @@ readAttributeActiveBatChargeFaultsWithParams :: (IsMTRClusterPowerSource mtrClus
 readAttributeActiveBatChargeFaultsWithParams mtrClusterPowerSource params =
   sendMessage mtrClusterPowerSource readAttributeActiveBatChargeFaultsWithParamsSelector (toMTRReadParams params)
 
--- | @- readAttributeEndpointListWithParams:@
-readAttributeEndpointListWithParams :: (IsMTRClusterPowerSource mtrClusterPowerSource, IsMTRReadParams params) => mtrClusterPowerSource -> params -> IO (Id NSDictionary)
-readAttributeEndpointListWithParams mtrClusterPowerSource params =
-  sendMessage mtrClusterPowerSource readAttributeEndpointListWithParamsSelector (toMTRReadParams params)
-
 -- | @- readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParams :: (IsMTRClusterPowerSource mtrClusterPowerSource, IsMTRReadParams params) => mtrClusterPowerSource -> params -> IO (Id NSDictionary)
 readAttributeGeneratedCommandListWithParams mtrClusterPowerSource params =
@@ -303,21 +299,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterPowerSource"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterPowerSource mtrClusterPowerSource, IsMTRDevice device, IsNSObject queue) => mtrClusterPowerSource -> device -> CUShort -> queue -> IO (Id MTRClusterPowerSource)
-initWithDevice_endpoint_queue mtrClusterPowerSource device endpoint queue =
-  sendOwnedMessage mtrClusterPowerSource initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterPowerSource mtrClusterPowerSource, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterPowerSource -> device -> endpointID -> queue -> IO (Id MTRClusterPowerSource)
-initWithDevice_endpointID_queue mtrClusterPowerSource device endpointID queue =
-  sendOwnedMessage mtrClusterPowerSource initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterPowerSource)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeStatusWithParams:@
 readAttributeStatusWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -443,10 +431,6 @@ readAttributeBatChargingCurrentWithParamsSelector = mkSelector "readAttributeBat
 readAttributeActiveBatChargeFaultsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributeActiveBatChargeFaultsWithParamsSelector = mkSelector "readAttributeActiveBatChargeFaultsWithParams:"
 
--- | @Selector@ for @readAttributeEndpointListWithParams:@
-readAttributeEndpointListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeEndpointListWithParamsSelector = mkSelector "readAttributeEndpointListWithParams:"
-
 -- | @Selector@ for @readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributeGeneratedCommandListWithParamsSelector = mkSelector "readAttributeGeneratedCommandListWithParams:"
@@ -474,12 +458,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterPowerSource)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterPowerSource)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterPowerSource)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

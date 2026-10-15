@@ -181,7 +181,6 @@ stopScan cbCentralManager =
 -- @seealso            CBConnectPeripheralOptionNotifyOnNotificationKey
 -- @seealso            CBConnectPeripheralOptionEnableTransportBridgingKey
 -- @seealso			CBConnectPeripheralOptionRequiresANCS
--- @seealso            CBConnectPeripheralOptionEnableAutoReconnect
 --
 -- ObjC selector: @- connectPeripheral:options:@
 connectPeripheral_options :: (IsCBCentralManager cbCentralManager, IsCBPeripheral peripheral, IsNSDictionary options) => cbCentralManager -> peripheral -> options -> IO ()

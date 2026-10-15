@@ -23,9 +23,6 @@ module ObjC.NetworkExtension.NEDNSSettings
   , setMatchDomains
   , matchDomainsNoSearch
   , setMatchDomainsNoSearch
-  , allowFailover
-  , setAllowFailover
-  , allowFailoverSelector
   , dnsProtocolSelector
   , domainNameSelector
   , initWithServersSelector
@@ -33,7 +30,6 @@ module ObjC.NetworkExtension.NEDNSSettings
   , matchDomainsSelector
   , searchDomainsSelector
   , serversSelector
-  , setAllowFailoverSelector
   , setDomainNameSelector
   , setMatchDomainsNoSearchSelector
   , setMatchDomainsSelector
@@ -160,24 +156,6 @@ setMatchDomainsNoSearch :: IsNEDNSSettings nednsSettings => nednsSettings -> Boo
 setMatchDomainsNoSearch nednsSettings value =
   sendMessage nednsSettings setMatchDomainsNoSearchSelector value
 
--- | allowFailover
---
--- A boolean indicating if failover to the default system resolver is permitted on resolution failure.
---
--- ObjC selector: @- allowFailover@
-allowFailover :: IsNEDNSSettings nednsSettings => nednsSettings -> IO Bool
-allowFailover nednsSettings =
-  sendMessage nednsSettings allowFailoverSelector
-
--- | allowFailover
---
--- A boolean indicating if failover to the default system resolver is permitted on resolution failure.
---
--- ObjC selector: @- setAllowFailover:@
-setAllowFailover :: IsNEDNSSettings nednsSettings => nednsSettings -> Bool -> IO ()
-setAllowFailover nednsSettings value =
-  sendMessage nednsSettings setAllowFailoverSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -225,12 +203,4 @@ matchDomainsNoSearchSelector = mkSelector "matchDomainsNoSearch"
 -- | @Selector@ for @setMatchDomainsNoSearch:@
 setMatchDomainsNoSearchSelector :: Selector '[Bool] ()
 setMatchDomainsNoSearchSelector = mkSelector "setMatchDomainsNoSearch:"
-
--- | @Selector@ for @allowFailover@
-allowFailoverSelector :: Selector '[] Bool
-allowFailoverSelector = mkSelector "allowFailover"
-
--- | @Selector@ for @setAllowFailover:@
-setAllowFailoverSelector :: Selector '[Bool] ()
-setAllowFailoverSelector = mkSelector "setAllowFailover:"
 

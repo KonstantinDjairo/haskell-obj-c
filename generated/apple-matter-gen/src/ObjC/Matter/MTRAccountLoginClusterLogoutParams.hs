@@ -7,16 +7,12 @@
 module ObjC.Matter.MTRAccountLoginClusterLogoutParams
   ( MTRAccountLoginClusterLogoutParams
   , IsMTRAccountLoginClusterLogoutParams(..)
-  , node
-  , setNode
+  , init_
+  , copyWithZone
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , nodeSelector
-  , serverSideProcessingTimeoutSelector
-  , setNodeSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -34,15 +30,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- node@
-node :: IsMTRAccountLoginClusterLogoutParams mtrAccountLoginClusterLogoutParams => mtrAccountLoginClusterLogoutParams -> IO (Id NSNumber)
-node mtrAccountLoginClusterLogoutParams =
-  sendMessage mtrAccountLoginClusterLogoutParams nodeSelector
+-- | @- init@
+init_ :: IsMTRAccountLoginClusterLogoutParams mtrAccountLoginClusterLogoutParams => mtrAccountLoginClusterLogoutParams -> IO (Id MTRAccountLoginClusterLogoutParams)
+init_ mtrAccountLoginClusterLogoutParams =
+  sendOwnedMessage mtrAccountLoginClusterLogoutParams initSelector
 
--- | @- setNode:@
-setNode :: (IsMTRAccountLoginClusterLogoutParams mtrAccountLoginClusterLogoutParams, IsNSNumber value) => mtrAccountLoginClusterLogoutParams -> value -> IO ()
-setNode mtrAccountLoginClusterLogoutParams value =
-  sendMessage mtrAccountLoginClusterLogoutParams setNodeSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAccountLoginClusterLogoutParams mtrAccountLoginClusterLogoutParams => mtrAccountLoginClusterLogoutParams -> Ptr () -> IO RawId
+copyWithZone mtrAccountLoginClusterLogoutParams zone =
+  sendOwnedMessage mtrAccountLoginClusterLogoutParams copyWithZoneSelector zone
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -66,39 +62,17 @@ setTimedInvokeTimeoutMs :: (IsMTRAccountLoginClusterLogoutParams mtrAccountLogin
 setTimedInvokeTimeoutMs mtrAccountLoginClusterLogoutParams value =
   sendMessage mtrAccountLoginClusterLogoutParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRAccountLoginClusterLogoutParams mtrAccountLoginClusterLogoutParams => mtrAccountLoginClusterLogoutParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrAccountLoginClusterLogoutParams =
-  sendMessage mtrAccountLoginClusterLogoutParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRAccountLoginClusterLogoutParams mtrAccountLoginClusterLogoutParams, IsNSNumber value) => mtrAccountLoginClusterLogoutParams -> value -> IO ()
-setServerSideProcessingTimeout mtrAccountLoginClusterLogoutParams value =
-  sendMessage mtrAccountLoginClusterLogoutParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @node@
-nodeSelector :: Selector '[] (Id NSNumber)
-nodeSelector = mkSelector "node"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAccountLoginClusterLogoutParams)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setNode:@
-setNodeSelector :: Selector '[Id NSNumber] ()
-setNodeSelector = mkSelector "setNode:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +81,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

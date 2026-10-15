@@ -7,14 +7,14 @@
 module ObjC.Matter.MTRDoorLockClusterGetUserParams
   ( MTRDoorLockClusterGetUserParams
   , IsMTRDoorLockClusterGetUserParams(..)
+  , init_
+  , copyWithZone
   , userIndex
   , setUserIndex
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , serverSideProcessingTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , setUserIndexSelector
   , timedInvokeTimeoutMsSelector
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRDoorLockClusterGetUserParams mtrDoorLockClusterGetUserParams => mtrDoorLockClusterGetUserParams -> IO (Id MTRDoorLockClusterGetUserParams)
+init_ mtrDoorLockClusterGetUserParams =
+  sendOwnedMessage mtrDoorLockClusterGetUserParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterGetUserParams mtrDoorLockClusterGetUserParams => mtrDoorLockClusterGetUserParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterGetUserParams zone =
+  sendOwnedMessage mtrDoorLockClusterGetUserParams copyWithZoneSelector zone
 
 -- | @- userIndex@
 userIndex :: IsMTRDoorLockClusterGetUserParams mtrDoorLockClusterGetUserParams => mtrDoorLockClusterGetUserParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRDoorLockClusterGetUserParams mtrDoorLockCluster
 setTimedInvokeTimeoutMs mtrDoorLockClusterGetUserParams value =
   sendMessage mtrDoorLockClusterGetUserParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRDoorLockClusterGetUserParams mtrDoorLockClusterGetUserParams => mtrDoorLockClusterGetUserParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrDoorLockClusterGetUserParams =
-  sendMessage mtrDoorLockClusterGetUserParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRDoorLockClusterGetUserParams mtrDoorLockClusterGetUserParams, IsNSNumber value) => mtrDoorLockClusterGetUserParams -> value -> IO ()
-setServerSideProcessingTimeout mtrDoorLockClusterGetUserParams value =
-  sendMessage mtrDoorLockClusterGetUserParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterGetUserParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @userIndex@
 userIndexSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

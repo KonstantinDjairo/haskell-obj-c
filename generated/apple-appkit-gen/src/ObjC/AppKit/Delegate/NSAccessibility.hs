@@ -138,10 +138,6 @@ data NSAccessibilityOverrides = NSAccessibilityOverrides
   , _setAccessibilityRequired :: !(Maybe (Bool -> IO ()))
   , _accessibilityCustomRotors :: !(Maybe (IO RawId))
   , _setAccessibilityCustomRotors :: !(Maybe (RawId -> IO ()))
-  , _accessibilityUserInputLabels :: !(Maybe (IO RawId))
-  , _setAccessibilityUserInputLabels :: !(Maybe (RawId -> IO ()))
-  , _accessibilityAttributedUserInputLabels :: !(Maybe (IO RawId))
-  , _setAccessibilityAttributedUserInputLabels :: !(Maybe (RawId -> IO ()))
   , _accessibilityApplicationFocusedUIElement :: !(Maybe (IO RawId))
   , _setAccessibilityApplicationFocusedUIElement :: !(Maybe (RawId -> IO ()))
   , _accessibilityMainWindow :: !(Maybe (IO RawId))
@@ -379,10 +375,6 @@ defaultNSAccessibilityOverrides = NSAccessibilityOverrides
   , _setAccessibilityRequired = Nothing
   , _accessibilityCustomRotors = Nothing
   , _setAccessibilityCustomRotors = Nothing
-  , _accessibilityUserInputLabels = Nothing
-  , _setAccessibilityUserInputLabels = Nothing
-  , _accessibilityAttributedUserInputLabels = Nothing
-  , _setAccessibilityAttributedUserInputLabels = Nothing
   , _accessibilityApplicationFocusedUIElement = Nothing
   , _setAccessibilityApplicationFocusedUIElement = Nothing
   , _accessibilityMainWindow = Nothing
@@ -686,10 +678,6 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       sel_setAccessibilityRequired = unSelector (mkSelector "setAccessibilityRequired:")
       sel_accessibilityCustomRotors = unSelector (mkSelector "accessibilityCustomRotors")
       sel_setAccessibilityCustomRotors = unSelector (mkSelector "setAccessibilityCustomRotors:")
-      sel_accessibilityUserInputLabels = unSelector (mkSelector "accessibilityUserInputLabels")
-      sel_setAccessibilityUserInputLabels = unSelector (mkSelector "setAccessibilityUserInputLabels:")
-      sel_accessibilityAttributedUserInputLabels = unSelector (mkSelector "accessibilityAttributedUserInputLabels")
-      sel_setAccessibilityAttributedUserInputLabels = unSelector (mkSelector "setAccessibilityAttributedUserInputLabels:")
       sel_accessibilityApplicationFocusedUIElement = unSelector (mkSelector "accessibilityApplicationFocusedUIElement")
       sel_setAccessibilityApplicationFocusedUIElement = unSelector (mkSelector "setAccessibilityApplicationFocusedUIElement:")
       sel_accessibilityMainWindow = unSelector (mkSelector "accessibilityMainWindow")
@@ -1854,48 +1842,8 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0)
   addObjCMethod cls "setAccessibilityCustomRotors:" "v@:@" stub_101
 
-  -- accessibilityUserInputLabels
-  stub_102 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
-    case _accessibilityUserInputLabels rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityUserInputLabels" "@@:" stub_102
-
-  -- setAccessibilityUserInputLabels:
-  stub_103 <- wrap_at_v $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
-    case _setAccessibilityUserInputLabels rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityUserInputLabels:" "v@:@" stub_103
-
-  -- accessibilityAttributedUserInputLabels
-  stub_104 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
-    case _accessibilityAttributedUserInputLabels rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityAttributedUserInputLabels" "@@:" stub_104
-
-  -- setAccessibilityAttributedUserInputLabels:
-  stub_105 <- wrap_at_v $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
-    case _setAccessibilityAttributedUserInputLabels rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityAttributedUserInputLabels:" "v@:@" stub_105
-
   -- accessibilityApplicationFocusedUIElement
-  stub_106 <- wrap_at $ \self _cmd -> do
+  stub_102 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityApplicationFocusedUIElement rec_ of
@@ -1903,19 +1851,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityApplicationFocusedUIElement" "@@:" stub_106
+  addObjCMethod cls "accessibilityApplicationFocusedUIElement" "@@:" stub_102
 
   -- setAccessibilityApplicationFocusedUIElement:
-  stub_107 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_103 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityApplicationFocusedUIElement rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityApplicationFocusedUIElement:" "v@:@" stub_107
+  addObjCMethod cls "setAccessibilityApplicationFocusedUIElement:" "v@:@" stub_103
 
   -- accessibilityMainWindow
-  stub_108 <- wrap_at $ \self _cmd -> do
+  stub_104 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMainWindow rec_ of
@@ -1923,19 +1871,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityMainWindow" "@@:" stub_108
+  addObjCMethod cls "accessibilityMainWindow" "@@:" stub_104
 
   -- setAccessibilityMainWindow:
-  stub_109 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_105 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMainWindow rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityMainWindow:" "v@:@" stub_109
+  addObjCMethod cls "setAccessibilityMainWindow:" "v@:@" stub_105
 
   -- accessibilityHidden
-  stub_110 <- wrap_B $ \self _cmd -> do
+  stub_106 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityHidden rec_ of
@@ -1943,19 +1891,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (if r then 1 else 0)
-  addObjCMethod cls "accessibilityHidden" "B@:" stub_110
+  addObjCMethod cls "accessibilityHidden" "B@:" stub_106
 
   -- setAccessibilityHidden:
-  stub_111 <- wrap_B_v $ \self _cmd arg0 -> do
+  stub_107 <- wrap_B_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityHidden rec_ of
       Nothing -> pure ()
       Just f -> f (arg0 /= 0)
-  addObjCMethod cls "setAccessibilityHidden:" "v@:B" stub_111
+  addObjCMethod cls "setAccessibilityHidden:" "v@:B" stub_107
 
   -- accessibilityFrontmost
-  stub_112 <- wrap_B $ \self _cmd -> do
+  stub_108 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityFrontmost rec_ of
@@ -1963,19 +1911,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (if r then 1 else 0)
-  addObjCMethod cls "accessibilityFrontmost" "B@:" stub_112
+  addObjCMethod cls "accessibilityFrontmost" "B@:" stub_108
 
   -- setAccessibilityFrontmost:
-  stub_113 <- wrap_B_v $ \self _cmd arg0 -> do
+  stub_109 <- wrap_B_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityFrontmost rec_ of
       Nothing -> pure ()
       Just f -> f (arg0 /= 0)
-  addObjCMethod cls "setAccessibilityFrontmost:" "v@:B" stub_113
+  addObjCMethod cls "setAccessibilityFrontmost:" "v@:B" stub_109
 
   -- accessibilityFocusedWindow
-  stub_114 <- wrap_at $ \self _cmd -> do
+  stub_110 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityFocusedWindow rec_ of
@@ -1983,19 +1931,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityFocusedWindow" "@@:" stub_114
+  addObjCMethod cls "accessibilityFocusedWindow" "@@:" stub_110
 
   -- setAccessibilityFocusedWindow:
-  stub_115 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_111 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityFocusedWindow rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityFocusedWindow:" "v@:@" stub_115
+  addObjCMethod cls "setAccessibilityFocusedWindow:" "v@:@" stub_111
 
   -- accessibilityWindows
-  stub_116 <- wrap_at $ \self _cmd -> do
+  stub_112 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityWindows rec_ of
@@ -2003,19 +1951,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityWindows" "@@:" stub_116
+  addObjCMethod cls "accessibilityWindows" "@@:" stub_112
 
   -- setAccessibilityWindows:
-  stub_117 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_113 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityWindows rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityWindows:" "v@:@" stub_117
+  addObjCMethod cls "setAccessibilityWindows:" "v@:@" stub_113
 
   -- accessibilityExtrasMenuBar
-  stub_118 <- wrap_at $ \self _cmd -> do
+  stub_114 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityExtrasMenuBar rec_ of
@@ -2023,19 +1971,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityExtrasMenuBar" "@@:" stub_118
+  addObjCMethod cls "accessibilityExtrasMenuBar" "@@:" stub_114
 
   -- setAccessibilityExtrasMenuBar:
-  stub_119 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_115 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityExtrasMenuBar rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityExtrasMenuBar:" "v@:@" stub_119
+  addObjCMethod cls "setAccessibilityExtrasMenuBar:" "v@:@" stub_115
 
   -- accessibilityMenuBar
-  stub_120 <- wrap_at $ \self _cmd -> do
+  stub_116 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMenuBar rec_ of
@@ -2043,19 +1991,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityMenuBar" "@@:" stub_120
+  addObjCMethod cls "accessibilityMenuBar" "@@:" stub_116
 
   -- setAccessibilityMenuBar:
-  stub_121 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_117 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMenuBar rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityMenuBar:" "v@:@" stub_121
+  addObjCMethod cls "setAccessibilityMenuBar:" "v@:@" stub_117
 
   -- accessibilityColumnTitles
-  stub_122 <- wrap_at $ \self _cmd -> do
+  stub_118 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityColumnTitles rec_ of
@@ -2063,19 +2011,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityColumnTitles" "@@:" stub_122
+  addObjCMethod cls "accessibilityColumnTitles" "@@:" stub_118
 
   -- setAccessibilityColumnTitles:
-  stub_123 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_119 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityColumnTitles rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityColumnTitles:" "v@:@" stub_123
+  addObjCMethod cls "setAccessibilityColumnTitles:" "v@:@" stub_119
 
   -- accessibilityOrderedByRow
-  stub_124 <- wrap_B $ \self _cmd -> do
+  stub_120 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityOrderedByRow rec_ of
@@ -2083,19 +2031,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (if r then 1 else 0)
-  addObjCMethod cls "accessibilityOrderedByRow" "B@:" stub_124
+  addObjCMethod cls "accessibilityOrderedByRow" "B@:" stub_120
 
   -- setAccessibilityOrderedByRow:
-  stub_125 <- wrap_B_v $ \self _cmd arg0 -> do
+  stub_121 <- wrap_B_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityOrderedByRow rec_ of
       Nothing -> pure ()
       Just f -> f (arg0 /= 0)
-  addObjCMethod cls "setAccessibilityOrderedByRow:" "v@:B" stub_125
+  addObjCMethod cls "setAccessibilityOrderedByRow:" "v@:B" stub_121
 
   -- accessibilityHorizontalUnitDescription
-  stub_126 <- wrap_at $ \self _cmd -> do
+  stub_122 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityHorizontalUnitDescription rec_ of
@@ -2103,19 +2051,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityHorizontalUnitDescription" "@@:" stub_126
+  addObjCMethod cls "accessibilityHorizontalUnitDescription" "@@:" stub_122
 
   -- setAccessibilityHorizontalUnitDescription:
-  stub_127 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_123 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityHorizontalUnitDescription rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityHorizontalUnitDescription:" "v@:@" stub_127
+  addObjCMethod cls "setAccessibilityHorizontalUnitDescription:" "v@:@" stub_123
 
   -- accessibilityVerticalUnitDescription
-  stub_128 <- wrap_at $ \self _cmd -> do
+  stub_124 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityVerticalUnitDescription rec_ of
@@ -2123,19 +2071,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityVerticalUnitDescription" "@@:" stub_128
+  addObjCMethod cls "accessibilityVerticalUnitDescription" "@@:" stub_124
 
   -- setAccessibilityVerticalUnitDescription:
-  stub_129 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_125 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityVerticalUnitDescription rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityVerticalUnitDescription:" "v@:@" stub_129
+  addObjCMethod cls "setAccessibilityVerticalUnitDescription:" "v@:@" stub_125
 
   -- accessibilityHandles
-  stub_130 <- wrap_at $ \self _cmd -> do
+  stub_126 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityHandles rec_ of
@@ -2143,19 +2091,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityHandles" "@@:" stub_130
+  addObjCMethod cls "accessibilityHandles" "@@:" stub_126
 
   -- setAccessibilityHandles:
-  stub_131 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_127 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityHandles rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityHandles:" "v@:@" stub_131
+  addObjCMethod cls "setAccessibilityHandles:" "v@:@" stub_127
 
   -- accessibilityWarningValue
-  stub_132 <- wrap_at $ \self _cmd -> do
+  stub_128 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityWarningValue rec_ of
@@ -2163,19 +2111,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityWarningValue" "@@:" stub_132
+  addObjCMethod cls "accessibilityWarningValue" "@@:" stub_128
 
   -- setAccessibilityWarningValue:
-  stub_133 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_129 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityWarningValue rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityWarningValue:" "v@:@" stub_133
+  addObjCMethod cls "setAccessibilityWarningValue:" "v@:@" stub_129
 
   -- accessibilityCriticalValue
-  stub_134 <- wrap_at $ \self _cmd -> do
+  stub_130 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityCriticalValue rec_ of
@@ -2183,19 +2131,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityCriticalValue" "@@:" stub_134
+  addObjCMethod cls "accessibilityCriticalValue" "@@:" stub_130
 
   -- setAccessibilityCriticalValue:
-  stub_135 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_131 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityCriticalValue rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityCriticalValue:" "v@:@" stub_135
+  addObjCMethod cls "setAccessibilityCriticalValue:" "v@:@" stub_131
 
   -- accessibilityDisclosed
-  stub_136 <- wrap_B $ \self _cmd -> do
+  stub_132 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityDisclosed rec_ of
@@ -2203,19 +2151,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (if r then 1 else 0)
-  addObjCMethod cls "accessibilityDisclosed" "B@:" stub_136
+  addObjCMethod cls "accessibilityDisclosed" "B@:" stub_132
 
   -- setAccessibilityDisclosed:
-  stub_137 <- wrap_B_v $ \self _cmd arg0 -> do
+  stub_133 <- wrap_B_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityDisclosed rec_ of
       Nothing -> pure ()
       Just f -> f (arg0 /= 0)
-  addObjCMethod cls "setAccessibilityDisclosed:" "v@:B" stub_137
+  addObjCMethod cls "setAccessibilityDisclosed:" "v@:B" stub_133
 
   -- accessibilityDisclosedByRow
-  stub_138 <- wrap_at $ \self _cmd -> do
+  stub_134 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityDisclosedByRow rec_ of
@@ -2223,19 +2171,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityDisclosedByRow" "@@:" stub_138
+  addObjCMethod cls "accessibilityDisclosedByRow" "@@:" stub_134
 
   -- setAccessibilityDisclosedByRow:
-  stub_139 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_135 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityDisclosedByRow rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityDisclosedByRow:" "v@:@" stub_139
+  addObjCMethod cls "setAccessibilityDisclosedByRow:" "v@:@" stub_135
 
   -- accessibilityDisclosedRows
-  stub_140 <- wrap_at $ \self _cmd -> do
+  stub_136 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityDisclosedRows rec_ of
@@ -2243,19 +2191,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityDisclosedRows" "@@:" stub_140
+  addObjCMethod cls "accessibilityDisclosedRows" "@@:" stub_136
 
   -- setAccessibilityDisclosedRows:
-  stub_141 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_137 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityDisclosedRows rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityDisclosedRows:" "v@:@" stub_141
+  addObjCMethod cls "setAccessibilityDisclosedRows:" "v@:@" stub_137
 
   -- accessibilityDisclosureLevel
-  stub_142 <- wrap_q $ \self _cmd -> do
+  stub_138 <- wrap_q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityDisclosureLevel rec_ of
@@ -2263,19 +2211,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "accessibilityDisclosureLevel" "q@:" stub_142
+  addObjCMethod cls "accessibilityDisclosureLevel" "q@:" stub_138
 
   -- setAccessibilityDisclosureLevel:
-  stub_143 <- wrap_q_v $ \self _cmd arg0 -> do
+  stub_139 <- wrap_q_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityDisclosureLevel rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0)
-  addObjCMethod cls "setAccessibilityDisclosureLevel:" "v@:q" stub_143
+  addObjCMethod cls "setAccessibilityDisclosureLevel:" "v@:q" stub_139
 
   -- accessibilityMarkerUIElements
-  stub_144 <- wrap_at $ \self _cmd -> do
+  stub_140 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMarkerUIElements rec_ of
@@ -2283,19 +2231,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityMarkerUIElements" "@@:" stub_144
+  addObjCMethod cls "accessibilityMarkerUIElements" "@@:" stub_140
 
   -- setAccessibilityMarkerUIElements:
-  stub_145 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_141 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMarkerUIElements rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityMarkerUIElements:" "v@:@" stub_145
+  addObjCMethod cls "setAccessibilityMarkerUIElements:" "v@:@" stub_141
 
   -- accessibilityMarkerValues
-  stub_146 <- wrap_at $ \self _cmd -> do
+  stub_142 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMarkerValues rec_ of
@@ -2303,19 +2251,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityMarkerValues" "@@:" stub_146
+  addObjCMethod cls "accessibilityMarkerValues" "@@:" stub_142
 
   -- setAccessibilityMarkerValues:
-  stub_147 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_143 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMarkerValues rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityMarkerValues:" "v@:@" stub_147
+  addObjCMethod cls "setAccessibilityMarkerValues:" "v@:@" stub_143
 
   -- accessibilityMarkerGroupUIElement
-  stub_148 <- wrap_at $ \self _cmd -> do
+  stub_144 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMarkerGroupUIElement rec_ of
@@ -2323,19 +2271,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityMarkerGroupUIElement" "@@:" stub_148
+  addObjCMethod cls "accessibilityMarkerGroupUIElement" "@@:" stub_144
 
   -- setAccessibilityMarkerGroupUIElement:
-  stub_149 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_145 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMarkerGroupUIElement rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityMarkerGroupUIElement:" "v@:@" stub_149
+  addObjCMethod cls "setAccessibilityMarkerGroupUIElement:" "v@:@" stub_145
 
   -- accessibilityUnitDescription
-  stub_150 <- wrap_at $ \self _cmd -> do
+  stub_146 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityUnitDescription rec_ of
@@ -2343,19 +2291,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityUnitDescription" "@@:" stub_150
+  addObjCMethod cls "accessibilityUnitDescription" "@@:" stub_146
 
   -- setAccessibilityUnitDescription:
-  stub_151 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_147 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityUnitDescription rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityUnitDescription:" "v@:@" stub_151
+  addObjCMethod cls "setAccessibilityUnitDescription:" "v@:@" stub_147
 
   -- accessibilityMarkerTypeDescription
-  stub_152 <- wrap_at $ \self _cmd -> do
+  stub_148 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMarkerTypeDescription rec_ of
@@ -2363,19 +2311,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityMarkerTypeDescription" "@@:" stub_152
+  addObjCMethod cls "accessibilityMarkerTypeDescription" "@@:" stub_148
 
   -- setAccessibilityMarkerTypeDescription:
-  stub_153 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_149 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMarkerTypeDescription rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityMarkerTypeDescription:" "v@:@" stub_153
+  addObjCMethod cls "setAccessibilityMarkerTypeDescription:" "v@:@" stub_149
 
   -- accessibilityHorizontalScrollBar
-  stub_154 <- wrap_at $ \self _cmd -> do
+  stub_150 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityHorizontalScrollBar rec_ of
@@ -2383,19 +2331,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityHorizontalScrollBar" "@@:" stub_154
+  addObjCMethod cls "accessibilityHorizontalScrollBar" "@@:" stub_150
 
   -- setAccessibilityHorizontalScrollBar:
-  stub_155 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_151 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityHorizontalScrollBar rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityHorizontalScrollBar:" "v@:@" stub_155
+  addObjCMethod cls "setAccessibilityHorizontalScrollBar:" "v@:@" stub_151
 
   -- accessibilityVerticalScrollBar
-  stub_156 <- wrap_at $ \self _cmd -> do
+  stub_152 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityVerticalScrollBar rec_ of
@@ -2403,19 +2351,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityVerticalScrollBar" "@@:" stub_156
+  addObjCMethod cls "accessibilityVerticalScrollBar" "@@:" stub_152
 
   -- setAccessibilityVerticalScrollBar:
-  stub_157 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_153 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityVerticalScrollBar rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityVerticalScrollBar:" "v@:@" stub_157
+  addObjCMethod cls "setAccessibilityVerticalScrollBar:" "v@:@" stub_153
 
   -- accessibilityAllowedValues
-  stub_158 <- wrap_at $ \self _cmd -> do
+  stub_154 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityAllowedValues rec_ of
@@ -2423,19 +2371,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityAllowedValues" "@@:" stub_158
+  addObjCMethod cls "accessibilityAllowedValues" "@@:" stub_154
 
   -- setAccessibilityAllowedValues:
-  stub_159 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_155 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityAllowedValues rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityAllowedValues:" "v@:@" stub_159
+  addObjCMethod cls "setAccessibilityAllowedValues:" "v@:@" stub_155
 
   -- accessibilityLabelUIElements
-  stub_160 <- wrap_at $ \self _cmd -> do
+  stub_156 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityLabelUIElements rec_ of
@@ -2443,19 +2391,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityLabelUIElements" "@@:" stub_160
+  addObjCMethod cls "accessibilityLabelUIElements" "@@:" stub_156
 
   -- setAccessibilityLabelUIElements:
-  stub_161 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_157 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityLabelUIElements rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityLabelUIElements:" "v@:@" stub_161
+  addObjCMethod cls "setAccessibilityLabelUIElements:" "v@:@" stub_157
 
   -- accessibilityLabelValue
-  stub_162 <- wrap_f $ \self _cmd -> do
+  stub_158 <- wrap_f $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityLabelValue rec_ of
@@ -2463,19 +2411,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (realToFrac r)
-  addObjCMethod cls "accessibilityLabelValue" "f@:" stub_162
+  addObjCMethod cls "accessibilityLabelValue" "f@:" stub_158
 
   -- setAccessibilityLabelValue:
-  stub_163 <- wrap_f_v $ \self _cmd arg0 -> do
+  stub_159 <- wrap_f_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityLabelValue rec_ of
       Nothing -> pure ()
       Just f -> f (realToFrac arg0)
-  addObjCMethod cls "setAccessibilityLabelValue:" "v@:f" stub_163
+  addObjCMethod cls "setAccessibilityLabelValue:" "v@:f" stub_159
 
   -- accessibilitySplitters
-  stub_164 <- wrap_at $ \self _cmd -> do
+  stub_160 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilitySplitters rec_ of
@@ -2483,19 +2431,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilitySplitters" "@@:" stub_164
+  addObjCMethod cls "accessibilitySplitters" "@@:" stub_160
 
   -- setAccessibilitySplitters:
-  stub_165 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_161 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilitySplitters rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilitySplitters:" "v@:@" stub_165
+  addObjCMethod cls "setAccessibilitySplitters:" "v@:@" stub_161
 
   -- accessibilityDecrementButton
-  stub_166 <- wrap_at $ \self _cmd -> do
+  stub_162 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityDecrementButton rec_ of
@@ -2503,19 +2451,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityDecrementButton" "@@:" stub_166
+  addObjCMethod cls "accessibilityDecrementButton" "@@:" stub_162
 
   -- setAccessibilityDecrementButton:
-  stub_167 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_163 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityDecrementButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityDecrementButton:" "v@:@" stub_167
+  addObjCMethod cls "setAccessibilityDecrementButton:" "v@:@" stub_163
 
   -- accessibilityIncrementButton
-  stub_168 <- wrap_at $ \self _cmd -> do
+  stub_164 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityIncrementButton rec_ of
@@ -2523,19 +2471,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityIncrementButton" "@@:" stub_168
+  addObjCMethod cls "accessibilityIncrementButton" "@@:" stub_164
 
   -- setAccessibilityIncrementButton:
-  stub_169 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_165 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityIncrementButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityIncrementButton:" "v@:@" stub_169
+  addObjCMethod cls "setAccessibilityIncrementButton:" "v@:@" stub_165
 
   -- accessibilityTabs
-  stub_170 <- wrap_at $ \self _cmd -> do
+  stub_166 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityTabs rec_ of
@@ -2543,19 +2491,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityTabs" "@@:" stub_170
+  addObjCMethod cls "accessibilityTabs" "@@:" stub_166
 
   -- setAccessibilityTabs:
-  stub_171 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_167 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityTabs rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityTabs:" "v@:@" stub_171
+  addObjCMethod cls "setAccessibilityTabs:" "v@:@" stub_167
 
   -- accessibilityHeader
-  stub_172 <- wrap_at $ \self _cmd -> do
+  stub_168 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityHeader rec_ of
@@ -2563,19 +2511,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityHeader" "@@:" stub_172
+  addObjCMethod cls "accessibilityHeader" "@@:" stub_168
 
   -- setAccessibilityHeader:
-  stub_173 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_169 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityHeader rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityHeader:" "v@:@" stub_173
+  addObjCMethod cls "setAccessibilityHeader:" "v@:@" stub_169
 
   -- accessibilityColumnCount
-  stub_174 <- wrap_q $ \self _cmd -> do
+  stub_170 <- wrap_q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityColumnCount rec_ of
@@ -2583,19 +2531,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "accessibilityColumnCount" "q@:" stub_174
+  addObjCMethod cls "accessibilityColumnCount" "q@:" stub_170
 
   -- setAccessibilityColumnCount:
-  stub_175 <- wrap_q_v $ \self _cmd arg0 -> do
+  stub_171 <- wrap_q_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityColumnCount rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0)
-  addObjCMethod cls "setAccessibilityColumnCount:" "v@:q" stub_175
+  addObjCMethod cls "setAccessibilityColumnCount:" "v@:q" stub_171
 
   -- accessibilityRowCount
-  stub_176 <- wrap_q $ \self _cmd -> do
+  stub_172 <- wrap_q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityRowCount rec_ of
@@ -2603,19 +2551,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "accessibilityRowCount" "q@:" stub_176
+  addObjCMethod cls "accessibilityRowCount" "q@:" stub_172
 
   -- setAccessibilityRowCount:
-  stub_177 <- wrap_q_v $ \self _cmd arg0 -> do
+  stub_173 <- wrap_q_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityRowCount rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0)
-  addObjCMethod cls "setAccessibilityRowCount:" "v@:q" stub_177
+  addObjCMethod cls "setAccessibilityRowCount:" "v@:q" stub_173
 
   -- accessibilityIndex
-  stub_178 <- wrap_q $ \self _cmd -> do
+  stub_174 <- wrap_q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityIndex rec_ of
@@ -2623,19 +2571,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "accessibilityIndex" "q@:" stub_178
+  addObjCMethod cls "accessibilityIndex" "q@:" stub_174
 
   -- setAccessibilityIndex:
-  stub_179 <- wrap_q_v $ \self _cmd arg0 -> do
+  stub_175 <- wrap_q_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityIndex rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0)
-  addObjCMethod cls "setAccessibilityIndex:" "v@:q" stub_179
+  addObjCMethod cls "setAccessibilityIndex:" "v@:q" stub_175
 
   -- accessibilityColumns
-  stub_180 <- wrap_at $ \self _cmd -> do
+  stub_176 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityColumns rec_ of
@@ -2643,19 +2591,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityColumns" "@@:" stub_180
+  addObjCMethod cls "accessibilityColumns" "@@:" stub_176
 
   -- setAccessibilityColumns:
-  stub_181 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_177 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityColumns rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityColumns:" "v@:@" stub_181
+  addObjCMethod cls "setAccessibilityColumns:" "v@:@" stub_177
 
   -- accessibilityRows
-  stub_182 <- wrap_at $ \self _cmd -> do
+  stub_178 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityRows rec_ of
@@ -2663,19 +2611,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityRows" "@@:" stub_182
+  addObjCMethod cls "accessibilityRows" "@@:" stub_178
 
   -- setAccessibilityRows:
-  stub_183 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_179 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityRows rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityRows:" "v@:@" stub_183
+  addObjCMethod cls "setAccessibilityRows:" "v@:@" stub_179
 
   -- accessibilityVisibleRows
-  stub_184 <- wrap_at $ \self _cmd -> do
+  stub_180 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityVisibleRows rec_ of
@@ -2683,19 +2631,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityVisibleRows" "@@:" stub_184
+  addObjCMethod cls "accessibilityVisibleRows" "@@:" stub_180
 
   -- setAccessibilityVisibleRows:
-  stub_185 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_181 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityVisibleRows rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityVisibleRows:" "v@:@" stub_185
+  addObjCMethod cls "setAccessibilityVisibleRows:" "v@:@" stub_181
 
   -- accessibilitySelectedRows
-  stub_186 <- wrap_at $ \self _cmd -> do
+  stub_182 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilitySelectedRows rec_ of
@@ -2703,19 +2651,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilitySelectedRows" "@@:" stub_186
+  addObjCMethod cls "accessibilitySelectedRows" "@@:" stub_182
 
   -- setAccessibilitySelectedRows:
-  stub_187 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_183 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilitySelectedRows rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilitySelectedRows:" "v@:@" stub_187
+  addObjCMethod cls "setAccessibilitySelectedRows:" "v@:@" stub_183
 
   -- accessibilityVisibleColumns
-  stub_188 <- wrap_at $ \self _cmd -> do
+  stub_184 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityVisibleColumns rec_ of
@@ -2723,19 +2671,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityVisibleColumns" "@@:" stub_188
+  addObjCMethod cls "accessibilityVisibleColumns" "@@:" stub_184
 
   -- setAccessibilityVisibleColumns:
-  stub_189 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_185 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityVisibleColumns rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityVisibleColumns:" "v@:@" stub_189
+  addObjCMethod cls "setAccessibilityVisibleColumns:" "v@:@" stub_185
 
   -- accessibilitySelectedColumns
-  stub_190 <- wrap_at $ \self _cmd -> do
+  stub_186 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilitySelectedColumns rec_ of
@@ -2743,19 +2691,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilitySelectedColumns" "@@:" stub_190
+  addObjCMethod cls "accessibilitySelectedColumns" "@@:" stub_186
 
   -- setAccessibilitySelectedColumns:
-  stub_191 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_187 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilitySelectedColumns rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilitySelectedColumns:" "v@:@" stub_191
+  addObjCMethod cls "setAccessibilitySelectedColumns:" "v@:@" stub_187
 
   -- accessibilityRowHeaderUIElements
-  stub_192 <- wrap_at $ \self _cmd -> do
+  stub_188 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityRowHeaderUIElements rec_ of
@@ -2763,19 +2711,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityRowHeaderUIElements" "@@:" stub_192
+  addObjCMethod cls "accessibilityRowHeaderUIElements" "@@:" stub_188
 
   -- setAccessibilityRowHeaderUIElements:
-  stub_193 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_189 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityRowHeaderUIElements rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityRowHeaderUIElements:" "v@:@" stub_193
+  addObjCMethod cls "setAccessibilityRowHeaderUIElements:" "v@:@" stub_189
 
   -- accessibilitySelectedCells
-  stub_194 <- wrap_at $ \self _cmd -> do
+  stub_190 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilitySelectedCells rec_ of
@@ -2783,19 +2731,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilitySelectedCells" "@@:" stub_194
+  addObjCMethod cls "accessibilitySelectedCells" "@@:" stub_190
 
   -- setAccessibilitySelectedCells:
-  stub_195 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_191 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilitySelectedCells rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilitySelectedCells:" "v@:@" stub_195
+  addObjCMethod cls "setAccessibilitySelectedCells:" "v@:@" stub_191
 
   -- accessibilityVisibleCells
-  stub_196 <- wrap_at $ \self _cmd -> do
+  stub_192 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityVisibleCells rec_ of
@@ -2803,19 +2751,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityVisibleCells" "@@:" stub_196
+  addObjCMethod cls "accessibilityVisibleCells" "@@:" stub_192
 
   -- setAccessibilityVisibleCells:
-  stub_197 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_193 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityVisibleCells rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityVisibleCells:" "v@:@" stub_197
+  addObjCMethod cls "setAccessibilityVisibleCells:" "v@:@" stub_193
 
   -- accessibilityColumnHeaderUIElements
-  stub_198 <- wrap_at $ \self _cmd -> do
+  stub_194 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityColumnHeaderUIElements rec_ of
@@ -2823,19 +2771,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityColumnHeaderUIElements" "@@:" stub_198
+  addObjCMethod cls "accessibilityColumnHeaderUIElements" "@@:" stub_194
 
   -- setAccessibilityColumnHeaderUIElements:
-  stub_199 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_195 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityColumnHeaderUIElements rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityColumnHeaderUIElements:" "v@:@" stub_199
+  addObjCMethod cls "setAccessibilityColumnHeaderUIElements:" "v@:@" stub_195
 
   -- accessibilityInsertionPointLineNumber
-  stub_200 <- wrap_q $ \self _cmd -> do
+  stub_196 <- wrap_q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityInsertionPointLineNumber rec_ of
@@ -2843,19 +2791,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "accessibilityInsertionPointLineNumber" "q@:" stub_200
+  addObjCMethod cls "accessibilityInsertionPointLineNumber" "q@:" stub_196
 
   -- setAccessibilityInsertionPointLineNumber:
-  stub_201 <- wrap_q_v $ \self _cmd arg0 -> do
+  stub_197 <- wrap_q_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityInsertionPointLineNumber rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0)
-  addObjCMethod cls "setAccessibilityInsertionPointLineNumber:" "v@:q" stub_201
+  addObjCMethod cls "setAccessibilityInsertionPointLineNumber:" "v@:q" stub_197
 
   -- accessibilitySharedTextUIElements
-  stub_202 <- wrap_at $ \self _cmd -> do
+  stub_198 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilitySharedTextUIElements rec_ of
@@ -2863,19 +2811,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilitySharedTextUIElements" "@@:" stub_202
+  addObjCMethod cls "accessibilitySharedTextUIElements" "@@:" stub_198
 
   -- setAccessibilitySharedTextUIElements:
-  stub_203 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_199 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilitySharedTextUIElements rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilitySharedTextUIElements:" "v@:@" stub_203
+  addObjCMethod cls "setAccessibilitySharedTextUIElements:" "v@:@" stub_199
 
   -- accessibilityNumberOfCharacters
-  stub_204 <- wrap_q $ \self _cmd -> do
+  stub_200 <- wrap_q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityNumberOfCharacters rec_ of
@@ -2883,19 +2831,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "accessibilityNumberOfCharacters" "q@:" stub_204
+  addObjCMethod cls "accessibilityNumberOfCharacters" "q@:" stub_200
 
   -- setAccessibilityNumberOfCharacters:
-  stub_205 <- wrap_q_v $ \self _cmd arg0 -> do
+  stub_201 <- wrap_q_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityNumberOfCharacters rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0)
-  addObjCMethod cls "setAccessibilityNumberOfCharacters:" "v@:q" stub_205
+  addObjCMethod cls "setAccessibilityNumberOfCharacters:" "v@:q" stub_201
 
   -- accessibilitySelectedText
-  stub_206 <- wrap_at $ \self _cmd -> do
+  stub_202 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilitySelectedText rec_ of
@@ -2903,19 +2851,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilitySelectedText" "@@:" stub_206
+  addObjCMethod cls "accessibilitySelectedText" "@@:" stub_202
 
   -- setAccessibilitySelectedText:
-  stub_207 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_203 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilitySelectedText rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilitySelectedText:" "v@:@" stub_207
+  addObjCMethod cls "setAccessibilitySelectedText:" "v@:@" stub_203
 
   -- accessibilitySelectedTextRanges
-  stub_208 <- wrap_at $ \self _cmd -> do
+  stub_204 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilitySelectedTextRanges rec_ of
@@ -2923,19 +2871,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilitySelectedTextRanges" "@@:" stub_208
+  addObjCMethod cls "accessibilitySelectedTextRanges" "@@:" stub_204
 
   -- setAccessibilitySelectedTextRanges:
-  stub_209 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_205 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilitySelectedTextRanges rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilitySelectedTextRanges:" "v@:@" stub_209
+  addObjCMethod cls "setAccessibilitySelectedTextRanges:" "v@:@" stub_205
 
   -- accessibilityToolbarButton
-  stub_210 <- wrap_at $ \self _cmd -> do
+  stub_206 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityToolbarButton rec_ of
@@ -2943,19 +2891,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityToolbarButton" "@@:" stub_210
+  addObjCMethod cls "accessibilityToolbarButton" "@@:" stub_206
 
   -- setAccessibilityToolbarButton:
-  stub_211 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_207 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityToolbarButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityToolbarButton:" "v@:@" stub_211
+  addObjCMethod cls "setAccessibilityToolbarButton:" "v@:@" stub_207
 
   -- accessibilityModal
-  stub_212 <- wrap_B $ \self _cmd -> do
+  stub_208 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityModal rec_ of
@@ -2963,19 +2911,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (if r then 1 else 0)
-  addObjCMethod cls "accessibilityModal" "B@:" stub_212
+  addObjCMethod cls "accessibilityModal" "B@:" stub_208
 
   -- setAccessibilityModal:
-  stub_213 <- wrap_B_v $ \self _cmd arg0 -> do
+  stub_209 <- wrap_B_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityModal rec_ of
       Nothing -> pure ()
       Just f -> f (arg0 /= 0)
-  addObjCMethod cls "setAccessibilityModal:" "v@:B" stub_213
+  addObjCMethod cls "setAccessibilityModal:" "v@:B" stub_209
 
   -- accessibilityProxy
-  stub_214 <- wrap_at $ \self _cmd -> do
+  stub_210 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityProxy rec_ of
@@ -2983,19 +2931,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityProxy" "@@:" stub_214
+  addObjCMethod cls "accessibilityProxy" "@@:" stub_210
 
   -- setAccessibilityProxy:
-  stub_215 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_211 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityProxy rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityProxy:" "v@:@" stub_215
+  addObjCMethod cls "setAccessibilityProxy:" "v@:@" stub_211
 
   -- accessibilityMain
-  stub_216 <- wrap_B $ \self _cmd -> do
+  stub_212 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMain rec_ of
@@ -3003,19 +2951,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (if r then 1 else 0)
-  addObjCMethod cls "accessibilityMain" "B@:" stub_216
+  addObjCMethod cls "accessibilityMain" "B@:" stub_212
 
   -- setAccessibilityMain:
-  stub_217 <- wrap_B_v $ \self _cmd arg0 -> do
+  stub_213 <- wrap_B_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMain rec_ of
       Nothing -> pure ()
       Just f -> f (arg0 /= 0)
-  addObjCMethod cls "setAccessibilityMain:" "v@:B" stub_217
+  addObjCMethod cls "setAccessibilityMain:" "v@:B" stub_213
 
   -- accessibilityFullScreenButton
-  stub_218 <- wrap_at $ \self _cmd -> do
+  stub_214 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityFullScreenButton rec_ of
@@ -3023,19 +2971,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityFullScreenButton" "@@:" stub_218
+  addObjCMethod cls "accessibilityFullScreenButton" "@@:" stub_214
 
   -- setAccessibilityFullScreenButton:
-  stub_219 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_215 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityFullScreenButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityFullScreenButton:" "v@:@" stub_219
+  addObjCMethod cls "setAccessibilityFullScreenButton:" "v@:@" stub_215
 
   -- accessibilityGrowArea
-  stub_220 <- wrap_at $ \self _cmd -> do
+  stub_216 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityGrowArea rec_ of
@@ -3043,19 +2991,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityGrowArea" "@@:" stub_220
+  addObjCMethod cls "accessibilityGrowArea" "@@:" stub_216
 
   -- setAccessibilityGrowArea:
-  stub_221 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_217 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityGrowArea rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityGrowArea:" "v@:@" stub_221
+  addObjCMethod cls "setAccessibilityGrowArea:" "v@:@" stub_217
 
   -- accessibilityDocument
-  stub_222 <- wrap_at $ \self _cmd -> do
+  stub_218 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityDocument rec_ of
@@ -3063,19 +3011,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityDocument" "@@:" stub_222
+  addObjCMethod cls "accessibilityDocument" "@@:" stub_218
 
   -- setAccessibilityDocument:
-  stub_223 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_219 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityDocument rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityDocument:" "v@:@" stub_223
+  addObjCMethod cls "setAccessibilityDocument:" "v@:@" stub_219
 
   -- accessibilityDefaultButton
-  stub_224 <- wrap_at $ \self _cmd -> do
+  stub_220 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityDefaultButton rec_ of
@@ -3083,19 +3031,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityDefaultButton" "@@:" stub_224
+  addObjCMethod cls "accessibilityDefaultButton" "@@:" stub_220
 
   -- setAccessibilityDefaultButton:
-  stub_225 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_221 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityDefaultButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityDefaultButton:" "v@:@" stub_225
+  addObjCMethod cls "setAccessibilityDefaultButton:" "v@:@" stub_221
 
   -- accessibilityCloseButton
-  stub_226 <- wrap_at $ \self _cmd -> do
+  stub_222 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityCloseButton rec_ of
@@ -3103,19 +3051,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityCloseButton" "@@:" stub_226
+  addObjCMethod cls "accessibilityCloseButton" "@@:" stub_222
 
   -- setAccessibilityCloseButton:
-  stub_227 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_223 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityCloseButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityCloseButton:" "v@:@" stub_227
+  addObjCMethod cls "setAccessibilityCloseButton:" "v@:@" stub_223
 
   -- accessibilityZoomButton
-  stub_228 <- wrap_at $ \self _cmd -> do
+  stub_224 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityZoomButton rec_ of
@@ -3123,19 +3071,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityZoomButton" "@@:" stub_228
+  addObjCMethod cls "accessibilityZoomButton" "@@:" stub_224
 
   -- setAccessibilityZoomButton:
-  stub_229 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_225 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityZoomButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityZoomButton:" "v@:@" stub_229
+  addObjCMethod cls "setAccessibilityZoomButton:" "v@:@" stub_225
 
   -- accessibilityMinimizeButton
-  stub_230 <- wrap_at $ \self _cmd -> do
+  stub_226 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMinimizeButton rec_ of
@@ -3143,19 +3091,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityMinimizeButton" "@@:" stub_230
+  addObjCMethod cls "accessibilityMinimizeButton" "@@:" stub_226
 
   -- setAccessibilityMinimizeButton:
-  stub_231 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_227 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMinimizeButton rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityMinimizeButton:" "v@:@" stub_231
+  addObjCMethod cls "setAccessibilityMinimizeButton:" "v@:@" stub_227
 
   -- accessibilityMinimized
-  stub_232 <- wrap_B $ \self _cmd -> do
+  stub_228 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityMinimized rec_ of
@@ -3163,19 +3111,19 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (if r then 1 else 0)
-  addObjCMethod cls "accessibilityMinimized" "B@:" stub_232
+  addObjCMethod cls "accessibilityMinimized" "B@:" stub_228
 
   -- setAccessibilityMinimized:
-  stub_233 <- wrap_B_v $ \self _cmd arg0 -> do
+  stub_229 <- wrap_B_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityMinimized rec_ of
       Nothing -> pure ()
       Just f -> f (arg0 /= 0)
-  addObjCMethod cls "setAccessibilityMinimized:" "v@:B" stub_233
+  addObjCMethod cls "setAccessibilityMinimized:" "v@:B" stub_229
 
   -- accessibilityCustomActions
-  stub_234 <- wrap_at $ \self _cmd -> do
+  stub_230 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _accessibilityCustomActions rec_ of
@@ -3183,16 +3131,16 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "accessibilityCustomActions" "@@:" stub_234
+  addObjCMethod cls "accessibilityCustomActions" "@@:" stub_230
 
   -- setAccessibilityCustomActions:
-  stub_235 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_231 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSAccessibilityOverrides
     case _setAccessibilityCustomActions rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setAccessibilityCustomActions:" "v@:@" stub_235
+  addObjCMethod cls "setAccessibilityCustomActions:" "v@:@" stub_231
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -3300,10 +3248,6 @@ nsAccessibilityDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_setAccessibilityRequired then pure (maybe 0 (const 1) (_setAccessibilityRequired rec_))
     else if queriedSel == sel_accessibilityCustomRotors then pure (maybe 0 (const 1) (_accessibilityCustomRotors rec_))
     else if queriedSel == sel_setAccessibilityCustomRotors then pure (maybe 0 (const 1) (_setAccessibilityCustomRotors rec_))
-    else if queriedSel == sel_accessibilityUserInputLabels then pure (maybe 0 (const 1) (_accessibilityUserInputLabels rec_))
-    else if queriedSel == sel_setAccessibilityUserInputLabels then pure (maybe 0 (const 1) (_setAccessibilityUserInputLabels rec_))
-    else if queriedSel == sel_accessibilityAttributedUserInputLabels then pure (maybe 0 (const 1) (_accessibilityAttributedUserInputLabels rec_))
-    else if queriedSel == sel_setAccessibilityAttributedUserInputLabels then pure (maybe 0 (const 1) (_setAccessibilityAttributedUserInputLabels rec_))
     else if queriedSel == sel_accessibilityApplicationFocusedUIElement then pure (maybe 0 (const 1) (_accessibilityApplicationFocusedUIElement rec_))
     else if queriedSel == sel_setAccessibilityApplicationFocusedUIElement then pure (maybe 0 (const 1) (_setAccessibilityApplicationFocusedUIElement rec_))
     else if queriedSel == sel_accessibilityMainWindow then pure (maybe 0 (const 1) (_accessibilityMainWindow rec_))

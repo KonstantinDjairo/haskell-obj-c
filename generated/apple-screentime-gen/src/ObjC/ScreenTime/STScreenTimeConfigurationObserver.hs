@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The object you use to observe changes to the current configuration.
---
--- Use this class to start and stop observing the current configuration. For example, you can opt to disable private browsing in your web browser’s view controller when ``STScreenTimeConfiguration/enforcesChildRestrictions`` is @true@.
---
--- Generated bindings for @STScreenTimeConfigurationObserver@.
+-- | Generated bindings for @STScreenTimeConfigurationObserver@.
 module ObjC.ScreenTime.STScreenTimeConfigurationObserver
   ( STScreenTimeConfigurationObserver
   , IsSTScreenTimeConfigurationObserver(..)
@@ -38,25 +34,17 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.ScreenTime.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a configuration observer that reports updates on the queue you specify.
---
--- - Parameters:   - updateQueue: The queue on which to report updates.
---
--- ObjC selector: @- initWithUpdateQueue:@
+-- | @- initWithUpdateQueue:@
 initWithUpdateQueue :: (IsSTScreenTimeConfigurationObserver stScreenTimeConfigurationObserver, IsNSObject updateQueue) => stScreenTimeConfigurationObserver -> updateQueue -> IO (Id STScreenTimeConfigurationObserver)
 initWithUpdateQueue stScreenTimeConfigurationObserver updateQueue =
   sendOwnedMessage stScreenTimeConfigurationObserver initWithUpdateQueueSelector (toNSObject updateQueue)
 
--- | Starts observing changes to the current configuration.
---
--- ObjC selector: @- startObserving@
+-- | @- startObserving@
 startObserving :: IsSTScreenTimeConfigurationObserver stScreenTimeConfigurationObserver => stScreenTimeConfigurationObserver -> IO ()
 startObserving stScreenTimeConfigurationObserver =
   sendMessage stScreenTimeConfigurationObserver startObservingSelector
 
--- | Stops observing changes to the current configuration.
---
--- ObjC selector: @- stopObserving@
+-- | @- stopObserving@
 stopObserving :: IsSTScreenTimeConfigurationObserver stScreenTimeConfigurationObserver => stScreenTimeConfigurationObserver -> IO ()
 stopObserving stScreenTimeConfigurationObserver =
   sendMessage stScreenTimeConfigurationObserver stopObservingSelector
@@ -73,7 +61,9 @@ new  =
     cls' <- getRequiredClass "STScreenTimeConfigurationObserver"
     sendOwnedClassMessage cls' newSelector
 
--- | The configuration being observed.
+-- | The current Screen Time configuration.
+--
+-- The configuration's properties are automatically updated via KVO on the update queue.
 --
 -- ObjC selector: @- configuration@
 configuration :: IsSTScreenTimeConfigurationObserver stScreenTimeConfigurationObserver => stScreenTimeConfigurationObserver -> IO (Id STScreenTimeConfiguration)

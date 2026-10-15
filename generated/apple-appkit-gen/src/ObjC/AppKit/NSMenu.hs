@@ -52,8 +52,6 @@ module ObjC.AppKit.NSMenu
   , locationForSubmenu
   , helpRequested
   , submenuAction
-  , paletteMenuWithColors_titles_selectionHandler
-  , paletteMenuWithColors_titles_templateImage_selectionHandler
   , title
   , setTitle
   , supermenu
@@ -74,8 +72,6 @@ module ObjC.AppKit.NSMenu
   , setFont
   , allowsContextMenuPlugIns
   , setAllowsContextMenuPlugIns
-  , automaticallyInsertsWritingToolsItems
-  , setAutomaticallyInsertsWritingToolsItems
   , showsStateColumn
   , setShowsStateColumn
   , userInterfaceLayoutDirection
@@ -84,18 +80,11 @@ module ObjC.AppKit.NSMenu
   , setMenuChangedMessagesEnabled
   , tornOff
   , propertiesToUpdate
-  , presentationStyle
-  , setPresentationStyle
-  , selectionMode
-  , setSelectionMode
-  , selectedItems
-  , setSelectedItems
   , addItemSelector
   , addItemWithTitle_action_keyEquivalentSelector
   , allowsContextMenuPlugInsSelector
   , attachedMenuSelector
   , autoenablesItemsSelector
-  , automaticallyInsertsWritingToolsItemsSelector
   , cancelTrackingSelector
   , cancelTrackingWithoutAnimationSelector
   , contextMenuRepresentationSelector
@@ -127,23 +116,17 @@ module ObjC.AppKit.NSMenu
   , menuZoneSelector
   , minimumWidthSelector
   , numberOfItemsSelector
-  , paletteMenuWithColors_titles_selectionHandlerSelector
-  , paletteMenuWithColors_titles_templateImage_selectionHandlerSelector
   , performActionForItemAtIndexSelector
   , performKeyEquivalentSelector
   , popUpContextMenu_withEvent_forViewSelector
   , popUpContextMenu_withEvent_forView_withFontSelector
   , popUpMenuPositioningItem_atLocation_inViewSelector
-  , presentationStyleSelector
   , propertiesToUpdateSelector
   , removeAllItemsSelector
   , removeItemAtIndexSelector
   , removeItemSelector
-  , selectedItemsSelector
-  , selectionModeSelector
   , setAllowsContextMenuPlugInsSelector
   , setAutoenablesItemsSelector
-  , setAutomaticallyInsertsWritingToolsItemsSelector
   , setContextMenuRepresentationSelector
   , setDelegateSelector
   , setFontSelector
@@ -153,9 +136,6 @@ module ObjC.AppKit.NSMenu
   , setMenuRepresentationSelector
   , setMenuZoneSelector
   , setMinimumWidthSelector
-  , setPresentationStyleSelector
-  , setSelectedItemsSelector
-  , setSelectionModeSelector
   , setShowsStateColumnSelector
   , setSubmenu_forItemSelector
   , setSupermenuSelector
@@ -174,9 +154,6 @@ module ObjC.AppKit.NSMenu
   , userInterfaceLayoutDirectionSelector
 
   -- * Enum types
-  , NSMenuPresentationStyle(NSMenuPresentationStyle)
-  , pattern NSMenuPresentationStyleRegular
-  , pattern NSMenuPresentationStylePalette
   , NSMenuProperties(NSMenuProperties)
   , pattern NSMenuPropertyItemTitle
   , pattern NSMenuPropertyItemAttributedTitle
@@ -184,10 +161,6 @@ module ObjC.AppKit.NSMenu
   , pattern NSMenuPropertyItemImage
   , pattern NSMenuPropertyItemEnabled
   , pattern NSMenuPropertyItemAccessibilityDescription
-  , NSMenuSelectionMode(NSMenuSelectionMode)
-  , pattern NSMenuSelectionModeAutomatic
-  , pattern NSMenuSelectionModeSelectOne
-  , pattern NSMenuSelectionModeSelectAny
   , NSUserInterfaceLayoutDirection(NSUserInterfaceLayoutDirection)
   , pattern NSUserInterfaceLayoutDirectionLeftToRight
   , pattern NSUserInterfaceLayoutDirectionRightToLeft
@@ -439,34 +412,6 @@ submenuAction :: IsNSMenu nsMenu => nsMenu -> RawId -> IO ()
 submenuAction nsMenu sender =
   sendMessage nsMenu submenuActionSelector sender
 
--- | Creates a palette menu displaying user-selectable color tags using the provided array of colors and optional titles.
---
--- Note that the palette menu is configured for display as an inline menu; you must set it as the submenu of another menu item, contained in a standard menu. The palette menu cannot be used to invoke the @popUpMenuPositioningItem@ method, or attached directly to a popup button or toolbar item.
---
--- Returns: An autoconfigured palette menu.
---
--- ObjC selector: @+ paletteMenuWithColors:titles:selectionHandler:@
-paletteMenuWithColors_titles_selectionHandler :: (IsNSArray colors, IsNSArray itemTitles) => colors -> itemTitles -> Ptr () -> IO (Id NSMenu)
-paletteMenuWithColors_titles_selectionHandler colors itemTitles onSelectionChange =
-  do
-    cls' <- getRequiredClass "NSMenu"
-    sendClassMessage cls' paletteMenuWithColors_titles_selectionHandlerSelector (toNSArray colors) (toNSArray itemTitles) onSelectionChange
-
--- | Creates a palette menu displaying user-selectable color tags using the provided template image, tinted using the specified array of colors.
---
--- Optionally allows observing changes to the selection state in the compact menu. The block is invoked after the selection has been updated. Currently selected items can be retrieved from the @selectedItems@ property.
---
--- Note that the palette menu is configured for display as an inline menu; you must set it as the submenu of another menu item, contained in a standard menu. The palette menu cannot be used to invoke the @popUpMenuPositioningItem@ method, or attached directly to a popup button or toolbar item.
---
--- Returns: An autoconfigured palette menu.
---
--- ObjC selector: @+ paletteMenuWithColors:titles:templateImage:selectionHandler:@
-paletteMenuWithColors_titles_templateImage_selectionHandler :: (IsNSArray colors, IsNSArray itemTitles, IsNSImage image) => colors -> itemTitles -> image -> Ptr () -> IO (Id NSMenu)
-paletteMenuWithColors_titles_templateImage_selectionHandler colors itemTitles image onSelectionChange =
-  do
-    cls' <- getRequiredClass "NSMenu"
-    sendClassMessage cls' paletteMenuWithColors_titles_templateImage_selectionHandlerSelector (toNSArray colors) (toNSArray itemTitles) (toNSImage image) onSelectionChange
-
 -- | @- title@
 title :: IsNSMenu nsMenu => nsMenu -> IO (Id NSString)
 title nsMenu =
@@ -528,7 +473,7 @@ menuBarHeight nsMenu =
   sendMessage nsMenu menuBarHeightSelector
 
 -- | @- highlightedItem@
-highlightedItem :: IsNSMenu nsMenu => nsMenu -> IO (Id NSMenuItem)
+highlightedItem :: IsNSMenu nsMenu => nsMenu -> IO RawId
 highlightedItem nsMenu =
   sendMessage nsMenu highlightedItemSelector
 
@@ -548,14 +493,14 @@ size nsMenu =
   sendMessage nsMenu sizeSelector
 
 -- | @- font@
-font :: IsNSMenu nsMenu => nsMenu -> IO (Id NSFont)
+font :: IsNSMenu nsMenu => nsMenu -> IO RawId
 font nsMenu =
   sendMessage nsMenu fontSelector
 
 -- | @- setFont:@
-setFont :: (IsNSMenu nsMenu, IsNSFont value) => nsMenu -> value -> IO ()
+setFont :: IsNSMenu nsMenu => nsMenu -> RawId -> IO ()
 setFont nsMenu value =
-  sendMessage nsMenu setFontSelector (toNSFont value)
+  sendMessage nsMenu setFontSelector value
 
 -- | @- allowsContextMenuPlugIns@
 allowsContextMenuPlugIns :: IsNSMenu nsMenu => nsMenu -> IO Bool
@@ -566,16 +511,6 @@ allowsContextMenuPlugIns nsMenu =
 setAllowsContextMenuPlugIns :: IsNSMenu nsMenu => nsMenu -> Bool -> IO ()
 setAllowsContextMenuPlugIns nsMenu value =
   sendMessage nsMenu setAllowsContextMenuPlugInsSelector value
-
--- | @- automaticallyInsertsWritingToolsItems@
-automaticallyInsertsWritingToolsItems :: IsNSMenu nsMenu => nsMenu -> IO Bool
-automaticallyInsertsWritingToolsItems nsMenu =
-  sendMessage nsMenu automaticallyInsertsWritingToolsItemsSelector
-
--- | @- setAutomaticallyInsertsWritingToolsItems:@
-setAutomaticallyInsertsWritingToolsItems :: IsNSMenu nsMenu => nsMenu -> Bool -> IO ()
-setAutomaticallyInsertsWritingToolsItems nsMenu value =
-  sendMessage nsMenu setAutomaticallyInsertsWritingToolsItemsSelector value
 
 -- | @- showsStateColumn@
 showsStateColumn :: IsNSMenu nsMenu => nsMenu -> IO Bool
@@ -616,64 +551,6 @@ tornOff nsMenu =
 propertiesToUpdate :: IsNSMenu nsMenu => nsMenu -> IO NSMenuProperties
 propertiesToUpdate nsMenu =
   sendMessage nsMenu propertiesToUpdateSelector
-
--- | The presentation style of the menu.
---
--- Note: This property is not respected if the menu is the main menu of the app.
---
--- ObjC selector: @- presentationStyle@
-presentationStyle :: IsNSMenu nsMenu => nsMenu -> IO NSMenuPresentationStyle
-presentationStyle nsMenu =
-  sendMessage nsMenu presentationStyleSelector
-
--- | The presentation style of the menu.
---
--- Note: This property is not respected if the menu is the main menu of the app.
---
--- ObjC selector: @- setPresentationStyle:@
-setPresentationStyle :: IsNSMenu nsMenu => nsMenu -> NSMenuPresentationStyle -> IO ()
-setPresentationStyle nsMenu value =
-  sendMessage nsMenu setPresentationStyleSelector value
-
--- | The selection mode of the menu.
---
--- Note the selection mode only has effect on menu items that belong to the same selection group. A selection group consists of the items with the same target/action.
---
--- ObjC selector: @- selectionMode@
-selectionMode :: IsNSMenu nsMenu => nsMenu -> IO NSMenuSelectionMode
-selectionMode nsMenu =
-  sendMessage nsMenu selectionModeSelector
-
--- | The selection mode of the menu.
---
--- Note the selection mode only has effect on menu items that belong to the same selection group. A selection group consists of the items with the same target/action.
---
--- ObjC selector: @- setSelectionMode:@
-setSelectionMode :: IsNSMenu nsMenu => nsMenu -> NSMenuSelectionMode -> IO ()
-setSelectionMode nsMenu value =
-  sendMessage nsMenu setSelectionModeSelector value
-
--- | The menu items that are selected.
---
--- An item is selected when its state is @NSControl.StateValue.on@.
---
--- Note: This property is settable. Setting @selectedItems@ will select any items that are contained in the provided array, and deselect any previously selected items that are not in the array.
---
--- ObjC selector: @- selectedItems@
-selectedItems :: IsNSMenu nsMenu => nsMenu -> IO (Id NSArray)
-selectedItems nsMenu =
-  sendMessage nsMenu selectedItemsSelector
-
--- | The menu items that are selected.
---
--- An item is selected when its state is @NSControl.StateValue.on@.
---
--- Note: This property is settable. Setting @selectedItems@ will select any items that are contained in the provided array, and deselect any previously selected items that are not in the array.
---
--- ObjC selector: @- setSelectedItems:@
-setSelectedItems :: (IsNSMenu nsMenu, IsNSArray value) => nsMenu -> value -> IO ()
-setSelectedItems nsMenu value =
-  sendMessage nsMenu setSelectedItemsSelector (toNSArray value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -855,14 +732,6 @@ helpRequestedSelector = mkSelector "helpRequested:"
 submenuActionSelector :: Selector '[RawId] ()
 submenuActionSelector = mkSelector "submenuAction:"
 
--- | @Selector@ for @paletteMenuWithColors:titles:selectionHandler:@
-paletteMenuWithColors_titles_selectionHandlerSelector :: Selector '[Id NSArray, Id NSArray, Ptr ()] (Id NSMenu)
-paletteMenuWithColors_titles_selectionHandlerSelector = mkSelector "paletteMenuWithColors:titles:selectionHandler:"
-
--- | @Selector@ for @paletteMenuWithColors:titles:templateImage:selectionHandler:@
-paletteMenuWithColors_titles_templateImage_selectionHandlerSelector :: Selector '[Id NSArray, Id NSArray, Id NSImage, Ptr ()] (Id NSMenu)
-paletteMenuWithColors_titles_templateImage_selectionHandlerSelector = mkSelector "paletteMenuWithColors:titles:templateImage:selectionHandler:"
-
 -- | @Selector@ for @title@
 titleSelector :: Selector '[] (Id NSString)
 titleSelector = mkSelector "title"
@@ -912,7 +781,7 @@ menuBarHeightSelector :: Selector '[] CDouble
 menuBarHeightSelector = mkSelector "menuBarHeight"
 
 -- | @Selector@ for @highlightedItem@
-highlightedItemSelector :: Selector '[] (Id NSMenuItem)
+highlightedItemSelector :: Selector '[] RawId
 highlightedItemSelector = mkSelector "highlightedItem"
 
 -- | @Selector@ for @minimumWidth@
@@ -928,11 +797,11 @@ sizeSelector :: Selector '[] NSSize
 sizeSelector = mkSelector "size"
 
 -- | @Selector@ for @font@
-fontSelector :: Selector '[] (Id NSFont)
+fontSelector :: Selector '[] RawId
 fontSelector = mkSelector "font"
 
 -- | @Selector@ for @setFont:@
-setFontSelector :: Selector '[Id NSFont] ()
+setFontSelector :: Selector '[RawId] ()
 setFontSelector = mkSelector "setFont:"
 
 -- | @Selector@ for @allowsContextMenuPlugIns@
@@ -942,14 +811,6 @@ allowsContextMenuPlugInsSelector = mkSelector "allowsContextMenuPlugIns"
 -- | @Selector@ for @setAllowsContextMenuPlugIns:@
 setAllowsContextMenuPlugInsSelector :: Selector '[Bool] ()
 setAllowsContextMenuPlugInsSelector = mkSelector "setAllowsContextMenuPlugIns:"
-
--- | @Selector@ for @automaticallyInsertsWritingToolsItems@
-automaticallyInsertsWritingToolsItemsSelector :: Selector '[] Bool
-automaticallyInsertsWritingToolsItemsSelector = mkSelector "automaticallyInsertsWritingToolsItems"
-
--- | @Selector@ for @setAutomaticallyInsertsWritingToolsItems:@
-setAutomaticallyInsertsWritingToolsItemsSelector :: Selector '[Bool] ()
-setAutomaticallyInsertsWritingToolsItemsSelector = mkSelector "setAutomaticallyInsertsWritingToolsItems:"
 
 -- | @Selector@ for @showsStateColumn@
 showsStateColumnSelector :: Selector '[] Bool
@@ -982,28 +843,4 @@ tornOffSelector = mkSelector "tornOff"
 -- | @Selector@ for @propertiesToUpdate@
 propertiesToUpdateSelector :: Selector '[] NSMenuProperties
 propertiesToUpdateSelector = mkSelector "propertiesToUpdate"
-
--- | @Selector@ for @presentationStyle@
-presentationStyleSelector :: Selector '[] NSMenuPresentationStyle
-presentationStyleSelector = mkSelector "presentationStyle"
-
--- | @Selector@ for @setPresentationStyle:@
-setPresentationStyleSelector :: Selector '[NSMenuPresentationStyle] ()
-setPresentationStyleSelector = mkSelector "setPresentationStyle:"
-
--- | @Selector@ for @selectionMode@
-selectionModeSelector :: Selector '[] NSMenuSelectionMode
-selectionModeSelector = mkSelector "selectionMode"
-
--- | @Selector@ for @setSelectionMode:@
-setSelectionModeSelector :: Selector '[NSMenuSelectionMode] ()
-setSelectionModeSelector = mkSelector "setSelectionMode:"
-
--- | @Selector@ for @selectedItems@
-selectedItemsSelector :: Selector '[] (Id NSArray)
-selectedItemsSelector = mkSelector "selectedItems"
-
--- | @Selector@ for @setSelectedItems:@
-setSelectedItemsSelector :: Selector '[Id NSArray] ()
-setSelectedItemsSelector = mkSelector "setSelectedItems:"
 

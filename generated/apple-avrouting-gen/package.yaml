@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -21,7 +22,6 @@ library:
   - ObjC.AVRouting.AVCustomRoutingController
   - ObjC.AVRouting.AVCustomRoutingEvent
   - ObjC.AVRouting.AVCustomRoutingPartialIP
-  - ObjC.AVRouting.AVRoutingPlaybackArbiter
   - ObjC.AVRouting.Delegate.AVCustomRoutingControllerDelegate
   - ObjC.AVRouting.Enums
   - ObjC.AVRouting.Internal.Classes

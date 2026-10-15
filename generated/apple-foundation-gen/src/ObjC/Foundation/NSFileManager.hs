@@ -69,10 +69,6 @@ module ObjC.Foundation.NSFileManager
   , evictUbiquitousItemAtURL_error
   , urlForUbiquityContainerIdentifier
   , urlForPublishingUbiquitousItemAtURL_expirationDate_error
-  , pauseSyncForUbiquitousItemAtURL_completionHandler
-  , resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandler
-  , fetchLatestRemoteVersionOfItemAtURL_completionHandler
-  , uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandler
   , containerURLForSecurityApplicationGroupIdentifier
   , homeDirectoryForUser
   , defaultManager
@@ -111,7 +107,6 @@ module ObjC.Foundation.NSFileManager
   , enumeratorAtPathSelector
   , enumeratorAtURL_includingPropertiesForKeys_options_errorHandlerSelector
   , evictUbiquitousItemAtURL_errorSelector
-  , fetchLatestRemoteVersionOfItemAtURL_completionHandlerSelector
   , fileAttributesAtPath_traverseLinkSelector
   , fileExistsAtPathSelector
   , fileExistsAtPath_isDirectorySelector
@@ -134,12 +129,10 @@ module ObjC.Foundation.NSFileManager
   , moveItemAtURL_toURL_errorSelector
   , movePath_toPath_handlerSelector
   , pathContentOfSymbolicLinkAtPathSelector
-  , pauseSyncForUbiquitousItemAtURL_completionHandlerSelector
   , removeFileAtPath_handlerSelector
   , removeItemAtPath_errorSelector
   , removeItemAtURL_errorSelector
   , replaceItemAtURL_withItemAtURL_backupItemName_options_resultingItemURL_errorSelector
-  , resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandlerSelector
   , setAttributes_ofItemAtPath_errorSelector
   , setDelegateSelector
   , setUbiquitous_itemAtURL_destinationURL_errorSelector
@@ -151,7 +144,6 @@ module ObjC.Foundation.NSFileManager
   , trashItemAtURL_resultingItemURL_errorSelector
   , ubiquityIdentityTokenSelector
   , unmountVolumeAtURL_options_completionHandlerSelector
-  , uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandlerSelector
   , urLsForDirectory_inDomainsSelector
   , urlForDirectory_inDomain_appropriateForURL_create_errorSelector
   , urlForPublishingUbiquitousItemAtURL_expirationDate_errorSelector
@@ -167,16 +159,9 @@ module ObjC.Foundation.NSFileManager
   , NSFileManagerItemReplacementOptions(NSFileManagerItemReplacementOptions)
   , pattern NSFileManagerItemReplacementUsingNewMetadataOnly
   , pattern NSFileManagerItemReplacementWithoutDeletingBackupItem
-  , NSFileManagerResumeSyncBehavior(NSFileManagerResumeSyncBehavior)
-  , pattern NSFileManagerResumeSyncBehaviorPreserveLocalChanges
-  , pattern NSFileManagerResumeSyncBehaviorAfterUploadWithFailOnConflict
-  , pattern NSFileManagerResumeSyncBehaviorDropLocalChanges
   , NSFileManagerUnmountOptions(NSFileManagerUnmountOptions)
   , pattern NSFileManagerUnmountAllPartitionsAndEjectDisk
   , pattern NSFileManagerUnmountWithoutUI
-  , NSFileManagerUploadLocalVersionConflictPolicy(NSFileManagerUploadLocalVersionConflictPolicy)
-  , pattern NSFileManagerUploadConflictPolicyDefault
-  , pattern NSFileManagerUploadConflictPolicyFailOnConflict
   , NSSearchPathDirectory(NSSearchPathDirectory)
   , pattern NSApplicationDirectory
   , pattern NSDemoApplicationDirectory
@@ -533,68 +518,6 @@ urlForPublishingUbiquitousItemAtURL_expirationDate_error :: (IsNSFileManager nsF
 urlForPublishingUbiquitousItemAtURL_expirationDate_error nsFileManager url outDate error_ =
   sendMessage nsFileManager urlForPublishingUbiquitousItemAtURL_expirationDate_errorSelector (toNSURL url) (toNSDate outDate) (toNSError error_)
 
--- | Asynchronously pauses sync of an item at the given URL.
---
--- Call this when opening an item to prevent sync from altering the contents of the URL. Once paused, the file provider will not upload local changes nor download remote changes.
---
--- While paused, call ``uploadLocalVersionOfUbiquitousItem(at:withConflictResolutionPolicy:completionHandler:)`` when the document is in a stable state. This action keeps the server version as up-to-date as possible.
---
--- If the item is already paused, a second call to this method reports success. If the file provider is already applying changes to the item, the pause fails with an ``NSFileWriteUnknownError-enum.case``, with an underlying error that has domain ``NSPOSIXErrorDomain`` and code ``POSIXError/EBUSY``. If the pause fails, wait for the state to stabilize before retrying. Pausing also fails with ``CocoaError/featureUnsupported`` if @url@ refers to a regular (non-package) directory.
---
--- Pausing sync is independent of the calling app's lifecycle; sync doesn't automatically resume if the app closes or crashes and relaunches later. To resume syncing, explicitly call ``resumeSyncForUbiquitousItem(at:with:completionHandler:)``. Always be sure to resume syncing before you close the item.
---
--- - Parameters:   - url: The URL of the item for which to pause sync.   - completionHandler: A closure or block that the framework calls when the pause action completes. It receives a single ``NSError`` parameter to indicate an error that prevented pausing; this value is @nil@ if the pause succeeded. In Swift, you can omit the completion handler and catch the thrown error instead.
---
--- ObjC selector: @- pauseSyncForUbiquitousItemAtURL:completionHandler:@
-pauseSyncForUbiquitousItemAtURL_completionHandler :: (IsNSFileManager nsFileManager, IsNSURL url) => nsFileManager -> url -> Ptr () -> IO ()
-pauseSyncForUbiquitousItemAtURL_completionHandler nsFileManager url completionHandler =
-  sendMessage nsFileManager pauseSyncForUbiquitousItemAtURL_completionHandlerSelector (toNSURL url) completionHandler
-
--- | Asynchronously resumes the sync on a paused item using the given resume behavior.
---
--- Always call this method when your app closes an item to allow the file provider to sync local changes back to the server.
---
--- In most situations, the ``NSFileManagerResumeSyncBehavior/preserveLocalChanges`` behavior is the best choice to avoid any risk of data loss.
---
--- The resume call fails with ``CocoaError/featureUnsupported`` if @url@ isn't currently paused. If the device isn't connected to the network, the call may fail with ``NSFileWriteUnknownError-enum.case``, with the underlying error of <doc://com.apple.documentation/documentation/FileProvider/NSFileProviderError/serverUnreachable>.
---
--- - Parameters:   - url: The URL of the item for which to resume sync.   - behavior: A ``NSFileManagerResumeSyncBehavior`` value that tells the file manager how to handle conflicts between local and remote versions of files.   - completionHandler: A closure or block that the framework calls when the resume action completes. It receives a single ``NSError`` parameter to indicate an error that prevented the resume action; the value is @nil@ if the resume succeeded. In Swift, you can omit the completion handler and catch the thrown error instead.
---
--- ObjC selector: @- resumeSyncForUbiquitousItemAtURL:withBehavior:completionHandler:@
-resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandler :: (IsNSFileManager nsFileManager, IsNSURL url) => nsFileManager -> url -> NSFileManagerResumeSyncBehavior -> Ptr () -> IO ()
-resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandler nsFileManager url behavior completionHandler =
-  sendMessage nsFileManager resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandlerSelector (toNSURL url) behavior completionHandler
-
--- | Asynchronously fetches the latest remote version of a given item from the server.
---
--- Use this method if uploading fails due to a version conflict and sync is paused. In this case, fetching the latest remote version allows you to inspect the newer item from the server, resolve the conflict, and resume uploading.
---
--- The version provided by this call depends on several factors: * If there is no newer version of the file on the server, the caller receives the current version of the file. * If the server has a newer version and sync isn't paused, this call replaces the local item and provides the version of the new item. * If the server has a newer version but sync is paused, the returned version points to a side location. In this case, call ``NSFileVersion/replaceItem(at:options:)`` on the provided version object to replace the local item with the newer item from the server.
---
--- If the device isn't connected to the network, the call may fail with ``NSFileReadUnknownError-enum.case``, with the underlying error of <doc://com.apple.documentation/documentation/FileProvider/NSFileProviderError/serverUnreachable>.
---
--- - Parameters:   - url: The URL of the item for which to check the version.   - completionHandler: A closure or block that the framework calls when the fetch action completes. It receives parameters of types ``NSFileVersion`` and ``NSError``. The error is @nil@ if fetching the remote version succeeded; otherwise it indicates the error that caused the call to fail. In Swift, you can omit the completion handler, catching any error in a @do@-@catch@ block and receiving the version as the return value.
---
--- ObjC selector: @- fetchLatestRemoteVersionOfItemAtURL:completionHandler:@
-fetchLatestRemoteVersionOfItemAtURL_completionHandler :: (IsNSFileManager nsFileManager, IsNSURL url) => nsFileManager -> url -> Ptr () -> IO ()
-fetchLatestRemoteVersionOfItemAtURL_completionHandler nsFileManager url completionHandler =
-  sendMessage nsFileManager fetchLatestRemoteVersionOfItemAtURL_completionHandlerSelector (toNSURL url) completionHandler
-
--- | Asynchronously uploads the local version of the item using the provided conflict resolution policy.
---
--- Once your app pauses a sync for an item, call this method every time your document is in a stable state. This action keeps the server version as up-to-date as possible.
---
--- If the server has a newer version than the one to which the app made changes, uploading fails with ``NSFileWriteUnknownError-enum.case``, with an underlying error of <doc://com.apple.documentation/documentation/FileProvider/NSFileProviderError/localVersionConflictingWithServer>. In this case, call ``FileManager/fetchLatestRemoteVersionOfItem(at:completionHandler:)``, rebase local changes on top of that version, and retry the upload.
---
--- If the device isn't connected to the network, the call may fail with ``NSFileWriteUnknownError-enum.case``, with the underlying error of <doc://com.apple.documentation/documentation/FileProvider/NSFileProviderError/serverUnreachable>.
---
--- - Parameters:   - url: The URL of the item for which to check the version.   - conflictResolutionPolicy: The policy the file manager applies if the local and server versions conflict.   - completionHandler: A closure or block that the framework calls when the upload completes. It receives parameters of types ``NSFileVersion`` and ``NSError``. The error is @nil@ if fetching the remote version succeeded; otherwise it indicates the error that caused the call to fail. In Swift, you can omit the completion handler, catching any error in a @do@-@catch@ block and receiving the version as the return value.
---
--- ObjC selector: @- uploadLocalVersionOfUbiquitousItemAtURL:withConflictResolutionPolicy:completionHandler:@
-uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandler :: (IsNSFileManager nsFileManager, IsNSURL url) => nsFileManager -> url -> NSFileManagerUploadLocalVersionConflictPolicy -> Ptr () -> IO ()
-uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandler nsFileManager url conflictResolutionPolicy completionHandler =
-  sendMessage nsFileManager uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandlerSelector (toNSURL url) conflictResolutionPolicy completionHandler
-
 -- | @- containerURLForSecurityApplicationGroupIdentifier:@
 containerURLForSecurityApplicationGroupIdentifier :: (IsNSFileManager nsFileManager, IsNSString groupIdentifier) => nsFileManager -> groupIdentifier -> IO (Id NSURL)
 containerURLForSecurityApplicationGroupIdentifier nsFileManager groupIdentifier =
@@ -633,7 +556,7 @@ ubiquityIdentityToken nsFileManager =
   sendMessage nsFileManager ubiquityIdentityTokenSelector
 
 -- | @- homeDirectoryForCurrentUser@
-homeDirectoryForCurrentUser :: IsNSFileManager nsFileManager => nsFileManager -> IO (Id NSURL)
+homeDirectoryForCurrentUser :: IsNSFileManager nsFileManager => nsFileManager -> IO RawId
 homeDirectoryForCurrentUser nsFileManager =
   sendMessage nsFileManager homeDirectoryForCurrentUserSelector
 
@@ -890,22 +813,6 @@ urlForUbiquityContainerIdentifierSelector = mkSelector "URLForUbiquityContainerI
 urlForPublishingUbiquitousItemAtURL_expirationDate_errorSelector :: Selector '[Id NSURL, Id NSDate, Id NSError] (Id NSURL)
 urlForPublishingUbiquitousItemAtURL_expirationDate_errorSelector = mkSelector "URLForPublishingUbiquitousItemAtURL:expirationDate:error:"
 
--- | @Selector@ for @pauseSyncForUbiquitousItemAtURL:completionHandler:@
-pauseSyncForUbiquitousItemAtURL_completionHandlerSelector :: Selector '[Id NSURL, Ptr ()] ()
-pauseSyncForUbiquitousItemAtURL_completionHandlerSelector = mkSelector "pauseSyncForUbiquitousItemAtURL:completionHandler:"
-
--- | @Selector@ for @resumeSyncForUbiquitousItemAtURL:withBehavior:completionHandler:@
-resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandlerSelector :: Selector '[Id NSURL, NSFileManagerResumeSyncBehavior, Ptr ()] ()
-resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandlerSelector = mkSelector "resumeSyncForUbiquitousItemAtURL:withBehavior:completionHandler:"
-
--- | @Selector@ for @fetchLatestRemoteVersionOfItemAtURL:completionHandler:@
-fetchLatestRemoteVersionOfItemAtURL_completionHandlerSelector :: Selector '[Id NSURL, Ptr ()] ()
-fetchLatestRemoteVersionOfItemAtURL_completionHandlerSelector = mkSelector "fetchLatestRemoteVersionOfItemAtURL:completionHandler:"
-
--- | @Selector@ for @uploadLocalVersionOfUbiquitousItemAtURL:withConflictResolutionPolicy:completionHandler:@
-uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandlerSelector :: Selector '[Id NSURL, NSFileManagerUploadLocalVersionConflictPolicy, Ptr ()] ()
-uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandlerSelector = mkSelector "uploadLocalVersionOfUbiquitousItemAtURL:withConflictResolutionPolicy:completionHandler:"
-
 -- | @Selector@ for @containerURLForSecurityApplicationGroupIdentifier:@
 containerURLForSecurityApplicationGroupIdentifierSelector :: Selector '[Id NSString] (Id NSURL)
 containerURLForSecurityApplicationGroupIdentifierSelector = mkSelector "containerURLForSecurityApplicationGroupIdentifier:"
@@ -935,7 +842,7 @@ ubiquityIdentityTokenSelector :: Selector '[] RawId
 ubiquityIdentityTokenSelector = mkSelector "ubiquityIdentityToken"
 
 -- | @Selector@ for @homeDirectoryForCurrentUser@
-homeDirectoryForCurrentUserSelector :: Selector '[] (Id NSURL)
+homeDirectoryForCurrentUserSelector :: Selector '[] RawId
 homeDirectoryForCurrentUserSelector = mkSelector "homeDirectoryForCurrentUser"
 
 -- | @Selector@ for @temporaryDirectory@

@@ -3,34 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Power Source Configuration
---
--- This cluster is used to describe the configuration and capabilities of a Device's power system.
+-- | Cluster Power Source Configuration    This cluster is used to describe the configuration and capabilities of a Device's power system.
 --
 -- Generated bindings for @MTRBaseClusterPowerSourceConfiguration@.
 module ObjC.Matter.MTRBaseClusterPowerSourceConfiguration
   ( MTRBaseClusterPowerSourceConfiguration
   , IsMTRBaseClusterPowerSourceConfiguration(..)
-  , readAttributeSourcesWithCompletion
-  , subscribeAttributeSourcesWithParams_subscriptionEstablished_reportHandler
-  , readAttributeSourcesWithClusterStateCache_endpoint_queue_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
-  , init_
-  , new
   , initWithDevice_endpoint_queue
   , readAttributeSourcesWithCompletionHandler
   , subscribeAttributeSourcesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
@@ -50,47 +28,29 @@ module ObjC.Matter.MTRBaseClusterPowerSourceConfiguration
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
-  , initWithDevice_endpointID_queue
+  , init_
+  , new
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAttributeListWithCompletionHandlerSelector
-  , readAttributeAttributeListWithCompletionSelector
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeClusterRevisionWithCompletionHandlerSelector
-  , readAttributeClusterRevisionWithCompletionSelector
   , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeFeatureMapWithCompletionHandlerSelector
-  , readAttributeFeatureMapWithCompletionSelector
   , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeGeneratedCommandListWithCompletionHandlerSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
   , readAttributeSourcesWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeSourcesWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeSourcesWithCompletionHandlerSelector
-  , readAttributeSourcesWithCompletionSelector
   , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeSourcesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeSourcesWithParams_subscriptionEstablished_reportHandlerSelector
 
 
   ) where
@@ -106,120 +66,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- readAttributeSourcesWithCompletion:@
-readAttributeSourcesWithCompletion :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> Ptr () -> IO ()
-readAttributeSourcesWithCompletion mtrBaseClusterPowerSourceConfiguration completion =
-  sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeSourcesWithCompletionSelector completion
-
--- | @- subscribeAttributeSourcesWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeSourcesWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeSourcesWithParams_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeSourcesWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeSourcesWithClusterStateCache:endpoint:queue:completion:@
-readAttributeSourcesWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeSourcesWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
-    sendClassMessage cls' readAttributeSourcesWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterPowerSourceConfiguration completion =
-  sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterPowerSourceConfiguration completion =
-  sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeAcceptedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterPowerSourceConfiguration completion =
-  sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeAttributeListWithCompletionSelector completion
-
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterPowerSourceConfiguration completion =
-  sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeFeatureMapWithCompletionSelector completion
-
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterPowerSourceConfiguration completion =
-  sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeClusterRevisionWithCompletionSelector completion
-
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- init@
-init_ :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> IO (Id MTRBaseClusterPowerSourceConfiguration)
-init_ mtrBaseClusterPowerSourceConfiguration =
-  sendOwnedMessage mtrBaseClusterPowerSourceConfiguration initSelector
-
--- | @+ new@
-new :: IO (Id MTRBaseClusterPowerSourceConfiguration)
-new  =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
-    sendOwnedClassMessage cls' newSelector
-
 -- | @- initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queue :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterPowerSourceConfiguration -> device -> CUShort -> queue -> IO (Id MTRBaseClusterPowerSourceConfiguration)
 initWithDevice_endpoint_queue mtrBaseClusterPowerSourceConfiguration device endpoint queue =
@@ -230,7 +76,9 @@ readAttributeSourcesWithCompletionHandler :: IsMTRBaseClusterPowerSourceConfigur
 readAttributeSourcesWithCompletionHandler mtrBaseClusterPowerSourceConfiguration completionHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeSourcesWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeSourcesWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeSourcesWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeSourcesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeSourcesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeSourcesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -247,7 +95,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterPowerS
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterPowerSourceConfiguration completionHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -264,7 +114,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterPowerSo
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterPowerSourceConfiguration completionHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -281,7 +133,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterPowerSourceCo
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterPowerSourceConfiguration completionHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -298,7 +152,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterPowerSourceConfi
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterPowerSourceConfiguration completionHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -315,7 +171,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterPowerSource
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterPowerSourceConfiguration completionHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterPowerSourceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterPowerSourceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterPowerSourceConfiguration subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -327,96 +185,21 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
     cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterPowerSourceConfiguration -> device -> endpointID -> queue -> IO (Id MTRBaseClusterPowerSourceConfiguration)
-initWithDevice_endpointID_queue mtrBaseClusterPowerSourceConfiguration device endpointID queue =
-  sendOwnedMessage mtrBaseClusterPowerSourceConfiguration initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
+-- | @- init@
+init_ :: IsMTRBaseClusterPowerSourceConfiguration mtrBaseClusterPowerSourceConfiguration => mtrBaseClusterPowerSourceConfiguration -> IO (Id MTRBaseClusterPowerSourceConfiguration)
+init_ mtrBaseClusterPowerSourceConfiguration =
+  sendOwnedMessage mtrBaseClusterPowerSourceConfiguration initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterPowerSourceConfiguration)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterPowerSourceConfiguration"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @readAttributeSourcesWithCompletion:@
-readAttributeSourcesWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeSourcesWithCompletionSelector = mkSelector "readAttributeSourcesWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeSourcesWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeSourcesWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeSourcesWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeSourcesWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeSourcesWithClusterStateCache:endpoint:queue:completion:@
-readAttributeSourcesWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeSourcesWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeSourcesWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterPowerSourceConfiguration)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterPowerSourceConfiguration)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterPowerSourceConfiguration)
@@ -494,7 +277,11 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterPowerSourceConfiguration)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterPowerSourceConfiguration)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterPowerSourceConfiguration)
+newSelector = mkSelector "new"
 

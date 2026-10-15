@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRAccessControlClusterAccessControlEntry
   ( MTRAccessControlClusterAccessControlEntry
   , IsMTRAccessControlClusterAccessControlEntry(..)
+  , init_
+  , copyWithZone
   , privilege
   , setPrivilege
   , authMode
@@ -18,7 +20,9 @@ module ObjC.Matter.MTRAccessControlClusterAccessControlEntry
   , fabricIndex
   , setFabricIndex
   , authModeSelector
+  , copyWithZoneSelector
   , fabricIndexSelector
+  , initSelector
   , privilegeSelector
   , setAuthModeSelector
   , setFabricIndexSelector
@@ -41,6 +45,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRAccessControlClusterAccessControlEntry mtrAccessControlClusterAccessControlEntry => mtrAccessControlClusterAccessControlEntry -> IO (Id MTRAccessControlClusterAccessControlEntry)
+init_ mtrAccessControlClusterAccessControlEntry =
+  sendOwnedMessage mtrAccessControlClusterAccessControlEntry initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAccessControlClusterAccessControlEntry mtrAccessControlClusterAccessControlEntry => mtrAccessControlClusterAccessControlEntry -> Ptr () -> IO RawId
+copyWithZone mtrAccessControlClusterAccessControlEntry zone =
+  sendOwnedMessage mtrAccessControlClusterAccessControlEntry copyWithZoneSelector zone
 
 -- | @- privilege@
 privilege :: IsMTRAccessControlClusterAccessControlEntry mtrAccessControlClusterAccessControlEntry => mtrAccessControlClusterAccessControlEntry -> IO (Id NSNumber)
@@ -95,6 +109,14 @@ setFabricIndex mtrAccessControlClusterAccessControlEntry value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAccessControlClusterAccessControlEntry)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @privilege@
 privilegeSelector :: Selector '[] (Id NSNumber)

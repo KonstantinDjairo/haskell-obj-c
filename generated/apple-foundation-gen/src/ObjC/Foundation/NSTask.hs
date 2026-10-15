@@ -26,8 +26,6 @@ module ObjC.Foundation.NSTask
   , setEnvironment
   , currentDirectoryURL
   , setCurrentDirectoryURL
-  , launchRequirementData
-  , setLaunchRequirementData
   , standardInput
   , setStandardInput
   , standardOutput
@@ -55,7 +53,6 @@ module ObjC.Foundation.NSTask
   , interruptSelector
   , launchAndReturnErrorSelector
   , launchPathSelector
-  , launchRequirementDataSelector
   , launchSelector
   , launchedTaskWithExecutableURL_arguments_error_terminationHandlerSelector
   , launchedTaskWithLaunchPath_argumentsSelector
@@ -69,7 +66,6 @@ module ObjC.Foundation.NSTask
   , setEnvironmentSelector
   , setExecutableURLSelector
   , setLaunchPathSelector
-  , setLaunchRequirementDataSelector
   , setQualityOfServiceSelector
   , setStandardErrorSelector
   , setStandardInputSelector
@@ -164,14 +160,14 @@ waitUntilExit nsTask =
   sendMessage nsTask waitUntilExitSelector
 
 -- | @- executableURL@
-executableURL :: IsNSTask nsTask => nsTask -> IO (Id NSURL)
+executableURL :: IsNSTask nsTask => nsTask -> IO RawId
 executableURL nsTask =
   sendMessage nsTask executableURLSelector
 
 -- | @- setExecutableURL:@
-setExecutableURL :: (IsNSTask nsTask, IsNSURL value) => nsTask -> value -> IO ()
+setExecutableURL :: IsNSTask nsTask => nsTask -> RawId -> IO ()
 setExecutableURL nsTask value =
-  sendMessage nsTask setExecutableURLSelector (toNSURL value)
+  sendMessage nsTask setExecutableURLSelector value
 
 -- | @- arguments@
 arguments :: IsNSTask nsTask => nsTask -> IO (Id NSArray)
@@ -194,24 +190,14 @@ setEnvironment nsTask value =
   sendMessage nsTask setEnvironmentSelector (toNSDictionary value)
 
 -- | @- currentDirectoryURL@
-currentDirectoryURL :: IsNSTask nsTask => nsTask -> IO (Id NSURL)
+currentDirectoryURL :: IsNSTask nsTask => nsTask -> IO RawId
 currentDirectoryURL nsTask =
   sendMessage nsTask currentDirectoryURLSelector
 
 -- | @- setCurrentDirectoryURL:@
-setCurrentDirectoryURL :: (IsNSTask nsTask, IsNSURL value) => nsTask -> value -> IO ()
+setCurrentDirectoryURL :: IsNSTask nsTask => nsTask -> RawId -> IO ()
 setCurrentDirectoryURL nsTask value =
-  sendMessage nsTask setCurrentDirectoryURLSelector (toNSURL value)
-
--- | @- launchRequirementData@
-launchRequirementData :: IsNSTask nsTask => nsTask -> IO (Id NSData)
-launchRequirementData nsTask =
-  sendMessage nsTask launchRequirementDataSelector
-
--- | @- setLaunchRequirementData:@
-setLaunchRequirementData :: (IsNSTask nsTask, IsNSData value) => nsTask -> value -> IO ()
-setLaunchRequirementData nsTask value =
-  sendMessage nsTask setLaunchRequirementDataSelector (toNSData value)
+  sendMessage nsTask setCurrentDirectoryURLSelector value
 
 -- | @- standardInput@
 standardInput :: IsNSTask nsTask => nsTask -> IO RawId
@@ -284,24 +270,24 @@ setQualityOfService nsTask value =
   sendMessage nsTask setQualityOfServiceSelector value
 
 -- | @- launchPath@
-launchPath :: IsNSTask nsTask => nsTask -> IO (Id NSString)
+launchPath :: IsNSTask nsTask => nsTask -> IO RawId
 launchPath nsTask =
   sendMessage nsTask launchPathSelector
 
 -- | @- setLaunchPath:@
-setLaunchPath :: (IsNSTask nsTask, IsNSString value) => nsTask -> value -> IO ()
+setLaunchPath :: IsNSTask nsTask => nsTask -> RawId -> IO ()
 setLaunchPath nsTask value =
-  sendMessage nsTask setLaunchPathSelector (toNSString value)
+  sendMessage nsTask setLaunchPathSelector value
 
 -- | @- currentDirectoryPath@
-currentDirectoryPath :: IsNSTask nsTask => nsTask -> IO (Id NSString)
+currentDirectoryPath :: IsNSTask nsTask => nsTask -> IO RawId
 currentDirectoryPath nsTask =
   sendMessage nsTask currentDirectoryPathSelector
 
 -- | @- setCurrentDirectoryPath:@
-setCurrentDirectoryPath :: (IsNSTask nsTask, IsNSString value) => nsTask -> value -> IO ()
+setCurrentDirectoryPath :: IsNSTask nsTask => nsTask -> RawId -> IO ()
 setCurrentDirectoryPath nsTask value =
-  sendMessage nsTask setCurrentDirectoryPathSelector (toNSString value)
+  sendMessage nsTask setCurrentDirectoryPathSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -348,11 +334,11 @@ waitUntilExitSelector :: Selector '[] ()
 waitUntilExitSelector = mkSelector "waitUntilExit"
 
 -- | @Selector@ for @executableURL@
-executableURLSelector :: Selector '[] (Id NSURL)
+executableURLSelector :: Selector '[] RawId
 executableURLSelector = mkSelector "executableURL"
 
 -- | @Selector@ for @setExecutableURL:@
-setExecutableURLSelector :: Selector '[Id NSURL] ()
+setExecutableURLSelector :: Selector '[RawId] ()
 setExecutableURLSelector = mkSelector "setExecutableURL:"
 
 -- | @Selector@ for @arguments@
@@ -372,20 +358,12 @@ setEnvironmentSelector :: Selector '[Id NSDictionary] ()
 setEnvironmentSelector = mkSelector "setEnvironment:"
 
 -- | @Selector@ for @currentDirectoryURL@
-currentDirectoryURLSelector :: Selector '[] (Id NSURL)
+currentDirectoryURLSelector :: Selector '[] RawId
 currentDirectoryURLSelector = mkSelector "currentDirectoryURL"
 
 -- | @Selector@ for @setCurrentDirectoryURL:@
-setCurrentDirectoryURLSelector :: Selector '[Id NSURL] ()
+setCurrentDirectoryURLSelector :: Selector '[RawId] ()
 setCurrentDirectoryURLSelector = mkSelector "setCurrentDirectoryURL:"
-
--- | @Selector@ for @launchRequirementData@
-launchRequirementDataSelector :: Selector '[] (Id NSData)
-launchRequirementDataSelector = mkSelector "launchRequirementData"
-
--- | @Selector@ for @setLaunchRequirementData:@
-setLaunchRequirementDataSelector :: Selector '[Id NSData] ()
-setLaunchRequirementDataSelector = mkSelector "setLaunchRequirementData:"
 
 -- | @Selector@ for @standardInput@
 standardInputSelector :: Selector '[] RawId
@@ -444,18 +422,18 @@ setQualityOfServiceSelector :: Selector '[NSQualityOfService] ()
 setQualityOfServiceSelector = mkSelector "setQualityOfService:"
 
 -- | @Selector@ for @launchPath@
-launchPathSelector :: Selector '[] (Id NSString)
+launchPathSelector :: Selector '[] RawId
 launchPathSelector = mkSelector "launchPath"
 
 -- | @Selector@ for @setLaunchPath:@
-setLaunchPathSelector :: Selector '[Id NSString] ()
+setLaunchPathSelector :: Selector '[RawId] ()
 setLaunchPathSelector = mkSelector "setLaunchPath:"
 
 -- | @Selector@ for @currentDirectoryPath@
-currentDirectoryPathSelector :: Selector '[] (Id NSString)
+currentDirectoryPathSelector :: Selector '[] RawId
 currentDirectoryPathSelector = mkSelector "currentDirectoryPath"
 
 -- | @Selector@ for @setCurrentDirectoryPath:@
-setCurrentDirectoryPathSelector :: Selector '[Id NSString] ()
+setCurrentDirectoryPathSelector :: Selector '[RawId] ()
 setCurrentDirectoryPathSelector = mkSelector "setCurrentDirectoryPath:"
 

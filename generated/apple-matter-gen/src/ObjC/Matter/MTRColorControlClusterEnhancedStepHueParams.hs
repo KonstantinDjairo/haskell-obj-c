@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRColorControlClusterEnhancedStepHueParams
   ( MTRColorControlClusterEnhancedStepHueParams
   , IsMTRColorControlClusterEnhancedStepHueParams(..)
+  , init_
+  , copyWithZone
   , stepMode
   , setStepMode
   , stepSize
@@ -19,14 +21,12 @@ module ObjC.Matter.MTRColorControlClusterEnhancedStepHueParams
   , setOptionsOverride
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , optionsMaskSelector
   , optionsOverrideSelector
-  , serverSideProcessingTimeoutSelector
   , setOptionsMaskSelector
   , setOptionsOverrideSelector
-  , setServerSideProcessingTimeoutSelector
   , setStepModeSelector
   , setStepSizeSelector
   , setTimedInvokeTimeoutMsSelector
@@ -49,6 +49,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRColorControlClusterEnhancedStepHueParams mtrColorControlClusterEnhancedStepHueParams => mtrColorControlClusterEnhancedStepHueParams -> IO (Id MTRColorControlClusterEnhancedStepHueParams)
+init_ mtrColorControlClusterEnhancedStepHueParams =
+  sendOwnedMessage mtrColorControlClusterEnhancedStepHueParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRColorControlClusterEnhancedStepHueParams mtrColorControlClusterEnhancedStepHueParams => mtrColorControlClusterEnhancedStepHueParams -> Ptr () -> IO RawId
+copyWithZone mtrColorControlClusterEnhancedStepHueParams zone =
+  sendOwnedMessage mtrColorControlClusterEnhancedStepHueParams copyWithZoneSelector zone
 
 -- | @- stepMode@
 stepMode :: IsMTRColorControlClusterEnhancedStepHueParams mtrColorControlClusterEnhancedStepHueParams => mtrColorControlClusterEnhancedStepHueParams -> IO (Id NSNumber)
@@ -122,31 +132,17 @@ setTimedInvokeTimeoutMs :: (IsMTRColorControlClusterEnhancedStepHueParams mtrCol
 setTimedInvokeTimeoutMs mtrColorControlClusterEnhancedStepHueParams value =
   sendMessage mtrColorControlClusterEnhancedStepHueParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRColorControlClusterEnhancedStepHueParams mtrColorControlClusterEnhancedStepHueParams => mtrColorControlClusterEnhancedStepHueParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrColorControlClusterEnhancedStepHueParams =
-  sendMessage mtrColorControlClusterEnhancedStepHueParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRColorControlClusterEnhancedStepHueParams mtrColorControlClusterEnhancedStepHueParams, IsNSNumber value) => mtrColorControlClusterEnhancedStepHueParams -> value -> IO ()
-setServerSideProcessingTimeout mtrColorControlClusterEnhancedStepHueParams value =
-  sendMessage mtrColorControlClusterEnhancedStepHueParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRColorControlClusterEnhancedStepHueParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @stepMode@
 stepModeSelector :: Selector '[] (Id NSNumber)
@@ -195,12 +191,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

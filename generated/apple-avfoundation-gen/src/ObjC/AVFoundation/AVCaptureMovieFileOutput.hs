@@ -29,9 +29,6 @@ module ObjC.AVFoundation.AVCaptureMovieFileOutput
   , setPrimaryConstituentDeviceSwitchingBehaviorForRecordingEnabled
   , primaryConstituentDeviceSwitchingBehaviorForRecording
   , primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecording
-  , spatialVideoCaptureSupported
-  , spatialVideoCaptureEnabled
-  , setSpatialVideoCaptureEnabled
   , availableVideoCodecTypesSelector
   , initSelector
   , metadataSelector
@@ -46,9 +43,6 @@ module ObjC.AVFoundation.AVCaptureMovieFileOutput
   , setPrimaryConstituentDeviceSwitchingBehaviorForRecordingEnabledSelector
   , setPrimaryConstituentDeviceSwitchingBehaviorForRecording_restrictedSwitchingBehaviorConditionsSelector
   , setRecordsVideoOrientationAndMirroringChanges_asMetadataTrackForConnectionSelector
-  , setSpatialVideoCaptureEnabledSelector
-  , spatialVideoCaptureEnabledSelector
-  , spatialVideoCaptureSupportedSelector
   , supportedOutputSettingsKeysForConnectionSelector
 
   -- * Enum types
@@ -176,7 +170,7 @@ setRecordsVideoOrientationAndMirroringChanges_asMetadataTrackForConnection avCap
 --
 -- When primaryConstituentDeviceSwitchingBehaviorForRecordingEnabled is set to YES, this method controls the switching behavior and conditions, while a movie file is being recorded.
 --
--- This controls the camera selection behavior used while recording a movie, when enabled through primaryConstituentDeviceSwitchingBehaviorForRecordingEnabled. Setting the switching behavior to anything other than AVCapturePrimaryConstituentDeviceSwitchingBehaviorUnsupported when connected to an AVCaptureDevice that does not support constituent device selection throws an NSInvalidArgumentException. Setting restrictedSwitchingBehaviorConditions to something other than AVCapturePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditionNone while setting switchingBehavior to something other than AVCapturePrimaryConstituentDeviceSwitchingBehaviorRestricted throws an NSInvalidArgumentException exception.
+-- This controls the camera selection behavior used while recording a movie, when enabled through primaryConstituentDeviceSwitchingBehaviorForRecordingEnabled. Setting the switching behavior to anything other than AVCapturePrimaryConstituentDeviceSwitchingBehaviorUnsupported when connected to an AVCaptureDevice that does not suport constituent device selection throws an NSInvalidArgumentException. Setting restrictedSwitchingBehaviorConditions to something other than AVCapturePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditionNone while setting switchingBehavior to something other than AVCapturePrimaryConstituentDeviceSwitchingBehaviorRestricted throws an NSInvalidArgumentException exception.
 --
 -- ObjC selector: @- setPrimaryConstituentDeviceSwitchingBehaviorForRecording:restrictedSwitchingBehaviorConditions:@
 setPrimaryConstituentDeviceSwitchingBehaviorForRecording_restrictedSwitchingBehaviorConditions :: IsAVCaptureMovieFileOutput avCaptureMovieFileOutput => avCaptureMovieFileOutput -> AVCapturePrimaryConstituentDeviceSwitchingBehavior -> AVCapturePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditions -> IO ()
@@ -260,49 +254,6 @@ primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecording :: IsA
 primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecording avCaptureMovieFileOutput =
   sendMessage avCaptureMovieFileOutput primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecordingSelector
 
--- | spatialVideoCaptureSupported
---
--- Returns whether or not capturing spatial video to a file is supported. Note that in order to be supported, two conditions must be met. (1) The source AVCaptureDevice's activeFormat.spatialVideoCaptureSupported property must return YES. (2) The video AVCaptureConnection's activeVideoStabilizationMode property must return AVCaptureVideoStabilizationModeCinematic, AVCaptureVideoStabilizationModeCinematicExtended, or AVCaptureVideoStabilizationModeCinematicExtendedEnhanced.
---
--- ObjC selector: @- spatialVideoCaptureSupported@
-spatialVideoCaptureSupported :: IsAVCaptureMovieFileOutput avCaptureMovieFileOutput => avCaptureMovieFileOutput -> IO Bool
-spatialVideoCaptureSupported avCaptureMovieFileOutput =
-  sendMessage avCaptureMovieFileOutput spatialVideoCaptureSupportedSelector
-
--- | spatialVideoCaptureEnabled
---
--- Enable or disable capturing spatial video to a file.
---
--- This property enables capturing spatial video to a file. By default, this property is set to NO. Check spatialVideoCaptureSupported before setting this property, as setting to YES will throw an exception if the feature is not supported.
---
--- On iOS, enabling spatial video will overwrite the connected AVCaptureDevice's @videoZoomFactor@, @minAvailableVideoZoomFactor@, and @maxAvailableVideoZoomFactor@ to the field of view of the narrower camera in the pair.
---
--- When spatialVideoCaptureEnabled is true, setting -[AVCaptureDeviceInput activeVideoMinFrameDuration] or -[AVCaptureDeviceInput activeVideoMaxFrameDuration] throws an NSInvalidArgumentException.
---
--- Enabling this property throws an NSInvalidArgumentException if -[AVCaptureDevice isVideoFrameDurationLocked] or -[AVCaptureDevice isFollowingExternalSyncDevice] is true.
---
--- ObjC selector: @- spatialVideoCaptureEnabled@
-spatialVideoCaptureEnabled :: IsAVCaptureMovieFileOutput avCaptureMovieFileOutput => avCaptureMovieFileOutput -> IO Bool
-spatialVideoCaptureEnabled avCaptureMovieFileOutput =
-  sendMessage avCaptureMovieFileOutput spatialVideoCaptureEnabledSelector
-
--- | spatialVideoCaptureEnabled
---
--- Enable or disable capturing spatial video to a file.
---
--- This property enables capturing spatial video to a file. By default, this property is set to NO. Check spatialVideoCaptureSupported before setting this property, as setting to YES will throw an exception if the feature is not supported.
---
--- On iOS, enabling spatial video will overwrite the connected AVCaptureDevice's @videoZoomFactor@, @minAvailableVideoZoomFactor@, and @maxAvailableVideoZoomFactor@ to the field of view of the narrower camera in the pair.
---
--- When spatialVideoCaptureEnabled is true, setting -[AVCaptureDeviceInput activeVideoMinFrameDuration] or -[AVCaptureDeviceInput activeVideoMaxFrameDuration] throws an NSInvalidArgumentException.
---
--- Enabling this property throws an NSInvalidArgumentException if -[AVCaptureDevice isVideoFrameDurationLocked] or -[AVCaptureDevice isFollowingExternalSyncDevice] is true.
---
--- ObjC selector: @- setSpatialVideoCaptureEnabled:@
-setSpatialVideoCaptureEnabled :: IsAVCaptureMovieFileOutput avCaptureMovieFileOutput => avCaptureMovieFileOutput -> Bool -> IO ()
-setSpatialVideoCaptureEnabled avCaptureMovieFileOutput value =
-  sendMessage avCaptureMovieFileOutput setSpatialVideoCaptureEnabledSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -366,16 +317,4 @@ primaryConstituentDeviceSwitchingBehaviorForRecordingSelector = mkSelector "prim
 -- | @Selector@ for @primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecording@
 primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecordingSelector :: Selector '[] AVCapturePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditions
 primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecordingSelector = mkSelector "primaryConstituentDeviceRestrictedSwitchingBehaviorConditionsForRecording"
-
--- | @Selector@ for @spatialVideoCaptureSupported@
-spatialVideoCaptureSupportedSelector :: Selector '[] Bool
-spatialVideoCaptureSupportedSelector = mkSelector "spatialVideoCaptureSupported"
-
--- | @Selector@ for @spatialVideoCaptureEnabled@
-spatialVideoCaptureEnabledSelector :: Selector '[] Bool
-spatialVideoCaptureEnabledSelector = mkSelector "spatialVideoCaptureEnabled"
-
--- | @Selector@ for @setSpatialVideoCaptureEnabled:@
-setSpatialVideoCaptureEnabledSelector :: Selector '[Bool] ()
-setSpatialVideoCaptureEnabledSelector = mkSelector "setSpatialVideoCaptureEnabled:"
 

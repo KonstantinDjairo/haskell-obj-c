@@ -398,30 +398,6 @@ instance ObjCReturn PDFPrintScalingMode where
   fromRetained x = pure (PDFPrintScalingMode x)
   fromOwned x = pure (PDFPrintScalingMode x)
 
--- | @PDFSelectionGranularity@
-newtype PDFSelectionGranularity = PDFSelectionGranularity CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PDFSelectionGranularityCharacter :: PDFSelectionGranularity
-pattern PDFSelectionGranularityCharacter = PDFSelectionGranularity 0
-
-pattern PDFSelectionGranularityWord :: PDFSelectionGranularity
-pattern PDFSelectionGranularityWord = PDFSelectionGranularity 1
-
-pattern PDFSelectionGranularityLine :: PDFSelectionGranularity
-pattern PDFSelectionGranularityLine = PDFSelectionGranularity 2
-
-instance ObjCArgument PDFSelectionGranularity where
-  withObjCArg (PDFSelectionGranularity x) k = k (argCULong x)
-
-instance ObjCReturn PDFSelectionGranularity where
-  type RawReturn PDFSelectionGranularity = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PDFSelectionGranularity x)
-  fromOwned x = pure (PDFSelectionGranularity x)
-
 -- | @PDFTextAnnotationIconType@
 newtype PDFTextAnnotationIconType = PDFTextAnnotationIconType CLong
   deriving stock (Eq, Ord, Show)

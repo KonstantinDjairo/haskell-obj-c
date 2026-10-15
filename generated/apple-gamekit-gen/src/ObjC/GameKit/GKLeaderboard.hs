@@ -25,11 +25,6 @@ module ObjC.GameKit.GKLeaderboard
   , startDate
   , nextStartDate
   , duration
-  , leaderboardDescription
-  , releaseState
-  , activityIdentifier
-  , activityProperties
-  , isHidden
   , category
   , setCategory
   , timeScope
@@ -44,8 +39,6 @@ module ObjC.GameKit.GKLeaderboard
   , maxRange
   , localPlayerScore
   , loading
-  , activityIdentifierSelector
-  , activityPropertiesSelector
   , baseLeaderboardIDSelector
   , categorySelector
   , durationSelector
@@ -54,8 +47,6 @@ module ObjC.GameKit.GKLeaderboard
   , initSelector
   , initWithPlayerIDsSelector
   , initWithPlayersSelector
-  , isHiddenSelector
-  , leaderboardDescriptionSelector
   , loadImageWithCompletionHandlerSelector
   , loadPreviousOccurrenceWithCompletionHandlerSelector
   , loadingSelector
@@ -64,7 +55,6 @@ module ObjC.GameKit.GKLeaderboard
   , nextStartDateSelector
   , playerScopeSelector
   , rangeSelector
-  , releaseStateSelector
   , scoresSelector
   , setCategorySelector
   , setDefaultLeaderboard_withCompletionHandlerSelector
@@ -90,10 +80,6 @@ module ObjC.GameKit.GKLeaderboard
   , GKLeaderboardType(GKLeaderboardType)
   , pattern GKLeaderboardTypeClassic
   , pattern GKLeaderboardTypeRecurring
-  , GKReleaseState(GKReleaseState)
-  , pattern GKReleaseStateUnknown
-  , pattern GKReleaseStateReleased
-  , pattern GKReleaseStatePrereleased
 
   ) where
 
@@ -133,9 +119,7 @@ submitScore_context_player_completionHandler :: (IsGKLeaderboard gkLeaderboard, 
 submitScore_context_player_completionHandler gkLeaderboard score context player completionHandler =
   sendMessage gkLeaderboard submitScore_context_player_completionHandlerSelector score context (toGKPlayer player) completionHandler
 
--- | Asynchronously load the image. Error will be nil on success.
---
--- ObjC selector: @- loadImageWithCompletionHandler:@
+-- | @- loadImageWithCompletionHandler:@
 loadImageWithCompletionHandler :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> Ptr () -> IO ()
 loadImageWithCompletionHandler gkLeaderboard completionHandler =
   sendMessage gkLeaderboard loadImageWithCompletionHandlerSelector completionHandler
@@ -176,7 +160,7 @@ title gkLeaderboard =
 -- | set when leaderboards have been designated a game group; set when loadLeaderboardsWithCompletionHandler has been called for leaderboards that support game groups
 --
 -- ObjC selector: @- groupIdentifier@
-groupIdentifier :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO (Id NSString)
+groupIdentifier :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO RawId
 groupIdentifier gkLeaderboard =
   sendMessage gkLeaderboard groupIdentifierSelector
 
@@ -215,52 +199,15 @@ duration :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO CDouble
 duration gkLeaderboard =
   sendMessage gkLeaderboard durationSelector
 
--- | The description of this Leaderboard as configured by the developer in App Store Connect.
---
--- ObjC selector: @- leaderboardDescription@
-leaderboardDescription :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO (Id NSString)
-leaderboardDescription gkLeaderboard =
-  sendMessage gkLeaderboard leaderboardDescriptionSelector
-
--- | The release state of the leaderboard in App Store Connect.
---
--- ObjC selector: @- releaseState@
-releaseState :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO GKReleaseState
-releaseState gkLeaderboard =
-  sendMessage gkLeaderboard releaseStateSelector
-
--- | The identifier of the game activity associated with this leaderboard, as configured by the developer in App Store Connect.
---
--- ObjC selector: @- activityIdentifier@
-activityIdentifier :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO (Id NSString)
-activityIdentifier gkLeaderboard =
-  sendMessage gkLeaderboard activityIdentifierSelector
-
--- | The properties when associating this leaderboard with a game activity, as configured by the developer in App Store Connect.
---
--- ObjC selector: @- activityProperties@
-activityProperties :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO (Id NSDictionary)
-activityProperties gkLeaderboard =
-  sendMessage gkLeaderboard activityPropertiesSelector
-
--- | A Boolean value that indicates whether the current leaderboard isn't visible in Game Center views.
---
--- You can still submit scores to a hidden leaderboard.
---
--- ObjC selector: @- isHidden@
-isHidden :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO Bool
-isHidden gkLeaderboard =
-  sendMessage gkLeaderboard isHiddenSelector
-
 -- | @- category@
-category :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO (Id NSString)
+category :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO RawId
 category gkLeaderboard =
   sendMessage gkLeaderboard categorySelector
 
 -- | @- setCategory:@
-setCategory :: (IsGKLeaderboard gkLeaderboard, IsNSString value) => gkLeaderboard -> value -> IO ()
+setCategory :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> RawId -> IO ()
 setCategory gkLeaderboard value =
-  sendMessage gkLeaderboard setCategorySelector (toNSString value)
+  sendMessage gkLeaderboard setCategorySelector value
 
 -- | @- timeScope@
 timeScope :: IsGKLeaderboard gkLeaderboard => gkLeaderboard -> IO GKLeaderboardTimeScope
@@ -383,7 +330,7 @@ titleSelector :: Selector '[] (Id NSString)
 titleSelector = mkSelector "title"
 
 -- | @Selector@ for @groupIdentifier@
-groupIdentifierSelector :: Selector '[] (Id NSString)
+groupIdentifierSelector :: Selector '[] RawId
 groupIdentifierSelector = mkSelector "groupIdentifier"
 
 -- | @Selector@ for @baseLeaderboardID@
@@ -406,32 +353,12 @@ nextStartDateSelector = mkSelector "nextStartDate"
 durationSelector :: Selector '[] CDouble
 durationSelector = mkSelector "duration"
 
--- | @Selector@ for @leaderboardDescription@
-leaderboardDescriptionSelector :: Selector '[] (Id NSString)
-leaderboardDescriptionSelector = mkSelector "leaderboardDescription"
-
--- | @Selector@ for @releaseState@
-releaseStateSelector :: Selector '[] GKReleaseState
-releaseStateSelector = mkSelector "releaseState"
-
--- | @Selector@ for @activityIdentifier@
-activityIdentifierSelector :: Selector '[] (Id NSString)
-activityIdentifierSelector = mkSelector "activityIdentifier"
-
--- | @Selector@ for @activityProperties@
-activityPropertiesSelector :: Selector '[] (Id NSDictionary)
-activityPropertiesSelector = mkSelector "activityProperties"
-
--- | @Selector@ for @isHidden@
-isHiddenSelector :: Selector '[] Bool
-isHiddenSelector = mkSelector "isHidden"
-
 -- | @Selector@ for @category@
-categorySelector :: Selector '[] (Id NSString)
+categorySelector :: Selector '[] RawId
 categorySelector = mkSelector "category"
 
 -- | @Selector@ for @setCategory:@
-setCategorySelector :: Selector '[Id NSString] ()
+setCategorySelector :: Selector '[RawId] ()
 setCategorySelector = mkSelector "setCategory:"
 
 -- | @Selector@ for @timeScope@

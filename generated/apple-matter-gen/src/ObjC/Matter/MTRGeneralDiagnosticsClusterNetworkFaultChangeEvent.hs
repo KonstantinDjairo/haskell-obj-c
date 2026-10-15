@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRGeneralDiagnosticsClusterNetworkFaultChangeEvent
   ( MTRGeneralDiagnosticsClusterNetworkFaultChangeEvent
   , IsMTRGeneralDiagnosticsClusterNetworkFaultChangeEvent(..)
+  , init_
+  , copyWithZone
   , current
   , setCurrent
   , previous
   , setPrevious
+  , copyWithZoneSelector
   , currentSelector
+  , initSelector
   , previousSelector
   , setCurrentSelector
   , setPreviousSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGeneralDiagnosticsClusterNetworkFaultChangeEvent mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent => mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent -> IO (Id MTRGeneralDiagnosticsClusterNetworkFaultChangeEvent)
+init_ mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent =
+  sendOwnedMessage mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGeneralDiagnosticsClusterNetworkFaultChangeEvent mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent => mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent -> Ptr () -> IO RawId
+copyWithZone mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent zone =
+  sendOwnedMessage mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent copyWithZoneSelector zone
 
 -- | @- current@
 current :: IsMTRGeneralDiagnosticsClusterNetworkFaultChangeEvent mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent => mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent -> IO (Id NSArray)
@@ -53,6 +67,14 @@ setPrevious mtrGeneralDiagnosticsClusterNetworkFaultChangeEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGeneralDiagnosticsClusterNetworkFaultChangeEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @current@
 currentSelector :: Selector '[] (Id NSArray)

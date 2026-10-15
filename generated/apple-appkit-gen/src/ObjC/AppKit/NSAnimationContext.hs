@@ -94,14 +94,14 @@ setDuration nsAnimationContext value =
   sendMessage nsAnimationContext setDurationSelector value
 
 -- | @- timingFunction@
-timingFunction :: IsNSAnimationContext nsAnimationContext => nsAnimationContext -> IO (Id CAMediaTimingFunction)
+timingFunction :: IsNSAnimationContext nsAnimationContext => nsAnimationContext -> IO RawId
 timingFunction nsAnimationContext =
   sendMessage nsAnimationContext timingFunctionSelector
 
 -- | @- setTimingFunction:@
-setTimingFunction :: (IsNSAnimationContext nsAnimationContext, IsCAMediaTimingFunction value) => nsAnimationContext -> value -> IO ()
+setTimingFunction :: IsNSAnimationContext nsAnimationContext => nsAnimationContext -> RawId -> IO ()
 setTimingFunction nsAnimationContext value =
-  sendMessage nsAnimationContext setTimingFunctionSelector (toCAMediaTimingFunction value)
+  sendMessage nsAnimationContext setTimingFunctionSelector value
 
 -- | @- completionHandler@
 completionHandler :: IsNSAnimationContext nsAnimationContext => nsAnimationContext -> IO (Ptr ())
@@ -156,11 +156,11 @@ setDurationSelector :: Selector '[CDouble] ()
 setDurationSelector = mkSelector "setDuration:"
 
 -- | @Selector@ for @timingFunction@
-timingFunctionSelector :: Selector '[] (Id CAMediaTimingFunction)
+timingFunctionSelector :: Selector '[] RawId
 timingFunctionSelector = mkSelector "timingFunction"
 
 -- | @Selector@ for @setTimingFunction:@
-setTimingFunctionSelector :: Selector '[Id CAMediaTimingFunction] ()
+setTimingFunctionSelector :: Selector '[RawId] ()
 setTimingFunctionSelector = mkSelector "setTimingFunction:"
 
 -- | @Selector@ for @completionHandler@

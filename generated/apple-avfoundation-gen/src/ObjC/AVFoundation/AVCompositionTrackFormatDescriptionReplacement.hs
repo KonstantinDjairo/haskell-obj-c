@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVCompositionTrackFormatDescriptionReplacement
---
--- A format description and its replacement.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVCompositionTrackFormatDescriptionReplacement@.
+-- | Generated bindings for @AVCompositionTrackFormatDescriptionReplacement@.
 module ObjC.AVFoundation.AVCompositionTrackFormatDescriptionReplacement
   ( AVCompositionTrackFormatDescriptionReplacement
   , IsAVCompositionTrackFormatDescriptionReplacement(..)

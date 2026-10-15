@@ -21,16 +21,12 @@ module ObjC.PassKit.PKPaymentRequestUpdate
   , setRecurringPaymentRequest
   , automaticReloadPaymentRequest
   , setAutomaticReloadPaymentRequest
-  , deferredPaymentRequest
-  , setDeferredPaymentRequest
   , automaticReloadPaymentRequestSelector
-  , deferredPaymentRequestSelector
   , initWithPaymentSummaryItemsSelector
   , multiTokenContextsSelector
   , paymentSummaryItemsSelector
   , recurringPaymentRequestSelector
   , setAutomaticReloadPaymentRequestSelector
-  , setDeferredPaymentRequestSelector
   , setMultiTokenContextsSelector
   , setPaymentSummaryItemsSelector
   , setRecurringPaymentRequestSelector
@@ -129,16 +125,6 @@ setAutomaticReloadPaymentRequest :: (IsPKPaymentRequestUpdate pkPaymentRequestUp
 setAutomaticReloadPaymentRequest pkPaymentRequestUpdate value =
   sendMessage pkPaymentRequestUpdate setAutomaticReloadPaymentRequestSelector (toPKAutomaticReloadPaymentRequest value)
 
--- | @- deferredPaymentRequest@
-deferredPaymentRequest :: IsPKPaymentRequestUpdate pkPaymentRequestUpdate => pkPaymentRequestUpdate -> IO (Id PKDeferredPaymentRequest)
-deferredPaymentRequest pkPaymentRequestUpdate =
-  sendMessage pkPaymentRequestUpdate deferredPaymentRequestSelector
-
--- | @- setDeferredPaymentRequest:@
-setDeferredPaymentRequest :: (IsPKPaymentRequestUpdate pkPaymentRequestUpdate, IsPKDeferredPaymentRequest value) => pkPaymentRequestUpdate -> value -> IO ()
-setDeferredPaymentRequest pkPaymentRequestUpdate value =
-  sendMessage pkPaymentRequestUpdate setDeferredPaymentRequestSelector (toPKDeferredPaymentRequest value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -194,12 +180,4 @@ automaticReloadPaymentRequestSelector = mkSelector "automaticReloadPaymentReques
 -- | @Selector@ for @setAutomaticReloadPaymentRequest:@
 setAutomaticReloadPaymentRequestSelector :: Selector '[Id PKAutomaticReloadPaymentRequest] ()
 setAutomaticReloadPaymentRequestSelector = mkSelector "setAutomaticReloadPaymentRequest:"
-
--- | @Selector@ for @deferredPaymentRequest@
-deferredPaymentRequestSelector :: Selector '[] (Id PKDeferredPaymentRequest)
-deferredPaymentRequestSelector = mkSelector "deferredPaymentRequest"
-
--- | @Selector@ for @setDeferredPaymentRequest:@
-setDeferredPaymentRequestSelector :: Selector '[Id PKDeferredPaymentRequest] ()
-setDeferredPaymentRequestSelector = mkSelector "setDeferredPaymentRequest:"
 

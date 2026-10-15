@@ -14,20 +14,16 @@ module ObjC.AppKit.NSTextContentStorage
   , adjustedRangeFromRange_forEditingTextSelection
   , delegate
   , setDelegate
-  , includesTextListMarkers
-  , setIncludesTextListMarkers
   , attributedString
   , setAttributedString
   , adjustedRangeFromRange_forEditingTextSelectionSelector
   , attributedStringForTextElementSelector
   , attributedStringSelector
   , delegateSelector
-  , includesTextListMarkersSelector
   , locationFromLocation_withOffsetSelector
   , offsetFromLocation_toLocationSelector
   , setAttributedStringSelector
   , setDelegateSelector
-  , setIncludesTextListMarkersSelector
   , textElementForAttributedStringSelector
 
 
@@ -79,16 +75,6 @@ setDelegate :: IsNSTextContentStorage nsTextContentStorage => nsTextContentStora
 setDelegate nsTextContentStorage value =
   sendMessage nsTextContentStorage setDelegateSelector value
 
--- | @- includesTextListMarkers@
-includesTextListMarkers :: IsNSTextContentStorage nsTextContentStorage => nsTextContentStorage -> IO Bool
-includesTextListMarkers nsTextContentStorage =
-  sendMessage nsTextContentStorage includesTextListMarkersSelector
-
--- | @- setIncludesTextListMarkers:@
-setIncludesTextListMarkers :: IsNSTextContentStorage nsTextContentStorage => nsTextContentStorage -> Bool -> IO ()
-setIncludesTextListMarkers nsTextContentStorage value =
-  sendMessage nsTextContentStorage setIncludesTextListMarkersSelector value
-
 -- | @- attributedString@
 attributedString :: IsNSTextContentStorage nsTextContentStorage => nsTextContentStorage -> IO (Id NSAttributedString)
 attributedString nsTextContentStorage =
@@ -130,14 +116,6 @@ delegateSelector = mkSelector "delegate"
 -- | @Selector@ for @setDelegate:@
 setDelegateSelector :: Selector '[RawId] ()
 setDelegateSelector = mkSelector "setDelegate:"
-
--- | @Selector@ for @includesTextListMarkers@
-includesTextListMarkersSelector :: Selector '[] Bool
-includesTextListMarkersSelector = mkSelector "includesTextListMarkers"
-
--- | @Selector@ for @setIncludesTextListMarkers:@
-setIncludesTextListMarkersSelector :: Selector '[Bool] ()
-setIncludesTextListMarkersSelector = mkSelector "setIncludesTextListMarkers:"
 
 -- | @Selector@ for @attributedString@
 attributedStringSelector :: Selector '[] (Id NSAttributedString)

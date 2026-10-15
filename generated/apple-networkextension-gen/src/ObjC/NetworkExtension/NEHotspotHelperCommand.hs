@@ -17,14 +17,10 @@ module ObjC.NetworkExtension.NEHotspotHelperCommand
   , createUDPSession
   , commandType
   , network
-  , networkList
-  , interface
   , commandTypeSelector
   , createResponseSelector
   , createTCPConnectionSelector
   , createUDPSessionSelector
-  , interfaceSelector
-  , networkListSelector
   , networkSelector
 
   -- * Enum types
@@ -112,29 +108,9 @@ commandType neHotspotHelperCommand =
 -- The network associated with the command. May be nil.
 --
 -- ObjC selector: @- network@
-network :: IsNEHotspotHelperCommand neHotspotHelperCommand => neHotspotHelperCommand -> IO (Id NEHotspotNetwork)
+network :: IsNEHotspotHelperCommand neHotspotHelperCommand => neHotspotHelperCommand -> IO RawId
 network neHotspotHelperCommand =
   sendMessage neHotspotHelperCommand networkSelector
-
--- | networkList
---
--- The list of networks associated with a command. Will be nil unless   the command type is kNEHotspotHelperCommandTypeFilterScanList.   This property returns an NSArray of NEHotspotNetwork.
---
--- ObjC selector: @- networkList@
-networkList :: IsNEHotspotHelperCommand neHotspotHelperCommand => neHotspotHelperCommand -> IO (Id NSArray)
-networkList neHotspotHelperCommand =
-  sendMessage neHotspotHelperCommand networkListSelector
-
--- | interface
---
--- Network interface associated with the command.
---
--- To create a connection over the hotspot, set the interface on the corresponding parameters using @nw_parameters_require_interface@.
---
--- ObjC selector: @- interface@
-interface :: IsNEHotspotHelperCommand neHotspotHelperCommand => neHotspotHelperCommand -> IO (Id NSObject)
-interface neHotspotHelperCommand =
-  sendMessage neHotspotHelperCommand interfaceSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -157,14 +133,6 @@ commandTypeSelector :: Selector '[] NEHotspotHelperCommandType
 commandTypeSelector = mkSelector "commandType"
 
 -- | @Selector@ for @network@
-networkSelector :: Selector '[] (Id NEHotspotNetwork)
+networkSelector :: Selector '[] RawId
 networkSelector = mkSelector "network"
-
--- | @Selector@ for @networkList@
-networkListSelector :: Selector '[] (Id NSArray)
-networkListSelector = mkSelector "networkList"
-
--- | @Selector@ for @interface@
-interfaceSelector :: Selector '[] (Id NSObject)
-interfaceSelector = mkSelector "interface"
 

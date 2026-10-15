@@ -12,9 +12,7 @@ module ObjC.GameKit.GKScore
   , initWithLeaderboardIdentifier
   , initWithLeaderboardIdentifier_player
   , reportScores_withCompletionHandler
-  , challengeComposeControllerWithPlayers_message_completionHandler
   , challengeComposeControllerWithMessage_players_completionHandler
-  , challengeComposeControllerWithMessage_players_completion
   , issueChallengeToPlayers_message
   , reportScores_withEligibleChallenges_withCompletionHandler
   , reportLeaderboardScores_withEligibleChallenges_withCompletionHandler
@@ -38,8 +36,6 @@ module ObjC.GameKit.GKScore
   , setCategory
   , categorySelector
   , challengeComposeControllerWithMessage_players_completionHandlerSelector
-  , challengeComposeControllerWithMessage_players_completionSelector
-  , challengeComposeControllerWithPlayers_message_completionHandlerSelector
   , contextSelector
   , dateSelector
   , formattedValueSelector
@@ -102,22 +98,10 @@ reportScores_withCompletionHandler scores completionHandler =
     cls' <- getRequiredClass "GKScore"
     sendClassMessage cls' reportScores_withCompletionHandlerSelector (toNSArray scores) completionHandler
 
--- | * This method is obsolete. Calling this method does nothing and will return nil **
---
--- ObjC selector: @- challengeComposeControllerWithPlayers:message:completionHandler:@
-challengeComposeControllerWithPlayers_message_completionHandler :: (IsGKScore gkScore, IsNSArray playerIDs, IsNSString message) => gkScore -> playerIDs -> message -> Ptr () -> IO (Id NSViewController)
-challengeComposeControllerWithPlayers_message_completionHandler gkScore playerIDs message completionHandler =
-  sendMessage gkScore challengeComposeControllerWithPlayers_message_completionHandlerSelector (toNSArray playerIDs) (toNSString message) completionHandler
-
 -- | @- challengeComposeControllerWithMessage:players:completionHandler:@
 challengeComposeControllerWithMessage_players_completionHandler :: (IsGKScore gkScore, IsNSString message, IsNSArray players) => gkScore -> message -> players -> Ptr () -> IO (Id NSViewController)
 challengeComposeControllerWithMessage_players_completionHandler gkScore message players completionHandler =
   sendMessage gkScore challengeComposeControllerWithMessage_players_completionHandlerSelector (toNSString message) (toNSArray players) completionHandler
-
--- | @- challengeComposeControllerWithMessage:players:completion:@
-challengeComposeControllerWithMessage_players_completion :: (IsGKScore gkScore, IsNSString message, IsNSArray players) => gkScore -> message -> players -> Ptr () -> IO (Id NSViewController)
-challengeComposeControllerWithMessage_players_completion gkScore message players completionHandler =
-  sendMessage gkScore challengeComposeControllerWithMessage_players_completionSelector (toNSString message) (toNSArray players) completionHandler
 
 -- | * This method is obsolete. It will never be invoked and its implementation does nothing**
 --
@@ -183,16 +167,16 @@ formattedValue gkScore =
 -- | leaderboard identifier (required)
 --
 -- ObjC selector: @- leaderboardIdentifier@
-leaderboardIdentifier :: IsGKScore gkScore => gkScore -> IO (Id NSString)
+leaderboardIdentifier :: IsGKScore gkScore => gkScore -> IO RawId
 leaderboardIdentifier gkScore =
   sendMessage gkScore leaderboardIdentifierSelector
 
 -- | leaderboard identifier (required)
 --
 -- ObjC selector: @- setLeaderboardIdentifier:@
-setLeaderboardIdentifier :: (IsGKScore gkScore, IsNSString value) => gkScore -> value -> IO ()
+setLeaderboardIdentifier :: IsGKScore gkScore => gkScore -> RawId -> IO ()
 setLeaderboardIdentifier gkScore value =
-  sendMessage gkScore setLeaderboardIdentifierSelector (toNSString value)
+  sendMessage gkScore setLeaderboardIdentifierSelector value
 
 -- | optional additional context that allows a game to store and retrieve additional data associated with the store.  Default value of zero is returned if no value is set.
 --
@@ -218,7 +202,7 @@ date gkScore =
 -- | The player that recorded the score.
 --
 -- ObjC selector: @- player@
-player :: IsGKScore gkScore => gkScore -> IO (Id GKPlayer)
+player :: IsGKScore gkScore => gkScore -> IO RawId
 player gkScore =
   sendMessage gkScore playerSelector
 
@@ -246,19 +230,19 @@ setShouldSetDefaultLeaderboard gkScore value =
 -- | * This property is obsolete. **
 --
 -- ObjC selector: @- playerID@
-playerID :: IsGKScore gkScore => gkScore -> IO (Id NSString)
+playerID :: IsGKScore gkScore => gkScore -> IO RawId
 playerID gkScore =
   sendMessage gkScore playerIDSelector
 
 -- | @- category@
-category :: IsGKScore gkScore => gkScore -> IO (Id NSString)
+category :: IsGKScore gkScore => gkScore -> IO RawId
 category gkScore =
   sendMessage gkScore categorySelector
 
 -- | @- setCategory:@
-setCategory :: (IsGKScore gkScore, IsNSString value) => gkScore -> value -> IO ()
+setCategory :: IsGKScore gkScore => gkScore -> RawId -> IO ()
 setCategory gkScore value =
-  sendMessage gkScore setCategorySelector (toNSString value)
+  sendMessage gkScore setCategorySelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -276,17 +260,9 @@ initWithLeaderboardIdentifier_playerSelector = mkSelector "initWithLeaderboardId
 reportScores_withCompletionHandlerSelector :: Selector '[Id NSArray, Ptr ()] ()
 reportScores_withCompletionHandlerSelector = mkSelector "reportScores:withCompletionHandler:"
 
--- | @Selector@ for @challengeComposeControllerWithPlayers:message:completionHandler:@
-challengeComposeControllerWithPlayers_message_completionHandlerSelector :: Selector '[Id NSArray, Id NSString, Ptr ()] (Id NSViewController)
-challengeComposeControllerWithPlayers_message_completionHandlerSelector = mkSelector "challengeComposeControllerWithPlayers:message:completionHandler:"
-
 -- | @Selector@ for @challengeComposeControllerWithMessage:players:completionHandler:@
 challengeComposeControllerWithMessage_players_completionHandlerSelector :: Selector '[Id NSString, Id NSArray, Ptr ()] (Id NSViewController)
 challengeComposeControllerWithMessage_players_completionHandlerSelector = mkSelector "challengeComposeControllerWithMessage:players:completionHandler:"
-
--- | @Selector@ for @challengeComposeControllerWithMessage:players:completion:@
-challengeComposeControllerWithMessage_players_completionSelector :: Selector '[Id NSString, Id NSArray, Ptr ()] (Id NSViewController)
-challengeComposeControllerWithMessage_players_completionSelector = mkSelector "challengeComposeControllerWithMessage:players:completion:"
 
 -- | @Selector@ for @issueChallengeToPlayers:message:@
 issueChallengeToPlayers_messageSelector :: Selector '[Id NSArray, Id NSString] ()
@@ -325,11 +301,11 @@ formattedValueSelector :: Selector '[] (Id NSString)
 formattedValueSelector = mkSelector "formattedValue"
 
 -- | @Selector@ for @leaderboardIdentifier@
-leaderboardIdentifierSelector :: Selector '[] (Id NSString)
+leaderboardIdentifierSelector :: Selector '[] RawId
 leaderboardIdentifierSelector = mkSelector "leaderboardIdentifier"
 
 -- | @Selector@ for @setLeaderboardIdentifier:@
-setLeaderboardIdentifierSelector :: Selector '[Id NSString] ()
+setLeaderboardIdentifierSelector :: Selector '[RawId] ()
 setLeaderboardIdentifierSelector = mkSelector "setLeaderboardIdentifier:"
 
 -- | @Selector@ for @context@
@@ -345,7 +321,7 @@ dateSelector :: Selector '[] (Id NSDate)
 dateSelector = mkSelector "date"
 
 -- | @Selector@ for @player@
-playerSelector :: Selector '[] (Id GKPlayer)
+playerSelector :: Selector '[] RawId
 playerSelector = mkSelector "player"
 
 -- | @Selector@ for @rank@
@@ -361,14 +337,14 @@ setShouldSetDefaultLeaderboardSelector :: Selector '[Bool] ()
 setShouldSetDefaultLeaderboardSelector = mkSelector "setShouldSetDefaultLeaderboard:"
 
 -- | @Selector@ for @playerID@
-playerIDSelector :: Selector '[] (Id NSString)
+playerIDSelector :: Selector '[] RawId
 playerIDSelector = mkSelector "playerID"
 
 -- | @Selector@ for @category@
-categorySelector :: Selector '[] (Id NSString)
+categorySelector :: Selector '[] RawId
 categorySelector = mkSelector "category"
 
 -- | @Selector@ for @setCategory:@
-setCategorySelector :: Selector '[Id NSString] ()
+setCategorySelector :: Selector '[RawId] ()
 setCategorySelector = mkSelector "setCategory:"
 

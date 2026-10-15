@@ -32,8 +32,6 @@ module ObjC.NetworkExtension.NEVPNProtocolIKEv2
   , setDisableRedirect
   , enablePFS
   , setEnablePFS
-  , allowPostQuantumKeyExchangeFallback
-  , setAllowPostQuantumKeyExchangeFallback
   , enableRevocationCheck
   , setEnableRevocationCheck
   , strictRevocationCheck
@@ -46,9 +44,6 @@ module ObjC.NetworkExtension.NEVPNProtocolIKEv2
   , setEnableFallback
   , mtu
   , setMtu
-  , ppkConfiguration
-  , setPpkConfiguration
-  , allowPostQuantumKeyExchangeFallbackSelector
   , certificateTypeSelector
   , childSecurityAssociationParametersSelector
   , deadPeerDetectionRateSelector
@@ -61,10 +56,8 @@ module ObjC.NetworkExtension.NEVPNProtocolIKEv2
   , maximumTLSVersionSelector
   , minimumTLSVersionSelector
   , mtuSelector
-  , ppkConfigurationSelector
   , serverCertificateCommonNameSelector
   , serverCertificateIssuerCommonNameSelector
-  , setAllowPostQuantumKeyExchangeFallbackSelector
   , setCertificateTypeSelector
   , setDeadPeerDetectionRateSelector
   , setDisableMOBIKESelector
@@ -75,7 +68,6 @@ module ObjC.NetworkExtension.NEVPNProtocolIKEv2
   , setMaximumTLSVersionSelector
   , setMinimumTLSVersionSelector
   , setMtuSelector
-  , setPpkConfigurationSelector
   , setServerCertificateCommonNameSelector
   , setServerCertificateIssuerCommonNameSelector
   , setStrictRevocationCheckSelector
@@ -90,7 +82,6 @@ module ObjC.NetworkExtension.NEVPNProtocolIKEv2
   , pattern NEVPNIKEv2CertificateTypeECDSA384
   , pattern NEVPNIKEv2CertificateTypeECDSA521
   , pattern NEVPNIKEv2CertificateTypeEd25519
-  , pattern NEVPNIKEv2CertificateTypeRSAPSS
   , NEVPNIKEv2DeadPeerDetectionRate(NEVPNIKEv2DeadPeerDetectionRate)
   , pattern NEVPNIKEv2DeadPeerDetectionRateNone
   , pattern NEVPNIKEv2DeadPeerDetectionRateLow
@@ -278,24 +269,6 @@ setEnablePFS :: IsNEVPNProtocolIKEv2 nevpnProtocolIKEv2 => nevpnProtocolIKEv2 ->
 setEnablePFS nevpnProtocolIKEv2 value =
   sendMessage nevpnProtocolIKEv2 setEnablePFSSelector value
 
--- | allowPostQuantumKeyExchangeFallback
---
--- Allow servers that do not support post-quantum key exchanges to skip them. This property has no effect if no post-quantum key exchange methods     are configured for the IKE SA or Child SA (see NEVPNIKEv2SecurityAssociationParameters.postQuantumKeyExchangeMethods). Default is NO.
---
--- ObjC selector: @- allowPostQuantumKeyExchangeFallback@
-allowPostQuantumKeyExchangeFallback :: IsNEVPNProtocolIKEv2 nevpnProtocolIKEv2 => nevpnProtocolIKEv2 -> IO Bool
-allowPostQuantumKeyExchangeFallback nevpnProtocolIKEv2 =
-  sendMessage nevpnProtocolIKEv2 allowPostQuantumKeyExchangeFallbackSelector
-
--- | allowPostQuantumKeyExchangeFallback
---
--- Allow servers that do not support post-quantum key exchanges to skip them. This property has no effect if no post-quantum key exchange methods     are configured for the IKE SA or Child SA (see NEVPNIKEv2SecurityAssociationParameters.postQuantumKeyExchangeMethods). Default is NO.
---
--- ObjC selector: @- setAllowPostQuantumKeyExchangeFallback:@
-setAllowPostQuantumKeyExchangeFallback :: IsNEVPNProtocolIKEv2 nevpnProtocolIKEv2 => nevpnProtocolIKEv2 -> Bool -> IO ()
-setAllowPostQuantumKeyExchangeFallback nevpnProtocolIKEv2 value =
-  sendMessage nevpnProtocolIKEv2 setAllowPostQuantumKeyExchangeFallbackSelector value
-
 -- | enableRevocationCheck
 --
 -- Enable certificate revocation check. Default is NO.
@@ -404,24 +377,6 @@ setMtu :: IsNEVPNProtocolIKEv2 nevpnProtocolIKEv2 => nevpnProtocolIKEv2 -> CULon
 setMtu nevpnProtocolIKEv2 value =
   sendMessage nevpnProtocolIKEv2 setMtuSelector value
 
--- | ppkConfiguration
---
--- Configuration for the use of a Post-quantum Pre-shared Key (PPK).
---
--- ObjC selector: @- ppkConfiguration@
-ppkConfiguration :: IsNEVPNProtocolIKEv2 nevpnProtocolIKEv2 => nevpnProtocolIKEv2 -> IO (Id NEVPNIKEv2PPKConfiguration)
-ppkConfiguration nevpnProtocolIKEv2 =
-  sendMessage nevpnProtocolIKEv2 ppkConfigurationSelector
-
--- | ppkConfiguration
---
--- Configuration for the use of a Post-quantum Pre-shared Key (PPK).
---
--- ObjC selector: @- setPpkConfiguration:@
-setPpkConfiguration :: (IsNEVPNProtocolIKEv2 nevpnProtocolIKEv2, IsNEVPNIKEv2PPKConfiguration value) => nevpnProtocolIKEv2 -> value -> IO ()
-setPpkConfiguration nevpnProtocolIKEv2 value =
-  sendMessage nevpnProtocolIKEv2 setPpkConfigurationSelector (toNEVPNIKEv2PPKConfiguration value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -498,14 +453,6 @@ enablePFSSelector = mkSelector "enablePFS"
 setEnablePFSSelector :: Selector '[Bool] ()
 setEnablePFSSelector = mkSelector "setEnablePFS:"
 
--- | @Selector@ for @allowPostQuantumKeyExchangeFallback@
-allowPostQuantumKeyExchangeFallbackSelector :: Selector '[] Bool
-allowPostQuantumKeyExchangeFallbackSelector = mkSelector "allowPostQuantumKeyExchangeFallback"
-
--- | @Selector@ for @setAllowPostQuantumKeyExchangeFallback:@
-setAllowPostQuantumKeyExchangeFallbackSelector :: Selector '[Bool] ()
-setAllowPostQuantumKeyExchangeFallbackSelector = mkSelector "setAllowPostQuantumKeyExchangeFallback:"
-
 -- | @Selector@ for @enableRevocationCheck@
 enableRevocationCheckSelector :: Selector '[] Bool
 enableRevocationCheckSelector = mkSelector "enableRevocationCheck"
@@ -553,12 +500,4 @@ mtuSelector = mkSelector "mtu"
 -- | @Selector@ for @setMtu:@
 setMtuSelector :: Selector '[CULong] ()
 setMtuSelector = mkSelector "setMtu:"
-
--- | @Selector@ for @ppkConfiguration@
-ppkConfigurationSelector :: Selector '[] (Id NEVPNIKEv2PPKConfiguration)
-ppkConfigurationSelector = mkSelector "ppkConfiguration"
-
--- | @Selector@ for @setPpkConfiguration:@
-setPpkConfigurationSelector :: Selector '[Id NEVPNIKEv2PPKConfiguration] ()
-setPpkConfigurationSelector = mkSelector "setPpkConfiguration:"
 

@@ -35,10 +35,6 @@ module ObjC.Metal.MTLFunctionDescriptor
   , MTLFunctionOptions(MTLFunctionOptions)
   , pattern MTLFunctionOptionNone
   , pattern MTLFunctionOptionCompileToBinary
-  , pattern MTLFunctionOptionStoreFunctionInMetalPipelinesScript
-  , pattern MTLFunctionOptionStoreFunctionInMetalScript
-  , pattern MTLFunctionOptionFailOnBinaryArchiveMiss
-  , pattern MTLFunctionOptionPipelineIndependent
 
   ) where
 

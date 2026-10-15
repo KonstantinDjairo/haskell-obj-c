@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRNetworkCommissioningClusterThreadInterfaceScanResult
   ( MTRNetworkCommissioningClusterThreadInterfaceScanResult
   , IsMTRNetworkCommissioningClusterThreadInterfaceScanResult(..)
+  , init_
+  , copyWithZone
   , panId
   , setPanId
   , extendedPanId
@@ -24,8 +26,10 @@ module ObjC.Matter.MTRNetworkCommissioningClusterThreadInterfaceScanResult
   , lqi
   , setLqi
   , channelSelector
+  , copyWithZoneSelector
   , extendedAddressSelector
   , extendedPanIdSelector
+  , initSelector
   , lqiSelector
   , networkNameSelector
   , panIdSelector
@@ -53,6 +57,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRNetworkCommissioningClusterThreadInterfaceScanResult mtrNetworkCommissioningClusterThreadInterfaceScanResult => mtrNetworkCommissioningClusterThreadInterfaceScanResult -> IO (Id MTRNetworkCommissioningClusterThreadInterfaceScanResult)
+init_ mtrNetworkCommissioningClusterThreadInterfaceScanResult =
+  sendOwnedMessage mtrNetworkCommissioningClusterThreadInterfaceScanResult initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRNetworkCommissioningClusterThreadInterfaceScanResult mtrNetworkCommissioningClusterThreadInterfaceScanResult => mtrNetworkCommissioningClusterThreadInterfaceScanResult -> Ptr () -> IO RawId
+copyWithZone mtrNetworkCommissioningClusterThreadInterfaceScanResult zone =
+  sendOwnedMessage mtrNetworkCommissioningClusterThreadInterfaceScanResult copyWithZoneSelector zone
 
 -- | @- panId@
 panId :: IsMTRNetworkCommissioningClusterThreadInterfaceScanResult mtrNetworkCommissioningClusterThreadInterfaceScanResult => mtrNetworkCommissioningClusterThreadInterfaceScanResult -> IO (Id NSNumber)
@@ -137,6 +151,14 @@ setLqi mtrNetworkCommissioningClusterThreadInterfaceScanResult value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRNetworkCommissioningClusterThreadInterfaceScanResult)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @panId@
 panIdSelector :: Selector '[] (Id NSNumber)

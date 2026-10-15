@@ -45,8 +45,6 @@ data AVContentKeySessionDelegateOverrides = AVContentKeySessionDelegateOverrides
   , _contentKeySession_contentKeyRequestDidSucceed :: !(Maybe (RawId -> RawId -> IO ()))
   , _contentKeySessionContentProtectionSessionIdentifierDidChange :: !(Maybe (RawId -> IO ()))
   , _contentKeySessionDidGenerateExpiredSessionReport :: !(Maybe (RawId -> IO ()))
-  , _contentKeySession_externalProtectionStatusDidChangeForContentKey :: !(Maybe (RawId -> RawId -> IO ()))
-  , _contentKeySession_didProvideContentKeyRequests_forInitializationData :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -61,8 +59,6 @@ defaultAVContentKeySessionDelegateOverrides = AVContentKeySessionDelegateOverrid
   , _contentKeySession_contentKeyRequestDidSucceed = Nothing
   , _contentKeySessionContentProtectionSessionIdentifierDidChange = Nothing
   , _contentKeySessionDidGenerateExpiredSessionReport = Nothing
-  , _contentKeySession_externalProtectionStatusDidChangeForContentKey = Nothing
-  , _contentKeySession_didProvideContentKeyRequests_forInitializationData = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -108,8 +104,6 @@ avContentKeySessionDelegateDelegateClass = unsafePerformIO $ do
       sel_contentKeySession_contentKeyRequestDidSucceed = unSelector (mkSelector "contentKeySession:contentKeyRequestDidSucceed:")
       sel_contentKeySessionContentProtectionSessionIdentifierDidChange = unSelector (mkSelector "contentKeySessionContentProtectionSessionIdentifierDidChange:")
       sel_contentKeySessionDidGenerateExpiredSessionReport = unSelector (mkSelector "contentKeySessionDidGenerateExpiredSessionReport:")
-      sel_contentKeySession_externalProtectionStatusDidChangeForContentKey = unSelector (mkSelector "contentKeySession:externalProtectionStatusDidChangeForContentKey:")
-      sel_contentKeySession_didProvideContentKeyRequests_forInitializationData = unSelector (mkSelector "contentKeySession:didProvideContentKeyRequests:forInitializationData:")
   -- contentKeySession:didProvideContentKeyRequest:
   stub_0 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
@@ -193,24 +187,6 @@ avContentKeySessionDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0)
   addObjCMethod cls "contentKeySessionDidGenerateExpiredSessionReport:" "v@:@" stub_8
 
-  -- contentKeySession:externalProtectionStatusDidChangeForContentKey:
-  stub_9 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO AVContentKeySessionDelegateOverrides
-    case _contentKeySession_externalProtectionStatusDidChangeForContentKey rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "contentKeySession:externalProtectionStatusDidChangeForContentKey:" "v@:@@" stub_9
-
-  -- contentKeySession:didProvideContentKeyRequests:forInitializationData:
-  stub_10 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO AVContentKeySessionDelegateOverrides
-    case _contentKeySession_didProvideContentKeyRequests_forInitializationData rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "contentKeySession:didProvideContentKeyRequests:forInitializationData:" "v@:@@@" stub_10
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -224,8 +200,6 @@ avContentKeySessionDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_contentKeySession_contentKeyRequestDidSucceed then pure (maybe 0 (const 1) (_contentKeySession_contentKeyRequestDidSucceed rec_))
     else if queriedSel == sel_contentKeySessionContentProtectionSessionIdentifierDidChange then pure (maybe 0 (const 1) (_contentKeySessionContentProtectionSessionIdentifierDidChange rec_))
     else if queriedSel == sel_contentKeySessionDidGenerateExpiredSessionReport then pure (maybe 0 (const 1) (_contentKeySessionDidGenerateExpiredSessionReport rec_))
-    else if queriedSel == sel_contentKeySession_externalProtectionStatusDidChangeForContentKey then pure (maybe 0 (const 1) (_contentKeySession_externalProtectionStatusDidChangeForContentKey rec_))
-    else if queriedSel == sel_contentKeySession_didProvideContentKeyRequests_forInitializationData then pure (maybe 0 (const 1) (_contentKeySession_didProvideContentKeyRequests_forInitializationData rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

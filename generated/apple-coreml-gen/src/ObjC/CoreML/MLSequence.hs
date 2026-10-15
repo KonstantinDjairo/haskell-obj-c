@@ -33,7 +33,6 @@ module ObjC.CoreML.MLSequence
   , pattern MLFeatureTypeMultiArray
   , pattern MLFeatureTypeDictionary
   , pattern MLFeatureTypeSequence
-  , pattern MLFeatureTypeState
 
   ) where
 

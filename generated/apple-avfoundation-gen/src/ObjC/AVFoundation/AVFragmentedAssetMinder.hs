@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A class that periodically checks whether additional fragments have been appended to fragmented assets.
---
--- Generated bindings for @AVFragmentedAssetMinder@.
+-- | Generated bindings for @AVFragmentedAssetMinder@.
 module ObjC.AVFoundation.AVFragmentedAssetMinder
   ( AVFragmentedAssetMinder
   , IsAVFragmentedAssetMinder(..)
@@ -38,11 +36,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates an AVFragmentedAssetMinder, adds the specified asset to it, and sets the mindingInterval to the specified value.
+-- | fragmentedAssetMinderWithAsset:mindingInterval:
 --
--- - Parameter asset: An instance of AVFragmentedAsset to add to the AVFragmentedAssetMinder - Parameter mindingInterval: The initial minding interval of the AVFragmentedAssetMinder.
+-- Creates an AVFragmentedAssetMinder, adds the specified asset to it, and sets the mindingInterval to the specified value.
 --
--- - Returns: A new instance of AVFragmentedAssetMinder.
+-- @asset@ — An instance of AVFragmentedAsset to add to the AVFragmentedAssetMinder
+--
+-- @mindingInterval@ — The initial minding interval of the AVFragmentedAssetMinder.
+--
+-- Returns: A new instance of AVFragmentedAssetMinder.
 --
 -- ObjC selector: @+ fragmentedAssetMinderWithAsset:mindingInterval:@
 fragmentedAssetMinderWithAsset_mindingInterval :: IsAVAsset asset => asset -> CDouble -> IO (Id AVFragmentedAssetMinder)
@@ -51,40 +53,50 @@ fragmentedAssetMinderWithAsset_mindingInterval asset mindingInterval =
     cls' <- getRequiredClass "AVFragmentedAssetMinder"
     sendClassMessage cls' fragmentedAssetMinderWithAsset_mindingIntervalSelector (toAVAsset asset) mindingInterval
 
--- | Creates an AVFragmentedAssetMinder, adds the specified asset to it, and sets the mindingInterval to the specified value.
+-- | initWithAsset:mindingInterval:
 --
--- - Parameter asset: An instance of AVFragmentedAsset to add to the AVFragmentedAssetMinder - Parameter mindingInterval: The initial minding interval of the AVFragmentedAssetMinder.
+-- Creates an AVFragmentedAssetMinder, adds the specified asset to it, and sets the mindingInterval to the specified value.
 --
--- - Returns: A new instance of AVFragmentedAssetMinder.
+-- @asset@ — An instance of AVFragmentedAsset to add to the AVFragmentedAssetMinder
+--
+-- @mindingInterval@ — The initial minding interval of the AVFragmentedAssetMinder.
+--
+-- Returns: A new instance of AVFragmentedAssetMinder.
 --
 -- ObjC selector: @- initWithAsset:mindingInterval:@
 initWithAsset_mindingInterval :: (IsAVFragmentedAssetMinder avFragmentedAssetMinder, IsAVAsset asset) => avFragmentedAssetMinder -> asset -> CDouble -> IO (Id AVFragmentedAssetMinder)
 initWithAsset_mindingInterval avFragmentedAssetMinder asset mindingInterval =
   sendOwnedMessage avFragmentedAssetMinder initWithAsset_mindingIntervalSelector (toAVAsset asset) mindingInterval
 
--- | Adds a fragmented asset to the array of assets being minded.
+-- | addFragmentedAsset:
+--
+-- Adds a fragmented asset to the array of assets being minded.
+--
+-- @asset@ — The fragmented asset to add to the minder.
 --
 -- This method throws an exception if the asset is not a supported type (AVFragmentedAsset, AVFragmentedMovie), or if the asset is already being minded by another fragment minder.
---
--- - Parameter asset: The fragmented asset to add to the minder.
 --
 -- ObjC selector: @- addFragmentedAsset:@
 addFragmentedAsset :: (IsAVFragmentedAssetMinder avFragmentedAssetMinder, IsAVAsset asset) => avFragmentedAssetMinder -> asset -> IO ()
 addFragmentedAsset avFragmentedAssetMinder asset =
   sendMessage avFragmentedAssetMinder addFragmentedAssetSelector (toAVAsset asset)
 
--- | Removes a fragmented asset from the array of assets being minded.
+-- | removeFragmentedAsset:
+--
+-- Removes a fragmented asset from the array of assets being minded.
+--
+-- @asset@ — The fragmented asset to remove from the minder.
 --
 -- This method throws an exception if the asset is not a supported type (AVFragmentedAsset, AVFragmentedMovie).
---
--- - Parameter asset: The fragmented asset to remove from the minder.
 --
 -- ObjC selector: @- removeFragmentedAsset:@
 removeFragmentedAsset :: (IsAVFragmentedAssetMinder avFragmentedAssetMinder, IsAVAsset asset) => avFragmentedAssetMinder -> asset -> IO ()
 removeFragmentedAsset avFragmentedAssetMinder asset =
   sendMessage avFragmentedAssetMinder removeFragmentedAssetSelector (toAVAsset asset)
 
--- | An NSTimeInterval indicating how often a check for additional fragments should be performed. The default interval is 10.0.
+-- | mindingInterval
+--
+-- An NSTimeInterval indicating how often a check for additional fragments should be performed. The default interval is 10.0.
 --
 -- This property throws an excepion if a value is set less than one millisecond (0.001) in duration.
 --
@@ -93,7 +105,9 @@ mindingInterval :: IsAVFragmentedAssetMinder avFragmentedAssetMinder => avFragme
 mindingInterval avFragmentedAssetMinder =
   sendMessage avFragmentedAssetMinder mindingIntervalSelector
 
--- | An NSTimeInterval indicating how often a check for additional fragments should be performed. The default interval is 10.0.
+-- | mindingInterval
+--
+-- An NSTimeInterval indicating how often a check for additional fragments should be performed. The default interval is 10.0.
 --
 -- This property throws an excepion if a value is set less than one millisecond (0.001) in duration.
 --
@@ -102,7 +116,9 @@ setMindingInterval :: IsAVFragmentedAssetMinder avFragmentedAssetMinder => avFra
 setMindingInterval avFragmentedAssetMinder value =
   sendMessage avFragmentedAssetMinder setMindingIntervalSelector value
 
--- | An NSArray of the AVFragmentedAsset objects being minded.
+-- | assets
+--
+-- An NSArray of the AVFragmentedAsset objects being minded.
 --
 -- ObjC selector: @- assets@
 assets :: IsAVFragmentedAssetMinder avFragmentedAssetMinder => avFragmentedAssetMinder -> IO (Id NSArray)

@@ -3,7 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MTRBaseClusterBridgedDeviceBasic@.
+-- | Cluster Bridged Device Basic    This Cluster serves two purposes towards a Node communicating with a Bridge: indicate that the functionality on          the Endpoint where it is placed (and its Parts) is bridged from a non-CHIP technology; and provide a centralized          collection of attributes that the Node MAY collect to aid in conveying information regarding the Bridged Device to a user,          such as the vendor name, the model name, or user-assigned name.
+--
+-- Generated bindings for @MTRBaseClusterBridgedDeviceBasic@.
 module ObjC.Matter.MTRBaseClusterBridgedDeviceBasic
   ( MTRBaseClusterBridgedDeviceBasic
   , IsMTRBaseClusterBridgedDeviceBasic(..)
@@ -70,7 +72,11 @@ module ObjC.Matter.MTRBaseClusterBridgedDeviceBasic
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
+  , init_
+  , new
+  , initSelector
   , initWithDevice_endpoint_queueSelector
+  , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
@@ -158,7 +164,9 @@ readAttributeVendorNameWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBas
 readAttributeVendorNameWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeVendorNameWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeVendorNameWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeVendorNameWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeVendorNameWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeVendorNameWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeVendorNameWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -175,7 +183,9 @@ readAttributeVendorIDWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBasic
 readAttributeVendorIDWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeVendorIDWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeVendorIDWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeVendorIDWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeVendorIDWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeVendorIDWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeVendorIDWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -192,7 +202,9 @@ readAttributeProductNameWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBa
 readAttributeProductNameWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeProductNameWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeProductNameWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeProductNameWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeProductNameWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeProductNameWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeProductNameWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -219,7 +231,9 @@ writeAttributeNodeLabelWithValue_params_completionHandler :: (IsMTRBaseClusterBr
 writeAttributeNodeLabelWithValue_params_completionHandler mtrBaseClusterBridgedDeviceBasic value params completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic writeAttributeNodeLabelWithValue_params_completionHandlerSelector (toNSString value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNodeLabelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNodeLabelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNodeLabelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNodeLabelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeNodeLabelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -236,7 +250,9 @@ readAttributeHardwareVersionWithCompletionHandler :: IsMTRBaseClusterBridgedDevi
 readAttributeHardwareVersionWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeHardwareVersionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeHardwareVersionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeHardwareVersionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeHardwareVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeHardwareVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeHardwareVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -253,7 +269,9 @@ readAttributeHardwareVersionStringWithCompletionHandler :: IsMTRBaseClusterBridg
 readAttributeHardwareVersionStringWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeHardwareVersionStringWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeHardwareVersionStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeHardwareVersionStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeHardwareVersionStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeHardwareVersionStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeHardwareVersionStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -270,7 +288,9 @@ readAttributeSoftwareVersionWithCompletionHandler :: IsMTRBaseClusterBridgedDevi
 readAttributeSoftwareVersionWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeSoftwareVersionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeSoftwareVersionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeSoftwareVersionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeSoftwareVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeSoftwareVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeSoftwareVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -287,7 +307,9 @@ readAttributeSoftwareVersionStringWithCompletionHandler :: IsMTRBaseClusterBridg
 readAttributeSoftwareVersionStringWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeSoftwareVersionStringWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeSoftwareVersionStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeSoftwareVersionStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeSoftwareVersionStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeSoftwareVersionStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeSoftwareVersionStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -304,7 +326,9 @@ readAttributeManufacturingDateWithCompletionHandler :: IsMTRBaseClusterBridgedDe
 readAttributeManufacturingDateWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeManufacturingDateWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeManufacturingDateWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeManufacturingDateWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeManufacturingDateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeManufacturingDateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeManufacturingDateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -321,7 +345,9 @@ readAttributePartNumberWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBas
 readAttributePartNumberWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributePartNumberWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePartNumberWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePartNumberWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePartNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePartNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributePartNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -338,7 +364,9 @@ readAttributeProductURLWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBas
 readAttributeProductURLWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeProductURLWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeProductURLWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeProductURLWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeProductURLWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeProductURLWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeProductURLWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -355,7 +383,9 @@ readAttributeProductLabelWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceB
 readAttributeProductLabelWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeProductLabelWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeProductLabelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeProductLabelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeProductLabelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeProductLabelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeProductLabelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -372,7 +402,9 @@ readAttributeSerialNumberWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceB
 readAttributeSerialNumberWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeSerialNumberWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeSerialNumberWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeSerialNumberWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeSerialNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeSerialNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeSerialNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -389,7 +421,9 @@ readAttributeReachableWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBasi
 readAttributeReachableWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeReachableWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeReachableWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeReachableWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeReachableWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeReachableWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeReachableWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -406,7 +440,9 @@ readAttributeUniqueIDWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBasic
 readAttributeUniqueIDWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeUniqueIDWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeUniqueIDWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeUniqueIDWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeUniqueIDWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeUniqueIDWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeUniqueIDWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -423,7 +459,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterBridge
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -440,7 +478,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterBridged
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -457,7 +497,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterBridgedDevice
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -474,7 +516,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterBridgedDeviceBas
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -491,7 +535,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterBridgedDevi
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterBridgedDeviceBasic completionHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBridgedDeviceBasic -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBridgedDeviceBasic minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBridgedDeviceBasic subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -502,6 +548,18 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
   do
     cls' <- getRequiredClass "MTRBaseClusterBridgedDeviceBasic"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
+
+-- | @- init@
+init_ :: IsMTRBaseClusterBridgedDeviceBasic mtrBaseClusterBridgedDeviceBasic => mtrBaseClusterBridgedDeviceBasic -> IO (Id MTRBaseClusterBridgedDeviceBasic)
+init_ mtrBaseClusterBridgedDeviceBasic =
+  sendOwnedMessage mtrBaseClusterBridgedDeviceBasic initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterBridgedDeviceBasic)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterBridgedDeviceBasic"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -758,4 +816,12 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 -- | @Selector@ for @readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:@
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterBridgedDeviceBasic)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterBridgedDeviceBasic)
+newSelector = mkSelector "new"
 

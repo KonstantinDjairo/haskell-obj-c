@@ -44,13 +44,10 @@ module ObjC.Foundation.NSUserNotification
   , responsePlaceholder
   , setResponsePlaceholder
   , response
-  , additionalActions
-  , setAdditionalActions
   , additionalActivationAction
   , actionButtonTitleSelector
   , activationTypeSelector
   , actualDeliveryDateSelector
-  , additionalActionsSelector
   , additionalActivationActionSelector
   , contentImageSelector
   , deliveryDateSelector
@@ -67,7 +64,6 @@ module ObjC.Foundation.NSUserNotification
   , responsePlaceholderSelector
   , responseSelector
   , setActionButtonTitleSelector
-  , setAdditionalActionsSelector
   , setContentImageSelector
   , setDeliveryDateSelector
   , setDeliveryRepeatIntervalSelector
@@ -244,14 +240,14 @@ setOtherButtonTitle nsUserNotification value =
   sendMessage nsUserNotification setOtherButtonTitleSelector (toNSString value)
 
 -- | @- identifier@
-identifier :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO (Id NSString)
+identifier :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO RawId
 identifier nsUserNotification =
   sendMessage nsUserNotification identifierSelector
 
 -- | @- setIdentifier:@
-setIdentifier :: (IsNSUserNotification nsUserNotification, IsNSString value) => nsUserNotification -> value -> IO ()
+setIdentifier :: IsNSUserNotification nsUserNotification => nsUserNotification -> RawId -> IO ()
 setIdentifier nsUserNotification value =
-  sendMessage nsUserNotification setIdentifierSelector (toNSString value)
+  sendMessage nsUserNotification setIdentifierSelector value
 
 -- | @- contentImage@
 contentImage :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO RawId
@@ -274,32 +270,22 @@ setHasReplyButton nsUserNotification value =
   sendMessage nsUserNotification setHasReplyButtonSelector value
 
 -- | @- responsePlaceholder@
-responsePlaceholder :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO (Id NSString)
+responsePlaceholder :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO RawId
 responsePlaceholder nsUserNotification =
   sendMessage nsUserNotification responsePlaceholderSelector
 
 -- | @- setResponsePlaceholder:@
-setResponsePlaceholder :: (IsNSUserNotification nsUserNotification, IsNSString value) => nsUserNotification -> value -> IO ()
+setResponsePlaceholder :: IsNSUserNotification nsUserNotification => nsUserNotification -> RawId -> IO ()
 setResponsePlaceholder nsUserNotification value =
-  sendMessage nsUserNotification setResponsePlaceholderSelector (toNSString value)
+  sendMessage nsUserNotification setResponsePlaceholderSelector value
 
 -- | @- response@
-response :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO (Id NSAttributedString)
+response :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO RawId
 response nsUserNotification =
   sendMessage nsUserNotification responseSelector
 
--- | @- additionalActions@
-additionalActions :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO (Id NSArray)
-additionalActions nsUserNotification =
-  sendMessage nsUserNotification additionalActionsSelector
-
--- | @- setAdditionalActions:@
-setAdditionalActions :: (IsNSUserNotification nsUserNotification, IsNSArray value) => nsUserNotification -> value -> IO ()
-setAdditionalActions nsUserNotification value =
-  sendMessage nsUserNotification setAdditionalActionsSelector (toNSArray value)
-
 -- | @- additionalActivationAction@
-additionalActivationAction :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO (Id NSUserNotificationAction)
+additionalActivationAction :: IsNSUserNotification nsUserNotification => nsUserNotification -> IO RawId
 additionalActivationAction nsUserNotification =
   sendMessage nsUserNotification additionalActivationActionSelector
 
@@ -416,11 +402,11 @@ setOtherButtonTitleSelector :: Selector '[Id NSString] ()
 setOtherButtonTitleSelector = mkSelector "setOtherButtonTitle:"
 
 -- | @Selector@ for @identifier@
-identifierSelector :: Selector '[] (Id NSString)
+identifierSelector :: Selector '[] RawId
 identifierSelector = mkSelector "identifier"
 
 -- | @Selector@ for @setIdentifier:@
-setIdentifierSelector :: Selector '[Id NSString] ()
+setIdentifierSelector :: Selector '[RawId] ()
 setIdentifierSelector = mkSelector "setIdentifier:"
 
 -- | @Selector@ for @contentImage@
@@ -440,26 +426,18 @@ setHasReplyButtonSelector :: Selector '[Bool] ()
 setHasReplyButtonSelector = mkSelector "setHasReplyButton:"
 
 -- | @Selector@ for @responsePlaceholder@
-responsePlaceholderSelector :: Selector '[] (Id NSString)
+responsePlaceholderSelector :: Selector '[] RawId
 responsePlaceholderSelector = mkSelector "responsePlaceholder"
 
 -- | @Selector@ for @setResponsePlaceholder:@
-setResponsePlaceholderSelector :: Selector '[Id NSString] ()
+setResponsePlaceholderSelector :: Selector '[RawId] ()
 setResponsePlaceholderSelector = mkSelector "setResponsePlaceholder:"
 
 -- | @Selector@ for @response@
-responseSelector :: Selector '[] (Id NSAttributedString)
+responseSelector :: Selector '[] RawId
 responseSelector = mkSelector "response"
 
--- | @Selector@ for @additionalActions@
-additionalActionsSelector :: Selector '[] (Id NSArray)
-additionalActionsSelector = mkSelector "additionalActions"
-
--- | @Selector@ for @setAdditionalActions:@
-setAdditionalActionsSelector :: Selector '[Id NSArray] ()
-setAdditionalActionsSelector = mkSelector "setAdditionalActions:"
-
 -- | @Selector@ for @additionalActivationAction@
-additionalActivationActionSelector :: Selector '[] (Id NSUserNotificationAction)
+additionalActivationActionSelector :: Selector '[] RawId
 additionalActivationActionSelector = mkSelector "additionalActivationAction"
 

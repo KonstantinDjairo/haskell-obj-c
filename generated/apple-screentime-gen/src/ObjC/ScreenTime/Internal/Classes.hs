@@ -20,9 +20,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- STScreenTimeConfiguration ----------
 
--- | The configuration for this device.
--- 
--- Phantom type for @STScreenTimeConfiguration@.
+-- | Phantom type for @STScreenTimeConfiguration@.
 data STScreenTimeConfiguration
 
 instance IsObjCObject (Id STScreenTimeConfiguration) where
@@ -41,11 +39,7 @@ instance IsNSObject (Id STScreenTimeConfiguration) where
 
 -- ---------- STScreenTimeConfigurationObserver ----------
 
--- | The object you use to observe changes to the current configuration.
---
--- Use this class to start and stop observing the current configuration. For example, you can opt to disable private browsing in your web browser’s view controller when ``STScreenTimeConfiguration/enforcesChildRestrictions`` is @true@.
--- 
--- Phantom type for @STScreenTimeConfigurationObserver@.
+-- | Phantom type for @STScreenTimeConfigurationObserver@.
 data STScreenTimeConfigurationObserver
 
 instance IsObjCObject (Id STScreenTimeConfigurationObserver) where
@@ -64,13 +58,7 @@ instance IsNSObject (Id STScreenTimeConfigurationObserver) where
 
 -- ---------- STWebHistory ----------
 
--- | The object you use to delete web-usage data.
---
--- This class provides an easy way for you to delete web history, including:
---
--- - All history - History associated to a specific URL - History during a specific time interval
--- 
--- Phantom type for @STWebHistory@.
+-- | Phantom type for @STWebHistory@.
 data STWebHistory
 
 instance IsObjCObject (Id STWebHistory) where

@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The base type class for types on tensors.
---
--- Generated bindings for @MPSGraphType@.
+-- | Generated bindings for @MPSGraphType@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphType
   ( MPSGraphType
   , IsMPSGraphType(..)

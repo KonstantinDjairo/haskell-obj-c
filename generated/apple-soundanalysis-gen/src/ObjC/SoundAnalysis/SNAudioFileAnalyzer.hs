@@ -42,11 +42,9 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Creates a new analyzer
 --
--- - Parameters:
+-- @url@ — The url for the audio file to be analyzed
 --
--- - url: The url for the audio file to be analyzed
---
--- - error: On input, a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
+-- @error@ — On input, a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
 --
 -- ObjC selector: @- initWithURL:error:@
 initWithURL_error :: (IsSNAudioFileAnalyzer snAudioFileAnalyzer, IsNSURL url, IsNSError error_) => snAudioFileAnalyzer -> url -> error_ -> IO (Id SNAudioFileAnalyzer)
@@ -60,15 +58,13 @@ init_ snAudioFileAnalyzer =
 
 -- | Adds a new analysis request to the analyzer
 --
--- - Parameters:
+-- @request@ — An audio analysis request to be performed on the audio stream
 --
--- - request: An audio analysis request to be performed on the audio stream
+-- @observer@ — The object that will receive the analysis results for the supplied request. The observer is weakly retained by the analyzer.
 --
--- - observer: The object that will receive the analysis results for the supplied request. The observer is weakly retained by the analyzer.
+-- @error@ — On input, a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
 --
--- - error On input, a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
---
--- - Returns: YES if the request was successfully added, and NO otherwise.
+-- Returns: YES if the request was successfully added, and NO otherwise.
 --
 -- If addRequest is called while the file is being processed, an error will be returned.
 --
@@ -79,7 +75,7 @@ addRequest_withObserver_error snAudioFileAnalyzer request observer error_ =
 
 -- | Removes an existing analysis request from the analyzer
 --
--- - Parameter request: An audio analysis request to be removed
+-- @request@ — An audio analysis request to be removed
 --
 -- Requests can be removed while analysis is in progress. Once the removeRequest method returns, the previously registered observer will not receive any more callbacks.
 --

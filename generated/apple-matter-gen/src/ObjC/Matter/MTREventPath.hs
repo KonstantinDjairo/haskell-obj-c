@@ -3,18 +3,22 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A path indicating a specific event that can be emitted on a device (i.e. without any wildcards).  There can be multiple instances of actual events for a given event path.
---
--- Generated bindings for @MTREventPath@.
+-- | Generated bindings for @MTREventPath@.
 module ObjC.Matter.MTREventPath
   ( MTREventPath
   , IsMTREventPath(..)
-  , eventPathWithEndpointID_clusterID_eventID
   , eventPathWithEndpointId_clusterId_eventId
+  , init_
+  , new
+  , endpoint
+  , cluster
   , event
-  , eventPathWithEndpointID_clusterID_eventIDSelector
+  , clusterSelector
+  , endpointSelector
   , eventPathWithEndpointId_clusterId_eventIdSelector
   , eventSelector
+  , initSelector
+  , newSelector
 
 
   ) where
@@ -30,19 +34,34 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @+ eventPathWithEndpointID:clusterID:eventID:@
-eventPathWithEndpointID_clusterID_eventID :: (IsNSNumber endpointID, IsNSNumber clusterID, IsNSNumber eventID) => endpointID -> clusterID -> eventID -> IO (Id MTREventPath)
-eventPathWithEndpointID_clusterID_eventID endpointID clusterID eventID =
-  do
-    cls' <- getRequiredClass "MTREventPath"
-    sendClassMessage cls' eventPathWithEndpointID_clusterID_eventIDSelector (toNSNumber endpointID) (toNSNumber clusterID) (toNSNumber eventID)
-
 -- | @+ eventPathWithEndpointId:clusterId:eventId:@
-eventPathWithEndpointId_clusterId_eventId :: (IsNSNumber endpointId, IsNSNumber clusterId, IsNSNumber eventId) => endpointId -> clusterId -> eventId -> IO (Id MTREventPath)
-eventPathWithEndpointId_clusterId_eventId endpointId clusterId eventId =
+eventPathWithEndpointId_clusterId_eventId :: (IsNSNumber endpoint, IsNSNumber clusterId, IsNSNumber eventId) => endpoint -> clusterId -> eventId -> IO (Id MTREventPath)
+eventPathWithEndpointId_clusterId_eventId endpoint clusterId eventId =
   do
     cls' <- getRequiredClass "MTREventPath"
-    sendClassMessage cls' eventPathWithEndpointId_clusterId_eventIdSelector (toNSNumber endpointId) (toNSNumber clusterId) (toNSNumber eventId)
+    sendClassMessage cls' eventPathWithEndpointId_clusterId_eventIdSelector (toNSNumber endpoint) (toNSNumber clusterId) (toNSNumber eventId)
+
+-- | @- init@
+init_ :: IsMTREventPath mtrEventPath => mtrEventPath -> IO (Id MTREventPath)
+init_ mtrEventPath =
+  sendOwnedMessage mtrEventPath initSelector
+
+-- | @+ new@
+new :: IO (Id MTREventPath)
+new  =
+  do
+    cls' <- getRequiredClass "MTREventPath"
+    sendOwnedClassMessage cls' newSelector
+
+-- | @- endpoint@
+endpoint :: IsMTREventPath mtrEventPath => mtrEventPath -> IO (Id NSNumber)
+endpoint mtrEventPath =
+  sendMessage mtrEventPath endpointSelector
+
+-- | @- cluster@
+cluster :: IsMTREventPath mtrEventPath => mtrEventPath -> IO (Id NSNumber)
+cluster mtrEventPath =
+  sendMessage mtrEventPath clusterSelector
 
 -- | @- event@
 event :: IsMTREventPath mtrEventPath => mtrEventPath -> IO (Id NSNumber)
@@ -53,13 +72,25 @@ event mtrEventPath =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @eventPathWithEndpointID:clusterID:eventID:@
-eventPathWithEndpointID_clusterID_eventIDSelector :: Selector '[Id NSNumber, Id NSNumber, Id NSNumber] (Id MTREventPath)
-eventPathWithEndpointID_clusterID_eventIDSelector = mkSelector "eventPathWithEndpointID:clusterID:eventID:"
-
 -- | @Selector@ for @eventPathWithEndpointId:clusterId:eventId:@
 eventPathWithEndpointId_clusterId_eventIdSelector :: Selector '[Id NSNumber, Id NSNumber, Id NSNumber] (Id MTREventPath)
 eventPathWithEndpointId_clusterId_eventIdSelector = mkSelector "eventPathWithEndpointId:clusterId:eventId:"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTREventPath)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTREventPath)
+newSelector = mkSelector "new"
+
+-- | @Selector@ for @endpoint@
+endpointSelector :: Selector '[] (Id NSNumber)
+endpointSelector = mkSelector "endpoint"
+
+-- | @Selector@ for @cluster@
+clusterSelector :: Selector '[] (Id NSNumber)
+clusterSelector = mkSelector "cluster"
 
 -- | @Selector@ for @event@
 eventSelector :: Selector '[] (Id NSNumber)

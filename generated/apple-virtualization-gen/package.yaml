@@ -13,14 +13,11 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
-  - ObjC.Virtualization.Delegate.VZGraphicsDisplayObserver
-  - ObjC.Virtualization.Delegate.VZNetworkBlockDeviceStorageDeviceAttachmentDelegate
-  - ObjC.Virtualization.Delegate.VZUSBDevice
-  - ObjC.Virtualization.Delegate.VZUSBDeviceConfiguration
   - ObjC.Virtualization.Delegate.VZVirtioConsoleDeviceDelegate
   - ObjC.Virtualization.Delegate.VZVirtioSocketListenerDelegate
   - ObjC.Virtualization.Delegate.VZVirtualMachineDelegate
@@ -39,7 +36,6 @@ library:
   - ObjC.Virtualization.VZDirectoryShare
   - ObjC.Virtualization.VZDirectorySharingDevice
   - ObjC.Virtualization.VZDirectorySharingDeviceConfiguration
-  - ObjC.Virtualization.VZDiskBlockDeviceStorageDeviceAttachment
   - ObjC.Virtualization.VZDiskImageStorageDeviceAttachment
   - ObjC.Virtualization.VZEFIBootLoader
   - ObjC.Virtualization.VZEFIVariableStore
@@ -49,40 +45,18 @@ library:
   - ObjC.Virtualization.VZFileSerialPortAttachment
   - ObjC.Virtualization.VZGenericMachineIdentifier
   - ObjC.Virtualization.VZGenericPlatformConfiguration
-  - ObjC.Virtualization.VZGraphicsDevice
   - ObjC.Virtualization.VZGraphicsDeviceConfiguration
-  - ObjC.Virtualization.VZGraphicsDisplay
-  - ObjC.Virtualization.VZGraphicsDisplayConfiguration
   - ObjC.Virtualization.VZHostAudioInputStreamSource
   - ObjC.Virtualization.VZHostAudioOutputStreamSink
   - ObjC.Virtualization.VZKeyboardConfiguration
   - ObjC.Virtualization.VZLinuxBootLoader
-  - ObjC.Virtualization.VZLinuxRosettaAbstractSocketCachingOptions
-  - ObjC.Virtualization.VZLinuxRosettaCachingOptions
-  - ObjC.Virtualization.VZLinuxRosettaDirectoryShare
-  - ObjC.Virtualization.VZLinuxRosettaUnixSocketCachingOptions
   - ObjC.Virtualization.VZMACAddress
-  - ObjC.Virtualization.VZMacAuxiliaryStorage
-  - ObjC.Virtualization.VZMacGraphicsDevice
   - ObjC.Virtualization.VZMacGraphicsDeviceConfiguration
-  - ObjC.Virtualization.VZMacGraphicsDisplay
   - ObjC.Virtualization.VZMacGraphicsDisplayConfiguration
-  - ObjC.Virtualization.VZMacHardwareModel
-  - ObjC.Virtualization.VZMacKeyboardConfiguration
-  - ObjC.Virtualization.VZMacMachineIdentifier
-  - ObjC.Virtualization.VZMacOSBootLoader
-  - ObjC.Virtualization.VZMacOSConfigurationRequirements
-  - ObjC.Virtualization.VZMacOSInstaller
-  - ObjC.Virtualization.VZMacOSRestoreImage
-  - ObjC.Virtualization.VZMacOSVirtualMachineStartOptions
-  - ObjC.Virtualization.VZMacPlatformConfiguration
-  - ObjC.Virtualization.VZMacTrackpadConfiguration
   - ObjC.Virtualization.VZMemoryBalloonDevice
   - ObjC.Virtualization.VZMemoryBalloonDeviceConfiguration
   - ObjC.Virtualization.VZMultipleDirectoryShare
   - ObjC.Virtualization.VZNATNetworkDeviceAttachment
-  - ObjC.Virtualization.VZNVMExpressControllerDeviceConfiguration
-  - ObjC.Virtualization.VZNetworkBlockDeviceStorageDeviceAttachment
   - ObjC.Virtualization.VZNetworkDevice
   - ObjC.Virtualization.VZNetworkDeviceAttachment
   - ObjC.Virtualization.VZNetworkDeviceConfiguration
@@ -95,13 +69,9 @@ library:
   - ObjC.Virtualization.VZSocketDevice
   - ObjC.Virtualization.VZSocketDeviceConfiguration
   - ObjC.Virtualization.VZSpiceAgentPortAttachment
-  - ObjC.Virtualization.VZStorageDevice
   - ObjC.Virtualization.VZStorageDeviceAttachment
   - ObjC.Virtualization.VZStorageDeviceConfiguration
-  - ObjC.Virtualization.VZUSBController
-  - ObjC.Virtualization.VZUSBControllerConfiguration
   - ObjC.Virtualization.VZUSBKeyboardConfiguration
-  - ObjC.Virtualization.VZUSBMassStorageDevice
   - ObjC.Virtualization.VZUSBMassStorageDeviceConfiguration
   - ObjC.Virtualization.VZUSBScreenCoordinatePointingDeviceConfiguration
   - ObjC.Virtualization.VZVirtioBlockDeviceConfiguration
@@ -115,9 +85,7 @@ library:
   - ObjC.Virtualization.VZVirtioEntropyDeviceConfiguration
   - ObjC.Virtualization.VZVirtioFileSystemDevice
   - ObjC.Virtualization.VZVirtioFileSystemDeviceConfiguration
-  - ObjC.Virtualization.VZVirtioGraphicsDevice
   - ObjC.Virtualization.VZVirtioGraphicsDeviceConfiguration
-  - ObjC.Virtualization.VZVirtioGraphicsScanout
   - ObjC.Virtualization.VZVirtioGraphicsScanoutConfiguration
   - ObjC.Virtualization.VZVirtioNetworkDeviceConfiguration
   - ObjC.Virtualization.VZVirtioSocketConnection
@@ -134,6 +102,3 @@ library:
   - ObjC.Virtualization.VZVirtualMachineConfiguration
   - ObjC.Virtualization.VZVirtualMachineStartOptions
   - ObjC.Virtualization.VZVirtualMachineView
-  - ObjC.Virtualization.VZVmnetNetworkDeviceAttachment
-  - ObjC.Virtualization.VZXHCIController
-  - ObjC.Virtualization.VZXHCIControllerConfiguration

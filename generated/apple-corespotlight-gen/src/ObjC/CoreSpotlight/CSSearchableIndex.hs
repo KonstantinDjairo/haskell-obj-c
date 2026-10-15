@@ -17,7 +17,6 @@ module ObjC.CoreSpotlight.CSSearchableIndex
   , deleteAllSearchableItemsWithCompletionHandler
   , fetchDataForBundleIdentifier_itemIdentifier_contentType_completionHandler
   , beginIndexBatch
-  , endIndexBatchWithExpectedClientState_newClientState_completionHandler
   , endIndexBatchWithClientState_completionHandler
   , fetchLastClientStateWithCompletionHandler
   , indexDelegate
@@ -28,7 +27,6 @@ module ObjC.CoreSpotlight.CSSearchableIndex
   , deleteSearchableItemsWithDomainIdentifiers_completionHandlerSelector
   , deleteSearchableItemsWithIdentifiers_completionHandlerSelector
   , endIndexBatchWithClientState_completionHandlerSelector
-  , endIndexBatchWithExpectedClientState_newClientState_completionHandlerSelector
   , fetchDataForBundleIdentifier_itemIdentifier_contentType_completionHandlerSelector
   , fetchLastClientStateWithCompletionHandlerSelector
   , indexDelegateSelector
@@ -107,11 +105,6 @@ beginIndexBatch :: IsCSSearchableIndex csSearchableIndex => csSearchableIndex ->
 beginIndexBatch csSearchableIndex =
   sendMessage csSearchableIndex beginIndexBatchSelector
 
--- | @- endIndexBatchWithExpectedClientState:newClientState:completionHandler:@
-endIndexBatchWithExpectedClientState_newClientState_completionHandler :: (IsCSSearchableIndex csSearchableIndex, IsNSData expectedClientState, IsNSData newClientState) => csSearchableIndex -> expectedClientState -> newClientState -> Ptr () -> IO ()
-endIndexBatchWithExpectedClientState_newClientState_completionHandler csSearchableIndex expectedClientState newClientState completionHandler =
-  sendMessage csSearchableIndex endIndexBatchWithExpectedClientState_newClientState_completionHandlerSelector (toNSData expectedClientState) (toNSData newClientState) completionHandler
-
 -- | @- endIndexBatchWithClientState:completionHandler:@
 endIndexBatchWithClientState_completionHandler :: (IsCSSearchableIndex csSearchableIndex, IsNSData clientState) => csSearchableIndex -> clientState -> Ptr () -> IO ()
 endIndexBatchWithClientState_completionHandler csSearchableIndex clientState completionHandler =
@@ -175,10 +168,6 @@ fetchDataForBundleIdentifier_itemIdentifier_contentType_completionHandlerSelecto
 -- | @Selector@ for @beginIndexBatch@
 beginIndexBatchSelector :: Selector '[] ()
 beginIndexBatchSelector = mkSelector "beginIndexBatch"
-
--- | @Selector@ for @endIndexBatchWithExpectedClientState:newClientState:completionHandler:@
-endIndexBatchWithExpectedClientState_newClientState_completionHandlerSelector :: Selector '[Id NSData, Id NSData, Ptr ()] ()
-endIndexBatchWithExpectedClientState_newClientState_completionHandlerSelector = mkSelector "endIndexBatchWithExpectedClientState:newClientState:completionHandler:"
 
 -- | @Selector@ for @endIndexBatchWithClientState:completionHandler:@
 endIndexBatchWithClientState_completionHandlerSelector :: Selector '[Id NSData, Ptr ()] ()

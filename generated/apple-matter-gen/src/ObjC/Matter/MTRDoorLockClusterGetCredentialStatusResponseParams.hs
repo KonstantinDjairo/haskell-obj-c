@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterGetCredentialStatusResponseParams
   ( MTRDoorLockClusterGetCredentialStatusResponseParams
   , IsMTRDoorLockClusterGetCredentialStatusResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , credentialExists
   , setCredentialExists
   , userIndex
@@ -18,18 +19,15 @@ module ObjC.Matter.MTRDoorLockClusterGetCredentialStatusResponseParams
   , setLastModifiedFabricIndex
   , nextCredentialIndex
   , setNextCredentialIndex
-  , credentialData
-  , setCredentialData
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , creatorFabricIndexSelector
-  , credentialDataSelector
   , credentialExistsSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , lastModifiedFabricIndexSelector
   , nextCredentialIndexSelector
   , setCreatorFabricIndexSelector
-  , setCredentialDataSelector
   , setCredentialExistsSelector
   , setLastModifiedFabricIndexSelector
   , setNextCredentialIndexSelector
@@ -52,16 +50,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRDoorLockClusterGetCredentialStatusResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRDoorLockClusterGetCredentialStatusResponseParams mtrDoorLockClusterGetCredentialStatusResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrDoorLockClusterGetCredentialStatusResponseParams -> responseValue -> error_ -> IO (Id MTRDoorLockClusterGetCredentialStatusResponseParams)
-initWithResponseValue_error mtrDoorLockClusterGetCredentialStatusResponseParams responseValue error_ =
-  sendOwnedMessage mtrDoorLockClusterGetCredentialStatusResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRDoorLockClusterGetCredentialStatusResponseParams mtrDoorLockClusterGetCredentialStatusResponseParams => mtrDoorLockClusterGetCredentialStatusResponseParams -> IO (Id MTRDoorLockClusterGetCredentialStatusResponseParams)
+init_ mtrDoorLockClusterGetCredentialStatusResponseParams =
+  sendOwnedMessage mtrDoorLockClusterGetCredentialStatusResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterGetCredentialStatusResponseParams mtrDoorLockClusterGetCredentialStatusResponseParams => mtrDoorLockClusterGetCredentialStatusResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterGetCredentialStatusResponseParams zone =
+  sendOwnedMessage mtrDoorLockClusterGetCredentialStatusResponseParams copyWithZoneSelector zone
 
 -- | @- credentialExists@
 credentialExists :: IsMTRDoorLockClusterGetCredentialStatusResponseParams mtrDoorLockClusterGetCredentialStatusResponseParams => mtrDoorLockClusterGetCredentialStatusResponseParams -> IO (Id NSNumber)
@@ -113,16 +110,6 @@ setNextCredentialIndex :: (IsMTRDoorLockClusterGetCredentialStatusResponseParams
 setNextCredentialIndex mtrDoorLockClusterGetCredentialStatusResponseParams value =
   sendMessage mtrDoorLockClusterGetCredentialStatusResponseParams setNextCredentialIndexSelector (toNSNumber value)
 
--- | @- credentialData@
-credentialData :: IsMTRDoorLockClusterGetCredentialStatusResponseParams mtrDoorLockClusterGetCredentialStatusResponseParams => mtrDoorLockClusterGetCredentialStatusResponseParams -> IO (Id NSData)
-credentialData mtrDoorLockClusterGetCredentialStatusResponseParams =
-  sendMessage mtrDoorLockClusterGetCredentialStatusResponseParams credentialDataSelector
-
--- | @- setCredentialData:@
-setCredentialData :: (IsMTRDoorLockClusterGetCredentialStatusResponseParams mtrDoorLockClusterGetCredentialStatusResponseParams, IsNSData value) => mtrDoorLockClusterGetCredentialStatusResponseParams -> value -> IO ()
-setCredentialData mtrDoorLockClusterGetCredentialStatusResponseParams value =
-  sendMessage mtrDoorLockClusterGetCredentialStatusResponseParams setCredentialDataSelector (toNSData value)
-
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
 -- If nil (the default value), a regular invoke is done for commands that do not require a timed invoke and a timed invoke with some default timed request timeout is done for commands that require a timed invoke.
@@ -149,9 +136,13 @@ setTimedInvokeTimeoutMs mtrDoorLockClusterGetCredentialStatusResponseParams valu
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRDoorLockClusterGetCredentialStatusResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterGetCredentialStatusResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @credentialExists@
 credentialExistsSelector :: Selector '[] (Id NSNumber)
@@ -192,14 +183,6 @@ nextCredentialIndexSelector = mkSelector "nextCredentialIndex"
 -- | @Selector@ for @setNextCredentialIndex:@
 setNextCredentialIndexSelector :: Selector '[Id NSNumber] ()
 setNextCredentialIndexSelector = mkSelector "setNextCredentialIndex:"
-
--- | @Selector@ for @credentialData@
-credentialDataSelector :: Selector '[] (Id NSData)
-credentialDataSelector = mkSelector "credentialData"
-
--- | @Selector@ for @setCredentialData:@
-setCredentialDataSelector :: Selector '[Id NSData] ()
-setCredentialDataSelector = mkSelector "setCredentialData:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)

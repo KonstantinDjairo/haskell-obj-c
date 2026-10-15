@@ -89,25 +89,6 @@ instance IsGCControllerElement (Id GCControllerElement) where
 instance IsNSObject (Id GCControllerElement) where
   toNSObject = unsafeCastId
 
--- ---------- GCControllerInputState ----------
-
--- | Phantom type for @GCControllerInputState@.
-data GCControllerInputState
-
-instance IsObjCObject (Id GCControllerInputState) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "GCControllerInputState"
-
-class IsNSObject a => IsGCControllerInputState a where
-  toGCControllerInputState :: a -> Id GCControllerInputState
-
-instance IsGCControllerInputState (Id GCControllerInputState) where
-  toGCControllerInputState = unsafeCastId
-
-instance IsNSObject (Id GCControllerInputState) where
-  toNSObject = unsafeCastId
-
 -- ---------- GCDeviceBattery ----------
 
 -- | A controller battery is an abstract representation of the battery level and battery status of a GCController instance.
@@ -364,53 +345,6 @@ instance IsGCSteeringWheelElement (Id GCSteeringWheelElement) where
 instance IsNSObject (Id GCSteeringWheelElement) where
   toNSObject = unsafeCastId
 
--- ---------- GCStylus ----------
-
--- | An object that represents a physical stylus connected to the device.
---
--- Use the @styli@ property to get the currently connect stylus accessories  when your application starts.  Register for @GCStylusDidConnectNotification@  and @GCStylusDidDisconnectNotification@ to get notified when a stylus  connects of disconnects while your application is running.
---
--- ```  // Register for notifications  NotificationCenter.default.addObserver(self, selector: #selector(stylus(didConnect:)), name: NSNotification.Name.GCStylusDidConnect, object: nil)  NotificationCenter.default.addObserver(self, selector: #selector(stylus(didDisconnect:)), name: NSNotification.Name.GCStylusDidConnect, object: nil)
---
--- // Query current stylus devices  for stylus in GCStylus.styluses {      ...  }
---
--- // Later, handle connection   func stylus(didConnect notification: Notification) {      guard let stylus = notification.object as? GCStylus else { return }      ...  }  ```
---
--- Check the @productCategory@ to determine the type of stylus.  A spatial  stylus - capable of 6DoF tracking by Apple Vision Pro - has a  @GCProductCategorySpatialStylus@ category.
---
--- Use the @input@ property to get the input profile of the stylus.  A spatial  stylus includes a pressure sensitive tip and an input cluster composed of  two buttons.
---
--- - The primary button (@GCInputStylusPrimaryButton@) is the front button      (closest to the stylus tip) in the input cluster of the stylus.  This      button is frequently used grab virtual objects.
---
--- - The secondary button (@GCInputStylusSecondaryButton@) is the middle      button in the input cluster.  It can measures pressure/force levels.      It's intended to be used for controlling in-air drawing, selection,      and generic interactions.
---
--- - The tip is also represented as a button (@GCInputStylusTip@).
---
--- ```  guard let input = stylus.input else { return }  input.inputStateQueueDepth = 20  input.inputStateAvailableHandler = { input in      // This block will be enqueued for execution when the state of      // any stylus input changes.
---
--- // Iterate through all input state changes since last execution of      // the block.      while let nextState = input.nextInputState() {          // Use the value of @pressedInput.isPressed@ for binary          // interactions, such as object selection.          let primaryButtonPressed = nextState.buttons[.stylusPrimaryButton]?.pressedInput.isPressed          let secondaryButtonPressed = nextState.buttons[.stylusSecondaryButton]?.pressedInput.isPressed          // Use the normalized press value for analog actions such as          // controlling virtual ink flow.          let secondaryButtonPressure = nextState.buttons[.stylusSecondaryButton]?.pressedInput.value          let tipPressure = nextState.buttons[.stylusTip]?.pressedInput.value
---
--- ...      }  }  ```
---
--- Use the @haptics@ property to get the haptics profile of the stylus.  A  spatial stylus may optionally support haptic feedback to a single  locality - @GCHapticsLocalityDefault@.
--- 
--- Phantom type for @GCStylus@.
-data GCStylus
-
-instance IsObjCObject (Id GCStylus) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "GCStylus"
-
-class IsNSObject a => IsGCStylus a where
-  toGCStylus :: a -> Id GCStylus
-
-instance IsGCStylus (Id GCStylus) where
-  toGCStylus = unsafeCastId
-
-instance IsNSObject (Id GCStylus) where
-  toNSObject = unsafeCastId
-
 -- ---------- GCControllerAxisInput ----------
 
 -- | Phantom type for @GCControllerAxisInput@.
@@ -501,28 +435,6 @@ instance IsGCControllerElement (Id GCControllerTouchpad) where
   toGCControllerElement = unsafeCastId
 
 instance IsNSObject (Id GCControllerTouchpad) where
-  toNSObject = unsafeCastId
-
--- ---------- GCControllerLiveInput ----------
-
--- | Phantom type for @GCControllerLiveInput@.
-data GCControllerLiveInput
-
-instance IsObjCObject (Id GCControllerLiveInput) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "GCControllerLiveInput"
-
-class IsGCControllerInputState a => IsGCControllerLiveInput a where
-  toGCControllerLiveInput :: a -> Id GCControllerLiveInput
-
-instance IsGCControllerLiveInput (Id GCControllerLiveInput) where
-  toGCControllerLiveInput = unsafeCastId
-
-instance IsGCControllerInputState (Id GCControllerLiveInput) where
-  toGCControllerInputState = unsafeCastId
-
-instance IsNSObject (Id GCControllerLiveInput) where
   toNSObject = unsafeCastId
 
 -- ---------- GCExtendedGamepad ----------
@@ -849,7 +761,7 @@ instance IsNSObject (Id GCXboxGamepad) where
 
 -- ---------- GCGamepadSnapshot ----------
 
--- | A GCGamepadSnapshot snapshot is a concrete GCGamepad implementation. It can be used directly in an application to implement controller input replays. It is also returned as the result of polling a controller.
+-- | A GCGamepadSnapshot snapshot is a concrete GCGamepad implementation. It can be used directly in an application to implement controller input replays. It is also returned as the result API_DEPRECATED("GCGamepad has been deprecated, use GCExtendedGamepad instead", macos(10.9, 10.15), ios(7.0, 13.0), tvos(7.0, 13.0))of polling a controller.
 --
 -- The current snapshotData is readily available to access as NSData. A developer can serialize this to any destination necessary using the NSData API.
 --
@@ -954,9 +866,7 @@ instance IsNSObject (Id GCMicroGamepadSnapshot) where
 
 -- ---------- GCEventViewController ----------
 
--- | A view controller subclass that allows fine grained control of the user interface system's handling of game controller events. Set an instance of this class as your root view controller if you intend to use GCController APIs for handling game controllers.
--- 
--- Phantom type for @GCEventViewController@.
+-- | Phantom type for @GCEventViewController@.
 data GCEventViewController
 
 instance IsObjCObject (Id GCEventViewController) where

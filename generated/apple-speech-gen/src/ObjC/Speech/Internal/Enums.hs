@@ -14,41 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | Error codes that can be thrown under the Speech framework's error domain.
--- | @SFSpeechErrorCode@
-newtype SFSpeechErrorCode = SFSpeechErrorCode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern SFSpeechErrorCodeInternalServiceError :: SFSpeechErrorCode
-pattern SFSpeechErrorCodeInternalServiceError = SFSpeechErrorCode 1
-
-pattern SFSpeechErrorCodeAudioReadFailed :: SFSpeechErrorCode
-pattern SFSpeechErrorCodeAudioReadFailed = SFSpeechErrorCode 2
-
-pattern SFSpeechErrorCodeUndefinedTemplateClassName :: SFSpeechErrorCode
-pattern SFSpeechErrorCodeUndefinedTemplateClassName = SFSpeechErrorCode 7
-
-pattern SFSpeechErrorCodeMalformedSupplementalModel :: SFSpeechErrorCode
-pattern SFSpeechErrorCodeMalformedSupplementalModel = SFSpeechErrorCode 8
-
-pattern SFSpeechErrorCodeTimeout :: SFSpeechErrorCode
-pattern SFSpeechErrorCodeTimeout = SFSpeechErrorCode 12
-
-pattern SFSpeechErrorCodeMissingParameter :: SFSpeechErrorCode
-pattern SFSpeechErrorCodeMissingParameter = SFSpeechErrorCode 13
-
-instance ObjCArgument SFSpeechErrorCode where
-  withObjCArg (SFSpeechErrorCode x) k = k (argCLong x)
-
-instance ObjCReturn SFSpeechErrorCode where
-  type RawReturn SFSpeechErrorCode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (SFSpeechErrorCode x)
-  fromOwned x = pure (SFSpeechErrorCode x)
-
--- | The type of task for which you are using speech recognition.
 -- | @SFSpeechRecognitionTaskHint@
 newtype SFSpeechRecognitionTaskHint = SFSpeechRecognitionTaskHint CLong
   deriving stock (Eq, Ord, Show)
@@ -76,7 +41,6 @@ instance ObjCReturn SFSpeechRecognitionTaskHint where
   fromRetained x = pure (SFSpeechRecognitionTaskHint x)
   fromOwned x = pure (SFSpeechRecognitionTaskHint x)
 
--- | The state of the task associated with the recognition request.
 -- | @SFSpeechRecognitionTaskState@
 newtype SFSpeechRecognitionTaskState = SFSpeechRecognitionTaskState CLong
   deriving stock (Eq, Ord, Show)
@@ -107,7 +71,6 @@ instance ObjCReturn SFSpeechRecognitionTaskState where
   fromRetained x = pure (SFSpeechRecognitionTaskState x)
   fromOwned x = pure (SFSpeechRecognitionTaskState x)
 
--- | The app's authorization to perform speech recognition.
 -- | @SFSpeechRecognizerAuthorizationStatus@
 newtype SFSpeechRecognizerAuthorizationStatus = SFSpeechRecognizerAuthorizationStatus CLong
   deriving stock (Eq, Ord, Show)

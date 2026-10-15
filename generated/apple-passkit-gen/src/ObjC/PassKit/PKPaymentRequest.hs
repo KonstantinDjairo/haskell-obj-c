@@ -17,8 +17,6 @@ module ObjC.PassKit.PKPaymentRequest
   , paymentCouponCodeExpiredErrorWithLocalizedDescription
   , merchantIdentifier
   , setMerchantIdentifier
-  , attributionIdentifier
-  , setAttributionIdentifier
   , countryCode
   , setCountryCode
   , supportedNetworks
@@ -29,8 +27,6 @@ module ObjC.PassKit.PKPaymentRequest
   , setSupportsCouponCode
   , couponCode
   , setCouponCode
-  , merchantCategoryCode
-  , setMerchantCategoryCode
   , paymentSummaryItems
   , setPaymentSummaryItems
   , currencyCode
@@ -63,22 +59,14 @@ module ObjC.PassKit.PKPaymentRequest
   , setRecurringPaymentRequest
   , automaticReloadPaymentRequest
   , setAutomaticReloadPaymentRequest
-  , deferredPaymentRequest
-  , setDeferredPaymentRequest
-  , applePayLaterAvailability
-  , setApplePayLaterAvailability
-  , applePayLaterAvailabilitySelector
   , applicationDataSelector
-  , attributionIdentifierSelector
   , automaticReloadPaymentRequestSelector
   , availableNetworksSelector
   , billingContactSelector
   , countryCodeSelector
   , couponCodeSelector
   , currencyCodeSelector
-  , deferredPaymentRequestSelector
   , merchantCapabilitiesSelector
-  , merchantCategoryCodeSelector
   , merchantIdentifierSelector
   , multiTokenContextsSelector
   , paymentBillingAddressInvalidErrorWithKey_localizedDescriptionSelector
@@ -93,17 +81,13 @@ module ObjC.PassKit.PKPaymentRequest
   , requiredBillingContactFieldsSelector
   , requiredShippingAddressFieldsSelector
   , requiredShippingContactFieldsSelector
-  , setApplePayLaterAvailabilitySelector
   , setApplicationDataSelector
-  , setAttributionIdentifierSelector
   , setAutomaticReloadPaymentRequestSelector
   , setBillingContactSelector
   , setCountryCodeSelector
   , setCouponCodeSelector
   , setCurrencyCodeSelector
-  , setDeferredPaymentRequestSelector
   , setMerchantCapabilitiesSelector
-  , setMerchantCategoryCodeSelector
   , setMerchantIdentifierSelector
   , setMultiTokenContextsSelector
   , setPaymentSummaryItemsSelector
@@ -135,20 +119,14 @@ module ObjC.PassKit.PKPaymentRequest
   , pattern PKAddressFieldEmail
   , pattern PKAddressFieldName
   , pattern PKAddressFieldAll
-  , PKApplePayLaterAvailability(PKApplePayLaterAvailability)
-  , pattern PKApplePayLaterAvailable
-  , pattern PKApplePayLaterUnavailableItemIneligible
-  , pattern PKApplePayLaterUnavailableRecurringTransaction
   , PKMerchantCapability(PKMerchantCapability)
   , pattern PKMerchantCapability3DS
   , pattern PKMerchantCapabilityEMV
   , pattern PKMerchantCapabilityCredit
   , pattern PKMerchantCapabilityDebit
-  , pattern PKMerchantCapabilityInstantFundsOut
   , PKShippingContactEditingMode(PKShippingContactEditingMode)
-  , pattern PKShippingContactEditingModeAvailable
-  , pattern PKShippingContactEditingModeStorePickup
   , pattern PKShippingContactEditingModeEnabled
+  , pattern PKShippingContactEditingModeStorePickup
   , PKShippingType(PKShippingType)
   , pattern PKShippingTypeShipping
   , pattern PKShippingTypeDelivery
@@ -228,16 +206,6 @@ setMerchantIdentifier :: (IsPKPaymentRequest pkPaymentRequest, IsNSString value)
 setMerchantIdentifier pkPaymentRequest value =
   sendMessage pkPaymentRequest setMerchantIdentifierSelector (toNSString value)
 
--- | @- attributionIdentifier@
-attributionIdentifier :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> IO (Id NSString)
-attributionIdentifier pkPaymentRequest =
-  sendMessage pkPaymentRequest attributionIdentifierSelector
-
--- | @- setAttributionIdentifier:@
-setAttributionIdentifier :: (IsPKPaymentRequest pkPaymentRequest, IsNSString value) => pkPaymentRequest -> value -> IO ()
-setAttributionIdentifier pkPaymentRequest value =
-  sendMessage pkPaymentRequest setAttributionIdentifierSelector (toNSString value)
-
 -- | @- countryCode@
 countryCode :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> IO (Id NSString)
 countryCode pkPaymentRequest =
@@ -287,16 +255,6 @@ couponCode pkPaymentRequest =
 setCouponCode :: (IsPKPaymentRequest pkPaymentRequest, IsNSString value) => pkPaymentRequest -> value -> IO ()
 setCouponCode pkPaymentRequest value =
   sendMessage pkPaymentRequest setCouponCodeSelector (toNSString value)
-
--- | @- merchantCategoryCode@
-merchantCategoryCode :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> IO CShort
-merchantCategoryCode pkPaymentRequest =
-  sendMessage pkPaymentRequest merchantCategoryCodeSelector
-
--- | @- setMerchantCategoryCode:@
-setMerchantCategoryCode :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> CShort -> IO ()
-setMerchantCategoryCode pkPaymentRequest value =
-  sendMessage pkPaymentRequest setMerchantCategoryCodeSelector value
 
 -- | @- paymentSummaryItems@
 paymentSummaryItems :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> IO (Id NSArray)
@@ -458,26 +416,6 @@ setAutomaticReloadPaymentRequest :: (IsPKPaymentRequest pkPaymentRequest, IsPKAu
 setAutomaticReloadPaymentRequest pkPaymentRequest value =
   sendMessage pkPaymentRequest setAutomaticReloadPaymentRequestSelector (toPKAutomaticReloadPaymentRequest value)
 
--- | @- deferredPaymentRequest@
-deferredPaymentRequest :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> IO (Id PKDeferredPaymentRequest)
-deferredPaymentRequest pkPaymentRequest =
-  sendMessage pkPaymentRequest deferredPaymentRequestSelector
-
--- | @- setDeferredPaymentRequest:@
-setDeferredPaymentRequest :: (IsPKPaymentRequest pkPaymentRequest, IsPKDeferredPaymentRequest value) => pkPaymentRequest -> value -> IO ()
-setDeferredPaymentRequest pkPaymentRequest value =
-  sendMessage pkPaymentRequest setDeferredPaymentRequestSelector (toPKDeferredPaymentRequest value)
-
--- | @- applePayLaterAvailability@
-applePayLaterAvailability :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> IO PKApplePayLaterAvailability
-applePayLaterAvailability pkPaymentRequest =
-  sendMessage pkPaymentRequest applePayLaterAvailabilitySelector
-
--- | @- setApplePayLaterAvailability:@
-setApplePayLaterAvailability :: IsPKPaymentRequest pkPaymentRequest => pkPaymentRequest -> PKApplePayLaterAvailability -> IO ()
-setApplePayLaterAvailability pkPaymentRequest value =
-  sendMessage pkPaymentRequest setApplePayLaterAvailabilitySelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -518,14 +456,6 @@ merchantIdentifierSelector = mkSelector "merchantIdentifier"
 setMerchantIdentifierSelector :: Selector '[Id NSString] ()
 setMerchantIdentifierSelector = mkSelector "setMerchantIdentifier:"
 
--- | @Selector@ for @attributionIdentifier@
-attributionIdentifierSelector :: Selector '[] (Id NSString)
-attributionIdentifierSelector = mkSelector "attributionIdentifier"
-
--- | @Selector@ for @setAttributionIdentifier:@
-setAttributionIdentifierSelector :: Selector '[Id NSString] ()
-setAttributionIdentifierSelector = mkSelector "setAttributionIdentifier:"
-
 -- | @Selector@ for @countryCode@
 countryCodeSelector :: Selector '[] (Id NSString)
 countryCodeSelector = mkSelector "countryCode"
@@ -565,14 +495,6 @@ couponCodeSelector = mkSelector "couponCode"
 -- | @Selector@ for @setCouponCode:@
 setCouponCodeSelector :: Selector '[Id NSString] ()
 setCouponCodeSelector = mkSelector "setCouponCode:"
-
--- | @Selector@ for @merchantCategoryCode@
-merchantCategoryCodeSelector :: Selector '[] CShort
-merchantCategoryCodeSelector = mkSelector "merchantCategoryCode"
-
--- | @Selector@ for @setMerchantCategoryCode:@
-setMerchantCategoryCodeSelector :: Selector '[CShort] ()
-setMerchantCategoryCodeSelector = mkSelector "setMerchantCategoryCode:"
 
 -- | @Selector@ for @paymentSummaryItems@
 paymentSummaryItemsSelector :: Selector '[] (Id NSArray)
@@ -701,20 +623,4 @@ automaticReloadPaymentRequestSelector = mkSelector "automaticReloadPaymentReques
 -- | @Selector@ for @setAutomaticReloadPaymentRequest:@
 setAutomaticReloadPaymentRequestSelector :: Selector '[Id PKAutomaticReloadPaymentRequest] ()
 setAutomaticReloadPaymentRequestSelector = mkSelector "setAutomaticReloadPaymentRequest:"
-
--- | @Selector@ for @deferredPaymentRequest@
-deferredPaymentRequestSelector :: Selector '[] (Id PKDeferredPaymentRequest)
-deferredPaymentRequestSelector = mkSelector "deferredPaymentRequest"
-
--- | @Selector@ for @setDeferredPaymentRequest:@
-setDeferredPaymentRequestSelector :: Selector '[Id PKDeferredPaymentRequest] ()
-setDeferredPaymentRequestSelector = mkSelector "setDeferredPaymentRequest:"
-
--- | @Selector@ for @applePayLaterAvailability@
-applePayLaterAvailabilitySelector :: Selector '[] PKApplePayLaterAvailability
-applePayLaterAvailabilitySelector = mkSelector "applePayLaterAvailability"
-
--- | @Selector@ for @setApplePayLaterAvailability:@
-setApplePayLaterAvailabilitySelector :: Selector '[PKApplePayLaterAvailability] ()
-setApplePayLaterAvailabilitySelector = mkSelector "setApplePayLaterAvailability:"
 

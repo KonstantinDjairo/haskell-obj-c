@@ -17,44 +17,32 @@ module ObjC.AVFoundation.AVSampleBufferDisplayLayer
   , setControlTimebase
   , videoGravity
   , setVideoGravity
-  , readyForDisplay
-  , sampleBufferRenderer
   , outputObscuredDueToInsufficientExternalProtection
-  , preventsAutomaticBackgroundingDuringVideoPlayback
-  , setPreventsAutomaticBackgroundingDuringVideoPlayback
   , preventsDisplaySleepDuringVideoPlayback
   , setPreventsDisplaySleepDuringVideoPlayback
   , preventsCapture
   , setPreventsCapture
-  , timebase
   , status
   , error_
   , requiresFlushToResumeDecoding
   , readyForMoreMediaData
-  , hasSufficientMediaDataForReliablePlaybackStart
   , controlTimebaseSelector
   , enqueueSampleBufferSelector
   , errorSelector
   , flushAndRemoveImageSelector
   , flushSelector
-  , hasSufficientMediaDataForReliablePlaybackStartSelector
   , outputObscuredDueToInsufficientExternalProtectionSelector
-  , preventsAutomaticBackgroundingDuringVideoPlaybackSelector
   , preventsCaptureSelector
   , preventsDisplaySleepDuringVideoPlaybackSelector
-  , readyForDisplaySelector
   , readyForMoreMediaDataSelector
   , requestMediaDataWhenReadyOnQueue_usingBlockSelector
   , requiresFlushToResumeDecodingSelector
-  , sampleBufferRendererSelector
   , setControlTimebaseSelector
-  , setPreventsAutomaticBackgroundingDuringVideoPlaybackSelector
   , setPreventsCaptureSelector
   , setPreventsDisplaySleepDuringVideoPlaybackSelector
   , setVideoGravitySelector
   , statusSelector
   , stopRequestingMediaDataSelector
-  , timebaseSelector
   , videoGravitySelector
 
   -- * Enum types
@@ -89,8 +77,6 @@ import ObjC.QuartzCore.Internal.Classes
 -- IMPORTANT NOTE: attachments with the kCMSampleAttachmentKey_ prefix must be set via					CMSampleBufferGetSampleAttachmentsArray and CFDictionarySetValue. 					Attachments with the kCMSampleBufferAttachmentKey_ prefix must be set via					CMSetAttachment.
 --
 -- IMPORTANT NOTE:  When using CMSampleBuffers that wrap CVPixelBuffer, it is important that such CVPixelBuffers be IOSurface-backed.					CoreVideo allocates IOSurface-backed CVPixelBuffers when the pixel buffer attribute dictionary passed to CVPixelBufferPoolCreate contains					an entry with key kCVPixelBufferIOSurfacePropertiesKey and value being a dictionary (which can be an empty dictionary).
---
--- The combination of either a non-NULL controlTimebase or an AVSampleBufferRenderSynchronizer with the use of kCMSampleAttachmentKey_DisplayImmediately as an attachment to the CMSampleBuffers that are enqueued for display is not recommended.
 --
 -- ObjC selector: @- enqueueSampleBuffer:@
 enqueueSampleBuffer :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> Ptr () -> IO ()
@@ -193,28 +179,6 @@ setVideoGravity :: (IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer, IsN
 setVideoGravity avSampleBufferDisplayLayer value =
   sendMessage avSampleBufferDisplayLayer setVideoGravitySelector (toNSString value)
 
--- | readyForDisplay
---
--- Boolean indicating that the first video frame has been made ready for display.
---
--- Use this property as an indicator of when best to show or animate-in an AVSampleBufferDisplayLayer into view.					An AVSampleBufferDisplayLayer may be displayed, or made visible, while this property is NO, however the layer will not have any user-visible content until the value becomes YES. Note that if an animation is added to an AVSampleBufferDisplayLayer before it becomes readyForDisplay the video image displayed inside might not animate with the receiver.					readyForDisplay will change to NO when the layer can no longer display frames. readyForDisplay will be YES when the first video frame has been made ready for display.					This property is not key-value observable.  AVSampleBufferDisplayLayerReadyForDisplayDidChangeNotification is posted when this value changes.
---
--- ObjC selector: @- readyForDisplay@
-readyForDisplay :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> IO Bool
-readyForDisplay avSampleBufferDisplayLayer =
-  sendMessage avSampleBufferDisplayLayer readyForDisplaySelector
-
--- | sampleBufferRenderer
---
--- An AVSampleBufferVideoRenderer instance that allows enqueuing sample buffers for rendering.
---
--- Although AVSampleBufferDisplayLayer conforms to the AVQueuedSampleBufferRendering protocol, the sampleBufferRenderer should be used to enqueue sample buffers. sampleBufferRenderer allows the client to safely enqueue sample buffers from a background thread. NOTE: Do not use AVSampleBufferDisplayLayer's AVQueuedSampleBufferRendering functions when using sampleBufferRenderer.
---
--- ObjC selector: @- sampleBufferRenderer@
-sampleBufferRenderer :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> IO (Id AVSampleBufferVideoRenderer)
-sampleBufferRenderer avSampleBufferDisplayLayer =
-  sendMessage avSampleBufferDisplayLayer sampleBufferRendererSelector
-
 -- | outputObscuredDueToInsufficientExternalProtection
 --
 -- Whether or not decoded output is being obscured due to insufficient external protection.
@@ -229,28 +193,6 @@ sampleBufferRenderer avSampleBufferDisplayLayer =
 outputObscuredDueToInsufficientExternalProtection :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> IO Bool
 outputObscuredDueToInsufficientExternalProtection avSampleBufferDisplayLayer =
   sendMessage avSampleBufferDisplayLayer outputObscuredDueToInsufficientExternalProtectionSelector
-
--- | preventsAutomaticBackgroundingDuringVideoPlayback
---
--- Indicates whether video playback prevents the app from automatically getting backgrounded.
---
--- Default is YES.	 Setting this property to YES prevents an application that is playing video from automatically getting backgrounded.  This property does not prevent the user from backgrounding the application.	 Note: If sample buffers are being enqueued for playback at the user's request, you should ensure that the value of this property is set to YES. If video is not being displayed as part of the user's primary focus, you should ensure that the value of this property is set to NO.
---
--- ObjC selector: @- preventsAutomaticBackgroundingDuringVideoPlayback@
-preventsAutomaticBackgroundingDuringVideoPlayback :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> IO Bool
-preventsAutomaticBackgroundingDuringVideoPlayback avSampleBufferDisplayLayer =
-  sendMessage avSampleBufferDisplayLayer preventsAutomaticBackgroundingDuringVideoPlaybackSelector
-
--- | preventsAutomaticBackgroundingDuringVideoPlayback
---
--- Indicates whether video playback prevents the app from automatically getting backgrounded.
---
--- Default is YES.	 Setting this property to YES prevents an application that is playing video from automatically getting backgrounded.  This property does not prevent the user from backgrounding the application.	 Note: If sample buffers are being enqueued for playback at the user's request, you should ensure that the value of this property is set to YES. If video is not being displayed as part of the user's primary focus, you should ensure that the value of this property is set to NO.
---
--- ObjC selector: @- setPreventsAutomaticBackgroundingDuringVideoPlayback:@
-setPreventsAutomaticBackgroundingDuringVideoPlayback :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> Bool -> IO ()
-setPreventsAutomaticBackgroundingDuringVideoPlayback avSampleBufferDisplayLayer value =
-  sendMessage avSampleBufferDisplayLayer setPreventsAutomaticBackgroundingDuringVideoPlaybackSelector value
 
 -- | preventsDisplaySleepDuringVideoPlayback
 --
@@ -291,19 +233,6 @@ preventsCapture avSampleBufferDisplayLayer =
 setPreventsCapture :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> Bool -> IO ()
 setPreventsCapture avSampleBufferDisplayLayer value =
   sendMessage avSampleBufferDisplayLayer setPreventsCaptureSelector value
-
--- | timebase
---
--- The renderer's timebase, which governs how time stamps are interpreted.
---
--- The timebase is used to interpret time stamps.
---
--- The timebase is read-only.  Use the AVSampleBufferRenderSynchronizer to set the rate or time.
---
--- ObjC selector: @- timebase@
-timebase :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> IO (Ptr ())
-timebase avSampleBufferDisplayLayer =
-  sendMessage avSampleBufferDisplayLayer timebaseSelector
 
 -- | status
 --
@@ -361,17 +290,6 @@ readyForMoreMediaData :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer
 readyForMoreMediaData avSampleBufferDisplayLayer =
   sendMessage avSampleBufferDisplayLayer readyForMoreMediaDataSelector
 
--- | hasSufficientMediaDataForReliablePlaybackStart
---
--- Indicates whether the enqueued media data meets the renderer's preroll level.
---
--- Clients should fetch the value of this property to learn if the renderer has had enough media data enqueued to start playback reliably. Starting playback when this property is NO may prevent smooth playback following an immediate start.
---
--- ObjC selector: @- hasSufficientMediaDataForReliablePlaybackStart@
-hasSufficientMediaDataForReliablePlaybackStart :: IsAVSampleBufferDisplayLayer avSampleBufferDisplayLayer => avSampleBufferDisplayLayer -> IO Bool
-hasSufficientMediaDataForReliablePlaybackStart avSampleBufferDisplayLayer =
-  sendMessage avSampleBufferDisplayLayer hasSufficientMediaDataForReliablePlaybackStartSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -412,25 +330,9 @@ videoGravitySelector = mkSelector "videoGravity"
 setVideoGravitySelector :: Selector '[Id NSString] ()
 setVideoGravitySelector = mkSelector "setVideoGravity:"
 
--- | @Selector@ for @readyForDisplay@
-readyForDisplaySelector :: Selector '[] Bool
-readyForDisplaySelector = mkSelector "readyForDisplay"
-
--- | @Selector@ for @sampleBufferRenderer@
-sampleBufferRendererSelector :: Selector '[] (Id AVSampleBufferVideoRenderer)
-sampleBufferRendererSelector = mkSelector "sampleBufferRenderer"
-
 -- | @Selector@ for @outputObscuredDueToInsufficientExternalProtection@
 outputObscuredDueToInsufficientExternalProtectionSelector :: Selector '[] Bool
 outputObscuredDueToInsufficientExternalProtectionSelector = mkSelector "outputObscuredDueToInsufficientExternalProtection"
-
--- | @Selector@ for @preventsAutomaticBackgroundingDuringVideoPlayback@
-preventsAutomaticBackgroundingDuringVideoPlaybackSelector :: Selector '[] Bool
-preventsAutomaticBackgroundingDuringVideoPlaybackSelector = mkSelector "preventsAutomaticBackgroundingDuringVideoPlayback"
-
--- | @Selector@ for @setPreventsAutomaticBackgroundingDuringVideoPlayback:@
-setPreventsAutomaticBackgroundingDuringVideoPlaybackSelector :: Selector '[Bool] ()
-setPreventsAutomaticBackgroundingDuringVideoPlaybackSelector = mkSelector "setPreventsAutomaticBackgroundingDuringVideoPlayback:"
 
 -- | @Selector@ for @preventsDisplaySleepDuringVideoPlayback@
 preventsDisplaySleepDuringVideoPlaybackSelector :: Selector '[] Bool
@@ -448,10 +350,6 @@ preventsCaptureSelector = mkSelector "preventsCapture"
 setPreventsCaptureSelector :: Selector '[Bool] ()
 setPreventsCaptureSelector = mkSelector "setPreventsCapture:"
 
--- | @Selector@ for @timebase@
-timebaseSelector :: Selector '[] (Ptr ())
-timebaseSelector = mkSelector "timebase"
-
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] AVQueuedSampleBufferRenderingStatus
 statusSelector = mkSelector "status"
@@ -467,8 +365,4 @@ requiresFlushToResumeDecodingSelector = mkSelector "requiresFlushToResumeDecodin
 -- | @Selector@ for @readyForMoreMediaData@
 readyForMoreMediaDataSelector :: Selector '[] Bool
 readyForMoreMediaDataSelector = mkSelector "readyForMoreMediaData"
-
--- | @Selector@ for @hasSufficientMediaDataForReliablePlaybackStart@
-hasSufficientMediaDataForReliablePlaybackStartSelector :: Selector '[] Bool
-hasSufficientMediaDataForReliablePlaybackStartSelector = mkSelector "hasSufficientMediaDataForReliablePlaybackStart"
 

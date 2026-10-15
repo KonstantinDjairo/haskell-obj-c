@@ -29,51 +29,31 @@ module ObjC.Metal.MTLInstanceAccelerationStructureDescriptor
   , setMotionTransformBufferOffset
   , motionTransformCount
   , setMotionTransformCount
-  , instanceTransformationMatrixLayout
-  , setInstanceTransformationMatrixLayout
-  , motionTransformType
-  , setMotionTransformType
-  , motionTransformStride
-  , setMotionTransformStride
   , descriptorSelector
   , instanceCountSelector
   , instanceDescriptorBufferOffsetSelector
   , instanceDescriptorBufferSelector
   , instanceDescriptorStrideSelector
   , instanceDescriptorTypeSelector
-  , instanceTransformationMatrixLayoutSelector
   , instancedAccelerationStructuresSelector
   , motionTransformBufferOffsetSelector
   , motionTransformBufferSelector
   , motionTransformCountSelector
-  , motionTransformStrideSelector
-  , motionTransformTypeSelector
   , setInstanceCountSelector
   , setInstanceDescriptorBufferOffsetSelector
   , setInstanceDescriptorBufferSelector
   , setInstanceDescriptorStrideSelector
   , setInstanceDescriptorTypeSelector
-  , setInstanceTransformationMatrixLayoutSelector
   , setInstancedAccelerationStructuresSelector
   , setMotionTransformBufferOffsetSelector
   , setMotionTransformBufferSelector
   , setMotionTransformCountSelector
-  , setMotionTransformStrideSelector
-  , setMotionTransformTypeSelector
 
   -- * Enum types
   , MTLAccelerationStructureInstanceDescriptorType(MTLAccelerationStructureInstanceDescriptorType)
   , pattern MTLAccelerationStructureInstanceDescriptorTypeDefault
   , pattern MTLAccelerationStructureInstanceDescriptorTypeUserID
   , pattern MTLAccelerationStructureInstanceDescriptorTypeMotion
-  , pattern MTLAccelerationStructureInstanceDescriptorTypeIndirect
-  , pattern MTLAccelerationStructureInstanceDescriptorTypeIndirectMotion
-  , MTLMatrixLayout(MTLMatrixLayout)
-  , pattern MTLMatrixLayoutColumnMajor
-  , pattern MTLMatrixLayoutRowMajor
-  , MTLTransformType(MTLTransformType)
-  , pattern MTLTransformTypePackedFloat4x3
-  , pattern MTLTransformTypeComponent
 
   ) where
 
@@ -222,48 +202,6 @@ setMotionTransformCount :: IsMTLInstanceAccelerationStructureDescriptor mtlInsta
 setMotionTransformCount mtlInstanceAccelerationStructureDescriptor value =
   sendMessage mtlInstanceAccelerationStructureDescriptor setMotionTransformCountSelector value
 
--- | Matrix layout of the transformation matrices in the instance descriptors in the instance descriptor buffer and the transformation matrices in the transformation matrix buffer. Defaults to MTLMatrixLayoutColumnMajor.
---
--- ObjC selector: @- instanceTransformationMatrixLayout@
-instanceTransformationMatrixLayout :: IsMTLInstanceAccelerationStructureDescriptor mtlInstanceAccelerationStructureDescriptor => mtlInstanceAccelerationStructureDescriptor -> IO MTLMatrixLayout
-instanceTransformationMatrixLayout mtlInstanceAccelerationStructureDescriptor =
-  sendMessage mtlInstanceAccelerationStructureDescriptor instanceTransformationMatrixLayoutSelector
-
--- | Matrix layout of the transformation matrices in the instance descriptors in the instance descriptor buffer and the transformation matrices in the transformation matrix buffer. Defaults to MTLMatrixLayoutColumnMajor.
---
--- ObjC selector: @- setInstanceTransformationMatrixLayout:@
-setInstanceTransformationMatrixLayout :: IsMTLInstanceAccelerationStructureDescriptor mtlInstanceAccelerationStructureDescriptor => mtlInstanceAccelerationStructureDescriptor -> MTLMatrixLayout -> IO ()
-setInstanceTransformationMatrixLayout mtlInstanceAccelerationStructureDescriptor value =
-  sendMessage mtlInstanceAccelerationStructureDescriptor setInstanceTransformationMatrixLayoutSelector value
-
--- | Type of motion transforms. Defaults to MTLTransformTypePackedFloat4x3.
---
--- ObjC selector: @- motionTransformType@
-motionTransformType :: IsMTLInstanceAccelerationStructureDescriptor mtlInstanceAccelerationStructureDescriptor => mtlInstanceAccelerationStructureDescriptor -> IO MTLTransformType
-motionTransformType mtlInstanceAccelerationStructureDescriptor =
-  sendMessage mtlInstanceAccelerationStructureDescriptor motionTransformTypeSelector
-
--- | Type of motion transforms. Defaults to MTLTransformTypePackedFloat4x3.
---
--- ObjC selector: @- setMotionTransformType:@
-setMotionTransformType :: IsMTLInstanceAccelerationStructureDescriptor mtlInstanceAccelerationStructureDescriptor => mtlInstanceAccelerationStructureDescriptor -> MTLTransformType -> IO ()
-setMotionTransformType mtlInstanceAccelerationStructureDescriptor value =
-  sendMessage mtlInstanceAccelerationStructureDescriptor setMotionTransformTypeSelector value
-
--- | Motion transform stride. Defaults to 0, indicating that transforms are tightly packed according to the motion transform type.
---
--- ObjC selector: @- motionTransformStride@
-motionTransformStride :: IsMTLInstanceAccelerationStructureDescriptor mtlInstanceAccelerationStructureDescriptor => mtlInstanceAccelerationStructureDescriptor -> IO CULong
-motionTransformStride mtlInstanceAccelerationStructureDescriptor =
-  sendMessage mtlInstanceAccelerationStructureDescriptor motionTransformStrideSelector
-
--- | Motion transform stride. Defaults to 0, indicating that transforms are tightly packed according to the motion transform type.
---
--- ObjC selector: @- setMotionTransformStride:@
-setMotionTransformStride :: IsMTLInstanceAccelerationStructureDescriptor mtlInstanceAccelerationStructureDescriptor => mtlInstanceAccelerationStructureDescriptor -> CULong -> IO ()
-setMotionTransformStride mtlInstanceAccelerationStructureDescriptor value =
-  sendMessage mtlInstanceAccelerationStructureDescriptor setMotionTransformStrideSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -343,28 +281,4 @@ motionTransformCountSelector = mkSelector "motionTransformCount"
 -- | @Selector@ for @setMotionTransformCount:@
 setMotionTransformCountSelector :: Selector '[CULong] ()
 setMotionTransformCountSelector = mkSelector "setMotionTransformCount:"
-
--- | @Selector@ for @instanceTransformationMatrixLayout@
-instanceTransformationMatrixLayoutSelector :: Selector '[] MTLMatrixLayout
-instanceTransformationMatrixLayoutSelector = mkSelector "instanceTransformationMatrixLayout"
-
--- | @Selector@ for @setInstanceTransformationMatrixLayout:@
-setInstanceTransformationMatrixLayoutSelector :: Selector '[MTLMatrixLayout] ()
-setInstanceTransformationMatrixLayoutSelector = mkSelector "setInstanceTransformationMatrixLayout:"
-
--- | @Selector@ for @motionTransformType@
-motionTransformTypeSelector :: Selector '[] MTLTransformType
-motionTransformTypeSelector = mkSelector "motionTransformType"
-
--- | @Selector@ for @setMotionTransformType:@
-setMotionTransformTypeSelector :: Selector '[MTLTransformType] ()
-setMotionTransformTypeSelector = mkSelector "setMotionTransformType:"
-
--- | @Selector@ for @motionTransformStride@
-motionTransformStrideSelector :: Selector '[] CULong
-motionTransformStrideSelector = mkSelector "motionTransformStride"
-
--- | @Selector@ for @setMotionTransformStride:@
-setMotionTransformStrideSelector :: Selector '[CULong] ()
-setMotionTransformStrideSelector = mkSelector "setMotionTransformStride:"
 

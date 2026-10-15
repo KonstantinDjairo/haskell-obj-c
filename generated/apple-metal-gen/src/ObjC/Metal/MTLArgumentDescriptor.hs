@@ -40,10 +40,7 @@ module ObjC.Metal.MTLArgumentDescriptor
   , textureTypeSelector
 
   -- * Enum types
-  , MTLBindingAccess(MTLBindingAccess)
-  , pattern MTLBindingAccessReadOnly
-  , pattern MTLBindingAccessReadWrite
-  , pattern MTLBindingAccessWriteOnly
+  , MTLArgumentAccess(MTLArgumentAccess)
   , pattern MTLArgumentAccessReadOnly
   , pattern MTLArgumentAccessReadWrite
   , pattern MTLArgumentAccessWriteOnly
@@ -139,12 +136,6 @@ module ObjC.Metal.MTLArgumentDescriptor
   , pattern MTLDataTypeIntersectionFunctionTable
   , pattern MTLDataTypePrimitiveAccelerationStructure
   , pattern MTLDataTypeInstanceAccelerationStructure
-  , pattern MTLDataTypeBFloat
-  , pattern MTLDataTypeBFloat2
-  , pattern MTLDataTypeBFloat3
-  , pattern MTLDataTypeBFloat4
-  , pattern MTLDataTypeDepthStencilState
-  , pattern MTLDataTypeTensor
   , MTLTextureType(MTLTextureType)
   , pattern MTLTextureType1D
   , pattern MTLTextureType1DArray
@@ -241,7 +232,7 @@ setArrayLength mtlArgumentDescriptor value =
 -- Access flags for the argument
 --
 -- ObjC selector: @- access@
-access :: IsMTLArgumentDescriptor mtlArgumentDescriptor => mtlArgumentDescriptor -> IO MTLBindingAccess
+access :: IsMTLArgumentDescriptor mtlArgumentDescriptor => mtlArgumentDescriptor -> IO MTLArgumentAccess
 access mtlArgumentDescriptor =
   sendMessage mtlArgumentDescriptor accessSelector
 
@@ -250,7 +241,7 @@ access mtlArgumentDescriptor =
 -- Access flags for the argument
 --
 -- ObjC selector: @- setAccess:@
-setAccess :: IsMTLArgumentDescriptor mtlArgumentDescriptor => mtlArgumentDescriptor -> MTLBindingAccess -> IO ()
+setAccess :: IsMTLArgumentDescriptor mtlArgumentDescriptor => mtlArgumentDescriptor -> MTLArgumentAccess -> IO ()
 setAccess mtlArgumentDescriptor value =
   sendMessage mtlArgumentDescriptor setAccessSelector value
 
@@ -327,11 +318,11 @@ setArrayLengthSelector :: Selector '[CULong] ()
 setArrayLengthSelector = mkSelector "setArrayLength:"
 
 -- | @Selector@ for @access@
-accessSelector :: Selector '[] MTLBindingAccess
+accessSelector :: Selector '[] MTLArgumentAccess
 accessSelector = mkSelector "access"
 
 -- | @Selector@ for @setAccess:@
-setAccessSelector :: Selector '[MTLBindingAccess] ()
+setAccessSelector :: Selector '[MTLArgumentAccess] ()
 setAccessSelector = mkSelector "setAccess:"
 
 -- | @Selector@ for @textureType@

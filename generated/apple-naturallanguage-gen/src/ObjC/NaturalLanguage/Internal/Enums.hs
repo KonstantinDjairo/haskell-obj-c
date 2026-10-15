@@ -14,30 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | @NLContextualEmbeddingAssetsResult@
-newtype NLContextualEmbeddingAssetsResult = NLContextualEmbeddingAssetsResult CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NLContextualEmbeddingAssetsResultAvailable :: NLContextualEmbeddingAssetsResult
-pattern NLContextualEmbeddingAssetsResultAvailable = NLContextualEmbeddingAssetsResult 0
-
-pattern NLContextualEmbeddingAssetsResultNotAvailable :: NLContextualEmbeddingAssetsResult
-pattern NLContextualEmbeddingAssetsResultNotAvailable = NLContextualEmbeddingAssetsResult 1
-
-pattern NLContextualEmbeddingAssetsResultError :: NLContextualEmbeddingAssetsResult
-pattern NLContextualEmbeddingAssetsResultError = NLContextualEmbeddingAssetsResult 2
-
-instance ObjCArgument NLContextualEmbeddingAssetsResult where
-  withObjCArg (NLContextualEmbeddingAssetsResult x) k = k (argCLong x)
-
-instance ObjCReturn NLContextualEmbeddingAssetsResult where
-  type RawReturn NLContextualEmbeddingAssetsResult = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NLContextualEmbeddingAssetsResult x)
-  fromOwned x = pure (NLContextualEmbeddingAssetsResult x)
-
 -- | @NLDistanceType@
 newtype NLDistanceType = NLDistanceType CLong
   deriving stock (Eq, Ord, Show)

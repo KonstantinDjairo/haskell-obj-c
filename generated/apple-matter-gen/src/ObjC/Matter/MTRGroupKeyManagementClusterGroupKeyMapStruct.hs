@@ -7,15 +7,19 @@
 module ObjC.Matter.MTRGroupKeyManagementClusterGroupKeyMapStruct
   ( MTRGroupKeyManagementClusterGroupKeyMapStruct
   , IsMTRGroupKeyManagementClusterGroupKeyMapStruct(..)
+  , init_
+  , copyWithZone
   , groupId
   , setGroupId
   , groupKeySetID
   , setGroupKeySetID
   , fabricIndex
   , setFabricIndex
+  , copyWithZoneSelector
   , fabricIndexSelector
   , groupIdSelector
   , groupKeySetIDSelector
+  , initSelector
   , setFabricIndexSelector
   , setGroupIdSelector
   , setGroupKeySetIDSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGroupKeyManagementClusterGroupKeyMapStruct mtrGroupKeyManagementClusterGroupKeyMapStruct => mtrGroupKeyManagementClusterGroupKeyMapStruct -> IO (Id MTRGroupKeyManagementClusterGroupKeyMapStruct)
+init_ mtrGroupKeyManagementClusterGroupKeyMapStruct =
+  sendOwnedMessage mtrGroupKeyManagementClusterGroupKeyMapStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupKeyManagementClusterGroupKeyMapStruct mtrGroupKeyManagementClusterGroupKeyMapStruct => mtrGroupKeyManagementClusterGroupKeyMapStruct -> Ptr () -> IO RawId
+copyWithZone mtrGroupKeyManagementClusterGroupKeyMapStruct zone =
+  sendOwnedMessage mtrGroupKeyManagementClusterGroupKeyMapStruct copyWithZoneSelector zone
 
 -- | @- groupId@
 groupId :: IsMTRGroupKeyManagementClusterGroupKeyMapStruct mtrGroupKeyManagementClusterGroupKeyMapStruct => mtrGroupKeyManagementClusterGroupKeyMapStruct -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setFabricIndex mtrGroupKeyManagementClusterGroupKeyMapStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupKeyManagementClusterGroupKeyMapStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @groupId@
 groupIdSelector :: Selector '[] (Id NSNumber)

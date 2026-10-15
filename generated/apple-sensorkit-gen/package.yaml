@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -20,41 +21,21 @@ library:
   - ObjC.SensorKit.Enums
   - ObjC.SensorKit.Internal.Classes
   - ObjC.SensorKit.Internal.Enums
-  - ObjC.SensorKit.SRAcousticSettings
-  - ObjC.SensorKit.SRAcousticSettingsAccessibility
-  - ObjC.SensorKit.SRAcousticSettingsAccessibilityBackgroundSounds
-  - ObjC.SensorKit.SRAcousticSettingsAccessibilityHeadphoneAccommodations
-  - ObjC.SensorKit.SRAcousticSettingsMusicEQ
   - ObjC.SensorKit.SRAmbientLightSample
   - ObjC.SensorKit.SRApplicationUsage
-  - ObjC.SensorKit.SRAudioLevel
   - ObjC.SensorKit.SRDeletionRecord
   - ObjC.SensorKit.SRDevice
   - ObjC.SensorKit.SRDeviceUsageReport
-  - ObjC.SensorKit.SRElectrocardiogramData
-  - ObjC.SensorKit.SRElectrocardiogramSample
-  - ObjC.SensorKit.SRElectrocardiogramSession
-  - ObjC.SensorKit.SRFaceMetrics
-  - ObjC.SensorKit.SRFaceMetricsExpression
   - ObjC.SensorKit.SRFetchRequest
   - ObjC.SensorKit.SRFetchResult
   - ObjC.SensorKit.SRKeyboardMetrics
   - ObjC.SensorKit.SRKeyboardProbabilityMetric
-  - ObjC.SensorKit.SRMediaEvent
   - ObjC.SensorKit.SRMessagesUsageReport
   - ObjC.SensorKit.SRNotificationUsage
   - ObjC.SensorKit.SRPhoneUsageReport
-  - ObjC.SensorKit.SRPhotoplethysmogramAccelerometerSample
-  - ObjC.SensorKit.SRPhotoplethysmogramOpticalSample
-  - ObjC.SensorKit.SRPhotoplethysmogramSample
   - ObjC.SensorKit.SRSensorReader
-  - ObjC.SensorKit.SRSleepSession
-  - ObjC.SensorKit.SRSpeechExpression
-  - ObjC.SensorKit.SRSpeechMetrics
   - ObjC.SensorKit.SRSupplementalCategory
   - ObjC.SensorKit.SRTextInputSession
   - ObjC.SensorKit.SRVisit
   - ObjC.SensorKit.SRWebUsage
   - ObjC.SensorKit.SRWristDetection
-  - ObjC.SensorKit.SRWristTemperature
-  - ObjC.SensorKit.SRWristTemperatureSession

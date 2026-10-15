@@ -14,7 +14,7 @@ import Foreign.LibFFI.FFITypes
 import Foreign.LibFFI.Internal (CType)
 import System.IO.Unsafe (unsafePerformIO)
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
-import ObjC.CoreFoundation.Internal.Structs
+import ObjC.CoreServices.Internal.Structs
 
 data ATSFlatDataFontNameDataHeader = ATSFlatDataFontNameDataHeader
   { atsFlatDataFontNameDataHeaderNameSpecifierType :: !CUInt
@@ -750,6 +750,40 @@ instance ObjCArgument ATSUGlyphSelector where
 instance ObjCReturn ATSUGlyphSelector where
   type RawReturn ATSUGlyphSelector = ATSUGlyphSelector
   objcRetType = retATSUGlyphSelector
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data ATSULayoutOperationOverrideSpecifier = ATSULayoutOperationOverrideSpecifier
+  { atsuLayoutOperationOverrideSpecifierOperationSelector :: !CUInt
+  , atsuLayoutOperationOverrideSpecifierOverrideUPP :: !(Ptr ())
+  } deriving (Eq, Show)
+
+instance Storable ATSULayoutOperationOverrideSpecifier where
+  sizeOf    _ = 16
+  alignment _ = 8
+  peek p = ATSULayoutOperationOverrideSpecifier <$> peekByteOff p 0
+    <*> peekByteOff p 8
+  poke p (ATSULayoutOperationOverrideSpecifier {..}) = do
+    pokeByteOff p 0 atsuLayoutOperationOverrideSpecifierOperationSelector
+    pokeByteOff p 8 atsuLayoutOperationOverrideSpecifierOverrideUPP
+
+{-# NOINLINE atsuLayoutOperationOverrideSpecifierStructType #-}
+atsuLayoutOperationOverrideSpecifierStructType :: Ptr CType
+atsuLayoutOperationOverrideSpecifierStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint, ffi_type_pointer]
+
+argATSULayoutOperationOverrideSpecifier :: ATSULayoutOperationOverrideSpecifier -> Arg
+argATSULayoutOperationOverrideSpecifier = mkStorableArg atsuLayoutOperationOverrideSpecifierStructType
+
+retATSULayoutOperationOverrideSpecifier :: RetType ATSULayoutOperationOverrideSpecifier
+retATSULayoutOperationOverrideSpecifier = mkStorableRetType atsuLayoutOperationOverrideSpecifierStructType
+
+instance ObjCArgument ATSULayoutOperationOverrideSpecifier where
+  withObjCArg x k = k (argATSULayoutOperationOverrideSpecifier x)
+
+instance ObjCReturn ATSULayoutOperationOverrideSpecifier where
+  type RawReturn ATSULayoutOperationOverrideSpecifier = ATSULayoutOperationOverrideSpecifier
+  objcRetType = retATSULayoutOperationOverrideSpecifier
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure

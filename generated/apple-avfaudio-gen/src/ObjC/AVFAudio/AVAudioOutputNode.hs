@@ -18,11 +18,7 @@ module ObjC.AVFAudio.AVAudioOutputNode
   ( AVAudioOutputNode
   , IsAVAudioOutputNode(..)
   , init_
-  , intendedSpatialExperience
-  , setIntendedSpatialExperience
   , initSelector
-  , intendedSpatialExperienceSelector
-  , setIntendedSpatialExperienceSelector
 
 
   ) where
@@ -43,28 +39,6 @@ init_ :: IsAVAudioOutputNode avAudioOutputNode => avAudioOutputNode -> IO (Id AV
 init_ avAudioOutputNode =
   sendOwnedMessage avAudioOutputNode initSelector
 
--- | intendedSpatialExperience
---
--- The AVAudioOutputNode's intended @CASpatialAudioExperience@
---
--- Not applicable to AVAudioEngine instances configured in manual rendering        mode. If unspecified, the property value defaults to @CAAutomaticSpatialAudio@
---
--- ObjC selector: @- intendedSpatialExperience@
-intendedSpatialExperience :: IsAVAudioOutputNode avAudioOutputNode => avAudioOutputNode -> IO RawId
-intendedSpatialExperience avAudioOutputNode =
-  sendMessage avAudioOutputNode intendedSpatialExperienceSelector
-
--- | intendedSpatialExperience
---
--- The AVAudioOutputNode's intended @CASpatialAudioExperience@
---
--- Not applicable to AVAudioEngine instances configured in manual rendering        mode. If unspecified, the property value defaults to @CAAutomaticSpatialAudio@
---
--- ObjC selector: @- setIntendedSpatialExperience:@
-setIntendedSpatialExperience :: IsAVAudioOutputNode avAudioOutputNode => avAudioOutputNode -> RawId -> IO ()
-setIntendedSpatialExperience avAudioOutputNode value =
-  sendMessage avAudioOutputNode setIntendedSpatialExperienceSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -72,12 +46,4 @@ setIntendedSpatialExperience avAudioOutputNode value =
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id AVAudioOutputNode)
 initSelector = mkSelector "init"
-
--- | @Selector@ for @intendedSpatialExperience@
-intendedSpatialExperienceSelector :: Selector '[] RawId
-intendedSpatialExperienceSelector = mkSelector "intendedSpatialExperience"
-
--- | @Selector@ for @setIntendedSpatialExperience:@
-setIntendedSpatialExperienceSelector :: Selector '[RawId] ()
-setIntendedSpatialExperienceSelector = mkSelector "setIntendedSpatialExperience:"
 

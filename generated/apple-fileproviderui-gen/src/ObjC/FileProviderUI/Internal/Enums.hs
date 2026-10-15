@@ -14,7 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | The error codes for errors raised by the File Provider UI extension.
 -- | @FPUIExtensionErrorCode@
 newtype FPUIExtensionErrorCode = FPUIExtensionErrorCode CULong
   deriving stock (Eq, Ord, Show)

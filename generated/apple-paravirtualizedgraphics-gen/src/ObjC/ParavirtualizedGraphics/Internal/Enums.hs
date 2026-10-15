@@ -26,7 +26,7 @@ import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..
 --
 -- PGResumeErrorCodeInvalidGuestVersion The guest version is incompatible with this framework version.
 --
--- PGResumeErrorCodeIncompatibleDevice The resume device is missing capabilities provided by the suspend device.
+-- PGResumeErrorCodeDeviceIncompatible The resume device is missing capabilities provided by the suspend device.
 --
 -- PGResumeErrorCodeInvalidDisplayPortCount The DisplayPortCount in suspend state doesn't match DisplayPortCount for this VM
 -- | @PGResumeErrorCode@

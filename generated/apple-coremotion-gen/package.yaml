@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -22,22 +23,18 @@ library:
   - ObjC.CoreMotion.CMAltitudeData
   - ObjC.CoreMotion.CMAmbientPressureData
   - ObjC.CoreMotion.CMAttitude
-  - ObjC.CoreMotion.CMBatchedSensorManager
   - ObjC.CoreMotion.CMDeviceMotion
   - ObjC.CoreMotion.CMDyskineticSymptomResult
   - ObjC.CoreMotion.CMFallDetectionEvent
   - ObjC.CoreMotion.CMFallDetectionManager
   - ObjC.CoreMotion.CMGyroData
-  - ObjC.CoreMotion.CMHeadphoneActivityManager
   - ObjC.CoreMotion.CMHeadphoneMotionManager
-  - ObjC.CoreMotion.CMHighFrequencyHeartRateData
   - ObjC.CoreMotion.CMLogItem
   - ObjC.CoreMotion.CMMagnetometerData
   - ObjC.CoreMotion.CMMotionActivity
   - ObjC.CoreMotion.CMMotionActivityManager
   - ObjC.CoreMotion.CMMotionManager
   - ObjC.CoreMotion.CMMovementDisorderManager
-  - ObjC.CoreMotion.CMOdometerData
   - ObjC.CoreMotion.CMPedometer
   - ObjC.CoreMotion.CMPedometerData
   - ObjC.CoreMotion.CMPedometerEvent

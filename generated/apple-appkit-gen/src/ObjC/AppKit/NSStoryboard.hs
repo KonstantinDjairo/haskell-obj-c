@@ -62,7 +62,7 @@ instantiateControllerWithIdentifier_creator nsStoryboard identifier block =
   sendMessage nsStoryboard instantiateControllerWithIdentifier_creatorSelector (toNSString identifier) block
 
 -- | @+ mainStoryboard@
-mainStoryboard :: IO (Id NSStoryboard)
+mainStoryboard :: IO RawId
 mainStoryboard  =
   do
     cls' <- getRequiredClass "NSStoryboard"
@@ -93,6 +93,6 @@ instantiateControllerWithIdentifier_creatorSelector :: Selector '[Id NSString, R
 instantiateControllerWithIdentifier_creatorSelector = mkSelector "instantiateControllerWithIdentifier:creator:"
 
 -- | @Selector@ for @mainStoryboard@
-mainStoryboardSelector :: Selector '[] (Id NSStoryboard)
+mainStoryboardSelector :: Selector '[] RawId
 mainStoryboardSelector = mkSelector "mainStoryboard"
 

@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRSwitchClusterSwitchLatchedEvent
   ( MTRSwitchClusterSwitchLatchedEvent
   , IsMTRSwitchClusterSwitchLatchedEvent(..)
+  , init_
+  , copyWithZone
   , newPosition
   , setNewPosition
+  , copyWithZoneSelector
+  , initSelector
   , newPositionSelector
   , setNewPositionSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRSwitchClusterSwitchLatchedEvent mtrSwitchClusterSwitchLatchedEvent => mtrSwitchClusterSwitchLatchedEvent -> IO (Id MTRSwitchClusterSwitchLatchedEvent)
+init_ mtrSwitchClusterSwitchLatchedEvent =
+  sendOwnedMessage mtrSwitchClusterSwitchLatchedEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSwitchClusterSwitchLatchedEvent mtrSwitchClusterSwitchLatchedEvent => mtrSwitchClusterSwitchLatchedEvent -> Ptr () -> IO RawId
+copyWithZone mtrSwitchClusterSwitchLatchedEvent zone =
+  sendOwnedMessage mtrSwitchClusterSwitchLatchedEvent copyWithZoneSelector zone
+
 -- | @- newPosition@
 newPosition :: IsMTRSwitchClusterSwitchLatchedEvent mtrSwitchClusterSwitchLatchedEvent => mtrSwitchClusterSwitchLatchedEvent -> IO (Id NSNumber)
 newPosition mtrSwitchClusterSwitchLatchedEvent =
@@ -39,6 +53,14 @@ setNewPosition mtrSwitchClusterSwitchLatchedEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSwitchClusterSwitchLatchedEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @newPosition@
 newPositionSelector :: Selector '[] (Id NSNumber)

@@ -13,27 +13,19 @@ module ObjC.GameKit.GKMatch
   , sendData_toPlayers_dataMode_error
   , sendDataToAllPlayers_withDataMode_error
   , disconnect
+  , voiceChatWithName
   , chooseBestHostingPlayerWithCompletionHandler
   , rematchWithCompletionHandler
-  , voiceChatWithName
   , chooseBestHostPlayerWithCompletionHandler
   , sendData_toPlayers_withDataMode_error
-  , players
   , delegate
   , setDelegate
   , expectedPlayerCount
-  , properties
-  , playerProperties
-  , playerIDs
   , chooseBestHostPlayerWithCompletionHandlerSelector
   , chooseBestHostingPlayerWithCompletionHandlerSelector
   , delegateSelector
   , disconnectSelector
   , expectedPlayerCountSelector
-  , playerIDsSelector
-  , playerPropertiesSelector
-  , playersSelector
-  , propertiesSelector
   , rematchWithCompletionHandlerSelector
   , sendDataToAllPlayers_withDataMode_errorSelector
   , sendData_toPlayers_dataMode_errorSelector
@@ -81,6 +73,13 @@ disconnect :: IsGKMatch gkMatch => gkMatch -> IO ()
 disconnect gkMatch =
   sendMessage gkMatch disconnectSelector
 
+-- | Join a named voice chat channel Will return nil if parental controls are turned on
+--
+-- ObjC selector: @- voiceChatWithName:@
+voiceChatWithName :: (IsGKMatch gkMatch, IsNSString name) => gkMatch -> name -> IO (Id GKVoiceChat)
+voiceChatWithName gkMatch name =
+  sendMessage gkMatch voiceChatWithNameSelector (toNSString name)
+
 -- | Choose the best host from among the connected players using gathered estimates for bandwidth and packet loss. This is intended for applications that wish to implement a client-server model on top of the match. The returned player ID will be nil if the best host cannot currently be determined (e.g. players are still connecting).
 --
 -- ObjC selector: @- chooseBestHostingPlayerWithCompletionHandler:@
@@ -95,13 +94,6 @@ rematchWithCompletionHandler :: IsGKMatch gkMatch => gkMatch -> Ptr () -> IO ()
 rematchWithCompletionHandler gkMatch completionHandler =
   sendMessage gkMatch rematchWithCompletionHandlerSelector completionHandler
 
--- | * This method is deprecated. GKVoiceChat is no longer supported. **
---
--- ObjC selector: @- voiceChatWithName:@
-voiceChatWithName :: (IsGKMatch gkMatch, IsNSString name) => gkMatch -> name -> IO (Id GKVoiceChat)
-voiceChatWithName gkMatch name =
-  sendMessage gkMatch voiceChatWithNameSelector (toNSString name)
-
 -- | * This method is obsolete. It will never be invoked and its implementation does nothing**
 --
 -- ObjC selector: @- chooseBestHostPlayerWithCompletionHandler:@
@@ -115,11 +107,6 @@ chooseBestHostPlayerWithCompletionHandler gkMatch completionHandler =
 sendData_toPlayers_withDataMode_error :: (IsGKMatch gkMatch, IsNSData data_, IsNSArray playerIDs, IsNSError error_) => gkMatch -> data_ -> playerIDs -> GKMatchSendDataMode -> error_ -> IO Bool
 sendData_toPlayers_withDataMode_error gkMatch data_ playerIDs mode error_ =
   sendMessage gkMatch sendData_toPlayers_withDataMode_errorSelector (toNSData data_) (toNSArray playerIDs) mode (toNSError error_)
-
--- | @- players@
-players :: IsGKMatch gkMatch => gkMatch -> IO (Id NSArray)
-players gkMatch =
-  sendMessage gkMatch playersSelector
 
 -- | all the GKPlayers in the match
 --
@@ -140,23 +127,6 @@ expectedPlayerCount :: IsGKMatch gkMatch => gkMatch -> IO CULong
 expectedPlayerCount gkMatch =
   sendMessage gkMatch expectedPlayerCountSelector
 
--- | @- properties@
-properties :: IsGKMatch gkMatch => gkMatch -> IO RawId
-properties gkMatch =
-  sendMessage gkMatch propertiesSelector
-
--- | @- playerProperties@
-playerProperties :: IsGKMatch gkMatch => gkMatch -> IO (Id NSDictionary)
-playerProperties gkMatch =
-  sendMessage gkMatch playerPropertiesSelector
-
--- | * This property is obsolete.  **
---
--- ObjC selector: @- playerIDs@
-playerIDs :: IsGKMatch gkMatch => gkMatch -> IO (Id NSArray)
-playerIDs gkMatch =
-  sendMessage gkMatch playerIDsSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -173,6 +143,10 @@ sendDataToAllPlayers_withDataMode_errorSelector = mkSelector "sendDataToAllPlaye
 disconnectSelector :: Selector '[] ()
 disconnectSelector = mkSelector "disconnect"
 
+-- | @Selector@ for @voiceChatWithName:@
+voiceChatWithNameSelector :: Selector '[Id NSString] (Id GKVoiceChat)
+voiceChatWithNameSelector = mkSelector "voiceChatWithName:"
+
 -- | @Selector@ for @chooseBestHostingPlayerWithCompletionHandler:@
 chooseBestHostingPlayerWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 chooseBestHostingPlayerWithCompletionHandlerSelector = mkSelector "chooseBestHostingPlayerWithCompletionHandler:"
@@ -181,10 +155,6 @@ chooseBestHostingPlayerWithCompletionHandlerSelector = mkSelector "chooseBestHos
 rematchWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 rematchWithCompletionHandlerSelector = mkSelector "rematchWithCompletionHandler:"
 
--- | @Selector@ for @voiceChatWithName:@
-voiceChatWithNameSelector :: Selector '[Id NSString] (Id GKVoiceChat)
-voiceChatWithNameSelector = mkSelector "voiceChatWithName:"
-
 -- | @Selector@ for @chooseBestHostPlayerWithCompletionHandler:@
 chooseBestHostPlayerWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 chooseBestHostPlayerWithCompletionHandlerSelector = mkSelector "chooseBestHostPlayerWithCompletionHandler:"
@@ -192,10 +162,6 @@ chooseBestHostPlayerWithCompletionHandlerSelector = mkSelector "chooseBestHostPl
 -- | @Selector@ for @sendData:toPlayers:withDataMode:error:@
 sendData_toPlayers_withDataMode_errorSelector :: Selector '[Id NSData, Id NSArray, GKMatchSendDataMode, Id NSError] Bool
 sendData_toPlayers_withDataMode_errorSelector = mkSelector "sendData:toPlayers:withDataMode:error:"
-
--- | @Selector@ for @players@
-playersSelector :: Selector '[] (Id NSArray)
-playersSelector = mkSelector "players"
 
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId
@@ -208,16 +174,4 @@ setDelegateSelector = mkSelector "setDelegate:"
 -- | @Selector@ for @expectedPlayerCount@
 expectedPlayerCountSelector :: Selector '[] CULong
 expectedPlayerCountSelector = mkSelector "expectedPlayerCount"
-
--- | @Selector@ for @properties@
-propertiesSelector :: Selector '[] RawId
-propertiesSelector = mkSelector "properties"
-
--- | @Selector@ for @playerProperties@
-playerPropertiesSelector :: Selector '[] (Id NSDictionary)
-playerPropertiesSelector = mkSelector "playerProperties"
-
--- | @Selector@ for @playerIDs@
-playerIDsSelector :: Selector '[] (Id NSArray)
-playerIDsSelector = mkSelector "playerIDs"
 

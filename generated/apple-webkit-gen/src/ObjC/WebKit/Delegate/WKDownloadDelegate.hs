@@ -38,7 +38,6 @@ import ObjC.Runtime.StableIvar
 data WKDownloadDelegateOverrides = WKDownloadDelegateOverrides
   { _downloadDidFinish :: !(Maybe (RawId -> IO ()))
   , _download_didFailWithError_resumeData :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
-  , _download_didReceiveFinalURL :: !(Maybe (RawId -> RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -46,13 +45,7 @@ defaultWKDownloadDelegateOverrides :: WKDownloadDelegateOverrides
 defaultWKDownloadDelegateOverrides = WKDownloadDelegateOverrides
   { _downloadDidFinish = Nothing
   , _download_didFailWithError_resumeData = Nothing
-  , _download_didReceiveFinalURL = Nothing
   }
-
-foreign import ccall "wrapper"
-  wrap_at_at_v
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> IO ())
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> IO ()))
 
 foreign import ccall "wrapper"
   wrap_at_at_at_v
@@ -80,7 +73,6 @@ wkDownloadDelegateDelegateClass = unsafePerformIO $ do
   addHsDataIvar cls
   let sel_downloadDidFinish = unSelector (mkSelector "downloadDidFinish:")
       sel_download_didFailWithError_resumeData = unSelector (mkSelector "download:didFailWithError:resumeData:")
-      sel_download_didReceiveFinalURL = unSelector (mkSelector "download:didReceiveFinalURL:")
   -- downloadDidFinish:
   stub_0 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
@@ -99,22 +91,12 @@ wkDownloadDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
   addObjCMethod cls "download:didFailWithError:resumeData:" "v@:@@@" stub_1
 
-  -- download:didReceiveFinalURL:
-  stub_2 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO WKDownloadDelegateOverrides
-    case _download_didReceiveFinalURL rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "download:didReceiveFinalURL:" "v@:@@" stub_2
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO WKDownloadDelegateOverrides
     if queriedSel == sel_downloadDidFinish then pure (maybe 0 (const 1) (_downloadDidFinish rec_))
     else if queriedSel == sel_download_didFailWithError_resumeData then pure (maybe 0 (const 1) (_download_didFailWithError_resumeData rec_))
-    else if queriedSel == sel_download_didReceiveFinalURL then pure (maybe 0 (const 1) (_download_didReceiveFinalURL rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

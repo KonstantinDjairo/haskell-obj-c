@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams
   ( MTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams
   , IsMTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams(..)
+  , init_
+  , copyWithZone
   , value
   , setValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , setValueSelector
   , timedInvokeTimeoutMsSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams => mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams -> IO (Id MTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams)
+init_ mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams =
+  sendOwnedMessage mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams => mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams copyWithZoneSelector zone
 
 -- | @- value@
 value :: IsMTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams => mtrTestClusterClusterTestEmitTestFabricScopedEventResponseParams -> IO (Id NSNumber)
@@ -65,6 +79,14 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterTestEmitTestFabricScopedEventRespon
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestEmitTestFabricScopedEventResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @value@
 valueSelector :: Selector '[] (Id NSNumber)

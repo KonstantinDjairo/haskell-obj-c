@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Standard view controller for sending friend requests to other players. Present modally from the top view controller.
---
--- Generated bindings for @GKFriendRequestComposeViewController@.
+-- | Generated bindings for @GKFriendRequestComposeViewController@.
 module ObjC.GameKit.GKFriendRequestComposeViewController
   ( GKFriendRequestComposeViewController
   , IsGKFriendRequestComposeViewController(..)
@@ -14,14 +12,10 @@ module ObjC.GameKit.GKFriendRequestComposeViewController
   , addRecipientPlayers
   , addRecipientsWithPlayerIDs
   , addRecipientsWithEmailAddresses
-  , composeViewDelegate
-  , setComposeViewDelegate
   , addRecipientPlayersSelector
   , addRecipientsWithEmailAddressesSelector
   , addRecipientsWithPlayerIDsSelector
-  , composeViewDelegateSelector
   , maxNumberOfRecipientsSelector
-  , setComposeViewDelegateSelector
   , setMessageSelector
 
 
@@ -72,16 +66,6 @@ addRecipientsWithEmailAddresses :: (IsGKFriendRequestComposeViewController gkFri
 addRecipientsWithEmailAddresses gkFriendRequestComposeViewController emailAddresses =
   sendMessage gkFriendRequestComposeViewController addRecipientsWithEmailAddressesSelector (toNSArray emailAddresses)
 
--- | @- composeViewDelegate@
-composeViewDelegate :: IsGKFriendRequestComposeViewController gkFriendRequestComposeViewController => gkFriendRequestComposeViewController -> IO RawId
-composeViewDelegate gkFriendRequestComposeViewController =
-  sendMessage gkFriendRequestComposeViewController composeViewDelegateSelector
-
--- | @- setComposeViewDelegate:@
-setComposeViewDelegate :: IsGKFriendRequestComposeViewController gkFriendRequestComposeViewController => gkFriendRequestComposeViewController -> RawId -> IO ()
-setComposeViewDelegate gkFriendRequestComposeViewController value =
-  sendMessage gkFriendRequestComposeViewController setComposeViewDelegateSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -105,12 +89,4 @@ addRecipientsWithPlayerIDsSelector = mkSelector "addRecipientsWithPlayerIDs:"
 -- | @Selector@ for @addRecipientsWithEmailAddresses:@
 addRecipientsWithEmailAddressesSelector :: Selector '[Id NSArray] ()
 addRecipientsWithEmailAddressesSelector = mkSelector "addRecipientsWithEmailAddresses:"
-
--- | @Selector@ for @composeViewDelegate@
-composeViewDelegateSelector :: Selector '[] RawId
-composeViewDelegateSelector = mkSelector "composeViewDelegate"
-
--- | @Selector@ for @setComposeViewDelegate:@
-setComposeViewDelegateSelector :: Selector '[RawId] ()
-setComposeViewDelegateSelector = mkSelector "setComposeViewDelegate:"
 

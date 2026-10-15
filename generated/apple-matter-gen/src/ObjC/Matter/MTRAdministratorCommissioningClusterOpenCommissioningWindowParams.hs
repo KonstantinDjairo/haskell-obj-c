@@ -7,10 +7,12 @@
 module ObjC.Matter.MTRAdministratorCommissioningClusterOpenCommissioningWindowParams
   ( MTRAdministratorCommissioningClusterOpenCommissioningWindowParams
   , IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams(..)
+  , init_
+  , copyWithZone
   , commissioningTimeout
   , setCommissioningTimeout
-  , pakePasscodeVerifier
-  , setPakePasscodeVerifier
+  , pakeVerifier
+  , setPakeVerifier
   , discriminator
   , setDiscriminator
   , iterations
@@ -19,24 +21,18 @@ module ObjC.Matter.MTRAdministratorCommissioningClusterOpenCommissioningWindowPa
   , setSalt
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , pakeVerifier
-  , setPakeVerifier
   , commissioningTimeoutSelector
+  , copyWithZoneSelector
   , discriminatorSelector
+  , initSelector
   , iterationsSelector
-  , pakePasscodeVerifierSelector
   , pakeVerifierSelector
   , saltSelector
-  , serverSideProcessingTimeoutSelector
   , setCommissioningTimeoutSelector
   , setDiscriminatorSelector
   , setIterationsSelector
-  , setPakePasscodeVerifierSelector
   , setPakeVerifierSelector
   , setSaltSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -54,6 +50,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> IO (Id MTRAdministratorCommissioningClusterOpenCommissioningWindowParams)
+init_ mtrAdministratorCommissioningClusterOpenCommissioningWindowParams =
+  sendOwnedMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> Ptr () -> IO RawId
+copyWithZone mtrAdministratorCommissioningClusterOpenCommissioningWindowParams zone =
+  sendOwnedMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams copyWithZoneSelector zone
+
 -- | @- commissioningTimeout@
 commissioningTimeout :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> IO (Id NSNumber)
 commissioningTimeout mtrAdministratorCommissioningClusterOpenCommissioningWindowParams =
@@ -64,15 +70,15 @@ setCommissioningTimeout :: (IsMTRAdministratorCommissioningClusterOpenCommission
 setCommissioningTimeout mtrAdministratorCommissioningClusterOpenCommissioningWindowParams value =
   sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams setCommissioningTimeoutSelector (toNSNumber value)
 
--- | @- pakePasscodeVerifier@
-pakePasscodeVerifier :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> IO (Id NSData)
-pakePasscodeVerifier mtrAdministratorCommissioningClusterOpenCommissioningWindowParams =
-  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams pakePasscodeVerifierSelector
+-- | @- pakeVerifier@
+pakeVerifier :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> IO (Id NSData)
+pakeVerifier mtrAdministratorCommissioningClusterOpenCommissioningWindowParams =
+  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams pakeVerifierSelector
 
--- | @- setPakePasscodeVerifier:@
-setPakePasscodeVerifier :: (IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams, IsNSData value) => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> value -> IO ()
-setPakePasscodeVerifier mtrAdministratorCommissioningClusterOpenCommissioningWindowParams value =
-  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams setPakePasscodeVerifierSelector (toNSData value)
+-- | @- setPakeVerifier:@
+setPakeVerifier :: (IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams, IsNSData value) => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> value -> IO ()
+setPakeVerifier mtrAdministratorCommissioningClusterOpenCommissioningWindowParams value =
+  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams setPakeVerifierSelector (toNSData value)
 
 -- | @- discriminator@
 discriminator :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> IO (Id NSNumber)
@@ -126,41 +132,17 @@ setTimedInvokeTimeoutMs :: (IsMTRAdministratorCommissioningClusterOpenCommission
 setTimedInvokeTimeoutMs mtrAdministratorCommissioningClusterOpenCommissioningWindowParams value =
   sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrAdministratorCommissioningClusterOpenCommissioningWindowParams =
-  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams, IsNSNumber value) => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> value -> IO ()
-setServerSideProcessingTimeout mtrAdministratorCommissioningClusterOpenCommissioningWindowParams value =
-  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
--- | @- pakeVerifier@
-pakeVerifier :: IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> IO (Id NSData)
-pakeVerifier mtrAdministratorCommissioningClusterOpenCommissioningWindowParams =
-  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams pakeVerifierSelector
-
--- | @- setPakeVerifier:@
-setPakeVerifier :: (IsMTRAdministratorCommissioningClusterOpenCommissioningWindowParams mtrAdministratorCommissioningClusterOpenCommissioningWindowParams, IsNSData value) => mtrAdministratorCommissioningClusterOpenCommissioningWindowParams -> value -> IO ()
-setPakeVerifier mtrAdministratorCommissioningClusterOpenCommissioningWindowParams value =
-  sendMessage mtrAdministratorCommissioningClusterOpenCommissioningWindowParams setPakeVerifierSelector (toNSData value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAdministratorCommissioningClusterOpenCommissioningWindowParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @commissioningTimeout@
 commissioningTimeoutSelector :: Selector '[] (Id NSNumber)
@@ -170,13 +152,13 @@ commissioningTimeoutSelector = mkSelector "commissioningTimeout"
 setCommissioningTimeoutSelector :: Selector '[Id NSNumber] ()
 setCommissioningTimeoutSelector = mkSelector "setCommissioningTimeout:"
 
--- | @Selector@ for @pakePasscodeVerifier@
-pakePasscodeVerifierSelector :: Selector '[] (Id NSData)
-pakePasscodeVerifierSelector = mkSelector "pakePasscodeVerifier"
+-- | @Selector@ for @pakeVerifier@
+pakeVerifierSelector :: Selector '[] (Id NSData)
+pakeVerifierSelector = mkSelector "pakeVerifier"
 
--- | @Selector@ for @setPakePasscodeVerifier:@
-setPakePasscodeVerifierSelector :: Selector '[Id NSData] ()
-setPakePasscodeVerifierSelector = mkSelector "setPakePasscodeVerifier:"
+-- | @Selector@ for @setPakeVerifier:@
+setPakeVerifierSelector :: Selector '[Id NSData] ()
+setPakeVerifierSelector = mkSelector "setPakeVerifier:"
 
 -- | @Selector@ for @discriminator@
 discriminatorSelector :: Selector '[] (Id NSNumber)
@@ -209,20 +191,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
-
--- | @Selector@ for @pakeVerifier@
-pakeVerifierSelector :: Selector '[] (Id NSData)
-pakeVerifierSelector = mkSelector "pakeVerifier"
-
--- | @Selector@ for @setPakeVerifier:@
-setPakeVerifierSelector :: Selector '[Id NSData] ()
-setPakeVerifierSelector = mkSelector "setPakeVerifier:"
 

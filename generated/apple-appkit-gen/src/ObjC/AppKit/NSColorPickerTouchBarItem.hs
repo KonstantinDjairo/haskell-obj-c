@@ -15,8 +15,6 @@ module ObjC.AppKit.NSColorPickerTouchBarItem
   , setColor
   , showsAlpha
   , setShowsAlpha
-  , allowedColorSpaces
-  , setAllowedColorSpaces
   , colorList
   , setColorList
   , customizationLabel
@@ -28,7 +26,6 @@ module ObjC.AppKit.NSColorPickerTouchBarItem
   , enabled
   , setEnabled
   , actionSelector
-  , allowedColorSpacesSelector
   , colorListSelector
   , colorPickerWithIdentifierSelector
   , colorPickerWithIdentifier_buttonImageSelector
@@ -36,7 +33,6 @@ module ObjC.AppKit.NSColorPickerTouchBarItem
   , customizationLabelSelector
   , enabledSelector
   , setActionSelector
-  , setAllowedColorSpacesSelector
   , setColorListSelector
   , setColorSelector
   , setCustomizationLabelSelector
@@ -119,20 +115,6 @@ showsAlpha nsColorPickerTouchBarItem =
 setShowsAlpha :: IsNSColorPickerTouchBarItem nsColorPickerTouchBarItem => nsColorPickerTouchBarItem -> Bool -> IO ()
 setShowsAlpha nsColorPickerTouchBarItem value =
   sendMessage nsColorPickerTouchBarItem setShowsAlphaSelector value
-
--- | Controls the color spaces that the receiver is able to produce. If a color outside of the allowed spaces are displayed or selected, it will first be converted to the first color space in the array. @nil@ signifies any color space is allowed. Empty array is an invalid value and will raise an exception if set. Defaults to @nil@.
---
--- ObjC selector: @- allowedColorSpaces@
-allowedColorSpaces :: IsNSColorPickerTouchBarItem nsColorPickerTouchBarItem => nsColorPickerTouchBarItem -> IO (Id NSArray)
-allowedColorSpaces nsColorPickerTouchBarItem =
-  sendMessage nsColorPickerTouchBarItem allowedColorSpacesSelector
-
--- | Controls the color spaces that the receiver is able to produce. If a color outside of the allowed spaces are displayed or selected, it will first be converted to the first color space in the array. @nil@ signifies any color space is allowed. Empty array is an invalid value and will raise an exception if set. Defaults to @nil@.
---
--- ObjC selector: @- setAllowedColorSpaces:@
-setAllowedColorSpaces :: (IsNSColorPickerTouchBarItem nsColorPickerTouchBarItem, IsNSArray value) => nsColorPickerTouchBarItem -> value -> IO ()
-setAllowedColorSpaces nsColorPickerTouchBarItem value =
-  sendMessage nsColorPickerTouchBarItem setAllowedColorSpacesSelector (toNSArray value)
 
 -- | The color list displayed in the list color picker. Defaults to the standard system color list. Setting a custom color list will disable the additional tints/shades that appear on long-press.
 --
@@ -231,14 +213,6 @@ showsAlphaSelector = mkSelector "showsAlpha"
 -- | @Selector@ for @setShowsAlpha:@
 setShowsAlphaSelector :: Selector '[Bool] ()
 setShowsAlphaSelector = mkSelector "setShowsAlpha:"
-
--- | @Selector@ for @allowedColorSpaces@
-allowedColorSpacesSelector :: Selector '[] (Id NSArray)
-allowedColorSpacesSelector = mkSelector "allowedColorSpaces"
-
--- | @Selector@ for @setAllowedColorSpaces:@
-setAllowedColorSpacesSelector :: Selector '[Id NSArray] ()
-setAllowedColorSpacesSelector = mkSelector "setAllowedColorSpaces:"
 
 -- | @Selector@ for @colorList@
 colorListSelector :: Selector '[] (Id NSColorList)

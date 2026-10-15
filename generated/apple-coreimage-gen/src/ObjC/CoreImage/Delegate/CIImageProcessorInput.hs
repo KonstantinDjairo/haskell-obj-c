@@ -41,8 +41,6 @@ data CIImageProcessorInputOverrides = CIImageProcessorInputOverrides
   , _baseAddress :: !(Maybe (IO RawId))
   , _metalTexture :: !(Maybe (IO RawId))
   , _digest :: !(Maybe (IO Int))
-  , _roiTileIndex :: !(Maybe (IO Int))
-  , _roiTileCount :: !(Maybe (IO Int))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -53,8 +51,6 @@ defaultCIImageProcessorInputOverrides = CIImageProcessorInputOverrides
   , _baseAddress = Nothing
   , _metalTexture = Nothing
   , _digest = Nothing
-  , _roiTileIndex = Nothing
-  , _roiTileCount = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -91,8 +87,6 @@ ciImageProcessorInputDelegateClass = unsafePerformIO $ do
       sel_baseAddress = unSelector (mkSelector "baseAddress")
       sel_metalTexture = unSelector (mkSelector "metalTexture")
       sel_digest = unSelector (mkSelector "digest")
-      sel_roiTileIndex = unSelector (mkSelector "roiTileIndex")
-      sel_roiTileCount = unSelector (mkSelector "roiTileCount")
   -- bytesPerRow
   stub_0 <- wrap_Q $ \self _cmd -> do
     sp <- readHsData self
@@ -148,28 +142,6 @@ ciImageProcessorInputDelegateClass = unsafePerformIO $ do
         pure (fromIntegral r)
   addObjCMethod cls "digest" "Q@:" stub_4
 
-  -- roiTileIndex
-  stub_5 <- wrap_Q $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO CIImageProcessorInputOverrides
-    case _roiTileIndex rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f 
-        pure (fromIntegral r)
-  addObjCMethod cls "roiTileIndex" "Q@:" stub_5
-
-  -- roiTileCount
-  stub_6 <- wrap_Q $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO CIImageProcessorInputOverrides
-    case _roiTileCount rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f 
-        pure (fromIntegral r)
-  addObjCMethod cls "roiTileCount" "Q@:" stub_6
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -179,8 +151,6 @@ ciImageProcessorInputDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_baseAddress then pure (maybe 0 (const 1) (_baseAddress rec_))
     else if queriedSel == sel_metalTexture then pure (maybe 0 (const 1) (_metalTexture rec_))
     else if queriedSel == sel_digest then pure (maybe 0 (const 1) (_digest rec_))
-    else if queriedSel == sel_roiTileIndex then pure (maybe 0 (const 1) (_roiTileIndex rec_))
-    else if queriedSel == sel_roiTileCount then pure (maybe 0 (const 1) (_roiTileCount rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

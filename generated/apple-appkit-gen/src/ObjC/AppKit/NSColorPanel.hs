@@ -28,8 +28,6 @@ module ObjC.AppKit.NSColorPanel
   , color
   , setColor
   , alpha
-  , maximumLinearExposure
-  , setMaximumLinearExposure
   , accessoryViewSelector
   , alphaSelector
   , attachColorListSelector
@@ -37,13 +35,11 @@ module ObjC.AppKit.NSColorPanel
   , continuousSelector
   , detachColorListSelector
   , dragColor_withEvent_fromViewSelector
-  , maximumLinearExposureSelector
   , modeSelector
   , setAccessoryViewSelector
   , setActionSelector
   , setColorSelector
   , setContinuousSelector
-  , setMaximumLinearExposureSelector
   , setModeSelector
   , setPickerMaskSelector
   , setPickerModeSelector
@@ -199,20 +195,6 @@ alpha :: IsNSColorPanel nsColorPanel => nsColorPanel -> IO CDouble
 alpha nsColorPanel =
   sendMessage nsColorPanel alphaSelector
 
--- | The maximum linear exposure that can be set on a color picked in the color panel. Defaults to 1 and ignores any value less than 1. If set to a value >= 2, the color picked by the panel may have a linear exposure applied to it.
---
--- ObjC selector: @- maximumLinearExposure@
-maximumLinearExposure :: IsNSColorPanel nsColorPanel => nsColorPanel -> IO CDouble
-maximumLinearExposure nsColorPanel =
-  sendMessage nsColorPanel maximumLinearExposureSelector
-
--- | The maximum linear exposure that can be set on a color picked in the color panel. Defaults to 1 and ignores any value less than 1. If set to a value >= 2, the color picked by the panel may have a linear exposure applied to it.
---
--- ObjC selector: @- setMaximumLinearExposure:@
-setMaximumLinearExposure :: IsNSColorPanel nsColorPanel => nsColorPanel -> CDouble -> IO ()
-setMaximumLinearExposure nsColorPanel value =
-  sendMessage nsColorPanel setMaximumLinearExposureSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -296,12 +278,4 @@ setColorSelector = mkSelector "setColor:"
 -- | @Selector@ for @alpha@
 alphaSelector :: Selector '[] CDouble
 alphaSelector = mkSelector "alpha"
-
--- | @Selector@ for @maximumLinearExposure@
-maximumLinearExposureSelector :: Selector '[] CDouble
-maximumLinearExposureSelector = mkSelector "maximumLinearExposure"
-
--- | @Selector@ for @setMaximumLinearExposure:@
-setMaximumLinearExposureSelector :: Selector '[CDouble] ()
-setMaximumLinearExposureSelector = mkSelector "setMaximumLinearExposure:"
 

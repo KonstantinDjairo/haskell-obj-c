@@ -54,8 +54,8 @@ module ObjC.AppKit.NSForm
   -- * Enum types
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , NSWritingDirection(NSWritingDirection)

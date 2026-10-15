@@ -14,6 +14,7 @@ import Foreign.LibFFI.FFITypes
 import Foreign.LibFFI.Internal (CType)
 import System.IO.Unsafe (unsafePerformIO)
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
+import ObjC.CoreServices.Internal.Structs
 
 -- | IOColorEntry
 --
@@ -389,6 +390,98 @@ instance ObjCArgument IOUSBBOSDescriptor where
 instance ObjCReturn IOUSBBOSDescriptor where
   type RawReturn IOUSBBOSDescriptor = IOUSBBOSDescriptor
   objcRetType = retIOUSBBOSDescriptor
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | IOUSBCompletion
+--
+-- Struct specifying action to perform when a USB I/O completes.
+--
+-- @target@ — The target to pass to the action function.
+--
+-- @action@ — The function to call.
+--
+-- @parameter@ — The parameter to pass to the action function.
+data IOUSBCompletion = IOUSBCompletion
+  { iousbCompletionTarget :: !(Ptr ())
+  , iousbCompletionAction :: !(Ptr ())
+  , iousbCompletionParameter :: !(Ptr ())
+  } deriving (Eq, Show)
+
+instance Storable IOUSBCompletion where
+  sizeOf    _ = 24
+  alignment _ = 8
+  peek p = IOUSBCompletion <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+  poke p (IOUSBCompletion {..}) = do
+    pokeByteOff p 0 iousbCompletionTarget
+    pokeByteOff p 8 iousbCompletionAction
+    pokeByteOff p 16 iousbCompletionParameter
+
+{-# NOINLINE iousbCompletionStructType #-}
+iousbCompletionStructType :: Ptr CType
+iousbCompletionStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_pointer, ffi_type_pointer, ffi_type_pointer]
+
+argIOUSBCompletion :: IOUSBCompletion -> Arg
+argIOUSBCompletion = mkStorableArg iousbCompletionStructType
+
+retIOUSBCompletion :: RetType IOUSBCompletion
+retIOUSBCompletion = mkStorableRetType iousbCompletionStructType
+
+instance ObjCArgument IOUSBCompletion where
+  withObjCArg x k = k (argIOUSBCompletion x)
+
+instance ObjCReturn IOUSBCompletion where
+  type RawReturn IOUSBCompletion = IOUSBCompletion
+  objcRetType = retIOUSBCompletion
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | IOUSBCompletionWithTimeStamp
+--
+-- Struct specifying action to perform when a USB I/O completes.
+--
+-- @target@ — The target to pass to the action function.
+--
+-- @action@ — The function to call.
+--
+-- @parameter@ — The parameter to pass to the action function.
+data IOUSBCompletionWithTimeStamp = IOUSBCompletionWithTimeStamp
+  { iousbCompletionWithTimeStampTarget :: !(Ptr ())
+  , iousbCompletionWithTimeStampAction :: !(Ptr ())
+  , iousbCompletionWithTimeStampParameter :: !(Ptr ())
+  } deriving (Eq, Show)
+
+instance Storable IOUSBCompletionWithTimeStamp where
+  sizeOf    _ = 24
+  alignment _ = 8
+  peek p = IOUSBCompletionWithTimeStamp <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+  poke p (IOUSBCompletionWithTimeStamp {..}) = do
+    pokeByteOff p 0 iousbCompletionWithTimeStampTarget
+    pokeByteOff p 8 iousbCompletionWithTimeStampAction
+    pokeByteOff p 16 iousbCompletionWithTimeStampParameter
+
+{-# NOINLINE iousbCompletionWithTimeStampStructType #-}
+iousbCompletionWithTimeStampStructType :: Ptr CType
+iousbCompletionWithTimeStampStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_pointer, ffi_type_pointer, ffi_type_pointer]
+
+argIOUSBCompletionWithTimeStamp :: IOUSBCompletionWithTimeStamp -> Arg
+argIOUSBCompletionWithTimeStamp = mkStorableArg iousbCompletionWithTimeStampStructType
+
+retIOUSBCompletionWithTimeStamp :: RetType IOUSBCompletionWithTimeStamp
+retIOUSBCompletionWithTimeStamp = mkStorableRetType iousbCompletionWithTimeStampStructType
+
+instance ObjCArgument IOUSBCompletionWithTimeStamp where
+  withObjCArg x k = k (argIOUSBCompletionWithTimeStamp x)
+
+instance ObjCReturn IOUSBCompletionWithTimeStamp where
+  type RawReturn IOUSBCompletionWithTimeStamp = IOUSBCompletionWithTimeStamp
+  objcRetType = retIOUSBCompletionWithTimeStamp
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure
@@ -1145,6 +1238,76 @@ instance ObjCReturn IOUSBEndpointDescriptor where
   fromRetained = pure
   fromOwned = pure
 
+-- | IOUSBEndpointProperties
+--
+-- Structure used with the IOUSBLib GetEndpointPropertiesV3 and GetPipePropertiesV3 API. Most of the fields are taken directly from corresponding Standard Endpoint Descriptor and SuperSpeed Endpoint Companion Descriptor. wBytesPerInterval will be synthesized for  High Speed High Bandwidth Isochronous endpoints.     bVersion  Version of the structure.  Currently kUSBEndpointPropertiesVersion3.  Need to set this when using this structure     bAlternateSetting Used as an input for GetEndpointPropertiesV3.  Used as an output for GetPipePropertiesV3     bDirection Used as an input for GetEndpointPropertiesV3.  Used as an output for GetPipePropertiesV3. One of kUSBIn or kUSBOut.     bEndpointNumber Used as an input for GetEndpointPropertiesV3.  Used as an output for GetPipePropertiesV3     bTransferType  One of kUSBControl, kUSBBulk, kUSBIsoc, or kUSBInterrupt     bUsageType  For interrupt and isoc endpoints, the usage type.  For Bulk endpoints of the UAS Mass Storage Protocol, the pipe ID.     bSyncType	For isoc endpoints only     bInterval	The bInterval field from the Standard Endpoint descriptor.     wMaxPacketSize  The meaning of this value depends on whether this is called with GetPipePropertiesV3 or GetEndpointPropertiesV3. See the documentation of those calls for more info.     bMaxBurst  For SuperSpeed endpoints, maximum number of packets the endpoint can send or receive as part of a burst     bMaxStreams  For SuperSpeed bulk endpoints, maximum number of streams this endpoint supports.     bMult  For SuperSpeed isoc endpoints, this is the mult value from the SuperSpeed Endpoint Companion Descriptor. For High Speed isoc and interrupt endpoints, this is bits 11 and 12 of the Standard Endpoint Descriptor, which represents a similar value.     wBytesPerInterval  For SuperSpeed interrupt and isoc endpoints, this is the wBytesPerInterval from the SuperSpeed Endpoint Companion Descriptor. For High Speed High Bandwidth isoc endpoints, this will be equal to wMaxPacketSize * (bMult+1).
+data IOUSBEndpointProperties = IOUSBEndpointProperties
+  { iousbEndpointPropertiesBVersion :: !CUChar
+  , iousbEndpointPropertiesBAlternateSetting :: !CUChar
+  , iousbEndpointPropertiesBDirection :: !CUChar
+  , iousbEndpointPropertiesBEndpointNumber :: !CUChar
+  , iousbEndpointPropertiesBTransferType :: !CUChar
+  , iousbEndpointPropertiesBUsageType :: !CUChar
+  , iousbEndpointPropertiesBSyncType :: !CUChar
+  , iousbEndpointPropertiesBInterval :: !CUChar
+  , iousbEndpointPropertiesWMaxPacketSize :: !CUShort
+  , iousbEndpointPropertiesBMaxBurst :: !CUChar
+  , iousbEndpointPropertiesBMaxStreams :: !CUChar
+  , iousbEndpointPropertiesBMult :: !CUChar
+  , iousbEndpointPropertiesWBytesPerInterval :: !CUShort
+  } deriving (Eq, Show)
+
+instance Storable IOUSBEndpointProperties where
+  sizeOf    _ = 16
+  alignment _ = 2
+  peek p = IOUSBEndpointProperties <$> peekByteOff p 0
+    <*> peekByteOff p 1
+    <*> peekByteOff p 2
+    <*> peekByteOff p 3
+    <*> peekByteOff p 4
+    <*> peekByteOff p 5
+    <*> peekByteOff p 6
+    <*> peekByteOff p 7
+    <*> peekByteOff p 8
+    <*> peekByteOff p 10
+    <*> peekByteOff p 11
+    <*> peekByteOff p 12
+    <*> peekByteOff p 14
+  poke p (IOUSBEndpointProperties {..}) = do
+    pokeByteOff p 0 iousbEndpointPropertiesBVersion
+    pokeByteOff p 1 iousbEndpointPropertiesBAlternateSetting
+    pokeByteOff p 2 iousbEndpointPropertiesBDirection
+    pokeByteOff p 3 iousbEndpointPropertiesBEndpointNumber
+    pokeByteOff p 4 iousbEndpointPropertiesBTransferType
+    pokeByteOff p 5 iousbEndpointPropertiesBUsageType
+    pokeByteOff p 6 iousbEndpointPropertiesBSyncType
+    pokeByteOff p 7 iousbEndpointPropertiesBInterval
+    pokeByteOff p 8 iousbEndpointPropertiesWMaxPacketSize
+    pokeByteOff p 10 iousbEndpointPropertiesBMaxBurst
+    pokeByteOff p 11 iousbEndpointPropertiesBMaxStreams
+    pokeByteOff p 12 iousbEndpointPropertiesBMult
+    pokeByteOff p 14 iousbEndpointPropertiesWBytesPerInterval
+
+{-# NOINLINE iousbEndpointPropertiesStructType #-}
+iousbEndpointPropertiesStructType :: Ptr CType
+iousbEndpointPropertiesStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint16, ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint16]
+
+argIOUSBEndpointProperties :: IOUSBEndpointProperties -> Arg
+argIOUSBEndpointProperties = mkStorableArg iousbEndpointPropertiesStructType
+
+retIOUSBEndpointProperties :: RetType IOUSBEndpointProperties
+retIOUSBEndpointProperties = mkStorableRetType iousbEndpointPropertiesStructType
+
+instance ObjCArgument IOUSBEndpointProperties where
+  withObjCArg x k = k (argIOUSBEndpointProperties x)
+
+instance ObjCReturn IOUSBEndpointProperties where
+  type RawReturn IOUSBEndpointProperties = IOUSBEndpointProperties
+  objcRetType = retIOUSBEndpointProperties
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
 -- | IOUSBHIDDescriptor
 --
 -- USB HID Descriptor.  See the USB HID Specification at             http://www.usb.org.
@@ -1349,6 +1512,279 @@ instance ObjCArgument IOUSBInterfaceDescriptor where
 instance ObjCReturn IOUSBInterfaceDescriptor where
   type RawReturn IOUSBInterfaceDescriptor = IOUSBInterfaceDescriptor
   objcRetType = retIOUSBInterfaceDescriptor
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | IOUSBIsocCompletion
+--
+-- Struct specifying action to perform when an Isochronous USB I/O completes.
+--
+-- @target@ — The target to pass to the action function.
+--
+-- @action@ — The function to call.
+--
+-- @parameter@ — The parameter to pass to the action function.
+data IOUSBIsocCompletion = IOUSBIsocCompletion
+  { iousbIsocCompletionTarget :: !(Ptr ())
+  , iousbIsocCompletionAction :: !(Ptr ())
+  , iousbIsocCompletionParameter :: !(Ptr ())
+  } deriving (Eq, Show)
+
+instance Storable IOUSBIsocCompletion where
+  sizeOf    _ = 24
+  alignment _ = 8
+  peek p = IOUSBIsocCompletion <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+  poke p (IOUSBIsocCompletion {..}) = do
+    pokeByteOff p 0 iousbIsocCompletionTarget
+    pokeByteOff p 8 iousbIsocCompletionAction
+    pokeByteOff p 16 iousbIsocCompletionParameter
+
+{-# NOINLINE iousbIsocCompletionStructType #-}
+iousbIsocCompletionStructType :: Ptr CType
+iousbIsocCompletionStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_pointer, ffi_type_pointer, ffi_type_pointer]
+
+argIOUSBIsocCompletion :: IOUSBIsocCompletion -> Arg
+argIOUSBIsocCompletion = mkStorableArg iousbIsocCompletionStructType
+
+retIOUSBIsocCompletion :: RetType IOUSBIsocCompletion
+retIOUSBIsocCompletion = mkStorableRetType iousbIsocCompletionStructType
+
+instance ObjCArgument IOUSBIsocCompletion where
+  withObjCArg x k = k (argIOUSBIsocCompletion x)
+
+instance ObjCReturn IOUSBIsocCompletion where
+  type RawReturn IOUSBIsocCompletion = IOUSBIsocCompletion
+  objcRetType = retIOUSBIsocCompletion
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | IOUSBIsocFrame
+--
+-- Structure used to encode information about each isoc frame.
+--
+-- @frStatus@ — Returns status associated with the frame.
+--
+-- @frReqCount@ — Input specifiying how many bytes to read or write.
+--
+-- @frActCount@ — Actual # of bytes transferred.
+data IOUSBIsocFrame = IOUSBIsocFrame
+  { iousbIsocFrameFrStatus :: !CInt
+  , iousbIsocFrameFrReqCount :: !CUShort
+  , iousbIsocFrameFrActCount :: !CUShort
+  } deriving (Eq, Show)
+
+instance Storable IOUSBIsocFrame where
+  sizeOf    _ = 8
+  alignment _ = 4
+  peek p = IOUSBIsocFrame <$> peekByteOff p 0
+    <*> peekByteOff p 4
+    <*> peekByteOff p 6
+  poke p (IOUSBIsocFrame {..}) = do
+    pokeByteOff p 0 iousbIsocFrameFrStatus
+    pokeByteOff p 4 iousbIsocFrameFrReqCount
+    pokeByteOff p 6 iousbIsocFrameFrActCount
+
+{-# NOINLINE iousbIsocFrameStructType #-}
+iousbIsocFrameStructType :: Ptr CType
+iousbIsocFrameStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_sint, ffi_type_uint16, ffi_type_uint16]
+
+argIOUSBIsocFrame :: IOUSBIsocFrame -> Arg
+argIOUSBIsocFrame = mkStorableArg iousbIsocFrameStructType
+
+retIOUSBIsocFrame :: RetType IOUSBIsocFrame
+retIOUSBIsocFrame = mkStorableRetType iousbIsocFrameStructType
+
+instance ObjCArgument IOUSBIsocFrame where
+  withObjCArg x k = k (argIOUSBIsocFrame x)
+
+instance ObjCReturn IOUSBIsocFrame where
+  type RawReturn IOUSBIsocFrame = IOUSBIsocFrame
+  objcRetType = retIOUSBIsocFrame
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | IOUSBLowLatencyIsocCompletion
+--
+-- Struct specifying action to perform when an Low Latency Isochronous USB I/O completes.
+--
+-- @target@ — The target to pass to the action function.
+--
+-- @action@ — The function to call.
+--
+-- @parameter@ — The parameter to pass to the action function.
+data IOUSBLowLatencyIsocCompletion = IOUSBLowLatencyIsocCompletion
+  { iousbLowLatencyIsocCompletionTarget :: !(Ptr ())
+  , iousbLowLatencyIsocCompletionAction :: !(Ptr ())
+  , iousbLowLatencyIsocCompletionParameter :: !(Ptr ())
+  } deriving (Eq, Show)
+
+instance Storable IOUSBLowLatencyIsocCompletion where
+  sizeOf    _ = 24
+  alignment _ = 8
+  peek p = IOUSBLowLatencyIsocCompletion <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+  poke p (IOUSBLowLatencyIsocCompletion {..}) = do
+    pokeByteOff p 0 iousbLowLatencyIsocCompletionTarget
+    pokeByteOff p 8 iousbLowLatencyIsocCompletionAction
+    pokeByteOff p 16 iousbLowLatencyIsocCompletionParameter
+
+{-# NOINLINE iousbLowLatencyIsocCompletionStructType #-}
+iousbLowLatencyIsocCompletionStructType :: Ptr CType
+iousbLowLatencyIsocCompletionStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_pointer, ffi_type_pointer, ffi_type_pointer]
+
+argIOUSBLowLatencyIsocCompletion :: IOUSBLowLatencyIsocCompletion -> Arg
+argIOUSBLowLatencyIsocCompletion = mkStorableArg iousbLowLatencyIsocCompletionStructType
+
+retIOUSBLowLatencyIsocCompletion :: RetType IOUSBLowLatencyIsocCompletion
+retIOUSBLowLatencyIsocCompletion = mkStorableRetType iousbLowLatencyIsocCompletionStructType
+
+instance ObjCArgument IOUSBLowLatencyIsocCompletion where
+  withObjCArg x k = k (argIOUSBLowLatencyIsocCompletion x)
+
+instance ObjCReturn IOUSBLowLatencyIsocCompletion where
+  type RawReturn IOUSBLowLatencyIsocCompletion = IOUSBLowLatencyIsocCompletion
+  objcRetType = retIOUSBLowLatencyIsocCompletion
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data IOUSBLowLatencyIsocStruct = IOUSBLowLatencyIsocStruct
+  { iousbLowLatencyIsocStructFPipe :: !CUInt
+  , iousbLowLatencyIsocStructFBufSize :: !CUInt
+  , iousbLowLatencyIsocStructFStartFrame :: !CULong
+  , iousbLowLatencyIsocStructFNumFrames :: !CUInt
+  , iousbLowLatencyIsocStructFUpdateFrequency :: !CUInt
+  , iousbLowLatencyIsocStructFDataBufferCookie :: !CUInt
+  , iousbLowLatencyIsocStructFDataBufferOffset :: !CUInt
+  , iousbLowLatencyIsocStructFFrameListBufferCookie :: !CUInt
+  , iousbLowLatencyIsocStructFFrameListBufferOffset :: !CUInt
+  } deriving (Eq, Show)
+
+instance Storable IOUSBLowLatencyIsocStruct where
+  sizeOf    _ = 40
+  alignment _ = 8
+  peek p = IOUSBLowLatencyIsocStruct <$> peekByteOff p 0
+    <*> peekByteOff p 4
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+    <*> peekByteOff p 20
+    <*> peekByteOff p 24
+    <*> peekByteOff p 28
+    <*> peekByteOff p 32
+    <*> peekByteOff p 36
+  poke p (IOUSBLowLatencyIsocStruct {..}) = do
+    pokeByteOff p 0 iousbLowLatencyIsocStructFPipe
+    pokeByteOff p 4 iousbLowLatencyIsocStructFBufSize
+    pokeByteOff p 8 iousbLowLatencyIsocStructFStartFrame
+    pokeByteOff p 16 iousbLowLatencyIsocStructFNumFrames
+    pokeByteOff p 20 iousbLowLatencyIsocStructFUpdateFrequency
+    pokeByteOff p 24 iousbLowLatencyIsocStructFDataBufferCookie
+    pokeByteOff p 28 iousbLowLatencyIsocStructFDataBufferOffset
+    pokeByteOff p 32 iousbLowLatencyIsocStructFFrameListBufferCookie
+    pokeByteOff p 36 iousbLowLatencyIsocStructFFrameListBufferOffset
+
+{-# NOINLINE iousbLowLatencyIsocStructStructType #-}
+iousbLowLatencyIsocStructStructType :: Ptr CType
+iousbLowLatencyIsocStructStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint, ffi_type_uint, ffi_type_ulong, ffi_type_uint, ffi_type_uint, ffi_type_uint, ffi_type_uint, ffi_type_uint, ffi_type_uint]
+
+argIOUSBLowLatencyIsocStruct :: IOUSBLowLatencyIsocStruct -> Arg
+argIOUSBLowLatencyIsocStruct = mkStorableArg iousbLowLatencyIsocStructStructType
+
+retIOUSBLowLatencyIsocStruct :: RetType IOUSBLowLatencyIsocStruct
+retIOUSBLowLatencyIsocStruct = mkStorableRetType iousbLowLatencyIsocStructStructType
+
+instance ObjCArgument IOUSBLowLatencyIsocStruct where
+  withObjCArg x k = k (argIOUSBLowLatencyIsocStruct x)
+
+instance ObjCReturn IOUSBLowLatencyIsocStruct where
+  type RawReturn IOUSBLowLatencyIsocStruct = IOUSBLowLatencyIsocStruct
+  objcRetType = retIOUSBLowLatencyIsocStruct
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data IOUSBMatch = IOUSBMatch
+  { iousbMatchUsbClass :: !CUShort
+  , iousbMatchUsbSubClass :: !CUShort
+  , iousbMatchUsbProtocol :: !CUShort
+  , iousbMatchUsbVendor :: !CUShort
+  , iousbMatchUsbProduct :: !CUShort
+  } deriving (Eq, Show)
+
+instance Storable IOUSBMatch where
+  sizeOf    _ = 10
+  alignment _ = 2
+  peek p = IOUSBMatch <$> peekByteOff p 0
+    <*> peekByteOff p 2
+    <*> peekByteOff p 4
+    <*> peekByteOff p 6
+    <*> peekByteOff p 8
+  poke p (IOUSBMatch {..}) = do
+    pokeByteOff p 0 iousbMatchUsbClass
+    pokeByteOff p 2 iousbMatchUsbSubClass
+    pokeByteOff p 4 iousbMatchUsbProtocol
+    pokeByteOff p 6 iousbMatchUsbVendor
+    pokeByteOff p 8 iousbMatchUsbProduct
+
+{-# NOINLINE iousbMatchStructType #-}
+iousbMatchStructType :: Ptr CType
+iousbMatchStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint16, ffi_type_uint16, ffi_type_uint16, ffi_type_uint16, ffi_type_uint16]
+
+argIOUSBMatch :: IOUSBMatch -> Arg
+argIOUSBMatch = mkStorableArg iousbMatchStructType
+
+retIOUSBMatch :: RetType IOUSBMatch
+retIOUSBMatch = mkStorableRetType iousbMatchStructType
+
+instance ObjCArgument IOUSBMatch where
+  withObjCArg x k = k (argIOUSBMatch x)
+
+instance ObjCReturn IOUSBMatch where
+  type RawReturn IOUSBMatch = IOUSBMatch
+  objcRetType = retIOUSBMatch
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data IOUSBMouseData = IOUSBMouseData
+  { iousbMouseDataButtons :: !CUShort
+  , iousbMouseDataXDelta :: !CShort
+  , iousbMouseDataYDelta :: !CShort
+  } deriving (Eq, Show)
+
+instance Storable IOUSBMouseData where
+  sizeOf    _ = 6
+  alignment _ = 2
+  peek p = IOUSBMouseData <$> peekByteOff p 0
+    <*> peekByteOff p 2
+    <*> peekByteOff p 4
+  poke p (IOUSBMouseData {..}) = do
+    pokeByteOff p 0 iousbMouseDataButtons
+    pokeByteOff p 2 iousbMouseDataXDelta
+    pokeByteOff p 4 iousbMouseDataYDelta
+
+{-# NOINLINE iousbMouseDataStructType #-}
+iousbMouseDataStructType :: Ptr CType
+iousbMouseDataStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint16, ffi_type_sint16, ffi_type_sint16]
+
+argIOUSBMouseData :: IOUSBMouseData -> Arg
+argIOUSBMouseData = mkStorableArg iousbMouseDataStructType
+
+retIOUSBMouseData :: RetType IOUSBMouseData
+retIOUSBMouseData = mkStorableRetType iousbMouseDataStructType
+
+instance ObjCArgument IOUSBMouseData where
+  withObjCArg x k = k (argIOUSBMouseData x)
+
+instance ObjCReturn IOUSBMouseData where
+  type RawReturn IOUSBMouseData = IOUSBMouseData
+  objcRetType = retIOUSBMouseData
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure
@@ -1855,6 +2291,57 @@ instance ObjCArgument UASPipeDescriptor where
 instance ObjCReturn UASPipeDescriptor where
   type RawReturn UASPipeDescriptor = UASPipeDescriptor
   objcRetType = retUASPipeDescriptor
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | IOUSBLowLatencyIsocFrame
+--
+-- Structure used to encode information about each isoc frame that is processed    at hardware interrupt time (low latency).
+--
+-- @frStatus@ — Returns status associated with the frame.
+--
+-- @frReqCount@ — Input specifiying how many bytes to read or write.
+--
+-- @frActCount@ — Actual # of bytes transferred.
+--
+-- @frTimeStamp@ — Time stamp that indicates time when frame was procesed.
+data IOUSBLowLatencyIsocFrame = IOUSBLowLatencyIsocFrame
+  { iousbLowLatencyIsocFrameFrStatus :: !CInt
+  , iousbLowLatencyIsocFrameFrReqCount :: !CUShort
+  , iousbLowLatencyIsocFrameFrActCount :: !CUShort
+  , iousbLowLatencyIsocFrameFrTimeStamp :: !AbsoluteTime
+  } deriving (Eq, Show)
+
+instance Storable IOUSBLowLatencyIsocFrame where
+  sizeOf    _ = 16
+  alignment _ = 4
+  peek p = IOUSBLowLatencyIsocFrame <$> peekByteOff p 0
+    <*> peekByteOff p 4
+    <*> peekByteOff p 6
+    <*> peekByteOff p 8
+  poke p (IOUSBLowLatencyIsocFrame {..}) = do
+    pokeByteOff p 0 iousbLowLatencyIsocFrameFrStatus
+    pokeByteOff p 4 iousbLowLatencyIsocFrameFrReqCount
+    pokeByteOff p 6 iousbLowLatencyIsocFrameFrActCount
+    pokeByteOff p 8 iousbLowLatencyIsocFrameFrTimeStamp
+
+{-# NOINLINE iousbLowLatencyIsocFrameStructType #-}
+iousbLowLatencyIsocFrameStructType :: Ptr CType
+iousbLowLatencyIsocFrameStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_sint, ffi_type_uint16, ffi_type_uint16, absoluteTimeStructType]
+
+argIOUSBLowLatencyIsocFrame :: IOUSBLowLatencyIsocFrame -> Arg
+argIOUSBLowLatencyIsocFrame = mkStorableArg iousbLowLatencyIsocFrameStructType
+
+retIOUSBLowLatencyIsocFrame :: RetType IOUSBLowLatencyIsocFrame
+retIOUSBLowLatencyIsocFrame = mkStorableRetType iousbLowLatencyIsocFrameStructType
+
+instance ObjCArgument IOUSBLowLatencyIsocFrame where
+  withObjCArg x k = k (argIOUSBLowLatencyIsocFrame x)
+
+instance ObjCReturn IOUSBLowLatencyIsocFrame where
+  type RawReturn IOUSBLowLatencyIsocFrame = IOUSBLowLatencyIsocFrame
+  objcRetType = retIOUSBLowLatencyIsocFrame
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure

@@ -3,9 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An abstract base class that represents a machine-readable code's attributes.
+-- | CIBarcodeDescriptor
 --
--- Subclasses encapsulate the formal specification and fields specific to a code type.  Each subclass is sufficient to recreate the unique symbol exactly as seen or used with a custom parser.
+-- CIBarcodeDescriptor is an abstract base class that defines an abstract representation of a machine readable code's symbol attributes.
+--
+-- Each subclass is sufficient to recreate the symbol exactly as seen or to be used with a custom parser. Subclasses of CIBarcodeDescriptor are defined for each code type to contain the formal specification of each symbology.
 --
 -- Generated bindings for @CIBarcodeDescriptor@.
 module ObjC.CoreImage.CIBarcodeDescriptor

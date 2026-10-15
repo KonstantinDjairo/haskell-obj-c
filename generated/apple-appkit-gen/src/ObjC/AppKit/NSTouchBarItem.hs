@@ -83,7 +83,7 @@ viewController nsTouchBarItem =
   sendMessage nsTouchBarItem viewControllerSelector
 
 -- | @- customizationLabel@
-customizationLabel :: IsNSTouchBarItem nsTouchBarItem => nsTouchBarItem -> IO (Id NSString)
+customizationLabel :: IsNSTouchBarItem nsTouchBarItem => nsTouchBarItem -> IO RawId
 customizationLabel nsTouchBarItem =
   sendMessage nsTouchBarItem customizationLabelSelector
 
@@ -129,7 +129,7 @@ viewControllerSelector :: Selector '[] (Id NSViewController)
 viewControllerSelector = mkSelector "viewController"
 
 -- | @Selector@ for @customizationLabel@
-customizationLabelSelector :: Selector '[] (Id NSString)
+customizationLabelSelector :: Selector '[] RawId
 customizationLabelSelector = mkSelector "customizationLabel"
 
 -- | @Selector@ for @visible@

@@ -56,27 +56,6 @@ instance IsNIConfiguration (Id NIConfiguration) where
 instance IsNSObject (Id NIConfiguration) where
   toNSObject = unsafeCastId
 
--- ---------- NIDLTDOAMeasurement ----------
-
--- | Represents a single measurement relative to a DL-TDOA anchor.
--- 
--- Phantom type for @NIDLTDOAMeasurement@.
-data NIDLTDOAMeasurement
-
-instance IsObjCObject (Id NIDLTDOAMeasurement) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NIDLTDOAMeasurement"
-
-class IsNSObject a => IsNIDLTDOAMeasurement a where
-  toNIDLTDOAMeasurement :: a -> Id NIDLTDOAMeasurement
-
-instance IsNIDLTDOAMeasurement (Id NIDLTDOAMeasurement) where
-  toNIDLTDOAMeasurement = unsafeCastId
-
-instance IsNSObject (Id NIDLTDOAMeasurement) where
-  toNSObject = unsafeCastId
-
 -- ---------- NIDiscoveryToken ----------
 
 -- | A type used to uniquely discover and identify a device in a nearby interaction session.
@@ -138,30 +117,6 @@ instance IsNISession (Id NISession) where
   toNISession = unsafeCastId
 
 instance IsNSObject (Id NISession) where
-  toNSObject = unsafeCastId
-
--- ---------- NIDLTDOAConfiguration ----------
-
--- | A session configuration that enables UWB Down Link Time Difference of Arrival(DL-TDoA) ranging with nearby anchors.
--- 
--- Phantom type for @NIDLTDOAConfiguration@.
-data NIDLTDOAConfiguration
-
-instance IsObjCObject (Id NIDLTDOAConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NIDLTDOAConfiguration"
-
-class IsNIConfiguration a => IsNIDLTDOAConfiguration a where
-  toNIDLTDOAConfiguration :: a -> Id NIDLTDOAConfiguration
-
-instance IsNIDLTDOAConfiguration (Id NIDLTDOAConfiguration) where
-  toNIDLTDOAConfiguration = unsafeCastId
-
-instance IsNIConfiguration (Id NIDLTDOAConfiguration) where
-  toNIConfiguration = unsafeCastId
-
-instance IsNSObject (Id NIDLTDOAConfiguration) where
   toNSObject = unsafeCastId
 
 -- ---------- NINearbyAccessoryConfiguration ----------

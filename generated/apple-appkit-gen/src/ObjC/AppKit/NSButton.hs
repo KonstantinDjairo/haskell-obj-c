@@ -46,12 +46,6 @@ module ObjC.AppKit.NSButton
   , setTransparent
   , showsBorderOnlyWhileMouseInside
   , setShowsBorderOnlyWhileMouseInside
-  , bezelColor
-  , setBezelColor
-  , contentTintColor
-  , setContentTintColor
-  , tintProminence
-  , setTintProminence
   , image
   , setImage
   , alternateImage
@@ -64,6 +58,10 @@ module ObjC.AppKit.NSButton
   , setImageHugsTitle
   , symbolConfiguration
   , setSymbolConfiguration
+  , bezelColor
+  , setBezelColor
+  , contentTintColor
+  , setContentTintColor
   , state
   , setState
   , allowsMixedState
@@ -73,8 +71,6 @@ module ObjC.AppKit.NSButton
   , keyEquivalentModifierMask
   , setKeyEquivalentModifierMask
   , activeCompressionOptions
-  , borderShape
-  , setBorderShape
   , activeCompressionOptionsSelector
   , allowsMixedStateSelector
   , alternateImageSelector
@@ -83,7 +79,6 @@ module ObjC.AppKit.NSButton
   , attributedTitleSelector
   , bezelColorSelector
   , bezelStyleSelector
-  , borderShapeSelector
   , borderedSelector
   , buttonWithImage_target_actionSelector
   , buttonWithTitle_image_target_actionSelector
@@ -111,7 +106,6 @@ module ObjC.AppKit.NSButton
   , setAttributedTitleSelector
   , setBezelColorSelector
   , setBezelStyleSelector
-  , setBorderShapeSelector
   , setBorderedSelector
   , setButtonTypeSelector
   , setContentTintColorSelector
@@ -130,7 +124,6 @@ module ObjC.AppKit.NSButton
   , setSpringLoadedSelector
   , setStateSelector
   , setSymbolConfigurationSelector
-  , setTintProminenceSelector
   , setTitleSelector
   , setTitleWithMnemonicSelector
   , setTransparentSelector
@@ -139,29 +132,19 @@ module ObjC.AppKit.NSButton
   , springLoadedSelector
   , stateSelector
   , symbolConfigurationSelector
-  , tintProminenceSelector
   , titleSelector
   , transparentSelector
 
   -- * Enum types
   , NSBezelStyle(NSBezelStyle)
-  , pattern NSBezelStyleAutomatic
-  , pattern NSBezelStylePush
-  , pattern NSBezelStyleFlexiblePush
-  , pattern NSBezelStyleDisclosure
-  , pattern NSBezelStyleCircular
-  , pattern NSBezelStyleHelpButton
-  , pattern NSBezelStyleSmallSquare
-  , pattern NSBezelStyleToolbar
-  , pattern NSBezelStyleAccessoryBarAction
-  , pattern NSBezelStyleAccessoryBar
-  , pattern NSBezelStylePushDisclosure
-  , pattern NSBezelStyleBadge
-  , pattern NSBezelStyleGlass
-  , pattern NSBezelStyleShadowlessSquare
-  , pattern NSBezelStyleTexturedSquare
   , pattern NSBezelStyleRounded
   , pattern NSBezelStyleRegularSquare
+  , pattern NSBezelStyleDisclosure
+  , pattern NSBezelStyleShadowlessSquare
+  , pattern NSBezelStyleCircular
+  , pattern NSBezelStyleTexturedSquare
+  , pattern NSBezelStyleHelpButton
+  , pattern NSBezelStyleSmallSquare
   , pattern NSBezelStyleTexturedRounded
   , pattern NSBezelStyleRoundRect
   , pattern NSBezelStyleRecessed
@@ -188,11 +171,6 @@ module ObjC.AppKit.NSButton
   , pattern NSImageOverlaps
   , pattern NSImageLeading
   , pattern NSImageTrailing
-  , NSControlBorderShape(NSControlBorderShape)
-  , pattern NSControlBorderShapeAutomatic
-  , pattern NSControlBorderShapeCapsule
-  , pattern NSControlBorderShapeRoundedRectangle
-  , pattern NSControlBorderShapeCircle
   , NSEventModifierFlags(NSEventModifierFlags)
   , pattern NSEventModifierFlagCapsLock
   , pattern NSEventModifierFlagShift
@@ -211,11 +189,6 @@ module ObjC.AppKit.NSButton
   , pattern NSScaleProportionally
   , pattern NSScaleToFit
   , pattern NSScaleNone
-  , NSTintProminence(NSTintProminence)
-  , pattern NSTintProminenceAutomatic
-  , pattern NSTintProminenceNone
-  , pattern NSTintProminencePrimary
-  , pattern NSTintProminenceSecondary
 
   ) where
 
@@ -540,48 +513,6 @@ setShowsBorderOnlyWhileMouseInside :: IsNSButton nsButton => nsButton -> Bool ->
 setShowsBorderOnlyWhileMouseInside nsButton value =
   sendMessage nsButton setShowsBorderOnlyWhileMouseInsideSelector value
 
--- | Applies a custom color to the button's bezel, in appearances that support it. A nil value indicates an unmodified button appearance. The default value is nil.
---
--- ObjC selector: @- bezelColor@
-bezelColor :: IsNSButton nsButton => nsButton -> IO (Id NSColor)
-bezelColor nsButton =
-  sendMessage nsButton bezelColorSelector
-
--- | Applies a custom color to the button's bezel, in appearances that support it. A nil value indicates an unmodified button appearance. The default value is nil.
---
--- ObjC selector: @- setBezelColor:@
-setBezelColor :: (IsNSButton nsButton, IsNSColor value) => nsButton -> value -> IO ()
-setBezelColor nsButton value =
-  sendMessage nsButton setBezelColorSelector (toNSColor value)
-
--- | Applies a tint color to template image and text content, in combination with other theme-appropriate effects. Only applicable to borderless buttons. A nil value indicates the standard set of effects without color modification. The default value is nil. Non-template images and attributed string values are not affected by the contentTintColor.
---
--- ObjC selector: @- contentTintColor@
-contentTintColor :: IsNSButton nsButton => nsButton -> IO (Id NSColor)
-contentTintColor nsButton =
-  sendMessage nsButton contentTintColorSelector
-
--- | Applies a tint color to template image and text content, in combination with other theme-appropriate effects. Only applicable to borderless buttons. A nil value indicates the standard set of effects without color modification. The default value is nil. Non-template images and attributed string values are not affected by the contentTintColor.
---
--- ObjC selector: @- setContentTintColor:@
-setContentTintColor :: (IsNSButton nsButton, IsNSColor value) => nsButton -> value -> IO ()
-setContentTintColor nsButton value =
-  sendMessage nsButton setContentTintColorSelector (toNSColor value)
-
--- | The tint prominence of the button. Use tint prominence to gently suggest a hierarchy when multiple buttons perform similar actions. A button with primary tint prominence suggests the most preferred option, while secondary prominence indicates a reasonable alternative. See ``NSTintProminence`` for a list of possible values.
---
--- ObjC selector: @- tintProminence@
-tintProminence :: IsNSButton nsButton => nsButton -> IO NSTintProminence
-tintProminence nsButton =
-  sendMessage nsButton tintProminenceSelector
-
--- | The tint prominence of the button. Use tint prominence to gently suggest a hierarchy when multiple buttons perform similar actions. A button with primary tint prominence suggests the most preferred option, while secondary prominence indicates a reasonable alternative. See ``NSTintProminence`` for a list of possible values.
---
--- ObjC selector: @- setTintProminence:@
-setTintProminence :: IsNSButton nsButton => nsButton -> NSTintProminence -> IO ()
-setTintProminence nsButton value =
-  sendMessage nsButton setTintProminenceSelector value
-
 -- | The image that appears on the button when it’s in an off state, or nil if there is no such image.
 --
 -- ObjC selector: @- image@
@@ -655,16 +586,44 @@ setImageHugsTitle nsButton value =
 -- | Specifies a combination of point size, weight, and scale to use when sizing and displaying symbol images. If a symbol configuration isn't provided, the symbol is matched to the button's @font@ property. The default value is nil.
 --
 -- ObjC selector: @- symbolConfiguration@
-symbolConfiguration :: IsNSButton nsButton => nsButton -> IO (Id NSImageSymbolConfiguration)
+symbolConfiguration :: IsNSButton nsButton => nsButton -> IO RawId
 symbolConfiguration nsButton =
   sendMessage nsButton symbolConfigurationSelector
 
 -- | Specifies a combination of point size, weight, and scale to use when sizing and displaying symbol images. If a symbol configuration isn't provided, the symbol is matched to the button's @font@ property. The default value is nil.
 --
 -- ObjC selector: @- setSymbolConfiguration:@
-setSymbolConfiguration :: (IsNSButton nsButton, IsNSImageSymbolConfiguration value) => nsButton -> value -> IO ()
+setSymbolConfiguration :: IsNSButton nsButton => nsButton -> RawId -> IO ()
 setSymbolConfiguration nsButton value =
-  sendMessage nsButton setSymbolConfigurationSelector (toNSImageSymbolConfiguration value)
+  sendMessage nsButton setSymbolConfigurationSelector value
+
+-- | Applies a custom color to the button's bezel, in appearances that support it. A nil value indicates an unmodified button appearance. The default value is nil.
+--
+-- ObjC selector: @- bezelColor@
+bezelColor :: IsNSButton nsButton => nsButton -> IO RawId
+bezelColor nsButton =
+  sendMessage nsButton bezelColorSelector
+
+-- | Applies a custom color to the button's bezel, in appearances that support it. A nil value indicates an unmodified button appearance. The default value is nil.
+--
+-- ObjC selector: @- setBezelColor:@
+setBezelColor :: IsNSButton nsButton => nsButton -> RawId -> IO ()
+setBezelColor nsButton value =
+  sendMessage nsButton setBezelColorSelector value
+
+-- | Applies a tint color to template image and text content, in combination with other theme-appropriate effects. Only applicable to borderless buttons. A nil value indicates the standard set of effects without color modification. The default value is nil. Non-template images and attributed string values are not affected by the contentTintColor.
+--
+-- ObjC selector: @- contentTintColor@
+contentTintColor :: IsNSButton nsButton => nsButton -> IO RawId
+contentTintColor nsButton =
+  sendMessage nsButton contentTintColorSelector
+
+-- | Applies a tint color to template image and text content, in combination with other theme-appropriate effects. Only applicable to borderless buttons. A nil value indicates the standard set of effects without color modification. The default value is nil. Non-template images and attributed string values are not affected by the contentTintColor.
+--
+-- ObjC selector: @- setContentTintColor:@
+setContentTintColor :: IsNSButton nsButton => nsButton -> RawId -> IO ()
+setContentTintColor nsButton value =
+  sendMessage nsButton setContentTintColorSelector value
 
 -- | The button's state. Buttons support the off and on states, and an additional mixed state depending on the value of the @allowsMixedState@ property.
 --
@@ -723,19 +682,9 @@ setKeyEquivalentModifierMask nsButton value =
   sendMessage nsButton setKeyEquivalentModifierMaskSelector value
 
 -- | @- activeCompressionOptions@
-activeCompressionOptions :: IsNSButton nsButton => nsButton -> IO (Id NSUserInterfaceCompressionOptions)
+activeCompressionOptions :: IsNSButton nsButton => nsButton -> IO RawId
 activeCompressionOptions nsButton =
   sendMessage nsButton activeCompressionOptionsSelector
-
--- | @- borderShape@
-borderShape :: IsNSButton nsButton => nsButton -> IO NSControlBorderShape
-borderShape nsButton =
-  sendMessage nsButton borderShapeSelector
-
--- | @- setBorderShape:@
-setBorderShape :: IsNSButton nsButton => nsButton -> NSControlBorderShape -> IO ()
-setBorderShape nsButton value =
-  sendMessage nsButton setBorderShapeSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -893,30 +842,6 @@ showsBorderOnlyWhileMouseInsideSelector = mkSelector "showsBorderOnlyWhileMouseI
 setShowsBorderOnlyWhileMouseInsideSelector :: Selector '[Bool] ()
 setShowsBorderOnlyWhileMouseInsideSelector = mkSelector "setShowsBorderOnlyWhileMouseInside:"
 
--- | @Selector@ for @bezelColor@
-bezelColorSelector :: Selector '[] (Id NSColor)
-bezelColorSelector = mkSelector "bezelColor"
-
--- | @Selector@ for @setBezelColor:@
-setBezelColorSelector :: Selector '[Id NSColor] ()
-setBezelColorSelector = mkSelector "setBezelColor:"
-
--- | @Selector@ for @contentTintColor@
-contentTintColorSelector :: Selector '[] (Id NSColor)
-contentTintColorSelector = mkSelector "contentTintColor"
-
--- | @Selector@ for @setContentTintColor:@
-setContentTintColorSelector :: Selector '[Id NSColor] ()
-setContentTintColorSelector = mkSelector "setContentTintColor:"
-
--- | @Selector@ for @tintProminence@
-tintProminenceSelector :: Selector '[] NSTintProminence
-tintProminenceSelector = mkSelector "tintProminence"
-
--- | @Selector@ for @setTintProminence:@
-setTintProminenceSelector :: Selector '[NSTintProminence] ()
-setTintProminenceSelector = mkSelector "setTintProminence:"
-
 -- | @Selector@ for @image@
 imageSelector :: Selector '[] (Id NSImage)
 imageSelector = mkSelector "image"
@@ -958,12 +883,28 @@ setImageHugsTitleSelector :: Selector '[Bool] ()
 setImageHugsTitleSelector = mkSelector "setImageHugsTitle:"
 
 -- | @Selector@ for @symbolConfiguration@
-symbolConfigurationSelector :: Selector '[] (Id NSImageSymbolConfiguration)
+symbolConfigurationSelector :: Selector '[] RawId
 symbolConfigurationSelector = mkSelector "symbolConfiguration"
 
 -- | @Selector@ for @setSymbolConfiguration:@
-setSymbolConfigurationSelector :: Selector '[Id NSImageSymbolConfiguration] ()
+setSymbolConfigurationSelector :: Selector '[RawId] ()
 setSymbolConfigurationSelector = mkSelector "setSymbolConfiguration:"
+
+-- | @Selector@ for @bezelColor@
+bezelColorSelector :: Selector '[] RawId
+bezelColorSelector = mkSelector "bezelColor"
+
+-- | @Selector@ for @setBezelColor:@
+setBezelColorSelector :: Selector '[RawId] ()
+setBezelColorSelector = mkSelector "setBezelColor:"
+
+-- | @Selector@ for @contentTintColor@
+contentTintColorSelector :: Selector '[] RawId
+contentTintColorSelector = mkSelector "contentTintColor"
+
+-- | @Selector@ for @setContentTintColor:@
+setContentTintColorSelector :: Selector '[RawId] ()
+setContentTintColorSelector = mkSelector "setContentTintColor:"
 
 -- | @Selector@ for @state@
 stateSelector :: Selector '[] CLong
@@ -998,14 +939,6 @@ setKeyEquivalentModifierMaskSelector :: Selector '[NSEventModifierFlags] ()
 setKeyEquivalentModifierMaskSelector = mkSelector "setKeyEquivalentModifierMask:"
 
 -- | @Selector@ for @activeCompressionOptions@
-activeCompressionOptionsSelector :: Selector '[] (Id NSUserInterfaceCompressionOptions)
+activeCompressionOptionsSelector :: Selector '[] RawId
 activeCompressionOptionsSelector = mkSelector "activeCompressionOptions"
-
--- | @Selector@ for @borderShape@
-borderShapeSelector :: Selector '[] NSControlBorderShape
-borderShapeSelector = mkSelector "borderShape"
-
--- | @Selector@ for @setBorderShape:@
-setBorderShapeSelector :: Selector '[NSControlBorderShape] ()
-setBorderShapeSelector = mkSelector "setBorderShape:"
 

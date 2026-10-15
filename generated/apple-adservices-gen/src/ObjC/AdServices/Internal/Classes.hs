@@ -18,7 +18,9 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- AAAttribution ----------
 
--- | The parent class that the framework uses to request a token.
+-- | AAAttribution
+--
+-- This class contains a method that generates a token used to obtain the app's attribution from Apple’s Attribution Server.
 -- 
 -- Phantom type for @AAAttribution@.
 data AAAttribution

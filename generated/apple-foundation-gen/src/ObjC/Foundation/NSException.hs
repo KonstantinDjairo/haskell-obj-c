@@ -11,7 +11,6 @@ module ObjC.Foundation.NSException
   , initWithName_reason_userInfo
   , raise
   , raise_format
-  , raise_format_arguments
   , name
   , reason
   , userInfo
@@ -24,7 +23,6 @@ module ObjC.Foundation.NSException
   , nameSelector
   , raiseSelector
   , raise_formatSelector
-  , raise_format_argumentsSelector
   , reasonSelector
   , userInfoSelector
 
@@ -64,13 +62,6 @@ raise_format name format =
   do
     cls' <- getRequiredClass "NSException"
     sendClassMessage cls' raise_formatSelector (toNSString name) (toNSString format)
-
--- | @+ raise:format:arguments:@
-raise_format_arguments :: (IsNSString name, IsNSString format) => name -> format -> RawId -> IO ()
-raise_format_arguments name format argList =
-  do
-    cls' <- getRequiredClass "NSException"
-    sendClassMessage cls' raise_format_argumentsSelector (toNSString name) (toNSString format) argList
 
 -- | @- name@
 name :: IsNSException nsException => nsException -> IO (Id NSString)
@@ -116,10 +107,6 @@ raiseSelector = mkSelector "raise"
 -- | @Selector@ for @raise:format:@
 raise_formatSelector :: Selector '[Id NSString, Id NSString] ()
 raise_formatSelector = mkSelector "raise:format:"
-
--- | @Selector@ for @raise:format:arguments:@
-raise_format_argumentsSelector :: Selector '[Id NSString, Id NSString, RawId] ()
-raise_format_argumentsSelector = mkSelector "raise:format:arguments:"
 
 -- | @Selector@ for @name@
 nameSelector :: Selector '[] (Id NSString)

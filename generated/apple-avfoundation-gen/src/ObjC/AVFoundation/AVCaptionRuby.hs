@@ -4,11 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVCaptionRuby
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVCaptionRuby@.
+-- | Generated bindings for @AVCaptionRuby@.
 module ObjC.AVFoundation.AVCaptionRuby
   ( AVCaptionRuby
   , IsAVCaptionRuby(..)

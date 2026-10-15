@@ -13,6 +13,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -20,8 +21,6 @@ library:
   - ObjC.NaturalLanguage.Enums
   - ObjC.NaturalLanguage.Internal.Classes
   - ObjC.NaturalLanguage.Internal.Enums
-  - ObjC.NaturalLanguage.NLContextualEmbedding
-  - ObjC.NaturalLanguage.NLContextualEmbeddingResult
   - ObjC.NaturalLanguage.NLEmbedding
   - ObjC.NaturalLanguage.NLGazetteer
   - ObjC.NaturalLanguage.NLLanguageRecognizer

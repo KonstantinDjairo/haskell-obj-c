@@ -148,12 +148,6 @@ pattern PHAssetCollectionSubtypeSmartAlbumRAW = PHAssetCollectionSubtype 217
 pattern PHAssetCollectionSubtypeSmartAlbumCinematic :: PHAssetCollectionSubtype
 pattern PHAssetCollectionSubtypeSmartAlbumCinematic = PHAssetCollectionSubtype 218
 
-pattern PHAssetCollectionSubtypeSmartAlbumSpatial :: PHAssetCollectionSubtype
-pattern PHAssetCollectionSubtypeSmartAlbumSpatial = PHAssetCollectionSubtype 219
-
-pattern PHAssetCollectionSubtypeSmartAlbumScreenRecordings :: PHAssetCollectionSubtype
-pattern PHAssetCollectionSubtypeSmartAlbumScreenRecordings = PHAssetCollectionSubtype 220
-
 pattern PHAssetCollectionSubtypeAny :: PHAssetCollectionSubtype
 pattern PHAssetCollectionSubtypeAny = PHAssetCollectionSubtype 9223372036854775807
 
@@ -244,9 +238,6 @@ pattern PHAssetMediaSubtypePhotoLive = PHAssetMediaSubtype 8
 pattern PHAssetMediaSubtypePhotoDepthEffect :: PHAssetMediaSubtype
 pattern PHAssetMediaSubtypePhotoDepthEffect = PHAssetMediaSubtype 16
 
-pattern PHAssetMediaSubtypeSpatialMedia :: PHAssetMediaSubtype
-pattern PHAssetMediaSubtypeSpatialMedia = PHAssetMediaSubtype 1024
-
 pattern PHAssetMediaSubtypeVideoStreamed :: PHAssetMediaSubtype
 pattern PHAssetMediaSubtypeVideoStreamed = PHAssetMediaSubtype 65536
 
@@ -255,9 +246,6 @@ pattern PHAssetMediaSubtypeVideoHighFrameRate = PHAssetMediaSubtype 131072
 
 pattern PHAssetMediaSubtypeVideoTimelapse :: PHAssetMediaSubtype
 pattern PHAssetMediaSubtypeVideoTimelapse = PHAssetMediaSubtype 262144
-
-pattern PHAssetMediaSubtypeVideoScreenRecording :: PHAssetMediaSubtype
-pattern PHAssetMediaSubtypeVideoScreenRecording = PHAssetMediaSubtype 524288
 
 pattern PHAssetMediaSubtypeVideoCinematic :: PHAssetMediaSubtype
 pattern PHAssetMediaSubtypeVideoCinematic = PHAssetMediaSubtype 2097152
@@ -373,9 +361,6 @@ pattern PHAssetResourceTypeAdjustmentBasePairedVideo = PHAssetResourceType 11
 pattern PHAssetResourceTypeAdjustmentBaseVideo :: PHAssetResourceType
 pattern PHAssetResourceTypeAdjustmentBaseVideo = PHAssetResourceType 12
 
-pattern PHAssetResourceTypePhotoProxy :: PHAssetResourceType
-pattern PHAssetResourceTypePhotoProxy = PHAssetResourceType 19
-
 instance ObjCArgument PHAssetResourceType where
   withObjCArg (PHAssetResourceType x) k = k (argCLong x)
 
@@ -385,58 +370,6 @@ instance ObjCReturn PHAssetResourceType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (PHAssetResourceType x)
   fromOwned x = pure (PHAssetResourceType x)
-
--- | An action to perform on an upload job.
---
--- Determine the available jobs for an action by calling the ``PHAssetResourceUploadJob/fetchJobsWithAction:options:`` method.
--- | @PHAssetResourceUploadJobAction@
-newtype PHAssetResourceUploadJobAction = PHAssetResourceUploadJobAction CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PHAssetResourceUploadJobActionAcknowledge :: PHAssetResourceUploadJobAction
-pattern PHAssetResourceUploadJobActionAcknowledge = PHAssetResourceUploadJobAction 1
-
-pattern PHAssetResourceUploadJobActionRetry :: PHAssetResourceUploadJobAction
-pattern PHAssetResourceUploadJobActionRetry = PHAssetResourceUploadJobAction 2
-
-instance ObjCArgument PHAssetResourceUploadJobAction where
-  withObjCArg (PHAssetResourceUploadJobAction x) k = k (argCLong x)
-
-instance ObjCReturn PHAssetResourceUploadJobAction where
-  type RawReturn PHAssetResourceUploadJobAction = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PHAssetResourceUploadJobAction x)
-  fromOwned x = pure (PHAssetResourceUploadJobAction x)
-
--- | The states of an upload job.
--- | @PHAssetResourceUploadJobState@
-newtype PHAssetResourceUploadJobState = PHAssetResourceUploadJobState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PHAssetResourceUploadJobStateRegistered :: PHAssetResourceUploadJobState
-pattern PHAssetResourceUploadJobStateRegistered = PHAssetResourceUploadJobState 1
-
-pattern PHAssetResourceUploadJobStatePending :: PHAssetResourceUploadJobState
-pattern PHAssetResourceUploadJobStatePending = PHAssetResourceUploadJobState 2
-
-pattern PHAssetResourceUploadJobStateFailed :: PHAssetResourceUploadJobState
-pattern PHAssetResourceUploadJobStateFailed = PHAssetResourceUploadJobState 3
-
-pattern PHAssetResourceUploadJobStateSucceeded :: PHAssetResourceUploadJobState
-pattern PHAssetResourceUploadJobStateSucceeded = PHAssetResourceUploadJobState 4
-
-instance ObjCArgument PHAssetResourceUploadJobState where
-  withObjCArg (PHAssetResourceUploadJobState x) k = k (argCLong x)
-
-instance ObjCReturn PHAssetResourceUploadJobState where
-  type RawReturn PHAssetResourceUploadJobState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PHAssetResourceUploadJobState x)
-  fromOwned x = pure (PHAssetResourceUploadJobState x)
 
 -- | @PHAssetSourceType@ (bitmask)
 newtype PHAssetSourceType = PHAssetSourceType CULong
@@ -807,9 +740,6 @@ pattern PHPhotosErrorNotEnoughSpace = PHPhotosError 3305
 
 pattern PHPhotosErrorRequestNotSupportedForAsset :: PHPhotosError
 pattern PHPhotosErrorRequestNotSupportedForAsset = PHPhotosError 3306
-
-pattern PHPhotosErrorLimitExceeded :: PHPhotosError
-pattern PHPhotosErrorLimitExceeded = PHPhotosError 3307
 
 pattern PHPhotosErrorAccessRestricted :: PHPhotosError
 pattern PHPhotosErrorAccessRestricted = PHPhotosError 3310

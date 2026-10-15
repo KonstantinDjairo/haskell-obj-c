@@ -8,10 +8,6 @@
 module ObjC.AppKit.NSPopUpButton
   ( NSPopUpButton
   , IsNSPopUpButton(..)
-  , popUpButtonWithMenu_target_action
-  , pullDownButtonWithTitle_menu
-  , pullDownButtonWithImage_menu
-  , pullDownButtonWithTitle_image_menu
   , initWithFrame_pullsDown
   , addItemWithTitle
   , addItemsWithTitles
@@ -41,10 +37,6 @@ module ObjC.AppKit.NSPopUpButton
   , setAutoenablesItems
   , preferredEdge
   , setPreferredEdge
-  , usesItemFromMenu
-  , setUsesItemFromMenu
-  , altersStateOfSelectedItem
-  , setAltersStateOfSelectedItem
   , itemArray
   , numberOfItems
   , lastItem
@@ -55,7 +47,6 @@ module ObjC.AppKit.NSPopUpButton
   , titleOfSelectedItem
   , addItemWithTitleSelector
   , addItemsWithTitlesSelector
-  , altersStateOfSelectedItemSelector
   , autoenablesItemsSelector
   , indexOfItemSelector
   , indexOfItemWithRepresentedObjectSelector
@@ -73,11 +64,7 @@ module ObjC.AppKit.NSPopUpButton
   , lastItemSelector
   , menuSelector
   , numberOfItemsSelector
-  , popUpButtonWithMenu_target_actionSelector
   , preferredEdgeSelector
-  , pullDownButtonWithImage_menuSelector
-  , pullDownButtonWithTitle_image_menuSelector
-  , pullDownButtonWithTitle_menuSelector
   , pullsDownSelector
   , removeAllItemsSelector
   , removeItemAtIndexSelector
@@ -88,16 +75,13 @@ module ObjC.AppKit.NSPopUpButton
   , selectItemWithTitleSelector
   , selectedItemSelector
   , selectedTagSelector
-  , setAltersStateOfSelectedItemSelector
   , setAutoenablesItemsSelector
   , setMenuSelector
   , setPreferredEdgeSelector
   , setPullsDownSelector
   , setTitleSelector
-  , setUsesItemFromMenuSelector
   , synchronizeTitleAndSelectedItemSelector
   , titleOfSelectedItemSelector
-  , usesItemFromMenuSelector
 
   -- * Enum types
   , NSRectEdge(NSRectEdge)
@@ -124,78 +108,6 @@ import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Structs
 import ObjC.Foundation.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | Creates a standard pop-up button with a menu, target, and action.
---
--- @menu@ — A menu presented by the pop-up button, containing items that the user can choose between.
---
--- @target@ — The target object that receives action messages from the control.
---
--- @action@ — The action message sent by the control.
---
--- If @menu@ is non-empty, the pop-up button uses the first item for its initial selection.
---
--- Returns: An initialized pop-up button object.
---
--- ObjC selector: @+ popUpButtonWithMenu:target:action:@
-popUpButtonWithMenu_target_action :: IsNSMenu menu => menu -> RawId -> Sel -> IO (Id NSPopUpButton)
-popUpButtonWithMenu_target_action menu target action =
-  do
-    cls' <- getRequiredClass "NSPopUpButton"
-    sendClassMessage cls' popUpButtonWithMenu_target_actionSelector (toNSMenu menu) target action
-
--- | Creates a standard pull-down button with a title and menu.
---
--- @title@ — The localized title string that is displayed on the button.
---
--- @menu@ — The pull-down menu to present when interacting with the button.
---
--- Pull-down buttons created using this method have the @usesItemFromMenu@ property set to @NO@.
---
--- Returns: An initialized pull-down button object.
---
--- ObjC selector: @+ pullDownButtonWithTitle:menu:@
-pullDownButtonWithTitle_menu :: (IsNSString title, IsNSMenu menu) => title -> menu -> IO (Id NSPopUpButton)
-pullDownButtonWithTitle_menu title menu =
-  do
-    cls' <- getRequiredClass "NSPopUpButton"
-    sendClassMessage cls' pullDownButtonWithTitle_menuSelector (toNSString title) (toNSMenu menu)
-
--- | Creates a standard pull-down button with an image and menu.
---
--- @image@ — The icon that is displayed on the button.
---
--- @menu@ — The pull-down menu to present when interacting with the button.
---
--- Pull-down buttons created using this method have the @usesItemFromMenu@ property set to @NO@.
---
--- Returns: An initialized pull-down button object.
---
--- ObjC selector: @+ pullDownButtonWithImage:menu:@
-pullDownButtonWithImage_menu :: (IsNSImage image, IsNSMenu menu) => image -> menu -> IO (Id NSPopUpButton)
-pullDownButtonWithImage_menu image menu =
-  do
-    cls' <- getRequiredClass "NSPopUpButton"
-    sendClassMessage cls' pullDownButtonWithImage_menuSelector (toNSImage image) (toNSMenu menu)
-
--- | Creates a standard pull-down button with a title, image, and menu.
---
--- @title@ — The localized title string that is displayed on the button.
---
--- @image@ — The icon that is displayed on the button.
---
--- @menu@ — The pull-down menu to present when interacting with the button.
---
--- Pull-down buttons created using this method have the @usesItemFromMenu@ property set to @NO@.
---
--- Returns: An initialized pull-down button object.
---
--- ObjC selector: @+ pullDownButtonWithTitle:image:menu:@
-pullDownButtonWithTitle_image_menu :: (IsNSString title, IsNSImage image, IsNSMenu menu) => title -> image -> menu -> IO (Id NSPopUpButton)
-pullDownButtonWithTitle_image_menu title image menu =
-  do
-    cls' <- getRequiredClass "NSPopUpButton"
-    sendClassMessage cls' pullDownButtonWithTitle_image_menuSelector (toNSString title) (toNSImage image) (toNSMenu menu)
 
 -- | @- initWithFrame:pullsDown:@
 initWithFrame_pullsDown :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> NSRect -> Bool -> IO (Id NSPopUpButton)
@@ -302,89 +214,45 @@ itemTitleAtIndex :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> CLong -> I
 itemTitleAtIndex nsPopUpButton index =
   sendMessage nsPopUpButton itemTitleAtIndexSelector index
 
--- | The menu that is presented by the popup button. This overrides the inherited NSView property and replaces NSView's standard context menu behavior.
---
--- ObjC selector: @- menu@
+-- | @- menu@
 menu :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> IO (Id NSMenu)
 menu nsPopUpButton =
   sendMessage nsPopUpButton menuSelector
 
--- | The menu that is presented by the popup button. This overrides the inherited NSView property and replaces NSView's standard context menu behavior.
---
--- ObjC selector: @- setMenu:@
+-- | @- setMenu:@
 setMenu :: (IsNSPopUpButton nsPopUpButton, IsNSMenu value) => nsPopUpButton -> value -> IO ()
 setMenu nsPopUpButton value =
   sendMessage nsPopUpButton setMenuSelector (toNSMenu value)
 
--- | When the value of this property is @YES@ the button adopts 'pull-down' behavior, displaying static button contents and presenting its menu at the edge of the button. When the value of this property is @NO@ the button behaves as a popup, displaying the currently-selected menu item and presenting its menu above the button, positioning the selected menu item to match the button's contents.
---
--- ObjC selector: @- pullsDown@
+-- | @- pullsDown@
 pullsDown :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> IO Bool
 pullsDown nsPopUpButton =
   sendMessage nsPopUpButton pullsDownSelector
 
--- | When the value of this property is @YES@ the button adopts 'pull-down' behavior, displaying static button contents and presenting its menu at the edge of the button. When the value of this property is @NO@ the button behaves as a popup, displaying the currently-selected menu item and presenting its menu above the button, positioning the selected menu item to match the button's contents.
---
--- ObjC selector: @- setPullsDown:@
+-- | @- setPullsDown:@
 setPullsDown :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> Bool -> IO ()
 setPullsDown nsPopUpButton value =
   sendMessage nsPopUpButton setPullsDownSelector value
 
--- | When the value of this property is @YES@, the popup button automatically enables and disables its menu items according to the @NSMenuValidation@ protocol prior to user interaction.
---
--- ObjC selector: @- autoenablesItems@
+-- | @- autoenablesItems@
 autoenablesItems :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> IO Bool
 autoenablesItems nsPopUpButton =
   sendMessage nsPopUpButton autoenablesItemsSelector
 
--- | When the value of this property is @YES@, the popup button automatically enables and disables its menu items according to the @NSMenuValidation@ protocol prior to user interaction.
---
--- ObjC selector: @- setAutoenablesItems:@
+-- | @- setAutoenablesItems:@
 setAutoenablesItems :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> Bool -> IO ()
 setAutoenablesItems nsPopUpButton value =
   sendMessage nsPopUpButton setAutoenablesItemsSelector value
 
--- | For pull-down buttons and for popups under severe screen position restrictions, this property specifies the edge of the control that the menu should present from.
---
--- ObjC selector: @- preferredEdge@
+-- | @- preferredEdge@
 preferredEdge :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> IO NSRectEdge
 preferredEdge nsPopUpButton =
   sendMessage nsPopUpButton preferredEdgeSelector
 
--- | For pull-down buttons and for popups under severe screen position restrictions, this property specifies the edge of the control that the menu should present from.
---
--- ObjC selector: @- setPreferredEdge:@
+-- | @- setPreferredEdge:@
 setPreferredEdge :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> NSRectEdge -> IO ()
 setPreferredEdge nsPopUpButton value =
   sendMessage nsPopUpButton setPreferredEdgeSelector value
-
--- | When @usesItemFromMenu@ is @YES@, a pull-down button uses the title of the first menu item and hides the first menu item. A pop-up button uses the title of the currently selected menu. The default value is @YES@.
---
--- ObjC selector: @- usesItemFromMenu@
-usesItemFromMenu :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> IO Bool
-usesItemFromMenu nsPopUpButton =
-  sendMessage nsPopUpButton usesItemFromMenuSelector
-
--- | When @usesItemFromMenu@ is @YES@, a pull-down button uses the title of the first menu item and hides the first menu item. A pop-up button uses the title of the currently selected menu. The default value is @YES@.
---
--- ObjC selector: @- setUsesItemFromMenu:@
-setUsesItemFromMenu :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> Bool -> IO ()
-setUsesItemFromMenu nsPopUpButton value =
-  sendMessage nsPopUpButton setUsesItemFromMenuSelector value
-
--- | When the value of this property is @YES@, the selected menu item's @state@ is set to @NSControlStateValueOn@. When the value of this property is @NO@, the menu item's @state@ is not changed. When this property changes, the @state@ of the currently selected item is updated appropriately. This property is ignored for pull-down buttons.
---
--- ObjC selector: @- altersStateOfSelectedItem@
-altersStateOfSelectedItem :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> IO Bool
-altersStateOfSelectedItem nsPopUpButton =
-  sendMessage nsPopUpButton altersStateOfSelectedItemSelector
-
--- | When the value of this property is @YES@, the selected menu item's @state@ is set to @NSControlStateValueOn@. When the value of this property is @NO@, the menu item's @state@ is not changed. When this property changes, the @state@ of the currently selected item is updated appropriately. This property is ignored for pull-down buttons.
---
--- ObjC selector: @- setAltersStateOfSelectedItem:@
-setAltersStateOfSelectedItem :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> Bool -> IO ()
-setAltersStateOfSelectedItem nsPopUpButton value =
-  sendMessage nsPopUpButton setAltersStateOfSelectedItemSelector value
 
 -- | @- itemArray@
 itemArray :: IsNSPopUpButton nsPopUpButton => nsPopUpButton -> IO (Id NSArray)
@@ -429,22 +297,6 @@ titleOfSelectedItem nsPopUpButton =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @popUpButtonWithMenu:target:action:@
-popUpButtonWithMenu_target_actionSelector :: Selector '[Id NSMenu, RawId, Sel] (Id NSPopUpButton)
-popUpButtonWithMenu_target_actionSelector = mkSelector "popUpButtonWithMenu:target:action:"
-
--- | @Selector@ for @pullDownButtonWithTitle:menu:@
-pullDownButtonWithTitle_menuSelector :: Selector '[Id NSString, Id NSMenu] (Id NSPopUpButton)
-pullDownButtonWithTitle_menuSelector = mkSelector "pullDownButtonWithTitle:menu:"
-
--- | @Selector@ for @pullDownButtonWithImage:menu:@
-pullDownButtonWithImage_menuSelector :: Selector '[Id NSImage, Id NSMenu] (Id NSPopUpButton)
-pullDownButtonWithImage_menuSelector = mkSelector "pullDownButtonWithImage:menu:"
-
--- | @Selector@ for @pullDownButtonWithTitle:image:menu:@
-pullDownButtonWithTitle_image_menuSelector :: Selector '[Id NSString, Id NSImage, Id NSMenu] (Id NSPopUpButton)
-pullDownButtonWithTitle_image_menuSelector = mkSelector "pullDownButtonWithTitle:image:menu:"
 
 -- | @Selector@ for @initWithFrame:pullsDown:@
 initWithFrame_pullsDownSelector :: Selector '[NSRect, Bool] (Id NSPopUpButton)
@@ -561,22 +413,6 @@ preferredEdgeSelector = mkSelector "preferredEdge"
 -- | @Selector@ for @setPreferredEdge:@
 setPreferredEdgeSelector :: Selector '[NSRectEdge] ()
 setPreferredEdgeSelector = mkSelector "setPreferredEdge:"
-
--- | @Selector@ for @usesItemFromMenu@
-usesItemFromMenuSelector :: Selector '[] Bool
-usesItemFromMenuSelector = mkSelector "usesItemFromMenu"
-
--- | @Selector@ for @setUsesItemFromMenu:@
-setUsesItemFromMenuSelector :: Selector '[Bool] ()
-setUsesItemFromMenuSelector = mkSelector "setUsesItemFromMenu:"
-
--- | @Selector@ for @altersStateOfSelectedItem@
-altersStateOfSelectedItemSelector :: Selector '[] Bool
-altersStateOfSelectedItemSelector = mkSelector "altersStateOfSelectedItem"
-
--- | @Selector@ for @setAltersStateOfSelectedItem:@
-setAltersStateOfSelectedItemSelector :: Selector '[Bool] ()
-setAltersStateOfSelectedItemSelector = mkSelector "setAltersStateOfSelectedItem:"
 
 -- | @Selector@ for @itemArray@
 itemArraySelector :: Selector '[] (Id NSArray)

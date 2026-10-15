@@ -56,7 +56,7 @@ generateEnumsModule framework enums =
     , genModuleContent = T.unlines $ concat
         [ enumsModuleHeader modName
         , [""]
-        , enumsModuleImports
+        , enumsModuleImports enums
         , concatMap (\ed -> [""] ++ generateEnumDecls ed) enums
         ]
     }
@@ -99,14 +99,21 @@ enumsModuleHeader modName =
   , "module " <> modName <> " where"
   ]
 
-enumsModuleImports :: [Text]
-enumsModuleImports =
+enumsModuleImports :: [EnumDef] -> [Text]
+enumsModuleImports enums =
   [ "import Data.Bits (Bits, FiniteBits, (.|.))"
   , "import Foreign.C.Types"
   , "import Foreign.Storable (Storable)"
   , "import Foreign.LibFFI"
   , "import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))"
   ]
+  ++ intImports
+  where
+    usedTypes = concatMap (\ed -> [enumUnderlyingHsType ed, enumRetFunctionType ed]) enums
+    intTypes = filter (`elem` usedTypes) ["Int8", "Int16", "Int32", "Int64"]
+    intImports
+      | null intTypes = []
+      | otherwise = ["import Data.Int (" <> T.intercalate ", " intTypes <> ")"]
 
 -- | Generate the newtype, instances, and pattern synonyms for one enum.
 generateEnumDecls :: EnumDef -> [Text]

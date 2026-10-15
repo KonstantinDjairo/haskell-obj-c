@@ -7,12 +7,12 @@
 module ObjC.Matter.MTRMediaPlaybackClusterNextParams
   ( MTRMediaPlaybackClusterNextParams
   , IsMTRMediaPlaybackClusterNextParams(..)
+  , init_
+  , copyWithZone
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , serverSideProcessingTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -29,6 +29,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRMediaPlaybackClusterNextParams mtrMediaPlaybackClusterNextParams => mtrMediaPlaybackClusterNextParams -> IO (Id MTRMediaPlaybackClusterNextParams)
+init_ mtrMediaPlaybackClusterNextParams =
+  sendOwnedMessage mtrMediaPlaybackClusterNextParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRMediaPlaybackClusterNextParams mtrMediaPlaybackClusterNextParams => mtrMediaPlaybackClusterNextParams -> Ptr () -> IO RawId
+copyWithZone mtrMediaPlaybackClusterNextParams zone =
+  sendOwnedMessage mtrMediaPlaybackClusterNextParams copyWithZoneSelector zone
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -52,31 +62,17 @@ setTimedInvokeTimeoutMs :: (IsMTRMediaPlaybackClusterNextParams mtrMediaPlayback
 setTimedInvokeTimeoutMs mtrMediaPlaybackClusterNextParams value =
   sendMessage mtrMediaPlaybackClusterNextParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRMediaPlaybackClusterNextParams mtrMediaPlaybackClusterNextParams => mtrMediaPlaybackClusterNextParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrMediaPlaybackClusterNextParams =
-  sendMessage mtrMediaPlaybackClusterNextParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRMediaPlaybackClusterNextParams mtrMediaPlaybackClusterNextParams, IsNSNumber value) => mtrMediaPlaybackClusterNextParams -> value -> IO ()
-setServerSideProcessingTimeout mtrMediaPlaybackClusterNextParams value =
-  sendMessage mtrMediaPlaybackClusterNextParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRMediaPlaybackClusterNextParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
@@ -85,12 +81,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

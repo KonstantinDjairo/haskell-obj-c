@@ -18,7 +18,6 @@ module ObjC.IOUSBHost.IOUSBHostObject
   , initWithIOService_options_queue_error_interestHandler
   , initWithIOService_queue_error_interestHandler
   , destroy
-  , destroyWithOptions
   , sendDeviceRequest_data_bytesTransferred_completionTimeout_error
   , sendDeviceRequest_data_bytesTransferred_error
   , sendDeviceRequest_error
@@ -35,8 +34,6 @@ module ObjC.IOUSBHost.IOUSBHostObject
   , stringWithIndex_languageID_error
   , stringWithIndex_error
   , frameNumberWithTime
-  , currentMicroframeWithTime_error
-  , referenceMicroframeWithTime_error
   , ioDataWithCapacity_error
   , ioService
   , queue
@@ -48,12 +45,10 @@ module ObjC.IOUSBHost.IOUSBHostObject
   , capabilityDescriptorsSelector
   , configurationDescriptorWithConfigurationValue_errorSelector
   , configurationDescriptorWithIndex_errorSelector
-  , currentMicroframeWithTime_errorSelector
   , descriptorWithType_length_errorSelector
   , descriptorWithType_length_index_languageID_errorSelector
   , descriptorWithType_length_index_languageID_requestType_requestRecipient_errorSelector
   , destroySelector
-  , destroyWithOptionsSelector
   , deviceAddressSelector
   , deviceDescriptorSelector
   , enqueueDeviceRequest_data_completionTimeout_error_completionHandlerSelector
@@ -66,7 +61,6 @@ module ObjC.IOUSBHost.IOUSBHostObject
   , ioDataWithCapacity_errorSelector
   , ioServiceSelector
   , queueSelector
-  , referenceMicroframeWithTime_errorSelector
   , sendDeviceRequest_data_bytesTransferred_completionTimeout_errorSelector
   , sendDeviceRequest_data_bytesTransferred_errorSelector
   , sendDeviceRequest_errorSelector
@@ -77,13 +71,9 @@ module ObjC.IOUSBHost.IOUSBHostObject
   , IOUSBHostAbortOption(IOUSBHostAbortOption)
   , pattern IOUSBHostAbortOptionAsynchronous
   , pattern IOUSBHostAbortOptionSynchronous
-  , IOUSBHostObjectDestroyOptions(IOUSBHostObjectDestroyOptions)
-  , pattern IOUSBHostObjectDestroyOptionsNone
-  , pattern IOUSBHostObjectDestroyOptionsDeviceSurrender
   , IOUSBHostObjectInitOptions(IOUSBHostObjectInitOptions)
   , pattern IOUSBHostObjectInitOptionsNone
   , pattern IOUSBHostObjectInitOptionsDeviceCapture
-  , pattern IOUSBHostObjectInitOptionsDeviceSeize
 
   ) where
 
@@ -149,15 +139,6 @@ initWithIOService_queue_error_interestHandler iousbHostObject ioService queue er
 destroy :: IsIOUSBHostObject iousbHostObject => iousbHostObject -> IO ()
 destroy iousbHostObject =
   sendMessage iousbHostObject destroySelector
-
--- | Removes underlying allocations of the IOUSBHostObject object along with user client
---
--- Extends destroy to take an options to modify the destroy behavior.  Currently only the             IOUSBHostObjectDestroyOptionsDeviceSurrender is defined to support surrendering ownersip of             the kernel service.  To be used when accepting the kUSBHostMessageDeviceIsRequestingClose message.
---
--- ObjC selector: @- destroyWithOptions:@
-destroyWithOptions :: IsIOUSBHostObject iousbHostObject => iousbHostObject -> IOUSBHostObjectDestroyOptions -> IO ()
-destroyWithOptions iousbHostObject options =
-  sendMessage iousbHostObject destroyWithOptionsSelector options
 
 -- | Send a request on the default control endpoint
 --
@@ -417,32 +398,6 @@ frameNumberWithTime :: IsIOUSBHostObject iousbHostObject => iousbHostObject -> R
 frameNumberWithTime iousbHostObject time =
   sendMessage iousbHostObject frameNumberWithTimeSelector time
 
--- | Return the current microframe number of the USB controller
---
--- This method will return the current microframe number of the USB controller.              This is most useful for scheduling future isochronous requests.
---
--- @time@ — If not nil, this will be updated with system time associated with the microframe.
---
--- Returns: The current microframe number. Returns 0 on failure, with NSError populated with the IOReturn error code.
---
--- ObjC selector: @- currentMicroframeWithTime:error:@
-currentMicroframeWithTime_error :: (IsIOUSBHostObject iousbHostObject, IsNSError error_) => iousbHostObject -> RawId -> error_ -> IO CULong
-currentMicroframeWithTime_error iousbHostObject time error_ =
-  sendMessage iousbHostObject currentMicroframeWithTime_errorSelector time (toNSError error_)
-
--- | Return a recent microframe number of the USB controller
---
--- This method will return a recent microframe number of the USB controller.              This is most useful for scheduling future isochronous requests.
---
--- @time@ — If not nil, this will be updated with system time associated with the microframe.
---
--- Returns: A recent microframe number. Returns 0 on failure, with NSError populated with the IOReturn error code.
---
--- ObjC selector: @- referenceMicroframeWithTime:error:@
-referenceMicroframeWithTime_error :: (IsIOUSBHostObject iousbHostObject, IsNSError error_) => iousbHostObject -> RawId -> error_ -> IO CULong
-referenceMicroframeWithTime_error iousbHostObject time error_ =
-  sendMessage iousbHostObject referenceMicroframeWithTime_errorSelector time (toNSError error_)
-
 -- | Allocate a buffer to be used for I/O
 --
 -- This method will allocate and map an IOBufferMemoryDescriptor optimized for use              by the underlying controller hardware. A buffer allocated by this method will not              be bounced to perform DMA operations.              Because the NSMutableData is backed by kernel memory, the length and capacity are              not mutable. Any changes to the length or capacity will cause an exception to be              thrown.
@@ -519,10 +474,6 @@ initWithIOService_queue_error_interestHandlerSelector = mkSelector "initWithIOSe
 destroySelector :: Selector '[] ()
 destroySelector = mkSelector "destroy"
 
--- | @Selector@ for @destroyWithOptions:@
-destroyWithOptionsSelector :: Selector '[IOUSBHostObjectDestroyOptions] ()
-destroyWithOptionsSelector = mkSelector "destroyWithOptions:"
-
 -- | @Selector@ for @sendDeviceRequest:data:bytesTransferred:completionTimeout:error:@
 sendDeviceRequest_data_bytesTransferred_completionTimeout_errorSelector :: Selector '[IOUSBDeviceRequest, Id NSMutableData, Ptr CULong, CDouble, Id NSError] Bool
 sendDeviceRequest_data_bytesTransferred_completionTimeout_errorSelector = mkSelector "sendDeviceRequest:data:bytesTransferred:completionTimeout:error:"
@@ -586,14 +537,6 @@ stringWithIndex_errorSelector = mkSelector "stringWithIndex:error:"
 -- | @Selector@ for @frameNumberWithTime:@
 frameNumberWithTimeSelector :: Selector '[RawId] CULong
 frameNumberWithTimeSelector = mkSelector "frameNumberWithTime:"
-
--- | @Selector@ for @currentMicroframeWithTime:error:@
-currentMicroframeWithTime_errorSelector :: Selector '[RawId, Id NSError] CULong
-currentMicroframeWithTime_errorSelector = mkSelector "currentMicroframeWithTime:error:"
-
--- | @Selector@ for @referenceMicroframeWithTime:error:@
-referenceMicroframeWithTime_errorSelector :: Selector '[RawId, Id NSError] CULong
-referenceMicroframeWithTime_errorSelector = mkSelector "referenceMicroframeWithTime:error:"
 
 -- | @Selector@ for @ioDataWithCapacity:error:@
 ioDataWithCapacity_errorSelector :: Selector '[CULong, Id NSError] (Id NSMutableData)

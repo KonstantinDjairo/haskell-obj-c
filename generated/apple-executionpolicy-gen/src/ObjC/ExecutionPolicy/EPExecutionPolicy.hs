@@ -26,12 +26,26 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.ExecutionPolicy.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- init@
+-- | init
+--
+-- Initialization sets up the IPC resources required, allowing the caller to manage the initialization overhead.
+--
+-- ObjC selector: @- init@
 init_ :: IsEPExecutionPolicy epExecutionPolicy => epExecutionPolicy -> IO (Id EPExecutionPolicy)
 init_ epExecutionPolicy =
   sendOwnedMessage epExecutionPolicy initSelector
 
--- | @- addPolicyExceptionForURL:error:@
+-- | addPolicyExceptionForURL
+--
+-- Creates a system-wide exception to bypass execution policy for the bundle or executable at the given location.
+--
+-- @url@ — Location of the bundle or executable that requires an exception
+--
+-- @error@ — Upon failure, will contain an autoreleasing NSError indicating additional failure information
+--
+-- Returns: A BOOL indicating the policy exception was created successfully, with any failures reported in the error output.
+--
+-- ObjC selector: @- addPolicyExceptionForURL:error:@
 addPolicyExceptionForURL_error :: (IsEPExecutionPolicy epExecutionPolicy, IsNSURL url, IsNSError error_) => epExecutionPolicy -> url -> error_ -> IO Bool
 addPolicyExceptionForURL_error epExecutionPolicy url error_ =
   sendMessage epExecutionPolicy addPolicyExceptionForURL_errorSelector (toNSURL url) (toNSError error_)

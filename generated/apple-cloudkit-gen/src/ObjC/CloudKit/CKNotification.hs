@@ -4,17 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Pushes from CloudKit servers contain both CloudKit-specific and APS-specific information. APS-specific information includes elements like alerts, badges, sounds, categories, etc. When receiving a push from CloudKit servers, the push may be delivered via multiple API flows. The flow(s) chosen will depend on the type of push requested (e.g. via the ``CKSubscription`` that triggered it and its configured @notificationInfo@).
---
--- Pushes with UI elements (alerts, badges, sounds): These pushes are delivered via the @UserNotifications@ framework, in the form of a @UNNotification@ Applications should use the @UserNotifications@ framework to interact with the UI elements of this push. Applications may create a ``CKNotification`` from a @UNNotification@ in their @UNUserNotificationCenterDelegate@:
---
--- func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {         let ckNotification = CKNotification(fromRemoteNotificationDictionary: notification.request.content.userInfo)     }
---
--- Pushes with @content-available@: These pushes are delivered via an application delegate, in the form of a remote notification. For example: @UIApplicationDelegate.application(_:didReceiveRemoteNotification:) async@ Applications do not need to interact with any UI element in the push payload argument, that's intended to be handled via the @UserNotifications@ flow (a push with both UI elements and @content-available@ will be delivered via both API flows) Applications may create a ``CKNotification`` from the remote notification in their @UIApplicationDelegate@:
---
--- func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {         let ckNotification = CKNotification(fromRemoteNotificationDictionary: userInfo)     }
---
--- Generated bindings for @CKNotification@.
+-- | Generated bindings for @CKNotification@.
 module ObjC.CloudKit.CKNotification
   ( CKNotification
   , IsCKNotification(..)
@@ -26,8 +16,8 @@ module ObjC.CloudKit.CKNotification
   , containerIdentifier
   , subscriptionOwnerUserRecordID
   , isPruned
-  , subscriptionID
   , badge
+  , subscriptionID
   , badgeSelector
   , containerIdentifierSelector
   , initSelector
@@ -79,7 +69,7 @@ notificationFromRemoteNotificationDictionary notificationDictionary =
     cls' <- getRequiredClass "CKNotification"
     sendClassMessage cls' notificationFromRemoteNotificationDictionarySelector (toNSDictionary notificationDictionary)
 
--- | When you instantiate a ``CKNotification`` from a remote notification dictionary, you will get back a concrete subclass defined below.  Use @notificationType@ to avoid @as?@ or @-isKindOfClass:@ checks.
+-- | When you instantiate a CKNotification from a remote notification dictionary, you will get back a concrete subclass defined below.  Use notificationType to avoid -isKindOfClass: checks
 --
 -- ObjC selector: @- notificationType@
 notificationType :: IsCKNotification ckNotification => ckNotification -> IO CKNotificationType
@@ -96,7 +86,7 @@ containerIdentifier :: IsCKNotification ckNotification => ckNotification -> IO (
 containerIdentifier ckNotification =
   sendMessage ckNotification containerIdentifierSelector
 
--- | The user @recordID@ of the owner of the subscription for which this notification was generated
+-- | The user recordID of the owner of the subscription for which this notification was generated
 --
 -- ObjC selector: @- subscriptionOwnerUserRecordID@
 subscriptionOwnerUserRecordID :: IsCKNotification ckNotification => ckNotification -> IO (Id CKRecordID)
@@ -105,24 +95,26 @@ subscriptionOwnerUserRecordID ckNotification =
 
 -- | Whether or not the notification fully represents what the server wanted to send.
 --
--- Push notifications have a limited size.  In some cases, CloudKit servers may not be able to send you a full ``CKNotification``'s worth of info in one push. In those cases, @isPruned@ returns @true@. The order in which properties are dropped from a push notification is defined in each ``CKNotification`` subclass below.
+-- Push notifications have a limited size.  In some cases, CloudKit servers may not be able to send you a full @CKNotification's@ worth of info in one push.  In those cases, isPruned returns YES.  The order in which we'll drop properties is defined in each @CKNotification@ subclass below. The @CKNotification@ can be obtained in full via a @CKFetchNotificationChangesOperation@
 --
 -- ObjC selector: @- isPruned@
 isPruned :: IsCKNotification ckNotification => ckNotification -> IO Bool
 isPruned ckNotification =
   sendMessage ckNotification isPrunedSelector
 
--- | The ID of the subscription that caused this notification to fire.
+-- | The number to display as the badge of the application icon
+--
+-- ObjC selector: @- badge@
+badge :: IsCKNotification ckNotification => ckNotification -> IO RawId
+badge ckNotification =
+  sendMessage ckNotification badgeSelector
+
+-- | The ID of the subscription that caused this notification to fire
 --
 -- ObjC selector: @- subscriptionID@
 subscriptionID :: IsCKNotification ckNotification => ckNotification -> IO (Id NSString)
 subscriptionID ckNotification =
   sendMessage ckNotification subscriptionIDSelector
-
--- | @- badge@
-badge :: IsCKNotification ckNotification => ckNotification -> IO (Id NSNumber)
-badge ckNotification =
-  sendMessage ckNotification badgeSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -160,11 +152,11 @@ subscriptionOwnerUserRecordIDSelector = mkSelector "subscriptionOwnerUserRecordI
 isPrunedSelector :: Selector '[] Bool
 isPrunedSelector = mkSelector "isPruned"
 
+-- | @Selector@ for @badge@
+badgeSelector :: Selector '[] RawId
+badgeSelector = mkSelector "badge"
+
 -- | @Selector@ for @subscriptionID@
 subscriptionIDSelector :: Selector '[] (Id NSString)
 subscriptionIDSelector = mkSelector "subscriptionID"
-
--- | @Selector@ for @badge@
-badgeSelector :: Selector '[] (Id NSNumber)
-badgeSelector = mkSelector "badge"
 

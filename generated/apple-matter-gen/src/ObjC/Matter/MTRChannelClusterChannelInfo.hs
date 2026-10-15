@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRChannelClusterChannelInfo
   ( MTRChannelClusterChannelInfo
   , IsMTRChannelClusterChannelInfo(..)
+  , init_
+  , copyWithZone
   , majorNumber
   , setMajorNumber
   , minorNumber
@@ -19,6 +21,8 @@ module ObjC.Matter.MTRChannelClusterChannelInfo
   , setAffiliateCallSign
   , affiliateCallSignSelector
   , callSignSelector
+  , copyWithZoneSelector
+  , initSelector
   , majorNumberSelector
   , minorNumberSelector
   , nameSelector
@@ -41,6 +45,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRChannelClusterChannelInfo mtrChannelClusterChannelInfo => mtrChannelClusterChannelInfo -> IO (Id MTRChannelClusterChannelInfo)
+init_ mtrChannelClusterChannelInfo =
+  sendOwnedMessage mtrChannelClusterChannelInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRChannelClusterChannelInfo mtrChannelClusterChannelInfo => mtrChannelClusterChannelInfo -> Ptr () -> IO RawId
+copyWithZone mtrChannelClusterChannelInfo zone =
+  sendOwnedMessage mtrChannelClusterChannelInfo copyWithZoneSelector zone
 
 -- | @- majorNumber@
 majorNumber :: IsMTRChannelClusterChannelInfo mtrChannelClusterChannelInfo => mtrChannelClusterChannelInfo -> IO (Id NSNumber)
@@ -95,6 +109,14 @@ setAffiliateCallSign mtrChannelClusterChannelInfo value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRChannelClusterChannelInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @majorNumber@
 majorNumberSelector :: Selector '[] (Id NSNumber)

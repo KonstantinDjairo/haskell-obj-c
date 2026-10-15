@@ -125,7 +125,6 @@ module ObjC.Foundation.NSData
   , pattern NSDataWritingFileProtectionComplete
   , pattern NSDataWritingFileProtectionCompleteUnlessOpen
   , pattern NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication
-  , pattern NSDataWritingFileProtectionCompleteWhenUserInactive
   , pattern NSDataWritingFileProtectionMask
   , pattern NSAtomicWrite
 

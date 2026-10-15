@@ -3,18 +3,22 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A path indicating a specific command on a device (i.e. without any wildcards).
---
--- Generated bindings for @MTRCommandPath@.
+-- | Generated bindings for @MTRCommandPath@.
 module ObjC.Matter.MTRCommandPath
   ( MTRCommandPath
   , IsMTRCommandPath(..)
-  , commandPathWithEndpointID_clusterID_commandID
   , commandPathWithEndpointId_clusterId_commandId
+  , init_
+  , new
+  , endpoint
+  , cluster
   , command
-  , commandPathWithEndpointID_clusterID_commandIDSelector
+  , clusterSelector
   , commandPathWithEndpointId_clusterId_commandIdSelector
   , commandSelector
+  , endpointSelector
+  , initSelector
+  , newSelector
 
 
   ) where
@@ -30,19 +34,34 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @+ commandPathWithEndpointID:clusterID:commandID:@
-commandPathWithEndpointID_clusterID_commandID :: (IsNSNumber endpointID, IsNSNumber clusterID, IsNSNumber commandID) => endpointID -> clusterID -> commandID -> IO (Id MTRCommandPath)
-commandPathWithEndpointID_clusterID_commandID endpointID clusterID commandID =
-  do
-    cls' <- getRequiredClass "MTRCommandPath"
-    sendClassMessage cls' commandPathWithEndpointID_clusterID_commandIDSelector (toNSNumber endpointID) (toNSNumber clusterID) (toNSNumber commandID)
-
 -- | @+ commandPathWithEndpointId:clusterId:commandId:@
-commandPathWithEndpointId_clusterId_commandId :: (IsNSNumber endpointId, IsNSNumber clusterId, IsNSNumber commandId) => endpointId -> clusterId -> commandId -> IO (Id MTRCommandPath)
-commandPathWithEndpointId_clusterId_commandId endpointId clusterId commandId =
+commandPathWithEndpointId_clusterId_commandId :: (IsNSNumber endpoint, IsNSNumber clusterId, IsNSNumber commandId) => endpoint -> clusterId -> commandId -> IO (Id MTRCommandPath)
+commandPathWithEndpointId_clusterId_commandId endpoint clusterId commandId =
   do
     cls' <- getRequiredClass "MTRCommandPath"
-    sendClassMessage cls' commandPathWithEndpointId_clusterId_commandIdSelector (toNSNumber endpointId) (toNSNumber clusterId) (toNSNumber commandId)
+    sendClassMessage cls' commandPathWithEndpointId_clusterId_commandIdSelector (toNSNumber endpoint) (toNSNumber clusterId) (toNSNumber commandId)
+
+-- | @- init@
+init_ :: IsMTRCommandPath mtrCommandPath => mtrCommandPath -> IO (Id MTRCommandPath)
+init_ mtrCommandPath =
+  sendOwnedMessage mtrCommandPath initSelector
+
+-- | @+ new@
+new :: IO (Id MTRCommandPath)
+new  =
+  do
+    cls' <- getRequiredClass "MTRCommandPath"
+    sendOwnedClassMessage cls' newSelector
+
+-- | @- endpoint@
+endpoint :: IsMTRCommandPath mtrCommandPath => mtrCommandPath -> IO (Id NSNumber)
+endpoint mtrCommandPath =
+  sendMessage mtrCommandPath endpointSelector
+
+-- | @- cluster@
+cluster :: IsMTRCommandPath mtrCommandPath => mtrCommandPath -> IO (Id NSNumber)
+cluster mtrCommandPath =
+  sendMessage mtrCommandPath clusterSelector
 
 -- | @- command@
 command :: IsMTRCommandPath mtrCommandPath => mtrCommandPath -> IO (Id NSNumber)
@@ -53,13 +72,25 @@ command mtrCommandPath =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @commandPathWithEndpointID:clusterID:commandID:@
-commandPathWithEndpointID_clusterID_commandIDSelector :: Selector '[Id NSNumber, Id NSNumber, Id NSNumber] (Id MTRCommandPath)
-commandPathWithEndpointID_clusterID_commandIDSelector = mkSelector "commandPathWithEndpointID:clusterID:commandID:"
-
 -- | @Selector@ for @commandPathWithEndpointId:clusterId:commandId:@
 commandPathWithEndpointId_clusterId_commandIdSelector :: Selector '[Id NSNumber, Id NSNumber, Id NSNumber] (Id MTRCommandPath)
 commandPathWithEndpointId_clusterId_commandIdSelector = mkSelector "commandPathWithEndpointId:clusterId:commandId:"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRCommandPath)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRCommandPath)
+newSelector = mkSelector "new"
+
+-- | @Selector@ for @endpoint@
+endpointSelector :: Selector '[] (Id NSNumber)
+endpointSelector = mkSelector "endpoint"
+
+-- | @Selector@ for @cluster@
+clusterSelector :: Selector '[] (Id NSNumber)
+clusterSelector = mkSelector "cluster"
 
 -- | @Selector@ for @command@
 commandSelector :: Selector '[] (Id NSNumber)

@@ -3,9 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that manages the connection from a device to a destination.
+-- | AVCustomRoutingController
 --
--- A routing controller also informs its ``AVCustomRoutingController/delegate`` object about which routes the user previously authorized, so it can reconnect, if appropriate.
+-- When a user selects / deselects a 3rd party device in the route picker, this class delegates the activation / deactivation of that device to the client of this class via AVCustomRoutingEvents.
+--
+-- This class also informs the client which routes have been previously authorized, allowing them to reconnect if appropriate.
 --
 -- Generated bindings for @AVCustomRoutingController@.
 module ObjC.AVRouting.AVCustomRoutingController
@@ -14,23 +16,9 @@ module ObjC.AVRouting.AVCustomRoutingController
   , invalidateAuthorizationForRoute
   , setActive_forRoute
   , isRouteActive
-  , delegate
-  , setDelegate
-  , authorizedRoutes
-  , knownRouteIPs
-  , setKnownRouteIPs
-  , customActionItems
-  , setCustomActionItems
-  , authorizedRoutesSelector
-  , customActionItemsSelector
-  , delegateSelector
   , invalidateAuthorizationForRouteSelector
   , isRouteActiveSelector
-  , knownRouteIPsSelector
   , setActive_forRouteSelector
-  , setCustomActionItemsSelector
-  , setDelegateSelector
-  , setKnownRouteIPsSelector
 
 
   ) where
@@ -46,91 +34,40 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVRouting.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Revokes an app’s authorization to connect to a route.
+-- | invalidateAuthorization
 --
--- The route only becomes authorized again if the user selects it using the route picker.
+-- @route@ — The route for which to invalidate authorization.
 --
--- - Parameters:   - route: The route to invalidate authorization for.
+-- Calling this method revokes the app's authorization to connect to a route. The route will only become authorized again if the user selects it via the route picker.
 --
 -- ObjC selector: @- invalidateAuthorizationForRoute:@
 invalidateAuthorizationForRoute :: (IsAVCustomRoutingController avCustomRoutingController, IsAVCustomDeviceRoute route) => avCustomRoutingController -> route -> IO ()
 invalidateAuthorizationForRoute avCustomRoutingController route =
   sendMessage avCustomRoutingController invalidateAuthorizationForRouteSelector (toAVCustomDeviceRoute route)
 
--- | Sets the active state of a route.
+-- | setActive:forRoute:
 --
--- Set the value to <doc://com.apple.documentation/documentation/objectivec/no> if the connection to the route becomes unavailable, and set it to <doc://com.apple.documentation/documentation/objectivec/yes> after you reestablish the connection.
+-- @active@ — Whether or not the route is active.
 --
--- - Parameters:   - active: A Boolean value that indicates whether the route is active.
+-- @route@ — The route to set as active or inactive.
 --
--- - route: A route to change the active state for.
+-- Set this to NO if the connection to the route temporarily drops, and set it to YES once the connection is reestablished.
 --
 -- ObjC selector: @- setActive:forRoute:@
 setActive_forRoute :: (IsAVCustomRoutingController avCustomRoutingController, IsAVCustomDeviceRoute route) => avCustomRoutingController -> Bool -> route -> IO ()
 setActive_forRoute avCustomRoutingController active route =
   sendMessage avCustomRoutingController setActive_forRouteSelector active (toAVCustomDeviceRoute route)
 
--- | Returns a Boolean value that indicates whether a route is active.
+-- | isRouteActive:
 --
--- - Parameters:   - route: A route for determining its active state.
+-- @route@ — The route for which to check active status.
 --
--- - Returns: <doc://com.apple.documentation/documentation/objectivec/yes> if the route is in an active state; otherwise, <doc://com.apple.documentation/documentation/objectivec/no>.
+-- Returns whether or not the given route is active.
 --
 -- ObjC selector: @- isRouteActive:@
 isRouteActive :: (IsAVCustomRoutingController avCustomRoutingController, IsAVCustomDeviceRoute route) => avCustomRoutingController -> route -> IO Bool
 isRouteActive avCustomRoutingController route =
   sendMessage avCustomRoutingController isRouteActiveSelector (toAVCustomDeviceRoute route)
-
--- | A delegate object for a routing controller.
---
--- ObjC selector: @- delegate@
-delegate :: IsAVCustomRoutingController avCustomRoutingController => avCustomRoutingController -> IO RawId
-delegate avCustomRoutingController =
-  sendMessage avCustomRoutingController delegateSelector
-
--- | A delegate object for a routing controller.
---
--- ObjC selector: @- setDelegate:@
-setDelegate :: IsAVCustomRoutingController avCustomRoutingController => avCustomRoutingController -> RawId -> IO ()
-setDelegate avCustomRoutingController value =
-  sendMessage avCustomRoutingController setDelegateSelector value
-
--- | A list of authorized routes.
---
--- After a user activates a route, it remains authorized for a certain amount of time even if the connection to the route is temporarily unavailable. Your app may reactivate any one of these routes when appropriate, but it needs to inform the system by calling ``AVCustomRoutingController/setActive:forRoute:``.
---
--- ObjC selector: @- authorizedRoutes@
-authorizedRoutes :: IsAVCustomRoutingController avCustomRoutingController => avCustomRoutingController -> IO (Id NSArray)
-authorizedRoutes avCustomRoutingController =
-  sendMessage avCustomRoutingController authorizedRoutesSelector
-
--- | An array of route addresses known to be on the local network.
---
--- ObjC selector: @- knownRouteIPs@
-knownRouteIPs :: IsAVCustomRoutingController avCustomRoutingController => avCustomRoutingController -> IO (Id NSArray)
-knownRouteIPs avCustomRoutingController =
-  sendMessage avCustomRoutingController knownRouteIPsSelector
-
--- | An array of route addresses known to be on the local network.
---
--- ObjC selector: @- setKnownRouteIPs:@
-setKnownRouteIPs :: (IsAVCustomRoutingController avCustomRoutingController, IsNSArray value) => avCustomRoutingController -> value -> IO ()
-setKnownRouteIPs avCustomRoutingController value =
-  sendMessage avCustomRoutingController setKnownRouteIPsSelector (toNSArray value)
-
--- | An array of custom action items to add to a route picker.
---
--- ObjC selector: @- customActionItems@
-customActionItems :: IsAVCustomRoutingController avCustomRoutingController => avCustomRoutingController -> IO (Id NSArray)
-customActionItems avCustomRoutingController =
-  sendMessage avCustomRoutingController customActionItemsSelector
-
--- | An array of custom action items to add to a route picker.
---
--- ObjC selector: @- setCustomActionItems:@
-setCustomActionItems :: (IsAVCustomRoutingController avCustomRoutingController, IsNSArray value) => avCustomRoutingController -> value -> IO ()
-setCustomActionItems avCustomRoutingController value =
-  sendMessage avCustomRoutingController setCustomActionItemsSelector (toNSArray value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -147,32 +84,4 @@ setActive_forRouteSelector = mkSelector "setActive:forRoute:"
 -- | @Selector@ for @isRouteActive:@
 isRouteActiveSelector :: Selector '[Id AVCustomDeviceRoute] Bool
 isRouteActiveSelector = mkSelector "isRouteActive:"
-
--- | @Selector@ for @delegate@
-delegateSelector :: Selector '[] RawId
-delegateSelector = mkSelector "delegate"
-
--- | @Selector@ for @setDelegate:@
-setDelegateSelector :: Selector '[RawId] ()
-setDelegateSelector = mkSelector "setDelegate:"
-
--- | @Selector@ for @authorizedRoutes@
-authorizedRoutesSelector :: Selector '[] (Id NSArray)
-authorizedRoutesSelector = mkSelector "authorizedRoutes"
-
--- | @Selector@ for @knownRouteIPs@
-knownRouteIPsSelector :: Selector '[] (Id NSArray)
-knownRouteIPsSelector = mkSelector "knownRouteIPs"
-
--- | @Selector@ for @setKnownRouteIPs:@
-setKnownRouteIPsSelector :: Selector '[Id NSArray] ()
-setKnownRouteIPsSelector = mkSelector "setKnownRouteIPs:"
-
--- | @Selector@ for @customActionItems@
-customActionItemsSelector :: Selector '[] (Id NSArray)
-customActionItemsSelector = mkSelector "customActionItems"
-
--- | @Selector@ for @setCustomActionItems:@
-setCustomActionItemsSelector :: Selector '[Id NSArray] ()
-setCustomActionItemsSelector = mkSelector "setCustomActionItems:"
 

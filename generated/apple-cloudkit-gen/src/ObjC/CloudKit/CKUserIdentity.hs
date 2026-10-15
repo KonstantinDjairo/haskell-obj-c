@@ -9,11 +9,11 @@ module ObjC.CloudKit.CKUserIdentity
   , IsCKUserIdentity(..)
   , init_
   , new
-  , userRecordID
   , lookupInfo
   , nameComponents
-  , hasiCloudAccount
+  , userRecordID
   , contactIdentifiers
+  , hasiCloudAccount
   , contactIdentifiersSelector
   , hasiCloudAccountSelector
   , initSelector
@@ -50,11 +50,6 @@ new  =
     cls' <- getRequiredClass "CKUserIdentity"
     sendOwnedClassMessage cls' newSelector
 
--- | @- userRecordID@
-userRecordID :: IsCKUserIdentity ckUserIdentity => ckUserIdentity -> IO (Id CKRecordID)
-userRecordID ckUserIdentity =
-  sendMessage ckUserIdentity userRecordIDSelector
-
 -- | This is the @lookupInfo@ you passed in to @CKDiscoverUserIdentitiesOperation@ or @CKFetchShareParticipantsOperation@
 --
 -- ObjC selector: @- lookupInfo@
@@ -67,15 +62,30 @@ nameComponents :: IsCKUserIdentity ckUserIdentity => ckUserIdentity -> IO (Id NS
 nameComponents ckUserIdentity =
   sendMessage ckUserIdentity nameComponentsSelector
 
+-- | @- userRecordID@
+userRecordID :: IsCKUserIdentity ckUserIdentity => ckUserIdentity -> IO (Id CKRecordID)
+userRecordID ckUserIdentity =
+  sendMessage ckUserIdentity userRecordIDSelector
+
+-- | Link to the Contacts database.
+--
+-- Identities discovered via @CKDiscoverAllUserIdentitiesOperation@ correspond to entries in the local Contacts database.  These identities will have @contactIdentifiers@ filled out, which your app may use to get additional information about the contacts that were discovered.  Multiple @contactIdentifiers@ may exist for a single discovered user, as multiple contacts may contain the same email addresses or phone numbers.
+--
+-- Returns: individual, non-unified contacts.
+--
+-- To transform these identifiers into an array of unified contact identifiers, pass a @CNContact.predicateForContacts(withIdentifiers:)@ predicate into @CNContactStore.unifiedContacts(matching:keysToFetch:)@
+--
+-- See: Contacts.framework and CNContact.identifier
+--
+-- ObjC selector: @- contactIdentifiers@
+contactIdentifiers :: IsCKUserIdentity ckUserIdentity => ckUserIdentity -> IO (Id NSArray)
+contactIdentifiers ckUserIdentity =
+  sendMessage ckUserIdentity contactIdentifiersSelector
+
 -- | @- hasiCloudAccount@
 hasiCloudAccount :: IsCKUserIdentity ckUserIdentity => ckUserIdentity -> IO Bool
 hasiCloudAccount ckUserIdentity =
   sendMessage ckUserIdentity hasiCloudAccountSelector
-
--- | @- contactIdentifiers@
-contactIdentifiers :: IsCKUserIdentity ckUserIdentity => ckUserIdentity -> IO (Id NSArray)
-contactIdentifiers ckUserIdentity =
-  sendMessage ckUserIdentity contactIdentifiersSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -89,10 +99,6 @@ initSelector = mkSelector "init"
 newSelector :: Selector '[] (Id CKUserIdentity)
 newSelector = mkSelector "new"
 
--- | @Selector@ for @userRecordID@
-userRecordIDSelector :: Selector '[] (Id CKRecordID)
-userRecordIDSelector = mkSelector "userRecordID"
-
 -- | @Selector@ for @lookupInfo@
 lookupInfoSelector :: Selector '[] (Id CKUserIdentityLookupInfo)
 lookupInfoSelector = mkSelector "lookupInfo"
@@ -101,11 +107,15 @@ lookupInfoSelector = mkSelector "lookupInfo"
 nameComponentsSelector :: Selector '[] (Id NSPersonNameComponents)
 nameComponentsSelector = mkSelector "nameComponents"
 
--- | @Selector@ for @hasiCloudAccount@
-hasiCloudAccountSelector :: Selector '[] Bool
-hasiCloudAccountSelector = mkSelector "hasiCloudAccount"
+-- | @Selector@ for @userRecordID@
+userRecordIDSelector :: Selector '[] (Id CKRecordID)
+userRecordIDSelector = mkSelector "userRecordID"
 
 -- | @Selector@ for @contactIdentifiers@
 contactIdentifiersSelector :: Selector '[] (Id NSArray)
 contactIdentifiersSelector = mkSelector "contactIdentifiers"
+
+-- | @Selector@ for @hasiCloudAccount@
+hasiCloudAccountSelector :: Selector '[] Bool
+hasiCloudAccountSelector = mkSelector "hasiCloudAccount"
 

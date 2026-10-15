@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRSoftwareDiagnosticsClusterThreadMetrics
   ( MTRSoftwareDiagnosticsClusterThreadMetrics
   , IsMTRSoftwareDiagnosticsClusterThreadMetrics(..)
+  , init_
+  , copyWithZone
   , id_
   , setId
   , name
@@ -17,7 +19,9 @@ module ObjC.Matter.MTRSoftwareDiagnosticsClusterThreadMetrics
   , setStackFreeMinimum
   , stackSize
   , setStackSize
+  , copyWithZoneSelector
   , idSelector
+  , initSelector
   , nameSelector
   , setIdSelector
   , setNameSelector
@@ -41,6 +45,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRSoftwareDiagnosticsClusterThreadMetrics mtrSoftwareDiagnosticsClusterThreadMetrics => mtrSoftwareDiagnosticsClusterThreadMetrics -> IO (Id MTRSoftwareDiagnosticsClusterThreadMetrics)
+init_ mtrSoftwareDiagnosticsClusterThreadMetrics =
+  sendOwnedMessage mtrSoftwareDiagnosticsClusterThreadMetrics initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSoftwareDiagnosticsClusterThreadMetrics mtrSoftwareDiagnosticsClusterThreadMetrics => mtrSoftwareDiagnosticsClusterThreadMetrics -> Ptr () -> IO RawId
+copyWithZone mtrSoftwareDiagnosticsClusterThreadMetrics zone =
+  sendOwnedMessage mtrSoftwareDiagnosticsClusterThreadMetrics copyWithZoneSelector zone
 
 -- | @- id@
 id_ :: IsMTRSoftwareDiagnosticsClusterThreadMetrics mtrSoftwareDiagnosticsClusterThreadMetrics => mtrSoftwareDiagnosticsClusterThreadMetrics -> IO (Id NSNumber)
@@ -95,6 +109,14 @@ setStackSize mtrSoftwareDiagnosticsClusterThreadMetrics value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSoftwareDiagnosticsClusterThreadMetrics)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @id@
 idSelector :: Selector '[] (Id NSNumber)

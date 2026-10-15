@@ -20,9 +20,6 @@ module ObjC.EventKit.EKEventStore
   , initWithAccessToEntityTypes
   , init_
   , initWithSources
-  , requestFullAccessToEventsWithCompletion
-  , requestWriteOnlyAccessToEventsWithCompletion
-  , requestFullAccessToRemindersWithCompletion
   , requestAccessToEntityType_completion
   , sourceWithIdentifier
   , calendarsForEntityType
@@ -77,9 +74,6 @@ module ObjC.EventKit.EKEventStore
   , removeEvent_span_errorSelector
   , removeReminder_commit_errorSelector
   , requestAccessToEntityType_completionSelector
-  , requestFullAccessToEventsWithCompletionSelector
-  , requestFullAccessToRemindersWithCompletionSelector
-  , requestWriteOnlyAccessToEventsWithCompletionSelector
   , resetSelector
   , saveCalendar_commit_errorSelector
   , saveEvent_span_commit_errorSelector
@@ -92,8 +86,6 @@ module ObjC.EventKit.EKEventStore
   , pattern EKAuthorizationStatusNotDetermined
   , pattern EKAuthorizationStatusRestricted
   , pattern EKAuthorizationStatusDenied
-  , pattern EKAuthorizationStatusFullAccess
-  , pattern EKAuthorizationStatusWriteOnly
   , pattern EKAuthorizationStatusAuthorized
   , EKEntityMask(EKEntityMask)
   , pattern EKEntityMaskEvent
@@ -159,22 +151,13 @@ initWithSources :: (IsEKEventStore ekEventStore, IsNSArray sources) => ekEventSt
 initWithSources ekEventStore sources =
   sendOwnedMessage ekEventStore initWithSourcesSelector (toNSArray sources)
 
--- | @- requestFullAccessToEventsWithCompletion:@
-requestFullAccessToEventsWithCompletion :: IsEKEventStore ekEventStore => ekEventStore -> Ptr () -> IO ()
-requestFullAccessToEventsWithCompletion ekEventStore completion =
-  sendMessage ekEventStore requestFullAccessToEventsWithCompletionSelector completion
-
--- | @- requestWriteOnlyAccessToEventsWithCompletion:@
-requestWriteOnlyAccessToEventsWithCompletion :: IsEKEventStore ekEventStore => ekEventStore -> Ptr () -> IO ()
-requestWriteOnlyAccessToEventsWithCompletion ekEventStore completion =
-  sendMessage ekEventStore requestWriteOnlyAccessToEventsWithCompletionSelector completion
-
--- | @- requestFullAccessToRemindersWithCompletion:@
-requestFullAccessToRemindersWithCompletion :: IsEKEventStore ekEventStore => ekEventStore -> Ptr () -> IO ()
-requestFullAccessToRemindersWithCompletion ekEventStore completion =
-  sendMessage ekEventStore requestFullAccessToRemindersWithCompletionSelector completion
-
--- | @- requestAccessToEntityType:completion:@
+-- | requestAccessToEntityType:completion:
+--
+-- Users are able to grant or deny access to event and reminder data on a per-app basis. To request access to                event and/or reminder data, call -requestAccessToEntityType:completion:. This will not block the app while                the user is being asked to grant or deny access.
+--
+-- Until access has been granted for an entity type, the event store will not contain any calendars for that                entity type, and any attempt to save will fail. The user will only be prompted the first time access is                requested; any subsequent instantiations of EKEventStore will use the existing permissions. When the user                taps to grant or deny access, the completion handler will be called on an arbitrary queue.
+--
+-- ObjC selector: @- requestAccessToEntityType:completion:@
 requestAccessToEntityType_completion :: IsEKEventStore ekEventStore => ekEventStore -> EKEntityType -> Ptr () -> IO ()
 requestAccessToEntityType_completion ekEventStore entityType completion =
   sendMessage ekEventStore requestAccessToEntityType_completionSelector entityType completion
@@ -299,8 +282,8 @@ calendarItemsWithExternalIdentifier ekEventStore externalIdentifier =
 --
 -- ObjC selector: @- saveEvent:span:error:@
 saveEvent_span_error :: (IsEKEventStore ekEventStore, IsEKEvent event, IsNSError error_) => ekEventStore -> event -> EKSpan -> error_ -> IO Bool
-saveEvent_span_error ekEventStore event span error_ =
-  sendMessage ekEventStore saveEvent_span_errorSelector (toEKEvent event) span (toNSError error_)
+saveEvent_span_error ekEventStore event span_ error_ =
+  sendMessage ekEventStore saveEvent_span_errorSelector (toEKEvent event) span_ (toNSError error_)
 
 -- | removeEvent:span:error:
 --
@@ -318,18 +301,18 @@ saveEvent_span_error ekEventStore event span error_ =
 --
 -- ObjC selector: @- removeEvent:span:error:@
 removeEvent_span_error :: (IsEKEventStore ekEventStore, IsEKEvent event, IsNSError error_) => ekEventStore -> event -> EKSpan -> error_ -> IO Bool
-removeEvent_span_error ekEventStore event span error_ =
-  sendMessage ekEventStore removeEvent_span_errorSelector (toEKEvent event) span (toNSError error_)
+removeEvent_span_error ekEventStore event span_ error_ =
+  sendMessage ekEventStore removeEvent_span_errorSelector (toEKEvent event) span_ (toNSError error_)
 
 -- | @- saveEvent:span:commit:error:@
 saveEvent_span_commit_error :: (IsEKEventStore ekEventStore, IsEKEvent event, IsNSError error_) => ekEventStore -> event -> EKSpan -> Bool -> error_ -> IO Bool
-saveEvent_span_commit_error ekEventStore event span commit error_ =
-  sendMessage ekEventStore saveEvent_span_commit_errorSelector (toEKEvent event) span commit (toNSError error_)
+saveEvent_span_commit_error ekEventStore event span_ commit error_ =
+  sendMessage ekEventStore saveEvent_span_commit_errorSelector (toEKEvent event) span_ commit (toNSError error_)
 
 -- | @- removeEvent:span:commit:error:@
 removeEvent_span_commit_error :: (IsEKEventStore ekEventStore, IsEKEvent event, IsNSError error_) => ekEventStore -> event -> EKSpan -> Bool -> error_ -> IO Bool
-removeEvent_span_commit_error ekEventStore event span commit error_ =
-  sendMessage ekEventStore removeEvent_span_commit_errorSelector (toEKEvent event) span commit (toNSError error_)
+removeEvent_span_commit_error ekEventStore event span_ commit error_ =
+  sendMessage ekEventStore removeEvent_span_commit_errorSelector (toEKEvent event) span_ commit (toNSError error_)
 
 -- | eventWithIdentifier:
 --
@@ -555,18 +538,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @initWithSources:@
 initWithSourcesSelector :: Selector '[Id NSArray] (Id EKEventStore)
 initWithSourcesSelector = mkSelector "initWithSources:"
-
--- | @Selector@ for @requestFullAccessToEventsWithCompletion:@
-requestFullAccessToEventsWithCompletionSelector :: Selector '[Ptr ()] ()
-requestFullAccessToEventsWithCompletionSelector = mkSelector "requestFullAccessToEventsWithCompletion:"
-
--- | @Selector@ for @requestWriteOnlyAccessToEventsWithCompletion:@
-requestWriteOnlyAccessToEventsWithCompletionSelector :: Selector '[Ptr ()] ()
-requestWriteOnlyAccessToEventsWithCompletionSelector = mkSelector "requestWriteOnlyAccessToEventsWithCompletion:"
-
--- | @Selector@ for @requestFullAccessToRemindersWithCompletion:@
-requestFullAccessToRemindersWithCompletionSelector :: Selector '[Ptr ()] ()
-requestFullAccessToRemindersWithCompletionSelector = mkSelector "requestFullAccessToRemindersWithCompletion:"
 
 -- | @Selector@ for @requestAccessToEntityType:completion:@
 requestAccessToEntityType_completionSelector :: Selector '[EKEntityType, Ptr ()] ()

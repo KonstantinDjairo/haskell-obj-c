@@ -64,9 +64,6 @@ pattern NSTransformableAttributeType = NSAttributeType 1800
 pattern NSObjectIDAttributeType :: NSAttributeType
 pattern NSObjectIDAttributeType = NSAttributeType 2000
 
-pattern NSCompositeAttributeType :: NSAttributeType
-pattern NSCompositeAttributeType = NSAttributeType 2100
-
 instance ObjCArgument NSAttributeType where
   withObjCArg (NSAttributeType x) k = k (argCULong x)
 

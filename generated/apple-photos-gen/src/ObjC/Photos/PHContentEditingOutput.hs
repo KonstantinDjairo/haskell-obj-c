@@ -8,21 +8,15 @@ module ObjC.Photos.PHContentEditingOutput
   ( PHContentEditingOutput
   , IsPHContentEditingOutput(..)
   , initWithContentEditingInput
-  , renderedContentURLForType_error
   , initWithPlaceholderForCreatedAsset
   , adjustmentData
   , setAdjustmentData
   , renderedContentURL
-  , defaultRenderedContentType
-  , supportedRenderedContentTypes
   , adjustmentDataSelector
-  , defaultRenderedContentTypeSelector
   , initWithContentEditingInputSelector
   , initWithPlaceholderForCreatedAssetSelector
-  , renderedContentURLForType_errorSelector
   , renderedContentURLSelector
   , setAdjustmentDataSelector
-  , supportedRenderedContentTypesSelector
 
 
   ) where
@@ -37,19 +31,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Photos.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- | @- initWithContentEditingInput:@
 initWithContentEditingInput :: (IsPHContentEditingOutput phContentEditingOutput, IsPHContentEditingInput contentEditingInput) => phContentEditingOutput -> contentEditingInput -> IO (Id PHContentEditingOutput)
 initWithContentEditingInput phContentEditingOutput contentEditingInput =
   sendOwnedMessage phContentEditingOutput initWithContentEditingInputSelector (toPHContentEditingInput contentEditingInput)
-
--- | Returns a file URL where the rendered output in the specified format, with adjustments baked-in, needs to be written to. Returns nil and provides an error identifying the reason if the format is unsupported or the requested content URL cannot be provided
---
--- ObjC selector: @- renderedContentURLForType:error:@
-renderedContentURLForType_error :: (IsPHContentEditingOutput phContentEditingOutput, IsUTType type_, IsNSError error_) => phContentEditingOutput -> type_ -> error_ -> IO (Id NSURL)
-renderedContentURLForType_error phContentEditingOutput type_ error_ =
-  sendMessage phContentEditingOutput renderedContentURLForType_errorSelector (toUTType type_) (toNSError error_)
 
 -- | @- initWithPlaceholderForCreatedAsset:@
 initWithPlaceholderForCreatedAsset :: (IsPHContentEditingOutput phContentEditingOutput, IsPHObjectPlaceholder placeholderForCreatedAsset) => phContentEditingOutput -> placeholderForCreatedAsset -> IO (Id PHContentEditingOutput)
@@ -66,26 +52,10 @@ setAdjustmentData :: (IsPHContentEditingOutput phContentEditingOutput, IsPHAdjus
 setAdjustmentData phContentEditingOutput value =
   sendMessage phContentEditingOutput setAdjustmentDataSelector (toPHAdjustmentData value)
 
--- | File URL where the rendered output in the default format, with adjustments baked-in, needs to be written to.
---
--- ObjC selector: @- renderedContentURL@
+-- | @- renderedContentURL@
 renderedContentURL :: IsPHContentEditingOutput phContentEditingOutput => phContentEditingOutput -> IO (Id NSURL)
 renderedContentURL phContentEditingOutput =
   sendMessage phContentEditingOutput renderedContentURLSelector
-
--- | Returns the default type for the rendered content output
---
--- ObjC selector: @- defaultRenderedContentType@
-defaultRenderedContentType :: IsPHContentEditingOutput phContentEditingOutput => phContentEditingOutput -> IO (Id UTType)
-defaultRenderedContentType phContentEditingOutput =
-  sendMessage phContentEditingOutput defaultRenderedContentTypeSelector
-
--- | Returns the supported types for the rendered content output
---
--- ObjC selector: @- supportedRenderedContentTypes@
-supportedRenderedContentTypes :: IsPHContentEditingOutput phContentEditingOutput => phContentEditingOutput -> IO (Id NSArray)
-supportedRenderedContentTypes phContentEditingOutput =
-  sendMessage phContentEditingOutput supportedRenderedContentTypesSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -94,10 +64,6 @@ supportedRenderedContentTypes phContentEditingOutput =
 -- | @Selector@ for @initWithContentEditingInput:@
 initWithContentEditingInputSelector :: Selector '[Id PHContentEditingInput] (Id PHContentEditingOutput)
 initWithContentEditingInputSelector = mkSelector "initWithContentEditingInput:"
-
--- | @Selector@ for @renderedContentURLForType:error:@
-renderedContentURLForType_errorSelector :: Selector '[Id UTType, Id NSError] (Id NSURL)
-renderedContentURLForType_errorSelector = mkSelector "renderedContentURLForType:error:"
 
 -- | @Selector@ for @initWithPlaceholderForCreatedAsset:@
 initWithPlaceholderForCreatedAssetSelector :: Selector '[Id PHObjectPlaceholder] (Id PHContentEditingOutput)
@@ -114,12 +80,4 @@ setAdjustmentDataSelector = mkSelector "setAdjustmentData:"
 -- | @Selector@ for @renderedContentURL@
 renderedContentURLSelector :: Selector '[] (Id NSURL)
 renderedContentURLSelector = mkSelector "renderedContentURL"
-
--- | @Selector@ for @defaultRenderedContentType@
-defaultRenderedContentTypeSelector :: Selector '[] (Id UTType)
-defaultRenderedContentTypeSelector = mkSelector "defaultRenderedContentType"
-
--- | @Selector@ for @supportedRenderedContentTypes@
-supportedRenderedContentTypesSelector :: Selector '[] (Id NSArray)
-supportedRenderedContentTypesSelector = mkSelector "supportedRenderedContentTypes"
 

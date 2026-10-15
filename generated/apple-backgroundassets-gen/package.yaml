@@ -12,21 +12,17 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
   - ObjC.BackgroundAssets.BAAppExtensionInfo
-  - ObjC.BackgroundAssets.BAAssetPack
-  - ObjC.BackgroundAssets.BAAssetPackManager
-  - ObjC.BackgroundAssets.BAAssetPackManifest
   - ObjC.BackgroundAssets.BADownload
   - ObjC.BackgroundAssets.BADownloadManager
   - ObjC.BackgroundAssets.BAURLDownload
   - ObjC.BackgroundAssets.Delegate.BADownloadManagerDelegate
   - ObjC.BackgroundAssets.Delegate.BADownloaderExtension
-  - ObjC.BackgroundAssets.Delegate.BAManagedAssetPackDownloadDelegate
-  - ObjC.BackgroundAssets.Delegate.BAManagedDownloaderExtension
   - ObjC.BackgroundAssets.Enums
   - ObjC.BackgroundAssets.Internal.Classes
   - ObjC.BackgroundAssets.Internal.Enums

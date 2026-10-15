@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The configuration for this device.
---
--- Generated bindings for @STScreenTimeConfiguration@.
+-- | Generated bindings for @STScreenTimeConfiguration@.
 module ObjC.ScreenTime.STScreenTimeConfiguration
   ( STScreenTimeConfiguration
   , IsSTScreenTimeConfiguration(..)
@@ -42,9 +40,7 @@ new  =
     cls' <- getRequiredClass "STScreenTimeConfiguration"
     sendOwnedClassMessage cls' newSelector
 
--- | A Boolean that indicates whether the device is currently enforcing child restrictions.
---
--- ObjC selector: @- enforcesChildRestrictions@
+-- | @- enforcesChildRestrictions@
 enforcesChildRestrictions :: IsSTScreenTimeConfiguration stScreenTimeConfiguration => stScreenTimeConfiguration -> IO Bool
 enforcesChildRestrictions stScreenTimeConfiguration =
   sendMessage stScreenTimeConfiguration enforcesChildRestrictionsSelector

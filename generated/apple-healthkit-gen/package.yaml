@@ -13,6 +13,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -30,8 +31,6 @@ library:
   - ObjC.HealthKit.HKAudiogramSample
   - ObjC.HealthKit.HKAudiogramSampleType
   - ObjC.HealthKit.HKAudiogramSensitivityPoint
-  - ObjC.HealthKit.HKAudiogramSensitivityPointClampingRange
-  - ObjC.HealthKit.HKAudiogramSensitivityTest
   - ObjC.HealthKit.HKBiologicalSexObject
   - ObjC.HealthKit.HKBloodTypeObject
   - ObjC.HealthKit.HKCDADocument
@@ -39,7 +38,6 @@ library:
   - ObjC.HealthKit.HKCategorySample
   - ObjC.HealthKit.HKCategoryType
   - ObjC.HealthKit.HKCharacteristicType
-  - ObjC.HealthKit.HKClinicalCoding
   - ObjC.HealthKit.HKClinicalRecord
   - ObjC.HealthKit.HKClinicalType
   - ObjC.HealthKit.HKContactsLensSpecification
@@ -62,10 +60,8 @@ library:
   - ObjC.HealthKit.HKFHIRResource
   - ObjC.HealthKit.HKFHIRVersion
   - ObjC.HealthKit.HKFitzpatrickSkinTypeObject
-  - ObjC.HealthKit.HKGAD7Assessment
   - ObjC.HealthKit.HKGlassesLensSpecification
   - ObjC.HealthKit.HKGlassesPrescription
-  - ObjC.HealthKit.HKHealthConceptIdentifier
   - ObjC.HealthKit.HKHealthStore
   - ObjC.HealthKit.HKHeartbeatSeriesBuilder
   - ObjC.HealthKit.HKHeartbeatSeriesQuery
@@ -73,13 +69,9 @@ library:
   - ObjC.HealthKit.HKLensSpecification
   - ObjC.HealthKit.HKLiveWorkoutBuilder
   - ObjC.HealthKit.HKLiveWorkoutDataSource
-  - ObjC.HealthKit.HKMedicationConcept
-  - ObjC.HealthKit.HKMedicationDoseEvent
-  - ObjC.HealthKit.HKMedicationDoseEventType
   - ObjC.HealthKit.HKObject
   - ObjC.HealthKit.HKObjectType
   - ObjC.HealthKit.HKObserverQuery
-  - ObjC.HealthKit.HKPHQ9Assessment
   - ObjC.HealthKit.HKPrescriptionType
   - ObjC.HealthKit.HKQuantity
   - ObjC.HealthKit.HKQuantitySample
@@ -92,24 +84,17 @@ library:
   - ObjC.HealthKit.HKSample
   - ObjC.HealthKit.HKSampleQuery
   - ObjC.HealthKit.HKSampleType
-  - ObjC.HealthKit.HKScoredAssessment
-  - ObjC.HealthKit.HKScoredAssessmentType
   - ObjC.HealthKit.HKSeriesBuilder
   - ObjC.HealthKit.HKSeriesSample
   - ObjC.HealthKit.HKSeriesType
   - ObjC.HealthKit.HKSource
   - ObjC.HealthKit.HKSourceQuery
   - ObjC.HealthKit.HKSourceRevision
-  - ObjC.HealthKit.HKStateOfMind
-  - ObjC.HealthKit.HKStateOfMindType
   - ObjC.HealthKit.HKStatistics
   - ObjC.HealthKit.HKStatisticsCollection
   - ObjC.HealthKit.HKStatisticsCollectionQuery
   - ObjC.HealthKit.HKStatisticsQuery
   - ObjC.HealthKit.HKUnit
-  - ObjC.HealthKit.HKUserAnnotatedMedication
-  - ObjC.HealthKit.HKUserAnnotatedMedicationQuery
-  - ObjC.HealthKit.HKUserAnnotatedMedicationType
   - ObjC.HealthKit.HKVerifiableClinicalRecord
   - ObjC.HealthKit.HKVerifiableClinicalRecordQuery
   - ObjC.HealthKit.HKVerifiableClinicalRecordSubject
@@ -120,8 +105,6 @@ library:
   - ObjC.HealthKit.HKWorkoutActivity
   - ObjC.HealthKit.HKWorkoutBuilder
   - ObjC.HealthKit.HKWorkoutConfiguration
-  - ObjC.HealthKit.HKWorkoutEffortRelationship
-  - ObjC.HealthKit.HKWorkoutEffortRelationshipQuery
   - ObjC.HealthKit.HKWorkoutEvent
   - ObjC.HealthKit.HKWorkoutRoute
   - ObjC.HealthKit.HKWorkoutRouteBuilder

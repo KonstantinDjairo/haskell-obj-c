@@ -14,7 +14,6 @@ import Foreign.LibFFI.FFITypes
 import Foreign.LibFFI.Internal (CType)
 import System.IO.Unsafe (unsafePerformIO)
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
-import ObjC.CoreFoundation.Internal.Structs
 import ObjC.CoreServices.Internal.Enums
 
 data AEAddressDesc = AEAddressDesc
@@ -263,6 +262,40 @@ instance ObjCArgument AIFFLoop where
 instance ObjCReturn AIFFLoop where
   type RawReturn AIFFLoop = AIFFLoop
   objcRetType = retAIFFLoop
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data AbsoluteTime = AbsoluteTime
+  { absoluteTimeLo :: !CUInt
+  , absoluteTimeHi :: !CUInt
+  } deriving (Eq, Show)
+
+instance Storable AbsoluteTime where
+  sizeOf    _ = 8
+  alignment _ = 4
+  peek p = AbsoluteTime <$> peekByteOff p 0
+    <*> peekByteOff p 4
+  poke p (AbsoluteTime {..}) = do
+    pokeByteOff p 0 absoluteTimeLo
+    pokeByteOff p 4 absoluteTimeHi
+
+{-# NOINLINE absoluteTimeStructType #-}
+absoluteTimeStructType :: Ptr CType
+absoluteTimeStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint, ffi_type_uint]
+
+argAbsoluteTime :: AbsoluteTime -> Arg
+argAbsoluteTime = mkStorableArg absoluteTimeStructType
+
+retAbsoluteTime :: RetType AbsoluteTime
+retAbsoluteTime = mkStorableRetType absoluteTimeStructType
+
+instance ObjCArgument AbsoluteTime where
+  withObjCArg x k = k (argAbsoluteTime x)
+
+instance ObjCReturn AbsoluteTime where
+  type RawReturn AbsoluteTime = AbsoluteTime
+  objcRetType = retAbsoluteTime
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure
@@ -763,6 +796,40 @@ instance ObjCArgument CommonChunk where
 instance ObjCReturn CommonChunk where
   type RawReturn CommonChunk = CommonChunk
   objcRetType = retCommonChunk
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data CompTimeValue = CompTimeValue
+  { compTimeValueLo :: !CUInt
+  , compTimeValueHi :: !CInt
+  } deriving (Eq, Show)
+
+instance Storable CompTimeValue where
+  sizeOf    _ = 8
+  alignment _ = 4
+  peek p = CompTimeValue <$> peekByteOff p 0
+    <*> peekByteOff p 4
+  poke p (CompTimeValue {..}) = do
+    pokeByteOff p 0 compTimeValueLo
+    pokeByteOff p 4 compTimeValueHi
+
+{-# NOINLINE compTimeValueStructType #-}
+compTimeValueStructType :: Ptr CType
+compTimeValueStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint, ffi_type_sint]
+
+argCompTimeValue :: CompTimeValue -> Arg
+argCompTimeValue = mkStorableArg compTimeValueStructType
+
+retCompTimeValue :: RetType CompTimeValue
+retCompTimeValue = mkStorableRetType compTimeValueStructType
+
+instance ObjCArgument CompTimeValue where
+  withObjCArg x k = k (argCompTimeValue x)
+
+instance ObjCReturn CompTimeValue where
+  type RawReturn CompTimeValue = CompTimeValue
+  objcRetType = retCompTimeValue
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure
@@ -1312,6 +1379,114 @@ instance ObjCArgument FVector where
 instance ObjCReturn FVector where
   type RawReturn FVector = FVector
   objcRetType = retFVector
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data FixedPoint = FixedPoint
+  { fixedPointX :: !CInt
+  , fixedPointY :: !CInt
+  } deriving (Eq, Show)
+
+instance Storable FixedPoint where
+  sizeOf    _ = 8
+  alignment _ = 4
+  peek p = FixedPoint <$> peekByteOff p 0
+    <*> peekByteOff p 4
+  poke p (FixedPoint {..}) = do
+    pokeByteOff p 0 fixedPointX
+    pokeByteOff p 4 fixedPointY
+
+{-# NOINLINE fixedPointStructType #-}
+fixedPointStructType :: Ptr CType
+fixedPointStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_sint, ffi_type_sint]
+
+argFixedPoint :: FixedPoint -> Arg
+argFixedPoint = mkStorableArg fixedPointStructType
+
+retFixedPoint :: RetType FixedPoint
+retFixedPoint = mkStorableRetType fixedPointStructType
+
+instance ObjCArgument FixedPoint where
+  withObjCArg x k = k (argFixedPoint x)
+
+instance ObjCReturn FixedPoint where
+  type RawReturn FixedPoint = FixedPoint
+  objcRetType = retFixedPoint
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data FixedRect = FixedRect
+  { fixedRectLeft :: !CInt
+  , fixedRectTop :: !CInt
+  , fixedRectRight :: !CInt
+  , fixedRectBottom :: !CInt
+  } deriving (Eq, Show)
+
+instance Storable FixedRect where
+  sizeOf    _ = 16
+  alignment _ = 4
+  peek p = FixedRect <$> peekByteOff p 0
+    <*> peekByteOff p 4
+    <*> peekByteOff p 8
+    <*> peekByteOff p 12
+  poke p (FixedRect {..}) = do
+    pokeByteOff p 0 fixedRectLeft
+    pokeByteOff p 4 fixedRectTop
+    pokeByteOff p 8 fixedRectRight
+    pokeByteOff p 12 fixedRectBottom
+
+{-# NOINLINE fixedRectStructType #-}
+fixedRectStructType :: Ptr CType
+fixedRectStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_sint, ffi_type_sint, ffi_type_sint, ffi_type_sint]
+
+argFixedRect :: FixedRect -> Arg
+argFixedRect = mkStorableArg fixedRectStructType
+
+retFixedRect :: RetType FixedRect
+retFixedRect = mkStorableRetType fixedRectStructType
+
+instance ObjCArgument FixedRect where
+  withObjCArg x k = k (argFixedRect x)
+
+instance ObjCReturn FixedRect where
+  type RawReturn FixedRect = FixedRect
+  objcRetType = retFixedRect
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data Float32Point = Float32Point
+  { float32PointX :: !CFloat
+  , float32PointY :: !CFloat
+  } deriving (Eq, Show)
+
+instance Storable Float32Point where
+  sizeOf    _ = 8
+  alignment _ = 4
+  peek p = Float32Point <$> peekByteOff p 0
+    <*> peekByteOff p 4
+  poke p (Float32Point {..}) = do
+    pokeByteOff p 0 float32PointX
+    pokeByteOff p 4 float32PointY
+
+{-# NOINLINE float32PointStructType #-}
+float32PointStructType :: Ptr CType
+float32PointStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_float, ffi_type_float]
+
+argFloat32Point :: Float32Point -> Arg
+argFloat32Point = mkStorableArg float32PointStructType
+
+retFloat32Point :: RetType Float32Point
+retFloat32Point = mkStorableRetType float32PointStructType
+
+instance ObjCArgument Float32Point where
+  withObjCArg x k = k (argFloat32Point x)
+
+instance ObjCReturn Float32Point where
+  type RawReturn Float32Point = Float32Point
+  objcRetType = retFloat32Point
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure
@@ -2490,6 +2665,110 @@ instance ObjCReturn MPSemaphoreInfo where
   fromRetained = pure
   fromOwned = pure
 
+data MachineInformation = MachineInformation
+  { machineInformationCS :: !CULong
+  , machineInformationFS :: !CULong
+  , machineInformationGS :: !CULong
+  , machineInformationRFLAGS :: !CULong
+  , machineInformationRIP :: !CULong
+  , machineInformationExceptTrap :: !CULong
+  , machineInformationExceptErr :: !CULong
+  , machineInformationExceptAddr :: !CULong
+  } deriving (Eq, Show)
+
+instance Storable MachineInformation where
+  sizeOf    _ = 64
+  alignment _ = 8
+  peek p = MachineInformation <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+    <*> peekByteOff p 24
+    <*> peekByteOff p 32
+    <*> peekByteOff p 40
+    <*> peekByteOff p 48
+    <*> peekByteOff p 56
+  poke p (MachineInformation {..}) = do
+    pokeByteOff p 0 machineInformationCS
+    pokeByteOff p 8 machineInformationFS
+    pokeByteOff p 16 machineInformationGS
+    pokeByteOff p 24 machineInformationRFLAGS
+    pokeByteOff p 32 machineInformationRIP
+    pokeByteOff p 40 machineInformationExceptTrap
+    pokeByteOff p 48 machineInformationExceptErr
+    pokeByteOff p 56 machineInformationExceptAddr
+
+{-# NOINLINE machineInformationStructType #-}
+machineInformationStructType :: Ptr CType
+machineInformationStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong]
+
+argMachineInformation :: MachineInformation -> Arg
+argMachineInformation = mkStorableArg machineInformationStructType
+
+retMachineInformation :: RetType MachineInformation
+retMachineInformation = mkStorableRetType machineInformationStructType
+
+instance ObjCArgument MachineInformation where
+  withObjCArg x k = k (argMachineInformation x)
+
+instance ObjCReturn MachineInformation where
+  type RawReturn MachineInformation = MachineInformation
+  objcRetType = retMachineInformation
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data MachineInformationIntel64 = MachineInformationIntel64
+  { machineInformationIntel64CS :: !CULong
+  , machineInformationIntel64FS :: !CULong
+  , machineInformationIntel64GS :: !CULong
+  , machineInformationIntel64RFLAGS :: !CULong
+  , machineInformationIntel64RIP :: !CULong
+  , machineInformationIntel64ExceptTrap :: !CULong
+  , machineInformationIntel64ExceptErr :: !CULong
+  , machineInformationIntel64ExceptAddr :: !CULong
+  } deriving (Eq, Show)
+
+instance Storable MachineInformationIntel64 where
+  sizeOf    _ = 64
+  alignment _ = 8
+  peek p = MachineInformationIntel64 <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+    <*> peekByteOff p 24
+    <*> peekByteOff p 32
+    <*> peekByteOff p 40
+    <*> peekByteOff p 48
+    <*> peekByteOff p 56
+  poke p (MachineInformationIntel64 {..}) = do
+    pokeByteOff p 0 machineInformationIntel64CS
+    pokeByteOff p 8 machineInformationIntel64FS
+    pokeByteOff p 16 machineInformationIntel64GS
+    pokeByteOff p 24 machineInformationIntel64RFLAGS
+    pokeByteOff p 32 machineInformationIntel64RIP
+    pokeByteOff p 40 machineInformationIntel64ExceptTrap
+    pokeByteOff p 48 machineInformationIntel64ExceptErr
+    pokeByteOff p 56 machineInformationIntel64ExceptAddr
+
+{-# NOINLINE machineInformationIntel64StructType #-}
+machineInformationIntel64StructType :: Ptr CType
+machineInformationIntel64StructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong]
+
+argMachineInformationIntel64 :: MachineInformationIntel64 -> Arg
+argMachineInformationIntel64 = mkStorableArg machineInformationIntel64StructType
+
+retMachineInformationIntel64 :: RetType MachineInformationIntel64
+retMachineInformationIntel64 = mkStorableRetType machineInformationIntel64StructType
+
+instance ObjCArgument MachineInformationIntel64 where
+  withObjCArg x k = k (argMachineInformationIntel64 x)
+
+instance ObjCReturn MachineInformationIntel64 where
+  type RawReturn MachineInformationIntel64 = MachineInformationIntel64
+  objcRetType = retMachineInformationIntel64
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
 data MemoryExceptionInformation = MemoryExceptionInformation
   { memoryExceptionInformationTheArea :: !(Ptr ())
   , memoryExceptionInformationTheAddress :: !(Ptr ())
@@ -2700,6 +2979,46 @@ instance ObjCArgument Nanoseconds where
 instance ObjCReturn Nanoseconds where
   type RawReturn Nanoseconds = Nanoseconds
   objcRetType = retNanoseconds
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data NumVersion = NumVersion
+  { numVersionNonRelRev :: !CUChar
+  , numVersionStage :: !CUChar
+  , numVersionMinorAndBugRev :: !CUChar
+  , numVersionMajorRev :: !CUChar
+  } deriving (Eq, Show)
+
+instance Storable NumVersion where
+  sizeOf    _ = 4
+  alignment _ = 1
+  peek p = NumVersion <$> peekByteOff p 0
+    <*> peekByteOff p 1
+    <*> peekByteOff p 2
+    <*> peekByteOff p 3
+  poke p (NumVersion {..}) = do
+    pokeByteOff p 0 numVersionNonRelRev
+    pokeByteOff p 1 numVersionStage
+    pokeByteOff p 2 numVersionMinorAndBugRev
+    pokeByteOff p 3 numVersionMajorRev
+
+{-# NOINLINE numVersionStructType #-}
+numVersionStructType :: Ptr CType
+numVersionStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint8, ffi_type_uint8, ffi_type_uint8, ffi_type_uint8]
+
+argNumVersion :: NumVersion -> Arg
+argNumVersion = mkStorableArg numVersionStructType
+
+retNumVersion :: RetType NumVersion
+retNumVersion = mkStorableRetType numVersionStructType
+
+instance ObjCArgument NumVersion where
+  withObjCArg x k = k (argNumVersion x)
+
+instance ObjCReturn NumVersion where
+  type RawReturn NumVersion = NumVersion
+  objcRetType = retNumVersion
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure
@@ -3148,6 +3467,280 @@ instance ObjCArgument PEFSplitHashWord where
 instance ObjCReturn PEFSplitHashWord where
   type RawReturn PEFSplitHashWord = PEFSplitHashWord
   objcRetType = retPEFSplitHashWord
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | ******************************************************************************
+--
+-- Quickdraw Types
+--
+-- Point               2D Quickdraw coordinate, range: -32K to +32K        Rect                Rectangular Quickdraw area        Style               Quickdraw font rendering styles        StyleParameter      Style when used as a parameter (historical 68K convention)        StyleField          Style when used as a field (historical 68K convention)        CharParameter       Char when used as a parameter (historical 68K convention)
+--
+-- Note:   The original Macintosh toolbox in 68K Pascal defined Style as a SET.              Both Style and CHAR occupy 8-bits in packed records or 16-bits when             used as fields in non-packed records or as parameters.
+--
+-- *******************************************************************************
+data Point = Point
+  { pointV :: !CShort
+  , pointH :: !CShort
+  } deriving (Eq, Show)
+
+instance Storable Point where
+  sizeOf    _ = 4
+  alignment _ = 2
+  peek p = Point <$> peekByteOff p 0
+    <*> peekByteOff p 2
+  poke p (Point {..}) = do
+    pokeByteOff p 0 pointV
+    pokeByteOff p 2 pointH
+
+{-# NOINLINE pointStructType #-}
+pointStructType :: Ptr CType
+pointStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_sint16, ffi_type_sint16]
+
+argPoint :: Point -> Arg
+argPoint = mkStorableArg pointStructType
+
+retPoint :: RetType Point
+retPoint = mkStorableRetType pointStructType
+
+instance ObjCArgument Point where
+  withObjCArg x k = k (argPoint x)
+
+instance ObjCReturn Point where
+  type RawReturn Point = Point
+  objcRetType = retPoint
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+-- | ******************************************************************************
+--
+-- Process Manager type ProcessSerialNumber (previously in Processes.h)
+--
+-- *******************************************************************************
+data ProcessSerialNumber = ProcessSerialNumber
+  { processSerialNumberHighLongOfPSN :: !CUInt
+  , processSerialNumberLowLongOfPSN :: !CUInt
+  } deriving (Eq, Show)
+
+instance Storable ProcessSerialNumber where
+  sizeOf    _ = 8
+  alignment _ = 4
+  peek p = ProcessSerialNumber <$> peekByteOff p 0
+    <*> peekByteOff p 4
+  poke p (ProcessSerialNumber {..}) = do
+    pokeByteOff p 0 processSerialNumberHighLongOfPSN
+    pokeByteOff p 4 processSerialNumberLowLongOfPSN
+
+{-# NOINLINE processSerialNumberStructType #-}
+processSerialNumberStructType :: Ptr CType
+processSerialNumberStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint, ffi_type_uint]
+
+argProcessSerialNumber :: ProcessSerialNumber -> Arg
+argProcessSerialNumber = mkStorableArg processSerialNumberStructType
+
+retProcessSerialNumber :: RetType ProcessSerialNumber
+retProcessSerialNumber = mkStorableRetType processSerialNumberStructType
+
+instance ObjCArgument ProcessSerialNumber where
+  withObjCArg x k = k (argProcessSerialNumber x)
+
+instance ObjCReturn ProcessSerialNumber where
+  type RawReturn ProcessSerialNumber = ProcessSerialNumber
+  objcRetType = retProcessSerialNumber
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data Rect = Rect
+  { rectTop :: !CShort
+  , rectLeft :: !CShort
+  , rectBottom :: !CShort
+  , rectRight :: !CShort
+  } deriving (Eq, Show)
+
+instance Storable Rect where
+  sizeOf    _ = 8
+  alignment _ = 2
+  peek p = Rect <$> peekByteOff p 0
+    <*> peekByteOff p 2
+    <*> peekByteOff p 4
+    <*> peekByteOff p 6
+  poke p (Rect {..}) = do
+    pokeByteOff p 0 rectTop
+    pokeByteOff p 2 rectLeft
+    pokeByteOff p 4 rectBottom
+    pokeByteOff p 6 rectRight
+
+{-# NOINLINE rectStructType #-}
+rectStructType :: Ptr CType
+rectStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_sint16, ffi_type_sint16, ffi_type_sint16, ffi_type_sint16]
+
+argRect :: Rect -> Arg
+argRect = mkStorableArg rectStructType
+
+retRect :: RetType Rect
+retRect = mkStorableRetType rectStructType
+
+instance ObjCArgument Rect where
+  withObjCArg x k = k (argRect x)
+
+instance ObjCReturn Rect where
+  type RawReturn Rect = Rect
+  objcRetType = retRect
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data RegisterInformation = RegisterInformation
+  { registerInformationRAX :: !CULong
+  , registerInformationRBX :: !CULong
+  , registerInformationRCX :: !CULong
+  , registerInformationRDX :: !CULong
+  , registerInformationRDI :: !CULong
+  , registerInformationRSI :: !CULong
+  , registerInformationRBP :: !CULong
+  , registerInformationRSP :: !CULong
+  , registerInformationR8 :: !CULong
+  , registerInformationR9 :: !CULong
+  , registerInformationR10 :: !CULong
+  , registerInformationR11 :: !CULong
+  , registerInformationR12 :: !CULong
+  , registerInformationR13 :: !CULong
+  , registerInformationR14 :: !CULong
+  , registerInformationR15 :: !CULong
+  } deriving (Eq, Show)
+
+instance Storable RegisterInformation where
+  sizeOf    _ = 128
+  alignment _ = 8
+  peek p = RegisterInformation <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+    <*> peekByteOff p 24
+    <*> peekByteOff p 32
+    <*> peekByteOff p 40
+    <*> peekByteOff p 48
+    <*> peekByteOff p 56
+    <*> peekByteOff p 64
+    <*> peekByteOff p 72
+    <*> peekByteOff p 80
+    <*> peekByteOff p 88
+    <*> peekByteOff p 96
+    <*> peekByteOff p 104
+    <*> peekByteOff p 112
+    <*> peekByteOff p 120
+  poke p (RegisterInformation {..}) = do
+    pokeByteOff p 0 registerInformationRAX
+    pokeByteOff p 8 registerInformationRBX
+    pokeByteOff p 16 registerInformationRCX
+    pokeByteOff p 24 registerInformationRDX
+    pokeByteOff p 32 registerInformationRDI
+    pokeByteOff p 40 registerInformationRSI
+    pokeByteOff p 48 registerInformationRBP
+    pokeByteOff p 56 registerInformationRSP
+    pokeByteOff p 64 registerInformationR8
+    pokeByteOff p 72 registerInformationR9
+    pokeByteOff p 80 registerInformationR10
+    pokeByteOff p 88 registerInformationR11
+    pokeByteOff p 96 registerInformationR12
+    pokeByteOff p 104 registerInformationR13
+    pokeByteOff p 112 registerInformationR14
+    pokeByteOff p 120 registerInformationR15
+
+{-# NOINLINE registerInformationStructType #-}
+registerInformationStructType :: Ptr CType
+registerInformationStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong]
+
+argRegisterInformation :: RegisterInformation -> Arg
+argRegisterInformation = mkStorableArg registerInformationStructType
+
+retRegisterInformation :: RetType RegisterInformation
+retRegisterInformation = mkStorableRetType registerInformationStructType
+
+instance ObjCArgument RegisterInformation where
+  withObjCArg x k = k (argRegisterInformation x)
+
+instance ObjCReturn RegisterInformation where
+  type RawReturn RegisterInformation = RegisterInformation
+  objcRetType = retRegisterInformation
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data RegisterInformationIntel64 = RegisterInformationIntel64
+  { registerInformationIntel64RAX :: !CULong
+  , registerInformationIntel64RBX :: !CULong
+  , registerInformationIntel64RCX :: !CULong
+  , registerInformationIntel64RDX :: !CULong
+  , registerInformationIntel64RDI :: !CULong
+  , registerInformationIntel64RSI :: !CULong
+  , registerInformationIntel64RBP :: !CULong
+  , registerInformationIntel64RSP :: !CULong
+  , registerInformationIntel64R8 :: !CULong
+  , registerInformationIntel64R9 :: !CULong
+  , registerInformationIntel64R10 :: !CULong
+  , registerInformationIntel64R11 :: !CULong
+  , registerInformationIntel64R12 :: !CULong
+  , registerInformationIntel64R13 :: !CULong
+  , registerInformationIntel64R14 :: !CULong
+  , registerInformationIntel64R15 :: !CULong
+  } deriving (Eq, Show)
+
+instance Storable RegisterInformationIntel64 where
+  sizeOf    _ = 128
+  alignment _ = 8
+  peek p = RegisterInformationIntel64 <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+    <*> peekByteOff p 24
+    <*> peekByteOff p 32
+    <*> peekByteOff p 40
+    <*> peekByteOff p 48
+    <*> peekByteOff p 56
+    <*> peekByteOff p 64
+    <*> peekByteOff p 72
+    <*> peekByteOff p 80
+    <*> peekByteOff p 88
+    <*> peekByteOff p 96
+    <*> peekByteOff p 104
+    <*> peekByteOff p 112
+    <*> peekByteOff p 120
+  poke p (RegisterInformationIntel64 {..}) = do
+    pokeByteOff p 0 registerInformationIntel64RAX
+    pokeByteOff p 8 registerInformationIntel64RBX
+    pokeByteOff p 16 registerInformationIntel64RCX
+    pokeByteOff p 24 registerInformationIntel64RDX
+    pokeByteOff p 32 registerInformationIntel64RDI
+    pokeByteOff p 40 registerInformationIntel64RSI
+    pokeByteOff p 48 registerInformationIntel64RBP
+    pokeByteOff p 56 registerInformationIntel64RSP
+    pokeByteOff p 64 registerInformationIntel64R8
+    pokeByteOff p 72 registerInformationIntel64R9
+    pokeByteOff p 80 registerInformationIntel64R10
+    pokeByteOff p 88 registerInformationIntel64R11
+    pokeByteOff p 96 registerInformationIntel64R12
+    pokeByteOff p 104 registerInformationIntel64R13
+    pokeByteOff p 112 registerInformationIntel64R14
+    pokeByteOff p 120 registerInformationIntel64R15
+
+{-# NOINLINE registerInformationIntel64StructType #-}
+registerInformationIntel64StructType :: Ptr CType
+registerInformationIntel64StructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong]
+
+argRegisterInformationIntel64 :: RegisterInformationIntel64 -> Arg
+argRegisterInformationIntel64 = mkStorableArg registerInformationIntel64StructType
+
+retRegisterInformationIntel64 :: RetType RegisterInformationIntel64
+retRegisterInformationIntel64 = mkStorableRetType registerInformationIntel64StructType
+
+instance ObjCArgument RegisterInformationIntel64 where
+  withObjCArg x k = k (argRegisterInformationIntel64 x)
+
+instance ObjCReturn RegisterInformationIntel64 where
+  type RawReturn RegisterInformationIntel64 = RegisterInformationIntel64
+  objcRetType = retRegisterInformationIntel64
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure
@@ -4301,6 +4894,40 @@ instance ObjCReturn UnicodeMapping where
   fromRetained = pure
   fromOwned = pure
 
+data UnsignedWide = UnsignedWide
+  { unsignedWideLo :: !CUInt
+  , unsignedWideHi :: !CUInt
+  } deriving (Eq, Show)
+
+instance Storable UnsignedWide where
+  sizeOf    _ = 8
+  alignment _ = 4
+  peek p = UnsignedWide <$> peekByteOff p 0
+    <*> peekByteOff p 4
+  poke p (UnsignedWide {..}) = do
+    pokeByteOff p 0 unsignedWideLo
+    pokeByteOff p 4 unsignedWideHi
+
+{-# NOINLINE unsignedWideStructType #-}
+unsignedWideStructType :: Ptr CType
+unsignedWideStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_uint, ffi_type_uint]
+
+argUnsignedWide :: UnsignedWide -> Arg
+argUnsignedWide = mkStorableArg unsignedWideStructType
+
+retUnsignedWide :: RetType UnsignedWide
+retUnsignedWide = mkStorableRetType unsignedWideStructType
+
+instance ObjCArgument UnsignedWide where
+  withObjCArg x k = k (argUnsignedWide x)
+
+instance ObjCReturn UnsignedWide where
+  type RawReturn UnsignedWide = UnsignedWide
+  objcRetType = retUnsignedWide
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
 data VolMountInfoHeader = VolMountInfoHeader
   { volMountInfoHeaderLength :: !CShort
   , volMountInfoHeaderMedia :: !CUInt
@@ -5331,17 +5958,17 @@ instance ObjCReturn MPTaskInfoVersion2 where
   fromOwned = pure
 
 data MachineInformationPowerPC = MachineInformationPowerPC
-  { machineInformationPowerPCCTR :: !Nanoseconds
-  , machineInformationPowerPCLR :: !Nanoseconds
-  , machineInformationPowerPCPC :: !Nanoseconds
+  { machineInformationPowerPCCTR :: !UnsignedWide
+  , machineInformationPowerPCLR :: !UnsignedWide
+  , machineInformationPowerPCPC :: !UnsignedWide
   , machineInformationPowerPCCRRegister :: !CULong
   , machineInformationPowerPCXER :: !CULong
   , machineInformationPowerPCMSR :: !CULong
   , machineInformationPowerPCMQ :: !CULong
   , machineInformationPowerPCExceptKind :: !CULong
   , machineInformationPowerPCDSISR :: !CULong
-  , machineInformationPowerPCDAR :: !Nanoseconds
-  , machineInformationPowerPCReserved :: !Nanoseconds
+  , machineInformationPowerPCDAR :: !UnsignedWide
+  , machineInformationPowerPCReserved :: !UnsignedWide
   } deriving (Eq, Show)
 
 instance Storable MachineInformationPowerPC where
@@ -5373,7 +6000,7 @@ instance Storable MachineInformationPowerPC where
 
 {-# NOINLINE machineInformationPowerPCStructType #-}
 machineInformationPowerPCStructType :: Ptr CType
-machineInformationPowerPCStructType = unsafePerformIO $ fst <$> newStructCType [nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, nanosecondsStructType, nanosecondsStructType]
+machineInformationPowerPCStructType = unsafePerformIO $ fst <$> newStructCType [unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, ffi_type_ulong, unsignedWideStructType, unsignedWideStructType]
 
 argMachineInformationPowerPC :: MachineInformationPowerPC -> Arg
 argMachineInformationPowerPC = mkStorableArg machineInformationPowerPCStructType
@@ -5392,38 +6019,38 @@ instance ObjCReturn MachineInformationPowerPC where
   fromOwned = pure
 
 data RegisterInformationPowerPC = RegisterInformationPowerPC
-  { registerInformationPowerPCR0 :: !Nanoseconds
-  , registerInformationPowerPCR1 :: !Nanoseconds
-  , registerInformationPowerPCR2 :: !Nanoseconds
-  , registerInformationPowerPCR3 :: !Nanoseconds
-  , registerInformationPowerPCR4 :: !Nanoseconds
-  , registerInformationPowerPCR5 :: !Nanoseconds
-  , registerInformationPowerPCR6 :: !Nanoseconds
-  , registerInformationPowerPCR7 :: !Nanoseconds
-  , registerInformationPowerPCR8 :: !Nanoseconds
-  , registerInformationPowerPCR9 :: !Nanoseconds
-  , registerInformationPowerPCR10 :: !Nanoseconds
-  , registerInformationPowerPCR11 :: !Nanoseconds
-  , registerInformationPowerPCR12 :: !Nanoseconds
-  , registerInformationPowerPCR13 :: !Nanoseconds
-  , registerInformationPowerPCR14 :: !Nanoseconds
-  , registerInformationPowerPCR15 :: !Nanoseconds
-  , registerInformationPowerPCR16 :: !Nanoseconds
-  , registerInformationPowerPCR17 :: !Nanoseconds
-  , registerInformationPowerPCR18 :: !Nanoseconds
-  , registerInformationPowerPCR19 :: !Nanoseconds
-  , registerInformationPowerPCR20 :: !Nanoseconds
-  , registerInformationPowerPCR21 :: !Nanoseconds
-  , registerInformationPowerPCR22 :: !Nanoseconds
-  , registerInformationPowerPCR23 :: !Nanoseconds
-  , registerInformationPowerPCR24 :: !Nanoseconds
-  , registerInformationPowerPCR25 :: !Nanoseconds
-  , registerInformationPowerPCR26 :: !Nanoseconds
-  , registerInformationPowerPCR27 :: !Nanoseconds
-  , registerInformationPowerPCR28 :: !Nanoseconds
-  , registerInformationPowerPCR29 :: !Nanoseconds
-  , registerInformationPowerPCR30 :: !Nanoseconds
-  , registerInformationPowerPCR31 :: !Nanoseconds
+  { registerInformationPowerPCR0 :: !UnsignedWide
+  , registerInformationPowerPCR1 :: !UnsignedWide
+  , registerInformationPowerPCR2 :: !UnsignedWide
+  , registerInformationPowerPCR3 :: !UnsignedWide
+  , registerInformationPowerPCR4 :: !UnsignedWide
+  , registerInformationPowerPCR5 :: !UnsignedWide
+  , registerInformationPowerPCR6 :: !UnsignedWide
+  , registerInformationPowerPCR7 :: !UnsignedWide
+  , registerInformationPowerPCR8 :: !UnsignedWide
+  , registerInformationPowerPCR9 :: !UnsignedWide
+  , registerInformationPowerPCR10 :: !UnsignedWide
+  , registerInformationPowerPCR11 :: !UnsignedWide
+  , registerInformationPowerPCR12 :: !UnsignedWide
+  , registerInformationPowerPCR13 :: !UnsignedWide
+  , registerInformationPowerPCR14 :: !UnsignedWide
+  , registerInformationPowerPCR15 :: !UnsignedWide
+  , registerInformationPowerPCR16 :: !UnsignedWide
+  , registerInformationPowerPCR17 :: !UnsignedWide
+  , registerInformationPowerPCR18 :: !UnsignedWide
+  , registerInformationPowerPCR19 :: !UnsignedWide
+  , registerInformationPowerPCR20 :: !UnsignedWide
+  , registerInformationPowerPCR21 :: !UnsignedWide
+  , registerInformationPowerPCR22 :: !UnsignedWide
+  , registerInformationPowerPCR23 :: !UnsignedWide
+  , registerInformationPowerPCR24 :: !UnsignedWide
+  , registerInformationPowerPCR25 :: !UnsignedWide
+  , registerInformationPowerPCR26 :: !UnsignedWide
+  , registerInformationPowerPCR27 :: !UnsignedWide
+  , registerInformationPowerPCR28 :: !UnsignedWide
+  , registerInformationPowerPCR29 :: !UnsignedWide
+  , registerInformationPowerPCR30 :: !UnsignedWide
+  , registerInformationPowerPCR31 :: !UnsignedWide
   } deriving (Eq, Show)
 
 instance Storable RegisterInformationPowerPC where
@@ -5497,7 +6124,7 @@ instance Storable RegisterInformationPowerPC where
 
 {-# NOINLINE registerInformationPowerPCStructType #-}
 registerInformationPowerPCStructType :: Ptr CType
-registerInformationPowerPCStructType = unsafePerformIO $ fst <$> newStructCType [nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType, nanosecondsStructType]
+registerInformationPowerPCStructType = unsafePerformIO $ fst <$> newStructCType [unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType, unsignedWideStructType]
 
 argRegisterInformationPowerPC :: RegisterInformationPowerPC -> Arg
 argRegisterInformationPowerPC = mkStorableArg registerInformationPowerPCStructType
@@ -5784,6 +6411,43 @@ instance ObjCArgument TECSubTextEncodingRec where
 instance ObjCReturn TECSubTextEncodingRec where
   type RawReturn TECSubTextEncodingRec = TECSubTextEncodingRec
   objcRetType = retTECSubTextEncodingRec
+  msgSendVariant = MsgSendStret
+  fromRetained = pure
+  fromOwned = pure
+
+data TimeRecord = TimeRecord
+  { timeRecordValue :: !CompTimeValue
+  , timeRecordScale :: !CInt
+  , timeRecordBase :: !(Ptr ())
+  } deriving (Eq, Show)
+
+instance Storable TimeRecord where
+  sizeOf    _ = 24
+  alignment _ = 8
+  peek p = TimeRecord <$> peekByteOff p 0
+    <*> peekByteOff p 8
+    <*> peekByteOff p 16
+  poke p (TimeRecord {..}) = do
+    pokeByteOff p 0 timeRecordValue
+    pokeByteOff p 8 timeRecordScale
+    pokeByteOff p 16 timeRecordBase
+
+{-# NOINLINE timeRecordStructType #-}
+timeRecordStructType :: Ptr CType
+timeRecordStructType = unsafePerformIO $ fst <$> newStructCType [compTimeValueStructType, ffi_type_sint, ffi_type_pointer]
+
+argTimeRecord :: TimeRecord -> Arg
+argTimeRecord = mkStorableArg timeRecordStructType
+
+retTimeRecord :: RetType TimeRecord
+retTimeRecord = mkStorableRetType timeRecordStructType
+
+instance ObjCArgument TimeRecord where
+  withObjCArg x k = k (argTimeRecord x)
+
+instance ObjCReturn TimeRecord where
+  type RawReturn TimeRecord = TimeRecord
+  objcRetType = retTimeRecord
   msgSendVariant = MsgSendStret
   fromRetained = pure
   fromOwned = pure

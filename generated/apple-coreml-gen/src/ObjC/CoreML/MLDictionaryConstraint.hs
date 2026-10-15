@@ -25,7 +25,6 @@ module ObjC.CoreML.MLDictionaryConstraint
   , pattern MLFeatureTypeMultiArray
   , pattern MLFeatureTypeDictionary
   , pattern MLFeatureTypeSequence
-  , pattern MLFeatureTypeState
 
   ) where
 

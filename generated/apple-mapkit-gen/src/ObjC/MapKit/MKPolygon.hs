@@ -30,6 +30,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.MapKit.Internal.Classes
+import ObjC.CoreLocation.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
 -- | @+ polygonWithPoints:count:@
@@ -47,14 +48,14 @@ polygonWithPoints_count_interiorPolygons points count interiorPolygons =
     sendClassMessage cls' polygonWithPoints_count_interiorPolygonsSelector points count (toNSArray interiorPolygons)
 
 -- | @+ polygonWithCoordinates:count:@
-polygonWithCoordinates_count :: Const RawId -> CULong -> IO (Id MKPolygon)
+polygonWithCoordinates_count :: Const (Ptr CLLocationCoordinate2D) -> CULong -> IO (Id MKPolygon)
 polygonWithCoordinates_count coords count =
   do
     cls' <- getRequiredClass "MKPolygon"
     sendClassMessage cls' polygonWithCoordinates_countSelector coords count
 
 -- | @+ polygonWithCoordinates:count:interiorPolygons:@
-polygonWithCoordinates_count_interiorPolygons :: IsNSArray interiorPolygons => Const RawId -> CULong -> interiorPolygons -> IO (Id MKPolygon)
+polygonWithCoordinates_count_interiorPolygons :: IsNSArray interiorPolygons => Const (Ptr CLLocationCoordinate2D) -> CULong -> interiorPolygons -> IO (Id MKPolygon)
 polygonWithCoordinates_count_interiorPolygons coords count interiorPolygons =
   do
     cls' <- getRequiredClass "MKPolygon"
@@ -78,11 +79,11 @@ polygonWithPoints_count_interiorPolygonsSelector :: Selector '[Const RawId, CULo
 polygonWithPoints_count_interiorPolygonsSelector = mkSelector "polygonWithPoints:count:interiorPolygons:"
 
 -- | @Selector@ for @polygonWithCoordinates:count:@
-polygonWithCoordinates_countSelector :: Selector '[Const RawId, CULong] (Id MKPolygon)
+polygonWithCoordinates_countSelector :: Selector '[Const (Ptr CLLocationCoordinate2D), CULong] (Id MKPolygon)
 polygonWithCoordinates_countSelector = mkSelector "polygonWithCoordinates:count:"
 
 -- | @Selector@ for @polygonWithCoordinates:count:interiorPolygons:@
-polygonWithCoordinates_count_interiorPolygonsSelector :: Selector '[Const RawId, CULong, Id NSArray] (Id MKPolygon)
+polygonWithCoordinates_count_interiorPolygonsSelector :: Selector '[Const (Ptr CLLocationCoordinate2D), CULong, Id NSArray] (Id MKPolygon)
 polygonWithCoordinates_count_interiorPolygonsSelector = mkSelector "polygonWithCoordinates:count:interiorPolygons:"
 
 -- | @Selector@ for @interiorPolygons@

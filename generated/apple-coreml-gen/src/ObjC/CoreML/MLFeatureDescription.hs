@@ -18,7 +18,6 @@ module ObjC.CoreML.MLFeatureDescription
   , imageConstraint
   , dictionaryConstraint
   , sequenceConstraint
-  , stateConstraint
   , dictionaryConstraintSelector
   , imageConstraintSelector
   , isAllowedValueSelector
@@ -26,7 +25,6 @@ module ObjC.CoreML.MLFeatureDescription
   , nameSelector
   , optionalSelector
   , sequenceConstraintSelector
-  , stateConstraintSelector
   , typeSelector
 
   -- * Enum types
@@ -39,7 +37,6 @@ module ObjC.CoreML.MLFeatureDescription
   , pattern MLFeatureTypeMultiArray
   , pattern MLFeatureTypeDictionary
   , pattern MLFeatureTypeSequence
-  , pattern MLFeatureTypeState
 
   ) where
 
@@ -111,15 +108,6 @@ sequenceConstraint :: IsMLFeatureDescription mlFeatureDescription => mlFeatureDe
 sequenceConstraint mlFeatureDescription =
   sendMessage mlFeatureDescription sequenceConstraintSelector
 
--- | The state feature value constraint.
---
--- The property has a value when @.type == MLFeatureTypeState@.
---
--- ObjC selector: @- stateConstraint@
-stateConstraint :: IsMLFeatureDescription mlFeatureDescription => mlFeatureDescription -> IO (Id MLStateConstraint)
-stateConstraint mlFeatureDescription =
-  sendMessage mlFeatureDescription stateConstraintSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -155,8 +143,4 @@ dictionaryConstraintSelector = mkSelector "dictionaryConstraint"
 -- | @Selector@ for @sequenceConstraint@
 sequenceConstraintSelector :: Selector '[] (Id MLSequenceConstraint)
 sequenceConstraintSelector = mkSelector "sequenceConstraint"
-
--- | @Selector@ for @stateConstraint@
-stateConstraintSelector :: Selector '[] (Id MLStateConstraint)
-stateConstraintSelector = mkSelector "stateConstraint"
 

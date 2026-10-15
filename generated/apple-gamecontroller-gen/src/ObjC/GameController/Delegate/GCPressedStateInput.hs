@@ -41,7 +41,6 @@ data GCPressedStateInputOverrides = GCPressedStateInputOverrides
   , _pressed :: !(Maybe (IO Bool))
   , _lastPressedStateTimestamp :: !(Maybe (IO Double))
   , _lastPressedStateLatency :: !(Maybe (IO Double))
-  , _sources :: !(Maybe (IO RawId))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -52,7 +51,6 @@ defaultGCPressedStateInputOverrides = GCPressedStateInputOverrides
   , _pressed = Nothing
   , _lastPressedStateTimestamp = Nothing
   , _lastPressedStateLatency = Nothing
-  , _sources = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -94,7 +92,6 @@ gcPressedStateInputDelegateClass = unsafePerformIO $ do
       sel_pressed = unSelector (mkSelector "pressed")
       sel_lastPressedStateTimestamp = unSelector (mkSelector "lastPressedStateTimestamp")
       sel_lastPressedStateLatency = unSelector (mkSelector "lastPressedStateLatency")
-      sel_sources = unSelector (mkSelector "sources")
   -- pressedDidChangeHandler
   stub_0 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
@@ -148,17 +145,6 @@ gcPressedStateInputDelegateClass = unsafePerformIO $ do
         pure (realToFrac r)
   addObjCMethod cls "lastPressedStateLatency" "d@:" stub_4
 
-  -- sources
-  stub_5 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO GCPressedStateInputOverrides
-    case _sources rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "sources" "@@:" stub_5
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -168,7 +154,6 @@ gcPressedStateInputDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_pressed then pure (maybe 0 (const 1) (_pressed rec_))
     else if queriedSel == sel_lastPressedStateTimestamp then pure (maybe 0 (const 1) (_lastPressedStateTimestamp rec_))
     else if queriedSel == sel_lastPressedStateLatency then pure (maybe 0 (const 1) (_lastPressedStateLatency rec_))
-    else if queriedSel == sel_sources then pure (maybe 0 (const 1) (_sources rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

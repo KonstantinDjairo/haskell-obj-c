@@ -18,12 +18,10 @@ module ObjC.NetworkExtension.NEAppProxyProvider
   , stopProxyWithReason_completionHandler
   , cancelProxyWithError
   , handleNewFlow
-  , handleNewUDPFlow_initialRemoteFlowEndpoint
   , handleNewUDPFlow_initialRemoteEndpoint
   , cancelProxyWithErrorSelector
   , handleNewFlowSelector
   , handleNewUDPFlow_initialRemoteEndpointSelector
-  , handleNewUDPFlow_initialRemoteFlowEndpointSelector
   , startProxyWithOptions_completionHandlerSelector
   , stopProxyWithReason_completionHandlerSelector
 
@@ -46,7 +44,6 @@ module ObjC.NetworkExtension.NEAppProxyProvider
   , pattern NEProviderStopReasonConnectionFailed
   , pattern NEProviderStopReasonSleep
   , pattern NEProviderStopReasonAppUpdate
-  , pattern NEProviderStopReasonInternalError
 
   ) where
 
@@ -101,33 +98,16 @@ cancelProxyWithError neAppProxyProvider error_ =
 
 -- | handleNewFlow:
 --
--- This function is called by the framework to deliver a new network data flow to the proxy provider implementation. Subclasses must override this method to perform whatever steps are necessary to ready the proxy to receive data from the flow. The proxy provider implementation indicates that the proxy is ready to handle flow data by calling -[NEAppProxyFlow openWithLocalFlowEndpoint:completionHandler:] on the flow. If the proxy implementation decides to not handle the flow and instead terminate it, the subclass implementation of this method should return NO. If the proxy implementation decides to handle the flow, the subclass implementation of this method should return YES. In this case the proxy implementation is responsible for retaining the NEAppProxyFlow object.
+-- This function is called by the framework to deliver a new network data flow to the proxy provider implementation. Subclasses must override this method to perform whatever steps are necessary to ready the proxy to receive data from the flow. The proxy provider implementation indicates that the proxy is ready to handle flow data by calling -[NEAppProxyFlow openWithLocalEndpoint:completionHandler:] on the flow. If the proxy implementation decides to not handle the flow and instead terminate it, the subclass implementation of this method should return NO. If the proxy implementation decides to handle the flow, the subclass implementation of this method should return YES. In this case the proxy implementation is responsible for retaining the NEAppProxyFlow object.
 --
 -- @flow@ — The new flow
 --
--- Returns: YES if the proxy implementation has retained the flow and intends to handle the flow data. NO if the proxy implementation has not retained the flow and will not handle the flow data. In NETransparentProxyProvider sub-classes returning NO causes the flow to be handled by the networking stack without any proxy. In all other cases the flow is terminated when NO is returned.
+-- Returns: YES if the proxy implementation has retained the flow and intends to handle the flow data. NO if the proxy implementation has not retained the flow and will not handle the flow data. In this case the flow is terminated.
 --
 -- ObjC selector: @- handleNewFlow:@
 handleNewFlow :: (IsNEAppProxyProvider neAppProxyProvider, IsNEAppProxyFlow flow) => neAppProxyProvider -> flow -> IO Bool
 handleNewFlow neAppProxyProvider flow =
   sendMessage neAppProxyProvider handleNewFlowSelector (toNEAppProxyFlow flow)
-
--- | handleNewUDPFlow:initialRemoteFlowEndpoint:
---
--- This function is called by the framework to deliver a new UDP data flow to the proxy provider implementation. Subclasses can override this method to perform whatever steps are necessary to ready the proxy to receive     data from the flow. The proxy provider implementation indicates that the proxy is ready to handle flow data by calling -[NEAppProxyFlow openWithLocalFlowEndpoint:completionHandler:] on the flow. If the proxy implementation decides     to not handle the flow and instead terminate it, the subclass implementation of this method should return NO. If the proxy implementation decides to handle the flow, the subclass implementation of this method should return YES.     In this case the proxy implementation is responsible for retaining the NEAppProxyUDPFlow object.     The default implementation of this method calls -[NEAppProxyProvider handleNewFlow:] and returns its result.
---
--- NEAppProxyUDPFlowHandling for Swift subclasses.
---
--- @flow@ — The new UDP flow
---
--- @remoteEndpoint@ — The initial remote endpoint provided by the proxied app when the flow was opened.
---
--- Returns: YES if the proxy implementation has retained the flow and intends to handle the flow data. NO if the proxy implementation has not retained the flow and will not handle the flow data. In this case the flow is terminated.
---
--- ObjC selector: @- handleNewUDPFlow:initialRemoteFlowEndpoint:@
-handleNewUDPFlow_initialRemoteFlowEndpoint :: (IsNEAppProxyProvider neAppProxyProvider, IsNEAppProxyUDPFlow flow, IsNSObject remoteEndpoint) => neAppProxyProvider -> flow -> remoteEndpoint -> IO Bool
-handleNewUDPFlow_initialRemoteFlowEndpoint neAppProxyProvider flow remoteEndpoint =
-  sendMessage neAppProxyProvider handleNewUDPFlow_initialRemoteFlowEndpointSelector (toNEAppProxyUDPFlow flow) (toNSObject remoteEndpoint)
 
 -- | handleNewUDPFlow:initialRemoteEndpoint:
 --
@@ -137,7 +117,7 @@ handleNewUDPFlow_initialRemoteFlowEndpoint neAppProxyProvider flow remoteEndpoin
 --
 -- @remoteEndpoint@ — The initial remote endpoint provided by the proxied app when the flow was opened.
 --
--- Returns: YES if the proxy implementation has retained the flow and intends to handle the flow data. NO if the proxy implementation has not retained the flow and will not handle the flow data. In NETransparentProxyProvider sub-classes returning NO causes the flow to be handled by the networking stack without any proxy. In all other cases the flow is terminated when NO is returned.
+-- Returns: YES if the proxy implementation has retained the flow and intends to handle the flow data. NO if the proxy implementation has not retained the flow and will not handle the flow data. In this case the flow is terminated.
 --
 -- ObjC selector: @- handleNewUDPFlow:initialRemoteEndpoint:@
 handleNewUDPFlow_initialRemoteEndpoint :: (IsNEAppProxyProvider neAppProxyProvider, IsNEAppProxyUDPFlow flow, IsNWEndpoint remoteEndpoint) => neAppProxyProvider -> flow -> remoteEndpoint -> IO Bool
@@ -163,10 +143,6 @@ cancelProxyWithErrorSelector = mkSelector "cancelProxyWithError:"
 -- | @Selector@ for @handleNewFlow:@
 handleNewFlowSelector :: Selector '[Id NEAppProxyFlow] Bool
 handleNewFlowSelector = mkSelector "handleNewFlow:"
-
--- | @Selector@ for @handleNewUDPFlow:initialRemoteFlowEndpoint:@
-handleNewUDPFlow_initialRemoteFlowEndpointSelector :: Selector '[Id NEAppProxyUDPFlow, Id NSObject] Bool
-handleNewUDPFlow_initialRemoteFlowEndpointSelector = mkSelector "handleNewUDPFlow:initialRemoteFlowEndpoint:"
 
 -- | @Selector@ for @handleNewUDPFlow:initialRemoteEndpoint:@
 handleNewUDPFlow_initialRemoteEndpointSelector :: Selector '[Id NEAppProxyUDPFlow, Id NWEndpoint] Bool

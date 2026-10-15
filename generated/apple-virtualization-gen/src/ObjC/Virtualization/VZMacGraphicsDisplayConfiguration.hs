@@ -11,6 +11,8 @@
 module ObjC.Virtualization.VZMacGraphicsDisplayConfiguration
   ( VZMacGraphicsDisplayConfiguration
   , IsVZMacGraphicsDisplayConfiguration(..)
+  , new
+  , init_
   , initWithWidthInPixels_heightInPixels_pixelsPerInch
   , initForScreen_sizeInPoints
   , widthInPixels
@@ -21,7 +23,9 @@ module ObjC.Virtualization.VZMacGraphicsDisplayConfiguration
   , setPixelsPerInch
   , heightInPixelsSelector
   , initForScreen_sizeInPointsSelector
+  , initSelector
   , initWithWidthInPixels_heightInPixels_pixelsPerInchSelector
+  , newSelector
   , pixelsPerInchSelector
   , setHeightInPixelsSelector
   , setPixelsPerInchSelector
@@ -44,6 +48,18 @@ import ObjC.Foundation.Internal.Structs
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @+ new@
+new :: IO (Id VZMacGraphicsDisplayConfiguration)
+new  =
+  do
+    cls' <- getRequiredClass "VZMacGraphicsDisplayConfiguration"
+    sendOwnedClassMessage cls' newSelector
+
+-- | @- init@
+init_ :: IsVZMacGraphicsDisplayConfiguration vzMacGraphicsDisplayConfiguration => vzMacGraphicsDisplayConfiguration -> IO (Id VZMacGraphicsDisplayConfiguration)
+init_ vzMacGraphicsDisplayConfiguration =
+  sendOwnedMessage vzMacGraphicsDisplayConfiguration initSelector
+
 -- | Create a display configuration with the specified pixel dimensions and pixel density.
 --
 -- @widthInPixels@ — The width of the display, in pixels.
@@ -63,7 +79,7 @@ initWithWidthInPixels_heightInPixels_pixelsPerInch vzMacGraphicsDisplayConfigura
 --
 -- @sizeInPoints@ — The intended logical size of the display.
 --
--- The pixel dimensions and pixel density will be initialized based on the specified screen and    size. Note: an instance of macOS running in the virtual machine may not necessarily provide    a display mode with a backing scale factor matching the specified screen.
+-- The pixel dimensions and pixel density will be initialized based on the specified screen and     size. Note: an instance of macOS running in the virtual machine may not necessarily provide     a display mode with a backing scale factor matching the specified screen.
 --
 -- ObjC selector: @- initForScreen:sizeInPoints:@
 initForScreen_sizeInPoints :: (IsVZMacGraphicsDisplayConfiguration vzMacGraphicsDisplayConfiguration, IsNSScreen screen) => vzMacGraphicsDisplayConfiguration -> screen -> NSSize -> IO (Id VZMacGraphicsDisplayConfiguration)
@@ -115,6 +131,14 @@ setPixelsPerInch vzMacGraphicsDisplayConfiguration value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id VZMacGraphicsDisplayConfiguration)
+newSelector = mkSelector "new"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id VZMacGraphicsDisplayConfiguration)
+initSelector = mkSelector "init"
 
 -- | @Selector@ for @initWithWidthInPixels:heightInPixels:pixelsPerInch:@
 initWithWidthInPixels_heightInPixels_pixelsPerInchSelector :: Selector '[CLong, CLong, CLong] (Id VZMacGraphicsDisplayConfiguration)

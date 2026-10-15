@@ -7,9 +7,13 @@
 module ObjC.Matter.MTRDoorLockClusterDoorLockAlarmEvent
   ( MTRDoorLockClusterDoorLockAlarmEvent
   , IsMTRDoorLockClusterDoorLockAlarmEvent(..)
+  , init_
+  , copyWithZone
   , alarmCode
   , setAlarmCode
   , alarmCodeSelector
+  , copyWithZoneSelector
+  , initSelector
   , setAlarmCodeSelector
 
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRDoorLockClusterDoorLockAlarmEvent mtrDoorLockClusterDoorLockAlarmEvent => mtrDoorLockClusterDoorLockAlarmEvent -> IO (Id MTRDoorLockClusterDoorLockAlarmEvent)
+init_ mtrDoorLockClusterDoorLockAlarmEvent =
+  sendOwnedMessage mtrDoorLockClusterDoorLockAlarmEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterDoorLockAlarmEvent mtrDoorLockClusterDoorLockAlarmEvent => mtrDoorLockClusterDoorLockAlarmEvent -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterDoorLockAlarmEvent zone =
+  sendOwnedMessage mtrDoorLockClusterDoorLockAlarmEvent copyWithZoneSelector zone
+
 -- | @- alarmCode@
 alarmCode :: IsMTRDoorLockClusterDoorLockAlarmEvent mtrDoorLockClusterDoorLockAlarmEvent => mtrDoorLockClusterDoorLockAlarmEvent -> IO (Id NSNumber)
 alarmCode mtrDoorLockClusterDoorLockAlarmEvent =
@@ -39,6 +53,14 @@ setAlarmCode mtrDoorLockClusterDoorLockAlarmEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterDoorLockAlarmEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @alarmCode@
 alarmCodeSelector :: Selector '[] (Id NSNumber)

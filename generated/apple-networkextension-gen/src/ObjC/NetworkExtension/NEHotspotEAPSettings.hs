@@ -14,8 +14,6 @@ module ObjC.NetworkExtension.NEHotspotEAPSettings
   , IsNEHotspotEAPSettings(..)
   , setIdentity
   , setTrustedServerCertificates
-  , supportedEAPTypes
-  , setSupportedEAPTypes
   , username
   , setUsername
   , outerIdentity
@@ -24,8 +22,6 @@ module ObjC.NetworkExtension.NEHotspotEAPSettings
   , setTtlsInnerAuthenticationType
   , password
   , setPassword
-  , trustedServerNames
-  , setTrustedServerNames
   , tlsClientCertificateRequired
   , setTlsClientCertificateRequired
   , preferredTLSVersion
@@ -37,15 +33,11 @@ module ObjC.NetworkExtension.NEHotspotEAPSettings
   , setOuterIdentitySelector
   , setPasswordSelector
   , setPreferredTLSVersionSelector
-  , setSupportedEAPTypesSelector
   , setTlsClientCertificateRequiredSelector
   , setTrustedServerCertificatesSelector
-  , setTrustedServerNamesSelector
   , setTtlsInnerAuthenticationTypeSelector
   , setUsernameSelector
-  , supportedEAPTypesSelector
   , tlsClientCertificateRequiredSelector
-  , trustedServerNamesSelector
   , ttlsInnerAuthenticationTypeSelector
   , usernameSelector
 
@@ -101,30 +93,12 @@ setTrustedServerCertificates :: (IsNEHotspotEAPSettings neHotspotEAPSettings, Is
 setTrustedServerCertificates neHotspotEAPSettings certificates =
   sendMessage neHotspotEAPSettings setTrustedServerCertificatesSelector (toNSArray certificates)
 
--- | supportedEAPTypes
---
--- Array of supported EAP Types. Refer to NEHotspotConfigurationEAPType   for valid values.
---
--- ObjC selector: @- supportedEAPTypes@
-supportedEAPTypes :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO (Id NSArray)
-supportedEAPTypes neHotspotEAPSettings =
-  sendMessage neHotspotEAPSettings supportedEAPTypesSelector
-
--- | supportedEAPTypes
---
--- Array of supported EAP Types. Refer to NEHotspotConfigurationEAPType   for valid values.
---
--- ObjC selector: @- setSupportedEAPTypes:@
-setSupportedEAPTypes :: (IsNEHotspotEAPSettings neHotspotEAPSettings, IsNSArray value) => neHotspotEAPSettings -> value -> IO ()
-setSupportedEAPTypes neHotspotEAPSettings value =
-  sendMessage neHotspotEAPSettings setSupportedEAPTypesSelector (toNSArray value)
-
 -- | username
 --
 -- A UTF-8 encoded string containing username component of the user authentication   credentials. Length of this property must be between 1 and 253 characters.
 --
 -- ObjC selector: @- username@
-username :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO (Id NSString)
+username :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO RawId
 username neHotspotEAPSettings =
   sendMessage neHotspotEAPSettings usernameSelector
 
@@ -133,16 +107,16 @@ username neHotspotEAPSettings =
 -- A UTF-8 encoded string containing username component of the user authentication   credentials. Length of this property must be between 1 and 253 characters.
 --
 -- ObjC selector: @- setUsername:@
-setUsername :: (IsNEHotspotEAPSettings neHotspotEAPSettings, IsNSString value) => neHotspotEAPSettings -> value -> IO ()
+setUsername :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> RawId -> IO ()
 setUsername neHotspotEAPSettings value =
-  sendMessage neHotspotEAPSettings setUsernameSelector (toNSString value)
+  sendMessage neHotspotEAPSettings setUsernameSelector value
 
 -- | outerIdentity
 --
 -- Identity string to be used in EAP-Response/Identity of the outer phase. This key is only   relevant to TTLS, PEAP, and EAP-FAST.
 --
 -- ObjC selector: @- outerIdentity@
-outerIdentity :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO (Id NSString)
+outerIdentity :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO RawId
 outerIdentity neHotspotEAPSettings =
   sendMessage neHotspotEAPSettings outerIdentitySelector
 
@@ -151,9 +125,9 @@ outerIdentity neHotspotEAPSettings =
 -- Identity string to be used in EAP-Response/Identity of the outer phase. This key is only   relevant to TTLS, PEAP, and EAP-FAST.
 --
 -- ObjC selector: @- setOuterIdentity:@
-setOuterIdentity :: (IsNEHotspotEAPSettings neHotspotEAPSettings, IsNSString value) => neHotspotEAPSettings -> value -> IO ()
+setOuterIdentity :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> RawId -> IO ()
 setOuterIdentity neHotspotEAPSettings value =
-  sendMessage neHotspotEAPSettings setOuterIdentitySelector (toNSString value)
+  sendMessage neHotspotEAPSettings setOuterIdentitySelector value
 
 -- | ttlsInnerAuthentication
 --
@@ -178,7 +152,7 @@ setTtlsInnerAuthenticationType neHotspotEAPSettings value =
 -- The password component of the 802.1X authentication credential.   Length of this property must be between 1 and 64 characters.
 --
 -- ObjC selector: @- password@
-password :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO (Id NSString)
+password :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO RawId
 password neHotspotEAPSettings =
   sendMessage neHotspotEAPSettings passwordSelector
 
@@ -187,27 +161,9 @@ password neHotspotEAPSettings =
 -- The password component of the 802.1X authentication credential.   Length of this property must be between 1 and 64 characters.
 --
 -- ObjC selector: @- setPassword:@
-setPassword :: (IsNEHotspotEAPSettings neHotspotEAPSettings, IsNSString value) => neHotspotEAPSettings -> value -> IO ()
+setPassword :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> RawId -> IO ()
 setPassword neHotspotEAPSettings value =
-  sendMessage neHotspotEAPSettings setPasswordSelector (toNSString value)
-
--- | trustedServerNames
---
--- Array of server certificate common names that will be used to verify server's certificate.   The string could have wildcards to specify the name, such as "*.mycompany.net". If a server presents   a certificate with DNSName or Common Name that isn't in this list, it won't be trusted.
---
--- ObjC selector: @- trustedServerNames@
-trustedServerNames :: IsNEHotspotEAPSettings neHotspotEAPSettings => neHotspotEAPSettings -> IO (Id NSArray)
-trustedServerNames neHotspotEAPSettings =
-  sendMessage neHotspotEAPSettings trustedServerNamesSelector
-
--- | trustedServerNames
---
--- Array of server certificate common names that will be used to verify server's certificate.   The string could have wildcards to specify the name, such as "*.mycompany.net". If a server presents   a certificate with DNSName or Common Name that isn't in this list, it won't be trusted.
---
--- ObjC selector: @- setTrustedServerNames:@
-setTrustedServerNames :: (IsNEHotspotEAPSettings neHotspotEAPSettings, IsNSArray value) => neHotspotEAPSettings -> value -> IO ()
-setTrustedServerNames neHotspotEAPSettings value =
-  sendMessage neHotspotEAPSettings setTrustedServerNamesSelector (toNSArray value)
+  sendMessage neHotspotEAPSettings setPasswordSelector value
 
 -- | isTLSClientCertificateRequired
 --
@@ -257,28 +213,20 @@ setIdentitySelector = mkSelector "setIdentity:"
 setTrustedServerCertificatesSelector :: Selector '[Id NSArray] Bool
 setTrustedServerCertificatesSelector = mkSelector "setTrustedServerCertificates:"
 
--- | @Selector@ for @supportedEAPTypes@
-supportedEAPTypesSelector :: Selector '[] (Id NSArray)
-supportedEAPTypesSelector = mkSelector "supportedEAPTypes"
-
--- | @Selector@ for @setSupportedEAPTypes:@
-setSupportedEAPTypesSelector :: Selector '[Id NSArray] ()
-setSupportedEAPTypesSelector = mkSelector "setSupportedEAPTypes:"
-
 -- | @Selector@ for @username@
-usernameSelector :: Selector '[] (Id NSString)
+usernameSelector :: Selector '[] RawId
 usernameSelector = mkSelector "username"
 
 -- | @Selector@ for @setUsername:@
-setUsernameSelector :: Selector '[Id NSString] ()
+setUsernameSelector :: Selector '[RawId] ()
 setUsernameSelector = mkSelector "setUsername:"
 
 -- | @Selector@ for @outerIdentity@
-outerIdentitySelector :: Selector '[] (Id NSString)
+outerIdentitySelector :: Selector '[] RawId
 outerIdentitySelector = mkSelector "outerIdentity"
 
 -- | @Selector@ for @setOuterIdentity:@
-setOuterIdentitySelector :: Selector '[Id NSString] ()
+setOuterIdentitySelector :: Selector '[RawId] ()
 setOuterIdentitySelector = mkSelector "setOuterIdentity:"
 
 -- | @Selector@ for @ttlsInnerAuthenticationType@
@@ -290,20 +238,12 @@ setTtlsInnerAuthenticationTypeSelector :: Selector '[NEHotspotConfigurationTTLSI
 setTtlsInnerAuthenticationTypeSelector = mkSelector "setTtlsInnerAuthenticationType:"
 
 -- | @Selector@ for @password@
-passwordSelector :: Selector '[] (Id NSString)
+passwordSelector :: Selector '[] RawId
 passwordSelector = mkSelector "password"
 
 -- | @Selector@ for @setPassword:@
-setPasswordSelector :: Selector '[Id NSString] ()
+setPasswordSelector :: Selector '[RawId] ()
 setPasswordSelector = mkSelector "setPassword:"
-
--- | @Selector@ for @trustedServerNames@
-trustedServerNamesSelector :: Selector '[] (Id NSArray)
-trustedServerNamesSelector = mkSelector "trustedServerNames"
-
--- | @Selector@ for @setTrustedServerNames:@
-setTrustedServerNamesSelector :: Selector '[Id NSArray] ()
-setTrustedServerNamesSelector = mkSelector "setTrustedServerNames:"
 
 -- | @Selector@ for @tlsClientCertificateRequired@
 tlsClientCertificateRequiredSelector :: Selector '[] Bool

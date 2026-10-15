@@ -7,14 +7,18 @@
 module ObjC.Matter.MTRSoftwareDiagnosticsClusterSoftwareFaultEvent
   ( MTRSoftwareDiagnosticsClusterSoftwareFaultEvent
   , IsMTRSoftwareDiagnosticsClusterSoftwareFaultEvent(..)
+  , init_
+  , copyWithZone
   , id_
   , setId
   , name
   , setName
   , faultRecording
   , setFaultRecording
+  , copyWithZoneSelector
   , faultRecordingSelector
   , idSelector
+  , initSelector
   , nameSelector
   , setFaultRecordingSelector
   , setIdSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRSoftwareDiagnosticsClusterSoftwareFaultEvent mtrSoftwareDiagnosticsClusterSoftwareFaultEvent => mtrSoftwareDiagnosticsClusterSoftwareFaultEvent -> IO (Id MTRSoftwareDiagnosticsClusterSoftwareFaultEvent)
+init_ mtrSoftwareDiagnosticsClusterSoftwareFaultEvent =
+  sendOwnedMessage mtrSoftwareDiagnosticsClusterSoftwareFaultEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSoftwareDiagnosticsClusterSoftwareFaultEvent mtrSoftwareDiagnosticsClusterSoftwareFaultEvent => mtrSoftwareDiagnosticsClusterSoftwareFaultEvent -> Ptr () -> IO RawId
+copyWithZone mtrSoftwareDiagnosticsClusterSoftwareFaultEvent zone =
+  sendOwnedMessage mtrSoftwareDiagnosticsClusterSoftwareFaultEvent copyWithZoneSelector zone
 
 -- | @- id@
 id_ :: IsMTRSoftwareDiagnosticsClusterSoftwareFaultEvent mtrSoftwareDiagnosticsClusterSoftwareFaultEvent => mtrSoftwareDiagnosticsClusterSoftwareFaultEvent -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setFaultRecording mtrSoftwareDiagnosticsClusterSoftwareFaultEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSoftwareDiagnosticsClusterSoftwareFaultEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @id@
 idSelector :: Selector '[] (Id NSNumber)

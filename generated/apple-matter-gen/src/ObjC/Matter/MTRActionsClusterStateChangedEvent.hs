@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRActionsClusterStateChangedEvent
   ( MTRActionsClusterStateChangedEvent
   , IsMTRActionsClusterStateChangedEvent(..)
+  , init_
+  , copyWithZone
   , actionID
   , setActionID
   , invokeID
@@ -14,6 +16,8 @@ module ObjC.Matter.MTRActionsClusterStateChangedEvent
   , newState
   , setNewState
   , actionIDSelector
+  , copyWithZoneSelector
+  , initSelector
   , invokeIDSelector
   , newStateSelector
   , setActionIDSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRActionsClusterStateChangedEvent mtrActionsClusterStateChangedEvent => mtrActionsClusterStateChangedEvent -> IO (Id MTRActionsClusterStateChangedEvent)
+init_ mtrActionsClusterStateChangedEvent =
+  sendOwnedMessage mtrActionsClusterStateChangedEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRActionsClusterStateChangedEvent mtrActionsClusterStateChangedEvent => mtrActionsClusterStateChangedEvent -> Ptr () -> IO RawId
+copyWithZone mtrActionsClusterStateChangedEvent zone =
+  sendOwnedMessage mtrActionsClusterStateChangedEvent copyWithZoneSelector zone
 
 -- | @- actionID@
 actionID :: IsMTRActionsClusterStateChangedEvent mtrActionsClusterStateChangedEvent => mtrActionsClusterStateChangedEvent -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setNewState mtrActionsClusterStateChangedEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRActionsClusterStateChangedEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @actionID@
 actionIDSelector :: Selector '[] (Id NSNumber)

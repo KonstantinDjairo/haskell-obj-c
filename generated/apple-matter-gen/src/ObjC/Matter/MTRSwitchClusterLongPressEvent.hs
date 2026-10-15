@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRSwitchClusterLongPressEvent
   ( MTRSwitchClusterLongPressEvent
   , IsMTRSwitchClusterLongPressEvent(..)
+  , init_
+  , copyWithZone
   , newPosition
   , setNewPosition
+  , copyWithZoneSelector
+  , initSelector
   , newPositionSelector
   , setNewPositionSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRSwitchClusterLongPressEvent mtrSwitchClusterLongPressEvent => mtrSwitchClusterLongPressEvent -> IO (Id MTRSwitchClusterLongPressEvent)
+init_ mtrSwitchClusterLongPressEvent =
+  sendOwnedMessage mtrSwitchClusterLongPressEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSwitchClusterLongPressEvent mtrSwitchClusterLongPressEvent => mtrSwitchClusterLongPressEvent -> Ptr () -> IO RawId
+copyWithZone mtrSwitchClusterLongPressEvent zone =
+  sendOwnedMessage mtrSwitchClusterLongPressEvent copyWithZoneSelector zone
+
 -- | @- newPosition@
 newPosition :: IsMTRSwitchClusterLongPressEvent mtrSwitchClusterLongPressEvent => mtrSwitchClusterLongPressEvent -> IO (Id NSNumber)
 newPosition mtrSwitchClusterLongPressEvent =
@@ -39,6 +53,14 @@ setNewPosition mtrSwitchClusterLongPressEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSwitchClusterLongPressEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @newPosition@
 newPositionSelector :: Selector '[] (Id NSNumber)

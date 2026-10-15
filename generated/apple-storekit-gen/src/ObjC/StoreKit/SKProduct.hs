@@ -15,7 +15,6 @@ module ObjC.StoreKit.SKProduct
   , isDownloadable
   , downloadable
   , isFamilyShareable
-  , contentLengths
   , downloadContentLengths
   , contentVersion
   , downloadContentVersion
@@ -23,7 +22,6 @@ module ObjC.StoreKit.SKProduct
   , introductoryPrice
   , subscriptionGroupIdentifier
   , discounts
-  , contentLengthsSelector
   , contentVersionSelector
   , discountsSelector
   , downloadContentLengthsSelector
@@ -94,18 +92,13 @@ isFamilyShareable :: IsSKProduct skProduct => skProduct -> IO Bool
 isFamilyShareable skProduct =
   sendMessage skProduct isFamilyShareableSelector
 
--- | @- contentLengths@
-contentLengths :: IsSKProduct skProduct => skProduct -> IO (Id NSArray)
-contentLengths skProduct =
-  sendMessage skProduct contentLengthsSelector
-
 -- | @- downloadContentLengths@
 downloadContentLengths :: IsSKProduct skProduct => skProduct -> IO (Id NSArray)
 downloadContentLengths skProduct =
   sendMessage skProduct downloadContentLengthsSelector
 
 -- | @- contentVersion@
-contentVersion :: IsSKProduct skProduct => skProduct -> IO (Id NSString)
+contentVersion :: IsSKProduct skProduct => skProduct -> IO RawId
 contentVersion skProduct =
   sendMessage skProduct contentVersionSelector
 
@@ -170,16 +163,12 @@ downloadableSelector = mkSelector "downloadable"
 isFamilyShareableSelector :: Selector '[] Bool
 isFamilyShareableSelector = mkSelector "isFamilyShareable"
 
--- | @Selector@ for @contentLengths@
-contentLengthsSelector :: Selector '[] (Id NSArray)
-contentLengthsSelector = mkSelector "contentLengths"
-
 -- | @Selector@ for @downloadContentLengths@
 downloadContentLengthsSelector :: Selector '[] (Id NSArray)
 downloadContentLengthsSelector = mkSelector "downloadContentLengths"
 
 -- | @Selector@ for @contentVersion@
-contentVersionSelector :: Selector '[] (Id NSString)
+contentVersionSelector :: Selector '[] RawId
 contentVersionSelector = mkSelector "contentVersion"
 
 -- | @Selector@ for @downloadContentVersion@

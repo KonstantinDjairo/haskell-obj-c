@@ -13,6 +13,7 @@ import Foreign.C.Types
 import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
+import Data.Int (Int8)
 
 -- | 3D Mixer Attenuation Curves
 -- | @AU3DMixerAttenuationCurve@
@@ -84,94 +85,6 @@ instance ObjCReturn AU3DMixerRenderingFlags where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AU3DMixerRenderingFlags x)
   fromOwned x = pure (AU3DMixerRenderingFlags x)
-
--- | AUAudioMix styles
---
--- Constants available as values for parameter kAUAudioMixParameter_Style.
---
--- kAudioMixRenderingStyle_Cinematic
---
--- Cinematic rendering style (default)
---
--- kAudioMixRenderingStyle_Studio
---
--- Studio rendering style
---
--- kAudioMixRenderingStyle_InFrame
---
--- In-Frame rendering style
---
--- kAudioMixRenderingStyle_CinematicBackgroundStem
---
--- Cinematic rendering style - background only
---
--- kAudioMixRenderingStyle_CinematicForegroundStem
---
--- Cinematic rendering style - foreground only
---
--- kAudioMixRenderingStyle_StudioForegroundStem
---
--- Studio rendering style - foreground only
---
--- kAudioMixRenderingStyle_InFrameForegroundStem
---
--- In-Frame rendering style - foreground only
---
--- kAudioMixRenderingStyle_Standard
---
--- Standard rendering style
---
--- kAudioMixRenderingStyle_StudioBackgroundStem
---
--- Studio rendering style - background only
---
--- kAudioMixRenderingStyle_InFrameBackgroundStem
---
--- In-Frame rendering style - background only
--- | @AUAudioMixRenderingStyle@
-newtype AUAudioMixRenderingStyle = AUAudioMixRenderingStyle CUInt
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern KAudioMixRenderingStyle_Cinematic :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_Cinematic = AUAudioMixRenderingStyle 0
-
-pattern KAudioMixRenderingStyle_Studio :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_Studio = AUAudioMixRenderingStyle 1
-
-pattern KAudioMixRenderingStyle_InFrame :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_InFrame = AUAudioMixRenderingStyle 2
-
-pattern KAudioMixRenderingStyle_CinematicBackgroundStem :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_CinematicBackgroundStem = AUAudioMixRenderingStyle 3
-
-pattern KAudioMixRenderingStyle_CinematicForegroundStem :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_CinematicForegroundStem = AUAudioMixRenderingStyle 4
-
-pattern KAudioMixRenderingStyle_StudioForegroundStem :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_StudioForegroundStem = AUAudioMixRenderingStyle 5
-
-pattern KAudioMixRenderingStyle_InFrameForegroundStem :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_InFrameForegroundStem = AUAudioMixRenderingStyle 6
-
-pattern KAudioMixRenderingStyle_Standard :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_Standard = AUAudioMixRenderingStyle 7
-
-pattern KAudioMixRenderingStyle_StudioBackgroundStem :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_StudioBackgroundStem = AUAudioMixRenderingStyle 8
-
-pattern KAudioMixRenderingStyle_InFrameBackgroundStem :: AUAudioMixRenderingStyle
-pattern KAudioMixRenderingStyle_InFrameBackgroundStem = AUAudioMixRenderingStyle 9
-
-instance ObjCArgument AUAudioMixRenderingStyle where
-  withObjCArg (AUAudioMixRenderingStyle x) k = k (argCUInt x)
-
-instance ObjCReturn AUAudioMixRenderingStyle where
-  type RawReturn AUAudioMixRenderingStyle = CUInt
-  objcRetType = retCUInt
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AUAudioMixRenderingStyle x)
-  fromOwned x = pure (AUAudioMixRenderingStyle x)
 
 -- | AUAudioUnitBusType
 --
@@ -792,38 +705,6 @@ instance ObjCReturn AUSpatializationAlgorithm where
   fromRetained x = pure (AUSpatializationAlgorithm x)
   fromOwned x = pure (AUSpatializationAlgorithm x)
 
--- | AUVoiceIOOtherAudioDuckingLevel
---
--- Ducking level applied to other (i.e. non-voice) audio by AUVoiceIO.
---
--- DuckingLevelDefault = Default ducking level to other audio for typical voice chat.			DuckingLevelMin = minimum ducking to other audio.			DuckingLevelMid = medium ducking to other audio.			DuckingLevelMax = maximum ducking to other audio.
--- | @AUVoiceIOOtherAudioDuckingLevel@
-newtype AUVoiceIOOtherAudioDuckingLevel = AUVoiceIOOtherAudioDuckingLevel CUInt
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern KAUVoiceIOOtherAudioDuckingLevelDefault :: AUVoiceIOOtherAudioDuckingLevel
-pattern KAUVoiceIOOtherAudioDuckingLevelDefault = AUVoiceIOOtherAudioDuckingLevel 0
-
-pattern KAUVoiceIOOtherAudioDuckingLevelMin :: AUVoiceIOOtherAudioDuckingLevel
-pattern KAUVoiceIOOtherAudioDuckingLevelMin = AUVoiceIOOtherAudioDuckingLevel 10
-
-pattern KAUVoiceIOOtherAudioDuckingLevelMid :: AUVoiceIOOtherAudioDuckingLevel
-pattern KAUVoiceIOOtherAudioDuckingLevelMid = AUVoiceIOOtherAudioDuckingLevel 20
-
-pattern KAUVoiceIOOtherAudioDuckingLevelMax :: AUVoiceIOOtherAudioDuckingLevel
-pattern KAUVoiceIOOtherAudioDuckingLevelMax = AUVoiceIOOtherAudioDuckingLevel 30
-
-instance ObjCArgument AUVoiceIOOtherAudioDuckingLevel where
-  withObjCArg (AUVoiceIOOtherAudioDuckingLevel x) k = k (argCUInt x)
-
-instance ObjCReturn AUVoiceIOOtherAudioDuckingLevel where
-  type RawReturn AUVoiceIOOtherAudioDuckingLevel = CUInt
-  objcRetType = retCUInt
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AUVoiceIOOtherAudioDuckingLevel x)
-  fromOwned x = pure (AUVoiceIOOtherAudioDuckingLevel x)
-
 -- | Speech activity event described by AUVoiceIO
 -- | @AUVoiceIOSpeechActivityEvent@
 newtype AUVoiceIOSpeechActivityEvent = AUVoiceIOSpeechActivityEvent CUInt
@@ -1076,37 +957,6 @@ instance ObjCReturn AudioComponentValidationResult where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AudioComponentValidationResult x)
   fromOwned x = pure (AudioComponentValidationResult x)
-
--- | AudioConverterOptions
---
--- kAudioConverterOption_Unbuffered
---
--- This is an option for AudioConverterNewWithOptions which removes unnecessary		buffering, both for input and internally to the converter, saving memory		at the cost of reduced format support and usage restrictions:
---
--- - Input and output formats must be constant bit-rate, non-zero bytes per packet		  (e.g. linear PCM, a-law, etc.) with the same sample rate and frames per packet.		- AudioConverterFillBuffer cannot be used.		- AudioConverterFillComplexBuffer cannot be used.
--- | @AudioConverterOptions@ (bitmask)
-newtype AudioConverterOptions = AudioConverterOptions CUInt
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup AudioConverterOptions where
-  (<>) = (.|.)
-
-instance Monoid AudioConverterOptions where
-  mempty = AudioConverterOptions 0
-
-pattern KAudioConverterOption_Unbuffered :: AudioConverterOptions
-pattern KAudioConverterOption_Unbuffered = AudioConverterOptions 65536
-
-instance ObjCArgument AudioConverterOptions where
-  withObjCArg (AudioConverterOptions x) k = k (argCUInt x)
-
-instance ObjCReturn AudioConverterOptions where
-  type RawReturn AudioConverterOptions = CUInt
-  objcRetType = retCUInt
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AudioConverterOptions x)
-  fromOwned x = pure (AudioConverterOptions x)
 
 -- | AudioFileFlags
 --

@@ -35,13 +35,10 @@ module ObjC.AVFAudio.AVAudioEnvironmentNode
   , distanceAttenuationParameters
   , reverbParameters
   , applicableRenderingAlgorithms
-  , listenerHeadTrackingEnabled
-  , setListenerHeadTrackingEnabled
   , applicableRenderingAlgorithmsSelector
   , distanceAttenuationParametersSelector
   , initSelector
   , listenerAngularOrientationSelector
-  , listenerHeadTrackingEnabledSelector
   , listenerPositionSelector
   , listenerVectorOrientationSelector
   , nextAvailableInputBusSelector
@@ -49,7 +46,6 @@ module ObjC.AVFAudio.AVAudioEnvironmentNode
   , outputVolumeSelector
   , reverbParametersSelector
   , setListenerAngularOrientationSelector
-  , setListenerHeadTrackingEnabledSelector
   , setListenerPositionSelector
   , setListenerVectorOrientationSelector
   , setOutputTypeSelector
@@ -244,24 +240,6 @@ applicableRenderingAlgorithms :: IsAVAudioEnvironmentNode avAudioEnvironmentNode
 applicableRenderingAlgorithms avAudioEnvironmentNode =
   sendMessage avAudioEnvironmentNode applicableRenderingAlgorithmsSelector
 
--- | listenerHeadTrackingEnabled
---
--- On capable devices, listener orientation will be automatically rotated based on user's head-orientation if enabled.
---
--- ObjC selector: @- listenerHeadTrackingEnabled@
-listenerHeadTrackingEnabled :: IsAVAudioEnvironmentNode avAudioEnvironmentNode => avAudioEnvironmentNode -> IO Bool
-listenerHeadTrackingEnabled avAudioEnvironmentNode =
-  sendMessage avAudioEnvironmentNode listenerHeadTrackingEnabledSelector
-
--- | listenerHeadTrackingEnabled
---
--- On capable devices, listener orientation will be automatically rotated based on user's head-orientation if enabled.
---
--- ObjC selector: @- setListenerHeadTrackingEnabled:@
-setListenerHeadTrackingEnabled :: IsAVAudioEnvironmentNode avAudioEnvironmentNode => avAudioEnvironmentNode -> Bool -> IO ()
-setListenerHeadTrackingEnabled avAudioEnvironmentNode value =
-  sendMessage avAudioEnvironmentNode setListenerHeadTrackingEnabledSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -325,12 +303,4 @@ reverbParametersSelector = mkSelector "reverbParameters"
 -- | @Selector@ for @applicableRenderingAlgorithms@
 applicableRenderingAlgorithmsSelector :: Selector '[] (Id NSArray)
 applicableRenderingAlgorithmsSelector = mkSelector "applicableRenderingAlgorithms"
-
--- | @Selector@ for @listenerHeadTrackingEnabled@
-listenerHeadTrackingEnabledSelector :: Selector '[] Bool
-listenerHeadTrackingEnabledSelector = mkSelector "listenerHeadTrackingEnabled"
-
--- | @Selector@ for @setListenerHeadTrackingEnabled:@
-setListenerHeadTrackingEnabledSelector :: Selector '[Bool] ()
-setListenerHeadTrackingEnabledSelector = mkSelector "setListenerHeadTrackingEnabled:"
 

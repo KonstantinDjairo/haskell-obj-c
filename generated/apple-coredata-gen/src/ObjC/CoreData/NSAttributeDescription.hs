@@ -56,7 +56,6 @@ module ObjC.CoreData.NSAttributeDescription
   , pattern NSURIAttributeType
   , pattern NSTransformableAttributeType
   , pattern NSObjectIDAttributeType
-  , pattern NSCompositeAttributeType
 
   ) where
 

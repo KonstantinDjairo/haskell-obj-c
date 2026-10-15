@@ -22,8 +22,6 @@ module ObjC.CallKit.CXProviderConfiguration
   , setIncludesCallsInRecents
   , supportsVideo
   , setSupportsVideo
-  , supportsAudioTranslation
-  , setSupportsAudioTranslation
   , supportedHandleTypes
   , setSupportedHandleTypes
   , iconTemplateImageDataSelector
@@ -40,10 +38,8 @@ module ObjC.CallKit.CXProviderConfiguration
   , setMaximumCallsPerCallGroupSelector
   , setRingtoneSoundSelector
   , setSupportedHandleTypesSelector
-  , setSupportsAudioTranslationSelector
   , setSupportsVideoSelector
   , supportedHandleTypesSelector
-  , supportsAudioTranslationSelector
   , supportsVideoSelector
 
 
@@ -145,16 +141,6 @@ setSupportsVideo :: IsCXProviderConfiguration cxProviderConfiguration => cxProvi
 setSupportsVideo cxProviderConfiguration value =
   sendMessage cxProviderConfiguration setSupportsVideoSelector value
 
--- | @- supportsAudioTranslation@
-supportsAudioTranslation :: IsCXProviderConfiguration cxProviderConfiguration => cxProviderConfiguration -> IO Bool
-supportsAudioTranslation cxProviderConfiguration =
-  sendMessage cxProviderConfiguration supportsAudioTranslationSelector
-
--- | @- setSupportsAudioTranslation:@
-setSupportsAudioTranslation :: IsCXProviderConfiguration cxProviderConfiguration => cxProviderConfiguration -> Bool -> IO ()
-setSupportsAudioTranslation cxProviderConfiguration value =
-  sendMessage cxProviderConfiguration setSupportsAudioTranslationSelector value
-
 -- | @- supportedHandleTypes@
 supportedHandleTypes :: IsCXProviderConfiguration cxProviderConfiguration => cxProviderConfiguration -> IO (Id NSSet)
 supportedHandleTypes cxProviderConfiguration =
@@ -228,14 +214,6 @@ supportsVideoSelector = mkSelector "supportsVideo"
 -- | @Selector@ for @setSupportsVideo:@
 setSupportsVideoSelector :: Selector '[Bool] ()
 setSupportsVideoSelector = mkSelector "setSupportsVideo:"
-
--- | @Selector@ for @supportsAudioTranslation@
-supportsAudioTranslationSelector :: Selector '[] Bool
-supportsAudioTranslationSelector = mkSelector "supportsAudioTranslation"
-
--- | @Selector@ for @setSupportsAudioTranslation:@
-setSupportsAudioTranslationSelector :: Selector '[Bool] ()
-setSupportsAudioTranslationSelector = mkSelector "setSupportsAudioTranslation:"
 
 -- | @Selector@ for @supportedHandleTypes@
 supportedHandleTypesSelector :: Selector '[] (Id NSSet)

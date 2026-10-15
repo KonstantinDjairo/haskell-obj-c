@@ -10,9 +10,9 @@ module ObjC.CoreLocation.CLGeocoder
   , reverseGeocodeLocation_completionHandler
   , reverseGeocodeLocation_preferredLocale_completionHandler
   , geocodeAddressDictionary_completionHandler
+  , geocodeAddressString_completionHandler
   , geocodeAddressString_inRegion_completionHandler
   , geocodeAddressString_inRegion_preferredLocale_completionHandler
-  , geocodeAddressString_completionHandler
   , cancelGeocode
   , geocodePostalAddress_completionHandler
   , geocodePostalAddress_preferredLocale_completionHandler
@@ -44,19 +44,24 @@ import ObjC.Contacts.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | @- reverseGeocodeLocation:completionHandler:@
-reverseGeocodeLocation_completionHandler :: IsCLGeocoder clGeocoder => clGeocoder -> RawId -> Ptr () -> IO ()
+reverseGeocodeLocation_completionHandler :: (IsCLGeocoder clGeocoder, IsCLLocation location) => clGeocoder -> location -> Ptr () -> IO ()
 reverseGeocodeLocation_completionHandler clGeocoder location completionHandler =
-  sendMessage clGeocoder reverseGeocodeLocation_completionHandlerSelector location completionHandler
+  sendMessage clGeocoder reverseGeocodeLocation_completionHandlerSelector (toCLLocation location) completionHandler
 
 -- | @- reverseGeocodeLocation:preferredLocale:completionHandler:@
-reverseGeocodeLocation_preferredLocale_completionHandler :: (IsCLGeocoder clGeocoder, IsNSLocale locale) => clGeocoder -> RawId -> locale -> Ptr () -> IO ()
+reverseGeocodeLocation_preferredLocale_completionHandler :: (IsCLGeocoder clGeocoder, IsCLLocation location, IsNSLocale locale) => clGeocoder -> location -> locale -> Ptr () -> IO ()
 reverseGeocodeLocation_preferredLocale_completionHandler clGeocoder location locale completionHandler =
-  sendMessage clGeocoder reverseGeocodeLocation_preferredLocale_completionHandlerSelector location (toNSLocale locale) completionHandler
+  sendMessage clGeocoder reverseGeocodeLocation_preferredLocale_completionHandlerSelector (toCLLocation location) (toNSLocale locale) completionHandler
 
 -- | @- geocodeAddressDictionary:completionHandler:@
 geocodeAddressDictionary_completionHandler :: (IsCLGeocoder clGeocoder, IsNSDictionary addressDictionary) => clGeocoder -> addressDictionary -> Ptr () -> IO ()
 geocodeAddressDictionary_completionHandler clGeocoder addressDictionary completionHandler =
   sendMessage clGeocoder geocodeAddressDictionary_completionHandlerSelector (toNSDictionary addressDictionary) completionHandler
+
+-- | @- geocodeAddressString:completionHandler:@
+geocodeAddressString_completionHandler :: (IsCLGeocoder clGeocoder, IsNSString addressString) => clGeocoder -> addressString -> Ptr () -> IO ()
+geocodeAddressString_completionHandler clGeocoder addressString completionHandler =
+  sendMessage clGeocoder geocodeAddressString_completionHandlerSelector (toNSString addressString) completionHandler
 
 -- | @- geocodeAddressString:inRegion:completionHandler:@
 geocodeAddressString_inRegion_completionHandler :: (IsCLGeocoder clGeocoder, IsNSString addressString, IsCLRegion region) => clGeocoder -> addressString -> region -> Ptr () -> IO ()
@@ -67,11 +72,6 @@ geocodeAddressString_inRegion_completionHandler clGeocoder addressString region 
 geocodeAddressString_inRegion_preferredLocale_completionHandler :: (IsCLGeocoder clGeocoder, IsNSString addressString, IsCLRegion region, IsNSLocale locale) => clGeocoder -> addressString -> region -> locale -> Ptr () -> IO ()
 geocodeAddressString_inRegion_preferredLocale_completionHandler clGeocoder addressString region locale completionHandler =
   sendMessage clGeocoder geocodeAddressString_inRegion_preferredLocale_completionHandlerSelector (toNSString addressString) (toCLRegion region) (toNSLocale locale) completionHandler
-
--- | @- geocodeAddressString:completionHandler:@
-geocodeAddressString_completionHandler :: (IsCLGeocoder clGeocoder, IsNSString addressString) => clGeocoder -> addressString -> Ptr () -> IO ()
-geocodeAddressString_completionHandler clGeocoder addressString completionHandler =
-  sendMessage clGeocoder geocodeAddressString_completionHandlerSelector (toNSString addressString) completionHandler
 
 -- | @- cancelGeocode@
 cancelGeocode :: IsCLGeocoder clGeocoder => clGeocoder -> IO ()
@@ -98,16 +98,20 @@ geocoding clGeocoder =
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @reverseGeocodeLocation:completionHandler:@
-reverseGeocodeLocation_completionHandlerSelector :: Selector '[RawId, Ptr ()] ()
+reverseGeocodeLocation_completionHandlerSelector :: Selector '[Id CLLocation, Ptr ()] ()
 reverseGeocodeLocation_completionHandlerSelector = mkSelector "reverseGeocodeLocation:completionHandler:"
 
 -- | @Selector@ for @reverseGeocodeLocation:preferredLocale:completionHandler:@
-reverseGeocodeLocation_preferredLocale_completionHandlerSelector :: Selector '[RawId, Id NSLocale, Ptr ()] ()
+reverseGeocodeLocation_preferredLocale_completionHandlerSelector :: Selector '[Id CLLocation, Id NSLocale, Ptr ()] ()
 reverseGeocodeLocation_preferredLocale_completionHandlerSelector = mkSelector "reverseGeocodeLocation:preferredLocale:completionHandler:"
 
 -- | @Selector@ for @geocodeAddressDictionary:completionHandler:@
 geocodeAddressDictionary_completionHandlerSelector :: Selector '[Id NSDictionary, Ptr ()] ()
 geocodeAddressDictionary_completionHandlerSelector = mkSelector "geocodeAddressDictionary:completionHandler:"
+
+-- | @Selector@ for @geocodeAddressString:completionHandler:@
+geocodeAddressString_completionHandlerSelector :: Selector '[Id NSString, Ptr ()] ()
+geocodeAddressString_completionHandlerSelector = mkSelector "geocodeAddressString:completionHandler:"
 
 -- | @Selector@ for @geocodeAddressString:inRegion:completionHandler:@
 geocodeAddressString_inRegion_completionHandlerSelector :: Selector '[Id NSString, Id CLRegion, Ptr ()] ()
@@ -116,10 +120,6 @@ geocodeAddressString_inRegion_completionHandlerSelector = mkSelector "geocodeAdd
 -- | @Selector@ for @geocodeAddressString:inRegion:preferredLocale:completionHandler:@
 geocodeAddressString_inRegion_preferredLocale_completionHandlerSelector :: Selector '[Id NSString, Id CLRegion, Id NSLocale, Ptr ()] ()
 geocodeAddressString_inRegion_preferredLocale_completionHandlerSelector = mkSelector "geocodeAddressString:inRegion:preferredLocale:completionHandler:"
-
--- | @Selector@ for @geocodeAddressString:completionHandler:@
-geocodeAddressString_completionHandlerSelector :: Selector '[Id NSString, Ptr ()] ()
-geocodeAddressString_completionHandlerSelector = mkSelector "geocodeAddressString:completionHandler:"
 
 -- | @Selector@ for @cancelGeocode@
 cancelGeocodeSelector :: Selector '[] ()

@@ -108,50 +108,6 @@ instance IsNSFileProviderItemVersion (Id NSFileProviderItemVersion) where
 instance IsNSObject (Id NSFileProviderItemVersion) where
   toNSObject = unsafeCastId
 
--- ---------- NSFileProviderKnownFolderLocation ----------
-
--- | Specify the location of a known folder in the replicated tree.
--- 
--- Phantom type for @NSFileProviderKnownFolderLocation@.
-data NSFileProviderKnownFolderLocation
-
-instance IsObjCObject (Id NSFileProviderKnownFolderLocation) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSFileProviderKnownFolderLocation"
-
-class IsNSObject a => IsNSFileProviderKnownFolderLocation a where
-  toNSFileProviderKnownFolderLocation :: a -> Id NSFileProviderKnownFolderLocation
-
-instance IsNSFileProviderKnownFolderLocation (Id NSFileProviderKnownFolderLocation) where
-  toNSFileProviderKnownFolderLocation = unsafeCastId
-
-instance IsNSObject (Id NSFileProviderKnownFolderLocation) where
-  toNSObject = unsafeCastId
-
--- ---------- NSFileProviderKnownFolderLocations ----------
-
--- | Specify the locations at which known folders should be synced in the replicated tree.
---
--- Desktop and Documents candidate items need to have the same parent folder.
--- 
--- Phantom type for @NSFileProviderKnownFolderLocations@.
-data NSFileProviderKnownFolderLocations
-
-instance IsObjCObject (Id NSFileProviderKnownFolderLocations) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSFileProviderKnownFolderLocations"
-
-class IsNSObject a => IsNSFileProviderKnownFolderLocations a where
-  toNSFileProviderKnownFolderLocations :: a -> Id NSFileProviderKnownFolderLocations
-
-instance IsNSFileProviderKnownFolderLocations (Id NSFileProviderKnownFolderLocations) where
-  toNSFileProviderKnownFolderLocations = unsafeCastId
-
-instance IsNSObject (Id NSFileProviderKnownFolderLocations) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSFileProviderManager ----------
 
 -- | The file provider manager allows you to communicate with the file provider framework from both the extension and related processes.
@@ -198,23 +154,4 @@ instance IsNSFileProviderRequest (Id NSFileProviderRequest) where
   toNSFileProviderRequest = unsafeCastId
 
 instance IsNSObject (Id NSFileProviderRequest) where
-  toNSObject = unsafeCastId
-
--- ---------- NSFileProviderStringSearchRequest ----------
-
--- | Phantom type for @NSFileProviderStringSearchRequest@.
-data NSFileProviderStringSearchRequest
-
-instance IsObjCObject (Id NSFileProviderStringSearchRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSFileProviderStringSearchRequest"
-
-class IsNSObject a => IsNSFileProviderStringSearchRequest a where
-  toNSFileProviderStringSearchRequest :: a -> Id NSFileProviderStringSearchRequest
-
-instance IsNSFileProviderStringSearchRequest (Id NSFileProviderStringSearchRequest) where
-  toNSFileProviderStringSearchRequest = unsafeCastId
-
-instance IsNSObject (Id NSFileProviderStringSearchRequest) where
   toNSObject = unsafeCastId

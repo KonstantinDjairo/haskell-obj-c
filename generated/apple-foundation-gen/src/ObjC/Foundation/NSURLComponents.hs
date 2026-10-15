@@ -12,8 +12,6 @@ module ObjC.Foundation.NSURLComponents
   , componentsWithURL_resolvingAgainstBaseURL
   , initWithString
   , componentsWithString
-  , initWithString_encodingInvalidCharacters
-  , componentsWithString_encodingInvalidCharacters
   , urlRelativeToURL
   , url
   , string
@@ -60,14 +58,12 @@ module ObjC.Foundation.NSURLComponents
   , percentEncodedQueryItems
   , setPercentEncodedQueryItems
   , componentsWithStringSelector
-  , componentsWithString_encodingInvalidCharactersSelector
   , componentsWithURL_resolvingAgainstBaseURLSelector
   , encodedHostSelector
   , fragmentSelector
   , hostSelector
   , initSelector
   , initWithStringSelector
-  , initWithString_encodingInvalidCharactersSelector
   , initWithURL_resolvingAgainstBaseURLSelector
   , passwordSelector
   , pathSelector
@@ -154,26 +150,6 @@ componentsWithString urlString =
   do
     cls' <- getRequiredClass "NSURLComponents"
     sendClassMessage cls' componentsWithStringSelector (toNSString urlString)
-
--- | Initializes an @NSURLComponents@ with a URL string and the option to add (or skip) IDNA- and percent-encoding of invalid characters. If @encodingInvalidCharacters@ is false, and the URL string is invalid according to RFC 3986, @nil@ is returned. If @encodingInvalidCharacters@ is true, @NSURLComponents@ will try to encode the string to create a valid URL. If the URL string is still invalid after encoding, @nil@ is returned.
---
--- - Parameter URLString: The URL string. - Parameter encodingInvalidCharacters: True if @NSURLComponents@ should try to encode an invalid URL string, false otherwise. - Returns: An @NSURLComponents@ instance for a valid URL, or @nil@ if the URL is invalid.
---
--- ObjC selector: @- initWithString:encodingInvalidCharacters:@
-initWithString_encodingInvalidCharacters :: (IsNSURLComponents nsurlComponents, IsNSString urlString) => nsurlComponents -> urlString -> Bool -> IO (Id NSURLComponents)
-initWithString_encodingInvalidCharacters nsurlComponents urlString encodingInvalidCharacters =
-  sendOwnedMessage nsurlComponents initWithString_encodingInvalidCharactersSelector (toNSString urlString) encodingInvalidCharacters
-
--- | Initializes and returns a newly created @NSURLComponents@ with a URL string and the option to add (or skip) IDNA- and percent-encoding of invalid characters. If @encodingInvalidCharacters@ is false, and the URL string is invalid according to RFC 3986, @nil@ is returned. If @encodingInvalidCharacters@ is true, @NSURLComponents@ will try to encode the string to create a valid URL. If the URL string is still invalid after encoding, nil is returned.
---
--- - Parameter URLString: The URL string. - Parameter encodingInvalidCharacters: True if @NSURLComponents@ should try to encode an invalid URL string, false otherwise. - Returns: An @NSURLComponents@ instance for a valid URL, or @nil@ if the URL is invalid.
---
--- ObjC selector: @+ componentsWithString:encodingInvalidCharacters:@
-componentsWithString_encodingInvalidCharacters :: IsNSString urlString => urlString -> Bool -> IO (Id NSURLComponents)
-componentsWithString_encodingInvalidCharacters urlString encodingInvalidCharacters =
-  do
-    cls' <- getRequiredClass "NSURLComponents"
-    sendClassMessage cls' componentsWithString_encodingInvalidCharactersSelector (toNSString urlString) encodingInvalidCharacters
 
 -- | @- URLRelativeToURL:@
 urlRelativeToURL :: (IsNSURLComponents nsurlComponents, IsNSURL baseURL) => nsurlComponents -> baseURL -> IO (Id NSURL)
@@ -423,14 +399,6 @@ initWithStringSelector = mkSelector "initWithString:"
 -- | @Selector@ for @componentsWithString:@
 componentsWithStringSelector :: Selector '[Id NSString] (Id NSURLComponents)
 componentsWithStringSelector = mkSelector "componentsWithString:"
-
--- | @Selector@ for @initWithString:encodingInvalidCharacters:@
-initWithString_encodingInvalidCharactersSelector :: Selector '[Id NSString, Bool] (Id NSURLComponents)
-initWithString_encodingInvalidCharactersSelector = mkSelector "initWithString:encodingInvalidCharacters:"
-
--- | @Selector@ for @componentsWithString:encodingInvalidCharacters:@
-componentsWithString_encodingInvalidCharactersSelector :: Selector '[Id NSString, Bool] (Id NSURLComponents)
-componentsWithString_encodingInvalidCharactersSelector = mkSelector "componentsWithString:encodingInvalidCharacters:"
 
 -- | @Selector@ for @URLRelativeToURL:@
 urlRelativeToURLSelector :: Selector '[Id NSURL] (Id NSURL)

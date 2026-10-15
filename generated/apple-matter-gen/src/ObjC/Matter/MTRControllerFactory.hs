@@ -7,13 +7,13 @@
 module ObjC.Matter.MTRControllerFactory
   ( MTRControllerFactory
   , IsMTRControllerFactory(..)
+  , init_
+  , new
   , sharedInstance
   , startup
   , shutdown
   , startControllerOnExistingFabric
   , startControllerOnNewFabric
-  , init_
-  , new
   , isRunning
   , initSelector
   , isRunningSelector
@@ -38,33 +38,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @+ sharedInstance@
-sharedInstance :: IO (Id MTRControllerFactory)
-sharedInstance  =
-  do
-    cls' <- getRequiredClass "MTRControllerFactory"
-    sendClassMessage cls' sharedInstanceSelector
-
--- | @- startup:@
-startup :: (IsMTRControllerFactory mtrControllerFactory, IsMTRControllerFactoryParams startupParams) => mtrControllerFactory -> startupParams -> IO Bool
-startup mtrControllerFactory startupParams =
-  sendMessage mtrControllerFactory startupSelector (toMTRControllerFactoryParams startupParams)
-
--- | @- shutdown@
-shutdown :: IsMTRControllerFactory mtrControllerFactory => mtrControllerFactory -> IO ()
-shutdown mtrControllerFactory =
-  sendMessage mtrControllerFactory shutdownSelector
-
--- | @- startControllerOnExistingFabric:@
-startControllerOnExistingFabric :: (IsMTRControllerFactory mtrControllerFactory, IsMTRDeviceControllerStartupParams startupParams) => mtrControllerFactory -> startupParams -> IO (Id MTRDeviceController)
-startControllerOnExistingFabric mtrControllerFactory startupParams =
-  sendMessage mtrControllerFactory startControllerOnExistingFabricSelector (toMTRDeviceControllerStartupParams startupParams)
-
--- | @- startControllerOnNewFabric:@
-startControllerOnNewFabric :: (IsMTRControllerFactory mtrControllerFactory, IsMTRDeviceControllerStartupParams startupParams) => mtrControllerFactory -> startupParams -> IO (Id MTRDeviceController)
-startControllerOnNewFabric mtrControllerFactory startupParams =
-  sendMessage mtrControllerFactory startControllerOnNewFabricSelector (toMTRDeviceControllerStartupParams startupParams)
-
 -- | @- init@
 init_ :: IsMTRControllerFactory mtrControllerFactory => mtrControllerFactory -> IO (Id MTRControllerFactory)
 init_ mtrControllerFactory =
@@ -77,6 +50,57 @@ new  =
     cls' <- getRequiredClass "MTRControllerFactory"
     sendOwnedClassMessage cls' newSelector
 
+-- | Return the single MTRControllerFactory we support existing.  It starts off in a "not started" state.
+--
+-- ObjC selector: @+ sharedInstance@
+sharedInstance :: IO (Id MTRControllerFactory)
+sharedInstance  =
+  do
+    cls' <- getRequiredClass "MTRControllerFactory"
+    sendClassMessage cls' sharedInstanceSelector
+
+-- | Start the controller factory. Repeated calls to startup without calls to shutdown in between are NO-OPs. Use the isRunning property to check whether the controller factory needs to be started up.
+--
+-- @startupParams@ — data needed to start up the controller factory.
+--
+-- Returns: Whether startup succeded.
+--
+-- ObjC selector: @- startup:@
+startup :: (IsMTRControllerFactory mtrControllerFactory, IsMTRControllerFactoryParams startupParams) => mtrControllerFactory -> startupParams -> IO Bool
+startup mtrControllerFactory startupParams =
+  sendMessage mtrControllerFactory startupSelector (toMTRControllerFactoryParams startupParams)
+
+-- | Shut down the controller factory. This will shut down any outstanding controllers as part of the factory shutdown.
+--
+-- Repeated calls to shutdown without calls to startup in between are NO-OPs.
+--
+-- ObjC selector: @- shutdown@
+shutdown :: IsMTRControllerFactory mtrControllerFactory => mtrControllerFactory -> IO ()
+shutdown mtrControllerFactory =
+  sendMessage mtrControllerFactory shutdownSelector
+
+-- | Create a MTRDeviceController on an existing fabric.  Returns nil on failure.
+--
+-- This method will fail if there is no such fabric or if there is already a controller started for that fabric.
+--
+-- The fabric is identified by the root public key and fabric id in the startupParams.
+--
+-- ObjC selector: @- startControllerOnExistingFabric:@
+startControllerOnExistingFabric :: (IsMTRControllerFactory mtrControllerFactory, IsMTRDeviceControllerStartupParams startupParams) => mtrControllerFactory -> startupParams -> IO (Id MTRDeviceController)
+startControllerOnExistingFabric mtrControllerFactory startupParams =
+  sendMessage mtrControllerFactory startControllerOnExistingFabricSelector (toMTRDeviceControllerStartupParams startupParams)
+
+-- | Create a MTRDeviceController on a new fabric.  Returns nil on failure.
+--
+-- This method will fail if the given fabric already exists.
+--
+-- The fabric is identified by the root public key and fabric id in the startupParams.
+--
+-- ObjC selector: @- startControllerOnNewFabric:@
+startControllerOnNewFabric :: (IsMTRControllerFactory mtrControllerFactory, IsMTRDeviceControllerStartupParams startupParams) => mtrControllerFactory -> startupParams -> IO (Id MTRDeviceController)
+startControllerOnNewFabric mtrControllerFactory startupParams =
+  sendMessage mtrControllerFactory startControllerOnNewFabricSelector (toMTRDeviceControllerStartupParams startupParams)
+
 -- | @- isRunning@
 isRunning :: IsMTRControllerFactory mtrControllerFactory => mtrControllerFactory -> IO Bool
 isRunning mtrControllerFactory =
@@ -85,6 +109,14 @@ isRunning mtrControllerFactory =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRControllerFactory)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRControllerFactory)
+newSelector = mkSelector "new"
 
 -- | @Selector@ for @sharedInstance@
 sharedInstanceSelector :: Selector '[] (Id MTRControllerFactory)
@@ -105,14 +137,6 @@ startControllerOnExistingFabricSelector = mkSelector "startControllerOnExistingF
 -- | @Selector@ for @startControllerOnNewFabric:@
 startControllerOnNewFabricSelector :: Selector '[Id MTRDeviceControllerStartupParams] (Id MTRDeviceController)
 startControllerOnNewFabricSelector = mkSelector "startControllerOnNewFabric:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRControllerFactory)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRControllerFactory)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @isRunning@
 isRunningSelector :: Selector '[] Bool

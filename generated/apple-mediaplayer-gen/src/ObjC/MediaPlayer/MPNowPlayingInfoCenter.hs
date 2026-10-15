@@ -15,7 +15,6 @@ module ObjC.MediaPlayer.MPNowPlayingInfoCenter
   , setNowPlayingInfo
   , playbackState
   , setPlaybackState
-  , supportedAnimatedArtworkKeys
   , defaultCenterSelector
   , initSelector
   , newSelector
@@ -23,7 +22,6 @@ module ObjC.MediaPlayer.MPNowPlayingInfoCenter
   , playbackStateSelector
   , setNowPlayingInfoSelector
   , setPlaybackStateSelector
-  , supportedAnimatedArtworkKeysSelector
 
   -- * Enum types
   , MPNowPlayingPlaybackState(MPNowPlayingPlaybackState)
@@ -96,17 +94,6 @@ setPlaybackState :: IsMPNowPlayingInfoCenter mpNowPlayingInfoCenter => mpNowPlay
 setPlaybackState mpNowPlayingInfoCenter value =
   sendMessage mpNowPlayingInfoCenter setPlaybackStateSelector value
 
--- | Keys related to animated artwork that are supported by the current platform.
---
--- If you specify an instance of animated artwork (an @MPMediaItemAnimatedArtwork@) to @nowPlayingInfo@ using any key not in this collection it will be ignored.
---
--- ObjC selector: @+ supportedAnimatedArtworkKeys@
-supportedAnimatedArtworkKeys :: IO (Id NSArray)
-supportedAnimatedArtworkKeys  =
-  do
-    cls' <- getRequiredClass "MPNowPlayingInfoCenter"
-    sendClassMessage cls' supportedAnimatedArtworkKeysSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -138,8 +125,4 @@ playbackStateSelector = mkSelector "playbackState"
 -- | @Selector@ for @setPlaybackState:@
 setPlaybackStateSelector :: Selector '[MPNowPlayingPlaybackState] ()
 setPlaybackStateSelector = mkSelector "setPlaybackState:"
-
--- | @Selector@ for @supportedAnimatedArtworkKeys@
-supportedAnimatedArtworkKeysSelector :: Selector '[] (Id NSArray)
-supportedAnimatedArtworkKeysSelector = mkSelector "supportedAnimatedArtworkKeys"
 

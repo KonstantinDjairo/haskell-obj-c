@@ -3,76 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Barrier Control
---
--- This cluster provides control of a barrier (garage door).
+-- | Cluster Barrier Control    This cluster provides control of a barrier (garage door).
 --
 -- Generated bindings for @MTRBaseClusterBarrierControl@.
 module ObjC.Matter.MTRBaseClusterBarrierControl
   ( MTRBaseClusterBarrierControl
   , IsMTRBaseClusterBarrierControl(..)
-  , barrierControlGoToPercentWithParams_completion
-  , barrierControlStopWithParams_completion
-  , barrierControlStopWithCompletion
-  , readAttributeBarrierMovingStateWithCompletion
-  , subscribeAttributeBarrierMovingStateWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierMovingStateWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierSafetyStatusWithCompletion
-  , subscribeAttributeBarrierSafetyStatusWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierSafetyStatusWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierCapabilitiesWithCompletion
-  , subscribeAttributeBarrierCapabilitiesWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierCapabilitiesWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierOpenEventsWithCompletion
-  , writeAttributeBarrierOpenEventsWithValue_completion
-  , writeAttributeBarrierOpenEventsWithValue_params_completion
-  , subscribeAttributeBarrierOpenEventsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierOpenEventsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierCloseEventsWithCompletion
-  , writeAttributeBarrierCloseEventsWithValue_completion
-  , writeAttributeBarrierCloseEventsWithValue_params_completion
-  , subscribeAttributeBarrierCloseEventsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierCloseEventsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierCommandOpenEventsWithCompletion
-  , writeAttributeBarrierCommandOpenEventsWithValue_completion
-  , writeAttributeBarrierCommandOpenEventsWithValue_params_completion
-  , subscribeAttributeBarrierCommandOpenEventsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierCommandOpenEventsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierCommandCloseEventsWithCompletion
-  , writeAttributeBarrierCommandCloseEventsWithValue_completion
-  , writeAttributeBarrierCommandCloseEventsWithValue_params_completion
-  , subscribeAttributeBarrierCommandCloseEventsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierCommandCloseEventsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierOpenPeriodWithCompletion
-  , writeAttributeBarrierOpenPeriodWithValue_completion
-  , writeAttributeBarrierOpenPeriodWithValue_params_completion
-  , subscribeAttributeBarrierOpenPeriodWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierOpenPeriodWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierClosePeriodWithCompletion
-  , writeAttributeBarrierClosePeriodWithValue_completion
-  , writeAttributeBarrierClosePeriodWithValue_params_completion
-  , subscribeAttributeBarrierClosePeriodWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierClosePeriodWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBarrierPositionWithCompletion
-  , subscribeAttributeBarrierPositionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBarrierPositionWithClusterStateCache_endpoint_queue_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
-  , init_
-  , new
   , initWithDevice_endpoint_queue
   , barrierControlGoToPercentWithParams_completionHandler
   , barrierControlStopWithParams_completionHandler
@@ -134,131 +70,71 @@ module ObjC.Matter.MTRBaseClusterBarrierControl
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
-  , initWithDevice_endpointID_queue
+  , init_
+  , new
   , barrierControlGoToPercentWithParams_completionHandlerSelector
-  , barrierControlGoToPercentWithParams_completionSelector
   , barrierControlStopWithCompletionHandlerSelector
-  , barrierControlStopWithCompletionSelector
   , barrierControlStopWithParams_completionHandlerSelector
-  , barrierControlStopWithParams_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAttributeListWithCompletionHandlerSelector
-  , readAttributeAttributeListWithCompletionSelector
   , readAttributeBarrierCapabilitiesWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierCapabilitiesWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierCapabilitiesWithCompletionHandlerSelector
-  , readAttributeBarrierCapabilitiesWithCompletionSelector
   , readAttributeBarrierCloseEventsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierCloseEventsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierCloseEventsWithCompletionHandlerSelector
-  , readAttributeBarrierCloseEventsWithCompletionSelector
   , readAttributeBarrierClosePeriodWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierClosePeriodWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierClosePeriodWithCompletionHandlerSelector
-  , readAttributeBarrierClosePeriodWithCompletionSelector
   , readAttributeBarrierCommandCloseEventsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierCommandCloseEventsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierCommandCloseEventsWithCompletionHandlerSelector
-  , readAttributeBarrierCommandCloseEventsWithCompletionSelector
   , readAttributeBarrierCommandOpenEventsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierCommandOpenEventsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierCommandOpenEventsWithCompletionHandlerSelector
-  , readAttributeBarrierCommandOpenEventsWithCompletionSelector
   , readAttributeBarrierMovingStateWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierMovingStateWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierMovingStateWithCompletionHandlerSelector
-  , readAttributeBarrierMovingStateWithCompletionSelector
   , readAttributeBarrierOpenEventsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierOpenEventsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierOpenEventsWithCompletionHandlerSelector
-  , readAttributeBarrierOpenEventsWithCompletionSelector
   , readAttributeBarrierOpenPeriodWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierOpenPeriodWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierOpenPeriodWithCompletionHandlerSelector
-  , readAttributeBarrierOpenPeriodWithCompletionSelector
   , readAttributeBarrierPositionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierPositionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierPositionWithCompletionHandlerSelector
-  , readAttributeBarrierPositionWithCompletionSelector
   , readAttributeBarrierSafetyStatusWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBarrierSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBarrierSafetyStatusWithCompletionHandlerSelector
-  , readAttributeBarrierSafetyStatusWithCompletionSelector
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeClusterRevisionWithCompletionHandlerSelector
-  , readAttributeClusterRevisionWithCompletionSelector
   , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeFeatureMapWithCompletionHandlerSelector
-  , readAttributeFeatureMapWithCompletionSelector
   , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeGeneratedCommandListWithCompletionHandlerSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
   , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierCapabilitiesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierCapabilitiesWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierClosePeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierClosePeriodWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierCommandCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierCommandCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierCommandOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierCommandOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierMovingStateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierMovingStateWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierOpenPeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierOpenPeriodWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierPositionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierPositionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBarrierSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBarrierSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , writeAttributeBarrierCloseEventsWithValue_completionHandlerSelector
-  , writeAttributeBarrierCloseEventsWithValue_completionSelector
   , writeAttributeBarrierCloseEventsWithValue_params_completionHandlerSelector
-  , writeAttributeBarrierCloseEventsWithValue_params_completionSelector
   , writeAttributeBarrierClosePeriodWithValue_completionHandlerSelector
-  , writeAttributeBarrierClosePeriodWithValue_completionSelector
   , writeAttributeBarrierClosePeriodWithValue_params_completionHandlerSelector
-  , writeAttributeBarrierClosePeriodWithValue_params_completionSelector
   , writeAttributeBarrierCommandCloseEventsWithValue_completionHandlerSelector
-  , writeAttributeBarrierCommandCloseEventsWithValue_completionSelector
   , writeAttributeBarrierCommandCloseEventsWithValue_params_completionHandlerSelector
-  , writeAttributeBarrierCommandCloseEventsWithValue_params_completionSelector
   , writeAttributeBarrierCommandOpenEventsWithValue_completionHandlerSelector
-  , writeAttributeBarrierCommandOpenEventsWithValue_completionSelector
   , writeAttributeBarrierCommandOpenEventsWithValue_params_completionHandlerSelector
-  , writeAttributeBarrierCommandOpenEventsWithValue_params_completionSelector
   , writeAttributeBarrierOpenEventsWithValue_completionHandlerSelector
-  , writeAttributeBarrierOpenEventsWithValue_completionSelector
   , writeAttributeBarrierOpenEventsWithValue_params_completionHandlerSelector
-  , writeAttributeBarrierOpenEventsWithValue_params_completionSelector
   , writeAttributeBarrierOpenPeriodWithValue_completionHandlerSelector
-  , writeAttributeBarrierOpenPeriodWithValue_completionSelector
   , writeAttributeBarrierOpenPeriodWithValue_params_completionHandlerSelector
-  , writeAttributeBarrierOpenPeriodWithValue_params_completionSelector
 
 
   ) where
@@ -273,356 +149,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | Command BarrierControlGoToPercent
---
--- Command to instruct a barrier to go to a percent open state.
---
--- ObjC selector: @- barrierControlGoToPercentWithParams:completion:@
-barrierControlGoToPercentWithParams_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlGoToPercentParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> IO ()
-barrierControlGoToPercentWithParams_completion mtrBaseClusterBarrierControl params completion =
-  sendMessage mtrBaseClusterBarrierControl barrierControlGoToPercentWithParams_completionSelector (toMTRBarrierControlClusterBarrierControlGoToPercentParams params) completion
-
--- | Command BarrierControlStop
---
--- Command that instructs the barrier to stop moving.
---
--- ObjC selector: @- barrierControlStopWithParams:completion:@
-barrierControlStopWithParams_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlStopParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> IO ()
-barrierControlStopWithParams_completion mtrBaseClusterBarrierControl params completion =
-  sendMessage mtrBaseClusterBarrierControl barrierControlStopWithParams_completionSelector (toMTRBarrierControlClusterBarrierControlStopParams params) completion
-
--- | @- barrierControlStopWithCompletion:@
-barrierControlStopWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-barrierControlStopWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl barrierControlStopWithCompletionSelector completion
-
--- | @- readAttributeBarrierMovingStateWithCompletion:@
-readAttributeBarrierMovingStateWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierMovingStateWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierMovingStateWithCompletionSelector completion
-
--- | @- subscribeAttributeBarrierMovingStateWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierMovingStateWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierMovingStateWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierMovingStateWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierMovingStateWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierMovingStateWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierMovingStateWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierMovingStateWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierSafetyStatusWithCompletion:@
-readAttributeBarrierSafetyStatusWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierSafetyStatusWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierSafetyStatusWithCompletionSelector completion
-
--- | @- subscribeAttributeBarrierSafetyStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierSafetyStatusWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierSafetyStatusWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierSafetyStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierSafetyStatusWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierSafetyStatusWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierCapabilitiesWithCompletion:@
-readAttributeBarrierCapabilitiesWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierCapabilitiesWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierCapabilitiesWithCompletionSelector completion
-
--- | @- subscribeAttributeBarrierCapabilitiesWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCapabilitiesWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierCapabilitiesWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCapabilitiesWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierCapabilitiesWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCapabilitiesWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierCapabilitiesWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierCapabilitiesWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierOpenEventsWithCompletion:@
-readAttributeBarrierOpenEventsWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierOpenEventsWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierOpenEventsWithCompletionSelector completion
-
--- | @- writeAttributeBarrierOpenEventsWithValue:completion:@
-writeAttributeBarrierOpenEventsWithValue_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value) => mtrBaseClusterBarrierControl -> value -> Ptr () -> IO ()
-writeAttributeBarrierOpenEventsWithValue_completion mtrBaseClusterBarrierControl value completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierOpenEventsWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeBarrierOpenEventsWithValue:params:completion:@
-writeAttributeBarrierOpenEventsWithValue_params_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBarrierControl -> value -> params -> Ptr () -> IO ()
-writeAttributeBarrierOpenEventsWithValue_params_completion mtrBaseClusterBarrierControl value params completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierOpenEventsWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeBarrierOpenEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierOpenEventsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierOpenEventsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierOpenEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierOpenEventsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierOpenEventsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierOpenEventsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierCloseEventsWithCompletion:@
-readAttributeBarrierCloseEventsWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierCloseEventsWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierCloseEventsWithCompletionSelector completion
-
--- | @- writeAttributeBarrierCloseEventsWithValue:completion:@
-writeAttributeBarrierCloseEventsWithValue_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value) => mtrBaseClusterBarrierControl -> value -> Ptr () -> IO ()
-writeAttributeBarrierCloseEventsWithValue_completion mtrBaseClusterBarrierControl value completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCloseEventsWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeBarrierCloseEventsWithValue:params:completion:@
-writeAttributeBarrierCloseEventsWithValue_params_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBarrierControl -> value -> params -> Ptr () -> IO ()
-writeAttributeBarrierCloseEventsWithValue_params_completion mtrBaseClusterBarrierControl value params completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCloseEventsWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeBarrierCloseEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCloseEventsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierCloseEventsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierCloseEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCloseEventsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierCloseEventsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierCloseEventsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierCommandOpenEventsWithCompletion:@
-readAttributeBarrierCommandOpenEventsWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierCommandOpenEventsWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierCommandOpenEventsWithCompletionSelector completion
-
--- | @- writeAttributeBarrierCommandOpenEventsWithValue:completion:@
-writeAttributeBarrierCommandOpenEventsWithValue_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value) => mtrBaseClusterBarrierControl -> value -> Ptr () -> IO ()
-writeAttributeBarrierCommandOpenEventsWithValue_completion mtrBaseClusterBarrierControl value completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCommandOpenEventsWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeBarrierCommandOpenEventsWithValue:params:completion:@
-writeAttributeBarrierCommandOpenEventsWithValue_params_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBarrierControl -> value -> params -> Ptr () -> IO ()
-writeAttributeBarrierCommandOpenEventsWithValue_params_completion mtrBaseClusterBarrierControl value params completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCommandOpenEventsWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeBarrierCommandOpenEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCommandOpenEventsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierCommandOpenEventsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCommandOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierCommandOpenEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCommandOpenEventsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierCommandOpenEventsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierCommandOpenEventsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierCommandCloseEventsWithCompletion:@
-readAttributeBarrierCommandCloseEventsWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierCommandCloseEventsWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierCommandCloseEventsWithCompletionSelector completion
-
--- | @- writeAttributeBarrierCommandCloseEventsWithValue:completion:@
-writeAttributeBarrierCommandCloseEventsWithValue_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value) => mtrBaseClusterBarrierControl -> value -> Ptr () -> IO ()
-writeAttributeBarrierCommandCloseEventsWithValue_completion mtrBaseClusterBarrierControl value completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCommandCloseEventsWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeBarrierCommandCloseEventsWithValue:params:completion:@
-writeAttributeBarrierCommandCloseEventsWithValue_params_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBarrierControl -> value -> params -> Ptr () -> IO ()
-writeAttributeBarrierCommandCloseEventsWithValue_params_completion mtrBaseClusterBarrierControl value params completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCommandCloseEventsWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeBarrierCommandCloseEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCommandCloseEventsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierCommandCloseEventsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCommandCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierCommandCloseEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCommandCloseEventsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierCommandCloseEventsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierCommandCloseEventsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierOpenPeriodWithCompletion:@
-readAttributeBarrierOpenPeriodWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierOpenPeriodWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierOpenPeriodWithCompletionSelector completion
-
--- | @- writeAttributeBarrierOpenPeriodWithValue:completion:@
-writeAttributeBarrierOpenPeriodWithValue_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value) => mtrBaseClusterBarrierControl -> value -> Ptr () -> IO ()
-writeAttributeBarrierOpenPeriodWithValue_completion mtrBaseClusterBarrierControl value completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierOpenPeriodWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeBarrierOpenPeriodWithValue:params:completion:@
-writeAttributeBarrierOpenPeriodWithValue_params_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBarrierControl -> value -> params -> Ptr () -> IO ()
-writeAttributeBarrierOpenPeriodWithValue_params_completion mtrBaseClusterBarrierControl value params completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierOpenPeriodWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeBarrierOpenPeriodWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierOpenPeriodWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierOpenPeriodWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierOpenPeriodWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierOpenPeriodWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierOpenPeriodWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierOpenPeriodWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierOpenPeriodWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierClosePeriodWithCompletion:@
-readAttributeBarrierClosePeriodWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierClosePeriodWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierClosePeriodWithCompletionSelector completion
-
--- | @- writeAttributeBarrierClosePeriodWithValue:completion:@
-writeAttributeBarrierClosePeriodWithValue_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value) => mtrBaseClusterBarrierControl -> value -> Ptr () -> IO ()
-writeAttributeBarrierClosePeriodWithValue_completion mtrBaseClusterBarrierControl value completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierClosePeriodWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeBarrierClosePeriodWithValue:params:completion:@
-writeAttributeBarrierClosePeriodWithValue_params_completion :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBarrierControl -> value -> params -> Ptr () -> IO ()
-writeAttributeBarrierClosePeriodWithValue_params_completion mtrBaseClusterBarrierControl value params completion =
-  sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierClosePeriodWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeBarrierClosePeriodWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierClosePeriodWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierClosePeriodWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierClosePeriodWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierClosePeriodWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierClosePeriodWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierClosePeriodWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierClosePeriodWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBarrierPositionWithCompletion:@
-readAttributeBarrierPositionWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeBarrierPositionWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeBarrierPositionWithCompletionSelector completion
-
--- | @- subscribeAttributeBarrierPositionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierPositionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBarrierPositionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierPositionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBarrierPositionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierPositionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBarrierPositionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeBarrierPositionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeAcceptedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeAttributeListWithCompletionSelector completion
-
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeFeatureMapWithCompletionSelector completion
-
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterBarrierControl completion =
-  sendMessage mtrBaseClusterBarrierControl readAttributeClusterRevisionWithCompletionSelector completion
-
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBarrierControl subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- init@
-init_ :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> IO (Id MTRBaseClusterBarrierControl)
-init_ mtrBaseClusterBarrierControl =
-  sendOwnedMessage mtrBaseClusterBarrierControl initSelector
-
--- | @+ new@
-new :: IO (Id MTRBaseClusterBarrierControl)
-new  =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
-    sendOwnedClassMessage cls' newSelector
 
 -- | @- initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queue :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterBarrierControl -> device -> CUShort -> queue -> IO (Id MTRBaseClusterBarrierControl)
@@ -649,7 +175,9 @@ readAttributeBarrierMovingStateWithCompletionHandler :: IsMTRBaseClusterBarrierC
 readAttributeBarrierMovingStateWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeBarrierMovingStateWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBarrierMovingStateWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierMovingStateWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierMovingStateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierMovingStateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierMovingStateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -666,7 +194,9 @@ readAttributeBarrierSafetyStatusWithCompletionHandler :: IsMTRBaseClusterBarrier
 readAttributeBarrierSafetyStatusWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeBarrierSafetyStatusWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBarrierSafetyStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierSafetyStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -683,7 +213,9 @@ readAttributeBarrierCapabilitiesWithCompletionHandler :: IsMTRBaseClusterBarrier
 readAttributeBarrierCapabilitiesWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeBarrierCapabilitiesWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBarrierCapabilitiesWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierCapabilitiesWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierCapabilitiesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierCapabilitiesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCapabilitiesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -710,7 +242,9 @@ writeAttributeBarrierOpenEventsWithValue_params_completionHandler :: (IsMTRBaseC
 writeAttributeBarrierOpenEventsWithValue_params_completionHandler mtrBaseClusterBarrierControl value params completionHandler =
   sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierOpenEventsWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBarrierOpenEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierOpenEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -737,7 +271,9 @@ writeAttributeBarrierCloseEventsWithValue_params_completionHandler :: (IsMTRBase
 writeAttributeBarrierCloseEventsWithValue_params_completionHandler mtrBaseClusterBarrierControl value params completionHandler =
   sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCloseEventsWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBarrierCloseEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierCloseEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -764,7 +300,9 @@ writeAttributeBarrierCommandOpenEventsWithValue_params_completionHandler :: (IsM
 writeAttributeBarrierCommandOpenEventsWithValue_params_completionHandler mtrBaseClusterBarrierControl value params completionHandler =
   sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCommandOpenEventsWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBarrierCommandOpenEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierCommandOpenEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierCommandOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierCommandOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCommandOpenEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -791,7 +329,9 @@ writeAttributeBarrierCommandCloseEventsWithValue_params_completionHandler :: (Is
 writeAttributeBarrierCommandCloseEventsWithValue_params_completionHandler mtrBaseClusterBarrierControl value params completionHandler =
   sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierCommandCloseEventsWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBarrierCommandCloseEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierCommandCloseEventsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierCommandCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierCommandCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierCommandCloseEventsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -818,7 +358,9 @@ writeAttributeBarrierOpenPeriodWithValue_params_completionHandler :: (IsMTRBaseC
 writeAttributeBarrierOpenPeriodWithValue_params_completionHandler mtrBaseClusterBarrierControl value params completionHandler =
   sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierOpenPeriodWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBarrierOpenPeriodWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierOpenPeriodWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierOpenPeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierOpenPeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierOpenPeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -845,7 +387,9 @@ writeAttributeBarrierClosePeriodWithValue_params_completionHandler :: (IsMTRBase
 writeAttributeBarrierClosePeriodWithValue_params_completionHandler mtrBaseClusterBarrierControl value params completionHandler =
   sendMessage mtrBaseClusterBarrierControl writeAttributeBarrierClosePeriodWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBarrierClosePeriodWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierClosePeriodWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierClosePeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierClosePeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierClosePeriodWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -862,7 +406,9 @@ readAttributeBarrierPositionWithCompletionHandler :: IsMTRBaseClusterBarrierCont
 readAttributeBarrierPositionWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeBarrierPositionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBarrierPositionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBarrierPositionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBarrierPositionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBarrierPositionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeBarrierPositionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -879,7 +425,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterBarrie
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -896,7 +444,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterBarrier
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -913,7 +463,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterBarrierContro
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -930,7 +482,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterBarrierControl m
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -947,7 +501,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterBarrierCont
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterBarrierControl completionHandler =
   sendMessage mtrBaseClusterBarrierControl readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBarrierControl -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBarrierControl minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBarrierControl subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -959,264 +515,21 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
     cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterBarrierControl -> device -> endpointID -> queue -> IO (Id MTRBaseClusterBarrierControl)
-initWithDevice_endpointID_queue mtrBaseClusterBarrierControl device endpointID queue =
-  sendOwnedMessage mtrBaseClusterBarrierControl initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
+-- | @- init@
+init_ :: IsMTRBaseClusterBarrierControl mtrBaseClusterBarrierControl => mtrBaseClusterBarrierControl -> IO (Id MTRBaseClusterBarrierControl)
+init_ mtrBaseClusterBarrierControl =
+  sendOwnedMessage mtrBaseClusterBarrierControl initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterBarrierControl)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterBarrierControl"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @barrierControlGoToPercentWithParams:completion:@
-barrierControlGoToPercentWithParams_completionSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlGoToPercentParams, Ptr ()] ()
-barrierControlGoToPercentWithParams_completionSelector = mkSelector "barrierControlGoToPercentWithParams:completion:"
-
--- | @Selector@ for @barrierControlStopWithParams:completion:@
-barrierControlStopWithParams_completionSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlStopParams, Ptr ()] ()
-barrierControlStopWithParams_completionSelector = mkSelector "barrierControlStopWithParams:completion:"
-
--- | @Selector@ for @barrierControlStopWithCompletion:@
-barrierControlStopWithCompletionSelector :: Selector '[Ptr ()] ()
-barrierControlStopWithCompletionSelector = mkSelector "barrierControlStopWithCompletion:"
-
--- | @Selector@ for @readAttributeBarrierMovingStateWithCompletion:@
-readAttributeBarrierMovingStateWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierMovingStateWithCompletionSelector = mkSelector "readAttributeBarrierMovingStateWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBarrierMovingStateWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierMovingStateWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierMovingStateWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierMovingStateWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierMovingStateWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierMovingStateWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierMovingStateWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierMovingStateWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierSafetyStatusWithCompletion:@
-readAttributeBarrierSafetyStatusWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierSafetyStatusWithCompletionSelector = mkSelector "readAttributeBarrierSafetyStatusWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBarrierSafetyStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierSafetyStatusWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierSafetyStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierSafetyStatusWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierCapabilitiesWithCompletion:@
-readAttributeBarrierCapabilitiesWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierCapabilitiesWithCompletionSelector = mkSelector "readAttributeBarrierCapabilitiesWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBarrierCapabilitiesWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCapabilitiesWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierCapabilitiesWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierCapabilitiesWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierCapabilitiesWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCapabilitiesWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierCapabilitiesWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierCapabilitiesWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierOpenEventsWithCompletion:@
-readAttributeBarrierOpenEventsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierOpenEventsWithCompletionSelector = mkSelector "readAttributeBarrierOpenEventsWithCompletion:"
-
--- | @Selector@ for @writeAttributeBarrierOpenEventsWithValue:completion:@
-writeAttributeBarrierOpenEventsWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeBarrierOpenEventsWithValue_completionSelector = mkSelector "writeAttributeBarrierOpenEventsWithValue:completion:"
-
--- | @Selector@ for @writeAttributeBarrierOpenEventsWithValue:params:completion:@
-writeAttributeBarrierOpenEventsWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeBarrierOpenEventsWithValue_params_completionSelector = mkSelector "writeAttributeBarrierOpenEventsWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeBarrierOpenEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierOpenEventsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierOpenEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierOpenEventsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierOpenEventsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierOpenEventsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierCloseEventsWithCompletion:@
-readAttributeBarrierCloseEventsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierCloseEventsWithCompletionSelector = mkSelector "readAttributeBarrierCloseEventsWithCompletion:"
-
--- | @Selector@ for @writeAttributeBarrierCloseEventsWithValue:completion:@
-writeAttributeBarrierCloseEventsWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeBarrierCloseEventsWithValue_completionSelector = mkSelector "writeAttributeBarrierCloseEventsWithValue:completion:"
-
--- | @Selector@ for @writeAttributeBarrierCloseEventsWithValue:params:completion:@
-writeAttributeBarrierCloseEventsWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeBarrierCloseEventsWithValue_params_completionSelector = mkSelector "writeAttributeBarrierCloseEventsWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeBarrierCloseEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierCloseEventsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierCloseEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCloseEventsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierCloseEventsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierCloseEventsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierCommandOpenEventsWithCompletion:@
-readAttributeBarrierCommandOpenEventsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierCommandOpenEventsWithCompletionSelector = mkSelector "readAttributeBarrierCommandOpenEventsWithCompletion:"
-
--- | @Selector@ for @writeAttributeBarrierCommandOpenEventsWithValue:completion:@
-writeAttributeBarrierCommandOpenEventsWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeBarrierCommandOpenEventsWithValue_completionSelector = mkSelector "writeAttributeBarrierCommandOpenEventsWithValue:completion:"
-
--- | @Selector@ for @writeAttributeBarrierCommandOpenEventsWithValue:params:completion:@
-writeAttributeBarrierCommandOpenEventsWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeBarrierCommandOpenEventsWithValue_params_completionSelector = mkSelector "writeAttributeBarrierCommandOpenEventsWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeBarrierCommandOpenEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCommandOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierCommandOpenEventsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierCommandOpenEventsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierCommandOpenEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCommandOpenEventsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierCommandOpenEventsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierCommandOpenEventsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierCommandCloseEventsWithCompletion:@
-readAttributeBarrierCommandCloseEventsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierCommandCloseEventsWithCompletionSelector = mkSelector "readAttributeBarrierCommandCloseEventsWithCompletion:"
-
--- | @Selector@ for @writeAttributeBarrierCommandCloseEventsWithValue:completion:@
-writeAttributeBarrierCommandCloseEventsWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeBarrierCommandCloseEventsWithValue_completionSelector = mkSelector "writeAttributeBarrierCommandCloseEventsWithValue:completion:"
-
--- | @Selector@ for @writeAttributeBarrierCommandCloseEventsWithValue:params:completion:@
-writeAttributeBarrierCommandCloseEventsWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeBarrierCommandCloseEventsWithValue_params_completionSelector = mkSelector "writeAttributeBarrierCommandCloseEventsWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeBarrierCommandCloseEventsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierCommandCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierCommandCloseEventsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierCommandCloseEventsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierCommandCloseEventsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierCommandCloseEventsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierCommandCloseEventsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierCommandCloseEventsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierOpenPeriodWithCompletion:@
-readAttributeBarrierOpenPeriodWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierOpenPeriodWithCompletionSelector = mkSelector "readAttributeBarrierOpenPeriodWithCompletion:"
-
--- | @Selector@ for @writeAttributeBarrierOpenPeriodWithValue:completion:@
-writeAttributeBarrierOpenPeriodWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeBarrierOpenPeriodWithValue_completionSelector = mkSelector "writeAttributeBarrierOpenPeriodWithValue:completion:"
-
--- | @Selector@ for @writeAttributeBarrierOpenPeriodWithValue:params:completion:@
-writeAttributeBarrierOpenPeriodWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeBarrierOpenPeriodWithValue_params_completionSelector = mkSelector "writeAttributeBarrierOpenPeriodWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeBarrierOpenPeriodWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierOpenPeriodWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierOpenPeriodWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierOpenPeriodWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierOpenPeriodWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierOpenPeriodWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierOpenPeriodWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierOpenPeriodWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierClosePeriodWithCompletion:@
-readAttributeBarrierClosePeriodWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierClosePeriodWithCompletionSelector = mkSelector "readAttributeBarrierClosePeriodWithCompletion:"
-
--- | @Selector@ for @writeAttributeBarrierClosePeriodWithValue:completion:@
-writeAttributeBarrierClosePeriodWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeBarrierClosePeriodWithValue_completionSelector = mkSelector "writeAttributeBarrierClosePeriodWithValue:completion:"
-
--- | @Selector@ for @writeAttributeBarrierClosePeriodWithValue:params:completion:@
-writeAttributeBarrierClosePeriodWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeBarrierClosePeriodWithValue_params_completionSelector = mkSelector "writeAttributeBarrierClosePeriodWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeBarrierClosePeriodWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierClosePeriodWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierClosePeriodWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierClosePeriodWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierClosePeriodWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierClosePeriodWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierClosePeriodWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierClosePeriodWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBarrierPositionWithCompletion:@
-readAttributeBarrierPositionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBarrierPositionWithCompletionSelector = mkSelector "readAttributeBarrierPositionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBarrierPositionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBarrierPositionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBarrierPositionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBarrierPositionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBarrierPositionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBarrierPositionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBarrierPositionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBarrierPositionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterBarrierControl)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterBarrierControl)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterBarrierControl)
@@ -1462,7 +775,11 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterBarrierControl)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterBarrierControl)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterBarrierControl)
+newSelector = mkSelector "new"
 

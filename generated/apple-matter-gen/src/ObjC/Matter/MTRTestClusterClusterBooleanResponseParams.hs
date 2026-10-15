@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRTestClusterClusterBooleanResponseParams
   ( MTRTestClusterClusterBooleanResponseParams
   , IsMTRTestClusterClusterBooleanResponseParams(..)
+  , init_
+  , copyWithZone
   , value
   , setValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , setValueSelector
   , timedInvokeTimeoutMsSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterBooleanResponseParams mtrTestClusterClusterBooleanResponseParams => mtrTestClusterClusterBooleanResponseParams -> IO (Id MTRTestClusterClusterBooleanResponseParams)
+init_ mtrTestClusterClusterBooleanResponseParams =
+  sendOwnedMessage mtrTestClusterClusterBooleanResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterBooleanResponseParams mtrTestClusterClusterBooleanResponseParams => mtrTestClusterClusterBooleanResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterBooleanResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterBooleanResponseParams copyWithZoneSelector zone
 
 -- | @- value@
 value :: IsMTRTestClusterClusterBooleanResponseParams mtrTestClusterClusterBooleanResponseParams => mtrTestClusterClusterBooleanResponseParams -> IO (Id NSNumber)
@@ -65,6 +79,14 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterBooleanResponseParams value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterBooleanResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @value@
 valueSelector :: Selector '[] (Id NSNumber)

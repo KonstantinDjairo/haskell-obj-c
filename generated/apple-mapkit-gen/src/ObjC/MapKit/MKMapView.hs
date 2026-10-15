@@ -8,6 +8,7 @@
 module ObjC.MapKit.MKMapView
   ( MKMapView
   , IsMKMapView(..)
+  , setCenterCoordinate_animated
   , setCamera_animated
   , setCameraZoomRange_animated
   , setCameraBoundary_animated
@@ -43,6 +44,8 @@ module ObjC.MapKit.MKMapView
   , setMapType
   , preferredConfiguration
   , setPreferredConfiguration
+  , centerCoordinate
+  , setCenterCoordinate
   , camera
   , setCamera
   , cameraZoomRange
@@ -57,10 +60,6 @@ module ObjC.MapKit.MKMapView
   , setRotateEnabled
   , pitchEnabled
   , setPitchEnabled
-  , showsUserTrackingButton
-  , setShowsUserTrackingButton
-  , pitchButtonVisibility
-  , setPitchButtonVisibility
   , showsPitchControl
   , setShowsPitchControl
   , showsZoomControls
@@ -86,7 +85,6 @@ module ObjC.MapKit.MKMapView
   , annotations
   , selectedAnnotations
   , setSelectedAnnotations
-  , overlays
   , addAnnotationSelector
   , addAnnotationsSelector
   , addOverlaySelector
@@ -97,6 +95,7 @@ module ObjC.MapKit.MKMapView
   , cameraBoundarySelector
   , cameraSelector
   , cameraZoomRangeSelector
+  , centerCoordinateSelector
   , delegateSelector
   , dequeueReusableAnnotationViewWithIdentifierSelector
   , dequeueReusableAnnotationViewWithIdentifier_forAnnotationSelector
@@ -109,8 +108,6 @@ module ObjC.MapKit.MKMapView
   , insertOverlay_belowOverlaySelector
   , mapTypeSelector
   , overlaysInLevelSelector
-  , overlaysSelector
-  , pitchButtonVisibilitySelector
   , pitchEnabledSelector
   , pointOfInterestFilterSelector
   , preferredConfigurationSelector
@@ -130,9 +127,10 @@ module ObjC.MapKit.MKMapView
   , setCameraZoomRangeSelector
   , setCameraZoomRange_animatedSelector
   , setCamera_animatedSelector
+  , setCenterCoordinateSelector
+  , setCenterCoordinate_animatedSelector
   , setDelegateSelector
   , setMapTypeSelector
-  , setPitchButtonVisibilitySelector
   , setPitchEnabledSelector
   , setPointOfInterestFilterSelector
   , setPreferredConfigurationSelector
@@ -146,7 +144,6 @@ module ObjC.MapKit.MKMapView
   , setShowsScaleSelector
   , setShowsTrafficSelector
   , setShowsUserLocationSelector
-  , setShowsUserTrackingButtonSelector
   , setShowsZoomControlsSelector
   , setUserTrackingModeSelector
   , setUserTrackingMode_animatedSelector
@@ -159,7 +156,6 @@ module ObjC.MapKit.MKMapView
   , showsScaleSelector
   , showsTrafficSelector
   , showsUserLocationSelector
-  , showsUserTrackingButtonSelector
   , showsZoomControlsSelector
   , userLocationSelector
   , userLocationVisibleSelector
@@ -168,10 +164,6 @@ module ObjC.MapKit.MKMapView
   , zoomEnabledSelector
 
   -- * Enum types
-  , MKFeatureVisibility(MKFeatureVisibility)
-  , pattern MKFeatureVisibilityAdaptive
-  , pattern MKFeatureVisibilityHidden
-  , pattern MKFeatureVisibilityVisible
   , MKMapType(MKMapType)
   , pattern MKMapTypeStandard
   , pattern MKMapTypeSatellite
@@ -198,10 +190,16 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.MapKit.Internal.Classes
+import ObjC.CoreLocation.Internal.Structs
 import ObjC.Foundation.Internal.Structs
 import ObjC.MapKit.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- setCenterCoordinate:animated:@
+setCenterCoordinate_animated :: IsMKMapView mkMapView => mkMapView -> CLLocationCoordinate2D -> Bool -> IO ()
+setCenterCoordinate_animated mkMapView coordinate animated =
+  sendMessage mkMapView setCenterCoordinate_animatedSelector coordinate animated
 
 -- | @- setCamera:animated:@
 setCamera_animated :: (IsMKMapView mkMapView, IsMKMapCamera camera) => mkMapView -> camera -> Bool -> IO ()
@@ -378,15 +376,25 @@ setPreferredConfiguration :: (IsMKMapView mkMapView, IsMKMapConfiguration value)
 setPreferredConfiguration mkMapView value =
   sendMessage mkMapView setPreferredConfigurationSelector (toMKMapConfiguration value)
 
+-- | @- centerCoordinate@
+centerCoordinate :: IsMKMapView mkMapView => mkMapView -> IO CLLocationCoordinate2D
+centerCoordinate mkMapView =
+  sendMessage mkMapView centerCoordinateSelector
+
+-- | @- setCenterCoordinate:@
+setCenterCoordinate :: IsMKMapView mkMapView => mkMapView -> CLLocationCoordinate2D -> IO ()
+setCenterCoordinate mkMapView value =
+  sendMessage mkMapView setCenterCoordinateSelector value
+
 -- | @- camera@
-camera :: IsMKMapView mkMapView => mkMapView -> IO (Id MKMapCamera)
+camera :: IsMKMapView mkMapView => mkMapView -> IO RawId
 camera mkMapView =
   sendMessage mkMapView cameraSelector
 
 -- | @- setCamera:@
-setCamera :: (IsMKMapView mkMapView, IsMKMapCamera value) => mkMapView -> value -> IO ()
+setCamera :: IsMKMapView mkMapView => mkMapView -> RawId -> IO ()
 setCamera mkMapView value =
-  sendMessage mkMapView setCameraSelector (toMKMapCamera value)
+  sendMessage mkMapView setCameraSelector value
 
 -- | @- cameraZoomRange@
 cameraZoomRange :: IsMKMapView mkMapView => mkMapView -> IO (Id MKMapCameraZoomRange)
@@ -447,26 +455,6 @@ pitchEnabled mkMapView =
 setPitchEnabled :: IsMKMapView mkMapView => mkMapView -> Bool -> IO ()
 setPitchEnabled mkMapView value =
   sendMessage mkMapView setPitchEnabledSelector value
-
--- | @- showsUserTrackingButton@
-showsUserTrackingButton :: IsMKMapView mkMapView => mkMapView -> IO Bool
-showsUserTrackingButton mkMapView =
-  sendMessage mkMapView showsUserTrackingButtonSelector
-
--- | @- setShowsUserTrackingButton:@
-setShowsUserTrackingButton :: IsMKMapView mkMapView => mkMapView -> Bool -> IO ()
-setShowsUserTrackingButton mkMapView value =
-  sendMessage mkMapView setShowsUserTrackingButtonSelector value
-
--- | @- pitchButtonVisibility@
-pitchButtonVisibility :: IsMKMapView mkMapView => mkMapView -> IO MKFeatureVisibility
-pitchButtonVisibility mkMapView =
-  sendMessage mkMapView pitchButtonVisibilitySelector
-
--- | @- setPitchButtonVisibility:@
-setPitchButtonVisibility :: IsMKMapView mkMapView => mkMapView -> MKFeatureVisibility -> IO ()
-setPitchButtonVisibility mkMapView value =
-  sendMessage mkMapView setPitchButtonVisibilitySelector value
 
 -- | @- showsPitchControl@
 showsPitchControl :: IsMKMapView mkMapView => mkMapView -> IO Bool
@@ -593,14 +581,13 @@ setSelectedAnnotations :: (IsMKMapView mkMapView, IsNSArray value) => mkMapView 
 setSelectedAnnotations mkMapView value =
   sendMessage mkMapView setSelectedAnnotationsSelector (toNSArray value)
 
--- | @- overlays@
-overlays :: IsMKMapView mkMapView => mkMapView -> IO (Id NSArray)
-overlays mkMapView =
-  sendMessage mkMapView overlaysSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @setCenterCoordinate:animated:@
+setCenterCoordinate_animatedSelector :: Selector '[CLLocationCoordinate2D, Bool] ()
+setCenterCoordinate_animatedSelector = mkSelector "setCenterCoordinate:animated:"
 
 -- | @Selector@ for @setCamera:animated:@
 setCamera_animatedSelector :: Selector '[Id MKMapCamera, Bool] ()
@@ -742,12 +729,20 @@ preferredConfigurationSelector = mkSelector "preferredConfiguration"
 setPreferredConfigurationSelector :: Selector '[Id MKMapConfiguration] ()
 setPreferredConfigurationSelector = mkSelector "setPreferredConfiguration:"
 
+-- | @Selector@ for @centerCoordinate@
+centerCoordinateSelector :: Selector '[] CLLocationCoordinate2D
+centerCoordinateSelector = mkSelector "centerCoordinate"
+
+-- | @Selector@ for @setCenterCoordinate:@
+setCenterCoordinateSelector :: Selector '[CLLocationCoordinate2D] ()
+setCenterCoordinateSelector = mkSelector "setCenterCoordinate:"
+
 -- | @Selector@ for @camera@
-cameraSelector :: Selector '[] (Id MKMapCamera)
+cameraSelector :: Selector '[] RawId
 cameraSelector = mkSelector "camera"
 
 -- | @Selector@ for @setCamera:@
-setCameraSelector :: Selector '[Id MKMapCamera] ()
+setCameraSelector :: Selector '[RawId] ()
 setCameraSelector = mkSelector "setCamera:"
 
 -- | @Selector@ for @cameraZoomRange@
@@ -797,22 +792,6 @@ pitchEnabledSelector = mkSelector "pitchEnabled"
 -- | @Selector@ for @setPitchEnabled:@
 setPitchEnabledSelector :: Selector '[Bool] ()
 setPitchEnabledSelector = mkSelector "setPitchEnabled:"
-
--- | @Selector@ for @showsUserTrackingButton@
-showsUserTrackingButtonSelector :: Selector '[] Bool
-showsUserTrackingButtonSelector = mkSelector "showsUserTrackingButton"
-
--- | @Selector@ for @setShowsUserTrackingButton:@
-setShowsUserTrackingButtonSelector :: Selector '[Bool] ()
-setShowsUserTrackingButtonSelector = mkSelector "setShowsUserTrackingButton:"
-
--- | @Selector@ for @pitchButtonVisibility@
-pitchButtonVisibilitySelector :: Selector '[] MKFeatureVisibility
-pitchButtonVisibilitySelector = mkSelector "pitchButtonVisibility"
-
--- | @Selector@ for @setPitchButtonVisibility:@
-setPitchButtonVisibilitySelector :: Selector '[MKFeatureVisibility] ()
-setPitchButtonVisibilitySelector = mkSelector "setPitchButtonVisibility:"
 
 -- | @Selector@ for @showsPitchControl@
 showsPitchControlSelector :: Selector '[] Bool
@@ -913,8 +892,4 @@ selectedAnnotationsSelector = mkSelector "selectedAnnotations"
 -- | @Selector@ for @setSelectedAnnotations:@
 setSelectedAnnotationsSelector :: Selector '[Id NSArray] ()
 setSelectedAnnotationsSelector = mkSelector "setSelectedAnnotations:"
-
--- | @Selector@ for @overlays@
-overlaysSelector :: Selector '[] (Id NSArray)
-overlaysSelector = mkSelector "overlays"
 

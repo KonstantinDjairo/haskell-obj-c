@@ -1235,57 +1235,6 @@ instance ObjCReturn INDeleteTasksTaskUnsupportedReason where
   fromRetained x = pure (INDeleteTasksTaskUnsupportedReason x)
   fromOwned x = pure (INDeleteTasksTaskUnsupportedReason x)
 
--- | @INEditMessageIntentResponseCode@
-newtype INEditMessageIntentResponseCode = INEditMessageIntentResponseCode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern INEditMessageIntentResponseCodeUnspecified :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeUnspecified = INEditMessageIntentResponseCode 0
-
-pattern INEditMessageIntentResponseCodeReady :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeReady = INEditMessageIntentResponseCode 1
-
-pattern INEditMessageIntentResponseCodeInProgress :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeInProgress = INEditMessageIntentResponseCode 2
-
-pattern INEditMessageIntentResponseCodeSuccess :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeSuccess = INEditMessageIntentResponseCode 3
-
-pattern INEditMessageIntentResponseCodeFailure :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailure = INEditMessageIntentResponseCode 4
-
-pattern INEditMessageIntentResponseCodeFailureRequiringAppLaunch :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailureRequiringAppLaunch = INEditMessageIntentResponseCode 5
-
-pattern INEditMessageIntentResponseCodeFailureMessageNotFound :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailureMessageNotFound = INEditMessageIntentResponseCode 6
-
-pattern INEditMessageIntentResponseCodeFailurePastEditTimeLimit :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailurePastEditTimeLimit = INEditMessageIntentResponseCode 7
-
-pattern INEditMessageIntentResponseCodeFailureMessageTypeUnsupported :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailureMessageTypeUnsupported = INEditMessageIntentResponseCode 8
-
-pattern INEditMessageIntentResponseCodeFailureUnsupportedOnService :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailureUnsupportedOnService = INEditMessageIntentResponseCode 9
-
-pattern INEditMessageIntentResponseCodeFailureMessageServiceNotAvailable :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailureMessageServiceNotAvailable = INEditMessageIntentResponseCode 10
-
-pattern INEditMessageIntentResponseCodeFailureRequiringInAppAuthentication :: INEditMessageIntentResponseCode
-pattern INEditMessageIntentResponseCodeFailureRequiringInAppAuthentication = INEditMessageIntentResponseCode 11
-
-instance ObjCArgument INEditMessageIntentResponseCode where
-  withObjCArg (INEditMessageIntentResponseCode x) k = k (argCLong x)
-
-instance ObjCReturn INEditMessageIntentResponseCode where
-  type RawReturn INEditMessageIntentResponseCode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (INEditMessageIntentResponseCode x)
-  fromOwned x = pure (INEditMessageIntentResponseCode x)
-
 -- | @INEndWorkoutIntentResponseCode@
 newtype INEndWorkoutIntentResponseCode = INEndWorkoutIntentResponseCode CLong
   deriving stock (Eq, Ord, Show)
@@ -1765,12 +1714,6 @@ pattern INIntentErrorEncodingFailed = INIntentErrorCode 8001
 pattern INIntentErrorDecodingGeneric :: INIntentErrorCode
 pattern INIntentErrorDecodingGeneric = INIntentErrorCode 9000
 
-pattern INIntentErrorUnableToCreateAppIntentRepresentation :: INIntentErrorCode
-pattern INIntentErrorUnableToCreateAppIntentRepresentation = INIntentErrorCode 10000
-
-pattern INIntentErrorNoAppIntent :: INIntentErrorCode
-pattern INIntentErrorNoAppIntent = INIntentErrorCode 10001
-
 instance ObjCArgument INIntentErrorCode where
   withObjCArg (INIntentErrorCode x) k = k (argCLong x)
 
@@ -2228,30 +2171,6 @@ instance ObjCReturn INMessageAttributeOptions where
   fromRetained x = pure (INMessageAttributeOptions x)
   fromOwned x = pure (INMessageAttributeOptions x)
 
--- | @INMessageReactionType@
-newtype INMessageReactionType = INMessageReactionType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern INMessageReactionTypeUnknown :: INMessageReactionType
-pattern INMessageReactionTypeUnknown = INMessageReactionType 0
-
-pattern INMessageReactionTypeEmoji :: INMessageReactionType
-pattern INMessageReactionTypeEmoji = INMessageReactionType 1
-
-pattern INMessageReactionTypeGeneric :: INMessageReactionType
-pattern INMessageReactionTypeGeneric = INMessageReactionType 2
-
-instance ObjCArgument INMessageReactionType where
-  withObjCArg (INMessageReactionType x) k = k (argCLong x)
-
-instance ObjCReturn INMessageReactionType where
-  type RawReturn INMessageReactionType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (INMessageReactionType x)
-  fromOwned x = pure (INMessageReactionType x)
-
 -- | @INMessageType@
 newtype INMessageType = INMessageType CLong
   deriving stock (Eq, Ord, Show)
@@ -2334,15 +2253,6 @@ pattern INMessageTypeFile = INMessageType 24
 
 pattern INMessageTypeLink :: INMessageType
 pattern INMessageTypeLink = INMessageType 25
-
-pattern INMessageTypeReaction :: INMessageType
-pattern INMessageTypeReaction = INMessageType 26
-
-pattern INMessageTypeMediaAnimatedImage :: INMessageType
-pattern INMessageTypeMediaAnimatedImage = INMessageType 27
-
-pattern INMessageTypeThirdPartyAttachment :: INMessageType
-pattern INMessageTypeThirdPartyAttachment = INMessageType 28
 
 instance ObjCArgument INMessageType where
   withObjCArg (INMessageType x) k = k (argCLong x)
@@ -3637,9 +3547,6 @@ pattern INSearchForMessagesIntentResponseCodeFailureMessageServiceNotAvailable =
 pattern INSearchForMessagesIntentResponseCodeFailureMessageTooManyResults :: INSearchForMessagesIntentResponseCode
 pattern INSearchForMessagesIntentResponseCodeFailureMessageTooManyResults = INSearchForMessagesIntentResponseCode 7
 
-pattern INSearchForMessagesIntentResponseCodeFailureRequiringInAppAuthentication :: INSearchForMessagesIntentResponseCode
-pattern INSearchForMessagesIntentResponseCodeFailureRequiringInAppAuthentication = INSearchForMessagesIntentResponseCode 8
-
 instance ObjCArgument INSearchForMessagesIntentResponseCode where
   withObjCArg (INSearchForMessagesIntentResponseCode x) k = k (argCLong x)
 
@@ -3742,9 +3649,6 @@ pattern INSendMessageIntentResponseCodeFailureRequiringAppLaunch = INSendMessage
 pattern INSendMessageIntentResponseCodeFailureMessageServiceNotAvailable :: INSendMessageIntentResponseCode
 pattern INSendMessageIntentResponseCodeFailureMessageServiceNotAvailable = INSendMessageIntentResponseCode 6
 
-pattern INSendMessageIntentResponseCodeFailureRequiringInAppAuthentication :: INSendMessageIntentResponseCode
-pattern INSendMessageIntentResponseCodeFailureRequiringInAppAuthentication = INSendMessageIntentResponseCode 7
-
 instance ObjCArgument INSendMessageIntentResponseCode where
   withObjCArg (INSendMessageIntentResponseCode x) k = k (argCLong x)
 
@@ -3777,9 +3681,6 @@ pattern INSendMessageRecipientUnsupportedReasonRequestedHandleInvalid = INSendMe
 
 pattern INSendMessageRecipientUnsupportedReasonNoHandleForLabel :: INSendMessageRecipientUnsupportedReason
 pattern INSendMessageRecipientUnsupportedReasonNoHandleForLabel = INSendMessageRecipientUnsupportedReason 6
-
-pattern INSendMessageRecipientUnsupportedReasonRequiringInAppAuthentication :: INSendMessageRecipientUnsupportedReason
-pattern INSendMessageRecipientUnsupportedReasonRequiringInAppAuthentication = INSendMessageRecipientUnsupportedReason 7
 
 instance ObjCArgument INSendMessageRecipientUnsupportedReason where
   withObjCArg (INSendMessageRecipientUnsupportedReason x) k = k (argCLong x)
@@ -4564,9 +4465,6 @@ pattern INStartCallContactUnsupportedReasonNoCallHistoryForRedial = INStartCallC
 pattern INStartCallContactUnsupportedReasonNoUsableHandleForRedial :: INStartCallContactUnsupportedReason
 pattern INStartCallContactUnsupportedReasonNoUsableHandleForRedial = INStartCallContactUnsupportedReason 7
 
-pattern INStartCallContactUnsupportedReasonRequiringInAppAuthentication :: INStartCallContactUnsupportedReason
-pattern INStartCallContactUnsupportedReasonRequiringInAppAuthentication = INStartCallContactUnsupportedReason 8
-
 instance ObjCArgument INStartCallContactUnsupportedReason where
   withObjCArg (INStartCallContactUnsupportedReason x) k = k (argCLong x)
 
@@ -4620,9 +4518,6 @@ pattern INStartCallIntentResponseCodeFailureCallInProgress = INStartCallIntentRe
 
 pattern INStartCallIntentResponseCodeFailureCallRinging :: INStartCallIntentResponseCode
 pattern INStartCallIntentResponseCodeFailureCallRinging = INStartCallIntentResponseCode 12
-
-pattern INStartCallIntentResponseCodeFailureRequiringInAppAuthentication :: INStartCallIntentResponseCode
-pattern INStartCallIntentResponseCodeFailureRequiringInAppAuthentication = INStartCallIntentResponseCode 13
 
 instance ObjCArgument INStartCallIntentResponseCode where
   withObjCArg (INStartCallIntentResponseCode x) k = k (argCLong x)
@@ -4750,30 +4645,6 @@ instance ObjCReturn INStartWorkoutIntentResponseCode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (INStartWorkoutIntentResponseCode x)
   fromOwned x = pure (INStartWorkoutIntentResponseCode x)
-
--- | @INStickerType@
-newtype INStickerType = INStickerType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern INStickerTypeUnknown :: INStickerType
-pattern INStickerTypeUnknown = INStickerType 0
-
-pattern INStickerTypeEmoji :: INStickerType
-pattern INStickerTypeEmoji = INStickerType 1
-
-pattern INStickerTypeGeneric :: INStickerType
-pattern INStickerTypeGeneric = INStickerType 2
-
-instance ObjCArgument INStickerType where
-  withObjCArg (INStickerType x) k = k (argCLong x)
-
-instance ObjCReturn INStickerType where
-  type RawReturn INStickerType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (INStickerType x)
-  fromOwned x = pure (INStickerType x)
 
 -- | @INTaskPriority@
 newtype INTaskPriority = INTaskPriority CLong
@@ -4936,57 +4807,6 @@ instance ObjCReturn INTransferMoneyIntentResponseCode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (INTransferMoneyIntentResponseCode x)
   fromOwned x = pure (INTransferMoneyIntentResponseCode x)
-
--- | @INUnsendMessagesIntentResponseCode@
-newtype INUnsendMessagesIntentResponseCode = INUnsendMessagesIntentResponseCode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern INUnsendMessagesIntentResponseCodeUnspecified :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeUnspecified = INUnsendMessagesIntentResponseCode 0
-
-pattern INUnsendMessagesIntentResponseCodeReady :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeReady = INUnsendMessagesIntentResponseCode 1
-
-pattern INUnsendMessagesIntentResponseCodeInProgress :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeInProgress = INUnsendMessagesIntentResponseCode 2
-
-pattern INUnsendMessagesIntentResponseCodeSuccess :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeSuccess = INUnsendMessagesIntentResponseCode 3
-
-pattern INUnsendMessagesIntentResponseCodeFailure :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailure = INUnsendMessagesIntentResponseCode 4
-
-pattern INUnsendMessagesIntentResponseCodeFailureRequiringAppLaunch :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailureRequiringAppLaunch = INUnsendMessagesIntentResponseCode 5
-
-pattern INUnsendMessagesIntentResponseCodeFailureMessageNotFound :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailureMessageNotFound = INUnsendMessagesIntentResponseCode 6
-
-pattern INUnsendMessagesIntentResponseCodeFailurePastUnsendTimeLimit :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailurePastUnsendTimeLimit = INUnsendMessagesIntentResponseCode 7
-
-pattern INUnsendMessagesIntentResponseCodeFailureMessageTypeUnsupported :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailureMessageTypeUnsupported = INUnsendMessagesIntentResponseCode 8
-
-pattern INUnsendMessagesIntentResponseCodeFailureUnsupportedOnService :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailureUnsupportedOnService = INUnsendMessagesIntentResponseCode 9
-
-pattern INUnsendMessagesIntentResponseCodeFailureMessageServiceNotAvailable :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailureMessageServiceNotAvailable = INUnsendMessagesIntentResponseCode 10
-
-pattern INUnsendMessagesIntentResponseCodeFailureRequiringInAppAuthentication :: INUnsendMessagesIntentResponseCode
-pattern INUnsendMessagesIntentResponseCodeFailureRequiringInAppAuthentication = INUnsendMessagesIntentResponseCode 11
-
-instance ObjCArgument INUnsendMessagesIntentResponseCode where
-  withObjCArg (INUnsendMessagesIntentResponseCode x) k = k (argCLong x)
-
-instance ObjCReturn INUnsendMessagesIntentResponseCode where
-  type RawReturn INUnsendMessagesIntentResponseCode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (INUnsendMessagesIntentResponseCode x)
-  fromOwned x = pure (INUnsendMessagesIntentResponseCode x)
 
 -- | @INUpcomingMediaPredictionMode@
 newtype INUpcomingMediaPredictionMode = INUpcomingMediaPredictionMode CLong

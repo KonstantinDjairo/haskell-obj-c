@@ -7,12 +7,12 @@
 module ObjC.Matter.MTRLowPowerClusterSleepParams
   ( MTRLowPowerClusterSleepParams
   , IsMTRLowPowerClusterSleepParams(..)
+  , init_
+  , copyWithZone
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , serverSideProcessingTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -29,6 +29,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRLowPowerClusterSleepParams mtrLowPowerClusterSleepParams => mtrLowPowerClusterSleepParams -> IO (Id MTRLowPowerClusterSleepParams)
+init_ mtrLowPowerClusterSleepParams =
+  sendOwnedMessage mtrLowPowerClusterSleepParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRLowPowerClusterSleepParams mtrLowPowerClusterSleepParams => mtrLowPowerClusterSleepParams -> Ptr () -> IO RawId
+copyWithZone mtrLowPowerClusterSleepParams zone =
+  sendOwnedMessage mtrLowPowerClusterSleepParams copyWithZoneSelector zone
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -52,31 +62,17 @@ setTimedInvokeTimeoutMs :: (IsMTRLowPowerClusterSleepParams mtrLowPowerClusterSl
 setTimedInvokeTimeoutMs mtrLowPowerClusterSleepParams value =
   sendMessage mtrLowPowerClusterSleepParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRLowPowerClusterSleepParams mtrLowPowerClusterSleepParams => mtrLowPowerClusterSleepParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrLowPowerClusterSleepParams =
-  sendMessage mtrLowPowerClusterSleepParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRLowPowerClusterSleepParams mtrLowPowerClusterSleepParams, IsNSNumber value) => mtrLowPowerClusterSleepParams -> value -> IO ()
-setServerSideProcessingTimeout mtrLowPowerClusterSleepParams value =
-  sendMessage mtrLowPowerClusterSleepParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRLowPowerClusterSleepParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
@@ -85,12 +81,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

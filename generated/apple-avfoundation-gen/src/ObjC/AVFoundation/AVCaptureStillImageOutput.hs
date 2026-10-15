@@ -29,9 +29,6 @@ module ObjC.AVFoundation.AVCaptureStillImageOutput
   , stillImageStabilizationActive
   , highResolutionStillImageOutputEnabled
   , setHighResolutionStillImageOutputEnabled
-  , cameraSensorOrientationCompensationSupported
-  , cameraSensorOrientationCompensationEnabled
-  , setCameraSensorOrientationCompensationEnabled
   , capturingStillImage
   , maxBracketedCaptureStillImageCount
   , lensStabilizationDuringBracketedCaptureSupported
@@ -40,8 +37,6 @@ module ObjC.AVFoundation.AVCaptureStillImageOutput
   , automaticallyEnablesStillImageStabilizationWhenAvailableSelector
   , availableImageDataCVPixelFormatTypesSelector
   , availableImageDataCodecTypesSelector
-  , cameraSensorOrientationCompensationEnabledSelector
-  , cameraSensorOrientationCompensationSupportedSelector
   , captureStillImageAsynchronouslyFromConnection_completionHandlerSelector
   , captureStillImageBracketAsynchronouslyFromConnection_withSettingsArray_completionHandlerSelector
   , capturingStillImageSelector
@@ -55,7 +50,6 @@ module ObjC.AVFoundation.AVCaptureStillImageOutput
   , outputSettingsSelector
   , prepareToCaptureStillImageBracketFromConnection_withSettingsArray_completionHandlerSelector
   , setAutomaticallyEnablesStillImageStabilizationWhenAvailableSelector
-  , setCameraSensorOrientationCompensationEnabledSelector
   , setHighResolutionStillImageOutputEnabledSelector
   , setLensStabilizationDuringBracketedCaptureEnabledSelector
   , setOutputSettingsSelector
@@ -272,39 +266,6 @@ setHighResolutionStillImageOutputEnabled :: IsAVCaptureStillImageOutput avCaptur
 setHighResolutionStillImageOutputEnabled avCaptureStillImageOutput value =
   sendMessage avCaptureStillImageOutput setHighResolutionStillImageOutputEnabledSelector value
 
--- | cameraSensorOrientationCompensationSupported
---
--- A read-only BOOL value indicating whether still image buffers may be rotated to match the sensor orientation of earlier generation hardware.
---
--- Value is YES for camera configurations which support compensation for the sensor orientation, which is applied to HEIC, JPEG, and uncompressed processed photos only; compensation is never applied to Bayer RAW or Apple ProRaw captures.
---
--- ObjC selector: @- cameraSensorOrientationCompensationSupported@
-cameraSensorOrientationCompensationSupported :: IsAVCaptureStillImageOutput avCaptureStillImageOutput => avCaptureStillImageOutput -> IO Bool
-cameraSensorOrientationCompensationSupported avCaptureStillImageOutput =
-  sendMessage avCaptureStillImageOutput cameraSensorOrientationCompensationSupportedSelector
-
--- | cameraSensorOrientationCompensationEnabled
---
--- A BOOL value indicating that still image buffers will be rotated to match the sensor orientation of earlier generation hardware.
---
--- Default is YES when cameraSensorOrientationCompensationSupported is YES. Set to NO if your app does not require sensor orientation compensation.
---
--- ObjC selector: @- cameraSensorOrientationCompensationEnabled@
-cameraSensorOrientationCompensationEnabled :: IsAVCaptureStillImageOutput avCaptureStillImageOutput => avCaptureStillImageOutput -> IO Bool
-cameraSensorOrientationCompensationEnabled avCaptureStillImageOutput =
-  sendMessage avCaptureStillImageOutput cameraSensorOrientationCompensationEnabledSelector
-
--- | cameraSensorOrientationCompensationEnabled
---
--- A BOOL value indicating that still image buffers will be rotated to match the sensor orientation of earlier generation hardware.
---
--- Default is YES when cameraSensorOrientationCompensationSupported is YES. Set to NO if your app does not require sensor orientation compensation.
---
--- ObjC selector: @- setCameraSensorOrientationCompensationEnabled:@
-setCameraSensorOrientationCompensationEnabled :: IsAVCaptureStillImageOutput avCaptureStillImageOutput => avCaptureStillImageOutput -> Bool -> IO ()
-setCameraSensorOrientationCompensationEnabled avCaptureStillImageOutput value =
-  sendMessage avCaptureStillImageOutput setCameraSensorOrientationCompensationEnabledSelector value
-
 -- | capturingStillImage
 --
 -- A boolean value that becomes true when a still image is being captured.
@@ -427,18 +388,6 @@ highResolutionStillImageOutputEnabledSelector = mkSelector "highResolutionStillI
 -- | @Selector@ for @setHighResolutionStillImageOutputEnabled:@
 setHighResolutionStillImageOutputEnabledSelector :: Selector '[Bool] ()
 setHighResolutionStillImageOutputEnabledSelector = mkSelector "setHighResolutionStillImageOutputEnabled:"
-
--- | @Selector@ for @cameraSensorOrientationCompensationSupported@
-cameraSensorOrientationCompensationSupportedSelector :: Selector '[] Bool
-cameraSensorOrientationCompensationSupportedSelector = mkSelector "cameraSensorOrientationCompensationSupported"
-
--- | @Selector@ for @cameraSensorOrientationCompensationEnabled@
-cameraSensorOrientationCompensationEnabledSelector :: Selector '[] Bool
-cameraSensorOrientationCompensationEnabledSelector = mkSelector "cameraSensorOrientationCompensationEnabled"
-
--- | @Selector@ for @setCameraSensorOrientationCompensationEnabled:@
-setCameraSensorOrientationCompensationEnabledSelector :: Selector '[Bool] ()
-setCameraSensorOrientationCompensationEnabledSelector = mkSelector "setCameraSensorOrientationCompensationEnabled:"
 
 -- | @Selector@ for @capturingStillImage@
 capturingStillImageSelector :: Selector '[] Bool

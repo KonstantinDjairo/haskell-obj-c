@@ -91,31 +91,6 @@ instance IsMXCallStackTree (Id MXCallStackTree) where
 instance IsNSObject (Id MXCallStackTree) where
   toNSObject = unsafeCastId
 
--- ---------- MXCrashDiagnosticObjectiveCExceptionReason ----------
-
--- | MXCrashDiagnosticObjectiveCExceptionReason
---
--- A class that represents Crash exception reason.
---
--- Crash reports that are caused by an uncaught Objective-C NSException can in some cases contain detailed information about the type, name and description of the exception object.                This information is captured in a structured way in a MXCrashDiagnosticObjectiveCExceptionReason object and may have some pieces redacted to avoid exposing sensitive user data.
--- 
--- Phantom type for @MXCrashDiagnosticObjectiveCExceptionReason@.
-data MXCrashDiagnosticObjectiveCExceptionReason
-
-instance IsObjCObject (Id MXCrashDiagnosticObjectiveCExceptionReason) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MXCrashDiagnosticObjectiveCExceptionReason"
-
-class IsNSObject a => IsMXCrashDiagnosticObjectiveCExceptionReason a where
-  toMXCrashDiagnosticObjectiveCExceptionReason :: a -> Id MXCrashDiagnosticObjectiveCExceptionReason
-
-instance IsMXCrashDiagnosticObjectiveCExceptionReason (Id MXCrashDiagnosticObjectiveCExceptionReason) where
-  toMXCrashDiagnosticObjectiveCExceptionReason = unsafeCastId
-
-instance IsNSObject (Id MXCrashDiagnosticObjectiveCExceptionReason) where
-  toNSObject = unsafeCastId
-
 -- ---------- MXDiagnostic ----------
 
 -- | MXDiagnostic
@@ -384,31 +359,6 @@ instance IsMXSignpostIntervalData (Id MXSignpostIntervalData) where
   toMXSignpostIntervalData = unsafeCastId
 
 instance IsNSObject (Id MXSignpostIntervalData) where
-  toNSObject = unsafeCastId
-
--- ---------- MXSignpostRecord ----------
-
--- | MXSignpostRecord
---
--- A class that represents a record of signpost instance.
---
--- Signpost instances are either Signpost intervals or events and MXSignpostRecord captures information reagarding such signpost instances
--- 
--- Phantom type for @MXSignpostRecord@.
-data MXSignpostRecord
-
-instance IsObjCObject (Id MXSignpostRecord) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MXSignpostRecord"
-
-class IsNSObject a => IsMXSignpostRecord a where
-  toMXSignpostRecord :: a -> Id MXSignpostRecord
-
-instance IsMXSignpostRecord (Id MXSignpostRecord) where
-  toMXSignpostRecord = unsafeCastId
-
-instance IsNSObject (Id MXSignpostRecord) where
   toNSObject = unsafeCastId
 
 -- ---------- MXAppLaunchDiagnostic ----------
@@ -765,38 +715,6 @@ instance IsMXMetric (Id MXDiskIOMetric) where
   toMXMetric = unsafeCastId
 
 instance IsNSObject (Id MXDiskIOMetric) where
-  toNSObject = unsafeCastId
-
--- ---------- MXDiskSpaceUsageMetric ----------
-
--- | MXDiskSpaceUsageMetric
---
--- An MXMetric subclass that encapsulates app disk space usage Metrics.
---
--- Disk space is a shared resource on-device, and overusage of available disk space can negatively impact the customer experience.
---
--- This Metric subclass contains properties that describe disk space usage in various locations in the apps container. Some properties also describe the number of files in common locations, and the types of files.
---
--- The data contained in this Metric is computed as a daily snapshot, and should be used as a guide to optimize app disk space usage.
--- 
--- Phantom type for @MXDiskSpaceUsageMetric@.
-data MXDiskSpaceUsageMetric
-
-instance IsObjCObject (Id MXDiskSpaceUsageMetric) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MXDiskSpaceUsageMetric"
-
-class IsMXMetric a => IsMXDiskSpaceUsageMetric a where
-  toMXDiskSpaceUsageMetric :: a -> Id MXDiskSpaceUsageMetric
-
-instance IsMXDiskSpaceUsageMetric (Id MXDiskSpaceUsageMetric) where
-  toMXDiskSpaceUsageMetric = unsafeCastId
-
-instance IsMXMetric (Id MXDiskSpaceUsageMetric) where
-  toMXMetric = unsafeCastId
-
-instance IsNSObject (Id MXDiskSpaceUsageMetric) where
   toNSObject = unsafeCastId
 
 -- ---------- MXDisplayMetric ----------

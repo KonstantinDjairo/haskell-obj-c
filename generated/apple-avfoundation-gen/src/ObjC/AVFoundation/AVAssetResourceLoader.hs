@@ -12,8 +12,6 @@ module ObjC.AVFoundation.AVAssetResourceLoader
   , setDelegate_queue
   , delegate
   , delegateQueue
-  , sendsCommonMediaClientDataAsHTTPHeaders
-  , setSendsCommonMediaClientDataAsHTTPHeaders
   , preloadsEligibleContentKeys
   , setPreloadsEligibleContentKeys
   , delegateQueueSelector
@@ -21,10 +19,8 @@ module ObjC.AVFoundation.AVAssetResourceLoader
   , initSelector
   , newSelector
   , preloadsEligibleContentKeysSelector
-  , sendsCommonMediaClientDataAsHTTPHeadersSelector
   , setDelegate_queueSelector
   , setPreloadsEligibleContentKeysSelector
-  , setSendsCommonMediaClientDataAsHTTPHeadersSelector
 
 
   ) where
@@ -91,16 +87,6 @@ delegateQueue :: IsAVAssetResourceLoader avAssetResourceLoader => avAssetResourc
 delegateQueue avAssetResourceLoader =
   sendMessage avAssetResourceLoader delegateQueueSelector
 
--- | @- sendsCommonMediaClientDataAsHTTPHeaders@
-sendsCommonMediaClientDataAsHTTPHeaders :: IsAVAssetResourceLoader avAssetResourceLoader => avAssetResourceLoader -> IO Bool
-sendsCommonMediaClientDataAsHTTPHeaders avAssetResourceLoader =
-  sendMessage avAssetResourceLoader sendsCommonMediaClientDataAsHTTPHeadersSelector
-
--- | @- setSendsCommonMediaClientDataAsHTTPHeaders:@
-setSendsCommonMediaClientDataAsHTTPHeaders :: IsAVAssetResourceLoader avAssetResourceLoader => avAssetResourceLoader -> Bool -> IO ()
-setSendsCommonMediaClientDataAsHTTPHeaders avAssetResourceLoader value =
-  sendMessage avAssetResourceLoader setSendsCommonMediaClientDataAsHTTPHeadersSelector value
-
 -- | preloadsEligibleContentKeys
 --
 -- When YES, eligible content keys will be loaded as eagerly as possible, potentially handled by the delegate. Setting to YES may result in network activity.
@@ -146,14 +132,6 @@ delegateSelector = mkSelector "delegate"
 -- | @Selector@ for @delegateQueue@
 delegateQueueSelector :: Selector '[] (Id NSObject)
 delegateQueueSelector = mkSelector "delegateQueue"
-
--- | @Selector@ for @sendsCommonMediaClientDataAsHTTPHeaders@
-sendsCommonMediaClientDataAsHTTPHeadersSelector :: Selector '[] Bool
-sendsCommonMediaClientDataAsHTTPHeadersSelector = mkSelector "sendsCommonMediaClientDataAsHTTPHeaders"
-
--- | @Selector@ for @setSendsCommonMediaClientDataAsHTTPHeaders:@
-setSendsCommonMediaClientDataAsHTTPHeadersSelector :: Selector '[Bool] ()
-setSendsCommonMediaClientDataAsHTTPHeadersSelector = mkSelector "setSendsCommonMediaClientDataAsHTTPHeaders:"
 
 -- | @Selector@ for @preloadsEligibleContentKeys@
 preloadsEligibleContentKeysSelector :: Selector '[] Bool

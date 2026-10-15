@@ -10,14 +10,8 @@ module ObjC.SensorKit.SRApplicationUsage
   , bundleIdentifier
   , usageTime
   , reportApplicationIdentifier
-  , textInputSessions
-  , supplementalCategories
-  , relativeStartTime
   , bundleIdentifierSelector
-  , relativeStartTimeSelector
   , reportApplicationIdentifierSelector
-  , supplementalCategoriesSelector
-  , textInputSessionsSelector
   , usageTimeSelector
 
 
@@ -55,40 +49,9 @@ usageTime srApplicationUsage =
 -- This is useful for identifying distinct application uses within the same report duration without revealing the actual application identifier.
 --
 -- ObjC selector: @- reportApplicationIdentifier@
-reportApplicationIdentifier :: IsSRApplicationUsage srApplicationUsage => srApplicationUsage -> IO (Id NSString)
+reportApplicationIdentifier :: IsSRApplicationUsage srApplicationUsage => srApplicationUsage -> IO RawId
 reportApplicationIdentifier srApplicationUsage =
   sendMessage srApplicationUsage reportApplicationIdentifierSelector
-
--- | textInputSessions
---
--- The text input session types that occurred during this application usage
---
--- The list of text input sessions describes the order and type of text input that may have occured during an application usage. Multiple sessions of the same text input type will appear as separate array entries. If no text input occurred, this array will be empty.
---
--- ObjC selector: @- textInputSessions@
-textInputSessions :: IsSRApplicationUsage srApplicationUsage => srApplicationUsage -> IO (Id NSArray)
-textInputSessions srApplicationUsage =
-  sendMessage srApplicationUsage textInputSessionsSelector
-
--- | supplementalCategories
---
--- Additional categories that describe this app
---
--- ObjC selector: @- supplementalCategories@
-supplementalCategories :: IsSRApplicationUsage srApplicationUsage => srApplicationUsage -> IO (Id NSArray)
-supplementalCategories srApplicationUsage =
-  sendMessage srApplicationUsage supplementalCategoriesSelector
-
--- | relativeStartTime
---
--- App start time relative to the first app start time in the report interval
---
--- relativeStartTime value for the very first app in the report interval is equal to 0, N seconds for the seccond app and so on. This will allow to order app uses and determine the time between app uses.
---
--- ObjC selector: @- relativeStartTime@
-relativeStartTime :: IsSRApplicationUsage srApplicationUsage => srApplicationUsage -> IO CDouble
-relativeStartTime srApplicationUsage =
-  sendMessage srApplicationUsage relativeStartTimeSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -103,18 +66,6 @@ usageTimeSelector :: Selector '[] CDouble
 usageTimeSelector = mkSelector "usageTime"
 
 -- | @Selector@ for @reportApplicationIdentifier@
-reportApplicationIdentifierSelector :: Selector '[] (Id NSString)
+reportApplicationIdentifierSelector :: Selector '[] RawId
 reportApplicationIdentifierSelector = mkSelector "reportApplicationIdentifier"
-
--- | @Selector@ for @textInputSessions@
-textInputSessionsSelector :: Selector '[] (Id NSArray)
-textInputSessionsSelector = mkSelector "textInputSessions"
-
--- | @Selector@ for @supplementalCategories@
-supplementalCategoriesSelector :: Selector '[] (Id NSArray)
-supplementalCategoriesSelector = mkSelector "supplementalCategories"
-
--- | @Selector@ for @relativeStartTime@
-relativeStartTimeSelector :: Selector '[] CDouble
-relativeStartTimeSelector = mkSelector "relativeStartTime"
 

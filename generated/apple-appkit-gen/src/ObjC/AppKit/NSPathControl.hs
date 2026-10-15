@@ -14,8 +14,6 @@ module ObjC.AppKit.NSPathControl
   , setPathComponentCells
   , editable
   , setEditable
-  , allowedTypes
-  , setAllowedTypes
   , placeholderString
   , setPlaceholderString
   , placeholderAttributedString
@@ -27,15 +25,12 @@ module ObjC.AppKit.NSPathControl
   , pathStyle
   , setPathStyle
   , clickedPathItem
-  , pathItems
-  , setPathItems
   , backgroundColor
   , setBackgroundColor
   , delegate
   , setDelegate
   , menu
   , setMenu
-  , allowedTypesSelector
   , backgroundColorSelector
   , clickedPathComponentCellSelector
   , clickedPathItemSelector
@@ -44,11 +39,9 @@ module ObjC.AppKit.NSPathControl
   , editableSelector
   , menuSelector
   , pathComponentCellsSelector
-  , pathItemsSelector
   , pathStyleSelector
   , placeholderAttributedStringSelector
   , placeholderStringSelector
-  , setAllowedTypesSelector
   , setBackgroundColorSelector
   , setDelegateSelector
   , setDoubleActionSelector
@@ -56,7 +49,6 @@ module ObjC.AppKit.NSPathControl
   , setEditableSelector
   , setMenuSelector
   , setPathComponentCellsSelector
-  , setPathItemsSelector
   , setPathStyleSelector
   , setPlaceholderAttributedStringSelector
   , setPlaceholderStringSelector
@@ -124,35 +116,25 @@ setEditable :: IsNSPathControl nsPathControl => nsPathControl -> Bool -> IO ()
 setEditable nsPathControl value =
   sendMessage nsPathControl setEditableSelector value
 
--- | @- allowedTypes@
-allowedTypes :: IsNSPathControl nsPathControl => nsPathControl -> IO (Id NSArray)
-allowedTypes nsPathControl =
-  sendMessage nsPathControl allowedTypesSelector
-
--- | @- setAllowedTypes:@
-setAllowedTypes :: (IsNSPathControl nsPathControl, IsNSArray value) => nsPathControl -> value -> IO ()
-setAllowedTypes nsPathControl value =
-  sendMessage nsPathControl setAllowedTypesSelector (toNSArray value)
-
 -- | @- placeholderString@
-placeholderString :: IsNSPathControl nsPathControl => nsPathControl -> IO (Id NSString)
+placeholderString :: IsNSPathControl nsPathControl => nsPathControl -> IO RawId
 placeholderString nsPathControl =
   sendMessage nsPathControl placeholderStringSelector
 
 -- | @- setPlaceholderString:@
-setPlaceholderString :: (IsNSPathControl nsPathControl, IsNSString value) => nsPathControl -> value -> IO ()
+setPlaceholderString :: IsNSPathControl nsPathControl => nsPathControl -> RawId -> IO ()
 setPlaceholderString nsPathControl value =
-  sendMessage nsPathControl setPlaceholderStringSelector (toNSString value)
+  sendMessage nsPathControl setPlaceholderStringSelector value
 
 -- | @- placeholderAttributedString@
-placeholderAttributedString :: IsNSPathControl nsPathControl => nsPathControl -> IO (Id NSAttributedString)
+placeholderAttributedString :: IsNSPathControl nsPathControl => nsPathControl -> IO RawId
 placeholderAttributedString nsPathControl =
   sendMessage nsPathControl placeholderAttributedStringSelector
 
 -- | @- setPlaceholderAttributedString:@
-setPlaceholderAttributedString :: (IsNSPathControl nsPathControl, IsNSAttributedString value) => nsPathControl -> value -> IO ()
+setPlaceholderAttributedString :: IsNSPathControl nsPathControl => nsPathControl -> RawId -> IO ()
 setPlaceholderAttributedString nsPathControl value =
-  sendMessage nsPathControl setPlaceholderAttributedStringSelector (toNSAttributedString value)
+  sendMessage nsPathControl setPlaceholderAttributedStringSelector value
 
 -- | @- URL@
 url :: IsNSPathControl nsPathControl => nsPathControl -> IO (Id NSURL)
@@ -185,19 +167,9 @@ setPathStyle nsPathControl value =
   sendMessage nsPathControl setPathStyleSelector value
 
 -- | @- clickedPathItem@
-clickedPathItem :: IsNSPathControl nsPathControl => nsPathControl -> IO (Id NSPathControlItem)
+clickedPathItem :: IsNSPathControl nsPathControl => nsPathControl -> IO RawId
 clickedPathItem nsPathControl =
   sendMessage nsPathControl clickedPathItemSelector
-
--- | @- pathItems@
-pathItems :: IsNSPathControl nsPathControl => nsPathControl -> IO (Id NSArray)
-pathItems nsPathControl =
-  sendMessage nsPathControl pathItemsSelector
-
--- | @- setPathItems:@
-setPathItems :: (IsNSPathControl nsPathControl, IsNSArray value) => nsPathControl -> value -> IO ()
-setPathItems nsPathControl value =
-  sendMessage nsPathControl setPathItemsSelector (toNSArray value)
 
 -- | @- backgroundColor@
 backgroundColor :: IsNSPathControl nsPathControl => nsPathControl -> IO (Id NSColor)
@@ -257,28 +229,20 @@ editableSelector = mkSelector "editable"
 setEditableSelector :: Selector '[Bool] ()
 setEditableSelector = mkSelector "setEditable:"
 
--- | @Selector@ for @allowedTypes@
-allowedTypesSelector :: Selector '[] (Id NSArray)
-allowedTypesSelector = mkSelector "allowedTypes"
-
--- | @Selector@ for @setAllowedTypes:@
-setAllowedTypesSelector :: Selector '[Id NSArray] ()
-setAllowedTypesSelector = mkSelector "setAllowedTypes:"
-
 -- | @Selector@ for @placeholderString@
-placeholderStringSelector :: Selector '[] (Id NSString)
+placeholderStringSelector :: Selector '[] RawId
 placeholderStringSelector = mkSelector "placeholderString"
 
 -- | @Selector@ for @setPlaceholderString:@
-setPlaceholderStringSelector :: Selector '[Id NSString] ()
+setPlaceholderStringSelector :: Selector '[RawId] ()
 setPlaceholderStringSelector = mkSelector "setPlaceholderString:"
 
 -- | @Selector@ for @placeholderAttributedString@
-placeholderAttributedStringSelector :: Selector '[] (Id NSAttributedString)
+placeholderAttributedStringSelector :: Selector '[] RawId
 placeholderAttributedStringSelector = mkSelector "placeholderAttributedString"
 
 -- | @Selector@ for @setPlaceholderAttributedString:@
-setPlaceholderAttributedStringSelector :: Selector '[Id NSAttributedString] ()
+setPlaceholderAttributedStringSelector :: Selector '[RawId] ()
 setPlaceholderAttributedStringSelector = mkSelector "setPlaceholderAttributedString:"
 
 -- | @Selector@ for @URL@
@@ -306,16 +270,8 @@ setPathStyleSelector :: Selector '[NSPathStyle] ()
 setPathStyleSelector = mkSelector "setPathStyle:"
 
 -- | @Selector@ for @clickedPathItem@
-clickedPathItemSelector :: Selector '[] (Id NSPathControlItem)
+clickedPathItemSelector :: Selector '[] RawId
 clickedPathItemSelector = mkSelector "clickedPathItem"
-
--- | @Selector@ for @pathItems@
-pathItemsSelector :: Selector '[] (Id NSArray)
-pathItemsSelector = mkSelector "pathItems"
-
--- | @Selector@ for @setPathItems:@
-setPathItemsSelector :: Selector '[Id NSArray] ()
-setPathItemsSelector = mkSelector "setPathItems:"
 
 -- | @Selector@ for @backgroundColor@
 backgroundColorSelector :: Selector '[] (Id NSColor)

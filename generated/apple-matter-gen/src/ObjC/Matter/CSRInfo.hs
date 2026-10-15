@@ -3,7 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @CSRInfo@.
+-- | Represents information relating to NOC CSR.
+--
+-- Generated bindings for @CSRInfo@.
 module ObjC.Matter.CSRInfo
   ( CSRInfo
   , IsCSRInfo(..)

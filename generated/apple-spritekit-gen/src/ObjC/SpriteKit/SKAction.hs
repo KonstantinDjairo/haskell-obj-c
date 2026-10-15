@@ -51,7 +51,7 @@ module ObjC.SpriteKit.SKAction
   , scaleXTo_y_duration
   , scaleXTo_duration
   , scaleYTo_duration
-  , sequence_
+  , sequence__
   , group
   , repeatAction_count
   , repeatActionForever
@@ -567,8 +567,8 @@ scaleYTo_duration scale duration =
 -- This action is reversible; it creates a new sequence action that reverses the order of the actions. Each action in the reversed sequence is itself reversed. For example, if an action sequence is {1,2,3}, the reversed sequence would be {3R,2R,1R}.
 --
 -- ObjC selector: @+ sequence:@
-sequence_ :: IsNSArray actions => actions -> IO (Id SKAction)
-sequence_ actions =
+sequence__ :: IsNSArray actions => actions -> IO (Id SKAction)
+sequence__ actions =
   do
     cls' <- getRequiredClass "SKAction"
     sendClassMessage cls' sequenceSelector (toNSArray actions)

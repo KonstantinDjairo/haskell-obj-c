@@ -15,8 +15,6 @@ module ObjC.HealthKit.HKActivitySummary
   , dateComponentsForCalendar
   , activityMoveMode
   , setActivityMoveMode
-  , paused
-  , setPaused
   , activeEnergyBurned
   , setActiveEnergyBurned
   , appleMoveTime
@@ -48,7 +46,6 @@ module ObjC.HealthKit.HKActivitySummary
   , appleStandHoursSelector
   , dateComponentsForCalendarSelector
   , exerciseTimeGoalSelector
-  , pausedSelector
   , setActiveEnergyBurnedGoalSelector
   , setActiveEnergyBurnedSelector
   , setActivityMoveModeSelector
@@ -59,7 +56,6 @@ module ObjC.HealthKit.HKActivitySummary
   , setAppleStandHoursGoalSelector
   , setAppleStandHoursSelector
   , setExerciseTimeGoalSelector
-  , setPausedSelector
   , setStandHoursGoalSelector
   , standHoursGoalSelector
 
@@ -114,28 +110,6 @@ activityMoveMode hkActivitySummary =
 setActivityMoveMode :: IsHKActivitySummary hkActivitySummary => hkActivitySummary -> HKActivityMoveMode -> IO ()
 setActivityMoveMode hkActivitySummary value =
   sendMessage hkActivitySummary setActivityMoveModeSelector value
-
--- | paused
---
--- The paused state of this activity summary
---
--- The paused state of an activity summary indicates if the user is tracking their rings for the given day.
---
--- ObjC selector: @- paused@
-paused :: IsHKActivitySummary hkActivitySummary => hkActivitySummary -> IO Bool
-paused hkActivitySummary =
-  sendMessage hkActivitySummary pausedSelector
-
--- | paused
---
--- The paused state of this activity summary
---
--- The paused state of an activity summary indicates if the user is tracking their rings for the given day.
---
--- ObjC selector: @- setPaused:@
-setPaused :: IsHKActivitySummary hkActivitySummary => hkActivitySummary -> Bool -> IO ()
-setPaused hkActivitySummary value =
-  sendMessage hkActivitySummary setPausedSelector value
 
 -- | activeEnergyBurned
 --
@@ -372,14 +346,6 @@ activityMoveModeSelector = mkSelector "activityMoveMode"
 -- | @Selector@ for @setActivityMoveMode:@
 setActivityMoveModeSelector :: Selector '[HKActivityMoveMode] ()
 setActivityMoveModeSelector = mkSelector "setActivityMoveMode:"
-
--- | @Selector@ for @paused@
-pausedSelector :: Selector '[] Bool
-pausedSelector = mkSelector "paused"
-
--- | @Selector@ for @setPaused:@
-setPausedSelector :: Selector '[Bool] ()
-setPausedSelector = mkSelector "setPaused:"
 
 -- | @Selector@ for @activeEnergyBurned@
 activeEnergyBurnedSelector :: Selector '[] (Id HKQuantity)

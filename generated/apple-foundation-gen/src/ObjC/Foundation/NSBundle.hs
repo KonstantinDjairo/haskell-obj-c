@@ -35,7 +35,6 @@ module ObjC.Foundation.NSBundle
   , pathsForResourcesOfType_inDirectory_forLocalization
   , localizedStringForKey_value_table
   , localizedAttributedStringForKey_value_table
-  , localizedStringForKey_value_table_localizations
   , objectForInfoDictionaryKey
   , classNamed
   , preferredLocalizationsFromArray
@@ -96,7 +95,6 @@ module ObjC.Foundation.NSBundle
   , localizedAttributedStringForKey_value_tableSelector
   , localizedInfoDictionarySelector
   , localizedStringForKey_value_tableSelector
-  , localizedStringForKey_value_table_localizationsSelector
   , mainBundleSelector
   , nsBundlePathForResource_ofType_inDirectorySelector
   , nsBundlePathsForResourcesOfType_inDirectorySelector
@@ -300,13 +298,6 @@ localizedStringForKey_value_table nsBundle key value tableName =
 localizedAttributedStringForKey_value_table :: (IsNSBundle nsBundle, IsNSString key, IsNSString value, IsNSString tableName) => nsBundle -> key -> value -> tableName -> IO (Id NSAttributedString)
 localizedAttributedStringForKey_value_table nsBundle key value tableName =
   sendMessage nsBundle localizedAttributedStringForKey_value_tableSelector (toNSString key) (toNSString value) (toNSString tableName)
-
--- | Look up a localized string given a list of available localizations. - Parameters:   - key: The key for the localized string to retrieve.   - value: A default value to return if a localized string for ``key`` cannot be found.   - tableName: The name of the strings file to search. If @nil@, the method uses tables in @Localizable.strings@.   - localizations: An array of BCP 47 language codes corresponding to available localizations. Bundle compares the array against its available localizations, and uses the best result to retrieve the localized string. If empty, we treat it as no localization is available, and may return a fallback. - Returns: A localized version of the string designated by ``key`` in table ``tableName``.
---
--- ObjC selector: @- localizedStringForKey:value:table:localizations:@
-localizedStringForKey_value_table_localizations :: (IsNSBundle nsBundle, IsNSString key, IsNSString value, IsNSString tableName, IsNSArray localizations) => nsBundle -> key -> value -> tableName -> localizations -> IO (Id NSString)
-localizedStringForKey_value_table_localizations nsBundle key value tableName localizations =
-  sendMessage nsBundle localizedStringForKey_value_table_localizationsSelector (toNSString key) (toNSString value) (toNSString tableName) (toNSArray localizations)
 
 -- | @- objectForInfoDictionaryKey:@
 objectForInfoDictionaryKey :: (IsNSBundle nsBundle, IsNSString key) => nsBundle -> key -> IO RawId
@@ -598,10 +589,6 @@ localizedStringForKey_value_tableSelector = mkSelector "localizedStringForKey:va
 -- | @Selector@ for @localizedAttributedStringForKey:value:table:@
 localizedAttributedStringForKey_value_tableSelector :: Selector '[Id NSString, Id NSString, Id NSString] (Id NSAttributedString)
 localizedAttributedStringForKey_value_tableSelector = mkSelector "localizedAttributedStringForKey:value:table:"
-
--- | @Selector@ for @localizedStringForKey:value:table:localizations:@
-localizedStringForKey_value_table_localizationsSelector :: Selector '[Id NSString, Id NSString, Id NSString, Id NSArray] (Id NSString)
-localizedStringForKey_value_table_localizationsSelector = mkSelector "localizedStringForKey:value:table:localizations:"
 
 -- | @Selector@ for @objectForInfoDictionaryKey:@
 objectForInfoDictionaryKeySelector :: Selector '[Id NSString] RawId

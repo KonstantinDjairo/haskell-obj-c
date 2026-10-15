@@ -17,9 +17,7 @@ module ObjC.AppKit.NSCollectionViewItem
   , setImageView
   , textField
   , setTextField
-  , draggingImageComponents
   , collectionViewSelector
-  , draggingImageComponentsSelector
   , highlightStateSelector
   , imageViewSelector
   , selectedSelector
@@ -76,29 +74,24 @@ setHighlightState nsCollectionViewItem value =
   sendMessage nsCollectionViewItem setHighlightStateSelector value
 
 -- | @- imageView@
-imageView :: IsNSCollectionViewItem nsCollectionViewItem => nsCollectionViewItem -> IO (Id NSImageView)
+imageView :: IsNSCollectionViewItem nsCollectionViewItem => nsCollectionViewItem -> IO RawId
 imageView nsCollectionViewItem =
   sendMessage nsCollectionViewItem imageViewSelector
 
 -- | @- setImageView:@
-setImageView :: (IsNSCollectionViewItem nsCollectionViewItem, IsNSImageView value) => nsCollectionViewItem -> value -> IO ()
+setImageView :: IsNSCollectionViewItem nsCollectionViewItem => nsCollectionViewItem -> RawId -> IO ()
 setImageView nsCollectionViewItem value =
-  sendMessage nsCollectionViewItem setImageViewSelector (toNSImageView value)
+  sendMessage nsCollectionViewItem setImageViewSelector value
 
 -- | @- textField@
-textField :: IsNSCollectionViewItem nsCollectionViewItem => nsCollectionViewItem -> IO (Id NSTextField)
+textField :: IsNSCollectionViewItem nsCollectionViewItem => nsCollectionViewItem -> IO RawId
 textField nsCollectionViewItem =
   sendMessage nsCollectionViewItem textFieldSelector
 
 -- | @- setTextField:@
-setTextField :: (IsNSCollectionViewItem nsCollectionViewItem, IsNSTextField value) => nsCollectionViewItem -> value -> IO ()
+setTextField :: IsNSCollectionViewItem nsCollectionViewItem => nsCollectionViewItem -> RawId -> IO ()
 setTextField nsCollectionViewItem value =
-  sendMessage nsCollectionViewItem setTextFieldSelector (toNSTextField value)
-
--- | @- draggingImageComponents@
-draggingImageComponents :: IsNSCollectionViewItem nsCollectionViewItem => nsCollectionViewItem -> IO (Id NSArray)
-draggingImageComponents nsCollectionViewItem =
-  sendMessage nsCollectionViewItem draggingImageComponentsSelector
+  sendMessage nsCollectionViewItem setTextFieldSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -125,22 +118,18 @@ setHighlightStateSelector :: Selector '[NSCollectionViewItemHighlightState] ()
 setHighlightStateSelector = mkSelector "setHighlightState:"
 
 -- | @Selector@ for @imageView@
-imageViewSelector :: Selector '[] (Id NSImageView)
+imageViewSelector :: Selector '[] RawId
 imageViewSelector = mkSelector "imageView"
 
 -- | @Selector@ for @setImageView:@
-setImageViewSelector :: Selector '[Id NSImageView] ()
+setImageViewSelector :: Selector '[RawId] ()
 setImageViewSelector = mkSelector "setImageView:"
 
 -- | @Selector@ for @textField@
-textFieldSelector :: Selector '[] (Id NSTextField)
+textFieldSelector :: Selector '[] RawId
 textFieldSelector = mkSelector "textField"
 
 -- | @Selector@ for @setTextField:@
-setTextFieldSelector :: Selector '[Id NSTextField] ()
+setTextFieldSelector :: Selector '[RawId] ()
 setTextFieldSelector = mkSelector "setTextField:"
-
--- | @Selector@ for @draggingImageComponents@
-draggingImageComponentsSelector :: Selector '[] (Id NSArray)
-draggingImageComponentsSelector = mkSelector "draggingImageComponents"
 

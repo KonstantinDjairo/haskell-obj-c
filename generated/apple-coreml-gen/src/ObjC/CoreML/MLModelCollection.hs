@@ -16,10 +16,12 @@ module ObjC.CoreML.MLModelCollection
   , init_
   , new
   , identifier
+  , entries
   , deploymentID
   , beginAccessingModelCollectionWithIdentifier_completionHandlerSelector
   , deploymentIDSelector
   , endAccessingModelCollectionWithIdentifier_completionHandlerSelector
+  , entriesSelector
   , identifierSelector
   , initSelector
   , newSelector
@@ -85,14 +87,21 @@ new  =
 -- | The identifier of the model collection you want to access, as configured in the Core ML Model Deployment dashboard.
 --
 -- ObjC selector: @- identifier@
-identifier :: IsMLModelCollection mlModelCollection => mlModelCollection -> IO RawId
+identifier :: IsMLModelCollection mlModelCollection => mlModelCollection -> IO (Id NSString)
 identifier mlModelCollection =
   sendMessage mlModelCollection identifierSelector
+
+-- | Information about the models downloaded in the collection, or an empty dictionary if the collection has not been downloaded.
+--
+-- ObjC selector: @- entries@
+entries :: IsMLModelCollection mlModelCollection => mlModelCollection -> IO (Id NSDictionary)
+entries mlModelCollection =
+  sendMessage mlModelCollection entriesSelector
 
 -- | The identifier for the currently downloaded deployment, corresponding to a recent deployment on the Core ML Model Deployment dashboard.
 --
 -- ObjC selector: @- deploymentID@
-deploymentID :: IsMLModelCollection mlModelCollection => mlModelCollection -> IO RawId
+deploymentID :: IsMLModelCollection mlModelCollection => mlModelCollection -> IO (Id NSString)
 deploymentID mlModelCollection =
   sendMessage mlModelCollection deploymentIDSelector
 
@@ -117,10 +126,14 @@ newSelector :: Selector '[] RawId
 newSelector = mkSelector "new"
 
 -- | @Selector@ for @identifier@
-identifierSelector :: Selector '[] RawId
+identifierSelector :: Selector '[] (Id NSString)
 identifierSelector = mkSelector "identifier"
 
+-- | @Selector@ for @entries@
+entriesSelector :: Selector '[] (Id NSDictionary)
+entriesSelector = mkSelector "entries"
+
 -- | @Selector@ for @deploymentID@
-deploymentIDSelector :: Selector '[] RawId
+deploymentIDSelector :: Selector '[] (Id NSString)
 deploymentIDSelector = mkSelector "deploymentID"
 

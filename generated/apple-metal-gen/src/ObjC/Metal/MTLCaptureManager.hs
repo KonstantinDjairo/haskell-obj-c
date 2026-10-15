@@ -12,7 +12,6 @@ module ObjC.Metal.MTLCaptureManager
   , init_
   , newCaptureScopeWithDevice
   , newCaptureScopeWithCommandQueue
-  , newCaptureScopeWithMTL4CommandQueue
   , supportsDestination
   , startCaptureWithDescriptor_error
   , startCaptureWithDevice
@@ -27,7 +26,6 @@ module ObjC.Metal.MTLCaptureManager
   , isCapturingSelector
   , newCaptureScopeWithCommandQueueSelector
   , newCaptureScopeWithDeviceSelector
-  , newCaptureScopeWithMTL4CommandQueueSelector
   , setDefaultCaptureScopeSelector
   , sharedCaptureManagerSelector
   , startCaptureWithCommandQueueSelector
@@ -81,11 +79,6 @@ newCaptureScopeWithDevice mtlCaptureManager device =
 newCaptureScopeWithCommandQueue :: IsMTLCaptureManager mtlCaptureManager => mtlCaptureManager -> RawId -> IO RawId
 newCaptureScopeWithCommandQueue mtlCaptureManager commandQueue =
   sendOwnedMessage mtlCaptureManager newCaptureScopeWithCommandQueueSelector commandQueue
-
--- | @- newCaptureScopeWithMTL4CommandQueue:@
-newCaptureScopeWithMTL4CommandQueue :: IsMTLCaptureManager mtlCaptureManager => mtlCaptureManager -> RawId -> IO RawId
-newCaptureScopeWithMTL4CommandQueue mtlCaptureManager commandQueue =
-  sendOwnedMessage mtlCaptureManager newCaptureScopeWithMTL4CommandQueueSelector commandQueue
 
 -- | @- supportsDestination:@
 supportsDestination :: IsMTLCaptureManager mtlCaptureManager => mtlCaptureManager -> MTLCaptureDestination -> IO Bool
@@ -161,10 +154,6 @@ newCaptureScopeWithDeviceSelector = mkSelector "newCaptureScopeWithDevice:"
 -- | @Selector@ for @newCaptureScopeWithCommandQueue:@
 newCaptureScopeWithCommandQueueSelector :: Selector '[RawId] RawId
 newCaptureScopeWithCommandQueueSelector = mkSelector "newCaptureScopeWithCommandQueue:"
-
--- | @Selector@ for @newCaptureScopeWithMTL4CommandQueue:@
-newCaptureScopeWithMTL4CommandQueueSelector :: Selector '[RawId] RawId
-newCaptureScopeWithMTL4CommandQueueSelector = mkSelector "newCaptureScopeWithMTL4CommandQueue:"
 
 -- | @Selector@ for @supportsDestination:@
 supportsDestinationSelector :: Selector '[MTLCaptureDestination] Bool

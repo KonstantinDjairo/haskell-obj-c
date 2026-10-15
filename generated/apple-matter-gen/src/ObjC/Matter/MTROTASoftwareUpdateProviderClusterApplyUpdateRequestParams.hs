@@ -3,22 +3,22 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams@.
-module ObjC.Matter.MTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams
-  ( MTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams
-  , IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams(..)
+-- | Generated bindings for @MTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams@.
+module ObjC.Matter.MTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams
+  ( MTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams
+  , IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams(..)
+  , init_
+  , copyWithZone
   , updateToken
   , setUpdateToken
   , newVersion
   , setNewVersion
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , newVersionSelector
-  , serverSideProcessingTimeoutSelector
   , setNewVersionSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , setUpdateTokenSelector
   , timedInvokeTimeoutMsSelector
@@ -38,25 +38,35 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id MTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams)
+init_ mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
+  sendOwnedMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> Ptr () -> IO RawId
+copyWithZone mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams zone =
+  sendOwnedMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams copyWithZoneSelector zone
+
 -- | @- updateToken@
-updateToken :: IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id NSData)
-updateToken mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams updateTokenSelector
+updateToken :: IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id NSData)
+updateToken mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams updateTokenSelector
 
 -- | @- setUpdateToken:@
-setUpdateToken :: (IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams, IsNSData value) => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> value -> IO ()
-setUpdateToken mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams setUpdateTokenSelector (toNSData value)
+setUpdateToken :: (IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams, IsNSData value) => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> value -> IO ()
+setUpdateToken mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams setUpdateTokenSelector (toNSData value)
 
 -- | @- newVersion@
-newVersion :: IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id NSNumber)
-newVersion mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
-  sendOwnedMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams newVersionSelector
+newVersion :: IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id NSNumber)
+newVersion mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
+  sendOwnedMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams newVersionSelector
 
 -- | @- setNewVersion:@
-setNewVersion :: (IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> value -> IO ()
-setNewVersion mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams setNewVersionSelector (toNSNumber value)
+setNewVersion :: (IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> value -> IO ()
+setNewVersion mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams setNewVersionSelector (toNSNumber value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -65,9 +75,9 @@ setNewVersion mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams value 
 -- If not nil, a timed invoke is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual invoke request) within the timeout window.
 --
 -- ObjC selector: @- timedInvokeTimeoutMs@
-timedInvokeTimeoutMs :: IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id NSNumber)
-timedInvokeTimeoutMs mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams timedInvokeTimeoutMsSelector
+timedInvokeTimeoutMs :: IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id NSNumber)
+timedInvokeTimeoutMs mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams timedInvokeTimeoutMsSelector
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -76,35 +86,21 @@ timedInvokeTimeoutMs mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams
 -- If not nil, a timed invoke is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual invoke request) within the timeout window.
 --
 -- ObjC selector: @- setTimedInvokeTimeoutMs:@
-setTimedInvokeTimeoutMs :: (IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> value -> IO ()
-setTimedInvokeTimeoutMs mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> value -> IO ()
-setServerSideProcessingTimeout mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterApplyUpdateRequestParams setServerSideProcessingTimeoutSelector (toNSNumber value)
+setTimedInvokeTimeoutMs :: (IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams -> value -> IO ()
+setTimedInvokeTimeoutMs mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterApplyUpdateRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @updateToken@
 updateTokenSelector :: Selector '[] (Id NSData)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

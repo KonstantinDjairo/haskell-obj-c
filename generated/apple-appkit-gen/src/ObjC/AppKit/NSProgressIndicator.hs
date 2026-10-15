@@ -17,6 +17,10 @@ module ObjC.AppKit.NSProgressIndicator
   , animate
   , indeterminate
   , setIndeterminate
+  , bezeled
+  , setBezeled
+  , controlTint
+  , setControlTint
   , controlSize
   , setControlSize
   , doubleValue
@@ -25,18 +29,12 @@ module ObjC.AppKit.NSProgressIndicator
   , setMinValue
   , maxValue
   , setMaxValue
-  , observedProgress
-  , setObservedProgress
   , usesThreadedAnimation
   , setUsesThreadedAnimation
   , style
   , setStyle
   , displayedWhenStopped
   , setDisplayedWhenStopped
-  , bezeled
-  , setBezeled
-  , controlTint
-  , setControlTint
   , animateSelector
   , animationDelaySelector
   , bezeledSelector
@@ -48,7 +46,6 @@ module ObjC.AppKit.NSProgressIndicator
   , indeterminateSelector
   , maxValueSelector
   , minValueSelector
-  , observedProgressSelector
   , setAnimationDelaySelector
   , setBezeledSelector
   , setControlSizeSelector
@@ -58,7 +55,6 @@ module ObjC.AppKit.NSProgressIndicator
   , setIndeterminateSelector
   , setMaxValueSelector
   , setMinValueSelector
-  , setObservedProgressSelector
   , setStyleSelector
   , setUsesThreadedAnimationSelector
   , sizeToFitSelector
@@ -73,7 +69,6 @@ module ObjC.AppKit.NSProgressIndicator
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
   , NSControlTint(NSControlTint)
   , pattern NSDefaultControlTint
   , pattern NSBlueControlTint
@@ -142,6 +137,26 @@ setIndeterminate :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndic
 setIndeterminate nsProgressIndicator value =
   sendMessage nsProgressIndicator setIndeterminateSelector value
 
+-- | @- bezeled@
+bezeled :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> IO Bool
+bezeled nsProgressIndicator =
+  sendMessage nsProgressIndicator bezeledSelector
+
+-- | @- setBezeled:@
+setBezeled :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> Bool -> IO ()
+setBezeled nsProgressIndicator value =
+  sendMessage nsProgressIndicator setBezeledSelector value
+
+-- | @- controlTint@
+controlTint :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> IO NSControlTint
+controlTint nsProgressIndicator =
+  sendMessage nsProgressIndicator controlTintSelector
+
+-- | @- setControlTint:@
+setControlTint :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> NSControlTint -> IO ()
+setControlTint nsProgressIndicator value =
+  sendMessage nsProgressIndicator setControlTintSelector value
+
 -- | @- controlSize@
 controlSize :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> IO NSControlSize
 controlSize nsProgressIndicator =
@@ -182,16 +197,6 @@ setMaxValue :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator 
 setMaxValue nsProgressIndicator value =
   sendMessage nsProgressIndicator setMaxValueSelector value
 
--- | @- observedProgress@
-observedProgress :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> IO (Id NSProgress)
-observedProgress nsProgressIndicator =
-  sendMessage nsProgressIndicator observedProgressSelector
-
--- | @- setObservedProgress:@
-setObservedProgress :: (IsNSProgressIndicator nsProgressIndicator, IsNSProgress value) => nsProgressIndicator -> value -> IO ()
-setObservedProgress nsProgressIndicator value =
-  sendMessage nsProgressIndicator setObservedProgressSelector (toNSProgress value)
-
 -- | @- usesThreadedAnimation@
 usesThreadedAnimation :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> IO Bool
 usesThreadedAnimation nsProgressIndicator =
@@ -221,26 +226,6 @@ displayedWhenStopped nsProgressIndicator =
 setDisplayedWhenStopped :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> Bool -> IO ()
 setDisplayedWhenStopped nsProgressIndicator value =
   sendMessage nsProgressIndicator setDisplayedWhenStoppedSelector value
-
--- | @- bezeled@
-bezeled :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> IO Bool
-bezeled nsProgressIndicator =
-  sendMessage nsProgressIndicator bezeledSelector
-
--- | @- setBezeled:@
-setBezeled :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> Bool -> IO ()
-setBezeled nsProgressIndicator value =
-  sendMessage nsProgressIndicator setBezeledSelector value
-
--- | @- controlTint@
-controlTint :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> IO NSControlTint
-controlTint nsProgressIndicator =
-  sendMessage nsProgressIndicator controlTintSelector
-
--- | @- setControlTint:@
-setControlTint :: IsNSProgressIndicator nsProgressIndicator => nsProgressIndicator -> NSControlTint -> IO ()
-setControlTint nsProgressIndicator value =
-  sendMessage nsProgressIndicator setControlTintSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -282,6 +267,22 @@ indeterminateSelector = mkSelector "indeterminate"
 setIndeterminateSelector :: Selector '[Bool] ()
 setIndeterminateSelector = mkSelector "setIndeterminate:"
 
+-- | @Selector@ for @bezeled@
+bezeledSelector :: Selector '[] Bool
+bezeledSelector = mkSelector "bezeled"
+
+-- | @Selector@ for @setBezeled:@
+setBezeledSelector :: Selector '[Bool] ()
+setBezeledSelector = mkSelector "setBezeled:"
+
+-- | @Selector@ for @controlTint@
+controlTintSelector :: Selector '[] NSControlTint
+controlTintSelector = mkSelector "controlTint"
+
+-- | @Selector@ for @setControlTint:@
+setControlTintSelector :: Selector '[NSControlTint] ()
+setControlTintSelector = mkSelector "setControlTint:"
+
 -- | @Selector@ for @controlSize@
 controlSizeSelector :: Selector '[] NSControlSize
 controlSizeSelector = mkSelector "controlSize"
@@ -314,14 +315,6 @@ maxValueSelector = mkSelector "maxValue"
 setMaxValueSelector :: Selector '[CDouble] ()
 setMaxValueSelector = mkSelector "setMaxValue:"
 
--- | @Selector@ for @observedProgress@
-observedProgressSelector :: Selector '[] (Id NSProgress)
-observedProgressSelector = mkSelector "observedProgress"
-
--- | @Selector@ for @setObservedProgress:@
-setObservedProgressSelector :: Selector '[Id NSProgress] ()
-setObservedProgressSelector = mkSelector "setObservedProgress:"
-
 -- | @Selector@ for @usesThreadedAnimation@
 usesThreadedAnimationSelector :: Selector '[] Bool
 usesThreadedAnimationSelector = mkSelector "usesThreadedAnimation"
@@ -345,20 +338,4 @@ displayedWhenStoppedSelector = mkSelector "displayedWhenStopped"
 -- | @Selector@ for @setDisplayedWhenStopped:@
 setDisplayedWhenStoppedSelector :: Selector '[Bool] ()
 setDisplayedWhenStoppedSelector = mkSelector "setDisplayedWhenStopped:"
-
--- | @Selector@ for @bezeled@
-bezeledSelector :: Selector '[] Bool
-bezeledSelector = mkSelector "bezeled"
-
--- | @Selector@ for @setBezeled:@
-setBezeledSelector :: Selector '[Bool] ()
-setBezeledSelector = mkSelector "setBezeled:"
-
--- | @Selector@ for @controlTint@
-controlTintSelector :: Selector '[] NSControlTint
-controlTintSelector = mkSelector "controlTint"
-
--- | @Selector@ for @setControlTint:@
-setControlTintSelector :: Selector '[NSControlTint] ()
-setControlTintSelector = mkSelector "setControlTint:"
 

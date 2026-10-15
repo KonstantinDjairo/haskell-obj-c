@@ -7,7 +7,6 @@ dependencies:
 - base >= 4.7 && < 5
 - haskell-obj-c
 - libffi
-- apple-avfoundation-gen
 - apple-coreimage-gen
 - apple-coreml-gen
 - apple-foundation-gen
@@ -15,6 +14,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -25,9 +25,7 @@ library:
   - ObjC.Vision.Enums
   - ObjC.Vision.Internal.Classes
   - ObjC.Vision.Internal.Enums
-  - ObjC.Vision.VNAnimalBodyPoseObservation
   - ObjC.Vision.VNBarcodeObservation
-  - ObjC.Vision.VNCalculateImageAestheticsScoresRequest
   - ObjC.Vision.VNCircle
   - ObjC.Vision.VNClassificationObservation
   - ObjC.Vision.VNClassifyImageRequest
@@ -36,7 +34,6 @@ library:
   - ObjC.Vision.VNCoreMLFeatureValueObservation
   - ObjC.Vision.VNCoreMLModel
   - ObjC.Vision.VNCoreMLRequest
-  - ObjC.Vision.VNDetectAnimalBodyPoseRequest
   - ObjC.Vision.VNDetectBarcodesRequest
   - ObjC.Vision.VNDetectContoursRequest
   - ObjC.Vision.VNDetectDocumentSegmentationRequest
@@ -44,7 +41,6 @@ library:
   - ObjC.Vision.VNDetectFaceLandmarksRequest
   - ObjC.Vision.VNDetectFaceRectanglesRequest
   - ObjC.Vision.VNDetectHorizonRequest
-  - ObjC.Vision.VNDetectHumanBodyPose3DRequest
   - ObjC.Vision.VNDetectHumanBodyPoseRequest
   - ObjC.Vision.VNDetectHumanHandPoseRequest
   - ObjC.Vision.VNDetectHumanRectanglesRequest
@@ -60,38 +56,29 @@ library:
   - ObjC.Vision.VNFaceObservation
   - ObjC.Vision.VNFeaturePrintObservation
   - ObjC.Vision.VNGenerateAttentionBasedSaliencyImageRequest
-  - ObjC.Vision.VNGenerateForegroundInstanceMaskRequest
   - ObjC.Vision.VNGenerateImageFeaturePrintRequest
   - ObjC.Vision.VNGenerateObjectnessBasedSaliencyImageRequest
   - ObjC.Vision.VNGenerateOpticalFlowRequest
-  - ObjC.Vision.VNGeneratePersonInstanceMaskRequest
   - ObjC.Vision.VNGeneratePersonSegmentationRequest
   - ObjC.Vision.VNGeometryUtils
   - ObjC.Vision.VNHomographicImageRegistrationRequest
   - ObjC.Vision.VNHorizonObservation
-  - ObjC.Vision.VNHumanBodyPose3DObservation
   - ObjC.Vision.VNHumanBodyPoseObservation
-  - ObjC.Vision.VNHumanBodyRecognizedPoint3D
   - ObjC.Vision.VNHumanHandPoseObservation
   - ObjC.Vision.VNHumanObservation
-  - ObjC.Vision.VNImageAestheticsScoresObservation
   - ObjC.Vision.VNImageAlignmentObservation
   - ObjC.Vision.VNImageBasedRequest
   - ObjC.Vision.VNImageHomographicAlignmentObservation
   - ObjC.Vision.VNImageRegistrationRequest
   - ObjC.Vision.VNImageRequestHandler
   - ObjC.Vision.VNImageTranslationAlignmentObservation
-  - ObjC.Vision.VNInstanceMaskObservation
   - ObjC.Vision.VNObservation
   - ObjC.Vision.VNPixelBufferObservation
   - ObjC.Vision.VNPoint
-  - ObjC.Vision.VNPoint3D
   - ObjC.Vision.VNRecognizeAnimalsRequest
   - ObjC.Vision.VNRecognizeTextRequest
   - ObjC.Vision.VNRecognizedObjectObservation
   - ObjC.Vision.VNRecognizedPoint
-  - ObjC.Vision.VNRecognizedPoint3D
-  - ObjC.Vision.VNRecognizedPoints3DObservation
   - ObjC.Vision.VNRecognizedPointsObservation
   - ObjC.Vision.VNRecognizedText
   - ObjC.Vision.VNRecognizedTextObservation
@@ -102,11 +89,8 @@ library:
   - ObjC.Vision.VNStatefulRequest
   - ObjC.Vision.VNTargetedImageRequest
   - ObjC.Vision.VNTextObservation
-  - ObjC.Vision.VNTrackHomographicImageRegistrationRequest
   - ObjC.Vision.VNTrackObjectRequest
-  - ObjC.Vision.VNTrackOpticalFlowRequest
   - ObjC.Vision.VNTrackRectangleRequest
-  - ObjC.Vision.VNTrackTranslationalImageRegistrationRequest
   - ObjC.Vision.VNTrackingRequest
   - ObjC.Vision.VNTrajectoryObservation
   - ObjC.Vision.VNTranslationalImageRegistrationRequest

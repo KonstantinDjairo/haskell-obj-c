@@ -40,7 +40,6 @@ data AVCapturePhotoCaptureDelegateOverrides = AVCapturePhotoCaptureDelegateOverr
   , _captureOutput_willCapturePhotoForResolvedSettings :: !(Maybe (RawId -> RawId -> IO ()))
   , _captureOutput_didCapturePhotoForResolvedSettings :: !(Maybe (RawId -> RawId -> IO ()))
   , _captureOutput_didFinishProcessingPhoto_error :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
-  , _captureOutput_didFinishCapturingDeferredPhotoProxy_error :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _captureOutput_didFinishRecordingLivePhotoMovieForEventualFileAtURL_resolvedSettings :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _captureOutput_didFinishCaptureForResolvedSettings_error :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   }
@@ -52,7 +51,6 @@ defaultAVCapturePhotoCaptureDelegateOverrides = AVCapturePhotoCaptureDelegateOve
   , _captureOutput_willCapturePhotoForResolvedSettings = Nothing
   , _captureOutput_didCapturePhotoForResolvedSettings = Nothing
   , _captureOutput_didFinishProcessingPhoto_error = Nothing
-  , _captureOutput_didFinishCapturingDeferredPhotoProxy_error = Nothing
   , _captureOutput_didFinishRecordingLivePhotoMovieForEventualFileAtURL_resolvedSettings = Nothing
   , _captureOutput_didFinishCaptureForResolvedSettings_error = Nothing
   }
@@ -85,7 +83,6 @@ avCapturePhotoCaptureDelegateDelegateClass = unsafePerformIO $ do
       sel_captureOutput_willCapturePhotoForResolvedSettings = unSelector (mkSelector "captureOutput:willCapturePhotoForResolvedSettings:")
       sel_captureOutput_didCapturePhotoForResolvedSettings = unSelector (mkSelector "captureOutput:didCapturePhotoForResolvedSettings:")
       sel_captureOutput_didFinishProcessingPhoto_error = unSelector (mkSelector "captureOutput:didFinishProcessingPhoto:error:")
-      sel_captureOutput_didFinishCapturingDeferredPhotoProxy_error = unSelector (mkSelector "captureOutput:didFinishCapturingDeferredPhotoProxy:error:")
       sel_captureOutput_didFinishRecordingLivePhotoMovieForEventualFileAtURL_resolvedSettings = unSelector (mkSelector "captureOutput:didFinishRecordingLivePhotoMovieForEventualFileAtURL:resolvedSettings:")
       sel_captureOutput_didFinishCaptureForResolvedSettings_error = unSelector (mkSelector "captureOutput:didFinishCaptureForResolvedSettings:error:")
   -- captureOutput:willBeginCaptureForResolvedSettings:
@@ -124,32 +121,23 @@ avCapturePhotoCaptureDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
   addObjCMethod cls "captureOutput:didFinishProcessingPhoto:error:" "v@:@@@" stub_3
 
-  -- captureOutput:didFinishCapturingDeferredPhotoProxy:error:
-  stub_4 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO AVCapturePhotoCaptureDelegateOverrides
-    case _captureOutput_didFinishCapturingDeferredPhotoProxy_error rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "captureOutput:didFinishCapturingDeferredPhotoProxy:error:" "v@:@@@" stub_4
-
   -- captureOutput:didFinishRecordingLivePhotoMovieForEventualFileAtURL:resolvedSettings:
-  stub_5 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_4 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO AVCapturePhotoCaptureDelegateOverrides
     case _captureOutput_didFinishRecordingLivePhotoMovieForEventualFileAtURL_resolvedSettings rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "captureOutput:didFinishRecordingLivePhotoMovieForEventualFileAtURL:resolvedSettings:" "v@:@@@" stub_5
+  addObjCMethod cls "captureOutput:didFinishRecordingLivePhotoMovieForEventualFileAtURL:resolvedSettings:" "v@:@@@" stub_4
 
   -- captureOutput:didFinishCaptureForResolvedSettings:error:
-  stub_6 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_5 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO AVCapturePhotoCaptureDelegateOverrides
     case _captureOutput_didFinishCaptureForResolvedSettings_error rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "captureOutput:didFinishCaptureForResolvedSettings:error:" "v@:@@@" stub_6
+  addObjCMethod cls "captureOutput:didFinishCaptureForResolvedSettings:error:" "v@:@@@" stub_5
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -159,7 +147,6 @@ avCapturePhotoCaptureDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_captureOutput_willCapturePhotoForResolvedSettings then pure (maybe 0 (const 1) (_captureOutput_willCapturePhotoForResolvedSettings rec_))
     else if queriedSel == sel_captureOutput_didCapturePhotoForResolvedSettings then pure (maybe 0 (const 1) (_captureOutput_didCapturePhotoForResolvedSettings rec_))
     else if queriedSel == sel_captureOutput_didFinishProcessingPhoto_error then pure (maybe 0 (const 1) (_captureOutput_didFinishProcessingPhoto_error rec_))
-    else if queriedSel == sel_captureOutput_didFinishCapturingDeferredPhotoProxy_error then pure (maybe 0 (const 1) (_captureOutput_didFinishCapturingDeferredPhotoProxy_error rec_))
     else if queriedSel == sel_captureOutput_didFinishRecordingLivePhotoMovieForEventualFileAtURL_resolvedSettings then pure (maybe 0 (const 1) (_captureOutput_didFinishRecordingLivePhotoMovieForEventualFileAtURL_resolvedSettings rec_))
     else if queriedSel == sel_captureOutput_didFinishCaptureForResolvedSettings_error then pure (maybe 0 (const 1) (_captureOutput_didFinishCaptureForResolvedSettings_error rec_))
     else do

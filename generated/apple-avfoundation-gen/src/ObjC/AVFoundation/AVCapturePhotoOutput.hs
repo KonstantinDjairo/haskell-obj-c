@@ -32,14 +32,12 @@ module ObjC.AVFoundation.AVCapturePhotoOutput
   , isAppleProRAWPixelFormat
   , supportedPhotoPixelFormatTypesForFileType
   , supportedPhotoCodecTypesForFileType
-  , supportedRawPhotoCodecTypesForRawPhotoPixelFormatType_fileType
   , supportedRawPhotoPixelFormatTypesForFileType
   , jpegPhotoDataRepresentationForJPEGSampleBuffer_previewPhotoSampleBuffer
   , dngPhotoDataRepresentationForRawSampleBuffer_previewPhotoSampleBuffer
   , preparedPhotoSettingsArray
   , availablePhotoPixelFormatTypes
   , availablePhotoCodecTypes
-  , availableRawPhotoCodecTypes
   , appleProRAWSupported
   , appleProRAWEnabled
   , setAppleProRAWEnabled
@@ -48,13 +46,6 @@ module ObjC.AVFoundation.AVCapturePhotoOutput
   , availableRawPhotoFileTypes
   , maxPhotoQualityPrioritization
   , setMaxPhotoQualityPrioritization
-  , fastCapturePrioritizationSupported
-  , setFastCapturePrioritizationSupported
-  , fastCapturePrioritizationEnabled
-  , setFastCapturePrioritizationEnabled
-  , autoDeferredPhotoDeliverySupported
-  , autoDeferredPhotoDeliveryEnabled
-  , setAutoDeferredPhotoDeliveryEnabled
   , stillImageStabilizationSupported
   , isStillImageStabilizationScene
   , virtualDeviceFusionSupported
@@ -88,20 +79,6 @@ module ObjC.AVFoundation.AVCapturePhotoOutput
   , contentAwareDistortionCorrectionSupported
   , contentAwareDistortionCorrectionEnabled
   , setContentAwareDistortionCorrectionEnabled
-  , zeroShutterLagSupported
-  , zeroShutterLagEnabled
-  , setZeroShutterLagEnabled
-  , responsiveCaptureSupported
-  , responsiveCaptureEnabled
-  , setResponsiveCaptureEnabled
-  , captureReadiness
-  , constantColorSupported
-  , constantColorEnabled
-  , setConstantColorEnabled
-  , shutterSoundSuppressionSupported
-  , cameraSensorOrientationCompensationSupported
-  , cameraSensorOrientationCompensationEnabled
-  , setCameraSensorOrientationCompensationEnabled
   , depthDataDeliverySupported
   , depthDataDeliveryEnabled
   , setDepthDataDeliveryEnabled
@@ -113,24 +90,16 @@ module ObjC.AVFoundation.AVCapturePhotoOutput
   , setEnabledSemanticSegmentationMatteTypes
   , appleProRAWEnabledSelector
   , appleProRAWSupportedSelector
-  , autoDeferredPhotoDeliveryEnabledSelector
-  , autoDeferredPhotoDeliverySupportedSelector
   , autoRedEyeReductionSupportedSelector
   , availableLivePhotoVideoCodecTypesSelector
   , availablePhotoCodecTypesSelector
   , availablePhotoFileTypesSelector
   , availablePhotoPixelFormatTypesSelector
-  , availableRawPhotoCodecTypesSelector
   , availableRawPhotoFileTypesSelector
   , availableRawPhotoPixelFormatTypesSelector
   , availableSemanticSegmentationMatteTypesSelector
   , cameraCalibrationDataDeliverySupportedSelector
-  , cameraSensorOrientationCompensationEnabledSelector
-  , cameraSensorOrientationCompensationSupportedSelector
   , capturePhotoWithSettings_delegateSelector
-  , captureReadinessSelector
-  , constantColorEnabledSelector
-  , constantColorSupportedSelector
   , contentAwareDistortionCorrectionEnabledSelector
   , contentAwareDistortionCorrectionSupportedSelector
   , depthDataDeliveryEnabledSelector
@@ -140,8 +109,6 @@ module ObjC.AVFoundation.AVCapturePhotoOutput
   , dualCameraDualPhotoDeliverySupportedSelector
   , dualCameraFusionSupportedSelector
   , enabledSemanticSegmentationMatteTypesSelector
-  , fastCapturePrioritizationEnabledSelector
-  , fastCapturePrioritizationSupportedSelector
   , highResolutionCaptureEnabledSelector
   , initSelector
   , isAppleProRAWPixelFormatSelector
@@ -162,18 +129,11 @@ module ObjC.AVFoundation.AVCapturePhotoOutput
   , portraitEffectsMatteDeliverySupportedSelector
   , preparedPhotoSettingsArraySelector
   , preservesLivePhotoCaptureSuspendedOnSessionStopSelector
-  , responsiveCaptureEnabledSelector
-  , responsiveCaptureSupportedSelector
   , setAppleProRAWEnabledSelector
-  , setAutoDeferredPhotoDeliveryEnabledSelector
-  , setCameraSensorOrientationCompensationEnabledSelector
-  , setConstantColorEnabledSelector
   , setContentAwareDistortionCorrectionEnabledSelector
   , setDepthDataDeliveryEnabledSelector
   , setDualCameraDualPhotoDeliveryEnabledSelector
   , setEnabledSemanticSegmentationMatteTypesSelector
-  , setFastCapturePrioritizationEnabledSelector
-  , setFastCapturePrioritizationSupportedSelector
   , setHighResolutionCaptureEnabledSelector
   , setLivePhotoAutoTrimmingEnabledSelector
   , setLivePhotoCaptureEnabledSelector
@@ -183,29 +143,17 @@ module ObjC.AVFoundation.AVCapturePhotoOutput
   , setPortraitEffectsMatteDeliveryEnabledSelector
   , setPreparedPhotoSettingsArray_completionHandlerSelector
   , setPreservesLivePhotoCaptureSuspendedOnSessionStopSelector
-  , setResponsiveCaptureEnabledSelector
   , setVirtualDeviceConstituentPhotoDeliveryEnabledSelector
-  , setZeroShutterLagEnabledSelector
-  , shutterSoundSuppressionSupportedSelector
   , stillImageStabilizationSupportedSelector
   , supportedFlashModesSelector
   , supportedPhotoCodecTypesForFileTypeSelector
   , supportedPhotoPixelFormatTypesForFileTypeSelector
-  , supportedRawPhotoCodecTypesForRawPhotoPixelFormatType_fileTypeSelector
   , supportedRawPhotoPixelFormatTypesForFileTypeSelector
   , virtualDeviceConstituentPhotoDeliveryEnabledSelector
   , virtualDeviceConstituentPhotoDeliverySupportedSelector
   , virtualDeviceFusionSupportedSelector
-  , zeroShutterLagEnabledSelector
-  , zeroShutterLagSupportedSelector
 
   -- * Enum types
-  , AVCapturePhotoOutputCaptureReadiness(AVCapturePhotoOutputCaptureReadiness)
-  , pattern AVCapturePhotoOutputCaptureReadinessSessionNotRunning
-  , pattern AVCapturePhotoOutputCaptureReadinessReady
-  , pattern AVCapturePhotoOutputCaptureReadinessNotReadyMomentarily
-  , pattern AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForCapture
-  , pattern AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForProcessing
   , AVCapturePhotoQualityPrioritization(AVCapturePhotoQualityPrioritization)
   , pattern AVCapturePhotoQualityPrioritizationSpeed
   , pattern AVCapturePhotoQualityPrioritizationBalanced
@@ -245,11 +193,11 @@ new  =
 --
 -- @delegate@ — An object conforming to the AVCapturePhotoCaptureDelegate protocol. This object's delegate methods are called back as the photo advances from capture to processing to finished delivery. May not be nil.
 --
--- This method initiates a photo capture. The receiver copies your provided settings to prevent unintentional mutation. It is illegal to re-use settings. The receiver throws an NSInvalidArgumentException if your settings.uniqueID matches that of any previously used settings. This method is used to initiate all flavors of photo capture: single photo, RAW capture with or without a processed image (such as a JPEG), bracketed capture, and Live Photo.
+-- This method initiates a photo capture. The receiver copies your provided settings to prevent unintentional mutation. It is illegal to re-use settings. The receiver throws a NSInvalidArgumentException if your settings.uniqueID matches that of any previously used settings. This method is used to initiate all flavors of photo capture: single photo, RAW capture with or without a processed image (such as a JPEG), bracketed capture, and Live Photo.
 --
 -- Clients need not wait for a capture photo request to complete before issuing another request. This is true for single photo captures as well as Live Photos, where movie complements of adjacent photo captures are allowed to overlap.
 --
--- This method validates your settings and enforces the following rules in order to ensure deterministic behavior. If any of these rules are violated, a NSInvalidArgumentException is thrown.    RAW rules:        See +isBayerRAWPixelFormat: and +isAppleProRAWPixelFormat: on the difference between Bayer RAW and Apple ProRAW pixel formats.        Common RAW rules:        - If rawPhotoPixelFormatType is non-zero, it must be present in the receiver's -availableRawPhotoPixelFormatTypes array.        - If rawPhotoPixelFormatType is non-zero, your delegate must respond to -captureOutput:didFinishProcessingRawPhotoSampleBuffer:previewPhotoSampleBuffer:resolvedSettings:bracketSettings:error:.        - If rawPhotoPixelFormatType is non-zero, highResolutionPhotoEnabled may be YES or NO, but the setting only applies to the processed image, if you've specified one.        - If rawPhotoPixelFormatType is non-zero, constantColorEnabled must be set to NO.        - If rawFileType is specified, it must be present in -availableRawPhotoFileTypes and must support the rawPhotoPixelFormatType specified using -supportedRawPhotoPixelFormatTypesForFileType:.        Bayer RAW rules (isBayerRAWPixelFormat: returns yes for rawPhotoPixelFormatType):        - photoQualityPrioritization must be set to AVCapturePhotoQualityPrioritizationSpeed (deprecated autoStillImageStabilizationEnabled must be set to NO).        - the videoZoomFactor of the source device and the videoScaleAndCropFactor of the photo output's video connection must both be 1.0. Ensure no zoom is applied before requesting a RAW capture, and don't change the zoom during RAW capture.        Apple ProRAW rules (isAppleProRAWPixelFormat: returns yes for rawPhotoPixelFormatType):        - livePhotoMovieFileURL must be nil in AVCapturePhotoSettings settings        - autoContentAwareDistortionCorrectionEnabled will automatically be disabled in AVCapturePhotoSettings        - autoRedEyeReductionEnabled will automatically be disabled in AVCapturePhotoSettings        - portraitEffectsMatteDeliveryEnabled will automatically be disabled in AVCapturePhotoSettings        - enabledSemanticSegmentationMatteTypes will automatically be cleared in AVCapturePhotoSettings    Processed Format rules:        - If format is non-nil, a kCVPixelBufferPixelFormatTypeKey or AVVideoCodecKey must be present. You cannot specify both.        - If format has a kCVPixelBufferPixelFormatTypeKey, its value must be present in the receiver's -availablePhotoPixelFormatTypes array.        - If format has an AVVideoCodecKey, its value must be present in the receiver's -availablePhotoCodecTypes array.        - If format is non-nil, your delegate must respond to -captureOutput:didFinishProcessingPhotoSampleBuffer:previewPhotoSampleBuffer:resolvedSettings:bracketSettings:error:.        - If processedFileType is specified, it must be present in -availablePhotoFileTypes and must support the format's specified kCVPixelBufferPixelFormatTypeKey (using -supportedPhotoPixelFormatTypesForFileType:) or AVVideoCodecKey (using -supportedPhotoCodecTypesForFileType:).        - The photoQualityPrioritization you specify may not be a greater number than the photo output's maxPhotoQualityPrioritization. You must set your AVCapturePhotoOutput maxPhotoQualityPrioritization up front.    Flash rules:        - The specified flashMode must be present in the receiver's -supportedFlashModes array.    Live Photo rules:        - The receiver's livePhotoCaptureEnabled must be YES if settings.livePhotoMovieURL is non-nil.        - If settings.livePhotoMovieURL is non-nil, the receiver's livePhotoCaptureSuspended property must be set to NO.        - If settings.livePhotoMovieURL is non-nil, it must be a file URL that's accessible to your app's sandbox.        - If settings.livePhotoMovieURL is non-nil, your delegate must respond to -captureOutput:didFinishProcessingLivePhotoToMovieFileAtURL:duration:photoDisplayTime:resolvedSettings:error:.    Bracketed capture rules:        - bracketedSettings.count must be <= the receiver's maxBracketedCapturePhotoCount property.        - For manual exposure brackets, ISO value must be within the source device activeFormat's minISO and maxISO values.        - For manual exposure brackets, exposureDuration value must be within the source device activeFormat's minExposureDuration and maxExposureDuration values.        - For auto exposure brackets, exposureTargetBias value must be within the source device's minExposureTargetBias and maxExposureTargetBias values.    Deferred Photo Delivery rules:     - If the receiver's autoDeferredPhotoDeliveryEnabled is YES, your delegate must respond to -captureOutput:didFinishCapturingDeferredPhotoProxy:error:.     - The maxPhotoDimensions setting for 24MP (5712, 4284), when supported, is only serviced as 24MP via deferred photo delivery.    Color space rules:        - Photo capture is not supported when AVCaptureDevice has selected AVCaptureColorSpace_AppleLog or AVCaptureColorSpace_AppleLog2 as color space.
+-- This method validates your settings and enforces the following rules in order to ensure deterministic behavior. If any of these rules are violated, a NSInvalidArgumentException is thrown.    RAW rules:        See +isBayerRAWPixelFormat: and +isAppleProRAWPixelFormat: on the difference between Bayer RAW and Apple ProRAW pixel formats.        Common RAW rules:        - If rawPhotoPixelFormatType is non-zero, it must be present in the receiver's -availableRawPhotoPixelFormatTypes array.        - If rawPhotoPixelFormatType is non-zero, your delegate must respond to -captureOutput:didFinishProcessingRawPhotoSampleBuffer:previewPhotoSampleBuffer:resolvedSettings:bracketSettings:error:.        - If rawPhotoPixelFormatType is non-zero, highResolutionPhotoEnabled may be YES or NO, but the setting only applies to the processed image, if you've specified one.        - If rawFileType is specified, it must be present in -availableRawPhotoFileTypes and must support the rawPhotoPixelFormatType specified using -supportedRawPhotoPixelFormatTypesForFileType:.        Bayer RAW rules (isBayerRAWPixelFormat: returns yes for rawPhotoPixelFormatType):        - photoQualityPrioritization must be set to AVCapturePhotoQualityPrioritizationSpeed (deprecated autoStillImageStabilizationEnabled must be set to NO).        - the videoZoomFactor of the source device and the videoScaleAndCropFactor of the photo output's video connection must both be 1.0. Ensure no zoom is applied before requesting a RAW capture, and don't change the zoom during RAW capture.        Apple ProRAW rules (isAppleProRAWPixelFormat: returns yes for rawPhotoPixelFormatType):        - livePhotoMovieFileURL must be nil in AVCapturePhotoSettings settings        - autoContentAwareDistortionCorrectionEnabled will automatically be disabled in AVCapturePhotoSettings        - autoRedEyeReductionEnabled will automatically be disabled in AVCapturePhotoSettings        - portraitEffectsMatteDeliveryEnabled will automatically be disabled in AVCapturePhotoSettings        - enabledSemanticSegmentationMatteTypes will automatically be cleared in AVCapturePhotoSettings    Processed Format rules:        - If format is non-nil, a kCVPixelBufferPixelFormatTypeKey or AVVideoCodecKey must be present, and both may not be present.        - If format has a kCVPixelBufferPixelFormatTypeKey, its value must be present in the receiver's -availablePhotoPixelFormatTypes array.        - If format has a AVVideoCodecKey, its value must be present in the receiver's -availablePhotoCodecTypes array.        - If format is non-nil, your delegate must respond to -captureOutput:didFinishProcessingPhotoSampleBuffer:previewPhotoSampleBuffer:resolvedSettings:bracketSettings:error:.        - If processedFileType is specified, it must be present in -availablePhotoFileTypes and must support the format's specified kCVPixelBufferPixelFormatTypeKey (using -supportedPhotoPixelFormatTypesForFileType:) or AVVideoCodecKey (using -supportedPhotoCodecTypesForFileType:).        - The photoQualityPrioritization you specify may not be a greater number than the photo output's maxPhotoQualityPrioritization. You must set your AVCapturePhotoOutput maxPhotoQualityPrioritization up front.    Flash rules:        - The specified flashMode must be present in the receiver's -supportedFlashModes array.    Live Photo rules:        - The receiver's livePhotoCaptureEnabled must be YES if settings.livePhotoMovieURL is non-nil.        - If settings.livePhotoMovieURL is non-nil, the receiver's livePhotoCaptureSuspended property must be set to NO.        - If settings.livePhotoMovieURL is non-nil, it must be a file URL that's accessible to your app's sandbox.        - If settings.livePhotoMovieURL is non-nil, your delegate must respond to -captureOutput:didFinishProcessingLivePhotoToMovieFileAtURL:duration:photoDisplayTime:resolvedSettings:error:.    Bracketed capture rules:        - bracketedSettings.count must be <= the receiver's maxBracketedCapturePhotoCount property.        - For manual exposure brackets, ISO value must be within the source device activeFormat's minISO and maxISO values.        - For manual exposure brackets, exposureDuration value must be within the source device activeFormat's minExposureDuration and maxExposureDuration values.        - For auto exposure brackets, exposureTargetBias value must be within the source device's minExposureTargetBias and maxExposureTargetBias values.
 --
 -- ObjC selector: @- capturePhotoWithSettings:delegate:@
 capturePhotoWithSettings_delegate :: (IsAVCapturePhotoOutput avCapturePhotoOutput, IsAVCapturePhotoSettings settings) => avCapturePhotoOutput -> settings -> RawId -> IO ()
@@ -334,23 +282,6 @@ supportedPhotoPixelFormatTypesForFileType avCapturePhotoOutput fileType =
 supportedPhotoCodecTypesForFileType :: (IsAVCapturePhotoOutput avCapturePhotoOutput, IsNSString fileType) => avCapturePhotoOutput -> fileType -> IO (Id NSArray)
 supportedPhotoCodecTypesForFileType avCapturePhotoOutput fileType =
   sendMessage avCapturePhotoOutput supportedPhotoCodecTypesForFileTypeSelector (toNSString fileType)
-
--- | supportedRawPhotoCodecTypesForRawPhotoPixelFormatType:fileType:
---
--- An array of AVVideoCodecType values that are currently supported by the receiver for a particular file container and raw pixel format.
---
--- @pixelFormatType@ — A Bayer RAW or Apple ProRAW pixel format OSType (defined in CVPixelBuffer.h).
---
--- @fileType@ — The AVFileType container type intended for storage of a photo which can be retrieved from -availableRawPhotoFileTypes.
---
--- Returns: An array of AVVideoCodecType values supported by the receiver for the file type and and raw pixel format in question.
---
--- If you wish to capture a raw photo for storage using a Bayer RAW or Apple ProRAW pixel format and to be stored in a file container, such as DNG, you must ensure that the codec type you request is valid for that file and pixel format type. If no RAW codec types are supported for a given file type and/or pixel format type, an empty array is returned. If you have not yet added your receiver to an AVCaptureSession with a video source, an empty array is returned.
---
--- ObjC selector: @- supportedRawPhotoCodecTypesForRawPhotoPixelFormatType:fileType:@
-supportedRawPhotoCodecTypesForRawPhotoPixelFormatType_fileType :: (IsAVCapturePhotoOutput avCapturePhotoOutput, IsNSString fileType) => avCapturePhotoOutput -> CUInt -> fileType -> IO (Id NSArray)
-supportedRawPhotoCodecTypesForRawPhotoPixelFormatType_fileType avCapturePhotoOutput pixelFormatType fileType =
-  sendMessage avCapturePhotoOutput supportedRawPhotoCodecTypesForRawPhotoPixelFormatType_fileTypeSelector pixelFormatType (toNSString fileType)
 
 -- | supportedRawPhotoPixelFormatTypesForFileType:
 --
@@ -438,17 +369,6 @@ availablePhotoCodecTypes :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCap
 availablePhotoCodecTypes avCapturePhotoOutput =
   sendMessage avCapturePhotoOutput availablePhotoCodecTypesSelector
 
--- | availableRawPhotoCodecTypes
---
--- An array of available AVVideoCodecType values that may be used for the raw photo.
---
--- Not all codecs can be used for all rawPixelFormatType values and this call will show all of the possible codecs available. To check if a codec is available for a specific rawPixelFormatType and rawFileType, one should use supportedRawPhotoCodecTypesForRawPhotoPixelFormatType:fileType:.
---
--- ObjC selector: @- availableRawPhotoCodecTypes@
-availableRawPhotoCodecTypes :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO (Id NSArray)
-availableRawPhotoCodecTypes avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput availableRawPhotoCodecTypesSelector
-
 -- | appleProRAWSupported
 --
 -- Indicates whether the current configuration supports Apple ProRAW pixel formats.
@@ -501,7 +421,7 @@ availableRawPhotoPixelFormatTypes avCapturePhotoOutput =
 --
 -- An array of AVFileType values that are currently supported by the receiver.
 --
--- If you wish to capture a photo that is formatted for a particular file container, such as HEIF or DICOM, you must ensure that the fileType you desire is present in the receiver's availablePhotoFileTypes array. If you've not yet added your receiver to an AVCaptureSession with a video source, no file types are available. This property is key-value observable.
+-- If you wish to capture a photo that is formatted for a particular file container, such as HEIF, you must ensure that the fileType you desire is present in the receiver's availablePhotoFileTypes array. If you've not yet added your receiver to an AVCaptureSession with a video source, no file types are available. This property is key-value observable.
 --
 -- ObjC selector: @- availablePhotoFileTypes@
 availablePhotoFileTypes :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO (Id NSArray)
@@ -548,85 +468,6 @@ maxPhotoQualityPrioritization avCapturePhotoOutput =
 setMaxPhotoQualityPrioritization :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> AVCapturePhotoQualityPrioritization -> IO ()
 setMaxPhotoQualityPrioritization avCapturePhotoOutput value =
   sendMessage avCapturePhotoOutput setMaxPhotoQualityPrioritizationSelector value
-
--- | fastCapturePrioritizationSupported
---
--- Specifies whether fast capture prioritization is supported.
---
--- Fast capture prioritization allows capture quality to be automatically reduced from the selected AVCapturePhotoQualityPrioritization to ensure the photo output can keep up when captures are requested in rapid succession. Fast capture prioritization is only supported for certain AVCaptureSession sessionPresets and AVCaptureDevice activeFormats and only when responsiveCaptureEnabled is YES. When switching cameras or formats this property may change. When this property changes from YES to NO, fastCapturePrioritizationEnabled also reverts to NO. If you've previously opted in for fast capture prioritization and then change configurations, you may need to set fastCapturePrioritizationEnabled = YES again.
---
--- ObjC selector: @- fastCapturePrioritizationSupported@
-fastCapturePrioritizationSupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-fastCapturePrioritizationSupported avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput fastCapturePrioritizationSupportedSelector
-
--- | fastCapturePrioritizationSupported
---
--- Specifies whether fast capture prioritization is supported.
---
--- Fast capture prioritization allows capture quality to be automatically reduced from the selected AVCapturePhotoQualityPrioritization to ensure the photo output can keep up when captures are requested in rapid succession. Fast capture prioritization is only supported for certain AVCaptureSession sessionPresets and AVCaptureDevice activeFormats and only when responsiveCaptureEnabled is YES. When switching cameras or formats this property may change. When this property changes from YES to NO, fastCapturePrioritizationEnabled also reverts to NO. If you've previously opted in for fast capture prioritization and then change configurations, you may need to set fastCapturePrioritizationEnabled = YES again.
---
--- ObjC selector: @- setFastCapturePrioritizationSupported:@
-setFastCapturePrioritizationSupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> Bool -> IO ()
-setFastCapturePrioritizationSupported avCapturePhotoOutput value =
-  sendMessage avCapturePhotoOutput setFastCapturePrioritizationSupportedSelector value
-
--- | fastCapturePrioritizationEnabled
---
--- Specifies whether fast capture prioritization is enabled.
---
--- This property defaults to NO. This property may only be set to YES if fastCapturePrioritizationSupported is YES, otherwise an NSInvalidArgumentException is thrown. By setting this property to YES, the photo output prepares itself to automatically reduce capture quality from the selected AVCapturePhotoQualityPrioritization when needed to keep up with rapid capture requests. In many cases the slightly reduced quality is preferable to missing the moment entirely. If you intend to use fast capture prioritization, you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- fastCapturePrioritizationEnabled@
-fastCapturePrioritizationEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-fastCapturePrioritizationEnabled avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput fastCapturePrioritizationEnabledSelector
-
--- | fastCapturePrioritizationEnabled
---
--- Specifies whether fast capture prioritization is enabled.
---
--- This property defaults to NO. This property may only be set to YES if fastCapturePrioritizationSupported is YES, otherwise an NSInvalidArgumentException is thrown. By setting this property to YES, the photo output prepares itself to automatically reduce capture quality from the selected AVCapturePhotoQualityPrioritization when needed to keep up with rapid capture requests. In many cases the slightly reduced quality is preferable to missing the moment entirely. If you intend to use fast capture prioritization, you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- setFastCapturePrioritizationEnabled:@
-setFastCapturePrioritizationEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> Bool -> IO ()
-setFastCapturePrioritizationEnabled avCapturePhotoOutput value =
-  sendMessage avCapturePhotoOutput setFastCapturePrioritizationEnabledSelector value
-
--- | autoDeferredPhotoDeliverySupported
---
--- Indicates whether the deferred photo delivery feature is supported by the receiver.
---
--- This property may change as the session's -sessionPreset or source device's -activeFormat change. When deferred photo delivery is not supported, your capture requests always resolve their AVCaptureResolvedPhotoSettings.deferredPhotoProxyDimensions to { 0, 0 }. This property is key-value observable.
---
--- Automatic deferred photo delivery can produce a lightweight photo representation, called a "proxy", at the time of capture that can later be processed to completion while improving camera responsiveness.  When it's appropriate for the receiver to deliver a photo proxy for deferred processing, the delegate callback -captureOutput:didFinishCapturingDeferredPhotoProxy:error: will be invoked instead of -captureOutput:didFinishProcessingPhoto:error:.  See the documentation for AVCaptureDeferredPhotoProxy for more details.
---
--- ObjC selector: @- autoDeferredPhotoDeliverySupported@
-autoDeferredPhotoDeliverySupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-autoDeferredPhotoDeliverySupported avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput autoDeferredPhotoDeliverySupportedSelector
-
--- | autoDeferredPhotoDeliveryEnabled
---
--- Specifies whether automatic deferred photo delivery is enabled.
---
--- Setting this value to either YES or NO requires a lengthy reconfiguration of the capture pipeline, so you should set this property before calling -[AVCaptureSession startRunning].  Setting this property to YES throws an NSInvalidArgumentException if autoDeferredPhotoDeliverySupported is NO.
---
--- ObjC selector: @- autoDeferredPhotoDeliveryEnabled@
-autoDeferredPhotoDeliveryEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-autoDeferredPhotoDeliveryEnabled avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput autoDeferredPhotoDeliveryEnabledSelector
-
--- | autoDeferredPhotoDeliveryEnabled
---
--- Specifies whether automatic deferred photo delivery is enabled.
---
--- Setting this value to either YES or NO requires a lengthy reconfiguration of the capture pipeline, so you should set this property before calling -[AVCaptureSession startRunning].  Setting this property to YES throws an NSInvalidArgumentException if autoDeferredPhotoDeliverySupported is NO.
---
--- ObjC selector: @- setAutoDeferredPhotoDeliveryEnabled:@
-setAutoDeferredPhotoDeliveryEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> Bool -> IO ()
-setAutoDeferredPhotoDeliveryEnabled avCapturePhotoOutput value =
-  sendMessage avCapturePhotoOutput setAutoDeferredPhotoDeliveryEnabledSelector value
 
 -- | stillImageStabilizationSupported
 --
@@ -995,168 +836,6 @@ setContentAwareDistortionCorrectionEnabled :: IsAVCapturePhotoOutput avCapturePh
 setContentAwareDistortionCorrectionEnabled avCapturePhotoOutput value =
   sendMessage avCapturePhotoOutput setContentAwareDistortionCorrectionEnabledSelector value
 
--- | zeroShutterLagSupported
---
--- A BOOL value specifying whether zero shutter lag is supported.
---
--- This property returns YES if the session's current configuration allows zero shutter lag. When switching cameras or formats, setting depthDataDeliveryEnabled, or setting virtualDeviceConstituentPhotoDeliveryEnabled this property may change. When this property changes from YES to NO, zeroShutterLagEnabled also reverts to NO. This property is key-value observable.
---
--- ObjC selector: @- zeroShutterLagSupported@
-zeroShutterLagSupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-zeroShutterLagSupported avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput zeroShutterLagSupportedSelector
-
--- | zeroShutterLagEnabled
---
--- A BOOL value specifying whether the output is set up to support zero shutter lag.
---
--- This property may only be set to YES if zeroShutterLagSupported is YES, otherwise an NSInvalidArgumentException is thrown. For apps linked on or after iOS 17 zero shutter lag is automatically enabled when supported. Enabling zero shutter lag reduces or eliminates shutter lag when using AVCapturePhotoQualityPrioritizationBalanced or Quality at the cost of additional memory usage by the photo output. The timestamp of the AVCapturePhoto may be slightly earlier than when -capturePhotoWithSettings:delegate: was called. To minimize camera shake from the user's tapping gesture it is recommended that -capturePhotoWithSettings:delegate: be called as early as possible when handling the touch down event. Zero shutter lag isn't available when using manual exposure or bracketed capture. Changing this property requires a lengthy reconfiguration of the capture render pipeline, so you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- zeroShutterLagEnabled@
-zeroShutterLagEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-zeroShutterLagEnabled avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput zeroShutterLagEnabledSelector
-
--- | zeroShutterLagEnabled
---
--- A BOOL value specifying whether the output is set up to support zero shutter lag.
---
--- This property may only be set to YES if zeroShutterLagSupported is YES, otherwise an NSInvalidArgumentException is thrown. For apps linked on or after iOS 17 zero shutter lag is automatically enabled when supported. Enabling zero shutter lag reduces or eliminates shutter lag when using AVCapturePhotoQualityPrioritizationBalanced or Quality at the cost of additional memory usage by the photo output. The timestamp of the AVCapturePhoto may be slightly earlier than when -capturePhotoWithSettings:delegate: was called. To minimize camera shake from the user's tapping gesture it is recommended that -capturePhotoWithSettings:delegate: be called as early as possible when handling the touch down event. Zero shutter lag isn't available when using manual exposure or bracketed capture. Changing this property requires a lengthy reconfiguration of the capture render pipeline, so you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- setZeroShutterLagEnabled:@
-setZeroShutterLagEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> Bool -> IO ()
-setZeroShutterLagEnabled avCapturePhotoOutput value =
-  sendMessage avCapturePhotoOutput setZeroShutterLagEnabledSelector value
-
--- | responsiveCaptureSupported
---
--- A BOOL value specifying whether responsive capture is supported.
---
--- Enabling responsive capture increases peak and sustained capture rates, and reduces shutter lag at the cost of additional memory usage by the photo output. This property returns YES if the session's current configuration allows responsive capture. When switching cameras or formats, enabling depth data delivery, or enabling zero shutter lag this property may change. Responsive capture is only supported when zero shutter lag is enabled. When this property changes from YES to NO, responsiveCaptureEnabled also reverts to NO. This property is key-value observable.
---
--- ObjC selector: @- responsiveCaptureSupported@
-responsiveCaptureSupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-responsiveCaptureSupported avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput responsiveCaptureSupportedSelector
-
--- | responsiveCaptureEnabled
---
--- A BOOL value specifying whether the photo output is set up to support responsive capture.
---
--- This property may only be set to YES if responsiveCaptureSupported is YES, otherwise an NSInvalidArgumentException is thrown. When responsiveCaptureEnabled is YES the captureReadiness property should be used to determine whether new capture requests can be serviced in a reasonable time and whether the shutter control should be available to the user. Responsive capture adds buffering between the capture and photo processing stages which allows a new capture to start before processing has completed for the previous capture, so be prepared to handle -captureOutput:willBeginCaptureForResolvedSettings: being called before the -captureOutput:didFinishProcessingPhoto: for the prior requests. Processed photos continue to be delivered in the order they were captured. To minimize camera shake from the user's tapping gesture it is recommended that -capturePhotoWithSettings:delegate: be called as early as possible when handling the touch down event. Enabling responsive capture allows the fast capture prioritization feature to be used, which further increases capture rates and reduces preview and recording disruptions. See the fastCapturePrioritizationEnabled property. When requesting uncompressed output using kCVPixelBufferPixelFormatTypeKey in AVCapturePhotoSetting.format the AVCapturePhoto's pixelBuffer is allocated from a pool with enough capacity for that request only, and overlap between capture and processing is disabled. The client must release the AVCapturePhoto and references to the pixelBuffer before capturing again and the pixelBuffer's IOSurface must also no longer be in use. Changing this property requires a lengthy reconfiguration of the capture render pipeline, so you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- responsiveCaptureEnabled@
-responsiveCaptureEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-responsiveCaptureEnabled avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput responsiveCaptureEnabledSelector
-
--- | responsiveCaptureEnabled
---
--- A BOOL value specifying whether the photo output is set up to support responsive capture.
---
--- This property may only be set to YES if responsiveCaptureSupported is YES, otherwise an NSInvalidArgumentException is thrown. When responsiveCaptureEnabled is YES the captureReadiness property should be used to determine whether new capture requests can be serviced in a reasonable time and whether the shutter control should be available to the user. Responsive capture adds buffering between the capture and photo processing stages which allows a new capture to start before processing has completed for the previous capture, so be prepared to handle -captureOutput:willBeginCaptureForResolvedSettings: being called before the -captureOutput:didFinishProcessingPhoto: for the prior requests. Processed photos continue to be delivered in the order they were captured. To minimize camera shake from the user's tapping gesture it is recommended that -capturePhotoWithSettings:delegate: be called as early as possible when handling the touch down event. Enabling responsive capture allows the fast capture prioritization feature to be used, which further increases capture rates and reduces preview and recording disruptions. See the fastCapturePrioritizationEnabled property. When requesting uncompressed output using kCVPixelBufferPixelFormatTypeKey in AVCapturePhotoSetting.format the AVCapturePhoto's pixelBuffer is allocated from a pool with enough capacity for that request only, and overlap between capture and processing is disabled. The client must release the AVCapturePhoto and references to the pixelBuffer before capturing again and the pixelBuffer's IOSurface must also no longer be in use. Changing this property requires a lengthy reconfiguration of the capture render pipeline, so you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- setResponsiveCaptureEnabled:@
-setResponsiveCaptureEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> Bool -> IO ()
-setResponsiveCaptureEnabled avCapturePhotoOutput value =
-  sendMessage avCapturePhotoOutput setResponsiveCaptureEnabledSelector value
-
--- | captureReadiness
---
--- A value specifying whether the photo output is ready to respond to new capture requests in a timely manner.
---
--- This property can be key-value observed to enable and disable shutter button UI depending on whether the output is ready to capture, which is especially important when the responsiveCaptureEnabled property is YES. When interacting with AVCapturePhotoOutput on a background queue AVCapturePhotoOutputReadinessCoordinator should instead be used to observe readiness changes and perform UI updates. Capturing only when the output is ready limits the number of requests inflight to minimize shutter lag while maintaining the fastest shot to shot time. When the property returns a value other than Ready the output is not ready to capture and the shutter button should be disabled to prevent the user from initiating new requests. The output continues to accept requests when the captureReadiness property returns a value other than Ready, but the request may not be serviced for a longer period. The visual presentation of the shutter button can be customized based on the readiness value. When the user rapidly taps the shutter button the property may transition to NotReadyMomentarily for a brief period. Although the shutter button should be disabled during this period it is short lived enough that dimming or changing the appearance of the shutter is not recommended as it would be visually distracting to the user. Longer running capture types like flash or captures with AVCapturePhotoQualityPrioritizationQuality may prevent the output from capturing for an extended period, indicated by NotReadyWaitingForCapture or NotReadyWaitingForProcessing, which is appropriate to show by dimming or disabling the shutter button. For NotReadyWaitingForProcessing it is also appropriate to show a spinner or other indication that the shutter is busy.
---
--- ObjC selector: @- captureReadiness@
-captureReadiness :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO AVCapturePhotoOutputCaptureReadiness
-captureReadiness avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput captureReadinessSelector
-
--- | constantColorSupported
---
--- A BOOL value specifying whether constant color capture is supported.
---
--- An object's color in a photograph is affected by the light sources illuminating the scene, so the color of the same object photographed in warm light might look markedly different than in colder light. In some use cases, such ambient light induced color variation is undesirable, and the user may prefer an estimate of what these materials would look like under a standard light such as daylight (D65), regardless of the lighting conditions at the time the photograph was taken. Some devices are capable of producing such constant color photos.
---
--- Constant color captures require the flash to be fired and may require pre-flash sequence to determine the correct focus and exposure, therefore it might take several seconds to acquire a constant color photo. Due to this flash requirement, a constant color capture can only be taken with AVCaptureFlashModeAuto or AVCaptureFlashModeOn as the flash mode, otherwise an exception is thrown.
---
--- Constant color can only be achieved when the flash has a discernible effect on the scene so it may not perform well in bright conditions such as direct sunlight. Use the constantColorConfidenceMap property to examine the confidence level, and therefore the usefulness, of each region of a constant color photo.
---
--- Constant color should not be used in conjunction with locked or manual white balance.
---
--- This property returns YES if the session's current configuration allows photos to be captured with constant color. When switching cameras or formats this property may change. When this property changes from YES to NO, constantColorEnabled also reverts to NO. If you've previously opted in for constant color and then change configurations, you may need to set constantColorEnabled = YES again. This property is key-value observable.
---
--- ObjC selector: @- constantColorSupported@
-constantColorSupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-constantColorSupported avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput constantColorSupportedSelector
-
--- | constantColorEnabled
---
--- A BOOL value specifying whether the photo render pipeline is set up to perform constant color captures.
---
--- Default is NO. Set to YES to enable support for taking constant color photos. This property may only be set to YES if constantColorSupported is YES. Enabling constant color requires a lengthy reconfiguration of the capture render pipeline, so if you intend to capture constant color photos, you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- constantColorEnabled@
-constantColorEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-constantColorEnabled avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput constantColorEnabledSelector
-
--- | constantColorEnabled
---
--- A BOOL value specifying whether the photo render pipeline is set up to perform constant color captures.
---
--- Default is NO. Set to YES to enable support for taking constant color photos. This property may only be set to YES if constantColorSupported is YES. Enabling constant color requires a lengthy reconfiguration of the capture render pipeline, so if you intend to capture constant color photos, you should set this property to YES before calling -[AVCaptureSession startRunning] or within -[AVCaptureSession beginConfiguration] and -[AVCaptureSession commitConfiguration] while running.
---
--- ObjC selector: @- setConstantColorEnabled:@
-setConstantColorEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> Bool -> IO ()
-setConstantColorEnabled avCapturePhotoOutput value =
-  sendMessage avCapturePhotoOutput setConstantColorEnabledSelector value
-
--- | shutterSoundSuppressionSupported
---
--- Specifies whether suppressing the shutter sound is supported.
---
--- On iOS, this property returns NO in jurisdictions where shutter sound production cannot be disabled. On all other platforms, it always returns NO.
---
--- ObjC selector: @- shutterSoundSuppressionSupported@
-shutterSoundSuppressionSupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-shutterSoundSuppressionSupported avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput shutterSoundSuppressionSupportedSelector
-
--- | cameraSensorOrientationCompensationSupported
---
--- A read-only BOOL value indicating whether still image buffers may be rotated to match the sensor orientation of earlier generation hardware.
---
--- Value is YES for camera configurations which support compensation for the sensor orientation, which is applied to HEIC, JPEG, and uncompressed processed photos only; compensation is never applied to Bayer RAW or Apple ProRaw captures.
---
--- ObjC selector: @- cameraSensorOrientationCompensationSupported@
-cameraSensorOrientationCompensationSupported :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-cameraSensorOrientationCompensationSupported avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput cameraSensorOrientationCompensationSupportedSelector
-
--- | cameraSensorOrientationCompensationEnabled
---
--- A BOOL value indicating that still image buffers will be rotated to match the sensor orientation of earlier generation hardware.
---
--- Default is YES when cameraSensorOrientationCompensationSupported is YES. Set to NO if your app does not require sensor orientation compensation.
---
--- ObjC selector: @- cameraSensorOrientationCompensationEnabled@
-cameraSensorOrientationCompensationEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> IO Bool
-cameraSensorOrientationCompensationEnabled avCapturePhotoOutput =
-  sendMessage avCapturePhotoOutput cameraSensorOrientationCompensationEnabledSelector
-
--- | cameraSensorOrientationCompensationEnabled
---
--- A BOOL value indicating that still image buffers will be rotated to match the sensor orientation of earlier generation hardware.
---
--- Default is YES when cameraSensorOrientationCompensationSupported is YES. Set to NO if your app does not require sensor orientation compensation.
---
--- ObjC selector: @- setCameraSensorOrientationCompensationEnabled:@
-setCameraSensorOrientationCompensationEnabled :: IsAVCapturePhotoOutput avCapturePhotoOutput => avCapturePhotoOutput -> Bool -> IO ()
-setCameraSensorOrientationCompensationEnabled avCapturePhotoOutput value =
-  sendMessage avCapturePhotoOutput setCameraSensorOrientationCompensationEnabledSelector value
-
 -- | depthDataDeliverySupported
 --
 -- A BOOL value specifying whether depth data delivery is supported.
@@ -1292,10 +971,6 @@ supportedPhotoPixelFormatTypesForFileTypeSelector = mkSelector "supportedPhotoPi
 supportedPhotoCodecTypesForFileTypeSelector :: Selector '[Id NSString] (Id NSArray)
 supportedPhotoCodecTypesForFileTypeSelector = mkSelector "supportedPhotoCodecTypesForFileType:"
 
--- | @Selector@ for @supportedRawPhotoCodecTypesForRawPhotoPixelFormatType:fileType:@
-supportedRawPhotoCodecTypesForRawPhotoPixelFormatType_fileTypeSelector :: Selector '[CUInt, Id NSString] (Id NSArray)
-supportedRawPhotoCodecTypesForRawPhotoPixelFormatType_fileTypeSelector = mkSelector "supportedRawPhotoCodecTypesForRawPhotoPixelFormatType:fileType:"
-
 -- | @Selector@ for @supportedRawPhotoPixelFormatTypesForFileType:@
 supportedRawPhotoPixelFormatTypesForFileTypeSelector :: Selector '[Id NSString] (Id NSArray)
 supportedRawPhotoPixelFormatTypesForFileTypeSelector = mkSelector "supportedRawPhotoPixelFormatTypesForFileType:"
@@ -1319,10 +994,6 @@ availablePhotoPixelFormatTypesSelector = mkSelector "availablePhotoPixelFormatTy
 -- | @Selector@ for @availablePhotoCodecTypes@
 availablePhotoCodecTypesSelector :: Selector '[] (Id NSArray)
 availablePhotoCodecTypesSelector = mkSelector "availablePhotoCodecTypes"
-
--- | @Selector@ for @availableRawPhotoCodecTypes@
-availableRawPhotoCodecTypesSelector :: Selector '[] (Id NSArray)
-availableRawPhotoCodecTypesSelector = mkSelector "availableRawPhotoCodecTypes"
 
 -- | @Selector@ for @appleProRAWSupported@
 appleProRAWSupportedSelector :: Selector '[] Bool
@@ -1355,34 +1026,6 @@ maxPhotoQualityPrioritizationSelector = mkSelector "maxPhotoQualityPrioritizatio
 -- | @Selector@ for @setMaxPhotoQualityPrioritization:@
 setMaxPhotoQualityPrioritizationSelector :: Selector '[AVCapturePhotoQualityPrioritization] ()
 setMaxPhotoQualityPrioritizationSelector = mkSelector "setMaxPhotoQualityPrioritization:"
-
--- | @Selector@ for @fastCapturePrioritizationSupported@
-fastCapturePrioritizationSupportedSelector :: Selector '[] Bool
-fastCapturePrioritizationSupportedSelector = mkSelector "fastCapturePrioritizationSupported"
-
--- | @Selector@ for @setFastCapturePrioritizationSupported:@
-setFastCapturePrioritizationSupportedSelector :: Selector '[Bool] ()
-setFastCapturePrioritizationSupportedSelector = mkSelector "setFastCapturePrioritizationSupported:"
-
--- | @Selector@ for @fastCapturePrioritizationEnabled@
-fastCapturePrioritizationEnabledSelector :: Selector '[] Bool
-fastCapturePrioritizationEnabledSelector = mkSelector "fastCapturePrioritizationEnabled"
-
--- | @Selector@ for @setFastCapturePrioritizationEnabled:@
-setFastCapturePrioritizationEnabledSelector :: Selector '[Bool] ()
-setFastCapturePrioritizationEnabledSelector = mkSelector "setFastCapturePrioritizationEnabled:"
-
--- | @Selector@ for @autoDeferredPhotoDeliverySupported@
-autoDeferredPhotoDeliverySupportedSelector :: Selector '[] Bool
-autoDeferredPhotoDeliverySupportedSelector = mkSelector "autoDeferredPhotoDeliverySupported"
-
--- | @Selector@ for @autoDeferredPhotoDeliveryEnabled@
-autoDeferredPhotoDeliveryEnabledSelector :: Selector '[] Bool
-autoDeferredPhotoDeliveryEnabledSelector = mkSelector "autoDeferredPhotoDeliveryEnabled"
-
--- | @Selector@ for @setAutoDeferredPhotoDeliveryEnabled:@
-setAutoDeferredPhotoDeliveryEnabledSelector :: Selector '[Bool] ()
-setAutoDeferredPhotoDeliveryEnabledSelector = mkSelector "setAutoDeferredPhotoDeliveryEnabled:"
 
 -- | @Selector@ for @stillImageStabilizationSupported@
 stillImageStabilizationSupportedSelector :: Selector '[] Bool
@@ -1515,62 +1158,6 @@ contentAwareDistortionCorrectionEnabledSelector = mkSelector "contentAwareDistor
 -- | @Selector@ for @setContentAwareDistortionCorrectionEnabled:@
 setContentAwareDistortionCorrectionEnabledSelector :: Selector '[Bool] ()
 setContentAwareDistortionCorrectionEnabledSelector = mkSelector "setContentAwareDistortionCorrectionEnabled:"
-
--- | @Selector@ for @zeroShutterLagSupported@
-zeroShutterLagSupportedSelector :: Selector '[] Bool
-zeroShutterLagSupportedSelector = mkSelector "zeroShutterLagSupported"
-
--- | @Selector@ for @zeroShutterLagEnabled@
-zeroShutterLagEnabledSelector :: Selector '[] Bool
-zeroShutterLagEnabledSelector = mkSelector "zeroShutterLagEnabled"
-
--- | @Selector@ for @setZeroShutterLagEnabled:@
-setZeroShutterLagEnabledSelector :: Selector '[Bool] ()
-setZeroShutterLagEnabledSelector = mkSelector "setZeroShutterLagEnabled:"
-
--- | @Selector@ for @responsiveCaptureSupported@
-responsiveCaptureSupportedSelector :: Selector '[] Bool
-responsiveCaptureSupportedSelector = mkSelector "responsiveCaptureSupported"
-
--- | @Selector@ for @responsiveCaptureEnabled@
-responsiveCaptureEnabledSelector :: Selector '[] Bool
-responsiveCaptureEnabledSelector = mkSelector "responsiveCaptureEnabled"
-
--- | @Selector@ for @setResponsiveCaptureEnabled:@
-setResponsiveCaptureEnabledSelector :: Selector '[Bool] ()
-setResponsiveCaptureEnabledSelector = mkSelector "setResponsiveCaptureEnabled:"
-
--- | @Selector@ for @captureReadiness@
-captureReadinessSelector :: Selector '[] AVCapturePhotoOutputCaptureReadiness
-captureReadinessSelector = mkSelector "captureReadiness"
-
--- | @Selector@ for @constantColorSupported@
-constantColorSupportedSelector :: Selector '[] Bool
-constantColorSupportedSelector = mkSelector "constantColorSupported"
-
--- | @Selector@ for @constantColorEnabled@
-constantColorEnabledSelector :: Selector '[] Bool
-constantColorEnabledSelector = mkSelector "constantColorEnabled"
-
--- | @Selector@ for @setConstantColorEnabled:@
-setConstantColorEnabledSelector :: Selector '[Bool] ()
-setConstantColorEnabledSelector = mkSelector "setConstantColorEnabled:"
-
--- | @Selector@ for @shutterSoundSuppressionSupported@
-shutterSoundSuppressionSupportedSelector :: Selector '[] Bool
-shutterSoundSuppressionSupportedSelector = mkSelector "shutterSoundSuppressionSupported"
-
--- | @Selector@ for @cameraSensorOrientationCompensationSupported@
-cameraSensorOrientationCompensationSupportedSelector :: Selector '[] Bool
-cameraSensorOrientationCompensationSupportedSelector = mkSelector "cameraSensorOrientationCompensationSupported"
-
--- | @Selector@ for @cameraSensorOrientationCompensationEnabled@
-cameraSensorOrientationCompensationEnabledSelector :: Selector '[] Bool
-cameraSensorOrientationCompensationEnabledSelector = mkSelector "cameraSensorOrientationCompensationEnabled"
-
--- | @Selector@ for @setCameraSensorOrientationCompensationEnabled:@
-setCameraSensorOrientationCompensationEnabledSelector :: Selector '[Bool] ()
-setCameraSensorOrientationCompensationEnabledSelector = mkSelector "setCameraSensorOrientationCompensationEnabled:"
 
 -- | @Selector@ for @depthDataDeliverySupported@
 depthDataDeliverySupportedSelector :: Selector '[] Bool

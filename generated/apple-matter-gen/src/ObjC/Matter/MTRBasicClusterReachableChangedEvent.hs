@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRBasicClusterReachableChangedEvent
   ( MTRBasicClusterReachableChangedEvent
   , IsMTRBasicClusterReachableChangedEvent(..)
+  , init_
+  , copyWithZone
   , reachableNewValue
   , setReachableNewValue
+  , copyWithZoneSelector
+  , initSelector
   , reachableNewValueSelector
   , setReachableNewValueSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRBasicClusterReachableChangedEvent mtrBasicClusterReachableChangedEvent => mtrBasicClusterReachableChangedEvent -> IO (Id MTRBasicClusterReachableChangedEvent)
+init_ mtrBasicClusterReachableChangedEvent =
+  sendOwnedMessage mtrBasicClusterReachableChangedEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBasicClusterReachableChangedEvent mtrBasicClusterReachableChangedEvent => mtrBasicClusterReachableChangedEvent -> Ptr () -> IO RawId
+copyWithZone mtrBasicClusterReachableChangedEvent zone =
+  sendOwnedMessage mtrBasicClusterReachableChangedEvent copyWithZoneSelector zone
+
 -- | @- reachableNewValue@
 reachableNewValue :: IsMTRBasicClusterReachableChangedEvent mtrBasicClusterReachableChangedEvent => mtrBasicClusterReachableChangedEvent -> IO (Id NSNumber)
 reachableNewValue mtrBasicClusterReachableChangedEvent =
@@ -39,6 +53,14 @@ setReachableNewValue mtrBasicClusterReachableChangedEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBasicClusterReachableChangedEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @reachableNewValue@
 reachableNewValueSelector :: Selector '[] (Id NSNumber)

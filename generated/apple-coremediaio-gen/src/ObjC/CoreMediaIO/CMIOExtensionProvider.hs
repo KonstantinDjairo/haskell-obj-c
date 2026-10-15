@@ -12,7 +12,6 @@ module ObjC.CoreMediaIO.CMIOExtensionProvider
   ( CMIOExtensionProvider
   , IsCMIOExtensionProvider(..)
   , startServiceWithProvider
-  , stopServiceWithProvider
   , init_
   , new
   , providerWithSource_clientQueue
@@ -20,7 +19,6 @@ module ObjC.CoreMediaIO.CMIOExtensionProvider
   , addDevice_error
   , removeDevice_error
   , notifyPropertiesChanged
-  , ignoreSIGTERM
   , source
   , clientQueue
   , connectedClients
@@ -29,7 +27,6 @@ module ObjC.CoreMediaIO.CMIOExtensionProvider
   , clientQueueSelector
   , connectedClientsSelector
   , devicesSelector
-  , ignoreSIGTERMSelector
   , initSelector
   , initWithSource_clientQueueSelector
   , newSelector
@@ -38,7 +35,6 @@ module ObjC.CoreMediaIO.CMIOExtensionProvider
   , removeDevice_errorSelector
   , sourceSelector
   , startServiceWithProviderSelector
-  , stopServiceWithProviderSelector
 
 
   ) where
@@ -64,19 +60,6 @@ startServiceWithProvider provider =
   do
     cls' <- getRequiredClass "CMIOExtensionProvider"
     sendClassMessage cls' startServiceWithProviderSelector (toCMIOExtensionProvider provider)
-
--- | stopServiceWithProvider:
---
--- Stops the CoreMediaIO Extension machinery.
---
--- This should only be called in very rare circumstances.  For example, if an extension is present on a system and there is no possible way that it would ever create a device instance. It is suggested that this be called as soon as possible in the provider's lifecycle, and that the provider's ignoreSIGTERM method be called first. After calling this method the extension should exit.
---
--- ObjC selector: @+ stopServiceWithProvider:@
-stopServiceWithProvider :: IsCMIOExtensionProvider provider => provider -> IO ()
-stopServiceWithProvider provider =
-  do
-    cls' <- getRequiredClass "CMIOExtensionProvider"
-    sendClassMessage cls' stopServiceWithProviderSelector (toCMIOExtensionProvider provider)
 
 -- | @- init@
 init_ :: IsCMIOExtensionProvider cmioExtensionProvider => cmioExtensionProvider -> IO (Id CMIOExtensionProvider)
@@ -163,19 +146,6 @@ notifyPropertiesChanged :: (IsCMIOExtensionProvider cmioExtensionProvider, IsNSD
 notifyPropertiesChanged cmioExtensionProvider propertyStates =
   sendMessage cmioExtensionProvider notifyPropertiesChangedSelector (toNSDictionary propertyStates)
 
--- | ignoreSIGTERM
---
--- Directs provider class to ignore the SIGTERM signal.
---
--- Call this method if your provider handles SIGTERM signals; NOTE: if so, your handler must call exit.
---
--- ObjC selector: @+ ignoreSIGTERM@
-ignoreSIGTERM :: IO ()
-ignoreSIGTERM  =
-  do
-    cls' <- getRequiredClass "CMIOExtensionProvider"
-    sendClassMessage cls' ignoreSIGTERMSelector
-
 -- | source
 --
 -- The provider source.
@@ -224,10 +194,6 @@ devices cmioExtensionProvider =
 startServiceWithProviderSelector :: Selector '[Id CMIOExtensionProvider] ()
 startServiceWithProviderSelector = mkSelector "startServiceWithProvider:"
 
--- | @Selector@ for @stopServiceWithProvider:@
-stopServiceWithProviderSelector :: Selector '[Id CMIOExtensionProvider] ()
-stopServiceWithProviderSelector = mkSelector "stopServiceWithProvider:"
-
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id CMIOExtensionProvider)
 initSelector = mkSelector "init"
@@ -255,10 +221,6 @@ removeDevice_errorSelector = mkSelector "removeDevice:error:"
 -- | @Selector@ for @notifyPropertiesChanged:@
 notifyPropertiesChangedSelector :: Selector '[Id NSDictionary] ()
 notifyPropertiesChangedSelector = mkSelector "notifyPropertiesChanged:"
-
--- | @Selector@ for @ignoreSIGTERM@
-ignoreSIGTERMSelector :: Selector '[] ()
-ignoreSIGTERMSelector = mkSelector "ignoreSIGTERM"
 
 -- | @Selector@ for @source@
 sourceSelector :: Selector '[] RawId

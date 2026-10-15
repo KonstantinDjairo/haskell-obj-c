@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRBridgedDeviceBasicClusterStartUpEvent
   ( MTRBridgedDeviceBasicClusterStartUpEvent
   , IsMTRBridgedDeviceBasicClusterStartUpEvent(..)
+  , init_
+  , copyWithZone
   , softwareVersion
   , setSoftwareVersion
+  , copyWithZoneSelector
+  , initSelector
   , setSoftwareVersionSelector
   , softwareVersionSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRBridgedDeviceBasicClusterStartUpEvent mtrBridgedDeviceBasicClusterStartUpEvent => mtrBridgedDeviceBasicClusterStartUpEvent -> IO (Id MTRBridgedDeviceBasicClusterStartUpEvent)
+init_ mtrBridgedDeviceBasicClusterStartUpEvent =
+  sendOwnedMessage mtrBridgedDeviceBasicClusterStartUpEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBridgedDeviceBasicClusterStartUpEvent mtrBridgedDeviceBasicClusterStartUpEvent => mtrBridgedDeviceBasicClusterStartUpEvent -> Ptr () -> IO RawId
+copyWithZone mtrBridgedDeviceBasicClusterStartUpEvent zone =
+  sendOwnedMessage mtrBridgedDeviceBasicClusterStartUpEvent copyWithZoneSelector zone
+
 -- | @- softwareVersion@
 softwareVersion :: IsMTRBridgedDeviceBasicClusterStartUpEvent mtrBridgedDeviceBasicClusterStartUpEvent => mtrBridgedDeviceBasicClusterStartUpEvent -> IO (Id NSNumber)
 softwareVersion mtrBridgedDeviceBasicClusterStartUpEvent =
@@ -39,6 +53,14 @@ setSoftwareVersion mtrBridgedDeviceBasicClusterStartUpEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBridgedDeviceBasicClusterStartUpEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @softwareVersion@
 softwareVersionSelector :: Selector '[] (Id NSNumber)

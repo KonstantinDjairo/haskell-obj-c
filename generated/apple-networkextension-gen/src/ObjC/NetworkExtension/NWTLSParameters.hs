@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | DEPRECATION NOTICE
---
--- NW object wrappers are hidden in Swift 6. To continue accessing them, you can prepend double underscores to the symbol name.
---
--- Generated bindings for @NWTLSParameters@.
+-- | Generated bindings for @NWTLSParameters@.
 module ObjC.NetworkExtension.NWTLSParameters
   ( NWTLSParameters
   , IsNWTLSParameters(..)

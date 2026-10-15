@@ -7,20 +7,20 @@
 module ObjC.Matter.MTRGeneralCommissioningClusterArmFailSafeParams
   ( MTRGeneralCommissioningClusterArmFailSafeParams
   , IsMTRGeneralCommissioningClusterArmFailSafeParams(..)
+  , init_
+  , copyWithZone
   , expiryLengthSeconds
   , setExpiryLengthSeconds
   , breadcrumb
   , setBreadcrumb
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , breadcrumbSelector
+  , copyWithZoneSelector
   , expiryLengthSecondsSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setBreadcrumbSelector
   , setExpiryLengthSecondsSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGeneralCommissioningClusterArmFailSafeParams mtrGeneralCommissioningClusterArmFailSafeParams => mtrGeneralCommissioningClusterArmFailSafeParams -> IO (Id MTRGeneralCommissioningClusterArmFailSafeParams)
+init_ mtrGeneralCommissioningClusterArmFailSafeParams =
+  sendOwnedMessage mtrGeneralCommissioningClusterArmFailSafeParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGeneralCommissioningClusterArmFailSafeParams mtrGeneralCommissioningClusterArmFailSafeParams => mtrGeneralCommissioningClusterArmFailSafeParams -> Ptr () -> IO RawId
+copyWithZone mtrGeneralCommissioningClusterArmFailSafeParams zone =
+  sendOwnedMessage mtrGeneralCommissioningClusterArmFailSafeParams copyWithZoneSelector zone
 
 -- | @- expiryLengthSeconds@
 expiryLengthSeconds :: IsMTRGeneralCommissioningClusterArmFailSafeParams mtrGeneralCommissioningClusterArmFailSafeParams => mtrGeneralCommissioningClusterArmFailSafeParams -> IO (Id NSNumber)
@@ -80,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRGeneralCommissioningClusterArmFailSafeParams mt
 setTimedInvokeTimeoutMs mtrGeneralCommissioningClusterArmFailSafeParams value =
   sendMessage mtrGeneralCommissioningClusterArmFailSafeParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRGeneralCommissioningClusterArmFailSafeParams mtrGeneralCommissioningClusterArmFailSafeParams => mtrGeneralCommissioningClusterArmFailSafeParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrGeneralCommissioningClusterArmFailSafeParams =
-  sendMessage mtrGeneralCommissioningClusterArmFailSafeParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRGeneralCommissioningClusterArmFailSafeParams mtrGeneralCommissioningClusterArmFailSafeParams, IsNSNumber value) => mtrGeneralCommissioningClusterArmFailSafeParams -> value -> IO ()
-setServerSideProcessingTimeout mtrGeneralCommissioningClusterArmFailSafeParams value =
-  sendMessage mtrGeneralCommissioningClusterArmFailSafeParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGeneralCommissioningClusterArmFailSafeParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @expiryLengthSeconds@
 expiryLengthSecondsSelector :: Selector '[] (Id NSNumber)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

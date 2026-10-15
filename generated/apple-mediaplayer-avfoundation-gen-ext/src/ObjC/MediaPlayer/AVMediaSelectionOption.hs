@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVMediaSelectionOption represents a specific option for the presentation of media within a group of options.
---
--- Generated bindings for @AVMediaSelectionOption@.
+-- | Generated bindings for @AVMediaSelectionOption@.
 module ObjC.MediaPlayer.AVMediaSelectionOption
   ( AVMediaSelectionOption
   , IsAVMediaSelectionOption(..)

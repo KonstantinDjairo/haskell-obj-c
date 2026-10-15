@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterSecurityPolicy
   ( MTRThreadNetworkDiagnosticsClusterSecurityPolicy
   , IsMTRThreadNetworkDiagnosticsClusterSecurityPolicy(..)
+  , init_
+  , copyWithZone
   , rotationTime
   , setRotationTime
   , flags
   , setFlags
+  , copyWithZoneSelector
   , flagsSelector
+  , initSelector
   , rotationTimeSelector
   , setFlagsSelector
   , setRotationTimeSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRThreadNetworkDiagnosticsClusterSecurityPolicy mtrThreadNetworkDiagnosticsClusterSecurityPolicy => mtrThreadNetworkDiagnosticsClusterSecurityPolicy -> IO (Id MTRThreadNetworkDiagnosticsClusterSecurityPolicy)
+init_ mtrThreadNetworkDiagnosticsClusterSecurityPolicy =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterSecurityPolicy initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThreadNetworkDiagnosticsClusterSecurityPolicy mtrThreadNetworkDiagnosticsClusterSecurityPolicy => mtrThreadNetworkDiagnosticsClusterSecurityPolicy -> Ptr () -> IO RawId
+copyWithZone mtrThreadNetworkDiagnosticsClusterSecurityPolicy zone =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterSecurityPolicy copyWithZoneSelector zone
 
 -- | @- rotationTime@
 rotationTime :: IsMTRThreadNetworkDiagnosticsClusterSecurityPolicy mtrThreadNetworkDiagnosticsClusterSecurityPolicy => mtrThreadNetworkDiagnosticsClusterSecurityPolicy -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setFlags mtrThreadNetworkDiagnosticsClusterSecurityPolicy value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThreadNetworkDiagnosticsClusterSecurityPolicy)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @rotationTime@
 rotationTimeSelector :: Selector '[] (Id NSNumber)

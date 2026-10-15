@@ -22,8 +22,6 @@ module ObjC.AppKit.NSGroupTouchBarItem
   , preferredItemWidth
   , setPreferredItemWidth
   , effectiveCompressionOptions
-  , prioritizedCompressionOptions
-  , setPrioritizedCompressionOptions
   , alertStyleGroupItemWithIdentifierSelector
   , customizationLabelSelector
   , effectiveCompressionOptionsSelector
@@ -33,13 +31,11 @@ module ObjC.AppKit.NSGroupTouchBarItem
   , groupUserInterfaceLayoutDirectionSelector
   , preferredItemWidthSelector
   , prefersEqualWidthsSelector
-  , prioritizedCompressionOptionsSelector
   , setCustomizationLabelSelector
   , setGroupTouchBarSelector
   , setGroupUserInterfaceLayoutDirectionSelector
   , setPreferredItemWidthSelector
   , setPrefersEqualWidthsSelector
-  , setPrioritizedCompressionOptionsSelector
 
   -- * Enum types
   , NSUserInterfaceLayoutDirection(NSUserInterfaceLayoutDirection)
@@ -132,19 +128,9 @@ setPreferredItemWidth nsGroupTouchBarItem value =
   sendMessage nsGroupTouchBarItem setPreferredItemWidthSelector value
 
 -- | @- effectiveCompressionOptions@
-effectiveCompressionOptions :: IsNSGroupTouchBarItem nsGroupTouchBarItem => nsGroupTouchBarItem -> IO (Id NSUserInterfaceCompressionOptions)
+effectiveCompressionOptions :: IsNSGroupTouchBarItem nsGroupTouchBarItem => nsGroupTouchBarItem -> IO RawId
 effectiveCompressionOptions nsGroupTouchBarItem =
   sendMessage nsGroupTouchBarItem effectiveCompressionOptionsSelector
-
--- | @- prioritizedCompressionOptions@
-prioritizedCompressionOptions :: IsNSGroupTouchBarItem nsGroupTouchBarItem => nsGroupTouchBarItem -> IO (Id NSArray)
-prioritizedCompressionOptions nsGroupTouchBarItem =
-  sendMessage nsGroupTouchBarItem prioritizedCompressionOptionsSelector
-
--- | @- setPrioritizedCompressionOptions:@
-setPrioritizedCompressionOptions :: (IsNSGroupTouchBarItem nsGroupTouchBarItem, IsNSArray value) => nsGroupTouchBarItem -> value -> IO ()
-setPrioritizedCompressionOptions nsGroupTouchBarItem value =
-  sendMessage nsGroupTouchBarItem setPrioritizedCompressionOptionsSelector (toNSArray value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -203,14 +189,6 @@ setPreferredItemWidthSelector :: Selector '[CDouble] ()
 setPreferredItemWidthSelector = mkSelector "setPreferredItemWidth:"
 
 -- | @Selector@ for @effectiveCompressionOptions@
-effectiveCompressionOptionsSelector :: Selector '[] (Id NSUserInterfaceCompressionOptions)
+effectiveCompressionOptionsSelector :: Selector '[] RawId
 effectiveCompressionOptionsSelector = mkSelector "effectiveCompressionOptions"
-
--- | @Selector@ for @prioritizedCompressionOptions@
-prioritizedCompressionOptionsSelector :: Selector '[] (Id NSArray)
-prioritizedCompressionOptionsSelector = mkSelector "prioritizedCompressionOptions"
-
--- | @Selector@ for @setPrioritizedCompressionOptions:@
-setPrioritizedCompressionOptionsSelector :: Selector '[Id NSArray] ()
-setPrioritizedCompressionOptionsSelector = mkSelector "setPrioritizedCompressionOptions:"
 

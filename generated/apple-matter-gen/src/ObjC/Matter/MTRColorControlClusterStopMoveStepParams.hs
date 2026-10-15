@@ -7,20 +7,20 @@
 module ObjC.Matter.MTRColorControlClusterStopMoveStepParams
   ( MTRColorControlClusterStopMoveStepParams
   , IsMTRColorControlClusterStopMoveStepParams(..)
+  , init_
+  , copyWithZone
   , optionsMask
   , setOptionsMask
   , optionsOverride
   , setOptionsOverride
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , optionsMaskSelector
   , optionsOverrideSelector
-  , serverSideProcessingTimeoutSelector
   , setOptionsMaskSelector
   , setOptionsOverrideSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRColorControlClusterStopMoveStepParams mtrColorControlClusterStopMoveStepParams => mtrColorControlClusterStopMoveStepParams -> IO (Id MTRColorControlClusterStopMoveStepParams)
+init_ mtrColorControlClusterStopMoveStepParams =
+  sendOwnedMessage mtrColorControlClusterStopMoveStepParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRColorControlClusterStopMoveStepParams mtrColorControlClusterStopMoveStepParams => mtrColorControlClusterStopMoveStepParams -> Ptr () -> IO RawId
+copyWithZone mtrColorControlClusterStopMoveStepParams zone =
+  sendOwnedMessage mtrColorControlClusterStopMoveStepParams copyWithZoneSelector zone
 
 -- | @- optionsMask@
 optionsMask :: IsMTRColorControlClusterStopMoveStepParams mtrColorControlClusterStopMoveStepParams => mtrColorControlClusterStopMoveStepParams -> IO (Id NSNumber)
@@ -80,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRColorControlClusterStopMoveStepParams mtrColorC
 setTimedInvokeTimeoutMs mtrColorControlClusterStopMoveStepParams value =
   sendMessage mtrColorControlClusterStopMoveStepParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRColorControlClusterStopMoveStepParams mtrColorControlClusterStopMoveStepParams => mtrColorControlClusterStopMoveStepParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrColorControlClusterStopMoveStepParams =
-  sendMessage mtrColorControlClusterStopMoveStepParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRColorControlClusterStopMoveStepParams mtrColorControlClusterStopMoveStepParams, IsNSNumber value) => mtrColorControlClusterStopMoveStepParams -> value -> IO ()
-setServerSideProcessingTimeout mtrColorControlClusterStopMoveStepParams value =
-  sendMessage mtrColorControlClusterStopMoveStepParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRColorControlClusterStopMoveStepParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @optionsMask@
 optionsMaskSelector :: Selector '[] (Id NSNumber)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

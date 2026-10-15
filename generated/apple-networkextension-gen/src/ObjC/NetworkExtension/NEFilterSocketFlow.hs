@@ -13,18 +13,14 @@
 module ObjC.NetworkExtension.NEFilterSocketFlow
   ( NEFilterSocketFlow
   , IsNEFilterSocketFlow(..)
-  , remoteFlowEndpoint
   , remoteEndpoint
   , remoteHostname
-  , localFlowEndpoint
   , localEndpoint
   , socketFamily
   , socketType
   , socketProtocol
   , localEndpointSelector
-  , localFlowEndpointSelector
   , remoteEndpointSelector
-  , remoteFlowEndpointSelector
   , remoteHostnameSelector
   , socketFamilySelector
   , socketProtocolSelector
@@ -44,15 +40,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.NetworkExtension.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | remoteFlowEndpoint
---
--- The flow's remote endpoint. This endpoint object may be nil when [NEFilterDataProvider handleNewFlow:] is invoked and if so will be populated upon receiving network data.		In such a case, filtering on the flow may still be performed based on its socket type, socket family or socket protocol.
---
--- ObjC selector: @- remoteFlowEndpoint@
-remoteFlowEndpoint :: IsNEFilterSocketFlow neFilterSocketFlow => neFilterSocketFlow -> IO (Id NSObject)
-remoteFlowEndpoint neFilterSocketFlow =
-  sendMessage neFilterSocketFlow remoteFlowEndpointSelector
-
 -- | remoteEndpoint
 --
 -- The flow's remote endpoint. This endpoint object may be nil when [NEFilterDataProvider handleNewFlow:] is invoked and if so will be populated upon receiving network data.		In such a case, filtering on the flow may still be performed based on its socket type, socket family or socket protocol.
@@ -70,15 +57,6 @@ remoteEndpoint neFilterSocketFlow =
 remoteHostname :: IsNEFilterSocketFlow neFilterSocketFlow => neFilterSocketFlow -> IO (Id NSString)
 remoteHostname neFilterSocketFlow =
   sendMessage neFilterSocketFlow remoteHostnameSelector
-
--- | localFlowEndpoint
---
--- The flow's local endpoint. This endpoint object may be nil when [NEFilterDataProvider handleNewFlow:] is invoked and if so will be populated upon receiving network data.		In such a case, filtering on the flow may still be performed based on its socket type, socket family or socket protocol.
---
--- ObjC selector: @- localFlowEndpoint@
-localFlowEndpoint :: IsNEFilterSocketFlow neFilterSocketFlow => neFilterSocketFlow -> IO (Id NSObject)
-localFlowEndpoint neFilterSocketFlow =
-  sendMessage neFilterSocketFlow localFlowEndpointSelector
 
 -- | localEndpoint
 --
@@ -120,10 +98,6 @@ socketProtocol neFilterSocketFlow =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @remoteFlowEndpoint@
-remoteFlowEndpointSelector :: Selector '[] (Id NSObject)
-remoteFlowEndpointSelector = mkSelector "remoteFlowEndpoint"
-
 -- | @Selector@ for @remoteEndpoint@
 remoteEndpointSelector :: Selector '[] (Id NWEndpoint)
 remoteEndpointSelector = mkSelector "remoteEndpoint"
@@ -131,10 +105,6 @@ remoteEndpointSelector = mkSelector "remoteEndpoint"
 -- | @Selector@ for @remoteHostname@
 remoteHostnameSelector :: Selector '[] (Id NSString)
 remoteHostnameSelector = mkSelector "remoteHostname"
-
--- | @Selector@ for @localFlowEndpoint@
-localFlowEndpointSelector :: Selector '[] (Id NSObject)
-localFlowEndpointSelector = mkSelector "localFlowEndpoint"
 
 -- | @Selector@ for @localEndpoint@
 localEndpointSelector :: Selector '[] (Id NWEndpoint)

@@ -9,9 +9,10 @@
 module ObjC.Matter.MTRClusterBarrierControl
   ( MTRClusterBarrierControl
   , IsMTRClusterBarrierControl(..)
-  , barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completion
-  , barrierControlStopWithParams_expectedValues_expectedValueInterval_completion
-  , barrierControlStopWithExpectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandler
+  , barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandler
+  , barrierControlStopWithExpectedValues_expectedValueInterval_completionHandler
   , readAttributeBarrierMovingStateWithParams
   , readAttributeBarrierSafetyStatusWithParams
   , readAttributeBarrierCapabilitiesWithParams
@@ -41,19 +42,10 @@ module ObjC.Matter.MTRClusterBarrierControl
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandler
-  , barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandler
-  , barrierControlStopWithExpectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionSelector
   , barrierControlStopWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , barrierControlStopWithExpectedValues_expectedValueInterval_completionSelector
   , barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , barrierControlStopWithParams_expectedValues_expectedValueInterval_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -98,20 +90,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completion:@
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlGoToPercentParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completion mtrClusterBarrierControl params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterBarrierControl barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRBarrierControlClusterBarrierControlGoToPercentParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRDevice device, IsNSObject queue) => mtrClusterBarrierControl -> device -> CUShort -> queue -> IO (Id MTRClusterBarrierControl)
+initWithDevice_endpoint_queue mtrClusterBarrierControl device endpoint queue =
+  sendOwnedMessage mtrClusterBarrierControl initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- barrierControlStopWithParams:expectedValues:expectedValueInterval:completion:@
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlStopParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completion mtrClusterBarrierControl params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterBarrierControl barrierControlStopWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRBarrierControlClusterBarrierControlStopParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completionHandler:@
+barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlGoToPercentParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterBarrierControl params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterBarrierControl barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRBarrierControlClusterBarrierControlGoToPercentParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- barrierControlStopWithExpectedValues:expectedValueInterval:completion:@
-barrierControlStopWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-barrierControlStopWithExpectedValues_expectedValueInterval_completion mtrClusterBarrierControl expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterBarrierControl barrierControlStopWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- barrierControlStopWithParams:expectedValues:expectedValueInterval:completionHandler:@
+barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlStopParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterBarrierControl params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterBarrierControl barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRBarrierControlClusterBarrierControlStopParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
+
+-- | @- barrierControlStopWithExpectedValues:expectedValueInterval:completionHandler:@
+barrierControlStopWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+barrierControlStopWithExpectedValues_expectedValueInterval_completionHandler mtrClusterBarrierControl expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterBarrierControl barrierControlStopWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeBarrierMovingStateWithParams:@
 readAttributeBarrierMovingStateWithParams :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRReadParams params) => mtrClusterBarrierControl -> params -> IO (Id NSDictionary)
@@ -260,48 +257,25 @@ new  =
     cls' <- getRequiredClass "MTRClusterBarrierControl"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRDevice device, IsNSObject queue) => mtrClusterBarrierControl -> device -> CUShort -> queue -> IO (Id MTRClusterBarrierControl)
-initWithDevice_endpoint_queue mtrClusterBarrierControl device endpoint queue =
-  sendOwnedMessage mtrClusterBarrierControl initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completionHandler:@
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlGoToPercentParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterBarrierControl params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterBarrierControl barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRBarrierControlClusterBarrierControlGoToPercentParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- barrierControlStopWithParams:expectedValues:expectedValueInterval:completionHandler:@
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRBarrierControlClusterBarrierControlStopParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterBarrierControl params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterBarrierControl barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRBarrierControlClusterBarrierControlStopParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- barrierControlStopWithExpectedValues:expectedValueInterval:completionHandler:@
-barrierControlStopWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterBarrierControl -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-barrierControlStopWithExpectedValues_expectedValueInterval_completionHandler mtrClusterBarrierControl expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterBarrierControl barrierControlStopWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterBarrierControl mtrClusterBarrierControl, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterBarrierControl -> device -> endpointID -> queue -> IO (Id MTRClusterBarrierControl)
-initWithDevice_endpointID_queue mtrClusterBarrierControl device endpointID queue =
-  sendOwnedMessage mtrClusterBarrierControl initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completion:@
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlGoToPercentParams, Id NSArray, Id NSNumber, Ptr ()] ()
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBarrierControl)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @barrierControlStopWithParams:expectedValues:expectedValueInterval:completion:@
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlStopParams, Id NSArray, Id NSNumber, Ptr ()] ()
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "barrierControlStopWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completionHandler:@
+barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlGoToPercentParams, Id NSArray, Id NSNumber, Ptr ()] ()
+barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @barrierControlStopWithExpectedValues:expectedValueInterval:completion:@
-barrierControlStopWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-barrierControlStopWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "barrierControlStopWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @barrierControlStopWithParams:expectedValues:expectedValueInterval:completionHandler:@
+barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlStopParams, Id NSArray, Id NSNumber, Ptr ()] ()
+barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "barrierControlStopWithParams:expectedValues:expectedValueInterval:completionHandler:"
+
+-- | @Selector@ for @barrierControlStopWithExpectedValues:expectedValueInterval:completionHandler:@
+barrierControlStopWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+barrierControlStopWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "barrierControlStopWithExpectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeBarrierMovingStateWithParams:@
 readAttributeBarrierMovingStateWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -418,24 +392,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterBarrierControl)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBarrierControl)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completionHandler:@
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlGoToPercentParams, Id NSArray, Id NSNumber, Ptr ()] ()
-barrierControlGoToPercentWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "barrierControlGoToPercentWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @barrierControlStopWithParams:expectedValues:expectedValueInterval:completionHandler:@
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRBarrierControlClusterBarrierControlStopParams, Id NSArray, Id NSNumber, Ptr ()] ()
-barrierControlStopWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "barrierControlStopWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @barrierControlStopWithExpectedValues:expectedValueInterval:completionHandler:@
-barrierControlStopWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-barrierControlStopWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "barrierControlStopWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterBarrierControl)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

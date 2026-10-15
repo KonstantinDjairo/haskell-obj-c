@@ -24,7 +24,6 @@ module ObjC.MapKit.MKRouteStep
   , pattern MKDirectionsTransportTypeAutomobile
   , pattern MKDirectionsTransportTypeWalking
   , pattern MKDirectionsTransportTypeTransit
-  , pattern MKDirectionsTransportTypeCycling
   , pattern MKDirectionsTransportTypeAny
 
   ) where

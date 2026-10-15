@@ -18,9 +18,11 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- AVCustomDeviceRoute ----------
 
--- | An object that represents a custom device route.
+-- | AVCustomDeviceRoute
 --
--- Use the value of a route’s ``AVCustomDeviceRoute/networkEndpoint`` or ``AVCustomDeviceRoute/bluetoothIdentifier`` property to establish a connection to a device. Typically, only one of the properties provides a valid value, depending on the type of device. In certain cases, both properties might provide valid values, in which case your app determines which one to use.
+-- This class represents a custom device route.
+--
+-- Clients can use the receiver's networkEndpoint or bluetoothIdentifier to establish a connection to the device.                Usually, either the network endpoint or the Bluetooth identifier will be nil, depending on what type of device it is.                In certain scenarios both can be non-nil, in which case the client can decide which one to use.
 -- 
 -- Phantom type for @AVCustomDeviceRoute@.
 data AVCustomDeviceRoute
@@ -41,9 +43,11 @@ instance IsNSObject (Id AVCustomDeviceRoute) where
 
 -- ---------- AVCustomRoutingActionItem ----------
 
--- | An object that represents a custom action item to display in a device route picker.
+-- | AVCustomRoutingActionItem
 --
--- Use this class to specify supplemental action items to display in the list of discovered routes. Tapping a custom item dismisses the picker and calls the ``AVCustomRoutingControllerDelegate/customRoutingController:didSelectItem:`` method of ``AVCustomRoutingControllerDelegate``.
+-- AVCustomRoutingActionItem objects can be created by 3rd parties to inject custom action items into the route picker.
+--
+-- An item can be any action the app wants to provide as menu items besides the discovered routes.    Tapping on the custom items dismisses the picker and invokes a callback to the app telling it which item was tapped. (See -[AVCustomRoutingController customRoutingController:didSelectItem:])
 -- 
 -- Phantom type for @AVCustomRoutingActionItem@.
 data AVCustomRoutingActionItem
@@ -64,9 +68,11 @@ instance IsNSObject (Id AVCustomRoutingActionItem) where
 
 -- ---------- AVCustomRoutingController ----------
 
--- | An object that manages the connection from a device to a destination.
+-- | AVCustomRoutingController
 --
--- A routing controller also informs its ``AVCustomRoutingController/delegate`` object about which routes the user previously authorized, so it can reconnect, if appropriate.
+-- When a user selects / deselects a 3rd party device in the route picker, this class delegates the activation / deactivation of that device to the client of this class via AVCustomRoutingEvents.
+--
+-- This class also informs the client which routes have been previously authorized, allowing them to reconnect if appropriate.
 -- 
 -- Phantom type for @AVCustomRoutingController@.
 data AVCustomRoutingController
@@ -87,9 +93,11 @@ instance IsNSObject (Id AVCustomRoutingController) where
 
 -- ---------- AVCustomRoutingEvent ----------
 
--- | An object that represents an event that occurs on a route.
+-- | AVCustomRoutingEvent
 --
--- Depending on the route’s reason, apps establish or tear down a connection to a specified route.
+-- This class represents an event that occurs on a route.
+--
+-- Depending on the reason for the event, clients are expected to establish or tear down the connection to the given route.
 -- 
 -- Phantom type for @AVCustomRoutingEvent@.
 data AVCustomRoutingEvent
@@ -110,9 +118,9 @@ instance IsNSObject (Id AVCustomRoutingEvent) where
 
 -- ---------- AVCustomRoutingPartialIP ----------
 
--- | Represents a full or partial IP address.
+-- | AVCustomRoutingPartialIP
 --
--- Use this class in conjunction with ``knownRouteIPs``.
+-- Represents a full or partial IP address. To be used in conjunction with AVCustomRoutingController.knownRouteIPs
 -- 
 -- Phantom type for @AVCustomRoutingPartialIP@.
 data AVCustomRoutingPartialIP
@@ -129,27 +137,4 @@ instance IsAVCustomRoutingPartialIP (Id AVCustomRoutingPartialIP) where
   toAVCustomRoutingPartialIP = unsafeCastId
 
 instance IsNSObject (Id AVCustomRoutingPartialIP) where
-  toNSObject = unsafeCastId
-
--- ---------- AVRoutingPlaybackArbiter ----------
-
--- | An object that manages playback routing preferences.
---
--- This object manages instances of ``AVRoutingPlaybackParticipant`` for arbitration of media playback routing priorities and preferences on restricted playback interfaces. The playback routing arbiter is responsible for collecting and applying preferences, such as priorities in non-mixable audio routes and external playback states where the number of allowed players is limited.
--- 
--- Phantom type for @AVRoutingPlaybackArbiter@.
-data AVRoutingPlaybackArbiter
-
-instance IsObjCObject (Id AVRoutingPlaybackArbiter) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVRoutingPlaybackArbiter"
-
-class IsNSObject a => IsAVRoutingPlaybackArbiter a where
-  toAVRoutingPlaybackArbiter :: a -> Id AVRoutingPlaybackArbiter
-
-instance IsAVRoutingPlaybackArbiter (Id AVRoutingPlaybackArbiter) where
-  toAVRoutingPlaybackArbiter = unsafeCastId
-
-instance IsNSObject (Id AVRoutingPlaybackArbiter) where
   toNSObject = unsafeCastId

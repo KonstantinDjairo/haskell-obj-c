@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams
   ( MTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams
   , IsMTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams(..)
+  , init_
+  , copyWithZone
   , commissioningTimeout
   , setCommissioningTimeout
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , commissioningTimeoutSelector
-  , serverSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setCommissioningTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams -> IO (Id MTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams)
+init_ mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams =
+  sendOwnedMessage mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams -> Ptr () -> IO RawId
+copyWithZone mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams zone =
+  sendOwnedMessage mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams copyWithZoneSelector zone
 
 -- | @- commissioningTimeout@
 commissioningTimeout :: IsMTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRAdministratorCommissioningClusterOpenBasicCommi
 setTimedInvokeTimeoutMs mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams value =
   sendMessage mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams => mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams =
-  sendMessage mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams, IsNSNumber value) => mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams -> value -> IO ()
-setServerSideProcessingTimeout mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams value =
-  sendMessage mtrAdministratorCommissioningClusterOpenBasicCommissioningWindowParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAdministratorCommissioningClusterOpenBasicCommissioningWindowParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @commissioningTimeout@
 commissioningTimeoutSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

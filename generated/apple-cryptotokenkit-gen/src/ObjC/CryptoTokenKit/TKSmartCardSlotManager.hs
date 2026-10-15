@@ -11,14 +11,10 @@ module ObjC.CryptoTokenKit.TKSmartCardSlotManager
   , IsTKSmartCardSlotManager(..)
   , getSlotWithName_reply
   , slotNamed
-  , createNFCSlotWithMessage_completion
-  , isNFCSupported
   , defaultManager
   , slotNames
-  , createNFCSlotWithMessage_completionSelector
   , defaultManagerSelector
   , getSlotWithName_replySelector
-  , isNFCSupportedSelector
   , slotNamedSelector
   , slotNamesSelector
 
@@ -50,32 +46,6 @@ slotNamed :: (IsTKSmartCardSlotManager tkSmartCardSlotManager, IsNSString name) 
 slotNamed tkSmartCardSlotManager name =
   sendMessage tkSmartCardSlotManager slotNamedSelector (toNSString name)
 
--- | Creates an NFC smart card slot using the device's hardware and presents a system UI.
---
--- @message@ — Message shown in the system-presented UI
---
--- @completion@ — Completion handler which returns the NFC session of the created slot or an error on failure.                   If an NFC slot already exists and current caller is not the initial creator @TKErrorCodeObjectNotFound@ error is returned.
---
--- To finish the NFC session and dismiss the system-presented UI use @TKSmartCardSlotNFCSession.endSession@.
---
--- Warning: Caller requires @com.apple.developer.nfc.readersession.iso7816.select-identifiers@ Info.plist record which specifies application identifiers of the NFC cards
---
--- https://developer.apple.com/documentation/bundleresources/information-property-list/com.apple.developer.nfc.readersession.iso7816.select-identifiers
---
--- ObjC selector: @- createNFCSlotWithMessage:completion:@
-createNFCSlotWithMessage_completion :: (IsTKSmartCardSlotManager tkSmartCardSlotManager, IsNSString message) => tkSmartCardSlotManager -> message -> Ptr () -> IO ()
-createNFCSlotWithMessage_completion tkSmartCardSlotManager message completion =
-  sendMessage tkSmartCardSlotManager createNFCSlotWithMessage_completionSelector (toNSString message) completion
-
--- | Determines whether NFC (Near Field Communication) is supported on this device.
---
--- Returns: @YES@ if NFC is supported and available for use, NO otherwise.
---
--- ObjC selector: @- isNFCSupported@
-isNFCSupported :: IsTKSmartCardSlotManager tkSmartCardSlotManager => tkSmartCardSlotManager -> IO Bool
-isNFCSupported tkSmartCardSlotManager =
-  sendMessage tkSmartCardSlotManager isNFCSupportedSelector
-
 -- | Global pool of SmartCard reader slots. macOS: Note that defaultManager instance is accessible only if the calling application has 'com.apple.security.smartcard' entitlement set to Boolean:YES.  If the calling application does not have this entitlement, defaultManager is always set to nil. iOS: The defaultManager instance is always accessible.
 --
 -- ObjC selector: @+ defaultManager@
@@ -103,14 +73,6 @@ getSlotWithName_replySelector = mkSelector "getSlotWithName:reply:"
 -- | @Selector@ for @slotNamed:@
 slotNamedSelector :: Selector '[Id NSString] (Id TKSmartCardSlot)
 slotNamedSelector = mkSelector "slotNamed:"
-
--- | @Selector@ for @createNFCSlotWithMessage:completion:@
-createNFCSlotWithMessage_completionSelector :: Selector '[Id NSString, Ptr ()] ()
-createNFCSlotWithMessage_completionSelector = mkSelector "createNFCSlotWithMessage:completion:"
-
--- | @Selector@ for @isNFCSupported@
-isNFCSupportedSelector :: Selector '[] Bool
-isNFCSupportedSelector = mkSelector "isNFCSupported"
 
 -- | @Selector@ for @defaultManager@
 defaultManagerSelector :: Selector '[] (Id TKSmartCardSlotManager)

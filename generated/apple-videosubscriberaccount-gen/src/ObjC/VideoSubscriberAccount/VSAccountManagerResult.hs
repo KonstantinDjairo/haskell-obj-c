@@ -10,11 +10,9 @@ module ObjC.VideoSubscriberAccount.VSAccountManagerResult
   ( VSAccountManagerResult
   , IsVSAccountManagerResult(..)
   , init_
-  , new
   , cancel
   , cancelSelector
   , initSelector
-  , newSelector
 
 
   ) where
@@ -35,13 +33,6 @@ init_ :: IsVSAccountManagerResult vsAccountManagerResult => vsAccountManagerResu
 init_ vsAccountManagerResult =
   sendOwnedMessage vsAccountManagerResult initSelector
 
--- | @+ new@
-new :: IO (Id VSAccountManagerResult)
-new  =
-  do
-    cls' <- getRequiredClass "VSAccountManagerResult"
-    sendOwnedClassMessage cls' newSelector
-
 -- | Advise the account manager that the app no longer needs the requested work to be done.
 --
 -- ObjC selector: @- cancel@
@@ -56,10 +47,6 @@ cancel vsAccountManagerResult =
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id VSAccountManagerResult)
 initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id VSAccountManagerResult)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @cancel@
 cancelSelector :: Selector '[] ()

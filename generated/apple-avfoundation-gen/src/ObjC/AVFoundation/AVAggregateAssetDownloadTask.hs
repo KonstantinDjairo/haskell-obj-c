@@ -3,11 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVAssetDownloadTask used for downloading multiple AVMediaSelections for a single AVAsset, under the umbrella of a single download task.
+-- | AVAggregateAssetDownloadTask
+--
+-- An AVAssetDownloadTask used for downloading multiple AVMediaSelections for a single AVAsset, under the umbrella of a single download task.
 --
 -- Should be created with -[AVAssetDownloadURLSession aggregateAssetDownloadTaskWithURLAsset:mediaSelections:assetTitle:assetArtworkData:options:. For progress tracking, monitor the delegate callbacks for each childAssetDownloadTask.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 --
 -- Generated bindings for @AVAggregateAssetDownloadTask@.
 module ObjC.AVFoundation.AVAggregateAssetDownloadTask
@@ -52,7 +52,9 @@ new  =
     cls' <- getRequiredClass "AVAggregateAssetDownloadTask"
     sendOwnedClassMessage cls' newSelector
 
--- | The asset supplied to the download task upon initialization.
+-- | URLAsset
+--
+-- The asset supplied to the download task upon initialization.
 --
 -- ObjC selector: @- URLAsset@
 urlAsset :: IsAVAggregateAssetDownloadTask avAggregateAssetDownloadTask => avAggregateAssetDownloadTask -> IO (Id AVURLAsset)

@@ -48,7 +48,6 @@ module ObjC.Foundation.NSObject
   , classForKeyedUnarchiver
   , replacementObjectForKeyedArchiver
   , classFallbacksForKeyedArchiver
-  , setSharedObservers
   , setKeys_triggerChangeNotificationsForDependentKey
   , keyPathsForValuesAffectingValueForKey
   , automaticallyNotifiesObserversForKey
@@ -206,7 +205,6 @@ module ObjC.Foundation.NSObject
   , setNilValueForKeySelector
   , setObservationInfoSelector
   , setScriptingPropertiesSelector
-  , setSharedObserversSelector
   , setValue_forKeyPathSelector
   , setValue_forKeySelector
   , setValue_forUndefinedKeySelector
@@ -472,19 +470,6 @@ classFallbacksForKeyedArchiver  =
   do
     cls' <- getRequiredClass "NSObject"
     sendClassMessage cls' classFallbacksForKeyedArchiverSelector
-
--- | Register shared observations.
---
--- A shared observation collection might be shared between multiple observables to minimise registration work. Shared observers remain registered throughout the object's lifetime and do not need to be removed using @removeObserver:@.
---
--- An observable may only have one set of shared observations. Subsequent calls to this method will replace existing shared observations.
---
--- - Parameter sharedObservers: shared observer collection that was initialized   with the class of this object - Invariant: @sharedObserers@ was initialized with the class of this object - Throws: Exception if the class of the receiving observable object does not   match the class with which @sharedObserers@ was initialized.
---
--- ObjC selector: @- setSharedObservers:@
-setSharedObservers :: (IsNSObject nsObject, IsNSKeyValueSharedObserversSnapshot sharedObservers) => nsObject -> sharedObservers -> IO ()
-setSharedObservers nsObject sharedObservers =
-  sendMessage nsObject setSharedObserversSelector (toNSKeyValueSharedObserversSnapshot sharedObservers)
 
 -- | @+ setKeys:triggerChangeNotificationsForDependentKey:@
 setKeys_triggerChangeNotificationsForDependentKey :: (IsNSArray keys, IsNSString dependentKey) => keys -> dependentKey -> IO ()
@@ -1039,10 +1024,6 @@ replacementObjectForKeyedArchiverSelector = mkSelector "replacementObjectForKeye
 -- | @Selector@ for @classFallbacksForKeyedArchiver@
 classFallbacksForKeyedArchiverSelector :: Selector '[] (Id NSArray)
 classFallbacksForKeyedArchiverSelector = mkSelector "classFallbacksForKeyedArchiver"
-
--- | @Selector@ for @setSharedObservers:@
-setSharedObserversSelector :: Selector '[Id NSKeyValueSharedObserversSnapshot] ()
-setSharedObserversSelector = mkSelector "setSharedObservers:"
 
 -- | @Selector@ for @setKeys:triggerChangeNotificationsForDependentKey:@
 setKeys_triggerChangeNotificationsForDependentKeySelector :: Selector '[Id NSArray, Id NSString] ()

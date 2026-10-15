@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRGroupKeyManagementClusterKeySetWriteParams
   ( MTRGroupKeyManagementClusterKeySetWriteParams
   , IsMTRGroupKeyManagementClusterKeySetWriteParams(..)
+  , init_
+  , copyWithZone
   , groupKeySet
   , setGroupKeySet
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , groupKeySetSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setGroupKeySetSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGroupKeyManagementClusterKeySetWriteParams mtrGroupKeyManagementClusterKeySetWriteParams => mtrGroupKeyManagementClusterKeySetWriteParams -> IO (Id MTRGroupKeyManagementClusterKeySetWriteParams)
+init_ mtrGroupKeyManagementClusterKeySetWriteParams =
+  sendOwnedMessage mtrGroupKeyManagementClusterKeySetWriteParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupKeyManagementClusterKeySetWriteParams mtrGroupKeyManagementClusterKeySetWriteParams => mtrGroupKeyManagementClusterKeySetWriteParams -> Ptr () -> IO RawId
+copyWithZone mtrGroupKeyManagementClusterKeySetWriteParams zone =
+  sendOwnedMessage mtrGroupKeyManagementClusterKeySetWriteParams copyWithZoneSelector zone
 
 -- | @- groupKeySet@
 groupKeySet :: IsMTRGroupKeyManagementClusterKeySetWriteParams mtrGroupKeyManagementClusterKeySetWriteParams => mtrGroupKeyManagementClusterKeySetWriteParams -> IO (Id MTRGroupKeyManagementClusterGroupKeySetStruct)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRGroupKeyManagementClusterKeySetWriteParams mtrG
 setTimedInvokeTimeoutMs mtrGroupKeyManagementClusterKeySetWriteParams value =
   sendMessage mtrGroupKeyManagementClusterKeySetWriteParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRGroupKeyManagementClusterKeySetWriteParams mtrGroupKeyManagementClusterKeySetWriteParams => mtrGroupKeyManagementClusterKeySetWriteParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrGroupKeyManagementClusterKeySetWriteParams =
-  sendMessage mtrGroupKeyManagementClusterKeySetWriteParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRGroupKeyManagementClusterKeySetWriteParams mtrGroupKeyManagementClusterKeySetWriteParams, IsNSNumber value) => mtrGroupKeyManagementClusterKeySetWriteParams -> value -> IO ()
-setServerSideProcessingTimeout mtrGroupKeyManagementClusterKeySetWriteParams value =
-  sendMessage mtrGroupKeyManagementClusterKeySetWriteParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupKeyManagementClusterKeySetWriteParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @groupKeySet@
 groupKeySetSelector :: Selector '[] (Id MTRGroupKeyManagementClusterGroupKeySetStruct)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

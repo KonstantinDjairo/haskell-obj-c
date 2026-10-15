@@ -25,9 +25,6 @@ module ObjC.AppKit.NSTextFieldCell
   , setPlaceholderString
   , placeholderAttributedString
   , setPlaceholderAttributedString
-  , allowedInputSourceLocales
-  , setAllowedInputSourceLocales
-  , allowedInputSourceLocalesSelector
   , backgroundColorSelector
   , bezelStyleSelector
   , drawsBackgroundSelector
@@ -36,7 +33,6 @@ module ObjC.AppKit.NSTextFieldCell
   , initWithCoderSelector
   , placeholderAttributedStringSelector
   , placeholderStringSelector
-  , setAllowedInputSourceLocalesSelector
   , setBackgroundColorSelector
   , setBezelStyleSelector
   , setDrawsBackgroundSelector
@@ -151,16 +147,6 @@ setPlaceholderAttributedString :: (IsNSTextFieldCell nsTextFieldCell, IsNSAttrib
 setPlaceholderAttributedString nsTextFieldCell value =
   sendMessage nsTextFieldCell setPlaceholderAttributedStringSelector (toNSAttributedString value)
 
--- | @- allowedInputSourceLocales@
-allowedInputSourceLocales :: IsNSTextFieldCell nsTextFieldCell => nsTextFieldCell -> IO (Id NSArray)
-allowedInputSourceLocales nsTextFieldCell =
-  sendMessage nsTextFieldCell allowedInputSourceLocalesSelector
-
--- | @- setAllowedInputSourceLocales:@
-setAllowedInputSourceLocales :: (IsNSTextFieldCell nsTextFieldCell, IsNSArray value) => nsTextFieldCell -> value -> IO ()
-setAllowedInputSourceLocales nsTextFieldCell value =
-  sendMessage nsTextFieldCell setAllowedInputSourceLocalesSelector (toNSArray value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -232,12 +218,4 @@ placeholderAttributedStringSelector = mkSelector "placeholderAttributedString"
 -- | @Selector@ for @setPlaceholderAttributedString:@
 setPlaceholderAttributedStringSelector :: Selector '[Id NSAttributedString] ()
 setPlaceholderAttributedStringSelector = mkSelector "setPlaceholderAttributedString:"
-
--- | @Selector@ for @allowedInputSourceLocales@
-allowedInputSourceLocalesSelector :: Selector '[] (Id NSArray)
-allowedInputSourceLocalesSelector = mkSelector "allowedInputSourceLocales"
-
--- | @Selector@ for @setAllowedInputSourceLocales:@
-setAllowedInputSourceLocalesSelector :: Selector '[Id NSArray] ()
-setAllowedInputSourceLocalesSelector = mkSelector "setAllowedInputSourceLocales:"
 

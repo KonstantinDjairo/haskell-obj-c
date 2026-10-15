@@ -15,8 +15,6 @@
 --
 -- When an AVPlayerItemOutput is associated with an AVPlayerItem, samples are provided for a media type in accordance with the rules for mixing, composition, or exclusion that the AVPlayer honors among multiple enabled tracks of that media type for its own rendering purposes. For example, video media will be composed according to the instructions provided via AVPlayerItem.videoComposition, if present.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVPlayerItemOutputInternal@.
 module ObjC.AVFoundation.AVPlayerItemOutputInternal
   ( AVPlayerItemOutputInternal

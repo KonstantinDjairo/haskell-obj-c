@@ -14,7 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | DeviceCheck error codes.
 -- | @DCError@
 newtype DCError = DCError CLong
   deriving stock (Eq, Ord, Show)

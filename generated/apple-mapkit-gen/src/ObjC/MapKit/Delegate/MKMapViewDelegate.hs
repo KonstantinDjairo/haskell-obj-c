@@ -50,7 +50,6 @@ data MKMapViewDelegateOverrides = MKMapViewDelegateOverrides
   , _mapView_didDeselectAnnotationView :: !(Maybe (RawId -> RawId -> IO ()))
   , _mapView_didSelectAnnotation :: !(Maybe (RawId -> RawId -> IO ()))
   , _mapView_didDeselectAnnotation :: !(Maybe (RawId -> RawId -> IO ()))
-  , _mapView_selectionAccessoryForAnnotation :: !(Maybe (RawId -> RawId -> IO RawId))
   , _mapViewWillStartLocatingUser :: !(Maybe (RawId -> IO ()))
   , _mapViewDidStopLocatingUser :: !(Maybe (RawId -> IO ()))
   , _mapView_didUpdateUserLocation :: !(Maybe (RawId -> RawId -> IO ()))
@@ -77,7 +76,6 @@ defaultMKMapViewDelegateOverrides = MKMapViewDelegateOverrides
   , _mapView_didDeselectAnnotationView = Nothing
   , _mapView_didSelectAnnotation = Nothing
   , _mapView_didDeselectAnnotation = Nothing
-  , _mapView_selectionAccessoryForAnnotation = Nothing
   , _mapViewWillStartLocatingUser = Nothing
   , _mapViewDidStopLocatingUser = Nothing
   , _mapView_didUpdateUserLocation = Nothing
@@ -135,7 +133,6 @@ mkMapViewDelegateDelegateClass = unsafePerformIO $ do
       sel_mapView_didDeselectAnnotationView = unSelector (mkSelector "mapView:didDeselectAnnotationView:")
       sel_mapView_didSelectAnnotation = unSelector (mkSelector "mapView:didSelectAnnotation:")
       sel_mapView_didDeselectAnnotation = unSelector (mkSelector "mapView:didDeselectAnnotation:")
-      sel_mapView_selectionAccessoryForAnnotation = unSelector (mkSelector "mapView:selectionAccessoryForAnnotation:")
       sel_mapViewWillStartLocatingUser = unSelector (mkSelector "mapViewWillStartLocatingUser:")
       sel_mapViewDidStopLocatingUser = unSelector (mkSelector "mapViewDidStopLocatingUser:")
       sel_mapView_didUpdateUserLocation = unSelector (mkSelector "mapView:didUpdateUserLocation:")
@@ -271,55 +268,44 @@ mkMapViewDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1)
   addObjCMethod cls "mapView:didDeselectAnnotation:" "v@:@@" stub_13
 
-  -- mapView:selectionAccessoryForAnnotation:
-  stub_14 <- wrap_at_at_at $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
-    case _mapView_selectionAccessoryForAnnotation rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f (RawId arg0) (RawId arg1)
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "mapView:selectionAccessoryForAnnotation:" "@@:@@" stub_14
-
   -- mapViewWillStartLocatingUser:
-  stub_15 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_14 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
     case _mapViewWillStartLocatingUser rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "mapViewWillStartLocatingUser:" "v@:@" stub_15
+  addObjCMethod cls "mapViewWillStartLocatingUser:" "v@:@" stub_14
 
   -- mapViewDidStopLocatingUser:
-  stub_16 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_15 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
     case _mapViewDidStopLocatingUser rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "mapViewDidStopLocatingUser:" "v@:@" stub_16
+  addObjCMethod cls "mapViewDidStopLocatingUser:" "v@:@" stub_15
 
   -- mapView:didUpdateUserLocation:
-  stub_17 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
+  stub_16 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
     case _mapView_didUpdateUserLocation rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "mapView:didUpdateUserLocation:" "v@:@@" stub_17
+  addObjCMethod cls "mapView:didUpdateUserLocation:" "v@:@@" stub_16
 
   -- mapView:didFailToLocateUserWithError:
-  stub_18 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
+  stub_17 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
     case _mapView_didFailToLocateUserWithError rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "mapView:didFailToLocateUserWithError:" "v@:@@" stub_18
+  addObjCMethod cls "mapView:didFailToLocateUserWithError:" "v@:@@" stub_17
 
   -- mapView:rendererForOverlay:
-  stub_19 <- wrap_at_at_at $ \self _cmd arg0 arg1 -> do
+  stub_18 <- wrap_at_at_at $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
     case _mapView_rendererForOverlay rec_ of
@@ -327,19 +313,19 @@ mkMapViewDelegateDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f (RawId arg0) (RawId arg1)
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "mapView:rendererForOverlay:" "@@:@@" stub_19
+  addObjCMethod cls "mapView:rendererForOverlay:" "@@:@@" stub_18
 
   -- mapView:didAddOverlayRenderers:
-  stub_20 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
+  stub_19 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
     case _mapView_didAddOverlayRenderers rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "mapView:didAddOverlayRenderers:" "v@:@@" stub_20
+  addObjCMethod cls "mapView:didAddOverlayRenderers:" "v@:@@" stub_19
 
   -- mapView:clusterAnnotationForMemberAnnotations:
-  stub_21 <- wrap_at_at_at $ \self _cmd arg0 arg1 -> do
+  stub_20 <- wrap_at_at_at $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MKMapViewDelegateOverrides
     case _mapView_clusterAnnotationForMemberAnnotations rec_ of
@@ -347,7 +333,7 @@ mkMapViewDelegateDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f (RawId arg0) (RawId arg1)
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "mapView:clusterAnnotationForMemberAnnotations:" "@@:@@" stub_21
+  addObjCMethod cls "mapView:clusterAnnotationForMemberAnnotations:" "@@:@@" stub_20
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -367,7 +353,6 @@ mkMapViewDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_mapView_didDeselectAnnotationView then pure (maybe 0 (const 1) (_mapView_didDeselectAnnotationView rec_))
     else if queriedSel == sel_mapView_didSelectAnnotation then pure (maybe 0 (const 1) (_mapView_didSelectAnnotation rec_))
     else if queriedSel == sel_mapView_didDeselectAnnotation then pure (maybe 0 (const 1) (_mapView_didDeselectAnnotation rec_))
-    else if queriedSel == sel_mapView_selectionAccessoryForAnnotation then pure (maybe 0 (const 1) (_mapView_selectionAccessoryForAnnotation rec_))
     else if queriedSel == sel_mapViewWillStartLocatingUser then pure (maybe 0 (const 1) (_mapViewWillStartLocatingUser rec_))
     else if queriedSel == sel_mapViewDidStopLocatingUser then pure (maybe 0 (const 1) (_mapViewDidStopLocatingUser rec_))
     else if queriedSel == sel_mapView_didUpdateUserLocation then pure (maybe 0 (const 1) (_mapView_didUpdateUserLocation rec_))

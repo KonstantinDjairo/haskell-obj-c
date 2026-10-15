@@ -335,7 +335,7 @@ flushSegment avAssetWriter =
 --
 -- If outputFileType specifies a container format that does not support mutually exclusive relationships among tracks, or if the specified instance of AVAssetWriterInputGroup contains inputs with media types that cannot be related, the group cannot be added to the AVAssetWriter.
 --
--- This method throws an exception if any of the following conditions are satisfied:		- this writer's output file type does not support mutually exclusive relationships among tracks (allowed types are AVFileTypeQuickTimeMovie, AVFileTypeAppleM4A, AVFileTypeAppleM4V, AVFileType3GPP, AVFileTypeMPEG4)		- any AVAssetWriterInput in the input group is also present in an input group already added
+-- This method throws an exception if any of the following conditions are satisfied:		- this writer's output file type does not support mutually exclusive relationships among tracks (allowed types are AVFileTypeQuickTimeMovie, AVFileTypeAppleM4A, AVFileTypeAppleM4V, AVFileType3GPP [iPhone only], AVFileTypeMPEG4)		- any AVAssetWriterInput in the input group is also present in an input group already added
 --
 -- ObjC selector: @- canAddInputGroup:@
 canAddInputGroup :: (IsAVAssetWriter avAssetWriter, IsAVAssetWriterInputGroup inputGroup) => avAssetWriter -> inputGroup -> IO Bool

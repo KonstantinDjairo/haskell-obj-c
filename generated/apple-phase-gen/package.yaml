@@ -14,6 +14,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -41,6 +42,7 @@ library:
   - ObjC.PHASE.PHASEEnvelopeDistanceModelParameters
   - ObjC.PHASE.PHASEEnvelopeSegment
   - ObjC.PHASE.PHASEGeneratorNodeDefinition
+  - ObjC.PHASE.PHASEGeneratorParameters
   - ObjC.PHASE.PHASEGeometricSpreadingDistanceModelParameters
   - ObjC.PHASE.PHASEGlobalMetaParameterAsset
   - ObjC.PHASE.PHASEGroup
@@ -60,8 +62,6 @@ library:
   - ObjC.PHASE.PHASENumericPair
   - ObjC.PHASE.PHASEObject
   - ObjC.PHASE.PHASEOccluder
-  - ObjC.PHASE.PHASEPullStreamNode
-  - ObjC.PHASE.PHASEPullStreamNodeDefinition
   - ObjC.PHASE.PHASEPushStreamNode
   - ObjC.PHASE.PHASEPushStreamNodeDefinition
   - ObjC.PHASE.PHASERandomNodeDefinition
@@ -76,7 +76,6 @@ library:
   - ObjC.PHASE.PHASESpatialMixerDefinition
   - ObjC.PHASE.PHASESpatialPipeline
   - ObjC.PHASE.PHASESpatialPipelineEntry
-  - ObjC.PHASE.PHASEStreamNode
   - ObjC.PHASE.PHASEStringMetaParameter
   - ObjC.PHASE.PHASEStringMetaParameterDefinition
   - ObjC.PHASE.PHASESwitchNodeDefinition

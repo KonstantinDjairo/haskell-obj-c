@@ -10,6 +10,7 @@ module ObjC.CoreLocation.CLPlacemark
   , init_
   , new
   , initWithPlacemark
+  , location
   , region
   , timeZone
   , addressDictionary
@@ -36,6 +37,7 @@ module ObjC.CoreLocation.CLPlacemark
   , inlandWaterSelector
   , isOcountryCodeSelector
   , localitySelector
+  , locationSelector
   , nameSelector
   , newSelector
   , oceanSelector
@@ -78,6 +80,11 @@ new  =
 initWithPlacemark :: (IsCLPlacemark clPlacemark, IsCLPlacemark placemark) => clPlacemark -> placemark -> IO (Id CLPlacemark)
 initWithPlacemark clPlacemark placemark =
   sendOwnedMessage clPlacemark initWithPlacemarkSelector (toCLPlacemark placemark)
+
+-- | @- location@
+location :: IsCLPlacemark clPlacemark => clPlacemark -> IO (Id CLLocation)
+location clPlacemark =
+  sendMessage clPlacemark locationSelector
 
 -- | @- region@
 region :: IsCLPlacemark clPlacemark => clPlacemark -> IO (Id CLRegion)
@@ -179,6 +186,10 @@ newSelector = mkSelector "new"
 -- | @Selector@ for @initWithPlacemark:@
 initWithPlacemarkSelector :: Selector '[Id CLPlacemark] (Id CLPlacemark)
 initWithPlacemarkSelector = mkSelector "initWithPlacemark:"
+
+-- | @Selector@ for @location@
+locationSelector :: Selector '[] (Id CLLocation)
+locationSelector = mkSelector "location"
 
 -- | @Selector@ for @region@
 regionSelector :: Selector '[] (Id CLRegion)

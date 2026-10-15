@@ -24,15 +24,11 @@ module ObjC.Metal.MTLHeapDescriptor
   , setResourceOptions
   , type_
   , setType
-  , maxCompatiblePlacementSparsePageSize
-  , setMaxCompatiblePlacementSparsePageSize
   , cpuCacheModeSelector
   , hazardTrackingModeSelector
-  , maxCompatiblePlacementSparsePageSizeSelector
   , resourceOptionsSelector
   , setCpuCacheModeSelector
   , setHazardTrackingModeSelector
-  , setMaxCompatiblePlacementSparsePageSizeSelector
   , setResourceOptionsSelector
   , setSizeSelector
   , setSparsePageSizeSelector
@@ -241,28 +237,6 @@ setType :: IsMTLHeapDescriptor mtlHeapDescriptor => mtlHeapDescriptor -> MTLHeap
 setType mtlHeapDescriptor value =
   sendMessage mtlHeapDescriptor setTypeSelector value
 
--- | Specifies the largest sparse page size that the Metal heap supports.
---
--- This parameter only affects the heap if you set the ``type`` property of this descriptor to ``MTLHeapType/MTLHeapTypePlacement``.
---
--- The value you assign to this property determines the compatibility of the Metal heap with with placement sparse resources, because placement sparse resources require that their sparse page size be less than or equal to the placement sparse page of the Metal heap that this property controls.
---
--- ObjC selector: @- maxCompatiblePlacementSparsePageSize@
-maxCompatiblePlacementSparsePageSize :: IsMTLHeapDescriptor mtlHeapDescriptor => mtlHeapDescriptor -> IO MTLSparsePageSize
-maxCompatiblePlacementSparsePageSize mtlHeapDescriptor =
-  sendMessage mtlHeapDescriptor maxCompatiblePlacementSparsePageSizeSelector
-
--- | Specifies the largest sparse page size that the Metal heap supports.
---
--- This parameter only affects the heap if you set the ``type`` property of this descriptor to ``MTLHeapType/MTLHeapTypePlacement``.
---
--- The value you assign to this property determines the compatibility of the Metal heap with with placement sparse resources, because placement sparse resources require that their sparse page size be less than or equal to the placement sparse page of the Metal heap that this property controls.
---
--- ObjC selector: @- setMaxCompatiblePlacementSparsePageSize:@
-setMaxCompatiblePlacementSparsePageSize :: IsMTLHeapDescriptor mtlHeapDescriptor => mtlHeapDescriptor -> MTLSparsePageSize -> IO ()
-setMaxCompatiblePlacementSparsePageSize mtlHeapDescriptor value =
-  sendMessage mtlHeapDescriptor setMaxCompatiblePlacementSparsePageSizeSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -322,12 +296,4 @@ typeSelector = mkSelector "type"
 -- | @Selector@ for @setType:@
 setTypeSelector :: Selector '[MTLHeapType] ()
 setTypeSelector = mkSelector "setType:"
-
--- | @Selector@ for @maxCompatiblePlacementSparsePageSize@
-maxCompatiblePlacementSparsePageSizeSelector :: Selector '[] MTLSparsePageSize
-maxCompatiblePlacementSparsePageSizeSelector = mkSelector "maxCompatiblePlacementSparsePageSize"
-
--- | @Selector@ for @setMaxCompatiblePlacementSparsePageSize:@
-setMaxCompatiblePlacementSparsePageSizeSelector :: Selector '[MTLSparsePageSize] ()
-setMaxCompatiblePlacementSparsePageSizeSelector = mkSelector "setMaxCompatiblePlacementSparsePageSize:"
 

@@ -3,7 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MTRBaseClusterTestCluster@.
+-- | Cluster Test Cluster    The Test Cluster is meant to validate the generated code
+--
+-- Generated bindings for @MTRBaseClusterTestCluster@.
 module ObjC.Matter.MTRBaseClusterTestCluster
   ( MTRBaseClusterTestCluster
   , IsMTRBaseClusterTestCluster(..)
@@ -28,13 +30,11 @@ module ObjC.Matter.MTRBaseClusterTestCluster
   , testListInt8UReverseRequestWithParams_completionHandler
   , testEnumsRequestWithParams_completionHandler
   , testNullableOptionalRequestWithParams_completionHandler
-  , testNullableOptionalRequestWithCompletionHandler
   , testComplexNullableOptionalRequestWithParams_completionHandler
   , simpleStructEchoRequestWithParams_completionHandler
   , timedInvokeRequestWithParams_completionHandler
   , timedInvokeRequestWithCompletionHandler
   , testSimpleOptionalArgumentRequestWithParams_completionHandler
-  , testSimpleOptionalArgumentRequestWithCompletionHandler
   , testEmitTestEventRequestWithParams_completionHandler
   , testEmitTestFabricScopedEventRequestWithParams_completionHandler
   , readAttributeBooleanWithCompletionHandler
@@ -462,7 +462,11 @@ module ObjC.Matter.MTRBaseClusterTestCluster
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
+  , init_
+  , new
+  , initSelector
   , initWithDevice_endpoint_queueSelector
+  , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
@@ -738,10 +742,8 @@ module ObjC.Matter.MTRBaseClusterTestCluster
   , testNestedStructListArgumentRequestWithParams_completionHandlerSelector
   , testNotHandledWithCompletionHandlerSelector
   , testNotHandledWithParams_completionHandlerSelector
-  , testNullableOptionalRequestWithCompletionHandlerSelector
   , testNullableOptionalRequestWithParams_completionHandlerSelector
   , testSimpleArgumentRequestWithParams_completionHandlerSelector
-  , testSimpleOptionalArgumentRequestWithCompletionHandlerSelector
   , testSimpleOptionalArgumentRequestWithParams_completionHandlerSelector
   , testSpecificWithCompletionHandlerSelector
   , testSpecificWithParams_completionHandlerSelector
@@ -1037,11 +1039,6 @@ testNullableOptionalRequestWithParams_completionHandler :: (IsMTRBaseClusterTest
 testNullableOptionalRequestWithParams_completionHandler mtrBaseClusterTestCluster params completionHandler =
   sendMessage mtrBaseClusterTestCluster testNullableOptionalRequestWithParams_completionHandlerSelector (toMTRTestClusterClusterTestNullableOptionalRequestParams params) completionHandler
 
--- | @- testNullableOptionalRequestWithCompletionHandler:@
-testNullableOptionalRequestWithCompletionHandler :: IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster => mtrBaseClusterTestCluster -> Ptr () -> IO ()
-testNullableOptionalRequestWithCompletionHandler mtrBaseClusterTestCluster completionHandler =
-  sendMessage mtrBaseClusterTestCluster testNullableOptionalRequestWithCompletionHandlerSelector completionHandler
-
 -- | @- testComplexNullableOptionalRequestWithParams:completionHandler:@
 testComplexNullableOptionalRequestWithParams_completionHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams params) => mtrBaseClusterTestCluster -> params -> Ptr () -> IO ()
 testComplexNullableOptionalRequestWithParams_completionHandler mtrBaseClusterTestCluster params completionHandler =
@@ -1066,11 +1063,6 @@ timedInvokeRequestWithCompletionHandler mtrBaseClusterTestCluster completionHand
 testSimpleOptionalArgumentRequestWithParams_completionHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsMTRTestClusterClusterTestSimpleOptionalArgumentRequestParams params) => mtrBaseClusterTestCluster -> params -> Ptr () -> IO ()
 testSimpleOptionalArgumentRequestWithParams_completionHandler mtrBaseClusterTestCluster params completionHandler =
   sendMessage mtrBaseClusterTestCluster testSimpleOptionalArgumentRequestWithParams_completionHandlerSelector (toMTRTestClusterClusterTestSimpleOptionalArgumentRequestParams params) completionHandler
-
--- | @- testSimpleOptionalArgumentRequestWithCompletionHandler:@
-testSimpleOptionalArgumentRequestWithCompletionHandler :: IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster => mtrBaseClusterTestCluster -> Ptr () -> IO ()
-testSimpleOptionalArgumentRequestWithCompletionHandler mtrBaseClusterTestCluster completionHandler =
-  sendMessage mtrBaseClusterTestCluster testSimpleOptionalArgumentRequestWithCompletionHandlerSelector completionHandler
 
 -- | @- testEmitTestEventRequestWithParams:completionHandler:@
 testEmitTestEventRequestWithParams_completionHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsMTRTestClusterClusterTestEmitTestEventRequestParams params) => mtrBaseClusterTestCluster -> params -> Ptr () -> IO ()
@@ -1097,7 +1089,9 @@ writeAttributeBooleanWithValue_params_completionHandler :: (IsMTRBaseClusterTest
 writeAttributeBooleanWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeBooleanWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1124,7 +1118,9 @@ writeAttributeBitmap8WithValue_params_completionHandler :: (IsMTRBaseClusterTest
 writeAttributeBitmap8WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeBitmap8WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBitmap8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBitmap8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBitmap8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBitmap8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeBitmap8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1151,7 +1147,9 @@ writeAttributeBitmap16WithValue_params_completionHandler :: (IsMTRBaseClusterTes
 writeAttributeBitmap16WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeBitmap16WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBitmap16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBitmap16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBitmap16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBitmap16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeBitmap16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1178,7 +1176,9 @@ writeAttributeBitmap32WithValue_params_completionHandler :: (IsMTRBaseClusterTes
 writeAttributeBitmap32WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeBitmap32WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBitmap32WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBitmap32WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBitmap32WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBitmap32WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeBitmap32WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1205,7 +1205,9 @@ writeAttributeBitmap64WithValue_params_completionHandler :: (IsMTRBaseClusterTes
 writeAttributeBitmap64WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeBitmap64WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBitmap64WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBitmap64WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBitmap64WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBitmap64WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeBitmap64WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1232,7 +1234,9 @@ writeAttributeInt8uWithValue_params_completionHandler :: (IsMTRBaseClusterTestCl
 writeAttributeInt8uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt8uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1259,7 +1263,9 @@ writeAttributeInt16uWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt16uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt16uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1286,7 +1292,9 @@ writeAttributeInt24uWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt24uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt24uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt24uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt24uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt24uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt24uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt24uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1313,7 +1321,9 @@ writeAttributeInt32uWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt32uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt32uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt32uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt32uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt32uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt32uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt32uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1340,7 +1350,9 @@ writeAttributeInt40uWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt40uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt40uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt40uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt40uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt40uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt40uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt40uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1367,7 +1379,9 @@ writeAttributeInt48uWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt48uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt48uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt48uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt48uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt48uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt48uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt48uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1394,7 +1408,9 @@ writeAttributeInt56uWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt56uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt56uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt56uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt56uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt56uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt56uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt56uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1421,7 +1437,9 @@ writeAttributeInt64uWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt64uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt64uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt64uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt64uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt64uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt64uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt64uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1448,7 +1466,9 @@ writeAttributeInt8sWithValue_params_completionHandler :: (IsMTRBaseClusterTestCl
 writeAttributeInt8sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt8sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1475,7 +1495,9 @@ writeAttributeInt16sWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt16sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt16sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1502,7 +1524,9 @@ writeAttributeInt24sWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt24sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt24sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt24sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt24sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt24sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt24sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt24sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1529,7 +1553,9 @@ writeAttributeInt32sWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt32sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt32sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt32sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt32sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt32sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt32sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt32sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1556,7 +1582,9 @@ writeAttributeInt40sWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt40sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt40sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt40sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt40sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt40sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt40sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt40sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1583,7 +1611,9 @@ writeAttributeInt48sWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt48sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt48sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt48sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt48sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt48sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt48sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt48sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1610,7 +1640,9 @@ writeAttributeInt56sWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt56sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt56sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt56sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt56sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt56sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt56sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt56sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1637,7 +1669,9 @@ writeAttributeInt64sWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeInt64sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeInt64sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeInt64sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInt64sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInt64sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInt64sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeInt64sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1664,7 +1698,9 @@ writeAttributeEnum8WithValue_params_completionHandler :: (IsMTRBaseClusterTestCl
 writeAttributeEnum8WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeEnum8WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeEnum8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeEnum8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeEnum8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeEnum8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeEnum8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1691,7 +1727,9 @@ writeAttributeEnum16WithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeEnum16WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeEnum16WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeEnum16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeEnum16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeEnum16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeEnum16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeEnum16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1718,7 +1756,9 @@ writeAttributeFloatSingleWithValue_params_completionHandler :: (IsMTRBaseCluster
 writeAttributeFloatSingleWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeFloatSingleWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeFloatSingleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFloatSingleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFloatSingleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFloatSingleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeFloatSingleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1745,7 +1785,9 @@ writeAttributeFloatDoubleWithValue_params_completionHandler :: (IsMTRBaseCluster
 writeAttributeFloatDoubleWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeFloatDoubleWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeFloatDoubleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFloatDoubleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFloatDoubleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFloatDoubleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeFloatDoubleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1772,7 +1814,9 @@ writeAttributeOctetStringWithValue_params_completionHandler :: (IsMTRBaseCluster
 writeAttributeOctetStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeOctetStringWithValue_params_completionHandlerSelector (toNSData value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1799,7 +1843,9 @@ writeAttributeListInt8uWithValue_params_completionHandler :: (IsMTRBaseClusterTe
 writeAttributeListInt8uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeListInt8uWithValue_params_completionHandlerSelector (toNSArray value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeListInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeListInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeListInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeListInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeListInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1826,7 +1872,9 @@ writeAttributeListOctetStringWithValue_params_completionHandler :: (IsMTRBaseClu
 writeAttributeListOctetStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeListOctetStringWithValue_params_completionHandlerSelector (toNSArray value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeListOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeListOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeListOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeListOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeListOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1853,7 +1901,9 @@ writeAttributeListStructOctetStringWithValue_params_completionHandler :: (IsMTRB
 writeAttributeListStructOctetStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeListStructOctetStringWithValue_params_completionHandlerSelector (toNSArray value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeListStructOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeListStructOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeListStructOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeListStructOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeListStructOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1880,7 +1930,9 @@ writeAttributeLongOctetStringWithValue_params_completionHandler :: (IsMTRBaseClu
 writeAttributeLongOctetStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeLongOctetStringWithValue_params_completionHandlerSelector (toNSData value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLongOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLongOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLongOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLongOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeLongOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1907,7 +1959,9 @@ writeAttributeCharStringWithValue_params_completionHandler :: (IsMTRBaseClusterT
 writeAttributeCharStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeCharStringWithValue_params_completionHandlerSelector (toNSString value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeCharStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCharStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1934,7 +1988,9 @@ writeAttributeLongCharStringWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeLongCharStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeLongCharStringWithValue_params_completionHandlerSelector (toNSString value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLongCharStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLongCharStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLongCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLongCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeLongCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1961,7 +2017,9 @@ writeAttributeEpochUsWithValue_params_completionHandler :: (IsMTRBaseClusterTest
 writeAttributeEpochUsWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeEpochUsWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeEpochUsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeEpochUsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeEpochUsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeEpochUsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeEpochUsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1988,7 +2046,9 @@ writeAttributeEpochSWithValue_params_completionHandler :: (IsMTRBaseClusterTestC
 writeAttributeEpochSWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeEpochSWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeEpochSWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeEpochSWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeEpochSWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeEpochSWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeEpochSWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2015,7 +2075,9 @@ writeAttributeVendorIdWithValue_params_completionHandler :: (IsMTRBaseClusterTes
 writeAttributeVendorIdWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeVendorIdWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeVendorIdWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeVendorIdWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeVendorIdWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeVendorIdWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeVendorIdWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2042,7 +2104,9 @@ writeAttributeListNullablesAndOptionalsStructWithValue_params_completionHandler 
 writeAttributeListNullablesAndOptionalsStructWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeListNullablesAndOptionalsStructWithValue_params_completionHandlerSelector (toNSArray value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeListNullablesAndOptionalsStructWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeListNullablesAndOptionalsStructWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeListNullablesAndOptionalsStructWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeListNullablesAndOptionalsStructWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeListNullablesAndOptionalsStructWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2069,7 +2133,9 @@ writeAttributeEnumAttrWithValue_params_completionHandler :: (IsMTRBaseClusterTes
 writeAttributeEnumAttrWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeEnumAttrWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeEnumAttrWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeEnumAttrWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeEnumAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeEnumAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeEnumAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2096,7 +2162,9 @@ writeAttributeStructAttrWithValue_params_completionHandler :: (IsMTRBaseClusterT
 writeAttributeStructAttrWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeStructAttrWithValue_params_completionHandlerSelector (toMTRTestClusterClusterSimpleStruct value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeStructAttrWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeStructAttrWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeStructAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeStructAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeStructAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2123,7 +2191,9 @@ writeAttributeRangeRestrictedInt8uWithValue_params_completionHandler :: (IsMTRBa
 writeAttributeRangeRestrictedInt8uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeRangeRestrictedInt8uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeRangeRestrictedInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeRangeRestrictedInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeRangeRestrictedInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeRangeRestrictedInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeRangeRestrictedInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2150,7 +2220,9 @@ writeAttributeRangeRestrictedInt8sWithValue_params_completionHandler :: (IsMTRBa
 writeAttributeRangeRestrictedInt8sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeRangeRestrictedInt8sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeRangeRestrictedInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeRangeRestrictedInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeRangeRestrictedInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeRangeRestrictedInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeRangeRestrictedInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2177,7 +2249,9 @@ writeAttributeRangeRestrictedInt16uWithValue_params_completionHandler :: (IsMTRB
 writeAttributeRangeRestrictedInt16uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeRangeRestrictedInt16uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeRangeRestrictedInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeRangeRestrictedInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeRangeRestrictedInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeRangeRestrictedInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeRangeRestrictedInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2204,7 +2278,9 @@ writeAttributeRangeRestrictedInt16sWithValue_params_completionHandler :: (IsMTRB
 writeAttributeRangeRestrictedInt16sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeRangeRestrictedInt16sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeRangeRestrictedInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeRangeRestrictedInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeRangeRestrictedInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeRangeRestrictedInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeRangeRestrictedInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2231,7 +2307,9 @@ writeAttributeListLongOctetStringWithValue_params_completionHandler :: (IsMTRBas
 writeAttributeListLongOctetStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeListLongOctetStringWithValue_params_completionHandlerSelector (toNSArray value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeListLongOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeListLongOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeListLongOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeListLongOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeListLongOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2258,7 +2336,9 @@ writeAttributeListFabricScopedWithValue_params_completionHandler :: (IsMTRBaseCl
 writeAttributeListFabricScopedWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeListFabricScopedWithValue_params_completionHandlerSelector (toNSArray value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeListFabricScopedWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeListFabricScopedWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeListFabricScopedWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeListFabricScopedWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeListFabricScopedWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2285,7 +2365,9 @@ writeAttributeTimedWriteBooleanWithValue_params_completionHandler :: (IsMTRBaseC
 writeAttributeTimedWriteBooleanWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeTimedWriteBooleanWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeTimedWriteBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeTimedWriteBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeTimedWriteBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeTimedWriteBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeTimedWriteBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2312,7 +2394,9 @@ writeAttributeGeneralErrorBooleanWithValue_params_completionHandler :: (IsMTRBas
 writeAttributeGeneralErrorBooleanWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeGeneralErrorBooleanWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeGeneralErrorBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneralErrorBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneralErrorBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneralErrorBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeGeneralErrorBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2339,7 +2423,9 @@ writeAttributeClusterErrorBooleanWithValue_params_completionHandler :: (IsMTRBas
 writeAttributeClusterErrorBooleanWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeClusterErrorBooleanWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeClusterErrorBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterErrorBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterErrorBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterErrorBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeClusterErrorBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2366,7 +2452,9 @@ writeAttributeUnsupportedWithValue_params_completionHandler :: (IsMTRBaseCluster
 writeAttributeUnsupportedWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeUnsupportedWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeUnsupportedWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeUnsupportedWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeUnsupportedWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeUnsupportedWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeUnsupportedWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2393,7 +2481,9 @@ writeAttributeNullableBooleanWithValue_params_completionHandler :: (IsMTRBaseClu
 writeAttributeNullableBooleanWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableBooleanWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableBooleanWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableBooleanWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2420,7 +2510,9 @@ writeAttributeNullableBitmap8WithValue_params_completionHandler :: (IsMTRBaseClu
 writeAttributeNullableBitmap8WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableBitmap8WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableBitmap8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableBitmap8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableBitmap8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableBitmap8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableBitmap8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2447,7 +2539,9 @@ writeAttributeNullableBitmap16WithValue_params_completionHandler :: (IsMTRBaseCl
 writeAttributeNullableBitmap16WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableBitmap16WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableBitmap16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableBitmap16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableBitmap16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableBitmap16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableBitmap16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2474,7 +2568,9 @@ writeAttributeNullableBitmap32WithValue_params_completionHandler :: (IsMTRBaseCl
 writeAttributeNullableBitmap32WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableBitmap32WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableBitmap32WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableBitmap32WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableBitmap32WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableBitmap32WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableBitmap32WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2501,7 +2597,9 @@ writeAttributeNullableBitmap64WithValue_params_completionHandler :: (IsMTRBaseCl
 writeAttributeNullableBitmap64WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableBitmap64WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableBitmap64WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableBitmap64WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableBitmap64WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableBitmap64WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableBitmap64WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2528,7 +2626,9 @@ writeAttributeNullableInt8uWithValue_params_completionHandler :: (IsMTRBaseClust
 writeAttributeNullableInt8uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt8uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2555,7 +2655,9 @@ writeAttributeNullableInt16uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt16uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt16uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2582,7 +2684,9 @@ writeAttributeNullableInt24uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt24uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt24uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt24uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt24uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt24uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt24uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt24uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2609,7 +2713,9 @@ writeAttributeNullableInt32uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt32uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt32uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt32uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt32uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt32uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt32uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt32uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2636,7 +2742,9 @@ writeAttributeNullableInt40uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt40uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt40uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt40uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt40uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt40uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt40uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt40uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2663,7 +2771,9 @@ writeAttributeNullableInt48uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt48uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt48uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt48uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt48uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt48uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt48uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt48uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2690,7 +2800,9 @@ writeAttributeNullableInt56uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt56uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt56uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt56uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt56uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt56uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt56uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt56uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2717,7 +2829,9 @@ writeAttributeNullableInt64uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt64uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt64uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt64uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt64uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt64uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt64uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt64uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2744,7 +2858,9 @@ writeAttributeNullableInt8sWithValue_params_completionHandler :: (IsMTRBaseClust
 writeAttributeNullableInt8sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt8sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2771,7 +2887,9 @@ writeAttributeNullableInt16sWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt16sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt16sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2798,7 +2916,9 @@ writeAttributeNullableInt24sWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt24sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt24sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt24sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt24sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt24sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt24sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt24sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2825,7 +2945,9 @@ writeAttributeNullableInt32sWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt32sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt32sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt32sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt32sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt32sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt32sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt32sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2852,7 +2974,9 @@ writeAttributeNullableInt40sWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt40sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt40sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt40sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt40sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt40sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt40sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt40sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2879,7 +3003,9 @@ writeAttributeNullableInt48sWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt48sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt48sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt48sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt48sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt48sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt48sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt48sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2906,7 +3032,9 @@ writeAttributeNullableInt56sWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt56sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt56sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt56sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt56sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt56sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt56sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt56sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2933,7 +3061,9 @@ writeAttributeNullableInt64sWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableInt64sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableInt64sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableInt64sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableInt64sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableInt64sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableInt64sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableInt64sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2960,7 +3090,9 @@ writeAttributeNullableEnum8WithValue_params_completionHandler :: (IsMTRBaseClust
 writeAttributeNullableEnum8WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableEnum8WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableEnum8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableEnum8WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableEnum8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableEnum8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableEnum8WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -2987,7 +3119,9 @@ writeAttributeNullableEnum16WithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableEnum16WithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableEnum16WithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableEnum16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableEnum16WithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableEnum16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableEnum16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableEnum16WithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3014,7 +3148,9 @@ writeAttributeNullableFloatSingleWithValue_params_completionHandler :: (IsMTRBas
 writeAttributeNullableFloatSingleWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableFloatSingleWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableFloatSingleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableFloatSingleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableFloatSingleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableFloatSingleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableFloatSingleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3041,7 +3177,9 @@ writeAttributeNullableFloatDoubleWithValue_params_completionHandler :: (IsMTRBas
 writeAttributeNullableFloatDoubleWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableFloatDoubleWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableFloatDoubleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableFloatDoubleWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableFloatDoubleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableFloatDoubleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableFloatDoubleWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3068,7 +3206,9 @@ writeAttributeNullableOctetStringWithValue_params_completionHandler :: (IsMTRBas
 writeAttributeNullableOctetStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableOctetStringWithValue_params_completionHandlerSelector (toNSData value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableOctetStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableOctetStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3095,7 +3235,9 @@ writeAttributeNullableCharStringWithValue_params_completionHandler :: (IsMTRBase
 writeAttributeNullableCharStringWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableCharStringWithValue_params_completionHandlerSelector (toNSString value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableCharStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableCharStringWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableCharStringWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3122,7 +3264,9 @@ writeAttributeNullableEnumAttrWithValue_params_completionHandler :: (IsMTRBaseCl
 writeAttributeNullableEnumAttrWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableEnumAttrWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableEnumAttrWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableEnumAttrWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableEnumAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableEnumAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableEnumAttrWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3149,7 +3293,9 @@ writeAttributeNullableStructWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeNullableStructWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableStructWithValue_params_completionHandlerSelector (toMTRTestClusterClusterSimpleStruct value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableStructWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableStructWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableStructWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableStructWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableStructWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3176,7 +3322,9 @@ writeAttributeNullableRangeRestrictedInt8uWithValue_params_completionHandler :: 
 writeAttributeNullableRangeRestrictedInt8uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableRangeRestrictedInt8uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableRangeRestrictedInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableRangeRestrictedInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableRangeRestrictedInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableRangeRestrictedInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableRangeRestrictedInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3203,7 +3351,9 @@ writeAttributeNullableRangeRestrictedInt8sWithValue_params_completionHandler :: 
 writeAttributeNullableRangeRestrictedInt8sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableRangeRestrictedInt8sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableRangeRestrictedInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableRangeRestrictedInt8sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableRangeRestrictedInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableRangeRestrictedInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableRangeRestrictedInt8sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3230,7 +3380,9 @@ writeAttributeNullableRangeRestrictedInt16uWithValue_params_completionHandler ::
 writeAttributeNullableRangeRestrictedInt16uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableRangeRestrictedInt16uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableRangeRestrictedInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableRangeRestrictedInt16uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableRangeRestrictedInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableRangeRestrictedInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableRangeRestrictedInt16uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3257,7 +3409,9 @@ writeAttributeNullableRangeRestrictedInt16sWithValue_params_completionHandler ::
 writeAttributeNullableRangeRestrictedInt16sWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeNullableRangeRestrictedInt16sWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeNullableRangeRestrictedInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNullableRangeRestrictedInt16sWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNullableRangeRestrictedInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNullableRangeRestrictedInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeNullableRangeRestrictedInt16sWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3284,7 +3438,9 @@ writeAttributeWriteOnlyInt8uWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeWriteOnlyInt8uWithValue_params_completionHandler mtrBaseClusterTestCluster value params completionHandler =
   sendMessage mtrBaseClusterTestCluster writeAttributeWriteOnlyInt8uWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeWriteOnlyInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeWriteOnlyInt8uWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeWriteOnlyInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeWriteOnlyInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeWriteOnlyInt8uWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3301,7 +3457,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterTestCl
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterTestCluster completionHandler =
   sendMessage mtrBaseClusterTestCluster readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3318,7 +3476,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterTestClu
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterTestCluster completionHandler =
   sendMessage mtrBaseClusterTestCluster readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3335,7 +3495,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterTestCluster m
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterTestCluster completionHandler =
   sendMessage mtrBaseClusterTestCluster readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3352,7 +3514,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterTestCluster mtrB
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterTestCluster completionHandler =
   sendMessage mtrBaseClusterTestCluster readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3369,7 +3533,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterTestCluster
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterTestCluster completionHandler =
   sendMessage mtrBaseClusterTestCluster readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterTestCluster -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterTestCluster minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterTestCluster subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -3380,6 +3546,18 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
   do
     cls' <- getRequiredClass "MTRBaseClusterTestCluster"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
+
+-- | @- init@
+init_ :: IsMTRBaseClusterTestCluster mtrBaseClusterTestCluster => mtrBaseClusterTestCluster -> IO (Id MTRBaseClusterTestCluster)
+init_ mtrBaseClusterTestCluster =
+  sendOwnedMessage mtrBaseClusterTestCluster initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterTestCluster)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterTestCluster"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -3469,10 +3647,6 @@ testEnumsRequestWithParams_completionHandlerSelector = mkSelector "testEnumsRequ
 testNullableOptionalRequestWithParams_completionHandlerSelector :: Selector '[Id MTRTestClusterClusterTestNullableOptionalRequestParams, Ptr ()] ()
 testNullableOptionalRequestWithParams_completionHandlerSelector = mkSelector "testNullableOptionalRequestWithParams:completionHandler:"
 
--- | @Selector@ for @testNullableOptionalRequestWithCompletionHandler:@
-testNullableOptionalRequestWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
-testNullableOptionalRequestWithCompletionHandlerSelector = mkSelector "testNullableOptionalRequestWithCompletionHandler:"
-
 -- | @Selector@ for @testComplexNullableOptionalRequestWithParams:completionHandler:@
 testComplexNullableOptionalRequestWithParams_completionHandlerSelector :: Selector '[Id MTRTestClusterClusterTestComplexNullableOptionalRequestParams, Ptr ()] ()
 testComplexNullableOptionalRequestWithParams_completionHandlerSelector = mkSelector "testComplexNullableOptionalRequestWithParams:completionHandler:"
@@ -3492,10 +3666,6 @@ timedInvokeRequestWithCompletionHandlerSelector = mkSelector "timedInvokeRequest
 -- | @Selector@ for @testSimpleOptionalArgumentRequestWithParams:completionHandler:@
 testSimpleOptionalArgumentRequestWithParams_completionHandlerSelector :: Selector '[Id MTRTestClusterClusterTestSimpleOptionalArgumentRequestParams, Ptr ()] ()
 testSimpleOptionalArgumentRequestWithParams_completionHandlerSelector = mkSelector "testSimpleOptionalArgumentRequestWithParams:completionHandler:"
-
--- | @Selector@ for @testSimpleOptionalArgumentRequestWithCompletionHandler:@
-testSimpleOptionalArgumentRequestWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
-testSimpleOptionalArgumentRequestWithCompletionHandlerSelector = mkSelector "testSimpleOptionalArgumentRequestWithCompletionHandler:"
 
 -- | @Selector@ for @testEmitTestEventRequestWithParams:completionHandler:@
 testEmitTestEventRequestWithParams_completionHandlerSelector :: Selector '[Id MTRTestClusterClusterTestEmitTestEventRequestParams, Ptr ()] ()
@@ -5204,4 +5374,12 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 -- | @Selector@ for @readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:@
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterTestCluster)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterTestCluster)
+newSelector = mkSelector "new"
 

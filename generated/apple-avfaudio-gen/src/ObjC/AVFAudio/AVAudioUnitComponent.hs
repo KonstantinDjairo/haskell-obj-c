@@ -19,13 +19,10 @@ module ObjC.AVFAudio.AVAudioUnitComponent
   , version
   , versionString
   , componentURL
-  , availableArchitectures
   , sandboxSafe
   , hasMIDIInput
   , hasMIDIOutput
   , audioComponent
-  , userTagNames
-  , setUserTagNames
   , allTagNames
   , audioComponentDescription
   , iconURL
@@ -36,7 +33,6 @@ module ObjC.AVFAudio.AVAudioUnitComponent
   , allTagNamesSelector
   , audioComponentDescriptionSelector
   , audioComponentSelector
-  , availableArchitecturesSelector
   , componentURLSelector
   , configurationDictionarySelector
   , hasCustomViewSelector
@@ -49,10 +45,8 @@ module ObjC.AVFAudio.AVAudioUnitComponent
   , nameSelector
   , passesAUValSelector
   , sandboxSafeSelector
-  , setUserTagNamesSelector
   , supportsNumberInputChannels_outputChannelsSelector
   , typeNameSelector
-  , userTagNamesSelector
   , versionSelector
   , versionStringSelector
 
@@ -143,15 +137,6 @@ componentURL :: IsAVAudioUnitComponent avAudioUnitComponent => avAudioUnitCompon
 componentURL avAudioUnitComponent =
   sendMessage avAudioUnitComponent componentURLSelector
 
--- | availableArchitectures
---
--- NSArray of NSNumbers each of which corresponds to one of the constants in Mach-O Architecture in NSBundle Class Reference
---
--- ObjC selector: @- availableArchitectures@
-availableArchitectures :: IsAVAudioUnitComponent avAudioUnitComponent => avAudioUnitComponent -> IO (Id NSArray)
-availableArchitectures avAudioUnitComponent =
-  sendMessage avAudioUnitComponent availableArchitecturesSelector
-
 -- | sandboxSafe
 --
 -- On OSX, YES if the AudioComponent can be loaded into a sandboxed process otherwise NO.			  On iOS, this is always YES.
@@ -188,24 +173,6 @@ audioComponent :: IsAVAudioUnitComponent avAudioUnitComponent => avAudioUnitComp
 audioComponent avAudioUnitComponent =
   sendMessage avAudioUnitComponent audioComponentSelector
 
--- | userTagNames
---
--- User tags represent the tags from the current user.
---
--- ObjC selector: @- userTagNames@
-userTagNames :: IsAVAudioUnitComponent avAudioUnitComponent => avAudioUnitComponent -> IO (Id NSArray)
-userTagNames avAudioUnitComponent =
-  sendMessage avAudioUnitComponent userTagNamesSelector
-
--- | userTagNames
---
--- User tags represent the tags from the current user.
---
--- ObjC selector: @- setUserTagNames:@
-setUserTagNames :: (IsAVAudioUnitComponent avAudioUnitComponent, IsNSArray value) => avAudioUnitComponent -> value -> IO ()
-setUserTagNames avAudioUnitComponent value =
-  sendMessage avAudioUnitComponent setUserTagNamesSelector (toNSArray value)
-
 -- | allTagNames
 --
 -- represent the tags from the current user and the system tags defined by AudioComponent.
@@ -229,7 +196,7 @@ audioComponentDescription avAudioUnitComponent =
 -- A URL that will specify the location of an icon file that can be used when presenting UI for this audio component.
 --
 -- ObjC selector: @- iconURL@
-iconURL :: IsAVAudioUnitComponent avAudioUnitComponent => avAudioUnitComponent -> IO (Id NSURL)
+iconURL :: IsAVAudioUnitComponent avAudioUnitComponent => avAudioUnitComponent -> IO RawId
 iconURL avAudioUnitComponent =
   sendMessage avAudioUnitComponent iconURLSelector
 
@@ -301,10 +268,6 @@ versionStringSelector = mkSelector "versionString"
 componentURLSelector :: Selector '[] RawId
 componentURLSelector = mkSelector "componentURL"
 
--- | @Selector@ for @availableArchitectures@
-availableArchitecturesSelector :: Selector '[] (Id NSArray)
-availableArchitecturesSelector = mkSelector "availableArchitectures"
-
 -- | @Selector@ for @sandboxSafe@
 sandboxSafeSelector :: Selector '[] Bool
 sandboxSafeSelector = mkSelector "sandboxSafe"
@@ -321,14 +284,6 @@ hasMIDIOutputSelector = mkSelector "hasMIDIOutput"
 audioComponentSelector :: Selector '[] (Ptr ())
 audioComponentSelector = mkSelector "audioComponent"
 
--- | @Selector@ for @userTagNames@
-userTagNamesSelector :: Selector '[] (Id NSArray)
-userTagNamesSelector = mkSelector "userTagNames"
-
--- | @Selector@ for @setUserTagNames:@
-setUserTagNamesSelector :: Selector '[Id NSArray] ()
-setUserTagNamesSelector = mkSelector "setUserTagNames:"
-
 -- | @Selector@ for @allTagNames@
 allTagNamesSelector :: Selector '[] (Id NSArray)
 allTagNamesSelector = mkSelector "allTagNames"
@@ -338,7 +293,7 @@ audioComponentDescriptionSelector :: Selector '[] AudioComponentDescription
 audioComponentDescriptionSelector = mkSelector "audioComponentDescription"
 
 -- | @Selector@ for @iconURL@
-iconURLSelector :: Selector '[] (Id NSURL)
+iconURLSelector :: Selector '[] RawId
 iconURLSelector = mkSelector "iconURL"
 
 -- | @Selector@ for @icon@

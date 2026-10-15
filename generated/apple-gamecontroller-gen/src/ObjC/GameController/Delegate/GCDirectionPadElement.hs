@@ -36,8 +36,7 @@ import ObjC.Runtime.StableIvar
 -- method is not implemented (the object will not respond to that
 -- selector).  'Just' provides the Haskell implementation.
 data GCDirectionPadElementOverrides = GCDirectionPadElementOverrides
-  { _xyAxes :: !(Maybe (IO RawId))
-  , _xAxis :: !(Maybe (IO RawId))
+  { _xAxis :: !(Maybe (IO RawId))
   , _yAxis :: !(Maybe (IO RawId))
   , _up :: !(Maybe (IO RawId))
   , _down :: !(Maybe (IO RawId))
@@ -48,8 +47,7 @@ data GCDirectionPadElementOverrides = GCDirectionPadElementOverrides
 -- | Default overrides with all methods unimplemented.
 defaultGCDirectionPadElementOverrides :: GCDirectionPadElementOverrides
 defaultGCDirectionPadElementOverrides = GCDirectionPadElementOverrides
-  { _xyAxes = Nothing
-  , _xAxis = Nothing
+  { _xAxis = Nothing
   , _yAxis = Nothing
   , _up = Nothing
   , _down = Nothing
@@ -76,26 +74,14 @@ gcDirectionPadElementDelegateClass = unsafePerformIO $ do
   cls <- withCString "HsGCDirectionPadElement" $ \n ->
     objc_allocateClassPair superCls n 0
   addHsDataIvar cls
-  let sel_xyAxes = unSelector (mkSelector "xyAxes")
-      sel_xAxis = unSelector (mkSelector "xAxis")
+  let sel_xAxis = unSelector (mkSelector "xAxis")
       sel_yAxis = unSelector (mkSelector "yAxis")
       sel_up = unSelector (mkSelector "up")
       sel_down = unSelector (mkSelector "down")
       sel_left = unSelector (mkSelector "left")
       sel_right = unSelector (mkSelector "right")
-  -- xyAxes
-  stub_0 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
-    case _xyAxes rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "xyAxes" "@@:" stub_0
-
   -- xAxis
-  stub_1 <- wrap_at $ \self _cmd -> do
+  stub_0 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
     case _xAxis rec_ of
@@ -103,10 +89,10 @@ gcDirectionPadElementDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "xAxis" "@@:" stub_1
+  addObjCMethod cls "xAxis" "@@:" stub_0
 
   -- yAxis
-  stub_2 <- wrap_at $ \self _cmd -> do
+  stub_1 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
     case _yAxis rec_ of
@@ -114,10 +100,10 @@ gcDirectionPadElementDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "yAxis" "@@:" stub_2
+  addObjCMethod cls "yAxis" "@@:" stub_1
 
   -- up
-  stub_3 <- wrap_at $ \self _cmd -> do
+  stub_2 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
     case _up rec_ of
@@ -125,10 +111,10 @@ gcDirectionPadElementDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "up" "@@:" stub_3
+  addObjCMethod cls "up" "@@:" stub_2
 
   -- down
-  stub_4 <- wrap_at $ \self _cmd -> do
+  stub_3 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
     case _down rec_ of
@@ -136,10 +122,10 @@ gcDirectionPadElementDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "down" "@@:" stub_4
+  addObjCMethod cls "down" "@@:" stub_3
 
   -- left
-  stub_5 <- wrap_at $ \self _cmd -> do
+  stub_4 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
     case _left rec_ of
@@ -147,10 +133,10 @@ gcDirectionPadElementDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "left" "@@:" stub_5
+  addObjCMethod cls "left" "@@:" stub_4
 
   -- right
-  stub_6 <- wrap_at $ \self _cmd -> do
+  stub_5 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
     case _right rec_ of
@@ -158,14 +144,13 @@ gcDirectionPadElementDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "right" "@@:" stub_6
+  addObjCMethod cls "right" "@@:" stub_5
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCDirectionPadElementOverrides
-    if queriedSel == sel_xyAxes then pure (maybe 0 (const 1) (_xyAxes rec_))
-    else if queriedSel == sel_xAxis then pure (maybe 0 (const 1) (_xAxis rec_))
+    if queriedSel == sel_xAxis then pure (maybe 0 (const 1) (_xAxis rec_))
     else if queriedSel == sel_yAxis then pure (maybe 0 (const 1) (_yAxis rec_))
     else if queriedSel == sel_up then pure (maybe 0 (const 1) (_up rec_))
     else if queriedSel == sel_down then pure (maybe 0 (const 1) (_down rec_))

@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object for converting audio data into a signature.
---
--- Create both reference and query signatures using this class.
+-- | @SHSignatureGenerator@ provides a way to convert audio data into instances of @SHSignature@
 --
 -- Generated bindings for @SHSignatureGenerator@.
 module ObjC.ShazamKit.SHSignatureGenerator
@@ -34,17 +32,13 @@ import ObjC.AVFAudio.Internal.Classes
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a signature with the asset you specify.
+-- | Create a @SHSignature@ from an @AVAsset.@
 --
--- > Important: > You can call this method from synchronous code using a completion handler, as shown on this page, or you can call it as an asynchronous method that has the following declaration: > > ```swift > class func signature(from asset: AVAsset) async throws -> SHSignature > ``` > > For information about concurrency and asynchronous code in Swift, see <doc://com.apple.documentation/documentation/swift/calling-objective-c-apis-asynchronously>.
+-- @asset@ — An AVAsset that contains audio you would like to convert to a Signature
 --
--- The asset you specify can be any type of media that contains audio tracks. If the asset has multiple tracks, the system mixes them into one ``SHSignature``.
+-- The asset can be any type of media that has audio tracks. If the asset has multiple tracks, they will be mixed into one @SHSignature@
 --
--- - Parameters:   - asset: An asset that contains the audio to convert.   - completionHandler: The system calls this completion block after creating the signature, or an error if the system couldn't create it.
---
--- This block takes the following parameters:
---
--- - term @signature@: A new signature instance.     - term error: An error object if a problem occurs when creating thesignature; otherwise, @nil@.
+-- @completionHandler@ — A block called with the created @SHSignature@ or nil and a populated error parameter if a signature could not be created.
 --
 -- ObjC selector: @+ generateSignatureFromAsset:completionHandler:@
 generateSignatureFromAsset_completionHandler :: IsAVAsset asset => asset -> Ptr () -> IO ()
@@ -53,24 +47,24 @@ generateSignatureFromAsset_completionHandler asset completionHandler =
     cls' <- getRequiredClass "SHSignatureGenerator"
     sendClassMessage cls' generateSignatureFromAsset_completionHandlerSelector (toAVAsset asset) completionHandler
 
--- | Adds audio to the generator.
+-- | Add audio to the generator
 --
--- Using noncontiguous audio may result in a lower-quality signature.
+-- Audio passed to the generator should be contiguous, passing non contiguous data will affect the quality of the @SHSignature@ produced. Passing the @AVAudioTime@ is not required but recommended, it allows the generator to detect when the audio is not contiguous. This method will throw an exception if the audio format is not PCM in one of the following sample rates: 48000, 44100, 32000, 16000.
 --
--- The audio must be PCM at one of these rates:
+-- @time@ — Where in the stream the audio represents
 --
--- - @48000@ hertz - @44100@ hertz - @32000@ hertz - @16000@ hertz
+-- @buffer@ — The audio data to be appended to the signature
 --
--- - Parameters:   - buffer: The audio data to append to the signature generator.   - time: The time position of the start of the audio buffer in the full audio you use to generate the signature.   - error: The error that occurs; otherwise, @nil@.
+-- @error@ — An error if there was an issue appending the buffer
 --
 -- ObjC selector: @- appendBuffer:atTime:error:@
 appendBuffer_atTime_error :: (IsSHSignatureGenerator shSignatureGenerator, IsAVAudioPCMBuffer buffer, IsAVAudioTime time, IsNSError error_) => shSignatureGenerator -> buffer -> time -> error_ -> IO Bool
 appendBuffer_atTime_error shSignatureGenerator buffer time error_ =
   sendMessage shSignatureGenerator appendBuffer_atTime_errorSelector (toAVAudioPCMBuffer buffer) (toAVAudioTime time) (toNSError error_)
 
--- | Converts the audio buffer into a signature.
+-- | Convert the current audio data into a @SHSignature@
 --
--- - Returns: A signature that ShazamKit generates from the audio buffer.
+-- Signature may be called as many times as needed, each time producing a @SHSignature@ from the audio data
 --
 -- ObjC selector: @- signature@
 signature :: IsSHSignatureGenerator shSignatureGenerator => shSignatureGenerator -> IO (Id SHSignature)

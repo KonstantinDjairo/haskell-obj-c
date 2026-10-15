@@ -40,8 +40,6 @@ data HKWorkoutSessionDelegateOverrides = HKWorkoutSessionDelegateOverrides
   , _workoutSession_didGenerateEvent :: !(Maybe (RawId -> RawId -> IO ()))
   , _workoutSession_didBeginActivityWithConfiguration_date :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _workoutSession_didEndActivityWithConfiguration_date :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
-  , _workoutSession_didReceiveDataFromRemoteWorkoutSession :: !(Maybe (RawId -> RawId -> IO ()))
-  , _workoutSession_didDisconnectFromRemoteDeviceWithError :: !(Maybe (RawId -> RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -51,8 +49,6 @@ defaultHKWorkoutSessionDelegateOverrides = HKWorkoutSessionDelegateOverrides
   , _workoutSession_didGenerateEvent = Nothing
   , _workoutSession_didBeginActivityWithConfiguration_date = Nothing
   , _workoutSession_didEndActivityWithConfiguration_date = Nothing
-  , _workoutSession_didReceiveDataFromRemoteWorkoutSession = Nothing
-  , _workoutSession_didDisconnectFromRemoteDeviceWithError = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -83,8 +79,6 @@ hkWorkoutSessionDelegateDelegateClass = unsafePerformIO $ do
       sel_workoutSession_didGenerateEvent = unSelector (mkSelector "workoutSession:didGenerateEvent:")
       sel_workoutSession_didBeginActivityWithConfiguration_date = unSelector (mkSelector "workoutSession:didBeginActivityWithConfiguration:date:")
       sel_workoutSession_didEndActivityWithConfiguration_date = unSelector (mkSelector "workoutSession:didEndActivityWithConfiguration:date:")
-      sel_workoutSession_didReceiveDataFromRemoteWorkoutSession = unSelector (mkSelector "workoutSession:didReceiveDataFromRemoteWorkoutSession:")
-      sel_workoutSession_didDisconnectFromRemoteDeviceWithError = unSelector (mkSelector "workoutSession:didDisconnectFromRemoteDeviceWithError:")
   -- workoutSession:didFailWithError:
   stub_0 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
@@ -121,24 +115,6 @@ hkWorkoutSessionDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
   addObjCMethod cls "workoutSession:didEndActivityWithConfiguration:date:" "v@:@@@" stub_3
 
-  -- workoutSession:didReceiveDataFromRemoteWorkoutSession:
-  stub_4 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO HKWorkoutSessionDelegateOverrides
-    case _workoutSession_didReceiveDataFromRemoteWorkoutSession rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "workoutSession:didReceiveDataFromRemoteWorkoutSession:" "v@:@@" stub_4
-
-  -- workoutSession:didDisconnectFromRemoteDeviceWithError:
-  stub_5 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO HKWorkoutSessionDelegateOverrides
-    case _workoutSession_didDisconnectFromRemoteDeviceWithError rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "workoutSession:didDisconnectFromRemoteDeviceWithError:" "v@:@@" stub_5
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -147,8 +123,6 @@ hkWorkoutSessionDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_workoutSession_didGenerateEvent then pure (maybe 0 (const 1) (_workoutSession_didGenerateEvent rec_))
     else if queriedSel == sel_workoutSession_didBeginActivityWithConfiguration_date then pure (maybe 0 (const 1) (_workoutSession_didBeginActivityWithConfiguration_date rec_))
     else if queriedSel == sel_workoutSession_didEndActivityWithConfiguration_date then pure (maybe 0 (const 1) (_workoutSession_didEndActivityWithConfiguration_date rec_))
-    else if queriedSel == sel_workoutSession_didReceiveDataFromRemoteWorkoutSession then pure (maybe 0 (const 1) (_workoutSession_didReceiveDataFromRemoteWorkoutSession rec_))
-    else if queriedSel == sel_workoutSession_didDisconnectFromRemoteDeviceWithError then pure (maybe 0 (const 1) (_workoutSession_didDisconnectFromRemoteDeviceWithError rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

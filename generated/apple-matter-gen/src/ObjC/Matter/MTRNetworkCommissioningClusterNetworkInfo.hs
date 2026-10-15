@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRNetworkCommissioningClusterNetworkInfo
   ( MTRNetworkCommissioningClusterNetworkInfo
   , IsMTRNetworkCommissioningClusterNetworkInfo(..)
+  , init_
+  , copyWithZone
   , networkID
   , setNetworkID
   , connected
   , setConnected
   , connectedSelector
+  , copyWithZoneSelector
+  , initSelector
   , networkIDSelector
   , setConnectedSelector
   , setNetworkIDSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRNetworkCommissioningClusterNetworkInfo mtrNetworkCommissioningClusterNetworkInfo => mtrNetworkCommissioningClusterNetworkInfo -> IO (Id MTRNetworkCommissioningClusterNetworkInfo)
+init_ mtrNetworkCommissioningClusterNetworkInfo =
+  sendOwnedMessage mtrNetworkCommissioningClusterNetworkInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRNetworkCommissioningClusterNetworkInfo mtrNetworkCommissioningClusterNetworkInfo => mtrNetworkCommissioningClusterNetworkInfo -> Ptr () -> IO RawId
+copyWithZone mtrNetworkCommissioningClusterNetworkInfo zone =
+  sendOwnedMessage mtrNetworkCommissioningClusterNetworkInfo copyWithZoneSelector zone
 
 -- | @- networkID@
 networkID :: IsMTRNetworkCommissioningClusterNetworkInfo mtrNetworkCommissioningClusterNetworkInfo => mtrNetworkCommissioningClusterNetworkInfo -> IO (Id NSData)
@@ -53,6 +67,14 @@ setConnected mtrNetworkCommissioningClusterNetworkInfo value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRNetworkCommissioningClusterNetworkInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @networkID@
 networkIDSelector :: Selector '[] (Id NSData)

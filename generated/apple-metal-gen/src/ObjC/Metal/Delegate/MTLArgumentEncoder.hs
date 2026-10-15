@@ -48,7 +48,6 @@ data MTLArgumentEncoderOverrides = MTLArgumentEncoderOverrides
   , _newArgumentEncoderForBufferAtIndex :: !(Maybe (Int -> IO RawId))
   , _setVisibleFunctionTable_atIndex :: !(Maybe (RawId -> Int -> IO ()))
   , _setIntersectionFunctionTable_atIndex :: !(Maybe (RawId -> Int -> IO ()))
-  , _setDepthStencilState_atIndex :: !(Maybe (RawId -> Int -> IO ()))
   , _device :: !(Maybe (IO RawId))
   , _label :: !(Maybe (IO RawId))
   , _setLabel :: !(Maybe (RawId -> IO ()))
@@ -71,7 +70,6 @@ defaultMTLArgumentEncoderOverrides = MTLArgumentEncoderOverrides
   , _newArgumentEncoderForBufferAtIndex = Nothing
   , _setVisibleFunctionTable_atIndex = Nothing
   , _setIntersectionFunctionTable_atIndex = Nothing
-  , _setDepthStencilState_atIndex = Nothing
   , _device = Nothing
   , _label = Nothing
   , _setLabel = Nothing
@@ -135,7 +133,6 @@ mtlArgumentEncoderDelegateClass = unsafePerformIO $ do
       sel_newArgumentEncoderForBufferAtIndex = unSelector (mkSelector "newArgumentEncoderForBufferAtIndex:")
       sel_setVisibleFunctionTable_atIndex = unSelector (mkSelector "setVisibleFunctionTable:atIndex:")
       sel_setIntersectionFunctionTable_atIndex = unSelector (mkSelector "setIntersectionFunctionTable:atIndex:")
-      sel_setDepthStencilState_atIndex = unSelector (mkSelector "setDepthStencilState:atIndex:")
       sel_device = unSelector (mkSelector "device")
       sel_label = unSelector (mkSelector "label")
       sel_setLabel = unSelector (mkSelector "setLabel:")
@@ -251,17 +248,8 @@ mtlArgumentEncoderDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (fromIntegral arg1)
   addObjCMethod cls "setIntersectionFunctionTable:atIndex:" "v@:@Q" stub_11
 
-  -- setDepthStencilState:atIndex:
-  stub_12 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTLArgumentEncoderOverrides
-    case _setDepthStencilState_atIndex rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "setDepthStencilState:atIndex:" "v@:@Q" stub_12
-
   -- device
-  stub_13 <- wrap_at $ \self _cmd -> do
+  stub_12 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLArgumentEncoderOverrides
     case _device rec_ of
@@ -269,10 +257,10 @@ mtlArgumentEncoderDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "device" "@@:" stub_13
+  addObjCMethod cls "device" "@@:" stub_12
 
   -- label
-  stub_14 <- wrap_at $ \self _cmd -> do
+  stub_13 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLArgumentEncoderOverrides
     case _label rec_ of
@@ -280,19 +268,19 @@ mtlArgumentEncoderDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "label" "@@:" stub_14
+  addObjCMethod cls "label" "@@:" stub_13
 
   -- setLabel:
-  stub_15 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_14 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLArgumentEncoderOverrides
     case _setLabel rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setLabel:" "v@:@" stub_15
+  addObjCMethod cls "setLabel:" "v@:@" stub_14
 
   -- encodedLength
-  stub_16 <- wrap_Q $ \self _cmd -> do
+  stub_15 <- wrap_Q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLArgumentEncoderOverrides
     case _encodedLength rec_ of
@@ -300,10 +288,10 @@ mtlArgumentEncoderDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "encodedLength" "Q@:" stub_16
+  addObjCMethod cls "encodedLength" "Q@:" stub_15
 
   -- alignment
-  stub_17 <- wrap_Q $ \self _cmd -> do
+  stub_16 <- wrap_Q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLArgumentEncoderOverrides
     case _alignment rec_ of
@@ -311,7 +299,7 @@ mtlArgumentEncoderDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "alignment" "Q@:" stub_17
+  addObjCMethod cls "alignment" "Q@:" stub_16
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -329,7 +317,6 @@ mtlArgumentEncoderDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_newArgumentEncoderForBufferAtIndex then pure (maybe 0 (const 1) (_newArgumentEncoderForBufferAtIndex rec_))
     else if queriedSel == sel_setVisibleFunctionTable_atIndex then pure (maybe 0 (const 1) (_setVisibleFunctionTable_atIndex rec_))
     else if queriedSel == sel_setIntersectionFunctionTable_atIndex then pure (maybe 0 (const 1) (_setIntersectionFunctionTable_atIndex rec_))
-    else if queriedSel == sel_setDepthStencilState_atIndex then pure (maybe 0 (const 1) (_setDepthStencilState_atIndex rec_))
     else if queriedSel == sel_device then pure (maybe 0 (const 1) (_device rec_))
     else if queriedSel == sel_label then pure (maybe 0 (const 1) (_label rec_))
     else if queriedSel == sel_setLabel then pure (maybe 0 (const 1) (_setLabel rec_))

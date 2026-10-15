@@ -40,9 +40,6 @@ pattern CSIndexErrorCodeQuotaExceeded = CSIndexErrorCode (-1004)
 pattern CSIndexErrorCodeIndexingUnsupported :: CSIndexErrorCode
 pattern CSIndexErrorCodeIndexingUnsupported = CSIndexErrorCode (-1005)
 
-pattern CSIndexErrorCodeMismatchedClientState :: CSIndexErrorCode
-pattern CSIndexErrorCodeMismatchedClientState = CSIndexErrorCode (-1006)
-
 instance ObjCArgument CSIndexErrorCode where
   withObjCArg (CSIndexErrorCode x) k = k (argCLong x)
 
@@ -107,36 +104,6 @@ instance ObjCReturn CSSearchQuerySourceOptions where
   fromRetained x = pure (CSSearchQuerySourceOptions x)
   fromOwned x = pure (CSSearchQuerySourceOptions x)
 
--- | @CSSearchableItemUpdateListenerOptions@ (bitmask)
-newtype CSSearchableItemUpdateListenerOptions = CSSearchableItemUpdateListenerOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup CSSearchableItemUpdateListenerOptions where
-  (<>) = (.|.)
-
-instance Monoid CSSearchableItemUpdateListenerOptions where
-  mempty = CSSearchableItemUpdateListenerOptions 0
-
-pattern CSSearchableItemUpdateListenerOptionDefault :: CSSearchableItemUpdateListenerOptions
-pattern CSSearchableItemUpdateListenerOptionDefault = CSSearchableItemUpdateListenerOptions 0
-
-pattern CSSearchableItemUpdateListenerOptionSummarization :: CSSearchableItemUpdateListenerOptions
-pattern CSSearchableItemUpdateListenerOptionSummarization = CSSearchableItemUpdateListenerOptions 2
-
-pattern CSSearchableItemUpdateListenerOptionPriority :: CSSearchableItemUpdateListenerOptions
-pattern CSSearchableItemUpdateListenerOptionPriority = CSSearchableItemUpdateListenerOptions 4
-
-instance ObjCArgument CSSearchableItemUpdateListenerOptions where
-  withObjCArg (CSSearchableItemUpdateListenerOptions x) k = k (argCULong x)
-
-instance ObjCReturn CSSearchableItemUpdateListenerOptions where
-  type RawReturn CSSearchableItemUpdateListenerOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CSSearchableItemUpdateListenerOptions x)
-  fromOwned x = pure (CSSearchableItemUpdateListenerOptions x)
-
 -- | @CSSuggestionKind@
 newtype CSSuggestionKind = CSSuggestionKind CLong
   deriving stock (Eq, Ord, Show)
@@ -160,27 +127,3 @@ instance ObjCReturn CSSuggestionKind where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (CSSuggestionKind x)
   fromOwned x = pure (CSSuggestionKind x)
-
--- | @CSUserInteraction@
-newtype CSUserInteraction = CSUserInteraction CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern CSUserInteractionSelect :: CSUserInteraction
-pattern CSUserInteractionSelect = CSUserInteraction 0
-
-pattern CSUserInteractionDefault :: CSUserInteraction
-pattern CSUserInteractionDefault = CSUserInteraction 0
-
-pattern CSUserInteractionFocus :: CSUserInteraction
-pattern CSUserInteractionFocus = CSUserInteraction 1
-
-instance ObjCArgument CSUserInteraction where
-  withObjCArg (CSUserInteraction x) k = k (argCLong x)
-
-instance ObjCReturn CSUserInteraction where
-  type RawReturn CSUserInteraction = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CSUserInteraction x)
-  fromOwned x = pure (CSUserInteraction x)

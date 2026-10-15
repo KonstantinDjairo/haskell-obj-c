@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -19,20 +18,12 @@ module ObjC.PHASE.PHASEListener
   , initWithEngine
   , gain
   , setGain
-  , automaticHeadTrackingFlags
-  , setAutomaticHeadTrackingFlags
-  , automaticHeadTrackingFlagsSelector
   , gainSelector
   , initSelector
   , initWithEngineSelector
   , newSelector
-  , setAutomaticHeadTrackingFlagsSelector
   , setGainSelector
 
-  -- * Enum types
-  , PHASEAutomaticHeadTrackingFlags(PHASEAutomaticHeadTrackingFlags)
-  , pattern PHASEAutomaticHeadTrackingFlagOrientation
-  , pattern PHASEAutomaticHeadTrackingFlagPosition
 
   ) where
 
@@ -45,7 +36,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PHASE.Internal.Classes
-import ObjC.PHASE.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | @- init@
@@ -91,24 +81,6 @@ setGain :: IsPHASEListener phaseListener => phaseListener -> CDouble -> IO ()
 setGain phaseListener value =
   sendMessage phaseListener setGainSelector value
 
--- | automaticHeadTrackingFlags
---
--- A combination of flags to express automatic headtracking behaviors for this listener.
---
--- ObjC selector: @- automaticHeadTrackingFlags@
-automaticHeadTrackingFlags :: IsPHASEListener phaseListener => phaseListener -> IO PHASEAutomaticHeadTrackingFlags
-automaticHeadTrackingFlags phaseListener =
-  sendMessage phaseListener automaticHeadTrackingFlagsSelector
-
--- | automaticHeadTrackingFlags
---
--- A combination of flags to express automatic headtracking behaviors for this listener.
---
--- ObjC selector: @- setAutomaticHeadTrackingFlags:@
-setAutomaticHeadTrackingFlags :: IsPHASEListener phaseListener => phaseListener -> PHASEAutomaticHeadTrackingFlags -> IO ()
-setAutomaticHeadTrackingFlags phaseListener value =
-  sendMessage phaseListener setAutomaticHeadTrackingFlagsSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -132,12 +104,4 @@ gainSelector = mkSelector "gain"
 -- | @Selector@ for @setGain:@
 setGainSelector :: Selector '[CDouble] ()
 setGainSelector = mkSelector "setGain:"
-
--- | @Selector@ for @automaticHeadTrackingFlags@
-automaticHeadTrackingFlagsSelector :: Selector '[] PHASEAutomaticHeadTrackingFlags
-automaticHeadTrackingFlagsSelector = mkSelector "automaticHeadTrackingFlags"
-
--- | @Selector@ for @setAutomaticHeadTrackingFlags:@
-setAutomaticHeadTrackingFlagsSelector :: Selector '[PHASEAutomaticHeadTrackingFlags] ()
-setAutomaticHeadTrackingFlagsSelector = mkSelector "setAutomaticHeadTrackingFlags:"
 

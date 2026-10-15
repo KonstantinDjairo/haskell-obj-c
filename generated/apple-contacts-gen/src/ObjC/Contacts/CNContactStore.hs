@@ -47,7 +47,6 @@ module ObjC.Contacts.CNContactStore
   , pattern CNAuthorizationStatusRestricted
   , pattern CNAuthorizationStatusDenied
   , pattern CNAuthorizationStatusAuthorized
-  , pattern CNAuthorizationStatusLimited
   , CNEntityType(CNEntityType)
   , pattern CNEntityTypeContacts
 

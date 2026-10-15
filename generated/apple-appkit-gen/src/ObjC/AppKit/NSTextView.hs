@@ -63,8 +63,6 @@ module ObjC.AppKit.NSTextView
   , characterIndexForInsertionAtPoint
   , performValidatedReplacementInRange_withAttributedString
   , toggleBaseWritingDirection
-  , drawTextHighlightBackgroundForTextRange_origin
-  , highlight
   , scrollableTextView
   , nsTextViewFieldEditor
   , scrollableDocumentContentTextView
@@ -134,8 +132,6 @@ module ObjC.AppKit.NSTextView
   , stronglyReferencesTextStorage
   , usesAdaptiveColorMappingForDarkAppearance
   , setUsesAdaptiveColorMappingForDarkAppearance
-  , textHighlightAttributes
-  , setTextHighlightAttributes
   , automaticTextCompletionEnabled
   , setAutomaticTextCompletionEnabled
   , allowsCharacterPickerTouchBarItem
@@ -163,10 +159,6 @@ module ObjC.AppKit.NSTextView
   , setUsesFindBar
   , incrementalSearchingEnabled
   , setIncrementalSearchingEnabled
-  , inlinePredictionType
-  , setInlinePredictionType
-  , mathExpressionCompletionType
-  , setMathExpressionCompletionType
   , selectedRanges
   , setSelectedRanges
   , selectionAffinity
@@ -232,13 +224,6 @@ module ObjC.AppKit.NSTextView
   , setUsesFontPanel
   , rulerVisible
   , setRulerVisible
-  , allowedInputSourceLocales
-  , setAllowedInputSourceLocales
-  , writingToolsActive
-  , writingToolsBehavior
-  , setWritingToolsBehavior
-  , allowedWritingToolsResultOptions
-  , setAllowedWritingToolsResultOptions
   , acceptableDragTypes
   , writablePasteboardTypes
   , readablePasteboardTypes
@@ -246,8 +231,6 @@ module ObjC.AppKit.NSTextView
   , acceptableDragTypesSelector
   , acceptsGlyphInfoSelector
   , alignJustifiedSelector
-  , allowedInputSourceLocalesSelector
-  , allowedWritingToolsResultOptionsSelector
   , allowsCharacterPickerTouchBarItemSelector
   , allowsDocumentBackgroundColorChangeSelector
   , allowsImageEditingSelector
@@ -284,7 +267,6 @@ module ObjC.AppKit.NSTextView
   , dragOperationForDraggingInfo_typeSelector
   , dragSelectionWithEvent_offset_slideBackSelector
   , drawInsertionPointInRect_color_turnedOnSelector
-  , drawTextHighlightBackgroundForTextRange_originSelector
   , drawViewBackgroundInRectSelector
   , drawsBackgroundSelector
   , editableSelector
@@ -292,14 +274,12 @@ module ObjC.AppKit.NSTextView
   , fieldEditorSelector
   , grammarCheckingEnabledSelector
   , handleTextCheckingResults_forRange_types_options_orthography_wordCountSelector
-  , highlightSelector
   , importsGraphicsSelector
   , incrementalSearchingEnabledSelector
   , initUsingTextLayoutManagerSelector
   , initWithCoderSelector
   , initWithFrameSelector
   , initWithFrame_textContainerSelector
-  , inlinePredictionTypeSelector
   , insertCompletion_forPartialWordRange_movement_isFinalSelector
   , insertTextSelector
   , insertionPointColorSelector
@@ -309,7 +289,6 @@ module ObjC.AppKit.NSTextView
   , loosenKerningSelector
   , lowerBaselineSelector
   , markedTextAttributesSelector
-  , mathExpressionCompletionTypeSelector
   , nsTextViewFieldEditorSelector
   , orderFrontLinkPanelSelector
   , orderFrontListPanelSelector
@@ -359,8 +338,6 @@ module ObjC.AppKit.NSTextView
   , selectionRangeForProposedRange_granularitySelector
   , setAcceptsGlyphInfoSelector
   , setAlignment_rangeSelector
-  , setAllowedInputSourceLocalesSelector
-  , setAllowedWritingToolsResultOptionsSelector
   , setAllowsCharacterPickerTouchBarItemSelector
   , setAllowsDocumentBackgroundColorChangeSelector
   , setAllowsImageEditingSelector
@@ -386,12 +363,10 @@ module ObjC.AppKit.NSTextView
   , setGrammarCheckingEnabledSelector
   , setImportsGraphicsSelector
   , setIncrementalSearchingEnabledSelector
-  , setInlinePredictionTypeSelector
   , setInsertionPointColorSelector
   , setLayoutOrientationSelector
   , setLinkTextAttributesSelector
   , setMarkedTextAttributesSelector
-  , setMathExpressionCompletionTypeSelector
   , setNeedsDisplayInRect_avoidAdditionalLayoutSelector
   , setRichTextSelector
   , setRulerVisibleSelector
@@ -406,7 +381,6 @@ module ObjC.AppKit.NSTextView
   , setSpellingState_rangeSelector
   , setTextContainerInsetSelector
   , setTextContainerSelector
-  , setTextHighlightAttributesSelector
   , setTypingAttributesSelector
   , setUsesAdaptiveColorMappingForDarkAppearanceSelector
   , setUsesFindBarSelector
@@ -415,7 +389,6 @@ module ObjC.AppKit.NSTextView
   , setUsesInspectorBarSelector
   , setUsesRolloverButtonForSelectionSelector
   , setUsesRulerSelector
-  , setWritingToolsBehaviorSelector
   , shouldChangeTextInRange_replacementStringSelector
   , shouldChangeTextInRanges_replacementStringsSelector
   , shouldDrawInsertionPointSelector
@@ -433,7 +406,6 @@ module ObjC.AppKit.NSTextView
   , textContainerOriginSelector
   , textContainerSelector
   , textContentStorageSelector
-  , textHighlightAttributesSelector
   , textLayoutManagerSelector
   , textStorageSelector
   , textViewUsingTextLayoutManagerSelector
@@ -476,8 +448,6 @@ module ObjC.AppKit.NSTextView
   , writablePasteboardTypesSelector
   , writeSelectionToPasteboard_typeSelector
   , writeSelectionToPasteboard_typesSelector
-  , writingToolsActiveSelector
-  , writingToolsBehaviorSelector
 
   -- * Enum types
   , NSDragOperation(NSDragOperation)
@@ -500,14 +470,10 @@ module ObjC.AppKit.NSTextView
   , pattern NSSelectByParagraph
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
-  , NSTextInputTraitType(NSTextInputTraitType)
-  , pattern NSTextInputTraitTypeDefault
-  , pattern NSTextInputTraitTypeNo
-  , pattern NSTextInputTraitTypeYes
   , NSTextLayoutOrientation(NSTextLayoutOrientation)
   , pattern NSTextLayoutOrientationHorizontal
   , pattern NSTextLayoutOrientationVertical
@@ -515,18 +481,6 @@ module ObjC.AppKit.NSTextView
   , pattern NSWritingDirectionNatural
   , pattern NSWritingDirectionLeftToRight
   , pattern NSWritingDirectionRightToLeft
-  , NSWritingToolsBehavior(NSWritingToolsBehavior)
-  , pattern NSWritingToolsBehaviorNone
-  , pattern NSWritingToolsBehaviorDefault
-  , pattern NSWritingToolsBehaviorComplete
-  , pattern NSWritingToolsBehaviorLimited
-  , NSWritingToolsResultOptions(NSWritingToolsResultOptions)
-  , pattern NSWritingToolsResultDefault
-  , pattern NSWritingToolsResultPlainText
-  , pattern NSWritingToolsResultRichText
-  , pattern NSWritingToolsResultList
-  , pattern NSWritingToolsResultTable
-  , pattern NSWritingToolsResultPresentationIntent
 
   ) where
 
@@ -843,18 +797,6 @@ performValidatedReplacementInRange_withAttributedString nsTextView range attribu
 toggleBaseWritingDirection :: IsNSTextView nsTextView => nsTextView -> RawId -> IO ()
 toggleBaseWritingDirection nsTextView sender =
   sendMessage nsTextView toggleBaseWritingDirectionSelector sender
-
--- | @- drawTextHighlightBackgroundForTextRange:origin:@
-drawTextHighlightBackgroundForTextRange_origin :: (IsNSTextView nsTextView, IsNSTextRange textRange) => nsTextView -> textRange -> NSPoint -> IO ()
-drawTextHighlightBackgroundForTextRange_origin nsTextView textRange origin =
-  sendMessage nsTextView drawTextHighlightBackgroundForTextRange_originSelector (toNSTextRange textRange) origin
-
--- | An action for toggling @NSTextHighlightStyleAttributeName@ in the receiver’s selected range. The sender should be a menu item with a @representedObject@ of type (@NSTextHighlightColorScheme@).
---
--- ObjC selector: @- highlight:@
-highlight :: IsNSTextView nsTextView => nsTextView -> RawId -> IO ()
-highlight nsTextView sender =
-  sendMessage nsTextView highlightSelector sender
 
 -- | @+ scrollableTextView@
 scrollableTextView :: IO (Id NSScrollView)
@@ -1192,12 +1134,12 @@ textStorage nsTextView =
   sendMessage nsTextView textStorageSelector
 
 -- | @- textLayoutManager@
-textLayoutManager :: IsNSTextView nsTextView => nsTextView -> IO (Id NSTextLayoutManager)
+textLayoutManager :: IsNSTextView nsTextView => nsTextView -> IO RawId
 textLayoutManager nsTextView =
   sendMessage nsTextView textLayoutManagerSelector
 
 -- | @- textContentStorage@
-textContentStorage :: IsNSTextView nsTextView => nsTextView -> IO (Id NSTextContentStorage)
+textContentStorage :: IsNSTextView nsTextView => nsTextView -> IO RawId
 textContentStorage nsTextView =
   sendMessage nsTextView textContentStorageSelector
 
@@ -1225,20 +1167,6 @@ setUsesAdaptiveColorMappingForDarkAppearance :: IsNSTextView nsTextView => nsTex
 setUsesAdaptiveColorMappingForDarkAppearance nsTextView value =
   sendMessage nsTextView setUsesAdaptiveColorMappingForDarkAppearanceSelector value
 
--- | ************************* Text Highlight  support **************************
---
--- ObjC selector: @- textHighlightAttributes@
-textHighlightAttributes :: IsNSTextView nsTextView => nsTextView -> IO (Id NSDictionary)
-textHighlightAttributes nsTextView =
-  sendMessage nsTextView textHighlightAttributesSelector
-
--- | ************************* Text Highlight  support **************************
---
--- ObjC selector: @- setTextHighlightAttributes:@
-setTextHighlightAttributes :: (IsNSTextView nsTextView, IsNSDictionary value) => nsTextView -> value -> IO ()
-setTextHighlightAttributes nsTextView value =
-  sendMessage nsTextView setTextHighlightAttributesSelector (toNSDictionary value)
-
 -- | @- automaticTextCompletionEnabled@
 automaticTextCompletionEnabled :: IsNSTextView nsTextView => nsTextView -> IO Bool
 automaticTextCompletionEnabled nsTextView =
@@ -1260,7 +1188,7 @@ setAllowsCharacterPickerTouchBarItem nsTextView value =
   sendMessage nsTextView setAllowsCharacterPickerTouchBarItemSelector value
 
 -- | @- candidateListTouchBarItem@
-candidateListTouchBarItem :: IsNSTextView nsTextView => nsTextView -> IO (Id NSCandidateListTouchBarItem)
+candidateListTouchBarItem :: IsNSTextView nsTextView => nsTextView -> IO RawId
 candidateListTouchBarItem nsTextView =
   sendMessage nsTextView candidateListTouchBarItemSelector
 
@@ -1377,26 +1305,6 @@ incrementalSearchingEnabled nsTextView =
 setIncrementalSearchingEnabled :: IsNSTextView nsTextView => nsTextView -> Bool -> IO ()
 setIncrementalSearchingEnabled nsTextView value =
   sendMessage nsTextView setIncrementalSearchingEnabledSelector value
-
--- | @- inlinePredictionType@
-inlinePredictionType :: IsNSTextView nsTextView => nsTextView -> IO NSTextInputTraitType
-inlinePredictionType nsTextView =
-  sendMessage nsTextView inlinePredictionTypeSelector
-
--- | @- setInlinePredictionType:@
-setInlinePredictionType :: IsNSTextView nsTextView => nsTextView -> NSTextInputTraitType -> IO ()
-setInlinePredictionType nsTextView value =
-  sendMessage nsTextView setInlinePredictionTypeSelector value
-
--- | @- mathExpressionCompletionType@
-mathExpressionCompletionType :: IsNSTextView nsTextView => nsTextView -> IO NSTextInputTraitType
-mathExpressionCompletionType nsTextView =
-  sendMessage nsTextView mathExpressionCompletionTypeSelector
-
--- | @- setMathExpressionCompletionType:@
-setMathExpressionCompletionType :: IsNSTextView nsTextView => nsTextView -> NSTextInputTraitType -> IO ()
-setMathExpressionCompletionType nsTextView value =
-  sendMessage nsTextView setMathExpressionCompletionTypeSelector value
 
 -- | ************************* Selected/Marked range **************************
 --
@@ -1739,45 +1647,6 @@ setRulerVisible :: IsNSTextView nsTextView => nsTextView -> Bool -> IO ()
 setRulerVisible nsTextView value =
   sendMessage nsTextView setRulerVisibleSelector value
 
--- | ************************* Input Source support **************************
---
--- ObjC selector: @- allowedInputSourceLocales@
-allowedInputSourceLocales :: IsNSTextView nsTextView => nsTextView -> IO (Id NSArray)
-allowedInputSourceLocales nsTextView =
-  sendMessage nsTextView allowedInputSourceLocalesSelector
-
--- | ************************* Input Source support **************************
---
--- ObjC selector: @- setAllowedInputSourceLocales:@
-setAllowedInputSourceLocales :: (IsNSTextView nsTextView, IsNSArray value) => nsTextView -> value -> IO ()
-setAllowedInputSourceLocales nsTextView value =
-  sendMessage nsTextView setAllowedInputSourceLocalesSelector (toNSArray value)
-
--- | @- writingToolsActive@
-writingToolsActive :: IsNSTextView nsTextView => nsTextView -> IO Bool
-writingToolsActive nsTextView =
-  sendMessage nsTextView writingToolsActiveSelector
-
--- | @- writingToolsBehavior@
-writingToolsBehavior :: IsNSTextView nsTextView => nsTextView -> IO NSWritingToolsBehavior
-writingToolsBehavior nsTextView =
-  sendMessage nsTextView writingToolsBehaviorSelector
-
--- | @- setWritingToolsBehavior:@
-setWritingToolsBehavior :: IsNSTextView nsTextView => nsTextView -> NSWritingToolsBehavior -> IO ()
-setWritingToolsBehavior nsTextView value =
-  sendMessage nsTextView setWritingToolsBehaviorSelector value
-
--- | @- allowedWritingToolsResultOptions@
-allowedWritingToolsResultOptions :: IsNSTextView nsTextView => nsTextView -> IO NSWritingToolsResultOptions
-allowedWritingToolsResultOptions nsTextView =
-  sendMessage nsTextView allowedWritingToolsResultOptionsSelector
-
--- | @- setAllowedWritingToolsResultOptions:@
-setAllowedWritingToolsResultOptions :: IsNSTextView nsTextView => nsTextView -> NSWritingToolsResultOptions -> IO ()
-setAllowedWritingToolsResultOptions nsTextView value =
-  sendMessage nsTextView setAllowedWritingToolsResultOptionsSelector value
-
 -- | @- acceptableDragTypes@
 acceptableDragTypes :: IsNSTextView nsTextView => nsTextView -> IO (Id NSArray)
 acceptableDragTypes nsTextView =
@@ -2023,14 +1892,6 @@ performValidatedReplacementInRange_withAttributedStringSelector = mkSelector "pe
 -- | @Selector@ for @toggleBaseWritingDirection:@
 toggleBaseWritingDirectionSelector :: Selector '[RawId] ()
 toggleBaseWritingDirectionSelector = mkSelector "toggleBaseWritingDirection:"
-
--- | @Selector@ for @drawTextHighlightBackgroundForTextRange:origin:@
-drawTextHighlightBackgroundForTextRange_originSelector :: Selector '[Id NSTextRange, NSPoint] ()
-drawTextHighlightBackgroundForTextRange_originSelector = mkSelector "drawTextHighlightBackgroundForTextRange:origin:"
-
--- | @Selector@ for @highlight:@
-highlightSelector :: Selector '[RawId] ()
-highlightSelector = mkSelector "highlight:"
 
 -- | @Selector@ for @scrollableTextView@
 scrollableTextViewSelector :: Selector '[] (Id NSScrollView)
@@ -2285,11 +2146,11 @@ textStorageSelector :: Selector '[] (Id NSTextStorage)
 textStorageSelector = mkSelector "textStorage"
 
 -- | @Selector@ for @textLayoutManager@
-textLayoutManagerSelector :: Selector '[] (Id NSTextLayoutManager)
+textLayoutManagerSelector :: Selector '[] RawId
 textLayoutManagerSelector = mkSelector "textLayoutManager"
 
 -- | @Selector@ for @textContentStorage@
-textContentStorageSelector :: Selector '[] (Id NSTextContentStorage)
+textContentStorageSelector :: Selector '[] RawId
 textContentStorageSelector = mkSelector "textContentStorage"
 
 -- | @Selector@ for @shouldDrawInsertionPoint@
@@ -2308,14 +2169,6 @@ usesAdaptiveColorMappingForDarkAppearanceSelector = mkSelector "usesAdaptiveColo
 setUsesAdaptiveColorMappingForDarkAppearanceSelector :: Selector '[Bool] ()
 setUsesAdaptiveColorMappingForDarkAppearanceSelector = mkSelector "setUsesAdaptiveColorMappingForDarkAppearance:"
 
--- | @Selector@ for @textHighlightAttributes@
-textHighlightAttributesSelector :: Selector '[] (Id NSDictionary)
-textHighlightAttributesSelector = mkSelector "textHighlightAttributes"
-
--- | @Selector@ for @setTextHighlightAttributes:@
-setTextHighlightAttributesSelector :: Selector '[Id NSDictionary] ()
-setTextHighlightAttributesSelector = mkSelector "setTextHighlightAttributes:"
-
 -- | @Selector@ for @automaticTextCompletionEnabled@
 automaticTextCompletionEnabledSelector :: Selector '[] Bool
 automaticTextCompletionEnabledSelector = mkSelector "automaticTextCompletionEnabled"
@@ -2333,7 +2186,7 @@ setAllowsCharacterPickerTouchBarItemSelector :: Selector '[Bool] ()
 setAllowsCharacterPickerTouchBarItemSelector = mkSelector "setAllowsCharacterPickerTouchBarItem:"
 
 -- | @Selector@ for @candidateListTouchBarItem@
-candidateListTouchBarItemSelector :: Selector '[] (Id NSCandidateListTouchBarItem)
+candidateListTouchBarItemSelector :: Selector '[] RawId
 candidateListTouchBarItemSelector = mkSelector "candidateListTouchBarItem"
 
 -- | @Selector@ for @smartInsertDeleteEnabled@
@@ -2423,22 +2276,6 @@ incrementalSearchingEnabledSelector = mkSelector "incrementalSearchingEnabled"
 -- | @Selector@ for @setIncrementalSearchingEnabled:@
 setIncrementalSearchingEnabledSelector :: Selector '[Bool] ()
 setIncrementalSearchingEnabledSelector = mkSelector "setIncrementalSearchingEnabled:"
-
--- | @Selector@ for @inlinePredictionType@
-inlinePredictionTypeSelector :: Selector '[] NSTextInputTraitType
-inlinePredictionTypeSelector = mkSelector "inlinePredictionType"
-
--- | @Selector@ for @setInlinePredictionType:@
-setInlinePredictionTypeSelector :: Selector '[NSTextInputTraitType] ()
-setInlinePredictionTypeSelector = mkSelector "setInlinePredictionType:"
-
--- | @Selector@ for @mathExpressionCompletionType@
-mathExpressionCompletionTypeSelector :: Selector '[] NSTextInputTraitType
-mathExpressionCompletionTypeSelector = mkSelector "mathExpressionCompletionType"
-
--- | @Selector@ for @setMathExpressionCompletionType:@
-setMathExpressionCompletionTypeSelector :: Selector '[NSTextInputTraitType] ()
-setMathExpressionCompletionTypeSelector = mkSelector "setMathExpressionCompletionType:"
 
 -- | @Selector@ for @selectedRanges@
 selectedRangesSelector :: Selector '[] (Id NSArray)
@@ -2699,34 +2536,6 @@ rulerVisibleSelector = mkSelector "rulerVisible"
 -- | @Selector@ for @setRulerVisible:@
 setRulerVisibleSelector :: Selector '[Bool] ()
 setRulerVisibleSelector = mkSelector "setRulerVisible:"
-
--- | @Selector@ for @allowedInputSourceLocales@
-allowedInputSourceLocalesSelector :: Selector '[] (Id NSArray)
-allowedInputSourceLocalesSelector = mkSelector "allowedInputSourceLocales"
-
--- | @Selector@ for @setAllowedInputSourceLocales:@
-setAllowedInputSourceLocalesSelector :: Selector '[Id NSArray] ()
-setAllowedInputSourceLocalesSelector = mkSelector "setAllowedInputSourceLocales:"
-
--- | @Selector@ for @writingToolsActive@
-writingToolsActiveSelector :: Selector '[] Bool
-writingToolsActiveSelector = mkSelector "writingToolsActive"
-
--- | @Selector@ for @writingToolsBehavior@
-writingToolsBehaviorSelector :: Selector '[] NSWritingToolsBehavior
-writingToolsBehaviorSelector = mkSelector "writingToolsBehavior"
-
--- | @Selector@ for @setWritingToolsBehavior:@
-setWritingToolsBehaviorSelector :: Selector '[NSWritingToolsBehavior] ()
-setWritingToolsBehaviorSelector = mkSelector "setWritingToolsBehavior:"
-
--- | @Selector@ for @allowedWritingToolsResultOptions@
-allowedWritingToolsResultOptionsSelector :: Selector '[] NSWritingToolsResultOptions
-allowedWritingToolsResultOptionsSelector = mkSelector "allowedWritingToolsResultOptions"
-
--- | @Selector@ for @setAllowedWritingToolsResultOptions:@
-setAllowedWritingToolsResultOptionsSelector :: Selector '[NSWritingToolsResultOptions] ()
-setAllowedWritingToolsResultOptionsSelector = mkSelector "setAllowedWritingToolsResultOptions:"
 
 -- | @Selector@ for @acceptableDragTypes@
 acceptableDragTypesSelector :: Selector '[] (Id NSArray)

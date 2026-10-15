@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVAssetDownloadStorageManager manages the policy for automatic purging of downloaded AVAssets. The policy is vended as AVAssetDownloadStorageManagementPolicy object.
---
--- When a storage management policy needs to be set on an asset, sharedDownloadStorageManager singleton needs to be fetched.  The new policy can then be set by using setStorageManagementPolicy and the location of the downloaded asset.
---
--- Generated bindings for @AVAssetDownloadStorageManager@.
+-- | Generated bindings for @AVAssetDownloadStorageManager@.
 module ObjC.AVFoundation.AVAssetDownloadStorageManager
   ( AVAssetDownloadStorageManager
   , IsAVAssetDownloadStorageManager(..)
@@ -32,7 +28,9 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | returns singleton instance.
+-- | sharedDownloadStorageManager
+--
+-- returns singleton instance.
 --
 -- ObjC selector: @+ sharedDownloadStorageManager@
 sharedDownloadStorageManager :: IO (Id AVAssetDownloadStorageManager)
@@ -41,18 +39,22 @@ sharedDownloadStorageManager  =
     cls' <- getRequiredClass "AVAssetDownloadStorageManager"
     sendClassMessage cls' sharedDownloadStorageManagerSelector
 
--- | Sets the policy for asset with disk backing at downloadStorageURL.
+-- | setStorageManagementPolicy: forURL
 --
--- - Parameter downloadStorageURL: The location of downloaded asset.
+-- Sets the policy for asset with disk backing at downloadStorageURL.
+--
+-- @downloadStorageURL@ — The location of downloaded asset.
 --
 -- ObjC selector: @- setStorageManagementPolicy:forURL:@
 setStorageManagementPolicy_forURL :: (IsAVAssetDownloadStorageManager avAssetDownloadStorageManager, IsAVAssetDownloadStorageManagementPolicy storageManagementPolicy, IsNSURL downloadStorageURL) => avAssetDownloadStorageManager -> storageManagementPolicy -> downloadStorageURL -> IO ()
 setStorageManagementPolicy_forURL avAssetDownloadStorageManager storageManagementPolicy downloadStorageURL =
   sendMessage avAssetDownloadStorageManager setStorageManagementPolicy_forURLSelector (toAVAssetDownloadStorageManagementPolicy storageManagementPolicy) (toNSURL downloadStorageURL)
 
--- | Returns the storage management policy for asset downloaded at downloadStorageURL. This may be nil if a storageManagementPolicy was never set on the downloaded asset.
+-- | storageManagementPolicyForURL:downloadStorageURL
 --
--- - Parameter downloadStorageURL: The location of downloaded asset.
+-- Returns the storage management policy for asset downloaded at downloadStorageURL.                This may be nil if a storageManagementPolicy was never set on the downloaded asset.
+--
+-- @downloadStorageURL@ — The location of downloaded asset.
 --
 -- ObjC selector: @- storageManagementPolicyForURL:@
 storageManagementPolicyForURL :: (IsAVAssetDownloadStorageManager avAssetDownloadStorageManager, IsNSURL downloadStorageURL) => avAssetDownloadStorageManager -> downloadStorageURL -> IO (Id AVAssetDownloadStorageManagementPolicy)

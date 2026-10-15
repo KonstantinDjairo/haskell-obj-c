@@ -65,8 +65,6 @@ module ObjC.Photos.PHAssetCollection
   , pattern PHAssetCollectionSubtypeSmartAlbumUnableToUpload
   , pattern PHAssetCollectionSubtypeSmartAlbumRAW
   , pattern PHAssetCollectionSubtypeSmartAlbumCinematic
-  , pattern PHAssetCollectionSubtypeSmartAlbumSpatial
-  , pattern PHAssetCollectionSubtypeSmartAlbumScreenRecordings
   , pattern PHAssetCollectionSubtypeAny
   , PHAssetCollectionType(PHAssetCollectionType)
   , pattern PHAssetCollectionTypeAlbum

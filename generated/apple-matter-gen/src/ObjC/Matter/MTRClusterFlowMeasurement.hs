@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterFlowMeasurement
   ( MTRClusterFlowMeasurement
   , IsMTRClusterFlowMeasurement(..)
+  , initWithDevice_endpoint_queue
   , readAttributeMeasuredValueWithParams
   , readAttributeMinMeasuredValueWithParams
   , readAttributeMaxMeasuredValueWithParams
@@ -20,10 +21,7 @@ module ObjC.Matter.MTRClusterFlowMeasurement
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -49,6 +47,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterFlowMeasurement mtrClusterFlowMeasurement, IsMTRDevice device, IsNSObject queue) => mtrClusterFlowMeasurement -> device -> CUShort -> queue -> IO (Id MTRClusterFlowMeasurement)
+initWithDevice_endpoint_queue mtrClusterFlowMeasurement device endpoint queue =
+  sendOwnedMessage mtrClusterFlowMeasurement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeMeasuredValueWithParams:@
 readAttributeMeasuredValueWithParams :: (IsMTRClusterFlowMeasurement mtrClusterFlowMeasurement, IsMTRReadParams params) => mtrClusterFlowMeasurement -> params -> IO (Id NSDictionary)
@@ -107,21 +110,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterFlowMeasurement"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterFlowMeasurement mtrClusterFlowMeasurement, IsMTRDevice device, IsNSObject queue) => mtrClusterFlowMeasurement -> device -> CUShort -> queue -> IO (Id MTRClusterFlowMeasurement)
-initWithDevice_endpoint_queue mtrClusterFlowMeasurement device endpoint queue =
-  sendOwnedMessage mtrClusterFlowMeasurement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterFlowMeasurement mtrClusterFlowMeasurement, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterFlowMeasurement -> device -> endpointID -> queue -> IO (Id MTRClusterFlowMeasurement)
-initWithDevice_endpointID_queue mtrClusterFlowMeasurement device endpointID queue =
-  sendOwnedMessage mtrClusterFlowMeasurement initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterFlowMeasurement)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeMeasuredValueWithParams:@
 readAttributeMeasuredValueWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -166,12 +161,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterFlowMeasurement)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterFlowMeasurement)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterFlowMeasurement)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

@@ -42,7 +42,7 @@ import ObjC.Foundation.Internal.Classes
 --
 -- The detector may do image processing in this context and if the image is on the GPU and the specified context is a GPU context this may avoid additional upload to / download from the GPU. If the input image is on the CPU (or the output from a CPU based context) specifying a GPU based context (or vice versa) may reduce performance.
 --
--- //  The options parameter lets you optionally specify a accuracy / performance tradeoff. Can be nil or an empty dictionary.
+-- The options parameter lets you optinally specify a accuracy / performance tradeoff. Can be nil or an empty dictionary.
 --
 -- ObjC selector: @+ detectorOfType:context:options:@
 detectorOfType_context_options :: (IsNSString type_, IsCIContext context, IsNSDictionary options) => type_ -> context -> options -> IO (Id CIDetector)

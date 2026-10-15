@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRContentLauncherClusterLaunchURLParams
   ( MTRContentLauncherClusterLaunchURLParams
   , IsMTRContentLauncherClusterLaunchURLParams(..)
+  , init_
+  , copyWithZone
   , contentURL
   , setContentURL
   , displayString
@@ -15,16 +17,14 @@ module ObjC.Matter.MTRContentLauncherClusterLaunchURLParams
   , setBrandingInformation
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , brandingInformationSelector
   , contentURLSelector
+  , copyWithZoneSelector
   , displayStringSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setBrandingInformationSelector
   , setContentURLSelector
   , setDisplayStringSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -41,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams => mtrContentLauncherClusterLaunchURLParams -> IO (Id MTRContentLauncherClusterLaunchURLParams)
+init_ mtrContentLauncherClusterLaunchURLParams =
+  sendOwnedMessage mtrContentLauncherClusterLaunchURLParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams => mtrContentLauncherClusterLaunchURLParams -> Ptr () -> IO RawId
+copyWithZone mtrContentLauncherClusterLaunchURLParams zone =
+  sendOwnedMessage mtrContentLauncherClusterLaunchURLParams copyWithZoneSelector zone
 
 -- | @- contentURL@
 contentURL :: IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams => mtrContentLauncherClusterLaunchURLParams -> IO (Id NSString)
@@ -63,14 +73,14 @@ setDisplayString mtrContentLauncherClusterLaunchURLParams value =
   sendMessage mtrContentLauncherClusterLaunchURLParams setDisplayStringSelector (toNSString value)
 
 -- | @- brandingInformation@
-brandingInformation :: IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams => mtrContentLauncherClusterLaunchURLParams -> IO (Id MTRContentLauncherClusterBrandingInformationStruct)
+brandingInformation :: IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams => mtrContentLauncherClusterLaunchURLParams -> IO (Id MTRContentLauncherClusterBrandingInformation)
 brandingInformation mtrContentLauncherClusterLaunchURLParams =
   sendMessage mtrContentLauncherClusterLaunchURLParams brandingInformationSelector
 
 -- | @- setBrandingInformation:@
-setBrandingInformation :: (IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams, IsMTRContentLauncherClusterBrandingInformationStruct value) => mtrContentLauncherClusterLaunchURLParams -> value -> IO ()
+setBrandingInformation :: (IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams, IsMTRContentLauncherClusterBrandingInformation value) => mtrContentLauncherClusterLaunchURLParams -> value -> IO ()
 setBrandingInformation mtrContentLauncherClusterLaunchURLParams value =
-  sendMessage mtrContentLauncherClusterLaunchURLParams setBrandingInformationSelector (toMTRContentLauncherClusterBrandingInformationStruct value)
+  sendMessage mtrContentLauncherClusterLaunchURLParams setBrandingInformationSelector (toMTRContentLauncherClusterBrandingInformation value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -94,31 +104,17 @@ setTimedInvokeTimeoutMs :: (IsMTRContentLauncherClusterLaunchURLParams mtrConten
 setTimedInvokeTimeoutMs mtrContentLauncherClusterLaunchURLParams value =
   sendMessage mtrContentLauncherClusterLaunchURLParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams => mtrContentLauncherClusterLaunchURLParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrContentLauncherClusterLaunchURLParams =
-  sendMessage mtrContentLauncherClusterLaunchURLParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRContentLauncherClusterLaunchURLParams mtrContentLauncherClusterLaunchURLParams, IsNSNumber value) => mtrContentLauncherClusterLaunchURLParams -> value -> IO ()
-setServerSideProcessingTimeout mtrContentLauncherClusterLaunchURLParams value =
-  sendMessage mtrContentLauncherClusterLaunchURLParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRContentLauncherClusterLaunchURLParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @contentURL@
 contentURLSelector :: Selector '[] (Id NSString)
@@ -137,11 +133,11 @@ setDisplayStringSelector :: Selector '[Id NSString] ()
 setDisplayStringSelector = mkSelector "setDisplayString:"
 
 -- | @Selector@ for @brandingInformation@
-brandingInformationSelector :: Selector '[] (Id MTRContentLauncherClusterBrandingInformationStruct)
+brandingInformationSelector :: Selector '[] (Id MTRContentLauncherClusterBrandingInformation)
 brandingInformationSelector = mkSelector "brandingInformation"
 
 -- | @Selector@ for @setBrandingInformation:@
-setBrandingInformationSelector :: Selector '[Id MTRContentLauncherClusterBrandingInformationStruct] ()
+setBrandingInformationSelector :: Selector '[Id MTRContentLauncherClusterBrandingInformation] ()
 setBrandingInformationSelector = mkSelector "setBrandingInformation:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
@@ -151,12 +147,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

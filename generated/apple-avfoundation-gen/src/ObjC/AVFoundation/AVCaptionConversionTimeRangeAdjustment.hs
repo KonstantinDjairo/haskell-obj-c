@@ -7,8 +7,6 @@
 --
 -- Describes an adjustment to the timeRange of one or more captions.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVCaptionConversionTimeRangeAdjustment@.
 module ObjC.AVFoundation.AVCaptionConversionTimeRangeAdjustment
   ( AVCaptionConversionTimeRangeAdjustment

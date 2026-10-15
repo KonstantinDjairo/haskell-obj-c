@@ -8,6 +8,10 @@ module ObjC.MapKit.MKMapCamera
   ( MKMapCamera
   , IsMKMapCamera(..)
   , camera
+  , cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitude
+  , cameraLookingAtCenterCoordinate_fromDistance_pitch_heading
+  , centerCoordinate
+  , setCenterCoordinate
   , centerCoordinateDistance
   , setCenterCoordinateDistance
   , heading
@@ -17,12 +21,16 @@ module ObjC.MapKit.MKMapCamera
   , altitude
   , setAltitude
   , altitudeSelector
+  , cameraLookingAtCenterCoordinate_fromDistance_pitch_headingSelector
+  , cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitudeSelector
   , cameraSelector
   , centerCoordinateDistanceSelector
+  , centerCoordinateSelector
   , headingSelector
   , pitchSelector
   , setAltitudeSelector
   , setCenterCoordinateDistanceSelector
+  , setCenterCoordinateSelector
   , setHeadingSelector
   , setPitchSelector
 
@@ -38,6 +46,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.MapKit.Internal.Classes
+import ObjC.CoreLocation.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
 -- | @+ camera@
@@ -46,6 +55,30 @@ camera  =
   do
     cls' <- getRequiredClass "MKMapCamera"
     sendClassMessage cls' cameraSelector
+
+-- | @+ cameraLookingAtCenterCoordinate:fromEyeCoordinate:eyeAltitude:@
+cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitude :: CLLocationCoordinate2D -> CLLocationCoordinate2D -> CDouble -> IO (Id MKMapCamera)
+cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitude centerCoordinate eyeCoordinate eyeAltitude =
+  do
+    cls' <- getRequiredClass "MKMapCamera"
+    sendClassMessage cls' cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitudeSelector centerCoordinate eyeCoordinate eyeAltitude
+
+-- | @+ cameraLookingAtCenterCoordinate:fromDistance:pitch:heading:@
+cameraLookingAtCenterCoordinate_fromDistance_pitch_heading :: CLLocationCoordinate2D -> CDouble -> CDouble -> CDouble -> IO (Id MKMapCamera)
+cameraLookingAtCenterCoordinate_fromDistance_pitch_heading centerCoordinate distance pitch heading =
+  do
+    cls' <- getRequiredClass "MKMapCamera"
+    sendClassMessage cls' cameraLookingAtCenterCoordinate_fromDistance_pitch_headingSelector centerCoordinate distance pitch heading
+
+-- | @- centerCoordinate@
+centerCoordinate :: IsMKMapCamera mkMapCamera => mkMapCamera -> IO CLLocationCoordinate2D
+centerCoordinate mkMapCamera =
+  sendMessage mkMapCamera centerCoordinateSelector
+
+-- | @- setCenterCoordinate:@
+setCenterCoordinate :: IsMKMapCamera mkMapCamera => mkMapCamera -> CLLocationCoordinate2D -> IO ()
+setCenterCoordinate mkMapCamera value =
+  sendMessage mkMapCamera setCenterCoordinateSelector value
 
 -- | @- centerCoordinateDistance@
 centerCoordinateDistance :: IsMKMapCamera mkMapCamera => mkMapCamera -> IO CDouble
@@ -94,6 +127,22 @@ setAltitude mkMapCamera value =
 -- | @Selector@ for @camera@
 cameraSelector :: Selector '[] (Id MKMapCamera)
 cameraSelector = mkSelector "camera"
+
+-- | @Selector@ for @cameraLookingAtCenterCoordinate:fromEyeCoordinate:eyeAltitude:@
+cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitudeSelector :: Selector '[CLLocationCoordinate2D, CLLocationCoordinate2D, CDouble] (Id MKMapCamera)
+cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitudeSelector = mkSelector "cameraLookingAtCenterCoordinate:fromEyeCoordinate:eyeAltitude:"
+
+-- | @Selector@ for @cameraLookingAtCenterCoordinate:fromDistance:pitch:heading:@
+cameraLookingAtCenterCoordinate_fromDistance_pitch_headingSelector :: Selector '[CLLocationCoordinate2D, CDouble, CDouble, CDouble] (Id MKMapCamera)
+cameraLookingAtCenterCoordinate_fromDistance_pitch_headingSelector = mkSelector "cameraLookingAtCenterCoordinate:fromDistance:pitch:heading:"
+
+-- | @Selector@ for @centerCoordinate@
+centerCoordinateSelector :: Selector '[] CLLocationCoordinate2D
+centerCoordinateSelector = mkSelector "centerCoordinate"
+
+-- | @Selector@ for @setCenterCoordinate:@
+setCenterCoordinateSelector :: Selector '[CLLocationCoordinate2D] ()
+setCenterCoordinateSelector = mkSelector "setCenterCoordinate:"
 
 -- | @Selector@ for @centerCoordinateDistance@
 centerCoordinateDistanceSelector :: Selector '[] CDouble

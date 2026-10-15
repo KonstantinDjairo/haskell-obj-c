@@ -11,10 +11,12 @@ module ObjC.CloudKit.CKLocationSortDescriptor
   , new
   , initWithKey_relativeLocation
   , initWithCoder
+  , relativeLocation
   , initSelector
   , initWithCoderSelector
   , initWithKey_relativeLocationSelector
   , newSelector
+  , relativeLocationSelector
 
 
   ) where
@@ -28,6 +30,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.CloudKit.Internal.Classes
+import ObjC.CoreLocation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | @- init@
@@ -43,14 +46,19 @@ new  =
     sendOwnedClassMessage cls' newSelector
 
 -- | @- initWithKey:relativeLocation:@
-initWithKey_relativeLocation :: (IsCKLocationSortDescriptor ckLocationSortDescriptor, IsNSString key) => ckLocationSortDescriptor -> key -> RawId -> IO (Id CKLocationSortDescriptor)
+initWithKey_relativeLocation :: (IsCKLocationSortDescriptor ckLocationSortDescriptor, IsNSString key, IsCLLocation relativeLocation) => ckLocationSortDescriptor -> key -> relativeLocation -> IO (Id CKLocationSortDescriptor)
 initWithKey_relativeLocation ckLocationSortDescriptor key relativeLocation =
-  sendOwnedMessage ckLocationSortDescriptor initWithKey_relativeLocationSelector (toNSString key) relativeLocation
+  sendOwnedMessage ckLocationSortDescriptor initWithKey_relativeLocationSelector (toNSString key) (toCLLocation relativeLocation)
 
 -- | @- initWithCoder:@
 initWithCoder :: (IsCKLocationSortDescriptor ckLocationSortDescriptor, IsNSCoder aDecoder) => ckLocationSortDescriptor -> aDecoder -> IO (Id CKLocationSortDescriptor)
 initWithCoder ckLocationSortDescriptor aDecoder =
   sendOwnedMessage ckLocationSortDescriptor initWithCoderSelector (toNSCoder aDecoder)
+
+-- | @- relativeLocation@
+relativeLocation :: IsCKLocationSortDescriptor ckLocationSortDescriptor => ckLocationSortDescriptor -> IO (Id CLLocation)
+relativeLocation ckLocationSortDescriptor =
+  sendMessage ckLocationSortDescriptor relativeLocationSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -65,10 +73,14 @@ newSelector :: Selector '[] (Id CKLocationSortDescriptor)
 newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithKey:relativeLocation:@
-initWithKey_relativeLocationSelector :: Selector '[Id NSString, RawId] (Id CKLocationSortDescriptor)
+initWithKey_relativeLocationSelector :: Selector '[Id NSString, Id CLLocation] (Id CKLocationSortDescriptor)
 initWithKey_relativeLocationSelector = mkSelector "initWithKey:relativeLocation:"
 
 -- | @Selector@ for @initWithCoder:@
 initWithCoderSelector :: Selector '[Id NSCoder] (Id CKLocationSortDescriptor)
 initWithCoderSelector = mkSelector "initWithCoder:"
+
+-- | @Selector@ for @relativeLocation@
+relativeLocationSelector :: Selector '[] (Id CLLocation)
+relativeLocationSelector = mkSelector "relativeLocation"
 

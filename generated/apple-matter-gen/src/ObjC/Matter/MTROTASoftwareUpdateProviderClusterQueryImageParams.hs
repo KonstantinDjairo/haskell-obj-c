@@ -3,14 +3,16 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MTROTASoftwareUpdateProviderClusterQueryImageParams@.
-module ObjC.Matter.MTROTASoftwareUpdateProviderClusterQueryImageParams
-  ( MTROTASoftwareUpdateProviderClusterQueryImageParams
-  , IsMTROTASoftwareUpdateProviderClusterQueryImageParams(..)
-  , vendorID
-  , setVendorID
-  , productID
-  , setProductID
+-- | Generated bindings for @MTROtaSoftwareUpdateProviderClusterQueryImageParams@.
+module ObjC.Matter.MTROtaSoftwareUpdateProviderClusterQueryImageParams
+  ( MTROtaSoftwareUpdateProviderClusterQueryImageParams
+  , IsMTROtaSoftwareUpdateProviderClusterQueryImageParams(..)
+  , init_
+  , copyWithZone
+  , vendorId
+  , setVendorId
+  , productId
+  , setProductId
   , softwareVersion
   , setSoftwareVersion
   , protocolsSupported
@@ -25,35 +27,25 @@ module ObjC.Matter.MTROTASoftwareUpdateProviderClusterQueryImageParams
   , setMetadataForProvider
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , vendorId
-  , setVendorId
-  , productId
-  , setProductId
+  , copyWithZoneSelector
   , hardwareVersionSelector
+  , initSelector
   , locationSelector
   , metadataForProviderSelector
-  , productIDSelector
   , productIdSelector
   , protocolsSupportedSelector
   , requestorCanConsentSelector
-  , serverSideProcessingTimeoutSelector
   , setHardwareVersionSelector
   , setLocationSelector
   , setMetadataForProviderSelector
-  , setProductIDSelector
   , setProductIdSelector
   , setProtocolsSupportedSelector
   , setRequestorCanConsentSelector
-  , setServerSideProcessingTimeoutSelector
   , setSoftwareVersionSelector
   , setTimedInvokeTimeoutMsSelector
-  , setVendorIDSelector
   , setVendorIdSelector
   , softwareVersionSelector
   , timedInvokeTimeoutMsSelector
-  , vendorIDSelector
   , vendorIdSelector
 
 
@@ -70,85 +62,95 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- vendorID@
-vendorID :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-vendorID mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams vendorIDSelector
+-- | @- init@
+init_ :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id MTROtaSoftwareUpdateProviderClusterQueryImageParams)
+init_ mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendOwnedMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams initSelector
 
--- | @- setVendorID:@
-setVendorID :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setVendorID mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setVendorIDSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> Ptr () -> IO RawId
+copyWithZone mtrOtaSoftwareUpdateProviderClusterQueryImageParams zone =
+  sendOwnedMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams copyWithZoneSelector zone
 
--- | @- productID@
-productID :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-productID mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams productIDSelector
+-- | @- vendorId@
+vendorId :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
+vendorId mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams vendorIdSelector
 
--- | @- setProductID:@
-setProductID :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setProductID mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setProductIDSelector (toNSNumber value)
+-- | @- setVendorId:@
+setVendorId :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setVendorId mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setVendorIdSelector (toNSNumber value)
+
+-- | @- productId@
+productId :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
+productId mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams productIdSelector
+
+-- | @- setProductId:@
+setProductId :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setProductId mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setProductIdSelector (toNSNumber value)
 
 -- | @- softwareVersion@
-softwareVersion :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-softwareVersion mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams softwareVersionSelector
+softwareVersion :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
+softwareVersion mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams softwareVersionSelector
 
 -- | @- setSoftwareVersion:@
-setSoftwareVersion :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setSoftwareVersion mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setSoftwareVersionSelector (toNSNumber value)
+setSoftwareVersion :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setSoftwareVersion mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setSoftwareVersionSelector (toNSNumber value)
 
 -- | @- protocolsSupported@
-protocolsSupported :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSArray)
-protocolsSupported mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams protocolsSupportedSelector
+protocolsSupported :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSArray)
+protocolsSupported mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams protocolsSupportedSelector
 
 -- | @- setProtocolsSupported:@
-setProtocolsSupported :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSArray value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setProtocolsSupported mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setProtocolsSupportedSelector (toNSArray value)
+setProtocolsSupported :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSArray value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setProtocolsSupported mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setProtocolsSupportedSelector (toNSArray value)
 
 -- | @- hardwareVersion@
-hardwareVersion :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-hardwareVersion mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams hardwareVersionSelector
+hardwareVersion :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
+hardwareVersion mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams hardwareVersionSelector
 
 -- | @- setHardwareVersion:@
-setHardwareVersion :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setHardwareVersion mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setHardwareVersionSelector (toNSNumber value)
+setHardwareVersion :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setHardwareVersion mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setHardwareVersionSelector (toNSNumber value)
 
 -- | @- location@
-location :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSString)
-location mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams locationSelector
+location :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSString)
+location mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams locationSelector
 
 -- | @- setLocation:@
-setLocation :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSString value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setLocation mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setLocationSelector (toNSString value)
+setLocation :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSString value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setLocation mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setLocationSelector (toNSString value)
 
 -- | @- requestorCanConsent@
-requestorCanConsent :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-requestorCanConsent mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams requestorCanConsentSelector
+requestorCanConsent :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
+requestorCanConsent mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams requestorCanConsentSelector
 
 -- | @- setRequestorCanConsent:@
-setRequestorCanConsent :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setRequestorCanConsent mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setRequestorCanConsentSelector (toNSNumber value)
+setRequestorCanConsent :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setRequestorCanConsent mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setRequestorCanConsentSelector (toNSNumber value)
 
 -- | @- metadataForProvider@
-metadataForProvider :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSData)
-metadataForProvider mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams metadataForProviderSelector
+metadataForProvider :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSData)
+metadataForProvider mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams metadataForProviderSelector
 
 -- | @- setMetadataForProvider:@
-setMetadataForProvider :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSData value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setMetadataForProvider mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setMetadataForProviderSelector (toNSData value)
+setMetadataForProvider :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSData value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setMetadataForProvider mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setMetadataForProviderSelector (toNSData value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -157,9 +159,9 @@ setMetadataForProvider mtrotaSoftwareUpdateProviderClusterQueryImageParams value
 -- If not nil, a timed invoke is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual invoke request) within the timeout window.
 --
 -- ObjC selector: @- timedInvokeTimeoutMs@
-timedInvokeTimeoutMs :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-timedInvokeTimeoutMs mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams timedInvokeTimeoutMsSelector
+timedInvokeTimeoutMs :: IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
+timedInvokeTimeoutMs mtrOtaSoftwareUpdateProviderClusterQueryImageParams =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams timedInvokeTimeoutMsSelector
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -168,71 +170,37 @@ timedInvokeTimeoutMs mtrotaSoftwareUpdateProviderClusterQueryImageParams =
 -- If not nil, a timed invoke is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual invoke request) within the timeout window.
 --
 -- ObjC selector: @- setTimedInvokeTimeoutMs:@
-setTimedInvokeTimeoutMs :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setTimedInvokeTimeoutMs mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setServerSideProcessingTimeout mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
--- | @- vendorId@
-vendorId :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-vendorId mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams vendorIdSelector
-
--- | @- setVendorId:@
-setVendorId :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setVendorId mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setVendorIdSelector (toNSNumber value)
-
--- | @- productId@
-productId :: IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> IO (Id NSNumber)
-productId mtrotaSoftwareUpdateProviderClusterQueryImageParams =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams productIdSelector
-
--- | @- setProductId:@
-setProductId :: (IsMTROTASoftwareUpdateProviderClusterQueryImageParams mtrotaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrotaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
-setProductId mtrotaSoftwareUpdateProviderClusterQueryImageParams value =
-  sendMessage mtrotaSoftwareUpdateProviderClusterQueryImageParams setProductIdSelector (toNSNumber value)
+setTimedInvokeTimeoutMs :: (IsMTROtaSoftwareUpdateProviderClusterQueryImageParams mtrOtaSoftwareUpdateProviderClusterQueryImageParams, IsNSNumber value) => mtrOtaSoftwareUpdateProviderClusterQueryImageParams -> value -> IO ()
+setTimedInvokeTimeoutMs mtrOtaSoftwareUpdateProviderClusterQueryImageParams value =
+  sendMessage mtrOtaSoftwareUpdateProviderClusterQueryImageParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @vendorID@
-vendorIDSelector :: Selector '[] (Id NSNumber)
-vendorIDSelector = mkSelector "vendorID"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROtaSoftwareUpdateProviderClusterQueryImageParams)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setVendorID:@
-setVendorIDSelector :: Selector '[Id NSNumber] ()
-setVendorIDSelector = mkSelector "setVendorID:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
--- | @Selector@ for @productID@
-productIDSelector :: Selector '[] (Id NSNumber)
-productIDSelector = mkSelector "productID"
+-- | @Selector@ for @vendorId@
+vendorIdSelector :: Selector '[] (Id NSNumber)
+vendorIdSelector = mkSelector "vendorId"
 
--- | @Selector@ for @setProductID:@
-setProductIDSelector :: Selector '[Id NSNumber] ()
-setProductIDSelector = mkSelector "setProductID:"
+-- | @Selector@ for @setVendorId:@
+setVendorIdSelector :: Selector '[Id NSNumber] ()
+setVendorIdSelector = mkSelector "setVendorId:"
+
+-- | @Selector@ for @productId@
+productIdSelector :: Selector '[] (Id NSNumber)
+productIdSelector = mkSelector "productId"
+
+-- | @Selector@ for @setProductId:@
+setProductIdSelector :: Selector '[Id NSNumber] ()
+setProductIdSelector = mkSelector "setProductId:"
 
 -- | @Selector@ for @softwareVersion@
 softwareVersionSelector :: Selector '[] (Id NSNumber)
@@ -289,28 +257,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
-
--- | @Selector@ for @vendorId@
-vendorIdSelector :: Selector '[] (Id NSNumber)
-vendorIdSelector = mkSelector "vendorId"
-
--- | @Selector@ for @setVendorId:@
-setVendorIdSelector :: Selector '[Id NSNumber] ()
-setVendorIdSelector = mkSelector "setVendorId:"
-
--- | @Selector@ for @productId@
-productIdSelector :: Selector '[] (Id NSNumber)
-productIdSelector = mkSelector "productId"
-
--- | @Selector@ for @setProductId:@
-setProductIdSelector :: Selector '[Id NSNumber] ()
-setProductIdSelector = mkSelector "setProductId:"
 

@@ -32,7 +32,6 @@ module ObjC.AppKit.NSArrayController
   , removeObjects
   , automaticallyRearrangesObjects
   , setAutomaticallyRearrangesObjects
-  , automaticRearrangementKeyPaths
   , sortDescriptors
   , setSortDescriptors
   , filterPredicate
@@ -62,7 +61,6 @@ module ObjC.AppKit.NSArrayController
   , alwaysUsesMultipleValuesMarkerSelector
   , arrangeObjectsSelector
   , arrangedObjectsSelector
-  , automaticRearrangementKeyPathsSelector
   , automaticallyRearrangesObjectsSelector
   , avoidsEmptySelectionSelector
   , canInsertSelector
@@ -240,11 +238,6 @@ automaticallyRearrangesObjects nsArrayController =
 setAutomaticallyRearrangesObjects :: IsNSArrayController nsArrayController => nsArrayController -> Bool -> IO ()
 setAutomaticallyRearrangesObjects nsArrayController value =
   sendMessage nsArrayController setAutomaticallyRearrangesObjectsSelector value
-
--- | @- automaticRearrangementKeyPaths@
-automaticRearrangementKeyPaths :: IsNSArrayController nsArrayController => nsArrayController -> IO (Id NSArray)
-automaticRearrangementKeyPaths nsArrayController =
-  sendMessage nsArrayController automaticRearrangementKeyPathsSelector
 
 -- | @- sortDescriptors@
 sortDescriptors :: IsNSArrayController nsArrayController => nsArrayController -> IO (Id NSArray)
@@ -454,10 +447,6 @@ automaticallyRearrangesObjectsSelector = mkSelector "automaticallyRearrangesObje
 -- | @Selector@ for @setAutomaticallyRearrangesObjects:@
 setAutomaticallyRearrangesObjectsSelector :: Selector '[Bool] ()
 setAutomaticallyRearrangesObjectsSelector = mkSelector "setAutomaticallyRearrangesObjects:"
-
--- | @Selector@ for @automaticRearrangementKeyPaths@
-automaticRearrangementKeyPathsSelector :: Selector '[] (Id NSArray)
-automaticRearrangementKeyPathsSelector = mkSelector "automaticRearrangementKeyPaths"
 
 -- | @Selector@ for @sortDescriptors@
 sortDescriptorsSelector :: Selector '[] (Id NSArray)

@@ -16,9 +16,6 @@ module ObjC.Vision.VNRequest
   , init_
   , initWithCompletionHandler
   , cancel
-  , supportedComputeStageDevicesAndReturnError
-  , computeDeviceForComputeStage
-  , setComputeDevice_forComputeStage
   , preferBackgroundProcessing
   , setPreferBackgroundProcessing
   , usesCPUOnly
@@ -32,7 +29,6 @@ module ObjC.Vision.VNRequest
   , currentRevision
   , cancelSelector
   , completionHandlerSelector
-  , computeDeviceForComputeStageSelector
   , currentRevisionSelector
   , defaultRevisionSelector
   , initSelector
@@ -40,11 +36,9 @@ module ObjC.Vision.VNRequest
   , preferBackgroundProcessingSelector
   , resultsSelector
   , revisionSelector
-  , setComputeDevice_forComputeStageSelector
   , setPreferBackgroundProcessingSelector
   , setRevisionSelector
   , setUsesCPUOnlySelector
-  , supportedComputeStageDevicesAndReturnErrorSelector
   , supportedRevisionsSelector
   , usesCPUOnlySelector
 
@@ -84,43 +78,6 @@ initWithCompletionHandler vnRequest completionHandler =
 cancel :: IsVNRequest vnRequest => vnRequest -> IO ()
 cancel vnRequest =
   sendMessage vnRequest cancelSelector
-
--- | Obtain the collection of compute device per stage that are supported by the request.
---
--- This method's result is based on the current state of configuration of the target request at the time of the call.
---
--- @error@ — The address of a variable that will be populated with the error that describes the failure.  If the caller does not require this information, NULL can be passed.
---
--- Returns: A dictionary of per-stage supported compute devices, or @nil@ if an error occurs.
---
--- ObjC selector: @- supportedComputeStageDevicesAndReturnError:@
-supportedComputeStageDevicesAndReturnError :: (IsVNRequest vnRequest, IsNSError error_) => vnRequest -> error_ -> IO (Id NSDictionary)
-supportedComputeStageDevicesAndReturnError vnRequest error_ =
-  sendMessage vnRequest supportedComputeStageDevicesAndReturnErrorSelector (toNSError error_)
-
--- | Determine what the currently configured compute device is for a specific compute stage.
---
--- @computeStage@ — The compute stage to be introspected.
---
--- Returns: The currently assigned compute device, or @nil@ if there is no explicit assignment.
---
--- ObjC selector: @- computeDeviceForComputeStage:@
-computeDeviceForComputeStage :: (IsVNRequest vnRequest, IsNSString computeStage) => vnRequest -> computeStage -> IO RawId
-computeDeviceForComputeStage vnRequest computeStage =
-  sendMessage vnRequest computeDeviceForComputeStageSelector (toNSString computeStage)
-
--- | Assign a specific compute device for a compute stage.
---
--- It is important to note that any compute device can be configured for a given compute stage.  Only when the request is performed is the validity of the (compute device / compute stage) assignments checked.  Valid compute devices for a request's compute stages can be obtained via @-supportedComputeStageDevicesAndReturnError:@.
---
--- @computeDevice@ — The compute device to assign to the compute stage.  Passing nil for this parameter will remove any explicit compute device assignment, allowing Vision to select which device to use.
---
--- @computeStage@ — The compute stage being configured.
---
--- ObjC selector: @- setComputeDevice:forComputeStage:@
-setComputeDevice_forComputeStage :: (IsVNRequest vnRequest, IsNSString computeStage) => vnRequest -> RawId -> computeStage -> IO ()
-setComputeDevice_forComputeStage vnRequest computeDevice computeStage =
-  sendMessage vnRequest setComputeDevice_forComputeStageSelector computeDevice (toNSString computeStage)
 
 -- | A hint used to minimize the resource burden of the request. Memory footprint, processing footprint and/or CPU/GPU contention will be reduced (depending on the request), at the potential cost of longer execution time. This can help, for example, with ensuring UI updates and rendering are not getting blocked by Vision processing.
 --
@@ -228,18 +185,6 @@ initWithCompletionHandlerSelector = mkSelector "initWithCompletionHandler:"
 -- | @Selector@ for @cancel@
 cancelSelector :: Selector '[] ()
 cancelSelector = mkSelector "cancel"
-
--- | @Selector@ for @supportedComputeStageDevicesAndReturnError:@
-supportedComputeStageDevicesAndReturnErrorSelector :: Selector '[Id NSError] (Id NSDictionary)
-supportedComputeStageDevicesAndReturnErrorSelector = mkSelector "supportedComputeStageDevicesAndReturnError:"
-
--- | @Selector@ for @computeDeviceForComputeStage:@
-computeDeviceForComputeStageSelector :: Selector '[Id NSString] RawId
-computeDeviceForComputeStageSelector = mkSelector "computeDeviceForComputeStage:"
-
--- | @Selector@ for @setComputeDevice:forComputeStage:@
-setComputeDevice_forComputeStageSelector :: Selector '[RawId, Id NSString] ()
-setComputeDevice_forComputeStageSelector = mkSelector "setComputeDevice:forComputeStage:"
 
 -- | @Selector@ for @preferBackgroundProcessing@
 preferBackgroundProcessingSelector :: Selector '[] Bool

@@ -121,7 +121,7 @@ daemonServiceWithPlistName plistName =
 --
 -- @error@ — Upon unsuccessful return, a new NSError object describing the error. Upon successful return, this argument is set to NULL. This argument may be NULL.
 --
--- Returns: YES if the service was successfully registered, otherwise NO.
+-- Returns: True if the service was successfully registered, otherwise false.
 --
 -- If the service corresponds to a LoginItem bundle, the helper will be started immediately and on subsequent logins. If the helper crashes or exits non-zero it will be relaunched.
 --
@@ -152,7 +152,7 @@ registerAndReturnError smAppService error_ =
 --
 -- @error@ — Upon unsuccessful return, a new NSError object describing the error. Upon successful return, this argument is set to NULL. This argument may be NULL.
 --
--- Returns: YES if the service was successfully unregistered, otherwise NO.
+-- Returns: True if the service was successfully unregistered, otherwise false.
 --
 -- If the service corresponds to a LoginItem, LaunchAgent, or LaunchDaemon and the service is currently running it will be killed. The unregister call will not wait for the service to be reaped.
 --

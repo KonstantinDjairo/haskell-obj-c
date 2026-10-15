@@ -7,13 +7,15 @@
 module ObjC.Matter.MTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams
   ( MTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams
   , IsMTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , groupKeySetIDs
   , setGroupKeySetIDs
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , groupKeySetIDsSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , setGroupKeySetIDsSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
@@ -32,16 +34,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams -> responseValue -> error_ -> IO (Id MTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams)
-initWithResponseValue_error mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams responseValue error_ =
-  sendOwnedMessage mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams => mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams -> IO (Id MTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams)
+init_ mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams =
+  sendOwnedMessage mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams => mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams zone =
+  sendOwnedMessage mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams copyWithZoneSelector zone
 
 -- | @- groupKeySetIDs@
 groupKeySetIDs :: IsMTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams => mtrGroupKeyManagementClusterKeySetReadAllIndicesResponseParams -> IO (Id NSArray)
@@ -79,9 +80,13 @@ setTimedInvokeTimeoutMs mtrGroupKeyManagementClusterKeySetReadAllIndicesResponse
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupKeyManagementClusterKeySetReadAllIndicesResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @groupKeySetIDs@
 groupKeySetIDsSelector :: Selector '[] (Id NSArray)

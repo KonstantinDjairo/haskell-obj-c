@@ -66,7 +66,7 @@ import ObjC.Foundation.Internal.Classes
 --
 -- @gaussianSigma@ — The standard deviation of gaussian blur filter.                          Gaussian weight, centered at 0, at integer grid i is given as
 --
--- w(i) = 1/sqrt(2*pi*sigma) * exp(-i^2/(2*sigma^2))
+-- w(i) = 1/sqrt(2*pi*sigma) * exp(-i^2/2*sigma^2)
 --
 -- If we take cut off at 1% of w(0) (max weight) beyond which weights                          are considered 0, we have
 --

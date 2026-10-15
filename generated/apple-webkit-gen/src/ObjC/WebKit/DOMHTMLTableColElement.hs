@@ -13,7 +13,7 @@ module ObjC.WebKit.DOMHTMLTableColElement
   , setCh
   , chOff
   , setChOff
-  , span
+  , span_
   , setSpan
   , vAlign
   , setVAlign
@@ -77,8 +77,8 @@ setChOff domhtmlTableColElement value =
   sendMessage domhtmlTableColElement setChOffSelector (toNSString value)
 
 -- | @- span@
-span :: IsDOMHTMLTableColElement domhtmlTableColElement => domhtmlTableColElement -> IO CInt
-span domhtmlTableColElement =
+span_ :: IsDOMHTMLTableColElement domhtmlTableColElement => domhtmlTableColElement -> IO CInt
+span_ domhtmlTableColElement =
   sendMessage domhtmlTableColElement spanSelector
 
 -- | @- setSpan:@

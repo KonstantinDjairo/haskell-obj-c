@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Video attributes for an asset variant.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVAssetVariantVideoAttributes@.
+-- | Generated bindings for @AVAssetVariantVideoAttributes@.
 module ObjC.AVFoundation.AVAssetVariantVideoAttributes
   ( AVAssetVariantVideoAttributes
   , IsAVAssetVariantVideoAttributes(..)
@@ -16,12 +12,10 @@ module ObjC.AVFoundation.AVAssetVariantVideoAttributes
   , videoRange
   , codecTypes
   , nominalFrameRate
-  , videoLayoutAttributes
   , codecTypesSelector
   , initSelector
   , newSelector
   , nominalFrameRateSelector
-  , videoLayoutAttributesSelector
   , videoRangeSelector
 
 
@@ -50,35 +44,32 @@ new  =
     cls' <- getRequiredClass "AVAssetVariantVideoAttributes"
     sendOwnedClassMessage cls' newSelector
 
--- | Provides the video range of the variant. If it is not declared, it will be AVVideoRangeSDR.
+-- | videoRange
+--
+-- Provides the video range of the variant. If it is not declared, it will be AVVideoRangeSDR.
 --
 -- ObjC selector: @- videoRange@
 videoRange :: IsAVAssetVariantVideoAttributes avAssetVariantVideoAttributes => avAssetVariantVideoAttributes -> IO (Id NSString)
 videoRange avAssetVariantVideoAttributes =
   sendMessage avAssetVariantVideoAttributes videoRangeSelector
 
--- | Provides an array of video sample codec types present in the variant's renditions if any are declared. Each value in the array is a NSNumber representation of CMVideoCodecType.
+-- | codecTypes
+--
+-- Provides an array of video sample codec types present in the variant's renditions if any are declared. Each value in the array is a NSNumber representation of CMVideoCodecType.
 --
 -- ObjC selector: @- codecTypes@
 codecTypes :: IsAVAssetVariantVideoAttributes avAssetVariantVideoAttributes => avAssetVariantVideoAttributes -> IO (Id NSArray)
 codecTypes avAssetVariantVideoAttributes =
   sendMessage avAssetVariantVideoAttributes codecTypesSelector
 
--- | If it is not declared, the value will be negative.
+-- | nominalFrameRate
+--
+-- If it is not declared, the value will be negative.
 --
 -- ObjC selector: @- nominalFrameRate@
 nominalFrameRate :: IsAVAssetVariantVideoAttributes avAssetVariantVideoAttributes => avAssetVariantVideoAttributes -> IO CDouble
 nominalFrameRate avAssetVariantVideoAttributes =
   sendMessage avAssetVariantVideoAttributes nominalFrameRateSelector
-
--- | Describes the video layout attributes.
---
--- videoLayoutAttributes' count may be greater than one if this variant contains a collection of differing video layout media attributes over time.
---
--- ObjC selector: @- videoLayoutAttributes@
-videoLayoutAttributes :: IsAVAssetVariantVideoAttributes avAssetVariantVideoAttributes => avAssetVariantVideoAttributes -> IO (Id NSArray)
-videoLayoutAttributes avAssetVariantVideoAttributes =
-  sendMessage avAssetVariantVideoAttributes videoLayoutAttributesSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -103,8 +94,4 @@ codecTypesSelector = mkSelector "codecTypes"
 -- | @Selector@ for @nominalFrameRate@
 nominalFrameRateSelector :: Selector '[] CDouble
 nominalFrameRateSelector = mkSelector "nominalFrameRate"
-
--- | @Selector@ for @videoLayoutAttributes@
-videoLayoutAttributesSelector :: Selector '[] (Id NSArray)
-videoLayoutAttributesSelector = mkSelector "videoLayoutAttributes"
 

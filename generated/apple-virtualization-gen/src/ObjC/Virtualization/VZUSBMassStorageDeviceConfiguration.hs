@@ -11,8 +11,12 @@
 module ObjC.Virtualization.VZUSBMassStorageDeviceConfiguration
   ( VZUSBMassStorageDeviceConfiguration
   , IsVZUSBMassStorageDeviceConfiguration(..)
+  , new
+  , init_
   , initWithAttachment
+  , initSelector
   , initWithAttachmentSelector
+  , newSelector
 
 
   ) where
@@ -28,6 +32,18 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Virtualization.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @+ new@
+new :: IO (Id VZUSBMassStorageDeviceConfiguration)
+new  =
+  do
+    cls' <- getRequiredClass "VZUSBMassStorageDeviceConfiguration"
+    sendOwnedClassMessage cls' newSelector
+
+-- | @- init@
+init_ :: IsVZUSBMassStorageDeviceConfiguration vzusbMassStorageDeviceConfiguration => vzusbMassStorageDeviceConfiguration -> IO (Id VZUSBMassStorageDeviceConfiguration)
+init_ vzusbMassStorageDeviceConfiguration =
+  sendOwnedMessage vzusbMassStorageDeviceConfiguration initSelector
+
 -- | Initialize a VZUSBMassStorageDeviceConfiguration with a device attachment.
 --
 -- @attachment@ — The storage device attachment. This defines how the virtualized device operates on the host side.
@@ -42,6 +58,14 @@ initWithAttachment vzusbMassStorageDeviceConfiguration attachment =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id VZUSBMassStorageDeviceConfiguration)
+newSelector = mkSelector "new"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id VZUSBMassStorageDeviceConfiguration)
+initSelector = mkSelector "init"
 
 -- | @Selector@ for @initWithAttachment:@
 initWithAttachmentSelector :: Selector '[Id VZStorageDeviceAttachment] (Id VZUSBMassStorageDeviceConfiguration)

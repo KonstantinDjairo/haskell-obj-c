@@ -4,7 +4,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The optimized representation of a compute graph of operations and tensors.
+-- | MPSGraph
+--
+-- Optimized representation of a compute graph of MPSGraphOperations and MPSGraphTensors
 --
 -- An MPSGraph is a symbolic representation of operations to be utilized to execute compute graphs on a device.
 --
@@ -24,17 +26,9 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , encodeToCommandBuffer_feeds_targetTensors_targetOperations_executionDescriptor
   , encodeToCommandBuffer_feeds_targetOperations_resultsDictionary_executionDescriptor
   , topKWithGradientTensor_source_k_name
-  , topKWithGradientTensor_source_axis_k_name
-  , bottomKWithGradientTensor_source_axis_k_name
   , topKWithGradientTensor_source_kTensor_name
-  , topKWithGradientTensor_source_axisTensor_kTensor_name
-  , bottomKWithGradientTensor_source_axisTensor_kTensor_name
   , topKWithSourceTensor_k_name
   , topKWithSourceTensor_kTensor_name
-  , topKWithSourceTensor_axis_k_name
-  , bottomKWithSourceTensor_axis_k_name
-  , topKWithSourceTensor_axisTensor_kTensor_name
-  , bottomKWithSourceTensor_axisTensor_kTensor_name
   , reshapeTensor_withShape_name
   , reshapeTensor_withShapeTensor_name
   , transposeTensor_dimension_withDimension_name
@@ -42,16 +36,8 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , sliceTensor_dimension_start_length_name
   , sliceTensor_starts_ends_strides_name
   , sliceTensor_starts_ends_strides_startMask_endMask_squeezeMask_name
-  , sliceTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_name
-  , sliceTensor_startTensor_sizeTensor_squeezeMask_name
   , sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_name
-  , sliceGradientTensor_fwdInShapeTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_name
-  , sliceGradientTensor_fwdInShapeTensor_startTensor_sizeTensor_squeezeMask_name
   , sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_startMask_endMask_squeezeMask_name
-  , sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_startMask_endMask_squeezeMask_name
-  , sliceUpdateDataTensor_updateTensor_starts_ends_strides_startMask_endMask_squeezeMask_name
-  , sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_name
-  , sliceUpdateDataTensor_updateTensor_starts_ends_strides_name
   , concatTensor_withTensor_dimension_name
   , concatTensors_dimension_name
   , concatTensors_dimension_interleave_name
@@ -76,7 +62,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , broadcastTensor_toShapeTensor_name
   , shapeOfTensor_name
   , castTensor_toType_name
-  , reinterpretCastTensor_toType_name
   , stackTensors_axis_name
   , splitTensor_splitSizes_axis_name
   , splitTensor_splitSizesTensor_axis_name
@@ -112,8 +97,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_mode_name
   , scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_name
   , scatterNDWithDataTensor_updatesTensor_indicesTensor_batchDimensions_mode_name
-  , sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_samplingMode_constantValue_name
-  , sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_nearestRoundingMode_constantValue_name
   , singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_descriptor_name
   , singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_name
   , singleGateRNNWithSourceTensor_recurrentWeight_initState_descriptor_name
@@ -136,26 +119,17 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_inputWeight_bias_descriptor_name
   , resizeTensor_size_mode_centerResult_alignCorners_layout_name
   , resizeTensor_sizeTensor_mode_centerResult_alignCorners_layout_name
-  , resizeTensor_sizeTensor_mode_centerResult_alignCorners_name
   , resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_layout_name
-  , resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_name
   , resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_layout_name
-  , resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_name
   , resizeTensor_sizeTensor_scaleOffsetTensor_mode_layout_name
-  , resizeTensor_sizeTensor_scaleTensor_offsetTensor_mode_name
   , resizeNearestWithTensor_sizeTensor_scaleOffsetTensor_nearestRoundingMode_layout_name
-  , resizeNearestWithTensor_sizeTensor_scaleTensor_offsetTensor_nearestRoundingMode_name
   , resizeBilinearWithTensor_sizeTensor_scaleOffsetTensor_layout_name
-  , resizeBilinearWithTensor_sizeTensor_scaleTensor_offsetTensor_name
   , resizeWithGradientTensor_input_mode_centerResult_alignCorners_layout_name
   , resizeNearestWithGradientTensor_input_nearestRoundingMode_centerResult_alignCorners_layout_name
   , resizeBilinearWithGradientTensor_input_centerResult_alignCorners_layout_name
   , resizeWithGradientTensor_input_scaleOffsetTensor_mode_layout_name
-  , resizeWithGradientTensor_input_scaleTensor_offsetTensor_mode_name
   , resizeNearestWithGradientTensor_input_scaleOffsetTensor_nearestRoundingMode_layout_name
-  , resizeNearestWithGradientTensor_input_scaleTensor_offsetTensor_nearestRoundingMode_name
   , resizeBilinearWithGradientTensor_input_scaleOffsetTensor_layout_name
-  , resizeBilinearWithGradientTensor_input_scaleTensor_offsetTensor_name
   , reductionSumWithTensor_axis_name
   , reductionSumWithTensor_axes_name
   , reductionMaximumWithTensor_axis_name
@@ -190,16 +164,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , randomUniformTensorWithShapeTensor_stateTensor_name
   , dropoutTensor_rate_name
   , dropoutTensor_rateTensor_name
-  , quantizeTensor_scale_zeroPoint_dataType_name
-  , dequantizeTensor_scale_zeroPoint_dataType_name
-  , quantizeTensor_scaleTensor_zeroPoint_dataType_axis_name
-  , dequantizeTensor_scaleTensor_zeroPoint_dataType_axis_name
-  , quantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_name
-  , dequantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_name
-  , dequantizeTensor_scaleTensor_zeroPointTensor_dataType_name
-  , dequantizeTensor_scaleTensor_dataType_name
-  , dequantizeTensor_LUTTensor_name
-  , dequantizeTensor_LUTTensor_axis_name
   , maxPooling2DWithSourceTensor_descriptor_name
   , maxPooling2DReturnIndicesWithSourceTensor_descriptor_name
   , maxPooling2DGradientWithGradientTensor_sourceTensor_descriptor_name
@@ -233,42 +197,25 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , normalizationGammaGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_reductionAxes_epsilon_name
   , normalizationBetaGradientWithIncomingGradientTensor_sourceTensor_reductionAxes_name
   , normalizationGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_gammaTensor_gammaGradientTensor_betaGradientTensor_reductionAxes_epsilon_name
-  , nonZeroIndicesOfTensor_name
-  , nonMaximumSuppressionWithBoxesTensor_scoresTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_name
-  , nonMaximumSuppressionWithBoxesTensor_scoresTensor_classIndicesTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_name
   , placeholderWithShape_dataType_name
   , placeholderWithShape_name
   , constantWithData_shape_dataType
   , constantWithScalar_dataType
   , constantWithScalar_shape_dataType
-  , constantWithRealPart_imaginaryPart
-  , constantWithRealPart_imaginaryPart_dataType
-  , constantWithRealPart_imaginaryPart_shape_dataType
   , variableWithData_shape_dataType_name
-  , variableFromTensorWithTensor_name
   , readVariable_name
   , assignVariable_withValueOfTensor_name
   , matrixMultiplicationWithPrimaryTensor_secondaryTensor_name
   , hammingDistanceWithPrimaryTensor_secondaryTensor_resultDataType_name
-  , scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_maskTensor_scale_name
-  , scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_scale_name
   , inverseOfTensor_name
   , softMaxCrossEntropyWithSourceTensor_labelsTensor_axis_reductionType_name
   , softMaxCrossEntropyGradientWithIncomingGradientTensor_sourceTensor_labelsTensor_axis_reductionType_name
   , bandPartWithTensor_numLower_numUpper_name
   , bandPartWithTensor_numLowerTensor_numUpperTensor_name
-  , imToColWithSourceTensor_descriptor_name
-  , colToImWithSourceTensor_outputShape_descriptor_name
   , gatherAlongAxis_withUpdatesTensor_indicesTensor_name
   , gatherAlongAxisTensor_withUpdatesTensor_indicesTensor_name
   , gatherWithUpdatesTensor_indicesTensor_axis_batchDimensions_name
   , gatherNDWithUpdatesTensor_indicesTensor_batchDimensions_name
-  , fastFourierTransformWithTensor_axes_descriptor_name
-  , fastFourierTransformWithTensor_axesTensor_descriptor_name
-  , realToHermiteanFFTWithTensor_axes_descriptor_name
-  , realToHermiteanFFTWithTensor_axesTensor_descriptor_name
-  , hermiteanToRealFFTWithTensor_axes_descriptor_name
-  , hermiteanToRealFFTWithTensor_axesTensor_descriptor_name
   , depthwiseConvolution2DWithSourceTensor_weightsTensor_descriptor_name
   , depthwiseConvolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_name
   , depthwiseConvolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_name
@@ -307,12 +254,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , convolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name
   , convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name
   , convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name
-  , convolution3DWithSourceTensor_weightsTensor_descriptor_name
-  , convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_name
-  , convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name
-  , convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name
-  , convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name
-  , callSymbolName_inputTensors_outputTypes_name
   , identityWithTensor_name
   , exponentWithTensor_name
   , exponentBase2WithTensor_name
@@ -322,11 +263,9 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , logarithmBase10WithTensor_name
   , squareWithTensor_name
   , squareRootWithTensor_name
-  , reciprocalSquareRootWithTensor_name
   , reverseSquareRootWithTensor_name
   , reciprocalWithTensor_name
   , absoluteWithTensor_name
-  , absoluteSquareWithTensor_name
   , negativeWithTensor_name
   , signWithTensor_name
   , signbitWithTensor_name
@@ -354,7 +293,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , truncateWithTensor_name
   , bitwiseNOTWithTensor_name
   , bitwisePopulationCountWithTensor_name
-  , conjugateWithTensor_name
   , additionWithPrimaryTensor_secondaryTensor_name
   , subtractionWithPrimaryTensor_secondaryTensor_name
   , multiplicationWithPrimaryTensor_secondaryTensor_name
@@ -387,9 +325,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , clampWithTensor_minValueTensor_maxValueTensor_name
   , divisionNoNaNWithPrimaryTensor_secondaryTensor_name
   , floorModuloWithPrimaryTensor_secondaryTensor_name
-  , realPartOfTensor_name
-  , imaginaryPartOfTensor_name
-  , complexTensorWithRealTensor_imaginaryTensor_name
   , reLUWithTensor_name
   , reLUGradientWithIncomingGradient_sourceTensor_name
   , sigmoidWithTensor_name
@@ -403,7 +338,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , options
   , setOptions
   , placeholderTensors
-  , absoluteSquareWithTensor_nameSelector
   , absoluteWithTensor_nameSelector
   , acosWithTensor_nameSelector
   , acoshWithTensor_nameSelector
@@ -436,27 +370,16 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , bitwisePopulationCountWithTensor_nameSelector
   , bitwiseRightShiftWithPrimaryTensor_secondaryTensor_nameSelector
   , bitwiseXORWithPrimaryTensor_secondaryTensor_nameSelector
-  , bottomKWithGradientTensor_source_axisTensor_kTensor_nameSelector
-  , bottomKWithGradientTensor_source_axis_k_nameSelector
-  , bottomKWithSourceTensor_axisTensor_kTensor_nameSelector
-  , bottomKWithSourceTensor_axis_k_nameSelector
   , broadcastTensor_toShapeTensor_nameSelector
   , broadcastTensor_toShape_nameSelector
-  , callSymbolName_inputTensors_outputTypes_nameSelector
   , castTensor_toType_nameSelector
   , ceilWithTensor_nameSelector
   , clampWithTensor_minValueTensor_maxValueTensor_nameSelector
-  , colToImWithSourceTensor_outputShape_descriptor_nameSelector
   , compileWithDevice_feeds_targetTensors_targetOperations_compilationDescriptorSelector
-  , complexTensorWithRealTensor_imaginaryTensor_nameSelector
   , concatTensor_withTensor_dimension_nameSelector
   , concatTensors_dimension_interleave_nameSelector
   , concatTensors_dimension_nameSelector
-  , conjugateWithTensor_nameSelector
   , constantWithData_shape_dataTypeSelector
-  , constantWithRealPart_imaginaryPartSelector
-  , constantWithRealPart_imaginaryPart_dataTypeSelector
-  , constantWithRealPart_imaginaryPart_shape_dataTypeSelector
   , constantWithScalar_dataTypeSelector
   , constantWithScalar_shape_dataTypeSelector
   , controlDependencyWithOperations_dependentBlock_nameSelector
@@ -465,11 +388,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector
   , convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_nameSelector
   , convolution2DWithSourceTensor_weightsTensor_descriptor_nameSelector
-  , convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector
-  , convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_nameSelector
-  , convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector
-  , convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_nameSelector
-  , convolution3DWithSourceTensor_weightsTensor_descriptor_nameSelector
   , convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector
   , convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_nameSelector
   , convolutionTranspose2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector
@@ -506,13 +424,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , depthwiseConvolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_nameSelector
   , depthwiseConvolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_nameSelector
   , depthwiseConvolution3DWithSourceTensor_weightsTensor_descriptor_nameSelector
-  , dequantizeTensor_LUTTensor_axis_nameSelector
-  , dequantizeTensor_LUTTensor_nameSelector
-  , dequantizeTensor_scaleTensor_dataType_nameSelector
-  , dequantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector
-  , dequantizeTensor_scaleTensor_zeroPointTensor_dataType_nameSelector
-  , dequantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector
-  , dequantizeTensor_scale_zeroPoint_dataType_nameSelector
   , divisionNoNaNWithPrimaryTensor_secondaryTensor_nameSelector
   , divisionWithPrimaryTensor_secondaryTensor_nameSelector
   , dropoutTensor_rateTensor_nameSelector
@@ -527,8 +438,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , exponentBase10WithTensor_nameSelector
   , exponentBase2WithTensor_nameSelector
   , exponentWithTensor_nameSelector
-  , fastFourierTransformWithTensor_axesTensor_descriptor_nameSelector
-  , fastFourierTransformWithTensor_axes_descriptor_nameSelector
   , flatten2DTensor_axisTensor_nameSelector
   , flatten2DTensor_axis_nameSelector
   , floorModuloWithPrimaryTensor_secondaryTensor_nameSelector
@@ -549,12 +458,8 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_nameSelector
   , gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_secondaryBias_descriptor_nameSelector
   , hammingDistanceWithPrimaryTensor_secondaryTensor_resultDataType_nameSelector
-  , hermiteanToRealFFTWithTensor_axesTensor_descriptor_nameSelector
-  , hermiteanToRealFFTWithTensor_axes_descriptor_nameSelector
   , identityWithTensor_nameSelector
   , ifWithPredicateTensor_thenBlock_elseBlock_nameSelector
-  , imToColWithSourceTensor_descriptor_nameSelector
-  , imaginaryPartOfTensor_nameSelector
   , initSelector
   , inverseOfTensor_nameSelector
   , isFiniteWithTensor_nameSelector
@@ -603,9 +508,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , multiplicationWithPrimaryTensor_secondaryTensor_nameSelector
   , negativeWithTensor_nameSelector
   , newSelector
-  , nonMaximumSuppressionWithBoxesTensor_scoresTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector
-  , nonMaximumSuppressionWithBoxesTensor_scoresTensor_classIndicesTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector
-  , nonZeroIndicesOfTensor_nameSelector
   , normalizationBetaGradientWithIncomingGradientTensor_sourceTensor_reductionAxes_nameSelector
   , normalizationGammaGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_reductionAxes_epsilon_nameSelector
   , normalizationGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_gammaTensor_gammaGradientTensor_betaGradientTensor_reductionAxes_epsilon_nameSelector
@@ -625,9 +527,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , placeholderWithShape_dataType_nameSelector
   , placeholderWithShape_nameSelector
   , powerWithPrimaryTensor_secondaryTensor_nameSelector
-  , quantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector
-  , quantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector
-  , quantizeTensor_scale_zeroPoint_dataType_nameSelector
   , randomPhiloxStateTensorWithCounterLow_counterHigh_key_nameSelector
   , randomPhiloxStateTensorWithSeed_nameSelector
   , randomTensorWithShapeTensor_descriptor_nameSelector
@@ -645,10 +544,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , reLUGradientWithIncomingGradient_sourceTensor_nameSelector
   , reLUWithTensor_nameSelector
   , readVariable_nameSelector
-  , realPartOfTensor_nameSelector
-  , realToHermiteanFFTWithTensor_axesTensor_descriptor_nameSelector
-  , realToHermiteanFFTWithTensor_axes_descriptor_nameSelector
-  , reciprocalSquareRootWithTensor_nameSelector
   , reciprocalWithTensor_nameSelector
   , reductionAndWithTensor_axes_nameSelector
   , reductionAndWithTensor_axis_nameSelector
@@ -668,31 +563,21 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , reductionProductWithTensor_axis_nameSelector
   , reductionSumWithTensor_axes_nameSelector
   , reductionSumWithTensor_axis_nameSelector
-  , reinterpretCastTensor_toType_nameSelector
   , reshapeTensor_withShapeTensor_nameSelector
   , reshapeTensor_withShape_nameSelector
   , resizeBilinearWithGradientTensor_input_centerResult_alignCorners_layout_nameSelector
   , resizeBilinearWithGradientTensor_input_scaleOffsetTensor_layout_nameSelector
-  , resizeBilinearWithGradientTensor_input_scaleTensor_offsetTensor_nameSelector
   , resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_layout_nameSelector
-  , resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_nameSelector
   , resizeBilinearWithTensor_sizeTensor_scaleOffsetTensor_layout_nameSelector
-  , resizeBilinearWithTensor_sizeTensor_scaleTensor_offsetTensor_nameSelector
   , resizeNearestWithGradientTensor_input_nearestRoundingMode_centerResult_alignCorners_layout_nameSelector
   , resizeNearestWithGradientTensor_input_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector
-  , resizeNearestWithGradientTensor_input_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector
   , resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_layout_nameSelector
-  , resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_nameSelector
   , resizeNearestWithTensor_sizeTensor_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector
-  , resizeNearestWithTensor_sizeTensor_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector
   , resizeTensor_sizeTensor_mode_centerResult_alignCorners_layout_nameSelector
-  , resizeTensor_sizeTensor_mode_centerResult_alignCorners_nameSelector
   , resizeTensor_sizeTensor_scaleOffsetTensor_mode_layout_nameSelector
-  , resizeTensor_sizeTensor_scaleTensor_offsetTensor_mode_nameSelector
   , resizeTensor_size_mode_centerResult_alignCorners_layout_nameSelector
   , resizeWithGradientTensor_input_mode_centerResult_alignCorners_layout_nameSelector
   , resizeWithGradientTensor_input_scaleOffsetTensor_mode_layout_nameSelector
-  , resizeWithGradientTensor_input_scaleTensor_offsetTensor_mode_nameSelector
   , reverseSquareRootWithTensor_nameSelector
   , reverseTensor_axesTensor_nameSelector
   , reverseTensor_axes_nameSelector
@@ -705,10 +590,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , runWithFeeds_targetTensors_targetOperationsSelector
   , runWithMTLCommandQueue_feeds_targetOperations_resultsDictionarySelector
   , runWithMTLCommandQueue_feeds_targetTensors_targetOperationsSelector
-  , sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_nearestRoundingMode_constantValue_nameSelector
-  , sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_samplingMode_constantValue_nameSelector
-  , scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_maskTensor_scale_nameSelector
-  , scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_scale_nameSelector
   , scatterAlongAxisTensor_withDataTensor_updatesTensor_indicesTensor_mode_nameSelector
   , scatterAlongAxisTensor_withUpdatesTensor_indicesTensor_shape_mode_nameSelector
   , scatterAlongAxis_withDataTensor_updatesTensor_indicesTensor_mode_nameSelector
@@ -734,19 +615,11 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_nameSelector
   , singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_descriptor_nameSelector
   , sinhWithTensor_nameSelector
-  , sliceGradientTensor_fwdInShapeTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector
-  , sliceGradientTensor_fwdInShapeTensor_startTensor_sizeTensor_squeezeMask_nameSelector
   , sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_nameSelector
   , sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector
   , sliceTensor_dimension_start_length_nameSelector
-  , sliceTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector
-  , sliceTensor_startTensor_sizeTensor_squeezeMask_nameSelector
   , sliceTensor_starts_ends_strides_nameSelector
   , sliceTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector
-  , sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_nameSelector
-  , sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_startMask_endMask_squeezeMask_nameSelector
-  , sliceUpdateDataTensor_updateTensor_starts_ends_strides_nameSelector
-  , sliceUpdateDataTensor_updateTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector
   , softMaxCrossEntropyGradientWithIncomingGradientTensor_sourceTensor_labelsTensor_axis_reductionType_nameSelector
   , softMaxCrossEntropyWithSourceTensor_labelsTensor_axis_reductionType_nameSelector
   , softMaxGradientWithIncomingGradient_sourceTensor_axis_nameSelector
@@ -778,18 +651,13 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , tanhWithTensor_nameSelector
   , tileGradientWithIncomingGradientTensor_sourceTensor_withMultiplier_nameSelector
   , tileTensor_withMultiplier_nameSelector
-  , topKWithGradientTensor_source_axisTensor_kTensor_nameSelector
-  , topKWithGradientTensor_source_axis_k_nameSelector
   , topKWithGradientTensor_source_kTensor_nameSelector
   , topKWithGradientTensor_source_k_nameSelector
-  , topKWithSourceTensor_axisTensor_kTensor_nameSelector
-  , topKWithSourceTensor_axis_k_nameSelector
   , topKWithSourceTensor_kTensor_nameSelector
   , topKWithSourceTensor_k_nameSelector
   , transposeTensor_dimension_withDimension_nameSelector
   , transposeTensor_permutation_nameSelector
   , truncateWithTensor_nameSelector
-  , variableFromTensorWithTensor_nameSelector
   , variableWithData_shape_dataType_nameSelector
   , varianceOfTensor_axes_nameSelector
   , varianceOfTensor_meanTensor_axes_nameSelector
@@ -806,34 +674,23 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , pattern MPSDataTypeComplexFloat16
   , pattern MPSDataTypeSignedBit
   , pattern MPSDataTypeIntBit
-  , pattern MPSDataTypeInt2
-  , pattern MPSDataTypeInt4
   , pattern MPSDataTypeInt8
   , pattern MPSDataTypeInt16
   , pattern MPSDataTypeInt32
   , pattern MPSDataTypeInt64
-  , pattern MPSDataTypeUInt2
-  , pattern MPSDataTypeUInt4
   , pattern MPSDataTypeUInt8
   , pattern MPSDataTypeUInt16
   , pattern MPSDataTypeUInt32
   , pattern MPSDataTypeUInt64
   , pattern MPSDataTypeAlternateEncodingBit
   , pattern MPSDataTypeBool
-  , pattern MPSDataTypeBFloat16
   , pattern MPSDataTypeNormalizedBit
   , pattern MPSDataTypeUnorm1
   , pattern MPSDataTypeUnorm8
   , MPSGraphLossReductionType(MPSGraphLossReductionType)
-  , pattern MPSGraphLossReductionTypeNone
   , pattern MPSGraphLossReductionTypeAxis
   , pattern MPSGraphLossReductionTypeSum
   , pattern MPSGraphLossReductionTypeMean
-  , MPSGraphNonMaximumSuppressionCoordinateMode(MPSGraphNonMaximumSuppressionCoordinateMode)
-  , pattern MPSGraphNonMaximumSuppressionCoordinateModeCornersHeightFirst
-  , pattern MPSGraphNonMaximumSuppressionCoordinateModeCornersWidthFirst
-  , pattern MPSGraphNonMaximumSuppressionCoordinateModeCentersHeightFirst
-  , pattern MPSGraphNonMaximumSuppressionCoordinateModeCentersWidthFirst
   , MPSGraphOptions(MPSGraphOptions)
   , pattern MPSGraphOptionsNone
   , pattern MPSGraphOptionsSynchronizeResults
@@ -855,8 +712,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , pattern MPSGraphResizeNearestRoundingModeRoundPreferFloor
   , pattern MPSGraphResizeNearestRoundingModeCeil
   , pattern MPSGraphResizeNearestRoundingModeFloor
-  , pattern MPSGraphResizeNearestRoundingModeRoundToEven
-  , pattern MPSGraphResizeNearestRoundingModeRoundToOdd
   , MPSGraphScatterMode(MPSGraphScatterMode)
   , pattern MPSGraphScatterModeAdd
   , pattern MPSGraphScatterModeSub
@@ -877,10 +732,6 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraph
   , pattern MPSGraphTensorNamedDataLayoutCHW
   , pattern MPSGraphTensorNamedDataLayoutHWC
   , pattern MPSGraphTensorNamedDataLayoutHW
-  , pattern MPSGraphTensorNamedDataLayoutNCDHW
-  , pattern MPSGraphTensorNamedDataLayoutNDHWC
-  , pattern MPSGraphTensorNamedDataLayoutOIDHW
-  , pattern MPSGraphTensorNamedDataLayoutDHWIO
 
   ) where
 
@@ -898,7 +749,7 @@ import ObjC.MetalPerformanceShaders.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 import ObjC.MetalPerformanceShaders.Internal.Classes
 
--- | Creates a new graph to insert nodes in.
+-- | Create a new MPSGraph to insert nodes in
 --
 -- ObjC selector: @+ new@
 new :: IO (Id MPSGraph)
@@ -907,3980 +758,4468 @@ new  =
     cls' <- getRequiredClass "MPSGraph"
     sendOwnedClassMessage cls' newSelector
 
--- | Initialize an MPSGraph to insert nodes in.
+-- | Initialize an MPSGraph to insert nodes in
 --
 -- ObjC selector: @- init@
 init_ :: IsMPSGraph mpsGraph => mpsGraph -> IO (Id MPSGraph)
 init_ mpsGraph =
   sendOwnedMessage mpsGraph initSelector
 
--- | Compiles the graph for the given feeds to returns the target tensor values, ensuring all target operations would be executed.
+-- | Compiles the graph for given feeds to return targetTensor values, ensuring all target operations would be executed. This call blocks till execution has completed.
 --
--- This call blocks until execution has completed. The compilation descriptor helps specialize the executable returned.
+-- @device@ — MPSGraph device to optimize for
 --
--- - Parameters:   - device: MPSGraph device to optimize for.   - feeds: Feeds dictionary for the placeholder tensors.   - targetTensors: Tensors for which the caller wishes MPSGraphTensorData to be returned.   - targetOperations: Operations to be completed at the end of the run.   - compilationDescriptor: compilation descriptor to set different compilation parameters. - Returns: A valid MPSGraphExecutable object
+-- @feeds@ — Feeds dictionary for the placeholder tensors
+--
+-- @targetTensors@ — Tensors for which the caller wishes MPSGraphTensorData to be returned
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- @compilationDescriptor@ — compilation descriptor
+--
+-- Returns: A valid MPSGraphExecutable object
 --
 -- ObjC selector: @- compileWithDevice:feeds:targetTensors:targetOperations:compilationDescriptor:@
 compileWithDevice_feeds_targetTensors_targetOperations_compilationDescriptor :: (IsMPSGraph mpsGraph, IsMPSGraphDevice device, IsNSArray targetTensors, IsNSArray targetOperations, IsMPSGraphCompilationDescriptor compilationDescriptor) => mpsGraph -> device -> RawId -> targetTensors -> targetOperations -> compilationDescriptor -> IO (Id MPSGraphExecutable)
 compileWithDevice_feeds_targetTensors_targetOperations_compilationDescriptor mpsGraph device feeds targetTensors targetOperations compilationDescriptor =
   sendMessage mpsGraph compileWithDevice_feeds_targetTensors_targetOperations_compilationDescriptorSelector (toMPSGraphDevice device) feeds (toNSArray targetTensors) (toNSArray targetOperations) (toMPSGraphCompilationDescriptor compilationDescriptor)
 
--- | Runs the graph for the given feeds and returns the target tensor values, ensuring all target operations also executed.
+-- | Runs the graph for given feeds to return targetTensor values, ensuring all target operations also executed. This call blocks till execution has completed.
 --
--- This call blocks until execution has completed.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
 --
--- - Parameters:   - feeds: Feeds dictionary for the placeholder tensors.   - targetTensors: Tensors for which the caller wishes MPSGraphTensorData to be returned.   - targetOperations: Operations to be completed at the end of the run. - Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory.
+-- @targetTensors@ — Tensors for which the caller wishes MPSGraphTensorData to be returned
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory.
 --
 -- ObjC selector: @- runWithFeeds:targetTensors:targetOperations:@
 runWithFeeds_targetTensors_targetOperations :: (IsMPSGraph mpsGraph, IsNSArray targetTensors, IsNSArray targetOperations) => mpsGraph -> RawId -> targetTensors -> targetOperations -> IO RawId
 runWithFeeds_targetTensors_targetOperations mpsGraph feeds targetTensors targetOperations =
   sendMessage mpsGraph runWithFeeds_targetTensors_targetOperationsSelector feeds (toNSArray targetTensors) (toNSArray targetOperations)
 
--- | Runs the graph for the given feeds and returns the target tensor values, ensuring all target operations also executed.
+-- | Runs the graph for given feeds to return targetTensor values, ensuring all target operations also executed. This call blocks till execution has completed.
 --
--- This call blocks until execution has completed.
+-- @commandQueue@ — CommandQueue passed to exectute the graph on
 --
--- - Parameters:   - commandQueue: CommandQueue passed to exectute the graph on.   - feeds: Feeds dictionary for the placeholder tensors.   - targetTensors: Tensors for which the caller wishes MPSGraphTensorData to be returned.   - targetOperations: Operations to be completed at the end of the run. - Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
+--
+-- @targetTensors@ — Tensors for which the caller wishes MPSGraphTensorData to be returned
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory.
 --
 -- ObjC selector: @- runWithMTLCommandQueue:feeds:targetTensors:targetOperations:@
 runWithMTLCommandQueue_feeds_targetTensors_targetOperations :: (IsMPSGraph mpsGraph, IsNSArray targetTensors, IsNSArray targetOperations) => mpsGraph -> RawId -> RawId -> targetTensors -> targetOperations -> IO RawId
 runWithMTLCommandQueue_feeds_targetTensors_targetOperations mpsGraph commandQueue feeds targetTensors targetOperations =
   sendMessage mpsGraph runWithMTLCommandQueue_feeds_targetTensors_targetOperationsSelector commandQueue feeds (toNSArray targetTensors) (toNSArray targetOperations)
 
--- | Runs the graph for the given feeds and returns the target tensor values in the results dictionary provided by the user.
+-- | Runs the graph for given feeds to return targetTensor values in the resultsDictionary provided by the user,              ensuring all target operations also executed. This call blocks till execution has completed.
 --
--- It also ensures all target operations also executed. This call blocks until execution has completed.
+-- @commandQueue@ — CommandQueue passed to exectute the graph on
 --
--- - Parameters:   - commandQueue: CommandQueue passed to exectute the graph on.   - feeds: Feeds dictionary for the placeholder tensors.   - targetOperations: Operations to be completed at the end of the run.   - resultsDictionary: MPSGraphTensors dictionary passed by user, these will be filled with graph output data.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- @resultsDictionary@ — MPSGraphTensors dictionary passed by user, these will be filled with graph output data
 --
 -- ObjC selector: @- runWithMTLCommandQueue:feeds:targetOperations:resultsDictionary:@
 runWithMTLCommandQueue_feeds_targetOperations_resultsDictionary :: (IsMPSGraph mpsGraph, IsNSArray targetOperations) => mpsGraph -> RawId -> RawId -> targetOperations -> RawId -> IO ()
 runWithMTLCommandQueue_feeds_targetOperations_resultsDictionary mpsGraph commandQueue feeds targetOperations resultsDictionary =
   sendMessage mpsGraph runWithMTLCommandQueue_feeds_targetOperations_resultsDictionarySelector commandQueue feeds (toNSArray targetOperations) resultsDictionary
 
--- | Runs the graph for the given feeds and returns the target tensor values, ensuring all target operations also executed.
+-- | Runs the graph for given feeds to return targetTensor values, ensuring all target operations also executed.              This call  is asynchronous and will return immediately if a completionHandler is set.
 --
--- This call is asynchronous and will return immediately if a completionHandler is set.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
 --
--- - Parameters:   - feeds: Feeds dictionary for the placeholder tensors.   - targetTensors: Tensors for which the caller wishes MPSGraphTensorData to be returned.   - targetOperations: Operations to be completed at the end of the run.   - executionDescriptor: ExecutionDescriptor to be passed in and used. - Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory.
+-- @targetTensors@ — Tensors for which the caller wishes MPSGraphTensorData to be returned
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- @executionDescriptor@ — ExecutionDescriptor to be passed in and used,
+--
+-- Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory.
 --
 -- ObjC selector: @- runAsyncWithFeeds:targetTensors:targetOperations:executionDescriptor:@
 runAsyncWithFeeds_targetTensors_targetOperations_executionDescriptor :: (IsMPSGraph mpsGraph, IsNSArray targetTensors, IsNSArray targetOperations, IsMPSGraphExecutionDescriptor executionDescriptor) => mpsGraph -> RawId -> targetTensors -> targetOperations -> executionDescriptor -> IO RawId
 runAsyncWithFeeds_targetTensors_targetOperations_executionDescriptor mpsGraph feeds targetTensors targetOperations executionDescriptor =
   sendMessage mpsGraph runAsyncWithFeeds_targetTensors_targetOperations_executionDescriptorSelector feeds (toNSArray targetTensors) (toNSArray targetOperations) (toMPSGraphExecutionDescriptor executionDescriptor)
 
--- | Runs the graph for the given feeds and returns the target tensor values, ensuring all target operations also executed.
+-- | Runs the graph for given feeds to return targetTensor values, ensuring all target operations also executed.              This call  is asynchronous and will return immediately if a completionHandler is set.
 --
--- This call is asynchronous and will return immediately if a completionHandler is set.
+-- @commandQueue@ — CommandQueue passed to exectute the graph on
 --
--- - Parameters:   - commandQueue: CommandQueue passed to exectute the graph on.   - feeds: Feeds dictionary for the placeholder tensors.   - targetTensors: Tensors for which the caller wishes MPSGraphTensorData to be returned.   - targetOperations: Operations to be completed at the end of the run.   - executionDescriptor: ExecutionDescriptor to be passed in and used. - Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory if MPSGraphOptionsSynchronizeResults set.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
+--
+-- @targetTensors@ — Tensors for which the caller wishes MPSGraphTensorData to be returned
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- @executionDescriptor@ — ExecutionDescriptor to be passed in and used,
+--
+-- Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory if MPSGraphOptionsSynchronizeResults set.
 --
 -- ObjC selector: @- runAsyncWithMTLCommandQueue:feeds:targetTensors:targetOperations:executionDescriptor:@
 runAsyncWithMTLCommandQueue_feeds_targetTensors_targetOperations_executionDescriptor :: (IsMPSGraph mpsGraph, IsNSArray targetTensors, IsNSArray targetOperations, IsMPSGraphExecutionDescriptor executionDescriptor) => mpsGraph -> RawId -> RawId -> targetTensors -> targetOperations -> executionDescriptor -> IO RawId
 runAsyncWithMTLCommandQueue_feeds_targetTensors_targetOperations_executionDescriptor mpsGraph commandQueue feeds targetTensors targetOperations executionDescriptor =
   sendMessage mpsGraph runAsyncWithMTLCommandQueue_feeds_targetTensors_targetOperations_executionDescriptorSelector commandQueue feeds (toNSArray targetTensors) (toNSArray targetOperations) (toMPSGraphExecutionDescriptor executionDescriptor)
 
--- | Encodes the graph for the given feeds to returns the target tensor values in the results dictionary provided by the user.
+-- | Runs the graph for given feeds to return targetTensor values in the resultsDictionary provided by the user,              ensuring all target operations also executed. This call  is asynchronous and will return immediately if a completionHandler is set.
 --
--- It ensures all target operations also executed. This call is asynchronous and will return immediately if a completionHandler is set.
+-- @commandQueue@ — CommandQueue passed to exectute the graph on
 --
--- - Parameters:   - commandQueue: CommandQueue passed to exectute the graph on.   - feeds: Feeds dictionary for the placeholder tensors.   - targetOperations: Operations to be completed at the end of the run.   - resultsDictionary: MPSGraphTensors dictionary passed by user, these will be filled with graph output data.   - executionDescriptor: ExecutionDescriptor to be passed in and used.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- @resultsDictionary@ — MPSGraphTensors dictionary passed by user, these will be filled with graph output data
+--
+-- @executionDescriptor@ — ExecutionDescriptor to be passed in and used,
 --
 -- ObjC selector: @- runAsyncWithMTLCommandQueue:feeds:targetOperations:resultsDictionary:executionDescriptor:@
 runAsyncWithMTLCommandQueue_feeds_targetOperations_resultsDictionary_executionDescriptor :: (IsMPSGraph mpsGraph, IsNSArray targetOperations, IsMPSGraphExecutionDescriptor executionDescriptor) => mpsGraph -> RawId -> RawId -> targetOperations -> RawId -> executionDescriptor -> IO ()
 runAsyncWithMTLCommandQueue_feeds_targetOperations_resultsDictionary_executionDescriptor mpsGraph commandQueue feeds targetOperations resultsDictionary executionDescriptor =
   sendMessage mpsGraph runAsyncWithMTLCommandQueue_feeds_targetOperations_resultsDictionary_executionDescriptorSelector commandQueue feeds (toNSArray targetOperations) resultsDictionary (toMPSGraphExecutionDescriptor executionDescriptor)
 
--- | Encodes the graph for the given feeds to returns the target tensor values, ensuring all target operations also executed.
+-- | Encodes graph for given feeds to return targetTensor values, ensuring all target operations also executed.              This call  is asynchronous and will return immediately if a completionHandler is set.
 --
--- This call is asynchronous and will return immediately if a completionHandler is set.
+-- @commandBuffer@ — commandBuffer passed to exectute the graph on, it is an MPSCommandBuffer, commitAndContinue might be called, please don't rely on underlying MTLCommandBuffer to remain uncommitted
 --
--- - Parameters:   - commandBuffer: commandBuffer passed to exectute the graph on, it is an MPSCommandBuffer, commitAndContinue might be called, please don't rely on underlying MTLCommandBuffer to remain uncommitted.   - feeds: Feeds dictionary for the placeholder tensors.   - targetTensors: Tensors for which the caller wishes MPSGraphTensorData to be returned.   - targetOperations: Operations to be completed at the end of the run.   - executionDescriptor: ExecutionDescriptor to be passed in and used. - Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory if MPSGraphOptionsSynchronizeResults set.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
+--
+-- @targetTensors@ — Tensors for which the caller wishes MPSGraphTensorData to be returned
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- @executionDescriptor@ — ExecutionDescriptor to be passed in and used,
+--
+-- Returns: A valid MPSGraphTensor : MPSGraphTensorData dictionary with results synchronized to the CPU memory if MPSGraphOptionsSynchronizeResults set.
 --
 -- ObjC selector: @- encodeToCommandBuffer:feeds:targetTensors:targetOperations:executionDescriptor:@
 encodeToCommandBuffer_feeds_targetTensors_targetOperations_executionDescriptor :: (IsMPSGraph mpsGraph, IsMPSCommandBuffer commandBuffer, IsNSArray targetTensors, IsNSArray targetOperations, IsMPSGraphExecutionDescriptor executionDescriptor) => mpsGraph -> commandBuffer -> RawId -> targetTensors -> targetOperations -> executionDescriptor -> IO RawId
 encodeToCommandBuffer_feeds_targetTensors_targetOperations_executionDescriptor mpsGraph commandBuffer feeds targetTensors targetOperations executionDescriptor =
   sendMessage mpsGraph encodeToCommandBuffer_feeds_targetTensors_targetOperations_executionDescriptorSelector (toMPSCommandBuffer commandBuffer) feeds (toNSArray targetTensors) (toNSArray targetOperations) (toMPSGraphExecutionDescriptor executionDescriptor)
 
--- | Encodes the graph for the given feeds to returns the target tensor values in the results dictionary provided by the user.
+-- | Encodes the graph for given feeds to return targetTensor values in the resultsDictionary provided by the user,              ensuring all target operations also executed. This call  is asynchronous and will return immediately if a completionHandler is set.
 --
--- It ensures all target operations also executed. This call is asynchronous and will return immediately if a completionHandler is set.
+-- @commandBuffer@ — commandBuffer passed to execute the graph on, commitAndContinue might be called, please don't rely on underlying MTLCommandBuffer to remain uncommitted
 --
--- - Parameters:   - commandBuffer: commandBuffer passed to execute the graph on, commitAndContinue might be called, please don't rely on underlying MTLCommandBuffer to remain uncommitted.   - feeds: Feeds dictionary for the placeholder tensors.   - targetOperations: Operations to be completed at the end of the run.   - resultsDictionary: MPSGraphTensors dictionary passed by user, these will be filled with graph output data.   - executionDescriptor: ExecutionDescriptor to be passed in and used.
+-- @feeds@ — Feeds dictionary for the placeholder tensors
+--
+-- @targetOperations@ — Operations to be completed at the end of the run
+--
+-- @resultsDictionary@ — MPSGraphTensors dictionary passed by user, these will be filled with graph output data
+--
+-- @executionDescriptor@ — ExecutionDescriptor to be passed in and used,
 --
 -- ObjC selector: @- encodeToCommandBuffer:feeds:targetOperations:resultsDictionary:executionDescriptor:@
 encodeToCommandBuffer_feeds_targetOperations_resultsDictionary_executionDescriptor :: (IsMPSGraph mpsGraph, IsMPSCommandBuffer commandBuffer, IsNSArray targetOperations, IsMPSGraphExecutionDescriptor executionDescriptor) => mpsGraph -> commandBuffer -> RawId -> targetOperations -> RawId -> executionDescriptor -> IO ()
 encodeToCommandBuffer_feeds_targetOperations_resultsDictionary_executionDescriptor mpsGraph commandBuffer feeds targetOperations resultsDictionary executionDescriptor =
   sendMessage mpsGraph encodeToCommandBuffer_feeds_targetOperations_resultsDictionary_executionDescriptorSelector (toMPSCommandBuffer commandBuffer) feeds (toNSArray targetOperations) resultsDictionary (toMPSGraphExecutionDescriptor executionDescriptor)
 
--- | Creates a TopKGradient operation and returns the result tensor.
+-- | Create TopKGradient op and return the result tensor
 --
--- Finds the K largest values along the minor dimension of the input. The input must have at least K elements along its minor dimension.
+-- Finds the K largest values along the minor dimension of the input. The input must have              at least K elements along its minor dimension.              To perform a vertical TopK a transpose can be inserted at the minor dimension of the              incoming tensor.
 --
--- - Parameters:   - gradient: Tensor containing the incoming gradient.   - source: Tensor containing source data.   - k: The number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @gradient@ — Tensor containing the incoming gradient
+--
+-- @source@ — Tensor containing source data
+--
+-- @k@ — The number of largest values to return
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- topKWithGradientTensor:source:k:name:@
 topKWithGradientTensor_source_k_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> gradient -> source -> CULong -> name -> IO (Id MPSGraphTensor)
 topKWithGradientTensor_source_k_name mpsGraph gradient source k name =
   sendMessage mpsGraph topKWithGradientTensor_source_k_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) k (toNSString name)
 
--- | Creates a TopKGradient operation and returns the result tensor.
+-- | Create TopKGradient op and return the result tensor
 --
--- Finds the K largest values along the minor dimension of the input. The input must have at least K elements along its minor dimension.
+-- Finds the K largest values along the minor dimension of the input. The input must have              at least K elements along its minor dimension.              To perform a vertical TopK a transpose can be inserted at the minor dimension of the              incoming tensor.
 --
--- - Parameters:   - gradient: Tensor containing the incoming gradient.   - source: Tensor containing source data.   - axis: The dimension along which to compute the TopK values..   - k: The number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @gradient@ — Tensor containing the incoming gradient
 --
--- ObjC selector: @- topKWithGradientTensor:source:axis:k:name:@
-topKWithGradientTensor_source_axis_k_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> gradient -> source -> CLong -> CULong -> name -> IO (Id MPSGraphTensor)
-topKWithGradientTensor_source_axis_k_name mpsGraph gradient source axis k name =
-  sendMessage mpsGraph topKWithGradientTensor_source_axis_k_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) axis k (toNSString name)
-
--- | Creates a BottomKGradient operation and returns the result tensor.
+-- @source@ — Tensor containing source data
 --
--- Finds the K smallest values along the minor dimension of the input. The input must have at least K elements along its minor dimension.
+-- @kTensor@ — Tensor of the number of largest values to return
 --
--- - Parameters:   - gradient: Tensor containing the incoming gradient.   - source: Tensor containing source data.   - axis: The dimension along which to compute the BottomK values.   - k: The number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @name@ — The name for the operation
 --
--- ObjC selector: @- bottomKWithGradientTensor:source:axis:k:name:@
-bottomKWithGradientTensor_source_axis_k_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> gradient -> source -> CLong -> CULong -> name -> IO (Id MPSGraphTensor)
-bottomKWithGradientTensor_source_axis_k_name mpsGraph gradient source axis k name =
-  sendMessage mpsGraph bottomKWithGradientTensor_source_axis_k_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) axis k (toNSString name)
-
--- | Creates a TopKGradient operation and returns the result tensor.
---
--- Finds the K largest values along the minor dimension of the input. The input must have at least K elements along its minor dimension.
---
--- - Parameters:   - gradient: Tensor containing the incoming gradient.   - source: Tensor containing source data.   - kTensor: Tensor of the number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- topKWithGradientTensor:source:kTensor:name:@
 topKWithGradientTensor_source_kTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphTensor kTensor, IsNSString name) => mpsGraph -> gradient -> source -> kTensor -> name -> IO (Id MPSGraphTensor)
 topKWithGradientTensor_source_kTensor_name mpsGraph gradient source kTensor name =
   sendMessage mpsGraph topKWithGradientTensor_source_kTensor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphTensor kTensor) (toNSString name)
 
--- | Creates a TopKGradient operation and returns the result tensor.
+-- | Create TopK op and return the value and indices tensors
 --
--- Finds the K largest values along the minor dimension of the input. The input must have at least K elements along its minor dimension.
+-- Finds the k largest values along the minor dimension of the input. The source must have              at least k elements along its minor dimension.              The first element of the result array corresponds to the top values, and the second              array corresponds to the indices of the top values.              To perform a vertical TopK a transpose can be inserted at the minor dimension of the              incoming tensor.
 --
--- - Parameters:   - gradient: Tensor containing the incoming gradient.   - source: Tensor containing source data.   - axisTensor: Tensor containing the dimension along which to compute the TopK values.   - kTensor: Tensor of the number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @source@ — Tensor containing source data
 --
--- ObjC selector: @- topKWithGradientTensor:source:axisTensor:kTensor:name:@
-topKWithGradientTensor_source_axisTensor_kTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphTensor axisTensor, IsMPSGraphTensor kTensor, IsNSString name) => mpsGraph -> gradient -> source -> axisTensor -> kTensor -> name -> IO (Id MPSGraphTensor)
-topKWithGradientTensor_source_axisTensor_kTensor_name mpsGraph gradient source axisTensor kTensor name =
-  sendMessage mpsGraph topKWithGradientTensor_source_axisTensor_kTensor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphTensor axisTensor) (toMPSGraphTensor kTensor) (toNSString name)
-
--- | Creates a BottomKGradient operation and returns the result tensor.
+-- @k@ — The number of largest values to return
 --
--- Finds the K smallest values along the minor dimension of the input. The input must have at least K elements along its minor dimension.
+-- @name@ — The name for the operation
 --
--- - Parameters:   - gradient: Tensor containing the incoming gradient.   - source: Tensor containing source data.   - axisTensor: Tensor containing the dimension along which to compute the BottomK values.   - kTensor: Tensor of the number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- bottomKWithGradientTensor:source:axisTensor:kTensor:name:@
-bottomKWithGradientTensor_source_axisTensor_kTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphTensor axisTensor, IsMPSGraphTensor kTensor, IsNSString name) => mpsGraph -> gradient -> source -> axisTensor -> kTensor -> name -> IO (Id MPSGraphTensor)
-bottomKWithGradientTensor_source_axisTensor_kTensor_name mpsGraph gradient source axisTensor kTensor name =
-  sendMessage mpsGraph bottomKWithGradientTensor_source_axisTensor_kTensor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphTensor axisTensor) (toMPSGraphTensor kTensor) (toNSString name)
-
--- | Creates a TopK operation and returns the value and indices tensors
---
--- Finds the k largest values along the minor dimension of the input. The source must have  at least k elements along its minor dimension.  The first element of the result array corresponds to the top values, and the second element of the result array corresponds to the indices of the top values.
---
--- - Parameters:   - source: Tensor containing source data   - k: The number of largest values to return   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 2
+-- Returns: A valid MPSGraphTensor array of size 2
 --
 -- ObjC selector: @- topKWithSourceTensor:k:name:@
 topKWithSourceTensor_k_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> source -> CULong -> name -> IO (Id NSArray)
 topKWithSourceTensor_k_name mpsGraph source k name =
   sendMessage mpsGraph topKWithSourceTensor_k_nameSelector (toMPSGraphTensor source) k (toNSString name)
 
--- | Creates a TopK operation and returns the result tensor.
+-- | Create TopK op and return the result tensor
 --
--- Finds the k largest values along the minor dimension of the input. The source must have  at least k elements along its minor dimension.  The first element of the result array corresponds to the top values, and the second element of the result array corresponds to the indices of the top values.
+-- Finds the k largest values along the minor dimension of the input. The source must have              at least k elements along its minor dimension.              The first element of the result array corresponds to the top values, and the second              array corresponds to the indices of the top values.              To perform a vertical TopK a transpose can be inserted at the minor dimension of the              incoming tensor.
 --
--- - Parameters:   - source: Tensor containing source data.   - kTensor: Tensor of the number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 2.
+-- @source@ — Tensor containing source data
+--
+-- @kTensor@ — Tensor of the number of largest values to return
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor array of size 2
 --
 -- ObjC selector: @- topKWithSourceTensor:kTensor:name:@
 topKWithSourceTensor_kTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor kTensor, IsNSString name) => mpsGraph -> source -> kTensor -> name -> IO (Id NSArray)
 topKWithSourceTensor_kTensor_name mpsGraph source kTensor name =
   sendMessage mpsGraph topKWithSourceTensor_kTensor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor kTensor) (toNSString name)
 
--- | Creates a TopK operation and returns the value and indices tensors.
+-- | Create Reshape op and return the result tensor
 --
--- Finds the k largest values along the minor dimension of the input. The source must have at least k elements along its minor dimension. The first element of the result array corresponds to the top values, and the second array corresponds to the indices of the top values.
+-- Reshape the input tensor to the target shape              The shape must be compatible with the input tensor shape              shape is allowed to contain dynamic dimensions (-1) when the result type can be inferred unambiguously
 --
--- - Parameters:   - source: Tensor containing source data.   - axis: The dimension along which to compute the TopK values.   - k: The number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 2.
+-- @tensor@ — Tensor to be reshaped.
 --
--- ObjC selector: @- topKWithSourceTensor:axis:k:name:@
-topKWithSourceTensor_axis_k_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> source -> CLong -> CULong -> name -> IO (Id NSArray)
-topKWithSourceTensor_axis_k_name mpsGraph source axis k name =
-  sendMessage mpsGraph topKWithSourceTensor_axis_k_nameSelector (toMPSGraphTensor source) axis k (toNSString name)
-
--- | Creates a BottomK operation and returns the value and indices tensors.
+-- @shape@ — The result tensor shape
 --
--- Finds the k smallest values along the minor dimension of the input. The source must have at least k elements along its minor dimension. The first element of the result array corresponds to the bottom values, and the second array corresponds to the indices of the bottom values.
+-- @name@ — The name for the operation
 --
--- - Parameters:   - source: Tensor containing source data.   - axis: The dimension along which to compute the BottomK values.   - k: The number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 2.
---
--- ObjC selector: @- bottomKWithSourceTensor:axis:k:name:@
-bottomKWithSourceTensor_axis_k_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> source -> CLong -> CULong -> name -> IO (Id NSArray)
-bottomKWithSourceTensor_axis_k_name mpsGraph source axis k name =
-  sendMessage mpsGraph bottomKWithSourceTensor_axis_k_nameSelector (toMPSGraphTensor source) axis k (toNSString name)
-
--- | Creates a TopK operation and returns the result tensor.
---
--- Finds the k largest values along the minor dimension of the input. The source must have at least k elements along its minor dimension. The first element of the result array corresponds to the top values, and the second array corresponds to the indices of the top values.
---
--- - Parameters:   - source: Tensor containing source data.   - axisTensor: Tensor containing the dimension along which to compute the TopK values.   - kTensor: Tensor of the number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 2.
---
--- ObjC selector: @- topKWithSourceTensor:axisTensor:kTensor:name:@
-topKWithSourceTensor_axisTensor_kTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor axisTensor, IsMPSGraphTensor kTensor, IsNSString name) => mpsGraph -> source -> axisTensor -> kTensor -> name -> IO (Id NSArray)
-topKWithSourceTensor_axisTensor_kTensor_name mpsGraph source axisTensor kTensor name =
-  sendMessage mpsGraph topKWithSourceTensor_axisTensor_kTensor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor axisTensor) (toMPSGraphTensor kTensor) (toNSString name)
-
--- | Creates a BottomK operation and returns the result tensor.
---
--- Finds the k smallest values along the minor dimension of the input. The source must have at least k elements along its minor dimension. The first element of the result array corresponds to the bottom values, and the second array corresponds to the indices of the bottom values.
---
--- - Parameters:   - source: Tensor containing source data.   - axisTensor: Tensor containing the dimension along which to compute the BottomK values.   - kTensor: Tensor of the number of largest values to return.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 2.
---
--- ObjC selector: @- bottomKWithSourceTensor:axisTensor:kTensor:name:@
-bottomKWithSourceTensor_axisTensor_kTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor axisTensor, IsMPSGraphTensor kTensor, IsNSString name) => mpsGraph -> source -> axisTensor -> kTensor -> name -> IO (Id NSArray)
-bottomKWithSourceTensor_axisTensor_kTensor_name mpsGraph source axisTensor kTensor name =
-  sendMessage mpsGraph bottomKWithSourceTensor_axisTensor_kTensor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor axisTensor) (toMPSGraphTensor kTensor) (toNSString name)
-
--- | Creates a reshape operation and returns the result tensor.
---
--- This operation reshapes the input tensor to the target shape. The shape must be compatible with the input tensor shape, specifically the volume of the input tensor has to match the volume defined by the shape. The shape is allowed to contain dynamic dimensions (-1) when the result type can be inferred unambiguously.
---
--- - Parameters:   - tensor: The tensor to be reshaped.   - shape: The result tensor shape.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- reshapeTensor:withShape:name:@
 reshapeTensor_withShape_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> RawId -> name -> IO (Id MPSGraphTensor)
 reshapeTensor_withShape_name mpsGraph tensor shape name =
   sendMessage mpsGraph reshapeTensor_withShape_nameSelector (toMPSGraphTensor tensor) shape (toNSString name)
 
--- | Creates a reshape operation and returns the result tensor.
+-- | Create Reshape op and return the result tensor
 --
--- This operation reshapes the input tensor to the target shape. The shape tensor must be compatible with the input tensor shape, specifically the volume of the input tensor has to match the volume defined by the shape tensor. The shape tensor is allowed to contain dynamic dimensions (-1) when the result type can be inferred unambiguously.
+-- Reshape the input tensor to the target shapeTensor              The shape must be compatible with the input tensor shape              shapeTensor is allowed to contain dynamic dimensions (-1) when the result type can be inferred unambiguously
 --
--- - Parameters:   - tensor: The tensor to be reshaped.   - shapeTensor: A 1D tensor of type @MPSDataTypeInt32@ or @MPSDataTypeInt64@, that contains the target shape values.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be reshaped.
+--
+-- @shapeTensor@ — 1D Int32 or Int64 tensor. The result tensor shape
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- reshapeTensor:withShapeTensor:name:@
 reshapeTensor_withShapeTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor shapeTensor, IsNSString name) => mpsGraph -> tensor -> shapeTensor -> name -> IO (Id MPSGraphTensor)
 reshapeTensor_withShapeTensor_name mpsGraph tensor shapeTensor name =
   sendMessage mpsGraph reshapeTensor_withShapeTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor shapeTensor) (toNSString name)
 
--- | Creates a transpose operation and returns the result tensor.
---
--- Transposes the dimensions @dimensionIndex@ and @dimensionIndex2@ of the input tensor.
---
--- - Parameters:   - tensor: The tensor to be transposed.   - dimensionIndex: The first dimension index to be transposed.   - dimensionIndex2: The second dimension index to be transposed.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- transposeTensor:dimension:withDimension:name:@
+-- | @- transposeTensor:dimension:withDimension:name:@
 transposeTensor_dimension_withDimension_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CULong -> CULong -> name -> IO (Id MPSGraphTensor)
 transposeTensor_dimension_withDimension_name mpsGraph tensor dimensionIndex dimensionIndex2 name =
   sendMessage mpsGraph transposeTensor_dimension_withDimension_nameSelector (toMPSGraphTensor tensor) dimensionIndex dimensionIndex2 (toNSString name)
 
--- | Creates a permutation operation and returns the result tensor.
---
--- Permutes the dimensions of the input tensor according to values in @permutation@.
---
--- - Parameters:   - tensor: The tensor to be permuted.   - permutation: An array of numbers defining the permutation, must be of length @rank(tensor)@ and define a valid permutation.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- transposeTensor:permutation:name:@
+-- | @- transposeTensor:permutation:name:@
 transposeTensor_permutation_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray permutation, IsNSString name) => mpsGraph -> tensor -> permutation -> name -> IO (Id MPSGraphTensor)
 transposeTensor_permutation_name mpsGraph tensor permutation name =
   sendMessage mpsGraph transposeTensor_permutation_nameSelector (toMPSGraphTensor tensor) (toNSArray permutation) (toNSString name)
 
--- | Creates a slice operation and returns the result tensor.
---
--- - Parameters:   - tensor: The tensor to be sliced.   - dimensionIndex: The dimension to slice.   - start: The starting index of the slice, can be negative to count from the end of the tensor dimension.   - length: The length of the slice.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- sliceTensor:dimension:start:length:name:@
+-- | @- sliceTensor:dimension:start:length:name:@
 sliceTensor_dimension_start_length_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CULong -> CLong -> CLong -> name -> IO (Id MPSGraphTensor)
 sliceTensor_dimension_start_length_name mpsGraph tensor dimensionIndex start length_ name =
   sendMessage mpsGraph sliceTensor_dimension_start_length_nameSelector (toMPSGraphTensor tensor) dimensionIndex start length_ (toNSString name)
 
--- | Creates a strided-slice operation and returns the result tensor.
+-- | Create strided slice op and return the result tensor
 --
--- Slices a tensor starting from @starts@, stopping short before @ends@ stepping @strides@ paces between each value. Semantics based on [TensorFlow Strided Slice Op](https://www.tensorflow.org/api_docs/python/tf/strided_slice).
+-- Slices a tensor starting from @starts@, stopping short before @ends@ stepping              @strides@ paces between each value. Semantics based on              https://www.tensorflow.org/api_docs/python/tf/strided_slice.
 --
--- - Parameters:   - tensor: The tensor to be sliced.   - starts: An array of numbers that specify the starting points for each dimension.   - ends: An array of numbers that specify the ending points for each dimension.   - strides: An array of numbers that specify the strides for each dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be sliced
+--
+-- @starts@ — Array of numbers specifying starting point per dimension
+--
+-- @ends@ — Array of numbers specifying ending point per dimension
+--
+-- @strides@ — Array of numbers specifying strides per dimension
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- sliceTensor:starts:ends:strides:name:@
 sliceTensor_starts_ends_strides_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray starts, IsNSArray ends, IsNSArray strides, IsNSString name) => mpsGraph -> tensor -> starts -> ends -> strides -> name -> IO (Id MPSGraphTensor)
 sliceTensor_starts_ends_strides_name mpsGraph tensor starts ends strides name =
   sendMessage mpsGraph sliceTensor_starts_ends_strides_nameSelector (toMPSGraphTensor tensor) (toNSArray starts) (toNSArray ends) (toNSArray strides) (toNSString name)
 
--- | Creates a strided-slice operation and returns the result tensor.
+-- | Create strided slice op and return the result tensor
 --
--- Slices a tensor starting from @starts@, stopping short before @ends@ stepping @strides@ paces between each value. Semantics based on [TensorFlow Strided Slice Op](https://www.tensorflow.org/api_docs/python/tf/strided_slice).
+-- Slices a tensor starting from @starts@, stopping short before @ends@ stepping              @strides@ paces between each value. Semantics based on              https://www.tensorflow.org/api_docs/python/tf/strided_slice.
 --
--- - Parameters:   - tensor: The Tensor to be sliced.   - starts: An array of numbers that specify the starting points for each dimension.   - ends: An array of numbers that specify the ending points for each dimension.   - strides: An array of numbers that specify the strides for each dimension.   - startMask: A bitmask that indicates dimensions whose @starts@ values the operation should ignore.   - endMask: A bitmask that indicates dimensions whose @ends@ values the operation should ignore.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be sliced
+--
+-- @starts@ — Array of numbers specifying starting point per dimension
+--
+-- @ends@ — Array of numbers specifying ending point per dimension
+--
+-- @strides@ — Array of numbers specifying strides per dimension
+--
+-- @startMask@ — Bitmask indicating dimensions whose @starts@ values should be ignored.
+--
+-- @endMask@ — Bitmask indicating dimensions whose @ends@ values should be ignored.
+--
+-- @squeezeMask@ — Bitmask indicating dimensions that should be squeezed out from the result.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- sliceTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:@
 sliceTensor_starts_ends_strides_startMask_endMask_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray starts, IsNSArray ends, IsNSArray strides, IsNSString name) => mpsGraph -> tensor -> starts -> ends -> strides -> CUInt -> CUInt -> CUInt -> name -> IO (Id MPSGraphTensor)
 sliceTensor_starts_ends_strides_startMask_endMask_squeezeMask_name mpsGraph tensor starts ends strides startMask endMask squeezeMask name =
   sendMessage mpsGraph sliceTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector (toMPSGraphTensor tensor) (toNSArray starts) (toNSArray ends) (toNSArray strides) startMask endMask squeezeMask (toNSString name)
 
--- | Creates a strided-slice operation and returns the result tensor.
+-- | Create strided slice gradient op and return the result tensor
 --
--- Slices a tensor starting from @startTensor@, stopping short before @endTensor@ stepping @strideTensor@ paces between each value. Semantics based on [TensorFlow Strided Slice Op](https://www.tensorflow.org/api_docs/python/tf/strided_slice).
+-- @inputGradientTensor@ — Input gradient
 --
--- - Parameters:   - tensor: The Tensor to be sliced.   - startTensor: The tensor that specifies the starting points for each dimension.   - endTensor: The tensor that specifies the ending points for each dimension.   - strideTensor: The tensor that specifies the strides for each dimension.   - startMask: A bitmask that indicates dimensions whose @starts@ values the operation should ignore.   - endMask: A bitmask that indicates dimensions whose @ends@ values the operation should ignore.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @fwdInShapeTensor@ — Shape of the forward pass input = shape of gradient output
 --
--- ObjC selector: @- sliceTensor:startTensor:endTensor:strideTensor:startMask:endMask:squeezeMask:name:@
-sliceTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor startTensor, IsMPSGraphTensor endTensor, IsMPSGraphTensor strideTensor, IsNSString name) => mpsGraph -> tensor -> startTensor -> endTensor -> strideTensor -> CUInt -> CUInt -> CUInt -> name -> IO (Id MPSGraphTensor)
-sliceTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_name mpsGraph tensor startTensor endTensor strideTensor startMask endMask squeezeMask name =
-  sendMessage mpsGraph sliceTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor startTensor) (toMPSGraphTensor endTensor) (toMPSGraphTensor strideTensor) startMask endMask squeezeMask (toNSString name)
-
--- | Creates a slice operation and returns the result tensor.
+-- @starts@ — Array of numbers specifying starting point per dimension
 --
--- Slices a tensor starting from @startTensor@, stopping short before @startTensor + endTensor@ stepping a single pace between each value. Semantics based on [TensorFlow Strided Slice Op](https://www.tensorflow.org/api_docs/python/tf/strided_slice).
+-- @ends@ — Array of numbers specifying ending point per dimension
 --
--- - Parameters:   - tensor: The Tensor to be sliced.   - startTensor: The tensor that specifies the starting points for each dimension.   - sizeTensor: The tensor that specifies the size of the result for each dimension.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @strides@ — Array of numbers specifying strides per dimension
 --
--- ObjC selector: @- sliceTensor:startTensor:sizeTensor:squeezeMask:name:@
-sliceTensor_startTensor_sizeTensor_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor startTensor, IsMPSGraphTensor sizeTensor, IsNSString name) => mpsGraph -> tensor -> startTensor -> sizeTensor -> CUInt -> name -> IO (Id MPSGraphTensor)
-sliceTensor_startTensor_sizeTensor_squeezeMask_name mpsGraph tensor startTensor sizeTensor squeezeMask name =
-  sendMessage mpsGraph sliceTensor_startTensor_sizeTensor_squeezeMask_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor startTensor) (toMPSGraphTensor sizeTensor) squeezeMask (toNSString name)
-
--- | Creates a strided-slice gradient operation and returns the result tensor.
+-- @name@ — The name for the operation
 --
--- - Parameters:   - inputGradientTensor: The input gradient.   - fwdInShapeTensor: The shape of the forward pass input, that is the shape of the gradient output.   - starts: An array of numbers that specify the starting points for each dimension.   - ends: An array of numbers that specify the ending points for each dimension.   - strides: An array of numbers that specify the strides for each dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- sliceGradientTensor:fwdInShapeTensor:starts:ends:strides:name:@
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor inputGradientTensor, IsMPSGraphTensor fwdInShapeTensor, IsNSArray starts, IsNSArray ends, IsNSArray strides, IsNSString name) => mpsGraph -> inputGradientTensor -> fwdInShapeTensor -> starts -> ends -> strides -> name -> IO (Id MPSGraphTensor)
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_name mpsGraph inputGradientTensor fwdInShapeTensor starts ends strides name =
   sendMessage mpsGraph sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_nameSelector (toMPSGraphTensor inputGradientTensor) (toMPSGraphTensor fwdInShapeTensor) (toNSArray starts) (toNSArray ends) (toNSArray strides) (toNSString name)
 
--- | Creates a strided-slice gradient operation and returns the result tensor.
+-- | Create strided slice gradient op and return the result tensor
 --
--- - Parameters:   - inputGradientTensor: The input gradient.   - fwdInShapeTensor: The shape of the forward pass input, that is the shape of the gradient output.   - startTensor: The tensor that specifies the starting points for each dimension.   - endTensor: The tensor that specifies the ending points for each dimension.   - strideTensor: The tensor that specifies the strides for each dimension.   - startMask: A bitmask that indicates dimensions whose @starts@ values the operation should ignore.   - endMask: A bitmask that indicates dimensions whose @ends@ values the operation should ignore.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @inputGradientTensor@ — Input gradient
 --
--- ObjC selector: @- sliceGradientTensor:fwdInShapeTensor:startTensor:endTensor:strideTensor:startMask:endMask:squeezeMask:name:@
-sliceGradientTensor_fwdInShapeTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor inputGradientTensor, IsMPSGraphTensor fwdInShapeTensor, IsMPSGraphTensor startTensor, IsMPSGraphTensor endTensor, IsMPSGraphTensor strideTensor, IsNSString name) => mpsGraph -> inputGradientTensor -> fwdInShapeTensor -> startTensor -> endTensor -> strideTensor -> CUInt -> CUInt -> CUInt -> name -> IO (Id MPSGraphTensor)
-sliceGradientTensor_fwdInShapeTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_name mpsGraph inputGradientTensor fwdInShapeTensor startTensor endTensor strideTensor startMask endMask squeezeMask name =
-  sendMessage mpsGraph sliceGradientTensor_fwdInShapeTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector (toMPSGraphTensor inputGradientTensor) (toMPSGraphTensor fwdInShapeTensor) (toMPSGraphTensor startTensor) (toMPSGraphTensor endTensor) (toMPSGraphTensor strideTensor) startMask endMask squeezeMask (toNSString name)
-
--- | Creates a slice gradient operation and returns the result tensor.
+-- @fwdInShapeTensor@ — Shape of the forward pass input = shape of gradient output
 --
--- - Parameters:   - inputGradientTensor: The input gradient.   - fwdInShapeTensor: The shape of the forward pass input, that is the shape of the gradient output.   - startTensor: The tensor that specifies the starting points for each dimension.   - sizeTensor: The tensor that specifies the size of the forward result for each dimension.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @starts@ — Array of numbers specifying starting point per dimension
 --
--- ObjC selector: @- sliceGradientTensor:fwdInShapeTensor:startTensor:sizeTensor:squeezeMask:name:@
-sliceGradientTensor_fwdInShapeTensor_startTensor_sizeTensor_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor inputGradientTensor, IsMPSGraphTensor fwdInShapeTensor, IsMPSGraphTensor startTensor, IsMPSGraphTensor sizeTensor, IsNSString name) => mpsGraph -> inputGradientTensor -> fwdInShapeTensor -> startTensor -> sizeTensor -> CUInt -> name -> IO (Id MPSGraphTensor)
-sliceGradientTensor_fwdInShapeTensor_startTensor_sizeTensor_squeezeMask_name mpsGraph inputGradientTensor fwdInShapeTensor startTensor sizeTensor squeezeMask name =
-  sendMessage mpsGraph sliceGradientTensor_fwdInShapeTensor_startTensor_sizeTensor_squeezeMask_nameSelector (toMPSGraphTensor inputGradientTensor) (toMPSGraphTensor fwdInShapeTensor) (toMPSGraphTensor startTensor) (toMPSGraphTensor sizeTensor) squeezeMask (toNSString name)
-
--- | Creates a strided-slice gradient operation and returns the result tensor.
+-- @ends@ — Array of numbers specifying ending point per dimension
 --
--- - Parameters:   - inputGradientTensor: The input gradient.   - fwdInShapeTensor: The shape of the forward pass input, that is the shape of the gradient output.   - starts: An array of numbers that specify the starting points for each dimension.   - ends: An array of numbers that specify the ending points for each dimension.   - strides: An array of numbers that specify the strides for each dimension.   - startMask: A bitmask that indicates dimensions whose @starts@ values the operation should ignore.   - endMask: A bitmask that indicates dimensions whose @ends@ values the operation should ignore.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @strides@ — Array of numbers specifying strides per dimension
+--
+-- @startMask@ — Bitmask indicating dimensions whose @starts@ values should be ignored.
+--
+-- @endMask@ — Bitmask indicating dimensions whose @ends@ values should be ignored.
+--
+-- @squeezeMask@ — Bitmask indicating dimensions that should be squeezed out from the result.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- sliceGradientTensor:fwdInShapeTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:@
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_startMask_endMask_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor inputGradientTensor, IsMPSGraphTensor fwdInShapeTensor, IsNSArray starts, IsNSArray ends, IsNSArray strides, IsNSString name) => mpsGraph -> inputGradientTensor -> fwdInShapeTensor -> starts -> ends -> strides -> CUInt -> CUInt -> CUInt -> name -> IO (Id MPSGraphTensor)
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_startMask_endMask_squeezeMask_name mpsGraph inputGradientTensor fwdInShapeTensor starts ends strides startMask endMask squeezeMask name =
   sendMessage mpsGraph sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector (toMPSGraphTensor inputGradientTensor) (toMPSGraphTensor fwdInShapeTensor) (toNSArray starts) (toNSArray ends) (toNSArray strides) startMask endMask squeezeMask (toNSString name)
 
--- | Creates a strided-slice update operation and returns the result tensor.
+-- | Create concat  op and return the result tensor
 --
--- - Parameters:   - dataTensor: The large tensor that will receive the update.   - updateTensor: The tensor with the new values that will replace values in the dataTensor.   - startsTensor: A Tensor that contains an array of numbers that specify the starting points for each dimension.   - endsTensor: A Tensor that contains an array of numbers that specify the ending points for each dimension.   - stridesTensor: A Tensor that contains an array of numbers that specify the strides for each dimension.   - startMask: A bitmask that indicates dimensions whose @starts@ values the operation should ignore.   - endMask: A bitmask that indicates dimensions whose @ends@ values the operation should ignore.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- Concatenate two input tensors along sepecified dimension. Tensors must be broadcast              compatible along all other dimensions, and have the same type.
 --
--- ObjC selector: @- sliceUpdateDataTensor:updateTensor:startsTensor:endsTensor:stridesTensor:startMask:endMask:squeezeMask:name:@
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_startMask_endMask_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updateTensor, IsMPSGraphTensor startsTensor, IsMPSGraphTensor endsTensor, IsMPSGraphTensor stridesTensor, IsNSString name) => mpsGraph -> dataTensor -> updateTensor -> startsTensor -> endsTensor -> stridesTensor -> CUInt -> CUInt -> CUInt -> name -> IO (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_startMask_endMask_squeezeMask_name mpsGraph dataTensor updateTensor startsTensor endsTensor stridesTensor startMask endMask squeezeMask name =
-  sendMessage mpsGraph sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_startMask_endMask_squeezeMask_nameSelector (toMPSGraphTensor dataTensor) (toMPSGraphTensor updateTensor) (toMPSGraphTensor startsTensor) (toMPSGraphTensor endsTensor) (toMPSGraphTensor stridesTensor) startMask endMask squeezeMask (toNSString name)
-
--- | Creates a strided-slice update operation and returns the result tensor.
+-- @tensor@ — First tensor to concatenate
 --
--- - Parameters:   - dataTensor: The large tensor that will receive the update.   - updateTensor: The tensor with the new values that will replace values in the dataTensor.   - starts: An array of numbers that specify the starting points for each dimension.   - ends: An array of numbers that specify the ending points for each dimension.   - strides: An array of numbers that specify the strides for each dimension.   - startMask: A bitmask that indicates dimensions whose @starts@ values the operation should ignore.   - endMask: A bitmask that indicates dimensions whose @ends@ values the operation should ignore.   - squeezeMask: A bitmask that indicates dimensions the operation will squeeze out from the result.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor2@ — Second tensor to concatenate
 --
--- ObjC selector: @- sliceUpdateDataTensor:updateTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:@
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_startMask_endMask_squeezeMask_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updateTensor, IsNSArray starts, IsNSArray ends, IsNSArray strides, IsNSString name) => mpsGraph -> dataTensor -> updateTensor -> starts -> ends -> strides -> CUInt -> CUInt -> CUInt -> name -> IO (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_startMask_endMask_squeezeMask_name mpsGraph dataTensor updateTensor starts ends strides startMask endMask squeezeMask name =
-  sendMessage mpsGraph sliceUpdateDataTensor_updateTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector (toMPSGraphTensor dataTensor) (toMPSGraphTensor updateTensor) (toNSArray starts) (toNSArray ends) (toNSArray strides) startMask endMask squeezeMask (toNSString name)
-
--- | Creates a strided-slice update operation with zero masks and returns the result tensor.
+-- @dimensionIndex@ — The dimension to concatenate across, must be in range - rank <= dimension < rank
 --
--- - Parameters:   - dataTensor: The large tensor that will receive the update.   - updateTensor: The tensor with the new values that will replace values in the dataTensor.   - startsTensor: A Tensor that contains an array of numbers that specify the starting points for each dimension.   - endsTensor: A Tensor that contains an array of numbers that specify the ending points for each dimension.   - stridesTensor: A Tensor that contains an array of numbers that specify the strides for each dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @name@ — The name for the operation
 --
--- ObjC selector: @- sliceUpdateDataTensor:updateTensor:startsTensor:endsTensor:stridesTensor:name:@
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updateTensor, IsMPSGraphTensor startsTensor, IsMPSGraphTensor endsTensor, IsMPSGraphTensor stridesTensor, IsNSString name) => mpsGraph -> dataTensor -> updateTensor -> startsTensor -> endsTensor -> stridesTensor -> name -> IO (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_name mpsGraph dataTensor updateTensor startsTensor endsTensor stridesTensor name =
-  sendMessage mpsGraph sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_nameSelector (toMPSGraphTensor dataTensor) (toMPSGraphTensor updateTensor) (toMPSGraphTensor startsTensor) (toMPSGraphTensor endsTensor) (toMPSGraphTensor stridesTensor) (toNSString name)
-
--- | Creates a strided-slice update operation with zero masks and returns the result tensor.
---
--- - Parameters:   - dataTensor: The large tensor that will receive the update.   - updateTensor: The tensor with the new values that will replace values in the dataTensor.   - starts: An array of numbers that specify the starting points for each dimension.   - ends: An array of numbers that specify the ending points for each dimension.   - strides: An array of numbers that specify the strides for each dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- sliceUpdateDataTensor:updateTensor:starts:ends:strides:name:@
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updateTensor, IsNSArray starts, IsNSArray ends, IsNSArray strides, IsNSString name) => mpsGraph -> dataTensor -> updateTensor -> starts -> ends -> strides -> name -> IO (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_name mpsGraph dataTensor updateTensor starts ends strides name =
-  sendMessage mpsGraph sliceUpdateDataTensor_updateTensor_starts_ends_strides_nameSelector (toMPSGraphTensor dataTensor) (toMPSGraphTensor updateTensor) (toNSArray starts) (toNSArray ends) (toNSArray strides) (toNSString name)
-
--- | Creates a concatenation operation and returns the result tensor.
---
--- Concatenates two input tensors along the specified dimension. Tensors must be broadcast compatible along all other dimensions, and have the same datatype.
---
--- - Parameters:   - tensor: The first tensor to concatenate.   - tensor2: The second tensor to concatenate.   - dimensionIndex: The dimension to concatenate across, must be in range: `-rank <= dimension < rank`.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- concatTensor:withTensor:dimension:name:@
 concatTensor_withTensor_dimension_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor tensor2, IsNSString name) => mpsGraph -> tensor -> tensor2 -> CLong -> name -> IO (Id MPSGraphTensor)
 concatTensor_withTensor_dimension_name mpsGraph tensor tensor2 dimensionIndex name =
   sendMessage mpsGraph concatTensor_withTensor_dimension_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor tensor2) dimensionIndex (toNSString name)
 
--- | Creates a concatenation operation and returns the result tensor.
+-- | Create concat op and return the result tensor
 --
--- Concatenates all input tensors along the specified dimension. All inputs must be broadcast compatible along all other dimensions, and have the same datatype.
+-- Concatenate all input tensors along specified dimension. All inputs must be broadcast              compatible along all other dimensions, and have the same type.
 --
--- - Parameters:   - tensors: The tensors to concatenate.   - dimensionIndex: The dimension to concatenate across, must be in range: `-rank <= dimension < rank`.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensors@ — Tensors to concatenate
+--
+-- @dimensionIndex@ — The dimension to concatenate across, must be in range - rank <= dimension < rank
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- concatTensors:dimension:name:@
 concatTensors_dimension_name :: (IsMPSGraph mpsGraph, IsNSArray tensors, IsNSString name) => mpsGraph -> tensors -> CLong -> name -> IO (Id MPSGraphTensor)
 concatTensors_dimension_name mpsGraph tensors dimensionIndex name =
   sendMessage mpsGraph concatTensors_dimension_nameSelector (toNSArray tensors) dimensionIndex (toNSString name)
 
--- | Creates a concatenation operation and returns the result tensor.
+-- | Create concat op and return the result tensor
 --
--- Concatenates all input tensors along specified dimension. All inputs must be broadcast compatible along all other dimensions, and have the same type.  When interleave is specified, all tensors will be interleaved. To interleave, make sure to provide broadcast compatible inputs along the specified dimension as well. For example: ```md    operand0 = [1, 2, 3]   operand1 = [4, 5, 6]   concat([operand0, operand1], axis = 0, interleave = YES) = [1, 4, 2, 5, 3, 6] ```
+-- Concatenate all input tensors along specified dimension. All inputs must be broadcast              compatible along all other dimensions, and have the same type.              When interleave is specified, all tensors will be interleaved. To interleave, all inputs must              be broadcast compatible along the specified dimension as well.              Example,
 --
--- - Parameters:   - tensors: The tensors to concatenate.   - dimensionIndex: The dimension to concatenate across, must be in range: `-rank <= dimension < rank`.   - interleave: A boolean value that specifies whether the operation interleaves input tensors.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- operand0 = [1, 2, 3]
+-- operand1 = [4, 5, 6]
+-- concat([operand0, operand1], axis = 0, interleave = YES) = [1, 4, 2, 5, 3, 6]
+--
+-- @tensors@ — Tensors to concatenate
+--
+-- @dimensionIndex@ — The dimension to concatenate across, must be in range - rank <= dimension < rank
+--
+-- @interleave@ — Interleave input tensors
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- concatTensors:dimension:interleave:name:@
 concatTensors_dimension_interleave_name :: (IsMPSGraph mpsGraph, IsNSArray tensors, IsNSString name) => mpsGraph -> tensors -> CLong -> Bool -> name -> IO (Id MPSGraphTensor)
 concatTensors_dimension_interleave_name mpsGraph tensors dimensionIndex interleave name =
   sendMessage mpsGraph concatTensors_dimension_interleave_nameSelector (toNSArray tensors) dimensionIndex interleave (toNSString name)
 
--- | Creates a tile operation and returns the result tensor.
---
--- Creates a tensor which contains multiple copies of the input tensor along each dimension of the tensor.
---
--- - Parameters:   - tensor: The input tensor   - multiplier: An array of numbers that specifies how many copies per dimension MPSGraph produces.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- tileTensor:withMultiplier:name:@
+-- | @- tileTensor:withMultiplier:name:@
 tileTensor_withMultiplier_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> RawId -> name -> IO (Id MPSGraphTensor)
 tileTensor_withMultiplier_name mpsGraph tensor multiplier name =
   sendMessage mpsGraph tileTensor_withMultiplier_nameSelector (toMPSGraphTensor tensor) multiplier (toNSString name)
 
--- | Creates a tile gradient operation and returns the result tensor.
---
--- - Parameters:   - incomingGradientTensor: The input gradient tensor.   - sourceTensor: The input tensor of the forward pass.   - multiplier: An array of numbers that specifies how many copies per dimension MPSGraph produced in the forward pass.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- tileGradientWithIncomingGradientTensor:sourceTensor:withMultiplier:name:@
+-- | @- tileGradientWithIncomingGradientTensor:sourceTensor:withMultiplier:name:@
 tileGradientWithIncomingGradientTensor_sourceTensor_withMultiplier_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradientTensor, IsMPSGraphTensor sourceTensor, IsNSString name) => mpsGraph -> incomingGradientTensor -> sourceTensor -> RawId -> name -> IO (Id MPSGraphTensor)
 tileGradientWithIncomingGradientTensor_sourceTensor_withMultiplier_name mpsGraph incomingGradientTensor sourceTensor multiplier name =
   sendMessage mpsGraph tileGradientWithIncomingGradientTensor_sourceTensor_withMultiplier_nameSelector (toMPSGraphTensor incomingGradientTensor) (toMPSGraphTensor sourceTensor) multiplier (toNSString name)
 
--- | Creates a padding operation and returns the result tensor.
---
--- - Parameters:   - tensor: The input tensor.   - paddingMode: The parameter that defines the padding mode.   - leftPadding: The parameter that defines how much padding the operation applies to the input tensor before each dimension - must be of size @rank(tensor)@.   - rightPadding: The parameter that defines how much padding the operation applies to the input tensor after each dimension - must be of size @rank(tensor)@.   - constantValue: The constant value the operation uses when @paddingMode = MPSGraphPaddingModeConstant@.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- padTensor:withPaddingMode:leftPadding:rightPadding:constantValue:name:@
+-- | @- padTensor:withPaddingMode:leftPadding:rightPadding:constantValue:name:@
 padTensor_withPaddingMode_leftPadding_rightPadding_constantValue_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> MPSGraphPaddingMode -> RawId -> RawId -> CDouble -> name -> IO (Id MPSGraphTensor)
 padTensor_withPaddingMode_leftPadding_rightPadding_constantValue_name mpsGraph tensor paddingMode leftPadding rightPadding constantValue name =
   sendMessage mpsGraph padTensor_withPaddingMode_leftPadding_rightPadding_constantValue_nameSelector (toMPSGraphTensor tensor) paddingMode leftPadding rightPadding constantValue (toNSString name)
 
--- | Creates a padding gradient operation and returns the result tensor.
---
--- - Parameters:   - incomingGradientTensor: The input gradient tensor.   - sourceTensor: The input tensor of the forward pass.   - paddingMode: The parameter that defines the padding mode.   - leftPadding: The parameter that defines how much padding the operation applies to the input tensor before each dimension - must be of size @rank(tensor)@.   - rightPadding: The parameter that defines how much padding the operation applies to the input tensor after each dimension - must be of size @rank(tensor)@.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- padGradientWithIncomingGradientTensor:sourceTensor:paddingMode:leftPadding:rightPadding:name:@
+-- | @- padGradientWithIncomingGradientTensor:sourceTensor:paddingMode:leftPadding:rightPadding:name:@
 padGradientWithIncomingGradientTensor_sourceTensor_paddingMode_leftPadding_rightPadding_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradientTensor, IsMPSGraphTensor sourceTensor, IsNSString name) => mpsGraph -> incomingGradientTensor -> sourceTensor -> MPSGraphPaddingMode -> RawId -> RawId -> name -> IO (Id MPSGraphTensor)
 padGradientWithIncomingGradientTensor_sourceTensor_paddingMode_leftPadding_rightPadding_name mpsGraph incomingGradientTensor sourceTensor paddingMode leftPadding rightPadding name =
   sendMessage mpsGraph padGradientWithIncomingGradientTensor_sourceTensor_paddingMode_leftPadding_rightPadding_nameSelector (toMPSGraphTensor incomingGradientTensor) (toMPSGraphTensor sourceTensor) paddingMode leftPadding rightPadding (toNSString name)
 
--- | Creates a space-to-depth2D operation and returns the result tensor.
+-- | Create space-to-depth2d op and return the result tensor
 --
--- This operation outputs a copy of the @input@ tensor, where values from the @widthAxis@ and @heightAxis@ dimensions are moved in spatial blocks of size @blockSize@ to the @depthAxis@ dimension. Use the @usePixelShuffleOrder@ parameter to control how the data within spatial blocks is ordered in the @depthAxis@ dimension: with @usePixelShuffleOrder=YES@ MPSGraph stores the values of the spatial blocks  contiguosly within the @depthAxis@ dimension, whereas otherwise they are stored interleaved with existing values in the @depthAxis@ dimension. This operation is the inverse of @MPSGraph/depthToSpace2DTensor:widthAxis:heightAxis:depthAxis:blockSize:usePixelShuffleOrder:name:@. - Parameters:   - tensor: The input tensor.   - widthAxis: The axis that defines the fastest running dimension within the block.   - heightAxis: The axis that defines the 2nd fastest running dimension within the block.   - depthAxis: The axis that defines the destination dimension, where to copy the blocks.   - blockSize: The size of the square spatial sub-block.   - usePixelShuffleOrder: A parameter that controls the layout of the sub-blocks within the depth dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- This operation outputs a copy of the @input@ tensor, where values from the              @widthAxis@ and @heightAxis@ dimensions are moved in spatial blocks of size              @blockSize@ to the @depthAxis@ dimension. @usePixelShuffleOrder@ can be              used to control how the data within spatial blocks is ordered in the              @depthAxis@ dimension: with @usePixelShuffleOrder=YES@ the values within the              spatial blocks are stored contiguosly within the @depthAxis@ dimension whereas              otherwise they are stored interleaved with existing values in the @depthAxis@              dimension.              This operation is the inverse of @depthToSpace2D@.
+--
+-- @tensor@ — The input tensor.
+--
+-- @widthAxis@ — Axis that defines the fastest running dimension within the block.
+--
+-- @heightAxis@ — Axis that defines the 2nd fastest running dimension within the block.
+--
+-- @depthAxis@ — Axis that defines the destination dimension, where to copy the blocks.
+--
+-- @blockSize@ — Size of the square spatial sub-block.
+--
+-- @usePixelShuffleOrder@ — Controls layout of the sub-blocks within the depth dimension.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- spaceToDepth2DTensor:widthAxis:heightAxis:depthAxis:blockSize:usePixelShuffleOrder:name:@
 spaceToDepth2DTensor_widthAxis_heightAxis_depthAxis_blockSize_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CULong -> CULong -> CULong -> CULong -> Bool -> name -> IO (Id MPSGraphTensor)
 spaceToDepth2DTensor_widthAxis_heightAxis_depthAxis_blockSize_usePixelShuffleOrder_name mpsGraph tensor widthAxis heightAxis depthAxis blockSize usePixelShuffleOrder name =
   sendMessage mpsGraph spaceToDepth2DTensor_widthAxis_heightAxis_depthAxis_blockSize_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) widthAxis heightAxis depthAxis blockSize usePixelShuffleOrder (toNSString name)
 
--- | Creates a space-to-depth2D operation and returns the result tensor.
---
--- This operation outputs a copy of the @input@ tensor, where values from the @widthAxisTensor@ and @heightAxisTensor@ dimensions are moved in spatial blocks of size @blockSize@ to the @depthAxisTensor@ dimension. Use the @usePixelShuffleOrder@ parameter to control how the data within spatial blocks is ordered in the @depthAxisTensor@ dimension: with @usePixelShuffleOrder=YES@ MPSGraph stores the values of the spatial blocks  contiguosly within the @depthAxisTensor@ dimension, whereas otherwise they are stored interleaved with existing values in the @depthAxisTensor@ dimension. This operation is the inverse of ``MPSGraph/depthToSpace2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:``.
---
--- - Parameters:   - tensor: The input tensor.   - widthAxisTensor: A scalar tensor that contains the axis that defines the fastest running dimension within the block.   - heightAxisTensor: A scalar tensor that contains the axis that defines the 2nd fastest running dimension within the block.   - depthAxisTensor: A scalar tensor that contains the axis that defines the destination dimension, where to copy the blocks.   - blockSize: The size of the square spatial sub-block.   - usePixelShuffleOrder: A parameter that controls the layout of the sub-blocks within the depth dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- spaceToDepth2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:@
+-- | @- spaceToDepth2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:@
 spaceToDepth2DTensor_widthAxisTensor_heightAxisTensor_depthAxisTensor_blockSize_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor widthAxisTensor, IsMPSGraphTensor heightAxisTensor, IsMPSGraphTensor depthAxisTensor, IsNSString name) => mpsGraph -> tensor -> widthAxisTensor -> heightAxisTensor -> depthAxisTensor -> CULong -> Bool -> name -> IO (Id MPSGraphTensor)
 spaceToDepth2DTensor_widthAxisTensor_heightAxisTensor_depthAxisTensor_blockSize_usePixelShuffleOrder_name mpsGraph tensor widthAxisTensor heightAxisTensor depthAxisTensor blockSize usePixelShuffleOrder name =
   sendMessage mpsGraph spaceToDepth2DTensor_widthAxisTensor_heightAxisTensor_depthAxisTensor_blockSize_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor widthAxisTensor) (toMPSGraphTensor heightAxisTensor) (toMPSGraphTensor depthAxisTensor) blockSize usePixelShuffleOrder (toNSString name)
 
--- | Creates a depth-to-space2D operation and returns the result tensor.
+-- | Create depth-to-space2d op and return the result tensor
 --
--- This operation outputs a copy of the input tensor, where values from the  @depthAxis@ dimension are moved in spatial blocks of size @blockSize@ to the @heightAxis@ and @widthAxis@ dimensions.  Use the @usePixelShuffleOrder@ parameter to control how the data within spatial blocks is ordered in the @depthAxis@ dimension: with @usePixelShuffleOrder = YES@ MPSGraph stores the values of the spatial block contiguosly within the @depthAxis@ dimension, whereas without it they are stored interleaved with existing values in the @depthAxisTensor@ dimension. This operation is the inverse of ``MPSGraph/spaceToDepth2DTensor:widthAxis:heightAxis:depthAxis:blockSize:usePixelShuffleOrder:name:``.
+-- This operation outputs a copy of the input tensor, where values from the              @depthAxis@ dimension are moved in spatial blocks of size @blockSize@ to the              @heightAxis@ and @widthAxis@ dimensions. @usePixelShuffleOrder@ can be              used to control how the data within spatial blocks is ordered in the              @depthAxis@ dimension: with @usePixelShuffleOrder = YES@ the values within the              spatial block are stored contiguosly within the @depthAxis@ dimension whereas              without it they are stored interleaved with existing values in the @depthAxisTensor@              dimension.              This operation is the inverse of @spaceToDepth2D@
 --
--- - Parameters:   - tensor: The input tensor.   - widthAxis: The axis that defines the fastest running dimension within the block.   - heightAxis: The axis that defines the 2nd fastest running dimension within the block.   - depthAxis: The axis that defines the destination dimension, where to copy the blocks.   - blockSize: The size of the square spatial sub-block.   - usePixelShuffleOrder: A parameter that controls the layout of the sub-blocks within the depth dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — The input tensor.
+--
+-- @widthAxis@ — Axis that defines the fastest running dimension within the block.
+--
+-- @heightAxis@ — Axis that defines the 2nd fastest running dimension within the block.
+--
+-- @depthAxis@ — Axis that defines the source dimension, from which to copy the blocks.
+--
+-- @blockSize@ — Size of the square spatial sub-block.
+--
+-- @usePixelShuffleOrder@ — Controls layout of the sub-blocks within the depth dimension.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- depthToSpace2DTensor:widthAxis:heightAxis:depthAxis:blockSize:usePixelShuffleOrder:name:@
 depthToSpace2DTensor_widthAxis_heightAxis_depthAxis_blockSize_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CULong -> CULong -> CULong -> CULong -> Bool -> name -> IO (Id MPSGraphTensor)
 depthToSpace2DTensor_widthAxis_heightAxis_depthAxis_blockSize_usePixelShuffleOrder_name mpsGraph tensor widthAxis heightAxis depthAxis blockSize usePixelShuffleOrder name =
   sendMessage mpsGraph depthToSpace2DTensor_widthAxis_heightAxis_depthAxis_blockSize_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) widthAxis heightAxis depthAxis blockSize usePixelShuffleOrder (toNSString name)
 
--- | Creates a depth-to-space2D operation and returns the result tensor.
---
--- This operation outputs a copy of the input tensor, where values from the @depthAxisTensor@ dimension are moved in spatial blocks of size @blockSize@ to the @heightAxisTensor@ and @widthAxisTensor@ dimensions.  Use the @usePixelShuffleOrder@ parameter to control how the data within spatial blocks is ordered in the @depthAxisTensor@ dimension: with @usePixelShuffleOrder = YES@ MPSGraph stores the values of the spatial block contiguosly within the @depthAxisTensor@ dimension, whereas without it they are stored interleaved with existing values in the @depthAxisTensor@ dimension. This operation is the inverse of ``MPSGraph/spaceToDepth2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:``.
---
--- - Parameters:   - tensor: The input tensor.   - widthAxisTensor: A scalar tensor that contains the axis that defines the fastest running dimension within the block.   - heightAxisTensor: A scalar tensor that contains the axis that defines the 2nd fastest running dimension within the block.   - depthAxisTensor: A scalar tensor that contains the axis that defines the destination dimension, where to copy the blocks.   - blockSize: The size of the square spatial sub-block.   - usePixelShuffleOrder: A parameter that controls the layout of the sub-blocks within the depth dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- depthToSpace2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:@
+-- | @- depthToSpace2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:@
 depthToSpace2DTensor_widthAxisTensor_heightAxisTensor_depthAxisTensor_blockSize_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor widthAxisTensor, IsMPSGraphTensor heightAxisTensor, IsMPSGraphTensor depthAxisTensor, IsNSString name) => mpsGraph -> tensor -> widthAxisTensor -> heightAxisTensor -> depthAxisTensor -> CULong -> Bool -> name -> IO (Id MPSGraphTensor)
 depthToSpace2DTensor_widthAxisTensor_heightAxisTensor_depthAxisTensor_blockSize_usePixelShuffleOrder_name mpsGraph tensor widthAxisTensor heightAxisTensor depthAxisTensor blockSize usePixelShuffleOrder name =
   sendMessage mpsGraph depthToSpace2DTensor_widthAxisTensor_heightAxisTensor_depthAxisTensor_blockSize_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor widthAxisTensor) (toMPSGraphTensor heightAxisTensor) (toMPSGraphTensor depthAxisTensor) blockSize usePixelShuffleOrder (toNSString name)
 
--- | Creates a space-to-batch operation and returns the result tensor.
+-- | Create space-to-batch op and return the result tensor.
 --
--- This operation outputs a copy of the @input@ tensor, where values from the @spatialAxes@ (for @usePixelShuffleOrder=YES@ 1,2 or 3 axes supported, otherwise limited only by @MPSNDArray@ rank limitations) dimensions are moved in spatial blocks with rectangular size defined by @blockDimensions@ to the @batchAxis@ dimension. Use the @usePixelShuffleOrder@ parameter  to control how the data within spatial blocks is ordered in the @batchAxis@ dimension: with @usePixelShuffleOrder=YES@ MPSGraph stores the values of the spatial blocks contiguosly within the @batchAxis@ dimension, whereas otherwise they are stored interleaved with existing values in the @batchAxis@ dimension. Note: This operation is the inverse of     ``MPSGraph/batchToSpaceTensor:spatialAxes:batchAxis:blockDimensions:usePixelShuffleOrder:name:``. Note: This operation is a generalization of     ``MPSGraph/spaceToDepth2DTensor:widthAxis:heightAxis:depthAxis:blockSize:usePixelShuffleOrder:name:``.
+-- This operation outputs a copy of the @input@ tensor, where values from the              @spatialAxes@ (for @usePixelShuffleOrder=YES@1,2 or 3 axes supported, otherwise              limited only by MPSNDArray rank limitations) dimensions are moved in spatial blocks with              rectangular size defined by @blockDimensions@ to the @batchAxis@ dimension.              @usePixelShuffleOrder@ can be used to control how the data within spatial blocks is ordered              in the @batchAxis@ dimension: with @usePixelShuffleOrder=YES@ the values within the              spatial blocks are stored contiguosly within the @batchAxis@ dimension whereas              otherwise they are stored interleaved with existing values in the @batchAxis@              dimension.              Note: This operation is the inverse of @batchToSpace@.              Note: This operation is a generalization of @depthToSpace2D@.
 --
--- - Parameters:   - tensor: The input tensor.   - spatialAxes: The axes that define the dimensions containing the spatial blocks.   - batchAxis: The axis that defines the destination dimension, where to copy the blocks.   - blockDimensions: An array of numbers that defines the size of the rectangular spatial sub-block.   - usePixelShuffleOrder: A parameter that controls layout of the sub-blocks within the batch dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — The input tensor.
+--
+-- @spatialAxes@ — Axes that define the dimensions containing the spatial blocks.
+--
+-- @batchAxis@ — Axis that defines the destination dimension, where to copy the blocks.
+--
+-- @blockDimensions@ — Defines the size of the rectangular spatial sub-block.
+--
+-- @usePixelShuffleOrder@ — Controls layout of the sub-blocks within the batch dimension.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- spaceToBatchTensor:spatialAxes:batchAxis:blockDimensions:usePixelShuffleOrder:name:@
 spaceToBatchTensor_spatialAxes_batchAxis_blockDimensions_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray spatialAxes, IsNSArray blockDimensions, IsNSString name) => mpsGraph -> tensor -> spatialAxes -> CLong -> blockDimensions -> Bool -> name -> IO (Id MPSGraphTensor)
 spaceToBatchTensor_spatialAxes_batchAxis_blockDimensions_usePixelShuffleOrder_name mpsGraph tensor spatialAxes batchAxis blockDimensions usePixelShuffleOrder name =
   sendMessage mpsGraph spaceToBatchTensor_spatialAxes_batchAxis_blockDimensions_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) (toNSArray spatialAxes) batchAxis (toNSArray blockDimensions) usePixelShuffleOrder (toNSString name)
 
--- | Creates a space-to-batch operation and returns the result tensor.
---
--- This operation outputs a copy of the @input@ tensor, where values from the @spatialAxesTensor@ (for @usePixelShuffleOrder=YES@ 1,2 or 3 axes supported, otherwise limited only by @MPSNDArray@ rank limitations) dimensions are moved in spatial blocks with rectangular size defined by @blockDimensionsTensor@ to the @batchAxisTensor@ dimension. Use the @usePixelShuffleOrder@ parameter  to control how the data within spatial blocks is ordered in the @batchAxisTensor@ dimension: with @usePixelShuffleOrder=YES@ MPSGraph stores the values of the spatial blocks contiguosly within the @batchAxisTensor@ dimension, whereas otherwise they are stored interleaved with existing values in the @batchAxisTensor@ dimension. Note: This operation is the inverse of     ``MPSGraph/batchToSpaceTensor:spatialAxesTensor:batchAxisTensor:blockDimensionsTensor:usePixelShuffleOrder:name:``. Note: This operation is a generalization of     ``MPSGraph/spaceToDepth2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:``.
---
--- - Parameters:   - tensor: The input tensor.   - spatialAxesTensor: A tensor that contains the axes that define the dimensions containing the spatial blocks.   - batchAxisTensor: A tensor that contains the axis that defines the destination dimension, where to copy the blocks.   - blockDimensionsTensor: A tensor that defines the size of the rectangular spatial sub-block.   - usePixelShuffleOrder: A parameter that controls layout of the sub-blocks within the batch dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- spaceToBatchTensor:spatialAxesTensor:batchAxisTensor:blockDimensionsTensor:usePixelShuffleOrder:name:@
+-- | @- spaceToBatchTensor:spatialAxesTensor:batchAxisTensor:blockDimensionsTensor:usePixelShuffleOrder:name:@
 spaceToBatchTensor_spatialAxesTensor_batchAxisTensor_blockDimensionsTensor_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor spatialAxesTensor, IsMPSGraphTensor batchAxisTensor, IsMPSGraphTensor blockDimensionsTensor, IsNSString name) => mpsGraph -> tensor -> spatialAxesTensor -> batchAxisTensor -> blockDimensionsTensor -> Bool -> name -> IO (Id MPSGraphTensor)
 spaceToBatchTensor_spatialAxesTensor_batchAxisTensor_blockDimensionsTensor_usePixelShuffleOrder_name mpsGraph tensor spatialAxesTensor batchAxisTensor blockDimensionsTensor usePixelShuffleOrder name =
   sendMessage mpsGraph spaceToBatchTensor_spatialAxesTensor_batchAxisTensor_blockDimensionsTensor_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor spatialAxesTensor) (toMPSGraphTensor batchAxisTensor) (toMPSGraphTensor blockDimensionsTensor) usePixelShuffleOrder (toNSString name)
 
--- | Creates a batch-to-space operation and returns the result tensor.
+-- | Create a batch-to-space3d op and return the result tensor.
 --
--- This operation outputs a copy of the input tensor, where values from the  @batchAxis@ dimension are moved in spatial blocks of size @blockDimensions@ to the @spatialAxes@ dimensions (for @usePixelShuffleOrder=YES@ 1,2 or 3 axes supported, otherwise limited only by @MPSNDArray@ rank limitations).  Use the @usePixelShuffleOrder@ parameter to control how the data within spatial blocks is ordered in the @batchAxis@ dimension: with @usePixelShuffleOrder = YES@ MPSGraph stores the values of the spatial block contiguosly within the @batchAxis@ dimension whereas without it they are stored interleaved with existing values in the @batchAxis@ dimension. Note: This operation is the inverse of     ``MPSGraph/spaceToBatchTensor:spatialAxes:batchAxis:blockDimensions:usePixelShuffleOrder:name:``. Note: This operation is a generalization of     ``MPSGraph/depthToSpace2DTensor:widthAxis:heightAxis:depthAxis:blockSize:usePixelShuffleOrder:name:``.
+-- This operation outputs a copy of the input tensor, where values from the              @batchAxis@ dimension are moved in spatial blocks of size @blockDimensions@ to the              @spatialAxes@ dimensions (for @usePixelShuffleOrder=YES@1,2 or 3 axes supported,              otherwise limited only by MPSNDArray rank limitations). @usePixelShuffleOrder@              can be used to control how the data within spatial blocks is ordered in the              @batchAxis@ dimension: with @usePixelShuffleOrder = YES@ the values within the              spatial block are stored contiguosly within the @batchAxis@ dimension whereas              without it they are stored interleaved with existing values in the @batchAxis@              dimension.              Note: This operation is the inverse of @spaceToBatch@.              Note: This operation is a generalization of @depthToSpace2D@.
 --
--- - Parameters:   - tensor: The input tensor.   - spatialAxes: The axes that define the dimensions containing the spatial blocks.   - batchAxis: The axis that defines the destination dimension, where to copy the blocks.   - blockDimensions: An array of numbers that defines the size of the rectangular spatial sub-block.   - usePixelShuffleOrder: A parameter that controls layout of the sub-blocks within the batch dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — The input tensor.
+--
+-- @spatialAxes@ — Axes that define the dimensions containing the spatial blocks.
+--
+-- @batchAxis@ — Axis that defines the source dimension, from which to copy the blocks.
+--
+-- @blockDimensions@ — Defines the size of the rectangular spatial sub-block.
+--
+-- @usePixelShuffleOrder@ — Controls layout of the sub-blocks within the batch dimension.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- batchToSpaceTensor:spatialAxes:batchAxis:blockDimensions:usePixelShuffleOrder:name:@
 batchToSpaceTensor_spatialAxes_batchAxis_blockDimensions_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray spatialAxes, IsNSArray blockDimensions, IsNSString name) => mpsGraph -> tensor -> spatialAxes -> CLong -> blockDimensions -> Bool -> name -> IO (Id MPSGraphTensor)
 batchToSpaceTensor_spatialAxes_batchAxis_blockDimensions_usePixelShuffleOrder_name mpsGraph tensor spatialAxes batchAxis blockDimensions usePixelShuffleOrder name =
   sendMessage mpsGraph batchToSpaceTensor_spatialAxes_batchAxis_blockDimensions_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) (toNSArray spatialAxes) batchAxis (toNSArray blockDimensions) usePixelShuffleOrder (toNSString name)
 
--- | Creates a batch-to-space operation and returns the result tensor.
---
--- This operation outputs a copy of the input tensor, where values from the @batchAxisTensor@ dimension are moved in spatial blocks of size @blockDimensionsTensor@ to the @spatialAxesTensor@ dimensions (for @usePixelShuffleOrder=YES@ 1,2 or 3 axes supported, otherwise limited only by @MPSNDArray@ rank limitations).  Use the @usePixelShuffleOrder@ parameter to control how the data within spatial blocks is ordered in the @batchAxisTensor@ dimension: with @usePixelShuffleOrder = YES@ MPSGraph stores the values of the spatial block contiguosly within the @batchAxisTensor@ dimension whereas without it they are stored interleaved with existing values in the @batchAxisTensor@ dimension. Note: This operation is the inverse of ``MPSGraph/spaceToBatchTensor:spatialAxesTensor:batchAxisTensor:blockDimensionsTensor:usePixelShuffleOrder:name:``. Note: This operation is a generalization of ``MPSGraph/depthToSpace2DTensor:widthAxisTensor:heightAxisTensor:depthAxisTensor:blockSize:usePixelShuffleOrder:name:``.
---
--- - Parameters:   - tensor: The input tensor.   - spatialAxesTensor: A tensor that contains the axes that define the dimensions containing the spatial blocks.   - batchAxisTensor: A tensor that contains the axis that defines the destination dimension, where to copy the blocks.   - blockDimensionsTensor: A tensor that defines the size of the rectangular spatial sub-block.   - usePixelShuffleOrder: A parameter that controls layout of the sub-blocks within the batch dimension.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- batchToSpaceTensor:spatialAxesTensor:batchAxisTensor:blockDimensionsTensor:usePixelShuffleOrder:name:@
+-- | @- batchToSpaceTensor:spatialAxesTensor:batchAxisTensor:blockDimensionsTensor:usePixelShuffleOrder:name:@
 batchToSpaceTensor_spatialAxesTensor_batchAxisTensor_blockDimensionsTensor_usePixelShuffleOrder_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor spatialAxesTensor, IsMPSGraphTensor batchAxisTensor, IsMPSGraphTensor blockDimensionsTensor, IsNSString name) => mpsGraph -> tensor -> spatialAxesTensor -> batchAxisTensor -> blockDimensionsTensor -> Bool -> name -> IO (Id MPSGraphTensor)
 batchToSpaceTensor_spatialAxesTensor_batchAxisTensor_blockDimensionsTensor_usePixelShuffleOrder_name mpsGraph tensor spatialAxesTensor batchAxisTensor blockDimensionsTensor usePixelShuffleOrder name =
   sendMessage mpsGraph batchToSpaceTensor_spatialAxesTensor_batchAxisTensor_blockDimensionsTensor_usePixelShuffleOrder_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor spatialAxesTensor) (toMPSGraphTensor batchAxisTensor) (toMPSGraphTensor blockDimensionsTensor) usePixelShuffleOrder (toNSString name)
 
--- | Creates a reverse operation and returns the result tensor.
+-- | Create reverse op and return the result tensor
 --
--- Reverses a tensor on given axes. Semantics based on [TensorFlow reverse op](https://www.tensorflow.org/api_docs/python/tf/reverse).
+-- Reverses a tensor on given axes              https://www.tensorflow.org/api_docs/python/tf/reverse.
 --
--- - Parameters:   - tensor: The tensor to be reversed.   - axesTensor: A tensor that specifies axes to be reversed (Axes must be unique and within normal axis range).   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be reversed
+--
+-- @axesTensor@ — Tensor that specifies axes to be reversed (Axes must be unique and within normal axis range).
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- reverseTensor:axesTensor:name:@
 reverseTensor_axesTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axesTensor, IsNSString name) => mpsGraph -> tensor -> axesTensor -> name -> IO (Id MPSGraphTensor)
 reverseTensor_axesTensor_name mpsGraph tensor axesTensor name =
   sendMessage mpsGraph reverseTensor_axesTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axesTensor) (toNSString name)
 
--- | Creates a reverse operation and returns the result tensor.
+-- | Create reverse op and return the result tensor
 --
--- Reverses a tensor on given axes. Semantics based on [TensorFlow reverse op](https://www.tensorflow.org/api_docs/python/tf/reverse).
+-- Reverses a tensor on given axes              https://www.tensorflow.org/api_docs/python/tf/reverse.
 --
--- - Parameters:   - tensor: The tensor to be reversed.   - axes: A tensor that specifies axes to be reversed (Axes must be unique and within normal axis range).   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be reversed
+--
+-- @axes@ — Axes to be reversed (Axes must be unique and within normal axis range).
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- reverseTensor:axes:name:@
 reverseTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reverseTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reverseTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reverse operation and returns the result tensor.
+-- | Create reverse op and return the result tensor
 --
--- Reverses a tensor on all axes. Semantics based on [TensorFlow reverse op](https://www.tensorflow.org/api_docs/python/tf/reverse).
+-- Reverses a tensor on all axes              https://www.tensorflow.org/api_docs/python/tf/reverse.
 --
--- - Parameters:   - tensor: The tensor to be reversed.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be reversed
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- reverseTensor:name:@
 reverseTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 reverseTensor_name mpsGraph tensor name =
   sendMessage mpsGraph reverseTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Creates a flatten2D operation and returns the result tensor.
+-- | Create flatten2d op and return the result tensor
 --
--- Flattens dimensions before @axis@ to @result[0]@ and dimensions starting from @axis@ to @result[1]@ and returns a rank-2 tensor as result.
+-- Flattens dimensions before @axis@ to @result[0]@ and dimensions starting              from @axis@ to @result[1]@ and returns a rank-2 tensor as result.
 --
--- - Parameters:   - tensor: The tensor to be flattened.   - axis: The axis around which to flatten.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be flattened
+--
+-- @axis@ — Axis around which to flatten
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- flatten2DTensor:axis:name:@
 flatten2DTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 flatten2DTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph flatten2DTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a flatten2D operation and returns the result tensor.
+-- | Create flatten2d op and return the result tensor
 --
--- Flattens dimensions before @axis@ to @result[0]@ and dimensions starting from @axis@ to @result[1]@ and returns a rank-2 tensor as result.
+-- Flattens dimensions before @axis@ to @result[0]@ and dimensions starting              from @axis@ to @result[1]@ and returns a rank-2 tensor as result.
 --
--- - Parameters:   - tensor: The tensor to be flattened.   - axisTensor: A scalar tensor that contains the axis around which to flatten.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be flattened
+--
+-- @axisTensor@ — Axis around which to flatten
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- flatten2DTensor:axisTensor:name:@
 flatten2DTensor_axisTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> name -> IO (Id MPSGraphTensor)
 flatten2DTensor_axisTensor_name mpsGraph tensor axisTensor name =
   sendMessage mpsGraph flatten2DTensor_axisTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) (toNSString name)
 
--- | Creates a broadcast operation and returns the result tensor.
+-- | Create broadcast op and return the result tensor
 --
--- Broadcasts values inside the tensor, starting from the trailing dimensions, to give it the correct shape. This is equivalent to the broadcasting for arithmetic operations when operands have different shapes.
+-- Broadcast values inside the tensor, starting from the trailing dimensions, to give it the correct shape.              This is equivalent to the broadcasting for arithmetic operations when operands have different shapes.
 --
--- - Parameters:   - tensor: The tensor to be broadcasted   - shape: The shape of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — Tensor to be broadcasted
+--
+-- @shape@ — Shape of the result tensor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- broadcastTensor:toShape:name:@
 broadcastTensor_toShape_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> RawId -> name -> IO (Id MPSGraphTensor)
 broadcastTensor_toShape_name mpsGraph tensor shape name =
   sendMessage mpsGraph broadcastTensor_toShape_nameSelector (toMPSGraphTensor tensor) shape (toNSString name)
 
--- | Creates a broadcast operation and returns the result tensor.
+-- | Create broadcast op and return the result tensor
 --
--- Broadcasts values inside the tensor, starting from the trailing dimensions, to give it the correct shape. This is equivalent to the broadcasting for arithmetic operations when operands have different shapes.
+-- Broadcast values inside the tensor, starting from the trailing dimensions, to give it the correct shape.              This is equivalent to the broadcasting for arithmetic operations when operands have different shapes.
 --
--- - Parameters:   - tensor: The Tensor to be broadcasted.   - shapeTensor: A rank-1 tensor of type @MPSDataTypeInt32@ or @MPSDataTypeInt64@ that defines the shape of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Tensor to be broadcasted
+--
+-- @shapeTensor@ — 1D Int32 or Int64 tensor. Shape of the result tensor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- broadcastTensor:toShapeTensor:name:@
 broadcastTensor_toShapeTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor shapeTensor, IsNSString name) => mpsGraph -> tensor -> shapeTensor -> name -> IO (Id MPSGraphTensor)
 broadcastTensor_toShapeTensor_name mpsGraph tensor shapeTensor name =
   sendMessage mpsGraph broadcastTensor_toShapeTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor shapeTensor) (toNSString name)
 
--- | Creates a shape-of operation and returns the result tensor.
+-- | Create shapeof op and return the result tensor
 --
--- Returns a rank-1 tensor of type @MPSDataTypeInt32@ with the values of the static shape of the input tensor.
+-- Returns a 1D Int32 tensor with value the static shape of the input tensor
 --
--- - Parameters:   - tensor: The input tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- shapeOfTensor:name:@
 shapeOfTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 shapeOfTensor_name mpsGraph tensor name =
   sendMessage mpsGraph shapeOfTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Creates a cast operation and returns the result tensor.
+-- | Create cast op and return the result tensor
 --
--- Returns the input tensor casted to the specied data type.
+-- Returns input tensor casted to the dataType passed in
 --
--- - Parameters:   - tensor: The input tensor.   - type: The datatype to which MPSGraph casts the input.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @type@ — Input tensor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- castTensor:toType:name:@
 castTensor_toType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> MPSDataType -> name -> IO (Id MPSGraphTensor)
 castTensor_toType_name mpsGraph tensor type_ name =
   sendMessage mpsGraph castTensor_toType_nameSelector (toMPSGraphTensor tensor) type_ (toNSString name)
 
--- | Creates a reinterpret cast operation and returns the result tensor.
+-- | Create stack op and return the result
 --
--- Returns input tensor (with element type @tensor_type@) reinterpreted to element type passed in with the last dimension scaled by @sizeof(tensor_type) / sizeof(type)@.  This operation is endianness agnostic and MPSGraph reinterprets the data with the endianness of the system.
+-- Stacks all input tensors along @axis@ into a result tensor of rank + 1. Tensors must be broadcast              compatible along all dimensions, and have the same type.
 --
--- - Parameters:   - tensor: The input tensor.   - type: The element type of the returned tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @inputTensors@ — Input tensors
 --
--- ObjC selector: @- reinterpretCastTensor:toType:name:@
-reinterpretCastTensor_toType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> MPSDataType -> name -> IO (Id MPSGraphTensor)
-reinterpretCastTensor_toType_name mpsGraph tensor type_ name =
-  sendMessage mpsGraph reinterpretCastTensor_toType_nameSelector (toMPSGraphTensor tensor) type_ (toNSString name)
-
--- | Creates a stack operation and returns the result tensor.
+-- @axis@ — The dimension to stack tensors into result. Must be in range - rank + 1 <= dimension < rank + 1
 --
--- Stacks all input tensors along @axis@ into a result tensor of @rank + 1@. Tensors must be broadcast compatible along all dimensions except @axis@, and have the same type.
+-- @name@ — The name for the operation
 --
--- - Parameters:   - inputTensors: The input tensors.   - axis: The dimension to stack tensors into result. Must be in range: `-rank + 1 <= dimension < rank + 1`.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- stackTensors:axis:name:@
 stackTensors_axis_name :: (IsMPSGraph mpsGraph, IsNSArray inputTensors, IsNSString name) => mpsGraph -> inputTensors -> CLong -> name -> IO (Id MPSGraphTensor)
 stackTensors_axis_name mpsGraph inputTensors axis name =
   sendMessage mpsGraph stackTensors_axis_nameSelector (toNSArray inputTensors) axis (toNSString name)
 
--- | Creates a split operation and returns the result tensor.
+-- | Create split op and return the result
 --
--- Splits the input tensor along @axis@ into multiple result tensors of size determined by @splitSizes@. Requires that the sum of @splitSizes@ is equal to the lenth of the input along @axis@.
+-- Splits the input tensor along @axis@ into multiple result tensors of size determined by @splitSizes@.              Requires that the sum of @splitSizes@ is equal to the lenth of the input along @axis@.
 --
--- - Parameters:   - tensor: The input tensor.   - splitSizes: The lengths of the result tensors along the split axis.   - axis: The dimension along which MPSGraph splits the input tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @splitSizes@ — The length of the result tensors along the split axis
+--
+-- @axis@ — The dimension to split the input along
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- splitTensor:splitSizes:axis:name:@
 splitTensor_splitSizes_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray splitSizes, IsNSString name) => mpsGraph -> tensor -> splitSizes -> CLong -> name -> IO (Id NSArray)
 splitTensor_splitSizes_axis_name mpsGraph tensor splitSizes axis name =
   sendMessage mpsGraph splitTensor_splitSizes_axis_nameSelector (toMPSGraphTensor tensor) (toNSArray splitSizes) axis (toNSString name)
 
--- | Creates a split operation and returns the result tensor.
+-- | Create split op and return the result
 --
--- Splits the input tensor along @axis@ into multiple result tensors of size determined by @splitSizesTensor@. Requires that the sum of the elements of @splitSizesTensor@ is equal to the lenth of the input along @axis@.
+-- Splits the input tensor along @axis@ into multiple result tensors of size determined by @splitSizes@.              Requires that the sum of @splitSizesTensor@ is equal to the lenth of the input along @axis@.
 --
--- - Parameters:   - tensor: The input tensor   - splitSizesTensor: The lengths of the result tensors along the split axis.   - axis: The dimension along which MPSGraph splits the input tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — Input tensor
+--
+-- @splitSizesTensor@ — The length of the result tensors along the split axis
+--
+-- @axis@ — The dimension to split the input along
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- splitTensor:splitSizesTensor:axis:name:@
 splitTensor_splitSizesTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor splitSizesTensor, IsNSString name) => mpsGraph -> tensor -> splitSizesTensor -> CLong -> name -> IO (Id NSArray)
 splitTensor_splitSizesTensor_axis_name mpsGraph tensor splitSizesTensor axis name =
   sendMessage mpsGraph splitTensor_splitSizesTensor_axis_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor splitSizesTensor) axis (toNSString name)
 
--- | Creates a split operation and returns the result tensor.
+-- | Create split op and return the result
 --
--- Splits the input tensor along @axis@ into @numsplits@ result tensors of equal size. Requires that the lenth of the input along @axis@ is divisible by @numSplits@.
+-- Splits the input tensor along @axis@ into @numsplits@ result tensors of equal size.              Requires that the lenth of the input along @axis@ is divisible by @num_splits@.
 --
--- - Parameters:   - tensor: The input tensor.   - numSplits: The number of result tensors to split to.   - axis: The dimension along which MPSGraph splits the input tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @numSplits@ — The number of result tensors to split to
+--
+-- @axis@ — The dimension to split the input along
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- splitTensor:numSplits:axis:name:@
 splitTensor_numSplits_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CULong -> CLong -> name -> IO (Id NSArray)
 splitTensor_numSplits_axis_name mpsGraph tensor numSplits axis name =
   sendMessage mpsGraph splitTensor_numSplits_axis_nameSelector (toMPSGraphTensor tensor) numSplits axis (toNSString name)
 
--- | Creates a squeeze operation and returns the result tensor.
+-- | Create squeeze op and return the result
 --
--- Squeezes the tensor, removing all dimensions with size 1.
+-- Squeezes the tensor, removing any dimensions with size 1.
 --
--- - Parameters:   - tensor: The input tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- squeezeTensor:name:@
 squeezeTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 squeezeTensor_name mpsGraph tensor name =
   sendMessage mpsGraph squeezeTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Creates a squeeze operation and returns the result tensor.
+-- | Create squeeze op and return the result
 --
--- Squeezes the tensor, removing a dimension with size 1 at the specified axis. The size of the input tensor must be 1 at the specified axis.
+-- Squeezes the tensor, removing a dimension with size 1 at specified axis.              Size must be 1 at specified axis.
 --
--- - Parameters:   - tensor: The input tensor.   - axis: The axis to squeeze.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @axis@ — The axis to squeeze
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- squeezeTensor:axis:name:@
 squeezeTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 squeezeTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph squeezeTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a squeeze operation and returns the result tensor.
+-- | Create squeeze op and return the result
 --
--- Squeezes the tensor, removing dimensions with size 1 at specified axes.  The size of the input tensor must be 1 at all specified axes.
+-- Squeezes the tensor, removing dimensions with size 1 at specified axes.              Size must be 1 at all specified axes.
 --
--- - Parameters:   - tensor: The input tensor.   - axes: The axes to squeeze.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — Input tensor
+--
+-- @axes@ — The axes to squeeze
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- squeezeTensor:axes:name:@
 squeezeTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 squeezeTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph squeezeTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a squeeze operation and returns the result tensor.
---
--- Squeezes the tensor, removing dimensions with size 1 at specified axes. The size of the input tensor must be 1 at all specified axes.
---
--- - Parameters:   - tensor: The input tensor.   - axesTensor: The tensor containing the axes to squeeze.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- squeezeTensor:axesTensor:name:@
+-- | @- squeezeTensor:axesTensor:name:@
 squeezeTensor_axesTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axesTensor, IsNSString name) => mpsGraph -> tensor -> axesTensor -> name -> IO (Id MPSGraphTensor)
 squeezeTensor_axesTensor_name mpsGraph tensor axesTensor name =
   sendMessage mpsGraph squeezeTensor_axesTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axesTensor) (toNSString name)
 
--- | Creates an expand-dimensions operation and returns the result tensor.
+-- | Create expand_dims op and return the result
 --
--- Expands the tensor, inserting a dimension with size 1 at the specified axis.
+-- Expands the tensor, inserting a dimension with size 1 at specified axis.
 --
--- - Parameters:   - tensor: The input tensor.   - axis: The axis to expand.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @axis@ — The axis to expand
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- expandDimsOfTensor:axis:name:@
 expandDimsOfTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 expandDimsOfTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph expandDimsOfTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates an expand-dimensions operation and returns the result tensor.
+-- | Create expand_dims op and return the result
 --
 -- Expands the tensor, inserting dimensions with size 1 at specified axes.
 --
--- - Parameters:   - tensor: The input tensor.   - axes: The axes to expand.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — Input tensor
+--
+-- @axes@ — The axes to expand
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- expandDimsOfTensor:axes:name:@
 expandDimsOfTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 expandDimsOfTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph expandDimsOfTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates an expand-dimensions operation and returns the result tensor.
---
--- Expands the tensor, inserting dimensions with size 1 at specified axes.
---
--- - Parameters:   - tensor: The input tensor.   - axesTensor: The tensor containing the axes to expand.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- expandDimsOfTensor:axesTensor:name:@
+-- | @- expandDimsOfTensor:axesTensor:name:@
 expandDimsOfTensor_axesTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axesTensor, IsNSString name) => mpsGraph -> tensor -> axesTensor -> name -> IO (Id MPSGraphTensor)
 expandDimsOfTensor_axesTensor_name mpsGraph tensor axesTensor name =
   sendMessage mpsGraph expandDimsOfTensor_axesTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axesTensor) (toNSString name)
 
--- | Creates a get-coordindate operation and returns the result tensor.
+-- | Create get coord op and return the result
 --
--- Creates a tensor of specified shape with value at index @[i_0, i_1, ... , i_N] = i_axis@ For example,  ```md  coordinateAlongAxis(0, withShape=[5]) = [0, 1, 2, 3, 4]  coordinateAlongAxis(0, withShape=[3,2]) = [[0, 0],                                            [1, 1],                                            [2, 2]] ```
+-- Creates a tensor of specified shape with value at index
 --
--- - Parameters:   - axis: The coordinate axis an element's value is set to. Negative values wrap around.   - shape: The shape of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- [i_0, i_1, ... , i_N] = i_axis
+--
+-- For example,
+--
+-- coordinateAlongAxis(0, withShape=[5]) = [0, 1, 2, 3, 4]
+-- coordinateAlongAxis(1, withShape=[3,2]) = [[0, 0],
+-- [1, 1],
+-- [2, 2]]
+--
+-- @axis@ — The coordinate axis an element's value is set to. Negative values wrap around
+--
+-- @shape@ — The shape of the result tensor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- coordinateAlongAxis:withShape:name:@
 coordinateAlongAxis_withShape_name :: (IsMPSGraph mpsGraph, IsNSString name) => mpsGraph -> CLong -> RawId -> name -> IO (Id MPSGraphTensor)
 coordinateAlongAxis_withShape_name mpsGraph axis shape name =
   sendMessage mpsGraph coordinateAlongAxis_withShape_nameSelector axis shape (toNSString name)
 
--- | Creates a get-coordindate operation and returns the result tensor.
+-- | Create get coord op and return the result
 --
--- See ``MPSGraph/coordinateAlongAxis:withShape:name:``.
+-- See above discussion of getCoordinateValueWithShape: axis: name:
 --
--- - Parameters:   - axisTensor: A Scalar tensor of type @MPSDataTypeInt32@, that specifies the coordinate axis an element's value is set to. Negative values wrap around.   - shape: The shape of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @axisTensor@ — Scalar Int32 tensor. The coordinate axis an element's value is set to.  Negative values wrap around
+--
+-- @shape@ — The shape of the result tensor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- coordinateAlongAxisTensor:withShape:name:@
 coordinateAlongAxisTensor_withShape_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> axisTensor -> RawId -> name -> IO (Id MPSGraphTensor)
 coordinateAlongAxisTensor_withShape_name mpsGraph axisTensor shape name =
   sendMessage mpsGraph coordinateAlongAxisTensor_withShape_nameSelector (toMPSGraphTensor axisTensor) shape (toNSString name)
 
--- | Creates a get-coordindate operation and returns the result tensor.
+-- | Create get coord op and return the result
 --
--- See ``coordinateAlongAxis:withShape:name:``.
+-- See above discussion of getCoordinateValueWithShape: axis: name:
 --
--- - Parameters:   - axis: The coordinate axis an element's value is set to. Negative values wrap around.   - shapeTensor: A rank-1 tensor of type @MPSDataTypeInt32@ or @MPSDataTypeInt64@ that defines the shape of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @axis@ — The coordinate axis an element's value is set to.  Negative values wrap around
+--
+-- @shapeTensor@ — 1D Int32 or Int64 tensor. The shape of the result tensor.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- coordinateAlongAxis:withShapeTensor:name:@
 coordinateAlongAxis_withShapeTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor shapeTensor, IsNSString name) => mpsGraph -> CLong -> shapeTensor -> name -> IO (Id MPSGraphTensor)
 coordinateAlongAxis_withShapeTensor_name mpsGraph axis shapeTensor name =
   sendMessage mpsGraph coordinateAlongAxis_withShapeTensor_nameSelector axis (toMPSGraphTensor shapeTensor) (toNSString name)
 
--- | Creates a get-coordindate operation and returns the result tensor.
+-- | Create get coord op and return the result
 --
--- See ``coordinateAlongAxis:withShape:name:``.
+-- See above discussion of getCoordinateValueWithShape: axis: name:
 --
--- - Parameters:   - axisTensor: A Scalar tensor of type @MPSDataTypeInt32@, that specifies the coordinate axis an element's value is set to. Negative values wrap around.   - shapeTensor: A rank-1 tensor of type @MPSDataTypeInt32@ or @MPSDataTypeInt64@ that defines the shape of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @axisTensor@ — Scalar Int32 tensor. The coordinate axis an element's value is set to.  Negative values wrap around
+--
+-- @shapeTensor@ — 1D Int32 or Int64 tensor. The shape of the result tensor.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- coordinateAlongAxisTensor:withShapeTensor:name:@
 coordinateAlongAxisTensor_withShapeTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor axisTensor, IsMPSGraphTensor shapeTensor, IsNSString name) => mpsGraph -> axisTensor -> shapeTensor -> name -> IO (Id MPSGraphTensor)
 coordinateAlongAxisTensor_withShapeTensor_name mpsGraph axisTensor shapeTensor name =
   sendMessage mpsGraph coordinateAlongAxisTensor_withShapeTensor_nameSelector (toMPSGraphTensor axisTensor) (toMPSGraphTensor shapeTensor) (toNSString name)
 
--- | Creates a stencil operation and returns the result tensor.
+-- | stencil operation
 --
--- Performs a weighted reduction operation (See ``MPSGraphStencilOpDescriptor/reductionMode``) on the last 4 dimensions of the @source@ over the window determined by @weights@, according to the value defined in @descriptor@.  ```md     y[i] = reduction{j  w} ( x[ i + j ]w[j] ) ```
+-- Performs a weighted reduction operation (@reductionMode@) on the last 4 dimensions of the @source@  over the window determined by @weights@, acc. to the given @strides@ and @dilationRates@ and @paddingStyle@.  @boundaryMode@ determines what values to pad the @input@ with. @offsets@ are used to determine where  to start reading the @input@ from. @explicitPadding@ can also be provided when using relevant paddingStyles.
 --
--- - Parameters:   - source: The tensor containing the source data. Must be of rank 4 or greater.   - weights: A 4-D tensor containing the weights data.   - descriptor: The descriptor object that specifies the parameters for the stencil operation.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- y[i] = reduction { x[ i + j ] * w[j] }
+--
+-- @source@ — Tensor containing source data. Must be of rank 4 or greater.
+--
+-- @weights@ — 4-D Tensor containing the weights data.
+--
+-- @descriptor@ — Descriptor object that specifies strides, dilationRates etc.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- stencilWithSourceTensor:weightsTensor:descriptor:name:@
 stencilWithSourceTensor_weightsTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor weights, IsMPSGraphStencilOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> weights -> descriptor -> name -> IO (Id MPSGraphTensor)
 stencilWithSourceTensor_weightsTensor_descriptor_name mpsGraph source weights descriptor name =
   sendMessage mpsGraph stencilWithSourceTensor_weightsTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor weights) (toMPSGraphStencilOpDescriptor descriptor) (toNSString name)
 
--- | Creates a sparse tensor representation.
+-- | Create sparseTensor op and return the result tensor
 --
--- sparseVals corresponds to non zero values in matrix.  indexTensor0 and indexTensor1 are indices used for indexing into sparse data structure.  For COO, indexTensor0 is x index and indexTensor1 is y index.  For CSC, indexTensor0 and indexTensor1 correspond to rowIndex and colStarts respectively.  For CSR, indexTensor0 and indexTensor1 correspond to colIndex and rowStarts respectively. You must set input tensors appropriately for each sparse storage type.
+-- @sparseStorageType@ — sparseStorageType
 --
--- - Parameters:   - sparseStorageType: A sparseStorageType.   - inputTensorArray: An array of input tensors as [sparseVals, indexTensor0, indexTensor1].   - shape: The shape of the sparse tensor.   - dataType: The dataType of the sparse tensor.   - name: A name for the operation. - Returns: A valid ``MPSGraphTensor`` object.
+-- @inputTensorArray@ — array of input tensors as [sparseVals, indexTensor0, indexTensor1]
+--
+-- @shape@ — shape of sparse tensor
+--
+-- @dataType@ — dataType of sparse tensor
+--
+-- @name@ — name for the operation
+--
+-- sparseVals corresponds to non zero values in matrix.              indexTensor0 and indexTensor1 are indices used for indexing into sparse data structure              For COO, indexTensor0 is x index and indexTensor1 is y index              For CSC, indexTensor0 and indexTensor1 correspond to rowIndex and colStarts respectively.              For CSR, indexTensor0 and indexTensor1 correspond to colIndex and rowStarts respectively.
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- sparseTensorWithType:tensors:shape:dataType:name:@
 sparseTensorWithType_tensors_shape_dataType_name :: (IsMPSGraph mpsGraph, IsNSArray inputTensorArray, IsNSString name) => mpsGraph -> MPSGraphSparseStorageType -> inputTensorArray -> RawId -> MPSDataType -> name -> IO (Id MPSGraphTensor)
 sparseTensorWithType_tensors_shape_dataType_name mpsGraph sparseStorageType inputTensorArray shape dataType name =
   sendMessage mpsGraph sparseTensorWithType_tensors_shape_dataType_nameSelector sparseStorageType (toNSArray inputTensorArray) shape dataType (toNSString name)
 
--- | Creates a sparse tensor representation.
+-- | Create sparseTensor op and return the result tensor
 --
--- sparseVals corresponds to non zero values in matrix.  indexTensor0 and indexTensor1 are indices used for indexing into sparse data structure.  For COO, indexTensor0 is x index and indexTensor1 is y index . For CSC, indexTensor0 and indexTensor1 correspond to rowIndex and colStarts respectively.  For CSR, indexTensor0 and indexTensor1 correspond to colIndex and rowStarts respectively. You must set input tensors appropriately for each sparse storage type.
+-- @sparseDescriptor@ — sparseDescriptorType
 --
--- - Parameters:   - sparseDescriptor: A sparseDescriptor.   - inputTensorArray: An array of input tensors as [sparseVals, indexTensor0, indexTensor1].   - shape: The shape of the sparse tensor.   - name: A name for the operation. - Returns: A valid ``MPSGraphTensor`` object
+-- @inputTensorArray@ — array of input tensors as [sparseVals, indexTensor0, indexTensor1]
+--
+-- @shape@ — shape of sparse tensor
+--
+-- @name@ — name for the operation
+--
+-- sparseVals corresponds to non zero values in matrix.              indexTensor0 and indexTensor1 are indices used for indexing into sparse data structure              For COO, indexTensor0 is x index and indexTensor1 is y index              For CSC, indexTensor0 and indexTensor1 correspond to rowIndex and colStarts respectively.              For CSR, indexTensor0 and indexTensor1 correspond to colIndex and rowStarts respectively.
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- sparseTensorWithDescriptor:tensors:shape:name:@
 sparseTensorWithDescriptor_tensors_shape_name :: (IsMPSGraph mpsGraph, IsMPSGraphCreateSparseOpDescriptor sparseDescriptor, IsNSArray inputTensorArray, IsNSString name) => mpsGraph -> sparseDescriptor -> inputTensorArray -> RawId -> name -> IO (Id MPSGraphTensor)
 sparseTensorWithDescriptor_tensors_shape_name mpsGraph sparseDescriptor inputTensorArray shape name =
   sendMessage mpsGraph sparseTensorWithDescriptor_tensors_shape_nameSelector (toMPSGraphCreateSparseOpDescriptor sparseDescriptor) (toNSArray inputTensorArray) shape (toNSString name)
 
--- | Sorts the elements of the input tensor along the specified axis.
+-- | Create a sort operation and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension over which you sort the tensor   - descending: If true, reverse the sort direction   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the sort occurs
+--
+-- @descending@ — wether to sort or not in descending order
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- sortWithTensor:axis:descending:name:@
 sortWithTensor_axis_descending_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> Bool -> name -> IO (Id MPSGraphTensor)
 sortWithTensor_axis_descending_name mpsGraph tensor axis descending name =
   sendMessage mpsGraph sortWithTensor_axis_descending_nameSelector (toMPSGraphTensor tensor) axis descending (toNSString name)
 
--- | Sorts the elements of the input tensor along the specified axis.
+-- | Create a sort operation and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension over which you sort the tensor   - descending: If true, reverse the sort direction   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the sort occurs
+--
+-- @descending@ — wether to sort or not in descending order
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- sortWithTensor:axisTensor:descending:name:@
 sortWithTensor_axisTensor_descending_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> Bool -> name -> IO (Id MPSGraphTensor)
 sortWithTensor_axisTensor_descending_name mpsGraph tensor axisTensor descending name =
   sendMessage mpsGraph sortWithTensor_axisTensor_descending_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) descending (toNSString name)
 
--- | Sorts the elements of the input tensor along the specified axis.
+-- | Create an ascending sort operation and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension over which you sort the tensor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the sort occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- sortWithTensor:axis:name:@
 sortWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 sortWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph sortWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Sorts the elements of the input tensor along the specified axis.
+-- | Create an ascending sort operation and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension over which you sort the tensor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the sort occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- sortWithTensor:axisTensor:name:@
 sortWithTensor_axisTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> name -> IO (Id MPSGraphTensor)
 sortWithTensor_axisTensor_name mpsGraph tensor axisTensor name =
   sendMessage mpsGraph sortWithTensor_axisTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) (toNSString name)
 
--- | Computes the indices that sort the elements of the input tensor along the specified axis.
+-- | Create an argSort operation and return the result tensor of signed              32-bit integers.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension over which you sort the tensor   - descending: If true, reverse the sort direction   - name: The name for the operation. - Returns: A valid MPSGraphTensor object with 32-bit integer data type
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the sort occurs
+--
+-- @descending@ — whether or not to sort in descending order
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- argSortWithTensor:axis:descending:name:@
 argSortWithTensor_axis_descending_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> Bool -> name -> IO (Id MPSGraphTensor)
 argSortWithTensor_axis_descending_name mpsGraph tensor axis descending name =
   sendMessage mpsGraph argSortWithTensor_axis_descending_nameSelector (toMPSGraphTensor tensor) axis descending (toNSString name)
 
--- | Computes the indices that sort the elements of the input tensor along the specified axis.
+-- | Create an argSort operation and return the result tensor of signed              32-bit integers.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension over which you sort the tensor   - descending: If true, reverse the sort direction   - name: The name for the operation. - Returns: A valid MPSGraphTensor object with 32-bit integer data type
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the sort occurs
+--
+-- @descending@ — whether or not to sort in descending order
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- argSortWithTensor:axisTensor:descending:name:@
 argSortWithTensor_axisTensor_descending_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> Bool -> name -> IO (Id MPSGraphTensor)
 argSortWithTensor_axisTensor_descending_name mpsGraph tensor axisTensor descending name =
   sendMessage mpsGraph argSortWithTensor_axisTensor_descending_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) descending (toNSString name)
 
--- | Computes the indices that sort the elements of the input tensor along the specified axis.
+-- | Create an argSort operation and return the result tensor of signed              32-bit integers.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension over which you sort the tensor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object with 32-bit integer data type
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the sort occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- argSortWithTensor:axis:name:@
 argSortWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 argSortWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph argSortWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Computes the indices that sort the elements of the input tensor along the specified axis.
+-- | Create an argSort operation and return the result tensor of signed              32-bit integers.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension over which you sort the tensor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object with 32-bit integer data type
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the sort occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- argSortWithTensor:axisTensor:name:@
 argSortWithTensor_axisTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> name -> IO (Id MPSGraphTensor)
 argSortWithTensor_axisTensor_name mpsGraph tensor axisTensor name =
   sendMessage mpsGraph argSortWithTensor_axisTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) (toNSString name)
 
--- | Creates a ScatterAlongAxis operation and returns the result tensor.
+-- | Create ScatterAlongAxis op and return the result tensor
 --
--- Scatter values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@ into a result tensor.  Values are updated following @mode@. See MPSGraphScatterMode.  The shape of @updatesTensor@ and @indicesTensor@ must match. @shape@ must match except at @axis@.  The shape of the result tensor is equal to @shape@ and initialized with an initial value corresponding to @mode@.  If an index is out of bounds of @shape@ along @axis@ the update value is skipped.
+-- Scatter values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@ into a result tensor.              Values are updated following @mode@. See MPSGraphScatterMode.              The shape of @updatesTensor@ and @indicesTensor@ must match. @shape@ must match except at @axis@.              The shape of the result tensor is equal to @shape@ and initialized with an initial value corresponding to @mode@.              If an index is out of bounds of @shape@ along @axis@ the update value is skipped.
 --
--- - Parameters:   - axis: The axis to scatter to. Negative values wrap around   - updatesTensor: The input tensor to scatter values from   - indicesTensor: Int32 or Int64 tensor used to index the result tensor.   - mode: The type of update to use   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @axis@ — The axis to scatter to. Negative values wrap around
+--
+-- @updatesTensor@ — The input tensor to scatter values from
+--
+-- @indicesTensor@ — Int32 or Int64 tensor used to index the result tensor
+--
+-- @mode@ — The type of update to use
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterAlongAxis:withUpdatesTensor:indicesTensor:shape:mode:name:@
 scatterAlongAxis_withUpdatesTensor_indicesTensor_shape_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> CLong -> updatesTensor -> indicesTensor -> RawId -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterAlongAxis_withUpdatesTensor_indicesTensor_shape_mode_name mpsGraph axis updatesTensor indicesTensor shape mode name =
   sendMessage mpsGraph scatterAlongAxis_withUpdatesTensor_indicesTensor_shape_mode_nameSelector axis (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) shape mode (toNSString name)
 
--- | Creates a ScatterAlongAxis operation and returns the result tensor.
+-- | Create ScatterAlongAxis op and return the result tensor
 --
--- Scatter values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@ into a result tensor. Values are updated following @mode@. See MPSGraphScatterMode. The shape of @updatesTensor@ and @indicesTensor@ must match. @shape@ must match except at @axis@. The shape of the result tensor is equal to @shape@ and initialized with an initial value corresponding to @mode@. If an index is out of bounds of @shape@ along @axis@ the update value is skipped.
+-- See above discussion of scatterAlongAxis: withUpdatesTensor: indicesTensor: shape: mode: name:
 --
--- - Parameters:   - axisTensor: Scalar Int32 tensor. The axis to scatter to. Negative values wrap around   - updatesTensor: The input tensor to scatter values from   - indicesTensor: Int32 or Int64 tensor used to index the result tensor.   - mode: The type of update to use   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @axisTensor@ — Scalar Int32 tensor. The axis to scatter to. Negative values wrap around
+--
+-- @updatesTensor@ — The input tensor to scatter values from
+--
+-- @indicesTensor@ — Int32 or Int64 tensor used to index the result tensor
+--
+-- @mode@ — The type of update to use
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterAlongAxisTensor:withUpdatesTensor:indicesTensor:shape:mode:name:@
 scatterAlongAxisTensor_withUpdatesTensor_indicesTensor_shape_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor axisTensor, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> axisTensor -> updatesTensor -> indicesTensor -> RawId -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterAlongAxisTensor_withUpdatesTensor_indicesTensor_shape_mode_name mpsGraph axisTensor updatesTensor indicesTensor shape mode name =
   sendMessage mpsGraph scatterAlongAxisTensor_withUpdatesTensor_indicesTensor_shape_mode_nameSelector (toMPSGraphTensor axisTensor) (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) shape mode (toNSString name)
 
--- | Creates a ScatterAlongAxis operation and returns the result tensor.
+-- | Create ScatterAlongAxis op and return the result tensor
 --
--- Scatter values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@ onto @dataTensor@.  Values in @dataTensor@ are updated following @mode@. See MPSGraphScatterMode.  The shape of @updatesTensor@ and @indicesTensor@ must match. The shape of @dataTensor@ must match except at @axis@.  If an index is out of bounds of @shape@ along @axis@ the update value is skipped.  For example,  ```md data = [ [0, 0, 0],          [1, 1, 1],          [2, 2, 2],          [3, 3, 3] ] updates = [ [1, 2, 3],             [4, 5, 6] ] indices = [ [2, 1, 0],             [1, 3, 2] ] axis = 0 result = scatterAlongAxis(axis, data, updates, indices, MPSGraphScatterModeAdd, "scatter") result = [ [0, 0, 3],            [5, 3, 1],            [3, 2, 8],            [3, 8, 3] ] ```
+-- Scatter values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@ onto @dataTensor@.              Values in @dataTensor@ are updated following @mode@. See MPSGraphScatterMode.              The shape of @updatesTensor@ and @indicesTensor@ must match. The shape of @dataTensor@ must match except at @axis@.              If an index is out of bounds of @shape@ along @axis@ the update value is skipped.
 --
--- - Parameters:   - axis: The axis to scatter to. Negative values wrap around   - dataTensor: The input tensor to scatter values onto   - updatesTensor: The input tensor to scatter values from   - indicesTensor: Int32 or Int64 tensor used to index the result tensor.   - mode: The type of update to use   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- For example,
+--
+-- data = [ [0, 0, 0],
+-- [1, 1, 1],
+-- [2, 2, 2],
+-- [3, 3, 3] ]
+-- updates = [ [1, 2, 3],
+-- [4, 5, 6] ]
+-- indices = [ [2, 1, 0],
+-- [1, 3, 2] ]
+-- axis = 0
+-- result = scatterAlongAxis(axis, data, updates, indices, MPSGraphScatterModeAdd, "scatter")
+-- result = [ [0, 0, 3],
+-- [5, 3, 1],
+-- [3, 2, 8],
+-- [3, 8, 3] ]
+--
+-- @axis@ — The axis to scatter to. Negative values wrap around
+--
+-- @dataTensor@ — The input tensor to scatter values onto
+--
+-- @updatesTensor@ — The input tensor to scatter values from
+--
+-- @indicesTensor@ — Int32 or Int64 tensor used to index the result tensor
+--
+-- @mode@ — The type of update to use
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterAlongAxis:withDataTensor:updatesTensor:indicesTensor:mode:name:@
 scatterAlongAxis_withDataTensor_updatesTensor_indicesTensor_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> CLong -> dataTensor -> updatesTensor -> indicesTensor -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterAlongAxis_withDataTensor_updatesTensor_indicesTensor_mode_name mpsGraph axis dataTensor updatesTensor indicesTensor mode name =
   sendMessage mpsGraph scatterAlongAxis_withDataTensor_updatesTensor_indicesTensor_mode_nameSelector axis (toMPSGraphTensor dataTensor) (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) mode (toNSString name)
 
--- | Creates a ScatterAlongAxis operation and returns the result tensor.
+-- | Create ScatterAlongAxis op and return the result tensor
 --
--- Scatter values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@ onto @dataTensor@. Values in @dataTensor@ are updated following @mode@. See MPSGraphScatterMode. The shape of @updatesTensor@ and @indicesTensor@ must match. The shape of @dataTensor@ must match except at @axis@. If an index is out of bounds of @shape@ along @axis@ the update value is skipped. For example, ```md data = [ [0, 0, 0],          [1, 1, 1],          [2, 2, 2],          [3, 3, 3] ] updates = [ [1, 2, 3],             [4, 5, 6] ] indices = [ [2, 1, 0],             [1, 3, 2] ] axis = 0 result = scatterAlongAxis(axis, data, updates, indices, MPSGraphScatterModeAdd, "scatter") result = [ [0, 0, 3],            [5, 3, 1],            [3, 2, 8],            [3, 8, 3] ] ```
+-- See above discussion of scatterAlongAxis: withDataTensor: updatesTensor: indicesTensor: shape: mode: name:
 --
--- - Parameters:   - axisTensor: Scalar Int32 tensor. The axis to scatter to. Negative values wrap around   - dataTensor: The input tensor to scatter values onto   - updatesTensor: The input tensor to scatter values from   - indicesTensor: Int32 or Int64 tensor used to index the result tensor.   - mode: The type of update to use   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @axisTensor@ — Scalar Int32 tensor. The axis to scatter to. Negative values wrap around
+--
+-- @dataTensor@ — The input tensor to scatter values onto
+--
+-- @updatesTensor@ — The input tensor to scatter values from
+--
+-- @indicesTensor@ — Int32 or Int64 tensor used to index the result tensor
+--
+-- @mode@ — The type of update to use
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterAlongAxisTensor:withDataTensor:updatesTensor:indicesTensor:mode:name:@
 scatterAlongAxisTensor_withDataTensor_updatesTensor_indicesTensor_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor axisTensor, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> axisTensor -> dataTensor -> updatesTensor -> indicesTensor -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterAlongAxisTensor_withDataTensor_updatesTensor_indicesTensor_mode_name mpsGraph axisTensor dataTensor updatesTensor indicesTensor mode name =
   sendMessage mpsGraph scatterAlongAxisTensor_withDataTensor_updatesTensor_indicesTensor_mode_nameSelector (toMPSGraphTensor axisTensor) (toMPSGraphTensor dataTensor) (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) mode (toNSString name)
 
--- | Creates a Scatter operation and returns the result tensor.
+-- | Create Scatter op and return the result tensor
 --
--- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor.  The scatter is defined as  ```md  U = updates.rank  P = res.rank  res[i_{0},...,i_{axis-1},indices[i_{axis}],i_{axis+1},...,i_{U-1}] = updates[i_{0},...,i_{axis-1},i_{axis},i_{axis+1},...,i_{U-1}]  ```  Collisions will be updated according to mode. The tensors have the following shape requirements ```md  U = P  indices.rank = 1  updates.shape[0:axis-1] = res.shape[0:axis-1]  updates.shape[axis] = indices.shape[0]  updates.shape[axis+1:U] = res.shape[0:P]  ```
+-- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor.              The scatter is defined as
 --
--- - Parameters:   - updatesTensor: Tensor containing values to be inserted into the result tensor.   - indicesTensor: Tensor containg the result indices to insert values at.   - shape: The shape of the result tensor.   - axis: The axis of the result tensor to scatter values along.   - mode: The type of update to use on the destination.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- U = updates.rank
+-- P = res.rank
+-- res[i_{0},...,i_{axis-1},indices[i_{axis}],i_{axis+1},...,i_{U-1}] = updates[i_{0},...,i_{axis-1},i_{axis},i_{axis+1},...,i_{U-1}]
+--
+-- Collsions will be updated according to mode. The tensors have the following shape requirements
+--
+-- U = P
+-- indices.rank = 1
+-- updates.shape[0:axis-1] = res.shape[0:axis-1]
+-- updates.shape[axis]     = indices.shape[0]
+-- updates.shape[axis+1:U] = res.shape[0:P]
+--
+-- @updatesTensor@ — Tensor containing values to be inserted into the result tensor
+--
+-- @indicesTensor@ — Tensor containg the result indices to insert values at
+--
+-- @shape@ — The shape of the result tensor
+--
+-- @axis@ — The axis of the result tensor to scatter values along
+--
+-- @mode@ — The type of update to use on the destination
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterWithUpdatesTensor:indicesTensor:shape:axis:mode:name:@
 scatterWithUpdatesTensor_indicesTensor_shape_axis_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> updatesTensor -> indicesTensor -> RawId -> CLong -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterWithUpdatesTensor_indicesTensor_shape_axis_mode_name mpsGraph updatesTensor indicesTensor shape axis mode name =
   sendMessage mpsGraph scatterWithUpdatesTensor_indicesTensor_shape_axis_mode_nameSelector (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) shape axis mode (toNSString name)
 
--- | Creates a Scatter operation and returns the result tensor.
+-- | Create Scatter op and return the result tensor
 --
--- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor, on top of dataTensor.  The scatter is defined as  ```md  U = updates.rank  P = res.rank  res[...] = data[...]  res[i_{0},...,i_{axis-1},indices[i_{axis}],i_{axis+1},...,i_{U-1}] += updates[i_{0},...,i_{axis-1},i_{axis},i_{axis+1},...,i_{U-1}] // Note += is used but this depends on mode  ```  Collisions will be updated according to mode. The tensors have the following shape requirements ```md  U = P  indices.rank = 1  data.shape = res.shape  updates.shape[0:axis-1] = res.shape[0:axis-1]  updates.shape[axis] = indices.shape[0]  updates.shape[axis+1:U] = res.shape[0:P]  ```
+-- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor, on top of dataTensor.              The scatter is defined as
 --
--- - Parameters:   - dataTensor: Tensor containing inital values of same shape as result tensor   - updatesTensor: Tensor containing values to be inserted into the result tensor.   - indicesTensor: Tensor containg the result indices to insert values at   - axis: The axis of the result tensor to scatter values along   - mode: The type of update to use on the destination   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- U = updates.rank
+-- P = res.rank
+-- res[...] = data[...]
+-- res[i_{0},...,i_{axis-1},indices[i_{axis}],i_{axis+1},...,i_{U-1}] += updates[i_{0},...,i_{axis-1},i_{axis},i_{axis+1},...,i_{U-1}] // Note += is used but this depends on mode
+--
+-- Collsions will be updated according to mode. The tensors have the following shape requirements
+--
+-- U = P
+-- indices.rank = 1
+-- data.shape = res.shape
+-- updates.shape[0:axis-1] = res.shape[0:axis-1]
+-- updates.shape[axis]     = indices.shape[0]
+-- updates.shape[axis+1:U] = res.shape[0:P]
+--
+-- @dataTensor@ — Tensor containing inital values of same shape as result tensor
+--
+-- @updatesTensor@ — Tensor containing values to be inserted into the result tensor
+--
+-- @indicesTensor@ — Tensor containg the result indices to insert values at
+--
+-- @axis@ — The axis of the result tensor to scatter values along
+--
+-- @mode@ — The type of update to use on the destination
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterWithDataTensor:updatesTensor:indicesTensor:axis:mode:name:@
 scatterWithDataTensor_updatesTensor_indicesTensor_axis_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> dataTensor -> updatesTensor -> indicesTensor -> CLong -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterWithDataTensor_updatesTensor_indicesTensor_axis_mode_name mpsGraph dataTensor updatesTensor indicesTensor axis mode name =
   sendMessage mpsGraph scatterWithDataTensor_updatesTensor_indicesTensor_axis_mode_nameSelector (toMPSGraphTensor dataTensor) (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) axis mode (toNSString name)
 
--- | Creates a ScatterND operation and returns the result tensor.
+-- | Create ScatterND op and return the result tensor
 --
--- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor.  The scatter is defined as  ```md  B = batchDims  U = updates.rank - B  P = res.rank - B  Q = inds.rank - B  K = inds.shape[-1]  index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]  res[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]] = updates[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}]  ```  Collisions will be summed, and slices not set by indices are set to 0. The tensors have the following shape requirements ```md  K <= P  U = (P-K) + Q-1  indices.shape[0:Q-1] = updates.shape[0:Q-1]  updates.shape[Q:U] = res.shape[K:P]  ```
+-- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor.              The scatter is defined as
 --
--- - Parameters:   - updatesTensor: Tensor containing slices to be inserted into the result tensor.   - indicesTensor: Tensor containg the result indices to insert slices at   - shape: The shape of the result tensor.   - batchDimensions: The number of batch dimensions   - mode: The type of update to use on the destination   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- B = batchDims
+-- U = updates.rank - B
+-- P = res.rank - B
+-- Q = inds.rank - B
+-- K = inds.shape[-1]
+-- index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]
+-- res[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]] = updates[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}]
+--
+-- Collsions will be summed, and slices not set by indices are set to 0. The tensors have the following shape requirements
+--
+-- K <= P
+-- U = (P-K) + Q-1
+-- indices.shape[0:Q-1] = updates.shape[0:Q-1]
+-- updates.shape[Q:U] = res.shape[K:P]
+--
+-- @updatesTensor@ — Tensor containing slices to be inserted into the result tensor
+--
+-- @indicesTensor@ — Tensor containg the result indices to insert slices at
+--
+-- @shape@ — The shape of the result tensor
+--
+-- @batchDimensions@ — The number of batch dimensions
+--
+-- @mode@ — The type of update to use on the destination
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterNDWithUpdatesTensor:indicesTensor:shape:batchDimensions:mode:name:@
 scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> updatesTensor -> indicesTensor -> RawId -> CULong -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_mode_name mpsGraph updatesTensor indicesTensor shape batchDimensions mode name =
   sendMessage mpsGraph scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_mode_nameSelector (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) shape batchDimensions mode (toNSString name)
 
--- | Creates a ScatterND operation and returns the result tensor.
+-- | Create ScatterND op and return the result tensor
 --
--- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor.  The scatter is defined as  ```md  B = batchDims  U = updates.rank - B  P = res.rank - B  Q = inds.rank - B  K = inds.shape[-1]  index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]  res[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]] = updates[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}]  ```  Collisions will be summed, and slices not set by indices are set to 0. The tensors have the following shape requirements ```md  K <= P  U = (P-K) + Q-1  indices.shape[0:Q-1] = updates.shape[0:Q-1]  updates.shape[Q:U] = res.shape[K:P]  ```
+-- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor.              The scatter is defined as
 --
--- - Parameters:   - updatesTensor: Tensor containing slices to be inserted into the result tensor.   - indicesTensor: Tensor containg the result indices to insert slices at   - shape: The shape of the result tensor.   - batchDimensions: The number of batch dimensions   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- B = batchDims
+-- U = updates.rank - B
+-- P = res.rank - B
+-- Q = inds.rank - B
+-- K = inds.shape[-1]
+-- index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]
+-- res[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]] = updates[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}]
+--
+-- Collsions will be summed, and slices not set by indices are set to 0. The tensors have the following shape requirements
+--
+-- K <= P
+-- U = (P-K) + Q-1
+-- indices.shape[0:Q-1] = updates.shape[0:Q-1]
+-- updates.shape[Q:U] = res.shape[K:P]
+--
+-- @updatesTensor@ — Tensor containing slices to be inserted into the result tensor
+--
+-- @indicesTensor@ — Tensor containg the result indices to insert slices at
+--
+-- @shape@ — The shape of the result tensor
+--
+-- @batchDimensions@ — The number of batch dimensions
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterNDWithUpdatesTensor:indicesTensor:shape:batchDimensions:name:@
 scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> updatesTensor -> indicesTensor -> RawId -> CULong -> name -> IO (Id MPSGraphTensor)
 scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_name mpsGraph updatesTensor indicesTensor shape batchDimensions name =
   sendMessage mpsGraph scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_nameSelector (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) shape batchDimensions (toNSString name)
 
--- | Creates a ScatterND operation and returns the result tensor.
+-- | Create ScatterND op and return the result tensor
 --
--- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor, on top of dataTensor.  The scatter is defined as  ```md  B = batchDims  U = updates.rank - B  P = res.rank - B  Q = inds.rank - B  K = inds.shape[-1]  index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]  res[...] = data[...]  res[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]] += updates[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}] // Note += is used but this depends on mode  ```  Collisions will be updated according to mode, and slices not set by indices are set to 0. The tensors have the following shape requirements ```md  K <= P  U = (P-K) + Q-1  data.shape = res.shape  indices.shape[0:Q-1] = updates.shape[0:Q-1]  updates.shape[Q:U] = res.shape[K:P]  ```
+-- Scatters the slices in updatesTensor to the result tensor along the indices in indicesTensor, on top of dataTensor.              The scatter is defined as
 --
--- - Parameters:   - dataTensor: Tensor containing inital values of same shape as result tensor   - updatesTensor: Tensor containing slices to be inserted into the result tensor.   - indicesTensor: Tensor containg the result indices to insert slices at   - batchDimensions: The number of batch dimensions   - mode: The type of update to use on the destination   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- B = batchDims
+-- U = updates.rank - B
+-- P = res.rank - B
+-- Q = inds.rank - B
+-- K = inds.shape[-1]
+-- index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]
+-- res[...] = data[...]
+-- res[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]] += updates[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}] // Note += is used but this depends on mode
+--
+-- Collsions will be updated according to mode, and slices not set by indices are set to 0. The tensors have the following shape requirements
+--
+-- K <= P
+-- U = (P-K) + Q-1
+-- data.shape = res.shape
+-- indices.shape[0:Q-1] = updates.shape[0:Q-1]
+-- updates.shape[Q:U] = res.shape[K:P]
+--
+-- @dataTensor@ — Tensor containing inital values of same shape as result tensor
+--
+-- @updatesTensor@ — Tensor containing slices to be inserted into the result tensor
+--
+-- @indicesTensor@ — Tensor containg the result indices to insert slices at
+--
+-- @batchDimensions@ — The number of batch dimensions
+--
+-- @mode@ — The type of update to use on the destination
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- scatterNDWithDataTensor:updatesTensor:indicesTensor:batchDimensions:mode:name:@
 scatterNDWithDataTensor_updatesTensor_indicesTensor_batchDimensions_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor dataTensor, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> dataTensor -> updatesTensor -> indicesTensor -> CULong -> MPSGraphScatterMode -> name -> IO (Id MPSGraphTensor)
 scatterNDWithDataTensor_updatesTensor_indicesTensor_batchDimensions_mode_name mpsGraph dataTensor updatesTensor indicesTensor batchDimensions mode name =
   sendMessage mpsGraph scatterNDWithDataTensor_updatesTensor_indicesTensor_batchDimensions_mode_nameSelector (toMPSGraphTensor dataTensor) (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) batchDimensions mode (toNSString name)
 
--- | Samples a tensor using the coordinates provided.
+-- | Create a single-gate RNN op and return the value and optionally training state tensor.
 --
--- Given an input tensor (N, H1, W1, C) or (N, C, H1, W1) and coordinates tensor (N, H2, W2, 2) this operation outputs a tensor of  size (N, H2, W2, C) or (N, C, H2, W2) by sampling the input tensor at the coordinates provided by the coordinates tensor.
+-- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows:
 --
--- - Parameters:   - source: Tensor containing source data   - coordinates: a tensor (N, Hout, Wout, 2) that contains the coordinates of the samples in the source tensor that constitute the output tensor.   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC and NCHW.   - normalizeCoordinates: If true, coordinates are within [-1, 1] x [-1, 1] otherwise they are in pixels in the input tensor.   - relativeCoordinates: If true, coordinates are relative to the postion of the pixel in the output tensor and scaled back to the input tensor size   - alignCorners: If true, coordinate extrema are equal to the center of edge pixels, otherwise extrema are equal to outer edge of edge pixels   - paddingMode: determines how samples outside the inputTensor are evaluated (only constant, reflect, symmetric and clampToEdge are supported)   - samplingMode: Can be either MPSGraphResizeNearest or MPSGraphResizeBilinear. Nearest sampling will use roundPreferCeil.   - constantValue: If paddingMode is MPSGraphPaddingModeConstant, then this constant is used for samples outside the input tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- for t = 0 to T-1
+-- z[t] = x[t] W^T + (h[t-1] * m) R^T + b
+-- h[t] = activation( z[t] ), where
 --
--- ObjC selector: @- sampleGridWithSourceTensor:coordinateTensor:layout:normalizeCoordinates:relativeCoordinates:alignCorners:paddingMode:samplingMode:constantValue:name:@
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_samplingMode_constantValue_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor coordinates, IsNSString name) => mpsGraph -> source -> coordinates -> MPSGraphTensorNamedDataLayout -> Bool -> Bool -> Bool -> MPSGraphPaddingMode -> MPSGraphResizeMode -> CDouble -> name -> IO (Id MPSGraphTensor)
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_samplingMode_constantValue_name mpsGraph source coordinates layout normalizeCoordinates relativeCoordinates alignCorners paddingMode samplingMode constantValue name =
-  sendMessage mpsGraph sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_samplingMode_constantValue_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor coordinates) layout normalizeCoordinates relativeCoordinates alignCorners paddingMode samplingMode constantValue (toNSString name)
-
--- | Samples a tensor using the coordinates provided, using nearest neighbor sampling with specified rounding mode.
+-- @W@ is optional inputWeight, @R@ is recurrentWeight, @b@ is bias, @m@ is optional ,              @x[t]@ is source @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is initState.              See MPSGraphSingleGateRNNDescriptor for different @activation@ options.
 --
--- Given an input tensor (N, H1, W1, C) or (N, C, H1, W1) and coordinates tensor (N, H2, W2, 2) this operation outputs a tensor of  size (N, H2, W2, C) or (N, C, H2, W2) by sampling the input tensor at the coordinates provided by the coordinates tensor.
+-- @source@ — Tensor containing the source data @x[t]@ - shape should be [T,N,I].                                In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H]                                and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].
 --
--- - Parameters:   - source: Tensor containing source data   - coordinates: a tensor (N, Hout, Wout, 2) that contains the coordinates of the samples in the source tensor that constitute the output tensor.   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC and NCHW.   - normalizeCoordinates: If true, coordinates are within [-1, 1] x [-1, 1] otherwise they are in pixels in the input tensor.   - relativeCoordinates: If true, coordinates are relative to the postion of the pixel in the output tensor and scaled back to the input tensor size   - alignCorners: If true, coordinate extrema are equal to the center of edge pixels, otherwise extrema are equal to outer edge of edge pixels   - paddingMode: determines how samples outside the inputTensor are evaluated (only constant, reflect, symmetric and clampToEdge are supported)   - nearestRoundingMode: The rounding mode to use for determining the nearest neighbor. Valid modes are roundPreferCeil, roundPreferFloor, ceil, and floor.   - constantValue: If paddingMode is MPSGraphPaddingModeConstant, then this constant is used for samples outside the input tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @recurrentWeight@ — Tensor containing the recurrent weights @R@.                                For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].
 --
--- ObjC selector: @- sampleGridWithSourceTensor:coordinateTensor:layout:normalizeCoordinates:relativeCoordinates:alignCorners:paddingMode:nearestRoundingMode:constantValue:name:@
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_nearestRoundingMode_constantValue_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor coordinates, IsNSString name) => mpsGraph -> source -> coordinates -> MPSGraphTensorNamedDataLayout -> Bool -> Bool -> Bool -> MPSGraphPaddingMode -> MPSGraphResizeNearestRoundingMode -> CDouble -> name -> IO (Id MPSGraphTensor)
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_nearestRoundingMode_constantValue_name mpsGraph source coordinates layout normalizeCoordinates relativeCoordinates alignCorners paddingMode nearestRoundingMode constantValue name =
-  sendMessage mpsGraph sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_nearestRoundingMode_constantValue_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor coordinates) layout normalizeCoordinates relativeCoordinates alignCorners paddingMode nearestRoundingMode constantValue (toNSString name)
-
--- | Creates a single-gate RNN operation and returns the value and optionally the training state tensor.
+-- @inputWeight@ — Tensor containing the input weights matrix @W@ - optional, if missing assumes diagonal unit-matrix.                                For @bidirectional@ the layout is [2H,I] and otherwise it is [H,I].
 --
--- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows:  ```md  for t = 0 to T-1    z[t] = x[t] W^T + (h[t-1]m) R^T + b   h[t] = activation( z[t] ), where ```  @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is @initState@.  See ``MPSGraphSingleGateRNNDescriptor`` for different @activation@ options.
+-- @bias@ — Tensor containing the bias @b@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [2H] and otherwise it is [H].
 --
--- - Parameters:   - source: A tensor that contains the source data @x[t]@ with the data layout [T,N,I].             In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H] and             for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                  For @bidirectional@ the layout is [2H,I] and otherwise it is [H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [2H] and otherwise it is [H].   - initState: The initial internal state of the RNN @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. This is useful for dropout support.   - descriptor: A descriptor that defines the parameters for the RNN operation.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 1 or 2, depending on value of @descriptor.training@. The layout of the both outputs is [T,N,H] or [T,N,2H] for bidirectional.
+-- @initState@ — Initial internal state of the RNN @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @mask@ — Tensor containing the mask @m@ - optional, if missing assumes ones. Useful for dropout.
+--
+-- @descriptor@ — The RNN op definition.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor array of size 1 or 2, depending on value of `descriptor.training`.              The layout of the both outputs are [T,N,H] or [T,N,2H] for bidirectional.
 --
 -- ObjC selector: @- singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:@
 singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor mask, IsMPSGraphSingleGateRNNDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> inputWeight -> bias -> initState -> mask -> descriptor -> name -> IO (Id NSArray)
 singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_descriptor_name mpsGraph source recurrentWeight inputWeight bias initState mask descriptor name =
   sendMessage mpsGraph singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor mask) (toMPSGraphSingleGateRNNDescriptor descriptor) (toNSString name)
 
--- | Creates a single-gate RNN operation and returns the value and optionally the training state tensor.
---
--- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows: ```md for t = 0 to T-1   z[t] = x[t] W^T + (h[t-1]m) R^T + b   h[t] = activation( z[t] ), where ``` @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is @initState@.  See ``MPSGraphSingleGateRNNDescriptor`` for different @activation@ options.
---
--- - Parameters:   - source: A tensor that contains the source data @x[t]@ with the data layout [T,N,I].             In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H] and             for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                  For @bidirectional@ the layout is [2H,I] and otherwise it is [H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [2H] and otherwise it is [H].   - initState: The initial internal state of the RNN @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the RNN operation.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 1 or 2, depending on value of @descriptor.training@. The layout of the both outputs is [T,N,H] or [T,N,2H] for bidirectional.
---
--- ObjC selector: @- singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:@
+-- | @- singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:@
 singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphSingleGateRNNDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> inputWeight -> bias -> initState -> descriptor -> name -> IO (Id NSArray)
 singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_name mpsGraph source recurrentWeight inputWeight bias initState descriptor name =
   sendMessage mpsGraph singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphSingleGateRNNDescriptor descriptor) (toNSString name)
 
--- | Creates a single-gate RNN operation and returns the value and optionally the training state tensor.
---
--- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows: ```md for t = 0 to T-1   z[t] = x[t] W^T + (h[t-1]m) R^T + b   h[t] = activation( z[t] ), where ``` @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is @initState@.  See ``MPSGraphSingleGateRNNDescriptor`` for different @activation@ options.
---
--- - Parameters:   - source: A tensor that contains the source data @x[t]@ with the data layout [T,N,I].             In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H] and             for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].   - initState: The initial internal state of the RNN @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the RNN operation.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of size 1 or 2, depending on value of @descriptor.training@. The layout of the both outputs is [T,N,H] or [T,N,2H] for bidirectional.
---
--- ObjC selector: @- singleGateRNNWithSourceTensor:recurrentWeight:initState:descriptor:name:@
+-- | @- singleGateRNNWithSourceTensor:recurrentWeight:initState:descriptor:name:@
 singleGateRNNWithSourceTensor_recurrentWeight_initState_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor initState, IsMPSGraphSingleGateRNNDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> initState -> descriptor -> name -> IO (Id NSArray)
 singleGateRNNWithSourceTensor_recurrentWeight_initState_descriptor_name mpsGraph source recurrentWeight initState descriptor name =
   sendMessage mpsGraph singleGateRNNWithSourceTensor_recurrentWeight_initState_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor initState) (toMPSGraphSingleGateRNNDescriptor descriptor) (toNSString name)
 
--- | Creates a single-gate RNN gradient operation and returns the gradient tensor values.
+-- | Create a single-gate RNN gradient op and return the gradient tensor values.
 --
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``.
+-- @source@ — Tensor containing the source data @x[t]@ - shape should be [T,N,I].                                In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H]                                and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].
 --
--- - Parameters:   - source: A tensor that contains the source data @x[t]@ with the data layout [T,N,I].             In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H] and             for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].                 Note: For @bidirectional@ this tensor must have a static shape.   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The second output of             ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``             with @descriptor.training = YES@.   - stateGradient: The input gradient coming from the future timestep - optional, if missing the operation assumes zeroes.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                  For @bidirectional@ the layout is [2H,I] and otherwise it is [H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [2H] and otherwise it is [H].   - initState: The initial internal state of the RNN @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. This is useful for dropout support.   - descriptor: A descriptor that defines the parameters for the RNN operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is @nil@, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@ and finally for @initState@.
+-- @recurrentWeight@ — Tensor containing the recurrent weights @R@.                                For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].                                Note: For @bidirectional@ this tensor must have a static shape.
+--
+-- @sourceGradient@ — Input gradient, that is gradient of a tensor wrt. to first output of the forward pass.
+--
+-- @zState@ — The second output of @singleGateRNNWithSourceTensor@ with `descriptor.training = true`.
+--
+-- @stateGradient@ — Input gradient coming from the future timestep - optional, if missing assumes zeroes.
+--
+-- @inputWeight@ — Tensor containing the input weights matrix @W@ - optional, if missing assumes diagonal unit-matrix.                                For @bidirectional@ the layout is [2H,I] and otherwise it is [H,I].
+--
+-- @bias@ — Tensor containing the bias @b@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [2H] and otherwise it is [H].
+--
+-- @initState@ — Initial internal state of the RNN @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @mask@ — Tensor containing the mask @m@ - optional, if missing assumes ones. Useful for dropout.
+--
+-- @descriptor@ — The RNN op definition.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor array containing gradients for each input tensor, except for @sourceGradient@ and @mask@.              In case an input is nil, no gradient will be returned for it.              The order of the gradients will be: for source, for recurrentWeight, for inputWeight, for bias, for initState.
 --
 -- ObjC selector: @- singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:stateGradient:inputWeight:bias:initState:mask:descriptor:name:@
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_stateGradient_inputWeight_bias_initState_mask_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor stateGradient, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor mask, IsMPSGraphSingleGateRNNDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> stateGradient -> inputWeight -> bias -> initState -> mask -> descriptor -> name -> IO (Id NSArray)
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_stateGradient_inputWeight_bias_initState_mask_descriptor_name mpsGraph source recurrentWeight sourceGradient zState stateGradient inputWeight bias initState mask descriptor name =
   sendMessage mpsGraph singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_stateGradient_inputWeight_bias_initState_mask_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor stateGradient) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor mask) (toMPSGraphSingleGateRNNDescriptor descriptor) (toNSString name)
 
--- | Creates a single-gate RNN gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``.
---
--- - Parameters:   - source: A tensor that contains the source data @x[t]@ with the data layout [T,N,I].             In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H] and             for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].                 Note: For @bidirectional@ this tensor must have a static shape.   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The second output of             ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``             with @descriptor.training = YES@.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                  For @bidirectional@ the layout is [2H,I] and otherwise it is [H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [2H] and otherwise it is [H].   - initState: The initial internal state of the RNN @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. This is useful for dropout support.   - descriptor: A descriptor that defines the parameters for the RNN operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is @nil@, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@ and finally for @initState@.
---
--- ObjC selector: @- singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:inputWeight:bias:initState:mask:descriptor:name:@
+-- | @- singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:inputWeight:bias:initState:mask:descriptor:name:@
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_inputWeight_bias_initState_mask_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor mask, IsMPSGraphSingleGateRNNDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> inputWeight -> bias -> initState -> mask -> descriptor -> name -> IO (Id NSArray)
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_inputWeight_bias_initState_mask_descriptor_name mpsGraph source recurrentWeight sourceGradient zState inputWeight bias initState mask descriptor name =
   sendMessage mpsGraph singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_inputWeight_bias_initState_mask_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor mask) (toMPSGraphSingleGateRNNDescriptor descriptor) (toNSString name)
 
--- | Creates a single-gate RNN gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``.
---
--- - Parameters:   - source: A tensor that contains the source data @x[t]@ with the data layout [T,N,I].             In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H] and             for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].                 Note: For @bidirectional@ this tensor must have a static shape.   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The second output of             ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``             with @descriptor.training = YES@.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                  For @bidirectional@ the layout is [2H,I] and otherwise it is [H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [2H] and otherwise it is [H].   - initState: The initial internal state of the RNN @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the RNN operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is @nil@, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@ and finally for @initState@.
---
--- ObjC selector: @- singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:inputWeight:bias:initState:descriptor:name:@
+-- | @- singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:inputWeight:bias:initState:descriptor:name:@
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_inputWeight_bias_initState_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphSingleGateRNNDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> inputWeight -> bias -> initState -> descriptor -> name -> IO (Id NSArray)
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_inputWeight_bias_initState_descriptor_name mpsGraph source recurrentWeight sourceGradient zState inputWeight bias initState descriptor name =
   sendMessage mpsGraph singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_inputWeight_bias_initState_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphSingleGateRNNDescriptor descriptor) (toNSString name)
 
--- | Creates a single-gate RNN gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``.
---
--- - Parameters:   - source: A tensor that contains the source data @x[t]@ with the data layout [T,N,I].             In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,H] and             for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,2H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,H,H] and otherwise it is [H,H].                 Note: For @bidirectional@ this tensor must have a static shape.   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The second output of             ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:``             with @descriptor.training = YES@.   - initState: The initial internal state of the RNN @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the RNN operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is @nil@, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@ and finally for @initState@.
---
--- ObjC selector: @- singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:initState:descriptor:name:@
+-- | @- singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:initState:descriptor:name:@
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_initState_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor initState, IsMPSGraphSingleGateRNNDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> initState -> descriptor -> name -> IO (Id NSArray)
 singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_initState_descriptor_name mpsGraph source recurrentWeight sourceGradient zState initState descriptor name =
   sendMessage mpsGraph singleGateRNNGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_initState_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor initState) (toMPSGraphSingleGateRNNDescriptor descriptor) (toNSString name)
 
--- | Creates an LSTM operation and returns the value tensor and optionally the cell state tensor and  the training state tensor.
+-- | Create a LSTM op and return the value and optionally the cell state and optionally the training state tensor.
 --
--- This operation returns tensors @h@ and optionally @c@ and optionally @z@ that are defined recursively as follows:  ```md for t = 0 to T-1   z[t] = [i, f, z, o][t] = f( (h[t-1] m) R^T + x'[t] + p c[t-1] )   x'[t] = x[t] W^T + b   c[t] = f[t]c[t-1] + i[t]z[t]   h[t] = o[t]g(c[t]), where ``` @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is optional @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @c[t]@ is the second output (optional), @z[t]@ is either the second or third output (optional), @h[-1]@ is @initCell@.  and @h[-1]@ is @initState@. @p@ is an optional peephole vector. See ``MPSGraphLSTMDescriptor`` for different @activation@ options for @f()@ and @g()@.
+-- This operation returns tensors @h@ and optionally @c@ and optionally @z@ that are defined recursively as follows:
 --
--- - Parameters:   - source: A tensor containing the source data @x[t]@  with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix. For @bidirectional@ the layout is [8H,I] and otherwise it is [4H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [8H] and otherwise it is [4H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - initCell: The initial internal cell of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. Useful for dropout.   - peephole: A tensor containing the peephole vector @v@ - optional, if missing the operation assumes zeroes. Shape is [4H], ie. a vector for each gate, or [2,4H] for bidirectional.   - descriptor: A descriptor that defines the parameters for the LSTM operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array of size 1 or 2 or 3, depending on values of @descriptor.produceCell@ and @descriptor.training@.     The layout of the both state and cell outputs are [T,N,H] or [T,N,2H] for bidirectional, and the layout of the trainingState output is [T,N,4H] or [T,N,8H] for bidirectional.
+-- for t = 0 to T-1
+-- z[t] = [i, f, z, o][t] = f( (h[t-1] m) R^T + x'[t] + p*c[t-1] )`
+-- x'[t] = x[t] W^T + b
+-- c[t] = f[t] * c[t-1] + i[t] * z[t]
+-- h[t] = o[t] * g(c[t]), where
+--
+-- @W@ is optional inputWeight, @R@ is recurrentWeight, @b@ is optional bias, @m@ is optional ,              @x[t]@ is source @h[t]@ is the first output, @c[t]@ is the second output (optional),              @z[t]@ is either the second or third output (optional), @h[-1]@ is initCell.  and @h[-1]@ is initState.              @p@ is an optional peephole vector.              See MPSGraphLSTMDescriptor for different @activation@ options for @f()@ and @g()@.
+--
+-- @source@ — Tensor containing the source data @x[t]@ - shape should be [T,N,I].                                In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H]                                and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].
+--
+-- @recurrentWeight@ — Tensor containing the recurrent weights @R@.                                For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].
+--
+-- @inputWeight@ — Tensor containing the input weights matrix @W@ - optional, if missing assumes diagonal unit-matrix.                                For @bidirectional@ the layout is [8H,I] and otherwise it is [4H,I].
+--
+-- @bias@ — Tensor containing the bias @b@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [8H] and otherwise it is [4H].
+--
+-- @initState@ — Initial internal state of the LSTM @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @initCell@ — Initial internal cell of the LSTM @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @mask@ — Tensor containing the mask @m@ - optional, if missing assumes ones. Useful for dropout.
+--
+-- @peephole@ — Tensor containing the peephole vector @v@ - optional, if missing assumes zeroes.                                Shape is [4H], ie. a vector for each gate, or [2,4H] for bidirectional.
+--
+-- @descriptor@ — The LSTM op definition.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor array of size 1 or 2 or 3, depending on value of `descriptor.produceCell` and `descriptor.training`.              The layout of the both state and cell outputs are [T,N,H] or [T,N,2H] for bidirectional,              and the layout of the trainingState output is [T,N,4H] or [T,N,8H] for bidirectional,.
 --
 -- ObjC selector: @- LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:@
 lstmWithSourceTensor_recurrentWeight_inputWeight_bias_initState_initCell_mask_peephole_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor initCell, IsMPSGraphTensor mask, IsMPSGraphTensor peephole, IsMPSGraphLSTMDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> inputWeight -> bias -> initState -> initCell -> mask -> peephole -> descriptor -> name -> IO (Id NSArray)
 lstmWithSourceTensor_recurrentWeight_inputWeight_bias_initState_initCell_mask_peephole_descriptor_name mpsGraph source recurrentWeight inputWeight bias initState initCell mask peephole descriptor name =
   sendMessage mpsGraph lstmWithSourceTensor_recurrentWeight_inputWeight_bias_initState_initCell_mask_peephole_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor initCell) (toMPSGraphTensor mask) (toMPSGraphTensor peephole) (toMPSGraphLSTMDescriptor descriptor) (toNSString name)
 
--- | Creates an LSTM operation and returns the value tensor and optionally the cell state tensor and  the training state tensor.
---
--- This operation returns tensors @h@ and optionally @c@ and optionally @z@ that are defined recursively as follows: ```md for t = 0 to T-1   z[t] = [i, f, z, o][t] = f( (h[t-1] m) R^T + x'[t] + p c[t-1] )   x'[t] = x[t] W^T + b   c[t] = f[t]c[t-1] + i[t]z[t]   h[t] = o[t]g(c[t]), where ``` @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is optional @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @c[t]@ is the second output (optional), @z[t]@ is either the second or third output (optional), @h[-1]@ is @initCell@.  and @h[-1]@ is @initState@. @p@ is an optional peephole vector. See ``MPSGraphLSTMDescriptor`` for different @activation@ options for @f()@ and @g()@.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@  with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix. For @bidirectional@ the layout is [8H,I] and otherwise it is [4H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [8H] and otherwise it is [4H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - initCell: The initial internal cell of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the LSTM operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array of size 1 or 2 or 3, depending on values of @descriptor.produceCell@ and @descriptor.training@.     The layout of the both state and cell outputs are [T,N,H] or [T,N,2H] for bidirectional, and the layout of the trainingState output is [T,N,4H] or [T,N,8H] for bidirectional.
---
--- ObjC selector: @- LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:@
+-- | @- LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:@
 lstmWithSourceTensor_recurrentWeight_inputWeight_bias_initState_initCell_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor initCell, IsMPSGraphLSTMDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> inputWeight -> bias -> initState -> initCell -> descriptor -> name -> IO (Id NSArray)
 lstmWithSourceTensor_recurrentWeight_inputWeight_bias_initState_initCell_descriptor_name mpsGraph source recurrentWeight inputWeight bias initState initCell descriptor name =
   sendMessage mpsGraph lstmWithSourceTensor_recurrentWeight_inputWeight_bias_initState_initCell_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor initCell) (toMPSGraphLSTMDescriptor descriptor) (toNSString name)
 
--- | Creates an LSTM operation and returns the value tensor and optionally the cell state tensor and  the training state tensor.
---
--- This operation returns tensors @h@ and optionally @c@ and optionally @z@ that are defined recursively as follows: ```md for t = 0 to T-1   z[t] = [i, f, z, o][t] = f( (h[t-1] m) R^T + x'[t] + p c[t-1] )   x'[t] = x[t] W^T + b   c[t] = f[t]c[t-1] + i[t]z[t]   h[t] = o[t]g(c[t]), where ``` @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is optional @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @c[t]@ is the second output (optional), @z[t]@ is either the second or third output (optional), @h[-1]@ is @initCell@.  and @h[-1]@ is @initState@. @p@ is an optional peephole vector. See ``MPSGraphLSTMDescriptor`` for different @activation@ options for @f()@ and @g()@.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@  with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - initCell: The initial internal cell of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the LSTM operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array of size 1 or 2 or 3, depending on values of @descriptor.produceCell@ and @descriptor.training@.     The layout of the both state and cell outputs are [T,N,H] or [T,N,2H] for bidirectional, and the layout of the trainingState output is [T,N,4H] or [T,N,8H] for bidirectional.
---
--- ObjC selector: @- LSTMWithSourceTensor:recurrentWeight:initState:initCell:descriptor:name:@
+-- | @- LSTMWithSourceTensor:recurrentWeight:initState:initCell:descriptor:name:@
 lstmWithSourceTensor_recurrentWeight_initState_initCell_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor initState, IsMPSGraphTensor initCell, IsMPSGraphLSTMDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> initState -> initCell -> descriptor -> name -> IO (Id NSArray)
 lstmWithSourceTensor_recurrentWeight_initState_initCell_descriptor_name mpsGraph source recurrentWeight initState initCell descriptor name =
   sendMessage mpsGraph lstmWithSourceTensor_recurrentWeight_initState_initCell_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor initState) (toMPSGraphTensor initCell) (toMPSGraphLSTMDescriptor descriptor) (toNSString name)
 
--- | Creates an LSTM gradient operation and returns the gradient tensor values.
+-- | Create a LSTM gradient op and return the gradient tensor values.
 --
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:``.
+-- @source@ — Tensor containing the source data @x[t]@ - shape should be [T,N,I].                                In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H]                                and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].
 --
--- - Parameters:   - source: A tensor containing the source data @x[t]@  with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The third output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@.   - cellOutputFwd: The second output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@ or @descriptor.produceCell = YES@.   - stateGradient: The input gradient for state coming from the future timestep - optional, if missing the operation assumes zeroes.   - cellGradient: Input gradient for cell coming from the future timestep - optional, if missing the operation assumes zeroes.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix. For @bidirectional@ the layout is [8H,I] and otherwise it is [4H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [8H] and otherwise it is [4H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - initCell: The initial internal cell of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. Useful for dropout.   - peephole: A tensor containing the peephole vector @v@ - optional, if missing the operation assumes zeroes. Shape is [4H], ie. a vector for each gate, or [2,4H] for bidirectional.   - descriptor: A descriptor that defines the parameters for the LSTM operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is nil, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@, for @peephole@, for @initState@ and for @initCell@.
+-- @recurrentWeight@ — Tensor containing the recurrent weights @R@.                                For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].
+--
+-- @sourceGradient@ — Input gradient, that is gradient of a tensor wrt. to first output of the forward pass.
+--
+-- @zState@ — The third output of @LSTMWithSourceTensor@ with `descriptor.training = true`.
+--
+-- @cellOutputFwd@ — The second output of @LSTMWithSourceTensor@ with `descriptor.training = true@ or @descriptor.produceCell = true`.
+--
+-- @stateGradient@ — Input gradient for state coming from the future timestep - optional, if missing assumes zeroes.
+--
+-- @cellGradient@ — Input gradient for cell coming from the future timestep - optional, if missing assumes zeroes.
+--
+-- @inputWeight@ — Tensor containing the input weights matrix @W@ - optional, if missing assumes diagonal unit-matrix.                                For @bidirectional@ the layout is [8H,I] and otherwise it is [4H,I].
+--
+-- @bias@ — Tensor containing the bias @b@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [8H] and otherwise it is [4H].
+--
+-- @initState@ — Initial internal state of the LSTM @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @initCell@ — Initial internal cell of the LSTM @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @mask@ — Tensor containing the mask @m@ - optional, if missing assumes ones. Useful for dropout.
+--
+-- @peephole@ — Tensor containing the peephole vector @v@ - optional, if missing assumes zeroes. Shape is [8H], ie. a vector for each gate.
+--
+-- @descriptor@ — The LSTM op definition.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor array containing gradients for each input tensor, except for @sourceGradient@ and @mask@.              In case an input is nil, no gradient will be returned for it.              The order of the gradients will be: for source, for recurrentWeight, for inputWeight, for bias, for peephole, for initState, for initCell.
 --
 -- ObjC selector: @- LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:stateGradient:cellGradient:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:@
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_stateGradient_cellGradient_inputWeight_bias_initState_initCell_mask_peephole_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor cellOutputFwd, IsMPSGraphTensor stateGradient, IsMPSGraphTensor cellGradient, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor initCell, IsMPSGraphTensor mask, IsMPSGraphTensor peephole, IsMPSGraphLSTMDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> cellOutputFwd -> stateGradient -> cellGradient -> inputWeight -> bias -> initState -> initCell -> mask -> peephole -> descriptor -> name -> IO (Id NSArray)
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_stateGradient_cellGradient_inputWeight_bias_initState_initCell_mask_peephole_descriptor_name mpsGraph source recurrentWeight sourceGradient zState cellOutputFwd stateGradient cellGradient inputWeight bias initState initCell mask peephole descriptor name =
   sendMessage mpsGraph lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_stateGradient_cellGradient_inputWeight_bias_initState_initCell_mask_peephole_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor cellOutputFwd) (toMPSGraphTensor stateGradient) (toMPSGraphTensor cellGradient) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor initCell) (toMPSGraphTensor mask) (toMPSGraphTensor peephole) (toMPSGraphLSTMDescriptor descriptor) (toNSString name)
 
--- | Creates an LSTM gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:``.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@  with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The third output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@.   - cellOutputFwd: The second output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@ or @descriptor.produceCell = YES@.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix. For @bidirectional@ the layout is [8H,I] and otherwise it is [4H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [8H] and otherwise it is [4H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - initCell: The initial internal cell of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. Useful for dropout.   - descriptor: A descriptor that defines the parameters for the LSTM operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is nil, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@, for @peephole@, for @initState@ and for @initCell@.
---
--- ObjC selector: @- LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:inputWeight:bias:initState:initCell:mask:descriptor:name:@
+-- | @- LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:inputWeight:bias:initState:initCell:mask:descriptor:name:@
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_inputWeight_bias_initState_initCell_mask_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor cellOutputFwd, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor initCell, IsMPSGraphTensor mask, IsMPSGraphLSTMDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> cellOutputFwd -> inputWeight -> bias -> initState -> initCell -> mask -> descriptor -> name -> IO (Id NSArray)
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_inputWeight_bias_initState_initCell_mask_descriptor_name mpsGraph source recurrentWeight sourceGradient zState cellOutputFwd inputWeight bias initState initCell mask descriptor name =
   sendMessage mpsGraph lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_inputWeight_bias_initState_initCell_mask_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor cellOutputFwd) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor initCell) (toMPSGraphTensor mask) (toMPSGraphLSTMDescriptor descriptor) (toNSString name)
 
--- | Creates an LSTM gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:``.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@  with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The third output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@.   - cellOutputFwd: The second output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@ or @descriptor.produceCell = YES@.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix. For @bidirectional@ the layout is [8H,I] and otherwise it is [4H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [8H] and otherwise it is [4H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - initCell: The initial internal cell of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes.                 For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the LSTM operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is nil, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@, for @initState@ and for @initCell@.
---
--- ObjC selector: @- LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:inputWeight:bias:initState:initCell:descriptor:name:@
+-- | @- LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:inputWeight:bias:initState:initCell:descriptor:name:@
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_inputWeight_bias_initState_initCell_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor cellOutputFwd, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor initCell, IsMPSGraphLSTMDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> cellOutputFwd -> inputWeight -> bias -> initState -> initCell -> descriptor -> name -> IO (Id NSArray)
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_inputWeight_bias_initState_initCell_descriptor_name mpsGraph source recurrentWeight sourceGradient zState cellOutputFwd inputWeight bias initState initCell descriptor name =
   sendMessage mpsGraph lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_inputWeight_bias_initState_initCell_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor cellOutputFwd) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor initCell) (toMPSGraphLSTMDescriptor descriptor) (toNSString name)
 
--- | Creates an LSTM gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:``.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@  with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,4H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,8H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,4H,H] and otherwise it is [4H,H].   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The third output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@.   - cellOutputFwd: The second output of         ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:``         with @descriptor.training = YES@ or @descriptor.produceCell = YES@.   - descriptor: A descriptor that defines the parameters for the LSTM operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is nil, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@, for @initState@ and for @initCell@.
---
--- ObjC selector: @- LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:descriptor:name:@
+-- | @- LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:descriptor:name:@
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor cellOutputFwd, IsMPSGraphLSTMDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> cellOutputFwd -> descriptor -> name -> IO (Id NSArray)
 lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_descriptor_name mpsGraph source recurrentWeight sourceGradient zState cellOutputFwd descriptor name =
   sendMessage mpsGraph lstmGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_cellOutputFwd_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor cellOutputFwd) (toMPSGraphLSTMDescriptor descriptor) (toNSString name)
 
--- | Creates a GRU operation and returns the value and optionally the training state tensor.
+-- | Create a GRU op and return the value and optionally the training state tensor.
 --
--- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows:  ```md  for t = 0 to T-1    z[t] = fz( (h[t-1] m) R^T + x[t] W^T + b ),   r[t] = fr( (h[t-1] m) R^T + x[t] W^T + b ),   c[t] = (h[t-1] r[t] m) R^T   o[t] = fo( c[t] + x[t] W^T + b )   h[t] = z[t]h[t-1] + (1-z[t])o[t] ```  If @resetAfter = YES@ then @c[t]@ is replaced by ```md    c[t] = ( (h[t-1] m) R^T + b2 ) r[t] ```  If @flipZ = YES@ then @h[t]@ is replaced by ```md    h[t] = (1-z[t])h[t-1] + z[t]o[t]. ```  @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is optional  @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is @initState@. @b2@ is an optional @resetBias@ vector, only used when @resetAfter = YES@. See ``MPSGraphGRUDescriptor`` for different @activation@ options for @f()@.
+-- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows:
 --
--- - Parameters:   - source: A tensor containing the source data @x[t]@ with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                     For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [6H] and otherwise it is [3H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. Useful for dropout.   - secondaryBias: A tensor containing the secondary bias vector @b2@ - optional, if missing the operation assumes zeroes. Only used with @reset_after = YES@. Shape is [H], ie. a vector for each gate, or [2H] for bidirectional.   - descriptor: A descriptor that defines the parameters for the GRU operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array of size 1 or 2 depending on value of  @descriptor.training@.            The layout of the state output is [T,N,H] or [T,N,2H] for bidirectional,            and the layout of the @trainingState@ output is [T,N,3H] or [T,N,6H] for bidirectional.
+-- for t = 0 to T-1
+-- z[t] = fz( (h[t-1] m) R^T + x[t] W^T + b ),
+-- r[t] = fr( (h[t-1] m) R^T + x[t] W^T + b ),
+-- c[t] = (h[t-1] r[t] m) R^T
+-- o[t] = fo( c[t] + x[t] W^T + b )
+-- h[t] = z[t]h[t-1] + (1-z[t])o[t]
+--
+-- If @resetAfter = YES@ then @c[t]@ is replaced by
+--
+-- c[t] = ( (h[t-1] m) R^T + b2 ) r[t]
+--
+-- If @flipZ = YES@ then @h[t]@ is replaced by
+--
+-- h[t] = (1-z[t])h[t-1] + z[t]o[t].
+--
+-- @W@ is optional inputWeight, @R@ is recurrentWeight, @b@ is optional bias, @m@ is optional ,              @x[t]@ is source @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is initState.              @b2@ is an optional @resetBias@ vector, only used when @resetAfter = YES@.              See MPSGraphGRUDescriptor for different @activation@ options for @f()@.
+--
+-- @source@ — Tensor containing the source data @x[t]@ - shape should be [T,N,I].                                In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H]                                and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].
+--
+-- @recurrentWeight@ — Tensor containing the recurrent weights @R@.                                For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].
+--
+-- @inputWeight@ — Tensor containing the input weights matrix @W@ - optional, if missing assumes diagonal unit-matrix.                                For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].
+--
+-- @bias@ — Tensor containing the bias @b@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [6H] and otherwise it is [3H].
+--
+-- @initState@ — Initial internal state of the LSTM @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @mask@ — Tensor containing the mask @m@ - optional, if missing assumes ones. Useful for dropout.
+--
+-- @secondaryBias@ — Tensor containing the secondary bias vector @b2@ - optional, if missing assumes zeroes.                                Only used with @reset_after = YES@.                                Shape is [H], ie. a vector for each gate, or [2H] for bidirectional.
+--
+-- @descriptor@ — The GRU op definition.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor array of size 1 or 2 depending on value of `descriptor.training`.              The layout of the state output is [T,N,H] or [T,N,2H] for bidirectional,              and the layout of the trainingState output is [T,N,3H] or [T,N,6H] for bidirectional,.
 --
 -- ObjC selector: @- GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:secondaryBias:descriptor:name:@
 gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_secondaryBias_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor mask, IsMPSGraphTensor secondaryBias, IsMPSGraphGRUDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> inputWeight -> bias -> initState -> mask -> secondaryBias -> descriptor -> name -> IO (Id NSArray)
 gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_secondaryBias_descriptor_name mpsGraph source recurrentWeight inputWeight bias initState mask secondaryBias descriptor name =
   sendMessage mpsGraph gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_secondaryBias_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor mask) (toMPSGraphTensor secondaryBias) (toMPSGraphGRUDescriptor descriptor) (toNSString name)
 
--- | Creates a GRU operation and returns the value and optionally the training state tensor.
---
--- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows: ```md for t = 0 to T-1   z[t] = fz( (h[t-1] m) R^T + x[t] W^T + b ),   r[t] = fr( (h[t-1] m) R^T + x[t] W^T + b ),   c[t] = (h[t-1] r[t] m) R^T   o[t] = fo( c[t] + x[t] W^T + b )   h[t] = z[t]h[t-1] + (1-z[t])o[t] ``` If @resetAfter = YES@ then @c[t]@ is replaced by ```md   c[t] = ( (h[t-1] m) R^T + b2 ) r[t] ``` If @flipZ = YES@ then @h[t]@ is replaced by ```md   h[t] = (1-z[t])h[t-1] + z[t]o[t]. ``` @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is optional  @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is @initState@. @b2@ is an optional @resetBias@ vector, only used when @resetAfter = YES@. See ``MPSGraphGRUDescriptor`` for different @activation@ options for @f()@.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@ with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                     For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [6H] and otherwise it is [3H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the GRU operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array of size 1 or 2 depending on value of  @descriptor.training@.            The layout of the state output is [T,N,H] or [T,N,2H] for bidirectional,            and the layout of the @trainingState@ output is [T,N,3H] or [T,N,6H] for bidirectional.
---
--- ObjC selector: @- GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:@
+-- | @- GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:@
 gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphGRUDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> inputWeight -> bias -> initState -> descriptor -> name -> IO (Id NSArray)
 gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_name mpsGraph source recurrentWeight inputWeight bias initState descriptor name =
   sendMessage mpsGraph gruWithSourceTensor_recurrentWeight_inputWeight_bias_initState_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphGRUDescriptor descriptor) (toNSString name)
 
--- | Creates a GRU operation and returns the value and optionally the training state tensor.
---
--- This operation returns tensors @h@ and optionally @z@ that are defined recursively as follows: ```md for t = 0 to T-1   z[t] = fz( (h[t-1] m) R^T + x[t] W^T + b ),   r[t] = fr( (h[t-1] m) R^T + x[t] W^T + b ),   c[t] = (h[t-1] r[t] m) R^T   o[t] = fo( c[t] + x[t] W^T + b )   h[t] = z[t]h[t-1] + (1-z[t])o[t] ``` If @resetAfter = YES@ then @c[t]@ is replaced by ```md   c[t] = ( (h[t-1] m) R^T + b2 ) r[t] ``` If @flipZ = YES@ then @h[t]@ is replaced by ```md   h[t] = (1-z[t])h[t-1] + z[t]o[t]. ``` @W@ is optional @inputWeight@, @R@ is @recurrentWeight@, @b@ is optional  @bias@, @m@ is optional @mask@, @x[t]@ is @source@ @h[t]@ is the first output, @z[t]@ is the second output (optional) and @h[-1]@ is @initState@. @b2@ is an optional @resetBias@ vector, only used when @resetAfter = YES@. See ``MPSGraphGRUDescriptor`` for different @activation@ options for @f()@.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@ with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                     For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [6H] and otherwise it is [3H].   - descriptor: A descriptor that defines the parameters for the GRU operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array of size 1 or 2 depending on value of  @descriptor.training@.            The layout of the state output is [T,N,H] or [T,N,2H] for bidirectional,            and the layout of the @trainingState@ output is [T,N,3H] or [T,N,6H] for bidirectional.
---
--- ObjC selector: @- GRUWithSourceTensor:recurrentWeight:inputWeight:bias:descriptor:name:@
+-- | @- GRUWithSourceTensor:recurrentWeight:inputWeight:bias:descriptor:name:@
 gruWithSourceTensor_recurrentWeight_inputWeight_bias_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphGRUDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> inputWeight -> bias -> descriptor -> name -> IO (Id NSArray)
 gruWithSourceTensor_recurrentWeight_inputWeight_bias_descriptor_name mpsGraph source recurrentWeight inputWeight bias descriptor name =
   sendMessage mpsGraph gruWithSourceTensor_recurrentWeight_inputWeight_bias_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphGRUDescriptor descriptor) (toNSString name)
 
--- | Creates a GRU gradient operation and returns the gradient tensor values.
+-- | Create a GRU gradient op and return the gradient tensor values.
 --
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:secondaryBias:descriptor:name:``.
+-- @source@ — Tensor containing the source data @x[t]@ - shape should be [T,N,I].                                In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H]                                and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].
 --
--- - Parameters:   - source: A tensor containing the source data @x[t]@ with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The second output of         ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:``         with  @descriptor.training = YES@.   - outputFwd: The first output of         ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:``         with @descriptor.training = YES@.   - stateGradient: The input gradient for state coming from the future timestep - optional, if missing the operation assumes zeroes.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                     For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [6H] and otherwise it is [3H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - mask: A tensor containing the mask @m@ - optional, if missing the operation assumes ones. Useful for dropout.   - secondaryBias: A tensor containing the secondary bias vector @b2@ - optional, if missing the operation assumes zeroes. Only used with @reset_after = YES@. Shape is [H], ie. a vector for each gate, or [2H] for bidirectional.   - descriptor: A descriptor that defines the parameters for the GRU operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is nil, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@, for @initState@ and for @secondaryBias@.
+-- @recurrentWeight@ — Tensor containing the recurrent weights @R@.                                For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].
+--
+-- @sourceGradient@ — Input gradient, that is gradient of a tensor wrt. to first output of the forward pass.
+--
+-- @zState@ — The second output of @GRUWithSourceTensor@ with `descriptor.training = true`.
+--
+-- @outputFwd@ — The first output of @GRUWithSourceTensor@ with `descriptor.training = true`.
+--
+-- @stateGradient@ — Input gradient for state coming from the future timestep - optional, if missing assumes zeroes.
+--
+-- @inputWeight@ — Tensor containing the input weights matrix @W@ - optional, if missing assumes diagonal unit-matrix.                                For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].
+--
+-- @bias@ — Tensor containing the bias @b@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [6H] and otherwise it is [3H].
+--
+-- @initState@ — Initial internal state of the LSTM @h[-1]@ - optional, if missing assumes zeroes.                                For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].
+--
+-- @mask@ — Tensor containing the mask @m@ - optional, if missing assumes ones. Useful for dropout.
+--
+-- @secondaryBias@ — Tensor containing the secondary bias vector @b2@ - optional, if missing assumes zeroes.                                Only used with @reset_after = YES@.                                Shape is [H], ie. a vector for each gate, or [2H] for bidirectional.
+--
+-- @descriptor@ — The GRU op definition.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor array containing gradients for each input tensor, except for @sourceGradient@ and @mask@.              In case an input is nil, no gradient will be returned for it.              The order of the gradients will be: for source, for recurrentWeight, for inputWeight, for bias, for initState, for secondaryBias.
 --
 -- ObjC selector: @- GRUGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:outputFwd:stateGradient:inputWeight:bias:initState:mask:secondaryBias:descriptor:name:@
 gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_stateGradient_inputWeight_bias_initState_mask_secondaryBias_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor outputFwd, IsMPSGraphTensor stateGradient, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphTensor mask, IsMPSGraphTensor secondaryBias, IsMPSGraphGRUDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> outputFwd -> stateGradient -> inputWeight -> bias -> initState -> mask -> secondaryBias -> descriptor -> name -> IO (Id NSArray)
 gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_stateGradient_inputWeight_bias_initState_mask_secondaryBias_descriptor_name mpsGraph source recurrentWeight sourceGradient zState outputFwd stateGradient inputWeight bias initState mask secondaryBias descriptor name =
   sendMessage mpsGraph gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_stateGradient_inputWeight_bias_initState_mask_secondaryBias_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor outputFwd) (toMPSGraphTensor stateGradient) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphTensor mask) (toMPSGraphTensor secondaryBias) (toMPSGraphGRUDescriptor descriptor) (toNSString name)
 
--- | Creates a GRU gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:secondaryBias:descriptor:name:``.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@ with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The second output of         ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:``         with  @descriptor.training = YES@.   - outputFwd: The first output of         ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:``         with @descriptor.training = YES@.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                     For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [6H] and otherwise it is [3H].   - initState: The initial internal state of the LSTM @h[-1]@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [N,2H] and otherwise it is [N,H].   - descriptor: A descriptor that defines the parameters for the GRU operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is nil, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@, for @bias@ and for @initState@.
---
--- ObjC selector: @- GRUGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:outputFwd:inputWeight:bias:initState:descriptor:name:@
+-- | @- GRUGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:outputFwd:inputWeight:bias:initState:descriptor:name:@
 gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_inputWeight_bias_initState_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor outputFwd, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphTensor initState, IsMPSGraphGRUDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> outputFwd -> inputWeight -> bias -> initState -> descriptor -> name -> IO (Id NSArray)
 gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_inputWeight_bias_initState_descriptor_name mpsGraph source recurrentWeight sourceGradient zState outputFwd inputWeight bias initState descriptor name =
   sendMessage mpsGraph gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_inputWeight_bias_initState_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor outputFwd) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphTensor initState) (toMPSGraphGRUDescriptor descriptor) (toNSString name)
 
--- | Creates a GRU gradient operation and returns the gradient tensor values.
---
--- For details of this operation and parameters, refer to documentation of ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:secondaryBias:descriptor:name:``.
---
--- - Parameters:   - source: A tensor containing the source data @x[t]@ with the data layout [T,N,I]. In case @inputWeight = nil@ and @bidirectional = NO@ then the layout is [T,N,3H] and for @inputWeight = nil@ and @bidirectional = YES@ the layout is [T,N,6H].   - recurrentWeight: A tensor containing the recurrent weights @R@. For @bidirectional@ the layout is [2,3H,H] and otherwise it is [3H,H].   - sourceGradient: The input gradient, that is the gradient of a tensor with respect to the first output of the forward pass.   - zState: The second output of         ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:``         with  @descriptor.training = YES@.   - outputFwd: The first output of         ``MPSGraph/GRUWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:``         with @descriptor.training = YES@.   - inputWeight: A tensor containing the input weights matrix @W@ - optional, if missing the operation assumes a diagonal unit-matrix.                     For @bidirectional@ the layout is [6H,I] and otherwise it is [3H,I].   - bias: A tensor containing the bias @b@ - optional, if missing the operation assumes zeroes. For @bidirectional@ the layout is [6H] and otherwise it is [3H].   - descriptor: A descriptor that defines the parameters for the GRU operation.   - name: The name for the operation. - Returns: A valid @MPSGraphTensor@ array containing gradients for each input tensor, except for @sourceGradient@ and @mask@. In case an input is nil, no gradient will be returned for it. The order of the gradients will be: for @source@, for @recurrentWeight@, for @inputWeight@ and for @bias@.
---
--- ObjC selector: @- GRUGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:outputFwd:inputWeight:bias:descriptor:name:@
+-- | @- GRUGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:outputFwd:inputWeight:bias:descriptor:name:@
 gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_inputWeight_bias_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor recurrentWeight, IsMPSGraphTensor sourceGradient, IsMPSGraphTensor zState, IsMPSGraphTensor outputFwd, IsMPSGraphTensor inputWeight, IsMPSGraphTensor bias, IsMPSGraphGRUDescriptor descriptor, IsNSString name) => mpsGraph -> source -> recurrentWeight -> sourceGradient -> zState -> outputFwd -> inputWeight -> bias -> descriptor -> name -> IO (Id NSArray)
 gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_inputWeight_bias_descriptor_name mpsGraph source recurrentWeight sourceGradient zState outputFwd inputWeight bias descriptor name =
   sendMessage mpsGraph gruGradientsWithSourceTensor_recurrentWeight_sourceGradient_zState_outputFwd_inputWeight_bias_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor recurrentWeight) (toMPSGraphTensor sourceGradient) (toMPSGraphTensor zState) (toMPSGraphTensor outputFwd) (toMPSGraphTensor inputWeight) (toMPSGraphTensor bias) (toMPSGraphGRUDescriptor descriptor) (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize op and return the result tensor
 --
--- Resamples input images to given size. Result images will be distorted if size is of different aspect ratio.  Resize supports the following modes:  Nearest Neighbor - values are interpolated using the closest neighbor pixel  Bilinear - values are computed using bilinear interpolation of 4 neighboring pixels  Destination indices are computed using direct index scaling by default, with no offset added.  If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered  on the input image.  If the alignCorners parameter is true, the corners of the result images will match the input images.  Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the  centerResult parameter does nothing.  In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize,  ```md  centerResult = YES;  alginCorners = NO;  ```  To achieve the same behavior as TensorFlowV1 resize  ```md  centerResult = NO;  ```
+-- Resamples input images to given size. Result images will be distorted if size is of different aspect ratio.              Resize supports the following modes:                  Nearest Neighbor - values are interpolated using the closest neighbor pixel                  Bilinear - values are computed using bilinear interpolation of 4 neighboring pixels
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: A 2-element shape as [newHeight, newWidth]   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- Destination indices are computed using direct index scaling by default, with no offset added.              If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered              on the input image.              If the alignCorners parameter is true, the corners of the result images will match the input images.              Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the              centerResult parameter does nothing.
+--
+-- In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize,
+--
+-- centerResult = YES;
+-- alginCorners = NO;
+--
+-- To achieve the same behavior as TensorFlowV1 resize
+--
+-- centerResult = NO;
+--
+-- @imagesTensor@ — Tensor containing input images.
+--
+-- @size@ — A 2-element shape as [newHeight, newWidth]
+--
+-- @mode@ — The resampling mode to use.  If nearest sampling is specifed, RoundPreferCeil mode will be used.
+--
+-- @centerResult@ — Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned
+--
+-- @alignCorners@ — When YES, the result image will have the same value as the input image in the corners
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                            Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeTensor:size:mode:centerResult:alignCorners:layout:name:@
 resizeTensor_size_mode_centerResult_alignCorners_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsNSString name) => mpsGraph -> imagesTensor -> RawId -> MPSGraphResizeMode -> Bool -> Bool -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeTensor_size_mode_centerResult_alignCorners_layout_name mpsGraph imagesTensor size mode centerResult alignCorners layout name =
   sendMessage mpsGraph resizeTensor_size_mode_centerResult_alignCorners_layout_nameSelector (toMPSGraphTensor imagesTensor) size mode centerResult alignCorners layout (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize op and return the result tensor
 --
--- Resamples input images to given size. Result images will be distorted if size is of different aspect ratio.  Resize supports the following modes:  Nearest Neighbor - values are interpolated using the closest neighbor pixel  Bilinear - values are computed using bilinear interpolation of 4 neighboring pixels  Destination indices are computed using direct index scaling by default, with no offset added.  If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered  on the input image.  If the alignCorners parameter is true, the corners of the result images will match the input images.  Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the  centerResult parameter does nothing.  In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize,  ```md  centerResult = YES;  alginCorners = NO;  ```  To achieve the same behavior as TensorFlowV1 resize  ```md  centerResult = NO;  ```
+-- Resamples input images to given size. Result images will be distorted if size is of different aspect ratio.              Resize supports the following modes:                  Nearest Neighbor - values are interpolated using the closest neighbor pixel                  Bilinear - values are computed using bilinear interpolation of 4 neighboring pixels
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- Destination indices are computed using direct index scaling by default, with no offset added.              If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered              on the input image.              If the alignCorners parameter is true, the corners of the result images will match the input images.              Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the              centerResult parameter does nothing.
+--
+-- In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize,
+--
+-- centerResult = YES;
+-- alginCorners = NO;
+--
+-- To achieve the same behavior as TensorFlowV1 resize
+--
+-- centerResult = NO;
+--
+-- @imagesTensor@ — Tensor containing input images.
+--
+-- @size@ — 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]
+--
+-- @mode@ — The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.
+--
+-- @centerResult@ — Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned
+--
+-- @alignCorners@ — When YES, the result image will have the same value as the input image in the corners
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeTensor:sizeTensor:mode:centerResult:alignCorners:layout:name:@
 resizeTensor_sizeTensor_mode_centerResult_alignCorners_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsNSString name) => mpsGraph -> imagesTensor -> size -> MPSGraphResizeMode -> Bool -> Bool -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeTensor_sizeTensor_mode_centerResult_alignCorners_layout_name mpsGraph imagesTensor size mode centerResult alignCorners layout name =
   sendMessage mpsGraph resizeTensor_sizeTensor_mode_centerResult_alignCorners_layout_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) mode centerResult alignCorners layout (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize op and return the result tensor
 --
--- Resamples input images to given size. Result images will be distorted if size is of different aspect ratio. Resize supports the following modes: Nearest Neighbor - values are interpolated using the closest neighbor pixel Bilinear - values are computed using bilinear interpolation of 4 neighboring pixels Destination indices are computed using direct index scaling by default, with no offset added. If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered on the input image. If the alignCorners parameter is true, the corners of the result images will match the input images. Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the centerResult parameter does nothing. In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize, ```md centerResult = YES; alginCorners = NO; ``` To achieve the same behavior as TensorFlowV1 resize ```md centerResult = NO; ```
+-- Resamples input images to given size using nearest neighbor sampling. This API allows for              the rounding mode to be specified.              See above discussion for more details.
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: The target size of the result tensor. 1D Int32 or Int64 tensor of size equal to rank of input.   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @imagesTensor@ — Tensor containing input images.
 --
--- ObjC selector: @- resizeTensor:sizeTensor:mode:centerResult:alignCorners:name:@
-resizeTensor_sizeTensor_mode_centerResult_alignCorners_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsNSString name) => mpsGraph -> imagesTensor -> size -> MPSGraphResizeMode -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
-resizeTensor_sizeTensor_mode_centerResult_alignCorners_name mpsGraph imagesTensor size mode centerResult alignCorners name =
-  sendMessage mpsGraph resizeTensor_sizeTensor_mode_centerResult_alignCorners_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) mode centerResult alignCorners (toNSString name)
-
--- | Resamples input images to given size using nearest neighbor sampling.
+-- @size@ — 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]
 --
--- This API allows for the rounding mode to be specified. Resamples input images to given size. Result images will be distorted if size is of different aspect ratio. Resize supports the following modes: Nearest Neighbor - values are interpolated using the closest neighbor pixel Bilinear - values are computed using bilinear interpolation of 4 neighboring pixels Destination indices are computed using direct index scaling by default, with no offset added. If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered on the input image. If the alignCorners parameter is true, the corners of the result images will match the input images. Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the centerResult parameter does nothing. In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize, ```md centerResult = YES; alginCorners = NO; ``` To achieve the same behavior as TensorFlowV1 resize ```md centerResult = NO; ```
+-- @nearestRoundingMode@ — The rounding mode to use when using nearest resampling. Default is roundPreferCeil.
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]   - nearestRoundingMode: The rounding mode to use when using nearest resampling. Default is roundPreferCeil.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @centerResult@ — Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned
+--
+-- @alignCorners@ — When YES, the result image will have the same value as the input image in the corners
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeNearestWithTensor:sizeTensor:nearestRoundingMode:centerResult:alignCorners:layout:name:@
 resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsNSString name) => mpsGraph -> imagesTensor -> size -> MPSGraphResizeNearestRoundingMode -> Bool -> Bool -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_layout_name mpsGraph imagesTensor size nearestRoundingMode centerResult alignCorners layout name =
   sendMessage mpsGraph resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_layout_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) nearestRoundingMode centerResult alignCorners layout (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize op and return the result tensor
 --
--- Resamples input images to given size using nearest neighbor sampling. Result images will be distorted if size is of different aspect ratio. Destination indices are computed using direct index scaling by default, with no offset added. If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered on the input image. If the alignCorners parameter is true, the corners of the result images will match the input images. Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the centerResult parameter does nothing. In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize, ```md centerResult = YES; alginCorners = NO; ``` To achieve the same behavior as TensorFlowV1 resize ```md centerResult = NO; ```
+-- Resamples input images to given size using bilinear sampling.              See above discussion for more details.
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: The target size of the result tensor. 1D Int32 or Int64 tensor of size equal to rank of input.   - nearestRoundingMode: The rounding mode to use when using nearest resampling. Default is roundPreferCeil.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @imagesTensor@ — Tensor containing input images.
 --
--- ObjC selector: @- resizeNearestWithTensor:sizeTensor:nearestRoundingMode:centerResult:alignCorners:name:@
-resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsNSString name) => mpsGraph -> imagesTensor -> size -> MPSGraphResizeNearestRoundingMode -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
-resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_name mpsGraph imagesTensor size nearestRoundingMode centerResult alignCorners name =
-  sendMessage mpsGraph resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) nearestRoundingMode centerResult alignCorners (toNSString name)
-
--- | Resamples input images to given size using bilinear sampling.
+-- @size@ — 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]
 --
--- Resamples input images to given size using nearest neighbor sampling. Result images will be distorted if size is of different aspect ratio. Destination indices are computed using direct index scaling by default, with no offset added. If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered on the input image. If the alignCorners parameter is true, the corners of the result images will match the input images. Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the centerResult parameter does nothing. In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize, ```md centerResult = YES; alginCorners = NO; ``` To achieve the same behavior as TensorFlowV1 resize ```md centerResult = NO; ```
+-- @centerResult@ — Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @alignCorners@ — When YES, the result image will have the same value as the input image in the corners
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeBilinearWithTensor:sizeTensor:centerResult:alignCorners:layout:name:@
 resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsNSString name) => mpsGraph -> imagesTensor -> size -> Bool -> Bool -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_layout_name mpsGraph imagesTensor size centerResult alignCorners layout name =
   sendMessage mpsGraph resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_layout_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) centerResult alignCorners layout (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize op and return the result tensor
 --
--- Resamples input images to given size using bilinear sampling. Result images will be distorted if size is of different aspect ratio. Destination indices are computed using direct index scaling by default, with no offset added. If the centerResult parameter is true, the destination indices will be scaled and shifted to be centered on the input image. If the alignCorners parameter is true, the corners of the result images will match the input images. Scaling will be modified to a factor of (size - 1) / (inputSize - 1). When alignCorners is true, the centerResult parameter does nothing. In order to achieve the same behavior as OpenCV's resize and TensorFlowV2's resize, ```md centerResult = YES; alginCorners = NO; ``` To achieve the same behavior as TensorFlowV1 resize ```md centerResult = NO; ```
+-- Resamples input images to given size using the provided scale and offset.              Destination indices are computed using
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: The target size of the result tensor. 1D Int32 or Int64 tensor of size equal to rank of input.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- dst_indices = (src_indices * scale) + offset
 --
--- ObjC selector: @- resizeBilinearWithTensor:sizeTensor:centerResult:alignCorners:name:@
-resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsNSString name) => mpsGraph -> imagesTensor -> size -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
-resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_name mpsGraph imagesTensor size centerResult alignCorners name =
-  sendMessage mpsGraph resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) centerResult alignCorners (toNSString name)
-
--- | Resamples input images to given size using the provided scale and offset.  Destination indices are computed using  ```md  dst_indices = (src_indicesscale) + offset  ```  For most use cases passing the scale and offset directly is unnecessary, and it is  preferable to use the API specifying centerResult and alignCorners.
+-- For most use cases passing the scale and offset directly is unnecessary, and it is              preferable to use the API specifying centerResult and alignCorners.
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]   - scaleOffset: 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @imagesTensor@ — Tensor containing input images.
+--
+-- @size@ — 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]
+--
+-- @scaleOffset@ — 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]
+--
+-- @mode@ — The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeTensor:sizeTensor:scaleOffsetTensor:mode:layout:name:@
 resizeTensor_sizeTensor_scaleOffsetTensor_mode_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsMPSGraphTensor scaleOffset, IsNSString name) => mpsGraph -> imagesTensor -> size -> scaleOffset -> MPSGraphResizeMode -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeTensor_sizeTensor_scaleOffsetTensor_mode_layout_name mpsGraph imagesTensor size scaleOffset mode layout name =
   sendMessage mpsGraph resizeTensor_sizeTensor_scaleOffsetTensor_mode_layout_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) (toMPSGraphTensor scaleOffset) mode layout (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize op and return the result tensor
 --
--- Resamples input images to given size using the provided scale and offset. Destination indices are computed using ```md dst_indices = (src_indices * scale) + offset ``` For most use cases passing the scale and offset directly is unnecessary, and it is preferable to use the API specifying centerResult and alignCorners.
+-- Resamples input images to given size using the provided scale and offset and nearest neighbor sampling              See above discussion for more details.
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: The target size of the result tensor.  1D Int32 or Int64 tensor of size equal to rank of input.   - scale: 1D float tensor of size equal to rank of input.   - offset: 1D float tensor of size equal to rank of input.   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @imagesTensor@ — Tensor containing input images.
 --
--- ObjC selector: @- resizeTensor:sizeTensor:scaleTensor:offsetTensor:mode:name:@
-resizeTensor_sizeTensor_scaleTensor_offsetTensor_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsMPSGraphTensor scale, IsMPSGraphTensor offset, IsNSString name) => mpsGraph -> imagesTensor -> size -> scale -> offset -> MPSGraphResizeMode -> name -> IO (Id MPSGraphTensor)
-resizeTensor_sizeTensor_scaleTensor_offsetTensor_mode_name mpsGraph imagesTensor size scale offset mode name =
-  sendMessage mpsGraph resizeTensor_sizeTensor_scaleTensor_offsetTensor_mode_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) (toMPSGraphTensor scale) (toMPSGraphTensor offset) mode (toNSString name)
-
--- | Resamples input images to given size using the provided scale and offset and nearest neighbor sampling  See above discussion for more details.
+-- @size@ — 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]   - scaleOffset: 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]   - nearestRoundingMode: The rounding mode to use when using nearest resampling.   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @scaleOffset@ — 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]
+--
+-- @nearestRoundingMode@ — The rounding mode to use when using nearest resampling.
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeNearestWithTensor:sizeTensor:scaleOffsetTensor:nearestRoundingMode:layout:name:@
 resizeNearestWithTensor_sizeTensor_scaleOffsetTensor_nearestRoundingMode_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsMPSGraphTensor scaleOffset, IsNSString name) => mpsGraph -> imagesTensor -> size -> scaleOffset -> MPSGraphResizeNearestRoundingMode -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeNearestWithTensor_sizeTensor_scaleOffsetTensor_nearestRoundingMode_layout_name mpsGraph imagesTensor size scaleOffset nearestRoundingMode layout name =
   sendMessage mpsGraph resizeNearestWithTensor_sizeTensor_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) (toMPSGraphTensor scaleOffset) nearestRoundingMode layout (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize op and return the result tensor
 --
--- Resamples input images to given size using the provided scale and offset and nearest neighbor sampling. Destination indices are computed using ```md dst_indices = (src_indices * scale) + offset ``` For most use cases passing the scale and offset directly is unnecessary, and it is preferable to use the API specifying centerResult and alignCorners.
+-- Resamples input images to given size using the provided scale and offset and bilinear sampling              See above discussion for more details.
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: The target size of the result tensor.  1D Int32 or Int64 tensor of size equal to rank of input.   - scale: 1D float tensor of size equal to rank of input.   - offset: 1D float tensor of size equal to rank of input.   - nearestRoundingMode: The rounding mode to use when using nearest resampling. Default is roundPreferCeil.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @imagesTensor@ — Tensor containing input images.
 --
--- ObjC selector: @- resizeNearestWithTensor:sizeTensor:scaleTensor:offsetTensor:nearestRoundingMode:name:@
-resizeNearestWithTensor_sizeTensor_scaleTensor_offsetTensor_nearestRoundingMode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsMPSGraphTensor scale, IsMPSGraphTensor offset, IsNSString name) => mpsGraph -> imagesTensor -> size -> scale -> offset -> MPSGraphResizeNearestRoundingMode -> name -> IO (Id MPSGraphTensor)
-resizeNearestWithTensor_sizeTensor_scaleTensor_offsetTensor_nearestRoundingMode_name mpsGraph imagesTensor size scale offset nearestRoundingMode name =
-  sendMessage mpsGraph resizeNearestWithTensor_sizeTensor_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) (toMPSGraphTensor scale) (toMPSGraphTensor offset) nearestRoundingMode (toNSString name)
-
--- | Resamples input images to given size using the provided scale and offset and bilinear sampling  See above discussion for more details.
+-- @size@ — 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: 1D Int32 or Int64 tensor. A 2-element shape as [newHeight, newWidth]   - scaleOffset: 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]   - nearestRoundingMode: The rounding mode to use when using nearest resampling.   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @scaleOffset@ — 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]
+--
+-- @nearestRoundingMode@ — The rounding mode to use when using nearest resampling.
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeBilinearWithTensor:sizeTensor:scaleOffsetTensor:layout:name:@
 resizeBilinearWithTensor_sizeTensor_scaleOffsetTensor_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsMPSGraphTensor scaleOffset, IsNSString name) => mpsGraph -> imagesTensor -> size -> scaleOffset -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeBilinearWithTensor_sizeTensor_scaleOffsetTensor_layout_name mpsGraph imagesTensor size scaleOffset layout name =
   sendMessage mpsGraph resizeBilinearWithTensor_sizeTensor_scaleOffsetTensor_layout_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) (toMPSGraphTensor scaleOffset) layout (toNSString name)
 
--- | Creates a Resize operation and returns the result tensor.
+-- | Create Resize gradient op and return the result tensor
 --
--- Resamples input images to given size using the provided scale and offset and bilinear sampling. Destination indices are computed using ```md dst_indices = (src_indices * scale) + offset ``` For most use cases passing the scale and offset directly is unnecessary, and it is preferable to use the API specifying centerResult and alignCorners.
+-- Computes the gradient for the forward pass Resize op with identical parameters.              See discussion of resizeTensor for more in depth description of resize paramters.
 --
--- - Parameters:   - imagesTensor: Tensor containing input images.   - size: The target size of the result tensor.  1D Int32 or Int64 tensor of size equal to rank of input.   - scale: 1D float tensor of size equal to rank of input.   - offset: 1D float tensor of size equal to rank of input.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
 --
--- ObjC selector: @- resizeBilinearWithTensor:sizeTensor:scaleTensor:offsetTensor:name:@
-resizeBilinearWithTensor_sizeTensor_scaleTensor_offsetTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor imagesTensor, IsMPSGraphTensor size, IsMPSGraphTensor scale, IsMPSGraphTensor offset, IsNSString name) => mpsGraph -> imagesTensor -> size -> scale -> offset -> name -> IO (Id MPSGraphTensor)
-resizeBilinearWithTensor_sizeTensor_scaleTensor_offsetTensor_name mpsGraph imagesTensor size scale offset name =
-  sendMessage mpsGraph resizeBilinearWithTensor_sizeTensor_scaleTensor_offsetTensor_nameSelector (toMPSGraphTensor imagesTensor) (toMPSGraphTensor size) (toMPSGraphTensor scale) (toMPSGraphTensor offset) (toNSString name)
-
--- | Creates a Resize gradient operation and returns the result tensor.
+-- @input@ — Forward pass input tensor
 --
--- Computes the gradient for the forward pass Resize op with identical parameters.  See discussion of resizeTensor for more in depth description of resize paramters.
+-- @mode@ — The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @centerResult@ — Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned
+--
+-- @alignCorners@ — When YES, the result image will have the same value as the input image in the corners
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeWithGradientTensor:input:mode:centerResult:alignCorners:layout:name:@
 resizeWithGradientTensor_input_mode_centerResult_alignCorners_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsNSString name) => mpsGraph -> gradient -> input -> MPSGraphResizeMode -> Bool -> Bool -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeWithGradientTensor_input_mode_centerResult_alignCorners_layout_name mpsGraph gradient input mode centerResult alignCorners layout name =
   sendMessage mpsGraph resizeWithGradientTensor_input_mode_centerResult_alignCorners_layout_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) mode centerResult alignCorners layout (toNSString name)
 
--- | Creates a Resize gradient operation and returns the result tensor.
+-- | Create Resize gradient op and return the result tensor
 --
--- Computes the gradient for the forward pass Resize op with identical parameters.  See discussion of resizeTensor for more in depth description of resize paramters.
+-- Computes the gradient for the forward pass Resize op with identical parameters.              See discussion of resizeTensor for more in depth description of resize paramters.
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - nearestRoundingMode: The rounding mode to use when using nearest resampling.   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
+--
+-- @input@ — Forward pass input tensor
+--
+-- @nearestRoundingMode@ — The rounding mode to use when using nearest resampling.
+--
+-- @centerResult@ — Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned
+--
+-- @alignCorners@ — When YES, the result image will have the same value as the input image in the corners
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeNearestWithGradientTensor:input:nearestRoundingMode:centerResult:alignCorners:layout:name:@
 resizeNearestWithGradientTensor_input_nearestRoundingMode_centerResult_alignCorners_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsNSString name) => mpsGraph -> gradient -> input -> MPSGraphResizeNearestRoundingMode -> Bool -> Bool -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeNearestWithGradientTensor_input_nearestRoundingMode_centerResult_alignCorners_layout_name mpsGraph gradient input nearestRoundingMode centerResult alignCorners layout name =
   sendMessage mpsGraph resizeNearestWithGradientTensor_input_nearestRoundingMode_centerResult_alignCorners_layout_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) nearestRoundingMode centerResult alignCorners layout (toNSString name)
 
--- | Creates a Resize gradient operation and returns the result tensor.
+-- | Create Resize gradient op and return the result tensor
 --
--- Computes the gradient for the forward pass Resize op with identical parameters.  See discussion of resizeTensor for more in depth description of resize paramters.
+-- Computes the gradient for the forward pass Resize op with identical parameters.              See discussion of resizeTensor for more in depth description of resize paramters.
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - centerResult: Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned   - alignCorners: When YES, the result image will have the same value as the input image in the corners   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
+--
+-- @input@ — Forward pass input tensor
+--
+-- @centerResult@ — Controls if the result image is centered on the input image. When NO, the result will have the top left corner aligned
+--
+-- @alignCorners@ — When YES, the result image will have the same value as the input image in the corners
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeBilinearWithGradientTensor:input:centerResult:alignCorners:layout:name:@
 resizeBilinearWithGradientTensor_input_centerResult_alignCorners_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsNSString name) => mpsGraph -> gradient -> input -> Bool -> Bool -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeBilinearWithGradientTensor_input_centerResult_alignCorners_layout_name mpsGraph gradient input centerResult alignCorners layout name =
   sendMessage mpsGraph resizeBilinearWithGradientTensor_input_centerResult_alignCorners_layout_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) centerResult alignCorners layout (toNSString name)
 
--- | Creates a Resize gradient operation and returns the result tensor.
+-- | Create Resize gradient op and return the result tensor
 --
--- Computes the gradient for the forward pass Resize op with identical parameters.  See discussion of resizeTensor for more in depth description of resize paramters.
+-- Computes the gradient for the forward pass Resize op with identical parameters.              See discussion of resizeTensor for more in depth description of resize paramters.
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - scaleOffset: 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
+--
+-- @input@ — Forward pass input tensor
+--
+-- @scaleOffset@ — 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]
+--
+-- @mode@ — The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeWithGradientTensor:input:scaleOffsetTensor:mode:layout:name:@
 resizeWithGradientTensor_input_scaleOffsetTensor_mode_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsMPSGraphTensor scaleOffset, IsNSString name) => mpsGraph -> gradient -> input -> scaleOffset -> MPSGraphResizeMode -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeWithGradientTensor_input_scaleOffsetTensor_mode_layout_name mpsGraph gradient input scaleOffset mode layout name =
   sendMessage mpsGraph resizeWithGradientTensor_input_scaleOffsetTensor_mode_layout_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) (toMPSGraphTensor scaleOffset) mode layout (toNSString name)
 
--- | Creates a Resize gradient operation and returns the result tensor.
+-- | Create Resize gradient op and return the result tensor
 --
--- Computes the gradient for the forward pass Resize op with identical parameters.  See discussion of resizeTensor for more in depth description of resize paramters.
+-- Computes the gradient for the forward pass Resize op with identical parameters.              See discussion of resizeTensor for more in depth description of resize paramters.
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - scale: 1D float tensor of size equal to rank of input.   - offset: 1D float tensor of size equal to rank of input.   - mode: The resampling mode to use. If nearest sampling is specifed, RoundPreferCeil mode will be used.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
 --
--- ObjC selector: @- resizeWithGradientTensor:input:scaleTensor:offsetTensor:mode:name:@
-resizeWithGradientTensor_input_scaleTensor_offsetTensor_mode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsMPSGraphTensor scale, IsMPSGraphTensor offset, IsNSString name) => mpsGraph -> gradient -> input -> scale -> offset -> MPSGraphResizeMode -> name -> IO (Id MPSGraphTensor)
-resizeWithGradientTensor_input_scaleTensor_offsetTensor_mode_name mpsGraph gradient input scale offset mode name =
-  sendMessage mpsGraph resizeWithGradientTensor_input_scaleTensor_offsetTensor_mode_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) (toMPSGraphTensor scale) (toMPSGraphTensor offset) mode (toNSString name)
-
--- | Creates a Resize gradient operation and returns the result tensor.
+-- @input@ — Forward pass input tensor
 --
--- Computes the gradient for the forward pass Resize op with identical parameters. See discussion of resizeTensor for more in depth description of resize paramters.
+-- @scaleOffset@ — 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - scaleOffset: 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]   - nearestRoundingMode: The rounding mode to use when using nearest resampling.   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @nearestRoundingMode@ — The rounding mode to use when using nearest resampling.
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeNearestWithGradientTensor:input:scaleOffsetTensor:nearestRoundingMode:layout:name:@
 resizeNearestWithGradientTensor_input_scaleOffsetTensor_nearestRoundingMode_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsMPSGraphTensor scaleOffset, IsNSString name) => mpsGraph -> gradient -> input -> scaleOffset -> MPSGraphResizeNearestRoundingMode -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeNearestWithGradientTensor_input_scaleOffsetTensor_nearestRoundingMode_layout_name mpsGraph gradient input scaleOffset nearestRoundingMode layout name =
   sendMessage mpsGraph resizeNearestWithGradientTensor_input_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) (toMPSGraphTensor scaleOffset) nearestRoundingMode layout (toNSString name)
 
--- | Creates a Resize gradient operation and returns the result tensor.
+-- | Create Resize gradient op and return the result tensor
 --
--- Computes the gradient for the forward pass Resize op with nearest neighbor sampling and identical parameters. See discussion of resizeTensor for more in depth description of resize paramters.
+-- Computes the gradient for the forward pass Resize op with identical parameters.              See discussion of resizeTensor for more in depth description of resize paramters.
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - scale: 1D float tensor of size equal to rank of input.   - offset: 1D float tensor of size equal to rank of input.   - nearestRoundingMode: The rounding mode to use when using nearest resampling. Default is roundPreferCeil.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
 --
--- ObjC selector: @- resizeNearestWithGradientTensor:input:scaleTensor:offsetTensor:nearestRoundingMode:name:@
-resizeNearestWithGradientTensor_input_scaleTensor_offsetTensor_nearestRoundingMode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsMPSGraphTensor scale, IsMPSGraphTensor offset, IsNSString name) => mpsGraph -> gradient -> input -> scale -> offset -> MPSGraphResizeNearestRoundingMode -> name -> IO (Id MPSGraphTensor)
-resizeNearestWithGradientTensor_input_scaleTensor_offsetTensor_nearestRoundingMode_name mpsGraph gradient input scale offset nearestRoundingMode name =
-  sendMessage mpsGraph resizeNearestWithGradientTensor_input_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) (toMPSGraphTensor scale) (toMPSGraphTensor offset) nearestRoundingMode (toNSString name)
-
--- | Creates a Resize gradient operation and returns the result tensor.
+-- @input@ — Forward pass input tensor
 --
--- Computes the gradient for the forward pass Resize op with bilinear sampling and identical parameters. See discussion of resizeTensor for more in depth description of resize paramters.
+-- @scaleOffset@ — 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - scaleOffset: 1D float tensor. A 4-element shape as [scaleY, scaleX, offsetY, offsetX]   - layout: Specifies what layout the provided tensor is in. The returned tensor will follow the same layout. Valid layouts are NHWC, NCHW, HWC, CHW, and HW.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @nearestRoundingMode@ — The rounding mode to use when using nearest resampling.
+--
+-- @layout@ — Specifies what layout the provided tensor is in. The returned tensor will follow the same layout.                                   Valid layouts are NHWC, NCHW, HWC, CHW, and HW.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- resizeBilinearWithGradientTensor:input:scaleOffsetTensor:layout:name:@
 resizeBilinearWithGradientTensor_input_scaleOffsetTensor_layout_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsMPSGraphTensor scaleOffset, IsNSString name) => mpsGraph -> gradient -> input -> scaleOffset -> MPSGraphTensorNamedDataLayout -> name -> IO (Id MPSGraphTensor)
 resizeBilinearWithGradientTensor_input_scaleOffsetTensor_layout_name mpsGraph gradient input scaleOffset layout name =
   sendMessage mpsGraph resizeBilinearWithGradientTensor_input_scaleOffsetTensor_layout_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) (toMPSGraphTensor scaleOffset) layout (toNSString name)
 
--- | Creates a Resize gradient operation and returns the result tensor.
+-- | Create  reduction sum op and return the result tensor.
 --
--- Computes the gradient for the forward pass Resize op with bilinear sampling and identical parameters.
+-- @tensor@ — input tensor
 --
--- - Parameters:   - gradient: Incoming gradient tensor   - input: Forward pass input tensor   - scale: 1D float tensor of size equal to rank of input.   - offset: 1D float tensor of size equal to rank of input.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @axis@ — axis of reduction
 --
--- ObjC selector: @- resizeBilinearWithGradientTensor:input:scaleTensor:offsetTensor:name:@
-resizeBilinearWithGradientTensor_input_scaleTensor_offsetTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor input, IsMPSGraphTensor scale, IsMPSGraphTensor offset, IsNSString name) => mpsGraph -> gradient -> input -> scale -> offset -> name -> IO (Id MPSGraphTensor)
-resizeBilinearWithGradientTensor_input_scaleTensor_offsetTensor_name mpsGraph gradient input scale offset name =
-  sendMessage mpsGraph resizeBilinearWithGradientTensor_input_scaleTensor_offsetTensor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor input) (toMPSGraphTensor scale) (toMPSGraphTensor offset) (toNSString name)
-
--- | Creates a reduction sum operation and returns the result tensor.
+-- @name@ — name for the operation
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionSumWithTensor:axis:name:@
 reductionSumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionSumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionSumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction sum operation and returns the result tensor.
+-- | Create  reduction sum op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionSumWithTensor:axes:name:@
 reductionSumWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionSumWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionSumWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reduction max operation and returns the result tensor.
+-- | Create  reduction max op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMaximumWithTensor:axis:name:@
 reductionMaximumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionMaximumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionMaximumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction max operation and returns the result tensor.
+-- | Create  reduction max op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMaximumWithTensor:axes:name:@
 reductionMaximumWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionMaximumWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionMaximumWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reduction minimum operation and returns the result tensor.
+-- | Create  reduction minimum op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMinimumWithTensor:axis:name:@
 reductionMinimumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionMinimumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionMinimumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction min operation and returns the result tensor.
+-- | Create  reduction min op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMinimumWithTensor:axes:name:@
 reductionMinimumWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionMinimumWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionMinimumWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reduction max propagate NaN operation and returns the result tensor.
+-- | Create  reduction max propagate NaN op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMaximumPropagateNaNWithTensor:axis:name:@
 reductionMaximumPropagateNaNWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionMaximumPropagateNaNWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionMaximumPropagateNaNWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction max propagate NaN operation and returns the result tensor.
+-- | Create  reduction max propagate NaN op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMaximumPropagateNaNWithTensor:axes:name:@
 reductionMaximumPropagateNaNWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionMaximumPropagateNaNWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionMaximumPropagateNaNWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reduction min propagate NaN operation and returns the result tensor.
+-- | Create  reduction min propagate NaN op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMinimumPropagateNaNWithTensor:axis:name:@
 reductionMinimumPropagateNaNWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionMinimumPropagateNaNWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionMinimumPropagateNaNWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction min propagate NaN operation and returns the result tensor.
+-- | Create  reduction min propagate NaN  op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionMinimumPropagateNaNWithTensor:axes:name:@
 reductionMinimumPropagateNaNWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionMinimumPropagateNaNWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionMinimumPropagateNaNWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reduction product operation and returns the result tensor.
+-- | Create  reduction product op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionProductWithTensor:axis:name:@
 reductionProductWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionProductWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionProductWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction product operation and returns the result tensor.
+-- | Create  reduction product op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionProductWithTensor:axes:name:@
 reductionProductWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionProductWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionProductWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reduction argMax operation and returns the result tensor.
+-- | Create  reduction argMax op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionArgMaximumWithTensor:axis:name:@
 reductionArgMaximumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionArgMaximumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionArgMaximumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction argMin operation and returns the result tensor.
+-- | Create  reduction argMin op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionArgMinimumWithTensor:axis:name:@
 reductionArgMinimumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionArgMinimumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionArgMinimumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction and operation and returns the result tensor.
+-- | Create  reduction and op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionAndWithTensor:axis:name:@
 reductionAndWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionAndWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionAndWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction and operation and returns the result tensor.
+-- | Create  reduction and op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionAndWithTensor:axes:name:@
 reductionAndWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionAndWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionAndWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a reduction or operation and returns the result tensor.
+-- | Create  reduction or op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axis: axis of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axis@ — axis of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionOrWithTensor:axis:name:@
 reductionOrWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 reductionOrWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph reductionOrWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Creates a reduction or operation and returns the result tensor.
+-- | Create  reduction or op and return the result tensor.
 --
--- - Parameters:   - tensor: input tensor   - axes: axes of reduction   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @tensor@ — input tensor
+--
+-- @axes@ — axes of reduction
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- reductionOrWithTensor:axes:name:@
 reductionOrWithTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 reductionOrWithTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph reductionOrWithTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a tensor representing state using the Philox algorithm with given counter and key values.
+-- | Creates an MPSGraphTensor representing state using the Philox algorithm with given counter and key values.
 --
--- Generates random numbers using the Philox counter-based algorithm, for further details see:  John K. Salmon, Mark A. Moraes, Ron O. Dror, and David E. Shaw. Parallel Random Numbers: As Easy as 1, 2, 3.  A stateTensor generated with this API can be used in MPSGraph Random APIs which accept a stateTensor. The  updated stateTensor is returned alongside the random values, and can be fed to the following random layer. In  most use cases, a stateTensor should only need to be initialized once at the start of the graph. A stateTensor can  be set as a target tensor of an MPSGraph execution to obtain a stateTensor serialized as an NDArray. This can be  used as input to a placeholder in the graph to avoid ever needing to have a state intilization layer in an MPSGraph.  This can allow for a continued stream through multiple executions of a single MPSGraph by having the final  stateTensor as a target tensor passed into the following MPSGraph execution as a placeholder input. This may be  helpful for training graphs in particular.  ```md  MPSGraph *graph = [MPSGraph new];  MPSGraphTensor *stateTensor = [graph randomPhiloxStateTensorWithSeed: seed name: nil];  NSArray<MPSGraphTensor*> *resultTensors0 = [graph randomUniformTensorWithShape:
+-- Generates random numbers using the Philox counter-based algorithm, for further details see:              John K. Salmon, Mark A. Moraes, Ron O. Dror, and David E. Shaw. Parallel Random Numbers: As Easy as 1, 2, 3.
 --
--- - Parameters:   - seed: Initial counter and key values will be generated using seed.   - name: Name for the operation - Returns: An MPSGraphTensor representing a random state, to be passed as an input to a random op.
+-- A stateTensor generated with this API can be used in MPSGraph Random APIs which accept a stateTensor. The              updated stateTensor is returned alongside the random values, and can be fed to the following random layer. In              most use cases, a stateTensor should only need to be initialized once at the start of the graph. A stateTensor can              be set as a target tensor of an MPSGraph execution to obtain a stateTensor serialized as an NDArray. This can be              used as input to a placeholder in the graph to avoid ever needing to have a state intilization layer in an MPSGraph.              This can allow for a continued stream through multiple executions of a single MPSGraph by having the final              stateTensor as a target tensor passed into the following MPSGraph execution as a placeholder input. This may be              helpful for training graphs in particular.
+--
+-- MPSGraph *graph = [MPSGraph new];
+-- MPSGraphTensor *stateTensor = [graph randomPhiloxStateTensorWithSeed: seed name: nil];
+-- NSArray<MPSGraphTensor*> *resultTensors0 = [graph randomUniformTensorWithShape:@[@10, @10]
+-- stateTensor:stateTensor
+-- name:nil];
+-- NSArray<MPSGraphTensor*> *resultTensors1 = [graph randomUniformTensorWithShape:@[@10, @10]
+-- stateTensor:resultTensors0[1]
+-- name:nil];
+--
+-- @seed@ — Initial counter and key values will be generated using seed.
+--
+-- Returns: An MPSGraphTensor representing a random state, to be passed as an input to a random op.
 --
 -- ObjC selector: @- randomPhiloxStateTensorWithSeed:name:@
 randomPhiloxStateTensorWithSeed_name :: (IsMPSGraph mpsGraph, IsNSString name) => mpsGraph -> CULong -> name -> IO (Id MPSGraphTensor)
 randomPhiloxStateTensorWithSeed_name mpsGraph seed name =
   sendMessage mpsGraph randomPhiloxStateTensorWithSeed_nameSelector seed (toNSString name)
 
--- | Creates a tensor representing state using the Philox algorithm with given counter and key values.
+-- | Creates an MPSGraphTensor representing state using the Philox algorithm with given counter and key values.
 --
 -- See randomPhiloxStateTensorWithSeed.
 --
--- - Parameters:   - counterLow: The value to initilaize lower 64 bits of counter to. Philox utilizes a 128 bit counter   - counterHigh: The value to initilaize upper 64 bits of counter to. Philox utilizes a 128 bit counter   - key: The value to initialize the key to in Philox algorithm.   - name: Name for the operation - Returns: An MPSGraphTensor representing a random state, to be passed as an input to a random op.
+-- @counterLow@ — The value to initilaize lower 64 bits of counter to. Philox utilizes a 128 bit counter
+--
+-- @counterHigh@ — The value to initilaize upper 64 bits of counter to. Philox utilizes a 128 bit counter
+--
+-- @key@ — The value to initialize the key to in Philox algorithm.
+--
+-- Returns: An MPSGraphTensor representing a random state, to be passed as an input to a random op.
 --
 -- ObjC selector: @- randomPhiloxStateTensorWithCounterLow:counterHigh:key:name:@
 randomPhiloxStateTensorWithCounterLow_counterHigh_key_name :: (IsMPSGraph mpsGraph, IsNSString name) => mpsGraph -> CULong -> CULong -> CULong -> name -> IO (Id MPSGraphTensor)
 randomPhiloxStateTensorWithCounterLow_counterHigh_key_name mpsGraph counterLow counterHigh key name =
   sendMessage mpsGraph randomPhiloxStateTensorWithCounterLow_counterHigh_key_nameSelector counterLow counterHigh key (toNSString name)
 
--- | Creates a Random op of type matching distribution in descriptor and returns random values.
+-- | Create Random op of type matching distribution in descriptor and return random values
 --
--- Returns a tensor of provided shape of random values in the distribution specified. Uses a random seed value to initalize state. No state is preserved, and subsequent calls are not guaranteed to result in a unique stream of  random values.
+-- Returns a tensor of provided shape of random values in the distribution specified. A random seed value is used              to initalize state. No state is preserved, and subsequent calls are not guaranteed to result in a unique stream of              random values.
 --
--- - Parameters:   - shape: The shape of the tensor generated   - descriptor: The descriptor of the distribution. See MPSGraphRandomOpDescriptor.   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
+-- @shape@ — The shape of the tensor generated
+--
+-- @descriptor@ — The descriptor of the distribution. See MPSGraphRandomOpDescriptor.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: An MPSGraphTensor of shape containing random values in the defined range.
 --
 -- ObjC selector: @- randomTensorWithShape:descriptor:name:@
 randomTensorWithShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphRandomOpDescriptor descriptor, IsNSString name) => mpsGraph -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 randomTensorWithShape_descriptor_name mpsGraph shape descriptor name =
   sendMessage mpsGraph randomTensorWithShape_descriptor_nameSelector shape (toMPSGraphRandomOpDescriptor descriptor) (toNSString name)
 
--- | Creates a Random op of type matching distribution in descriptor and returns random values.
---
--- Returns a tensor of provided shape of random values in the distribution specified. Uses a random seed value to initalize state. No state is preserved, and subsequent calls are not guaranteed to result in a unique stream of random values.
---
--- - Parameters:   - shapeTensor: 1D Int32 or Int64 tensor. The shape of the tensor generated   - descriptor: The descriptor of the distribution. See MPSGraphRandomOpDescriptor.   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
---
--- ObjC selector: @- randomTensorWithShapeTensor:descriptor:name:@
+-- | @- randomTensorWithShapeTensor:descriptor:name:@
 randomTensorWithShapeTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor shapeTensor, IsMPSGraphRandomOpDescriptor descriptor, IsNSString name) => mpsGraph -> shapeTensor -> descriptor -> name -> IO (Id MPSGraphTensor)
 randomTensorWithShapeTensor_descriptor_name mpsGraph shapeTensor descriptor name =
   sendMessage mpsGraph randomTensorWithShapeTensor_descriptor_nameSelector (toMPSGraphTensor shapeTensor) (toMPSGraphRandomOpDescriptor descriptor) (toNSString name)
 
--- | Creates a Random op of type matching distribution in descriptor and returns random values.
+-- | Create Random op of type matching distribution in descriptor and return random values
 --
--- Returns a tensor of provided shape of random values in the distribution specified. Uses the provided seed value to initalize state. No state is preserved, and all calls with equal seed yield an identical stream of random values.
+-- Returns a tensor of provided shape of random values in the distribution specified. The provided seed value is              used to initalize state. No state is preserved, and all calls with equal seed yield an identical stream of random values.
 --
--- - Parameters:   - shape: The shape of the tensor generated   - descriptor: The descriptor of the distribution. See MPSGraphRandomOpDescriptor.   - seed: The seed to use to initialize state. All calls with equal seed yield an identical stream of random values.   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
+-- @shape@ — The shape of the tensor generated
+--
+-- @descriptor@ — The descriptor of the distribution. See MPSGraphRandomOpDescriptor.
+--
+-- @seed@ — The seed to use to initialize state. All calls with equal seed yield an identical stream of random values.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: An MPSGraphTensor of shape containing random values in the defined range.
 --
 -- ObjC selector: @- randomTensorWithShape:descriptor:seed:name:@
 randomTensorWithShape_descriptor_seed_name :: (IsMPSGraph mpsGraph, IsMPSGraphRandomOpDescriptor descriptor, IsNSString name) => mpsGraph -> RawId -> descriptor -> CULong -> name -> IO (Id MPSGraphTensor)
 randomTensorWithShape_descriptor_seed_name mpsGraph shape descriptor seed name =
   sendMessage mpsGraph randomTensorWithShape_descriptor_seed_nameSelector shape (toMPSGraphRandomOpDescriptor descriptor) seed (toNSString name)
 
--- | Creates a Random op of type matching distribution in descriptor and returns random values.
---
--- Returns a tensor of provided shape of random values in the distribution specified. Uses the provided seed value to initalize state. No state is preserved, and all calls with equal seed yield an identical stream of random values.
---
--- - Parameters:   - shapeTensor: 1D Int32 or Int64 tensor. The shape of the tensor generated   - descriptor: The descriptor of the distribution. See MPSGraphRandomOpDescriptor.   - seed: The seed to use to initialize state. All calls with equal seed yield an identical stream of random values.   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
---
--- ObjC selector: @- randomTensorWithShapeTensor:descriptor:seed:name:@
+-- | @- randomTensorWithShapeTensor:descriptor:seed:name:@
 randomTensorWithShapeTensor_descriptor_seed_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor shapeTensor, IsMPSGraphRandomOpDescriptor descriptor, IsNSString name) => mpsGraph -> shapeTensor -> descriptor -> CULong -> name -> IO (Id MPSGraphTensor)
 randomTensorWithShapeTensor_descriptor_seed_name mpsGraph shapeTensor descriptor seed name =
   sendMessage mpsGraph randomTensorWithShapeTensor_descriptor_seed_nameSelector (toMPSGraphTensor shapeTensor) (toMPSGraphRandomOpDescriptor descriptor) seed (toNSString name)
 
--- | Creates a Random op of type matching distribution in descriptor, and returns random values and updated state.
+-- | Create Random op of type matching distribution in descriptor, and return random values and updated state
 --
--- Returns an array of 2 tensors, where the first is of provided shape of random values in the distribution specified, and the second is the updated state tensor. Uses the provided state to define a stream of random values. No state is preserved, and all calls with equal state yield an identical stream of random values. The initial stateTensor provided should be created using the MPSGraph  randomPhiloxStateTensor APIs. The resulting stateTensor from this op can be passed as an argument to the following  random calls to continue sampling from the stream.
+-- Returns an array of 2 tensors, where the first is of provided shape of random values in the distribution specified.              The updated state tensor is returned as the second result tensor.
 --
--- - Parameters:   - shape: The shape of the tensor generated   - descriptor: The descriptor of the distribution. See MPSGraphRandomOpDescriptor.   - state: The state to define a stream of random values. All calls with equal state yield an identical stream of random values.   - name: The name for the operation. - Returns: An array of MPSGraphTensor of size 2. The first MPSGraphTensor is of shape containing random values in the defined range.  The second MPSGraphTensor is the updated state tensor.
+-- The provided state is used to define a stream of random values. No state is preserved, and all calls with equal state              yield an identical stream of random values. The initial stateTensor provided should be created using the MPSGraph              randomPhiloxStateTensor APIs. The resulting stateTensor from this op can be passed as an argument to the following              random calls to continue sampling from the stream.
+--
+-- @shape@ — The shape of the tensor generated
+--
+-- @descriptor@ — The descriptor of the distribution. See MPSGraphRandomOpDescriptor.
+--
+-- @state@ — The state to define a stream of random values. All calls with equal state yield an identical stream of random values.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: An array of MPSGraphTensor of size 2. The first MPSGraphTensor is of shape containing random values in the defined range.              The second MPSGraphTensor is the updated state tensor.
 --
 -- ObjC selector: @- randomTensorWithShape:descriptor:stateTensor:name:@
 randomTensorWithShape_descriptor_stateTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphRandomOpDescriptor descriptor, IsMPSGraphTensor state, IsNSString name) => mpsGraph -> RawId -> descriptor -> state -> name -> IO (Id NSArray)
 randomTensorWithShape_descriptor_stateTensor_name mpsGraph shape descriptor state name =
   sendMessage mpsGraph randomTensorWithShape_descriptor_stateTensor_nameSelector shape (toMPSGraphRandomOpDescriptor descriptor) (toMPSGraphTensor state) (toNSString name)
 
--- | Creates a Random op of type matching distribution in descriptor, and returns random values and updated state.
---
--- Returns an array of 2 tensors, where the first is of provided shape of random values in the distribution specified, and the second is the updated state tensor. Uses the provided state to define a stream of random values. No state is preserved, and all calls with equal state yield an identical stream of random values. The initial stateTensor provided should be created using the MPSGraph randomPhiloxStateTensor APIs. The resulting stateTensor from this op can be passed as an argument to the following random calls to continue sampling from the stream.
---
--- - Parameters:   - shapeTensor: 1D Int32 or Int64 tensor. The shape of the tensor generated.   - descriptor: The descriptor of the distribution. See MPSGraphRandomOpDescriptor.   - state: The state to define a stream of random values. All calls with equal state yield an identical stream of random values.   - name: The name for the operation. - Returns: An array of MPSGraphTensor of size 2. The first MPSGraphTensor is of shape containing random values in the defined range. The second MPSGraphTensor is the updated state tensor.
---
--- ObjC selector: @- randomTensorWithShapeTensor:descriptor:stateTensor:name:@
+-- | @- randomTensorWithShapeTensor:descriptor:stateTensor:name:@
 randomTensorWithShapeTensor_descriptor_stateTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor shapeTensor, IsMPSGraphRandomOpDescriptor descriptor, IsMPSGraphTensor state, IsNSString name) => mpsGraph -> shapeTensor -> descriptor -> state -> name -> IO (Id NSArray)
 randomTensorWithShapeTensor_descriptor_stateTensor_name mpsGraph shapeTensor descriptor state name =
   sendMessage mpsGraph randomTensorWithShapeTensor_descriptor_stateTensor_nameSelector (toMPSGraphTensor shapeTensor) (toMPSGraphRandomOpDescriptor descriptor) (toMPSGraphTensor state) (toNSString name)
 
--- | Creates a RandomUniform operation and returns random uniform values
+-- | Create RandomUniform op and return random uniform values
 --
--- Returns a tensor of provided shape of random uniform values in the range [0.0, 1.0). Uses a random seed value to initalize state. No state is preserved, and subsequent calls are not guaranteed to result in a unique stream of  random values.
+-- Returns a tensor of provided shape of random uniform values in the range [0.0, 1.0). A random seed value is used              to initalize state. No state is preserved, and subsequent calls are not guaranteed to result in a unique stream of              random values.
 --
--- - Parameters:   - shape: The shape of the tensor generated   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
+-- @shape@ — The shape of the tensor generated
+--
+-- @name@ — The name for the operation
+--
+-- Returns: An MPSGraphTensor of shape containing random values in the defined range.
 --
 -- ObjC selector: @- randomUniformTensorWithShape:name:@
 randomUniformTensorWithShape_name :: (IsMPSGraph mpsGraph, IsNSString name) => mpsGraph -> RawId -> name -> IO (Id MPSGraphTensor)
 randomUniformTensorWithShape_name mpsGraph shape name =
   sendMessage mpsGraph randomUniformTensorWithShape_nameSelector shape (toNSString name)
 
--- | Creates a RandomUniform operation and returns random uniform values
---
--- Returns a tensor of provided shape of random uniform values in the range [0.0, 1.0). Uses a random seed value to initalize state. No state is preserved, and subsequent calls are not guaranteed to result in a unique stream of random values.
---
--- - Parameters:   - shapeTensor: 1D Int32 or Int64 tensor. The shape of the tensor generated   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
---
--- ObjC selector: @- randomUniformTensorWithShapeTensor:name:@
+-- | @- randomUniformTensorWithShapeTensor:name:@
 randomUniformTensorWithShapeTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor shapeTensor, IsNSString name) => mpsGraph -> shapeTensor -> name -> IO (Id MPSGraphTensor)
 randomUniformTensorWithShapeTensor_name mpsGraph shapeTensor name =
   sendMessage mpsGraph randomUniformTensorWithShapeTensor_nameSelector (toMPSGraphTensor shapeTensor) (toNSString name)
 
--- | Creates a RandomUniform operation and returns random uniform values
+-- | Create RandomUniform op and return random uniform values
 --
--- Returns a tensor of provided shape of random uniform values in the range [0.0, 1.0). Uses the provided seed value to initalize state. No state is preserved, and all calls with equal seed yield an identical stream of random values.
+-- Returns a tensor of provided shape of random uniform values in the range [0.0, 1.0). The provided seed value is              used to initalize state. No state is preserved, and all calls with equal seed yield an identical stream of random values.
 --
--- - Parameters:   - shape: The shape of the tensor generated   - seed: The seed to use to initialize state. All calls with equal seed yield an identical stream of random values.   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
+-- @shape@ — The shape of the tensor generated
+--
+-- @seed@ — The seed to use to initialize state. All calls with equal seed yield an identical stream of random values.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: An MPSGraphTensor of shape containing random values in the defined range.
 --
 -- ObjC selector: @- randomUniformTensorWithShape:seed:name:@
 randomUniformTensorWithShape_seed_name :: (IsMPSGraph mpsGraph, IsNSString name) => mpsGraph -> RawId -> CULong -> name -> IO (Id MPSGraphTensor)
 randomUniformTensorWithShape_seed_name mpsGraph shape seed name =
   sendMessage mpsGraph randomUniformTensorWithShape_seed_nameSelector shape seed (toNSString name)
 
--- | Creates a RandomUniform operation and returns random uniform values
---
--- Returns a tensor of provided shape of random uniform values in the range [0.0, 1.0). Uses the provided seed value to initalize state. No state is preserved, and all calls with equal seed yield an identical stream of random values.
---
--- - Parameters:   - shapeTensor: 1D Int32 or Int64 tensor. The shape of the tensor generated   - seed: The seed to use to initialize state. All calls with equal seed yield an identical stream of random values.   - name: The name for the operation. - Returns: An MPSGraphTensor of shape containing random values in the defined range.
---
--- ObjC selector: @- randomUniformTensorWithShapeTensor:seed:name:@
+-- | @- randomUniformTensorWithShapeTensor:seed:name:@
 randomUniformTensorWithShapeTensor_seed_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor shapeTensor, IsNSString name) => mpsGraph -> shapeTensor -> CULong -> name -> IO (Id MPSGraphTensor)
 randomUniformTensorWithShapeTensor_seed_name mpsGraph shapeTensor seed name =
   sendMessage mpsGraph randomUniformTensorWithShapeTensor_seed_nameSelector (toMPSGraphTensor shapeTensor) seed (toNSString name)
 
--- | Creates a RandomUniform operation and returns random uniform values and updated state
+-- | Create RandomUniform op and return random uniform values and updated state
 --
--- Returns an array of 2 tensors, where the first is a tensor of provided shape of random uniform values in the range  [0.0, 1.0), and the second is the updated state tensor. The provided state is used to define a stream of random values. No state is preserved, and all calls with equal state  yield an identical stream of random values. The initial stateTensor provided should be created using the MPSGraph  randomPhiloxStateTensor APIs. The resulting stateTensor from this op can be passed as an argument to the following  random calls to continue sampling from the stream.
+-- Returns an array of 2 tensors, where the first is a tensor of provided shape of random uniform values in the range              [0.0, 1.0). The updated state tensor is returned as the second result tensor.
 --
--- - Parameters:   - shape: The shape of the tensor generated   - state: The state to define a stream of random values. All calls with equal state yield an identical stream of random values.   - name: The name for the operation. - Returns: An array of MPSGraphTensor of size 2. The first MPSGraphTensor is of shape containing random values in the defined range.  The second MPSGraphTensor is the updated state tensor.
+-- The provided state is used to define a stream of random values. No state is preserved, and all calls with equal state              yield an identical stream of random values. The initial stateTensor provided should be created using the MPSGraph              randomPhiloxStateTensor APIs. The resulting stateTensor from this op can be passed as an argument to the following              random calls to continue sampling from the stream.
+--
+-- @shape@ — The shape of the tensor generated
+--
+-- @state@ — The state to define a stream of random values. All calls with equal state yield an identical stream of random values.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: An array of MPSGraphTensor of size 2. The first MPSGraphTensor is of shape containing random values in the defined range.              The second MPSGraphTensor is the updated state tensor.
 --
 -- ObjC selector: @- randomUniformTensorWithShape:stateTensor:name:@
 randomUniformTensorWithShape_stateTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor state, IsNSString name) => mpsGraph -> RawId -> state -> name -> IO (Id NSArray)
 randomUniformTensorWithShape_stateTensor_name mpsGraph shape state name =
   sendMessage mpsGraph randomUniformTensorWithShape_stateTensor_nameSelector shape (toMPSGraphTensor state) (toNSString name)
 
--- | Creates a RandomUniform operation and returns random uniform values and updated state
---
--- Returns an array of 2 tensors, where the first is a tensor of provided shape of random uniform values in the range [0.0, 1.0), and the second is the updated state tensor. The provided state is used to define a stream of random values. No state is preserved, and all calls with equal state yield an identical stream of random values. The initial stateTensor provided should be created using the MPSGraph randomPhiloxStateTensor APIs. The resulting stateTensor from this op can be passed as an argument to the following random calls to continue sampling from the stream.
---
--- - Parameters:   - shapeTensor: 1D Int32 or Int64 tensor. The shape of the tensor generated   - state: The state to define a stream of random values. All calls with equal state yield an identical stream of random values.   - name: The name for the operation. - Returns: An array of MPSGraphTensor of size 2. The first MPSGraphTensor is of shape containing random values in the defined range. The second MPSGraphTensor is the updated state tensor.
---
--- ObjC selector: @- randomUniformTensorWithShapeTensor:stateTensor:name:@
+-- | @- randomUniformTensorWithShapeTensor:stateTensor:name:@
 randomUniformTensorWithShapeTensor_stateTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor shapeTensor, IsMPSGraphTensor state, IsNSString name) => mpsGraph -> shapeTensor -> state -> name -> IO (Id NSArray)
 randomUniformTensorWithShapeTensor_stateTensor_name mpsGraph shapeTensor state name =
   sendMessage mpsGraph randomUniformTensorWithShapeTensor_stateTensor_nameSelector (toMPSGraphTensor shapeTensor) (toMPSGraphTensor state) (toNSString name)
 
--- | Creates a dropout operation and returns the result
---
--- Removes values in the @tensor@ with a percentage chance equal to @rate@. Removed values are set to 0
---
--- - Parameters:   - tensor: Input tensor   - rate: The rate of values to be set to 0   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- dropoutTensor:rate:name:@
+-- | @- dropoutTensor:rate:name:@
 dropoutTensor_rate_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CDouble -> name -> IO (Id MPSGraphTensor)
 dropoutTensor_rate_name mpsGraph tensor rate name =
   sendMessage mpsGraph dropoutTensor_rate_nameSelector (toMPSGraphTensor tensor) rate (toNSString name)
 
--- | Creates a dropout operation and returns the result
---
--- Removes values in the @tensor@ with a percentage chance equal to @rate@. Removed values are set to 0
---
--- - Parameters:   - tensor: Input tensor   - rate: The rate of values to be set to 0   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- dropoutTensor:rateTensor:name:@
+-- | @- dropoutTensor:rateTensor:name:@
 dropoutTensor_rateTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor rate, IsNSString name) => mpsGraph -> tensor -> rate -> name -> IO (Id MPSGraphTensor)
 dropoutTensor_rateTensor_name mpsGraph tensor rate name =
   sendMessage mpsGraph dropoutTensor_rateTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor rate) (toNSString name)
 
--- | Creates a Quantize operation and returns the result tensor.
---
--- Convert the float @tensor@ to an i8 or u8 tensor by applying a scale + bias transform:  result = (tensor / scale) + zeroPoint
---
--- - Parameters:   - tensor: Input tensor to be quantized   - scale: Scale scalar parameter   - zeroPoint: Bias scalar parameter (converted to dataType of resultTensor)   - dataType: Integer data type of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of datatype dataType
---
--- ObjC selector: @- quantizeTensor:scale:zeroPoint:dataType:name:@
-quantizeTensor_scale_zeroPoint_dataType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CDouble -> CDouble -> MPSDataType -> name -> IO (Id MPSGraphTensor)
-quantizeTensor_scale_zeroPoint_dataType_name mpsGraph tensor scale zeroPoint dataType name =
-  sendMessage mpsGraph quantizeTensor_scale_zeroPoint_dataType_nameSelector (toMPSGraphTensor tensor) scale zeroPoint dataType (toNSString name)
-
--- | Creates Dequantize operation and returns the result tensor.
---
--- Convert the i8 or u8 @tensor@ to a float tensor by applying a scale + bias transform:  result = scale(tensor - zeroPoint)
---
--- - Parameters:   - tensor: Input tensor to be dequantized   - scale: Scale scalar parameter   - zeroPoint: Bias scalar parameter (converted to dataType of tensor)   - dataType: Float data type of the result tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of datatype dataType
---
--- ObjC selector: @- dequantizeTensor:scale:zeroPoint:dataType:name:@
-dequantizeTensor_scale_zeroPoint_dataType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CDouble -> CDouble -> MPSDataType -> name -> IO (Id MPSGraphTensor)
-dequantizeTensor_scale_zeroPoint_dataType_name mpsGraph tensor scale zeroPoint dataType name =
-  sendMessage mpsGraph dequantizeTensor_scale_zeroPoint_dataType_nameSelector (toMPSGraphTensor tensor) scale zeroPoint dataType (toNSString name)
-
--- | Creates a Quantize operation and returns the result tensor.
---
--- Convert the float @tensor@ to an i8 or u8 tensor by applying a scale + bias transform:  result = (tensor / scaleTensor) + zeroPoint
---
--- - Parameters:   - tensor: Input tensor to be quantized   - scaleTensor: Scale 1D Tensor parameter with size == tensor.shape[axis]   - zeroPoint: Bias scalar parameter (converted to dataType of resultTensor)   - dataType: Integer data type of the result tensor.   - axis: Axis on which the scale 1D value is being broadcasted   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of datatype dataType
---
--- ObjC selector: @- quantizeTensor:scaleTensor:zeroPoint:dataType:axis:name:@
-quantizeTensor_scaleTensor_zeroPoint_dataType_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor scaleTensor, IsNSString name) => mpsGraph -> tensor -> scaleTensor -> CDouble -> MPSDataType -> CLong -> name -> IO (Id MPSGraphTensor)
-quantizeTensor_scaleTensor_zeroPoint_dataType_axis_name mpsGraph tensor scaleTensor zeroPoint dataType axis name =
-  sendMessage mpsGraph quantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor scaleTensor) zeroPoint dataType axis (toNSString name)
-
--- | Creates Dequantize operation and returns the result tensor.
---
--- Convert the i8 or u8 @tensor@ to a float tensor by applying a scale + bias transform:  result = scaleTensor(tensor - zeroPoint)
---
--- - Parameters:   - tensor: Input tensor to be dequantized   - scaleTensor: Scale scalar or 1D Tensor parameter with size == tensor.shape[axis]   - zeroPoint: Bias scalar parameter (converted to dataType of tensor)   - dataType: Float data type of the result tensor.   - axis: Axis on which the scale 1D value is being broadcasted   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of datatype dataType
---
--- ObjC selector: @- dequantizeTensor:scaleTensor:zeroPoint:dataType:axis:name:@
-dequantizeTensor_scaleTensor_zeroPoint_dataType_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor scaleTensor, IsNSString name) => mpsGraph -> tensor -> scaleTensor -> CDouble -> MPSDataType -> CLong -> name -> IO (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_zeroPoint_dataType_axis_name mpsGraph tensor scaleTensor zeroPoint dataType axis name =
-  sendMessage mpsGraph dequantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor scaleTensor) zeroPoint dataType axis (toNSString name)
-
--- | Creates a Quantize operation and returns the result tensor.
---
--- Convert the float @tensor@ to an i8 or u8 tensor by applying a scale + bias transform:  result = (tensor / scaleTensor) + zeroPointTensor
---
--- - Parameters:   - tensor: Input tensor to be quantized   - scaleTensor: Scale scalar or 1D Tensor parameter with size == tensor.shape[axis]   - zeroPointTensor: Bias scalar or 1D Tensor parameter with size == tensor.shape[axis]   - dataType: Integer data type of the result tensor.   - axis: Axis on which the scale 1D value is being broadcasted   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of datatype dataType
---
--- ObjC selector: @- quantizeTensor:scaleTensor:zeroPointTensor:dataType:axis:name:@
-quantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor scaleTensor, IsMPSGraphTensor zeroPointTensor, IsNSString name) => mpsGraph -> tensor -> scaleTensor -> zeroPointTensor -> MPSDataType -> CLong -> name -> IO (Id MPSGraphTensor)
-quantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_name mpsGraph tensor scaleTensor zeroPointTensor dataType axis name =
-  sendMessage mpsGraph quantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor scaleTensor) (toMPSGraphTensor zeroPointTensor) dataType axis (toNSString name)
-
--- | Creates a dequantize operation and returns the result tensor.
---
--- Convert the i8 or u8 @tensor@ to a float tensor by applying a scale + bias transform:  result = scaleTensor(tensor - zeroPointTensor)
---
--- - Parameters:   - tensor: Input tensor to be dequantized   - scaleTensor: Scale scalar or 1D Tensor parameter with size == tensor.shape[axis]   - zeroPointTensor: Bias scalar or 1D Tensor parameter with size == tensor.shape[axis]   - dataType: Float data type of the result tensor.   - axis: Axis on which the scale 1D value is being broadcasted   - name: The name for the operation. - Returns: A valid MPSGraphTensor array of datatype dataType
---
--- ObjC selector: @- dequantizeTensor:scaleTensor:zeroPointTensor:dataType:axis:name:@
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor scaleTensor, IsMPSGraphTensor zeroPointTensor, IsNSString name) => mpsGraph -> tensor -> scaleTensor -> zeroPointTensor -> MPSDataType -> CLong -> name -> IO (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_name mpsGraph tensor scaleTensor zeroPointTensor dataType axis name =
-  sendMessage mpsGraph dequantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor scaleTensor) (toMPSGraphTensor zeroPointTensor) dataType axis (toNSString name)
-
--- | Creates a dequantize operation and returns the result tensor.
---
--- Convert the i8, u8, i4 or u4 @tensor@ to a float tensor by applying a scale and bias transform: ```md result = scaleTensor(tensor - zeroPointTensor). ```
---
--- - Parameters:   - tensor: Input tensor to be dequantized.   - scaleTensor: The scale tensor with groups support.   - zeroPointTensor: The bias tensor with groups support.   - dataType: Float data type of the result tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` array of datatype @dataType@.
---
--- ObjC selector: @- dequantizeTensor:scaleTensor:zeroPointTensor:dataType:name:@
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor scaleTensor, IsMPSGraphTensor zeroPointTensor, IsNSString name) => mpsGraph -> tensor -> scaleTensor -> zeroPointTensor -> MPSDataType -> name -> IO (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_name mpsGraph tensor scaleTensor zeroPointTensor dataType name =
-  sendMessage mpsGraph dequantizeTensor_scaleTensor_zeroPointTensor_dataType_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor scaleTensor) (toMPSGraphTensor zeroPointTensor) dataType (toNSString name)
-
--- | Creates a dequantize operation and returns the result tensor.
---
--- Converts the i8, u8, i4 or u4 @tensor@ to a float tensor by applying a scale and bias transform: ```md result = scaleTensor * tensor. ```
---
--- - Parameters:   - tensor: Input tensor to be dequantized.   - scaleTensor: Scale Tensor parameter with groups support.   - dataType: Float data type of the result tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` array of datatype @dataType@.
---
--- ObjC selector: @- dequantizeTensor:scaleTensor:dataType:name:@
-dequantizeTensor_scaleTensor_dataType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor scaleTensor, IsNSString name) => mpsGraph -> tensor -> scaleTensor -> MPSDataType -> name -> IO (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_dataType_name mpsGraph tensor scaleTensor dataType name =
-  sendMessage mpsGraph dequantizeTensor_scaleTensor_dataType_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor scaleTensor) dataType (toNSString name)
-
--- | Creates a lookup-table based quantization operation and returns the result tensor.
---
--- Converts a u8 or u4 @tensor@ to a float tensor by applying a lookup operation: ```md result[i1,...,in] = LUTTensor[i1',...,in',tensor[i1,...,in]]. ``` Note: The operation supports LUT groups up to the last 3 dimensions for @tensor@.
---
--- - Parameters:   - tensor: Input tensor to be dequantized.   - LUTTensor: The lookup table to use - for u4 the last dimension should have 16 elements, and for u8 256 elements.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object.
---
--- ObjC selector: @- dequantizeTensor:LUTTensor:name:@
-dequantizeTensor_LUTTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor lutTensor, IsNSString name) => mpsGraph -> tensor -> lutTensor -> name -> IO (Id MPSGraphTensor)
-dequantizeTensor_LUTTensor_name mpsGraph tensor lutTensor name =
-  sendMessage mpsGraph dequantizeTensor_LUTTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor lutTensor) (toNSString name)
-
--- | Creates a vector lookup-table based quantization operation and returns the result tensor.
---
--- Converts a u8 or u4 @tensor@ to a float tensor by applying a lookup operation, where each input index defines a vector of values. The operation reads the vector values from the last dimension of the lookup table tensor and stores them into the dimension defined by @axis@ on the result tensor. ```md result[i1, ... , i_axis, ..., in] = LUTTensor[i1', ..., in', tensor[i1, ..., in], i_axis] ``` Note: The operation supports LUT groups up to the last 2 dimensions for @tensor@.
---
--- - Parameters:   - tensor: Input tensor to be dequantized.   - LUTTensor: The lookup table to use - for u4 the second to last dimension should have 16 elements, and for u8 256 elements.   - axis: Axis on which the scale 1D value is being broadcasted.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object.
---
--- ObjC selector: @- dequantizeTensor:LUTTensor:axis:name:@
-dequantizeTensor_LUTTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor lutTensor, IsNSString name) => mpsGraph -> tensor -> lutTensor -> CLong -> name -> IO (Id MPSGraphTensor)
-dequantizeTensor_LUTTensor_axis_name mpsGraph tensor lutTensor axis name =
-  sendMessage mpsGraph dequantizeTensor_LUTTensor_axis_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor lutTensor) axis (toNSString name)
-
--- | Creates a 2D max-pooling operation and returns the result tensor.
---
--- - Parameters:   - source: A 2D Image source as tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- maxPooling2DWithSourceTensor:descriptor:name:@
+-- | @- maxPooling2DWithSourceTensor:descriptor:name:@
 maxPooling2DWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphPooling2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling2DWithSourceTensor_descriptor_name mpsGraph source descriptor name =
   sendMessage mpsGraph maxPooling2DWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphPooling2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 2D max-pooling operation and returns the result tensor and the corresponding indices tensor.
+-- | MaxPool2D API that returns max pool result and corresponding indices
 --
--- In order to Computes the indices, @returnIndicesMode@ of the descriptor must be set. The datatype of indices tensor can be set using @returnIndicesDataType@. If @returnIndicesMode = MPSGraphPoolingReturnIndicesNone@ then only the first result MPSGraph returns will be valid and using the second result will assert.
+-- @source@ — Source tensor on which pooling will be performed
 --
--- - Parameters:   - source: A 2D Image source as tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: An array of two MPSGraphTensors. The first tensor holds the result of max pool and the second tensor holds the corresponding indices
+-- @descriptor@ — See corresponding property above.
+--
+-- Returns: NSArray of 2 MPSGraphTensors. The first tensor holds the result of max pool and the second tensor holds the corresponding indices
+--
+-- In order to compute the indices, returnIndicesMode of the descriptor must be set. The datatype of indices tensor can be set using returnIndicesDataType              If returnIndicesMode is set to default value of MPSGraphPoolingReturnIndicesNone, the second tensor in returned NSArray is nil.              If returnIndicesDataType is not set, indices tensor will default to MPSDataTypeInt32
 --
 -- ObjC selector: @- maxPooling2DReturnIndicesWithSourceTensor:descriptor:name:@
 maxPooling2DReturnIndicesWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphPooling2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id NSArray)
 maxPooling2DReturnIndicesWithSourceTensor_descriptor_name mpsGraph source descriptor name =
   sendMessage mpsGraph maxPooling2DReturnIndicesWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphPooling2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a max-pooling gradient operation and returns the result tensor.
---
--- - Parameters:   - gradient: A 2D input gradient tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - source: The input tensor for the forward pass.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- maxPooling2DGradientWithGradientTensor:sourceTensor:descriptor:name:@
+-- | @- maxPooling2DGradientWithGradientTensor:sourceTensor:descriptor:name:@
 maxPooling2DGradientWithGradientTensor_sourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphPooling2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling2DGradientWithGradientTensor_sourceTensor_descriptor_name mpsGraph gradient source descriptor name =
   sendMessage mpsGraph maxPooling2DGradientWithGradientTensor_sourceTensor_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphPooling2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a max-pooling gradient operation and returns the result tensor.
+-- | MaxPool2D Gradient API
 --
--- With this API MPSGraph computes the max-pooling gradient efficiently by reusing the indices from the forward API instead of recomputing them. The descriptor must set @returnIndicesMode@ and @returnIndicesDataType@ to the same value as that set by the forward pass.
+-- @gradient@ — Input gradient tensor
 --
--- - Parameters:   - gradient: A 2D input gradient tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - indices: The indices tensor returned from ``MPSGraph/maxPooling2DReturnIndicesWithSourceTensor:descriptor:name:``.   - outputShape: The shape of the destination gradient.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: Destination gradient tensor.
+-- @indices@ — Indices tensor returned from maxPooling2DReturnIndicesWithSourceTensor API
+--
+-- @outputShape@ — shape of the destination gradient
+--
+-- @descriptor@ — See corresponding property above.
+--
+-- Returns: Destination gradient tensor
+--
+-- MaxPool2D gradient is computed efficiently by reusing the indices from the forward API instead of recomputing them.              The descriptor must set returnIndicesMode and returnIndicesDataType to the same value as that set by the forward pass
 --
 -- ObjC selector: @- maxPooling2DGradientWithGradientTensor:indicesTensor:outputShape:descriptor:name:@
 maxPooling2DGradientWithGradientTensor_indicesTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor indices, IsMPSGraphPooling2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> indices -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling2DGradientWithGradientTensor_indicesTensor_outputShape_descriptor_name mpsGraph gradient indices outputShape descriptor name =
   sendMessage mpsGraph maxPooling2DGradientWithGradientTensor_indicesTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor indices) outputShape (toMPSGraphPooling2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a max-pooling gradient operation and returns the result tensor.
+-- | MaxPool2D Gradient API
 --
--- With this API MPSGraph computes the max-pooling gradient efficiently by reusing the indices from the forward API instead of recomputing them. The descriptor must set @returnIndicesMode@ and @returnIndicesDataType@ to the same value as that set by the forward pass.
+-- @gradient@ — Input gradient tensor
 --
--- - Parameters:   - gradient: A 2D input gradient tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - indices: The indices tensor returned from ``MPSGraph/maxPooling2DReturnIndicesWithSourceTensor:descriptor:name:``.   - outputShape: A tensor containing the shape of the destination gradient.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: Destination gradient tensor.
+-- @indices@ — Indices tensor returned from maxPooling2DReturnIndicesWithSourceTensor API
+--
+-- @outputShape@ — shape of the destination gradient
+--
+-- @descriptor@ — See corresponding property above.
+--
+-- Returns: Destination gradient tensor
+--
+-- MaxPool2D gradient is computed efficiently by reusing the indices from the forward API instead of recomputing them.              The descriptor must set returnIndicesMode and returnIndicesDataType to the same value as that set by the forward pass
 --
 -- ObjC selector: @- maxPooling2DGradientWithGradientTensor:indicesTensor:outputShapeTensor:descriptor:name:@
 maxPooling2DGradientWithGradientTensor_indicesTensor_outputShapeTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor indices, IsMPSGraphTensor outputShape, IsMPSGraphPooling2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> indices -> outputShape -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling2DGradientWithGradientTensor_indicesTensor_outputShapeTensor_descriptor_name mpsGraph gradient indices outputShape descriptor name =
   sendMessage mpsGraph maxPooling2DGradientWithGradientTensor_indicesTensor_outputShapeTensor_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor indices) (toMPSGraphTensor outputShape) (toMPSGraphPooling2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 2D average-pooling operation and returns the result tensor.
---
--- - Parameters:   - source: A 2D Image source as tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- avgPooling2DWithSourceTensor:descriptor:name:@
+-- | @- avgPooling2DWithSourceTensor:descriptor:name:@
 avgPooling2DWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphPooling2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 avgPooling2DWithSourceTensor_descriptor_name mpsGraph source descriptor name =
   sendMessage mpsGraph avgPooling2DWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphPooling2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 2D average pooling gradient operation and returns the result tensor.
---
--- - Parameters:   - gradient: A 2D input gradient tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - source: The input tensor for the forward pass.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- avgPooling2DGradientWithGradientTensor:sourceTensor:descriptor:name:@
+-- | @- avgPooling2DGradientWithGradientTensor:sourceTensor:descriptor:name:@
 avgPooling2DGradientWithGradientTensor_sourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphPooling2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 avgPooling2DGradientWithGradientTensor_sourceTensor_descriptor_name mpsGraph gradient source descriptor name =
   sendMessage mpsGraph avgPooling2DGradientWithGradientTensor_sourceTensor_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphPooling2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 4D max-pooling operation and returns the result tensor.
---
--- - Parameters:   - source: A source tensor.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- maxPooling4DWithSourceTensor:descriptor:name:@
+-- | @- maxPooling4DWithSourceTensor:descriptor:name:@
 maxPooling4DWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling4DWithSourceTensor_descriptor_name mpsGraph source descriptor name =
   sendMessage mpsGraph maxPooling4DWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 4D max-pooling operation and returns the result tensor and the corresponding indices tensor.
+-- | MaxPool4D API that returns max pool result and corresponding indices
 --
--- In order to Computes the indices, @returnIndicesMode@ of the descriptor must be set. The datatype of indices tensor can be set using @returnIndicesDataType@. If @returnIndicesMode = MPSGraphPoolingReturnIndicesNone@ then only the first result MPSGraph returns will be valid and using the second result will assert.
+-- @source@ — Source tensor on which pooling will be performed
 --
--- - Parameters:   - source: The source tensor on which pooling will be performed.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates and paddings.   - name: The name for the operation. - Returns: An array of two MPSGraphTensors. The first tensor holds the result of max pool and the second tensor holds the corresponding indices.
+-- @descriptor@ — See corresponding property above.
+--
+-- Returns: NSArray of 2 MPSGraphTensors. The first tensor holds the result of max pool and the second tensor holds the corresponding indices
+--
+-- In order to compute the indices, returnIndicesMode of the descriptor must be set. The datatype of indices tensor can be set using returnIndicesDataType              If returnIndicesMode is set to default value of MPSGraphPoolingReturnIndicesNone, the second tensor in returned NSArray is nil.              If returnIndicesDataType is not set, indices tensor will default to MPSDataTypeInt32
 --
 -- ObjC selector: @- maxPooling4DReturnIndicesWithSourceTensor:descriptor:name:@
 maxPooling4DReturnIndicesWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id NSArray)
 maxPooling4DReturnIndicesWithSourceTensor_descriptor_name mpsGraph source descriptor name =
   sendMessage mpsGraph maxPooling4DReturnIndicesWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a max-pooling gradient operation and returns the result tensor.
---
--- - Parameters:   - gradient: An input gradient tensor.   - source: The input tensor for the forward pass.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- maxPooling4DGradientWithGradientTensor:sourceTensor:descriptor:name:@
+-- | @- maxPooling4DGradientWithGradientTensor:sourceTensor:descriptor:name:@
 maxPooling4DGradientWithGradientTensor_sourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling4DGradientWithGradientTensor_sourceTensor_descriptor_name mpsGraph gradient source descriptor name =
   sendMessage mpsGraph maxPooling4DGradientWithGradientTensor_sourceTensor_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a max-pooling gradient operation and returns the result tensor.
+-- | MaxPool4D Gradient API
 --
--- With this API MPSGraph computes the max-pooling gradient efficiently by reusing the indices from the forward API instead of recomputing them. The descriptor must set @returnIndicesMode@ and @returnIndicesDataType@ to the same value as that set by the forward pass.
+-- @gradient@ — Input gradient tensor
 --
--- - Parameters:   - gradient: An input gradient tensor.   - indices: Indices tensor returned from ``MPSGraph/maxPooling4DReturnIndicesWithSourceTensor:descriptor:name:``.   - outputShape: The shape of the destination gradient.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: Destination gradient tensor.
+-- @indices@ — Indices tensor returned from maxPooling4DReturnIndicesWithSourceTensor API
+--
+-- @outputShape@ — Shape of source tensor
+--
+-- @descriptor@ — See corresponding property above.
+--
+-- Returns: Destination gradient tensor
+--
+-- MaxPool4D gradient is computed efficiently by reusing the indices from the forward API instead of recomputing them.              The descriptor must set returnIndicesMode and returnIndicesDataType to the same value as that set by the forward pass              This API should be used for NCHW and NHWC layouts
 --
 -- ObjC selector: @- maxPooling4DGradientWithGradientTensor:indicesTensor:outputShape:descriptor:name:@
 maxPooling4DGradientWithGradientTensor_indicesTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor indices, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> indices -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling4DGradientWithGradientTensor_indicesTensor_outputShape_descriptor_name mpsGraph gradient indices outputShape descriptor name =
   sendMessage mpsGraph maxPooling4DGradientWithGradientTensor_indicesTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor indices) outputShape (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a max-pooling gradient operation and returns the result tensor.
+-- | MaxPool4D Gradient API
 --
--- With this API MPSGraph computes the max-pooling gradient efficiently by reusing the indices from the forward API instead of recomputing them. The descriptor must set @returnIndicesMode@ and @returnIndicesDataType@ to the same value as that set by the forward pass.
+-- @gradient@ — Input gradient tensor
 --
--- - Parameters:   - gradient: An input gradient tensor.   - indices: The indices tensor returned from ``MPSGraph/maxPooling4DReturnIndicesWithSourceTensor:descriptor:name:``.   - outputShape: A tensor containing the shape of the destination gradient.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: Destination gradient tensor.
+-- @indices@ — Indices tensor returned from maxPooling4DReturnIndicesWithSourceTensor API
+--
+-- @outputShape@ — Shape of source tensor
+--
+-- @descriptor@ — See corresponding property above.
+--
+-- Returns: Destination gradient tensor
+--
+-- MaxPool4D gradient is computed efficiently by reusing the indices from the forward API instead of recomputing them.              The descriptor must set returnIndicesMode and returnIndicesDataType to the same value as that set by the forward pass              This API should be used for NCHW and NHWC layouts
 --
 -- ObjC selector: @- maxPooling4DGradientWithGradientTensor:indicesTensor:outputShapeTensor:descriptor:name:@
 maxPooling4DGradientWithGradientTensor_indicesTensor_outputShapeTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor indices, IsMPSGraphTensor outputShape, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> indices -> outputShape -> descriptor -> name -> IO (Id MPSGraphTensor)
 maxPooling4DGradientWithGradientTensor_indicesTensor_outputShapeTensor_descriptor_name mpsGraph gradient indices outputShape descriptor name =
   sendMessage mpsGraph maxPooling4DGradientWithGradientTensor_indicesTensor_outputShapeTensor_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor indices) (toMPSGraphTensor outputShape) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 4D average pooling operation and returns the result tensor.
---
--- - Parameters:   - source: A source tensor.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- avgPooling4DWithSourceTensor:descriptor:name:@
+-- | @- avgPooling4DWithSourceTensor:descriptor:name:@
 avgPooling4DWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 avgPooling4DWithSourceTensor_descriptor_name mpsGraph source descriptor name =
   sendMessage mpsGraph avgPooling4DWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates an average pooling gradient operation and returns the result tensor.
---
--- - Parameters:   - gradient: An input gradient tensor.   - source: The input tensor for the forward pass.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- avgPooling4DGradientWithGradientTensor:sourceTensor:descriptor:name:@
+-- | @- avgPooling4DGradientWithGradientTensor:sourceTensor:descriptor:name:@
 avgPooling4DGradientWithGradientTensor_sourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 avgPooling4DGradientWithGradientTensor_sourceTensor_descriptor_name mpsGraph gradient source descriptor name =
   sendMessage mpsGraph avgPooling4DGradientWithGradientTensor_sourceTensor_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 4D L2-norm pooling operation and returns the result tensor.
---
--- - Parameters:   - source: A source tensor.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- L2NormPooling4DWithSourceTensor:descriptor:name:@
+-- | @- L2NormPooling4DWithSourceTensor:descriptor:name:@
 l2NormPooling4DWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 l2NormPooling4DWithSourceTensor_descriptor_name mpsGraph source descriptor name =
   sendMessage mpsGraph l2NormPooling4DWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a L2-Norm pooling gradient operation and returns the result tensor.
---
--- - Parameters:   - gradient: An input gradient tensor.   - source: The input tensor for the forward pass.   - descriptor: A pooling operation descriptor that specifies pooling window sizes, strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- L2NormPooling4DGradientWithGradientTensor:sourceTensor:descriptor:name:@
+-- | @- L2NormPooling4DGradientWithGradientTensor:sourceTensor:descriptor:name:@
 l2NormPooling4DGradientWithGradientTensor_sourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphPooling4DOpDescriptor descriptor, IsNSString name) => mpsGraph -> gradient -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
 l2NormPooling4DGradientWithGradientTensor_sourceTensor_descriptor_name mpsGraph gradient source descriptor name =
   sendMessage mpsGraph l2NormPooling4DGradientWithGradientTensor_sourceTensor_descriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphPooling4DOpDescriptor descriptor) (toNSString name)
 
--- | The Stochastic gradient descent performs a gradient descent.
+-- | StochasticGradientDescent
 --
--- @variable = variable - (learningRate * g)@ where,  @g@ is gradient of error wrt variable
+-- The StochasticGradientDescent performs a gradient descent
 --
--- - Parameters:   - learningRateTensor: scalar tensor which indicates the learning rate to use with the optimizer   - valuesTensor: values tensor, usually representing the trainable parameters   - gradientTensor: partial gradient of the trainable parameters with respect to loss   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- variable = variable - (learningRate * g)
+--
+-- where,                g    is gradient of error wrt variable
 --
 -- ObjC selector: @- stochasticGradientDescentWithLearningRateTensor:valuesTensor:gradientTensor:name:@
 stochasticGradientDescentWithLearningRateTensor_valuesTensor_gradientTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor learningRateTensor, IsMPSGraphTensor valuesTensor, IsMPSGraphTensor gradientTensor, IsNSString name) => mpsGraph -> learningRateTensor -> valuesTensor -> gradientTensor -> name -> IO (Id MPSGraphTensor)
 stochasticGradientDescentWithLearningRateTensor_valuesTensor_gradientTensor_name mpsGraph learningRateTensor valuesTensor gradientTensor name =
   sendMessage mpsGraph stochasticGradientDescentWithLearningRateTensor_valuesTensor_gradientTensor_nameSelector (toMPSGraphTensor learningRateTensor) (toMPSGraphTensor valuesTensor) (toMPSGraphTensor gradientTensor) (toNSString name)
 
--- | The Stochastic gradient descent performs a gradient descent @variable = variable - (learningRate * g)@ where, @g@ is gradient of error wrt variable this op directly writes to the variable
---
--- - Parameters:   - learningRateTensor: scalar tensor which indicates the learning rate to use with the optimizer   - variable: variable operation with trainable parameters   - gradientTensor: partial gradient of the trainable parameters with respect to loss   - name: name for the operation - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- applyStochasticGradientDescentWithLearningRateTensor:variable:gradientTensor:name:@
+-- | @- applyStochasticGradientDescentWithLearningRateTensor:variable:gradientTensor:name:@
 applyStochasticGradientDescentWithLearningRateTensor_variable_gradientTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor learningRateTensor, IsMPSGraphVariableOp variable, IsMPSGraphTensor gradientTensor, IsNSString name) => mpsGraph -> learningRateTensor -> variable -> gradientTensor -> name -> IO (Id MPSGraphOperation)
 applyStochasticGradientDescentWithLearningRateTensor_variable_gradientTensor_name mpsGraph learningRateTensor variable gradientTensor name =
   sendMessage mpsGraph applyStochasticGradientDescentWithLearningRateTensor_variable_gradientTensor_nameSelector (toMPSGraphTensor learningRateTensor) (toMPSGraphVariableOp variable) (toMPSGraphTensor gradientTensor) (toNSString name)
 
--- | Creates operations to apply Adam optimization.
+-- | Adam
 --
--- The adam update ops are added  current learning rate: ```md lr[t] = learningRate * sqrt(1 - beta2^t) / (1 - beta1^t) m[t] = beta1 * m[t-1] + (1 - beta1) * g v[t] = beta2 * v[t-1] + (1 - beta2) * (g ^ 2) maxVel[t] = max(maxVel[t-1], v[t]) variable = variable - lr[t] * m[t] / (sqrt(maxVel) + epsilon) ``` - Parameters:   - learningRateTensor: scalar tensor which indicates the learning rate to use with the optimizer   - beta1Tensor: beta1Tensor   - beta2Tensor: beta2Tensor   - beta1PowerTensor: @beta1^t@ beta1 power tensor   - beta2PowerTensor: @beta2^t@ beta2 power tensor   - valuesTensor: values to update with optimization   - momentumTensor: momentum tensor   - velocityTensor: velocity tensor   - maximumVelocityTensor: optional maximum velocity tensor   - gradientTensor: partial gradient of the trainable parameters with respect to loss   - name: name for the operation - Returns: if maximumVelocity is nil array of 3 tensors (update, newMomentum, newVelocity) else array of 4 tensors (update, newMomentum, newVelocity, newMaximumVelocity)
+-- The adam update ops are added
+--
+-- current learning rate:              lr[t] = learningRate * sqrt(1 - beta2^t) / (1 - beta1^t)
+--
+-- m[t]     = beta1 * m[t-1] + (1 - beta1) * g              v[t]     = beta2 * v[t-1] + (1 - beta2) * (g ^ 2)              maxVel[t] = max(maxVel[t-1],v[t])              variable = variable - lr[t] * m[t] / (sqrt(maxVel) + epsilon)
+--
+-- Returns: if maximumVelocity is nil array of 3 tensors (update, newMomentum, newVelocity) else array of 4 tensors (update, newMomentum, newVelocity, newMaximumVelocity)
 --
 -- ObjC selector: @- adamWithLearningRateTensor:beta1Tensor:beta2Tensor:epsilonTensor:beta1PowerTensor:beta2PowerTensor:valuesTensor:momentumTensor:velocityTensor:maximumVelocityTensor:gradientTensor:name:@
 adamWithLearningRateTensor_beta1Tensor_beta2Tensor_epsilonTensor_beta1PowerTensor_beta2PowerTensor_valuesTensor_momentumTensor_velocityTensor_maximumVelocityTensor_gradientTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor learningRateTensor, IsMPSGraphTensor beta1Tensor, IsMPSGraphTensor beta2Tensor, IsMPSGraphTensor epsilonTensor, IsMPSGraphTensor beta1PowerTensor, IsMPSGraphTensor beta2PowerTensor, IsMPSGraphTensor valuesTensor, IsMPSGraphTensor momentumTensor, IsMPSGraphTensor velocityTensor, IsMPSGraphTensor maximumVelocityTensor, IsMPSGraphTensor gradientTensor, IsNSString name) => mpsGraph -> learningRateTensor -> beta1Tensor -> beta2Tensor -> epsilonTensor -> beta1PowerTensor -> beta2PowerTensor -> valuesTensor -> momentumTensor -> velocityTensor -> maximumVelocityTensor -> gradientTensor -> name -> IO (Id NSArray)
 adamWithLearningRateTensor_beta1Tensor_beta2Tensor_epsilonTensor_beta1PowerTensor_beta2PowerTensor_valuesTensor_momentumTensor_velocityTensor_maximumVelocityTensor_gradientTensor_name mpsGraph learningRateTensor beta1Tensor beta2Tensor epsilonTensor beta1PowerTensor beta2PowerTensor valuesTensor momentumTensor velocityTensor maximumVelocityTensor gradientTensor name =
   sendMessage mpsGraph adamWithLearningRateTensor_beta1Tensor_beta2Tensor_epsilonTensor_beta1PowerTensor_beta2PowerTensor_valuesTensor_momentumTensor_velocityTensor_maximumVelocityTensor_gradientTensor_nameSelector (toMPSGraphTensor learningRateTensor) (toMPSGraphTensor beta1Tensor) (toMPSGraphTensor beta2Tensor) (toMPSGraphTensor epsilonTensor) (toMPSGraphTensor beta1PowerTensor) (toMPSGraphTensor beta2PowerTensor) (toMPSGraphTensor valuesTensor) (toMPSGraphTensor momentumTensor) (toMPSGraphTensor velocityTensor) (toMPSGraphTensor maximumVelocityTensor) (toMPSGraphTensor gradientTensor) (toNSString name)
 
--- | Creates operations to apply Adam optimization.
+-- | Adam
 --
--- The adam update ops are added ```md m[t] = beta1m[t-1] + (1 - beta1) * g v[t] = beta2v[t-1] + (1 - beta2) * (g ^ 2) maxVel[t] = max(maxVel[t-1],v[t])  variable = variable - lr[t] * m[t] / (sqrt(maxVel) + epsilon) ``` - Parameters:   - learningRateTensor: scalar tensor which indicates the learning rate to use with the optimizer   - beta1Tensor: beta1Tensor   - beta2Tensor: beta2Tensor   - epsilonTensor: epsilon tensor   - valuesTensor: values to update with optimization   - momentumTensor: momentum tensor   - velocityTensor: velocity tensor   - maximumVelocityTensor: optional maximum velocity tensor   - gradientTensor: partial gradient of the trainable parameters with respect to loss   - name: name for the operation - Returns: if maximumVelocity is nil array of 3 tensors (update, newMomentum, newVelocity) else array of 4 tensors (update, newMomentum, newVelocity, newMaximumVelocity)
+-- The adam update ops are added
+--
+-- m[t]     = beta1 * m[t-1] + (1 - beta1) * g              v[t]     = beta2 * v[t-1] + (1 - beta2) * (g ^ 2)              maxVel[t] = max(maxVel[t-1],v[t])              variable = variable - lr[t] * m[t] / (sqrt(maxVel) + epsilon)
+--
+-- Returns: if maximumVelocity is nil array of 3 tensors (update, newMomentum, newVelocity) else array of 4 tensors (update, newMomentum, newVelocity, newMaximumVelocity)
 --
 -- ObjC selector: @- adamWithCurrentLearningRateTensor:beta1Tensor:beta2Tensor:epsilonTensor:valuesTensor:momentumTensor:velocityTensor:maximumVelocityTensor:gradientTensor:name:@
 adamWithCurrentLearningRateTensor_beta1Tensor_beta2Tensor_epsilonTensor_valuesTensor_momentumTensor_velocityTensor_maximumVelocityTensor_gradientTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor currentLearningRateTensor, IsMPSGraphTensor beta1Tensor, IsMPSGraphTensor beta2Tensor, IsMPSGraphTensor epsilonTensor, IsMPSGraphTensor valuesTensor, IsMPSGraphTensor momentumTensor, IsMPSGraphTensor velocityTensor, IsMPSGraphTensor maximumVelocityTensor, IsMPSGraphTensor gradientTensor, IsNSString name) => mpsGraph -> currentLearningRateTensor -> beta1Tensor -> beta2Tensor -> epsilonTensor -> valuesTensor -> momentumTensor -> velocityTensor -> maximumVelocityTensor -> gradientTensor -> name -> IO (Id NSArray)
 adamWithCurrentLearningRateTensor_beta1Tensor_beta2Tensor_epsilonTensor_valuesTensor_momentumTensor_velocityTensor_maximumVelocityTensor_gradientTensor_name mpsGraph currentLearningRateTensor beta1Tensor beta2Tensor epsilonTensor valuesTensor momentumTensor velocityTensor maximumVelocityTensor gradientTensor name =
   sendMessage mpsGraph adamWithCurrentLearningRateTensor_beta1Tensor_beta2Tensor_epsilonTensor_valuesTensor_momentumTensor_velocityTensor_maximumVelocityTensor_gradientTensor_nameSelector (toMPSGraphTensor currentLearningRateTensor) (toMPSGraphTensor beta1Tensor) (toMPSGraphTensor beta2Tensor) (toMPSGraphTensor epsilonTensor) (toMPSGraphTensor valuesTensor) (toMPSGraphTensor momentumTensor) (toMPSGraphTensor velocityTensor) (toMPSGraphTensor maximumVelocityTensor) (toMPSGraphTensor gradientTensor) (toNSString name)
 
--- | Creates a oneHot operation and returns the result tensor.
+-- | Create  oneHot op and return the result tensor
 --
--- Creates a tensor of rank equal to the indicesTensor rank + 1.  Inserts a new axis at the axis specified, or the minor axis if axis is -1. The values at the indices in the indicesTensor will have the onValue,  and all other values will be set to the offValue.
+-- Creates a tensor of rank equal to the indicesTensor rank + 1.              A new axis is inserted at the axis specified, or the minor axis if axis is -1.              The values at the indices in the indicesTensor will have the onValue,              and all other values will be set to the offValue.
 --
--- - Parameters:   - indicesTensor: Tensor of indices for on values   - depth: Depth of the oneHot vector along the axis   - axis: The axis to insert the new oneHot vector at. Defaults to -1, the minor axis   - dataType: MPSDataType of the result tensor Defaults to MPSDataTypeFloat   - onValue: The value for indices designated by the indicesTensor. This value must match the specified data type. Defaults to 1.0f   - offValue: The value for indices not designated by the indicesTensor. This value must match the specified data type. Defaults to 0.0f   - name: Name for the operation - Returns: A valid MPSGraphTensor object.
+-- @indicesTensor@ — Tensor of indices for on values
+--
+-- @depth@ — Depth of the oneHot vector along the axis
+--
+-- @axis@ — The axis to insert the new oneHot vector at.                                 Defaults to -1, the minor axis
+--
+-- @dataType@ — MPSDataType of the result tensor                                 Defaults to MPSDataTypeFloat
+--
+-- @onValue@ — The value for indices designated by the indicesTensor. This value must match the specified data type.                                 Defaults to 1.0f
+--
+-- @offValue@ — The value for indices not designated by the indicesTensor. This value must match the specified data type.                                 Defaults to 0.0f
+--
+-- @name@ — Name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- oneHotWithIndicesTensor:depth:axis:dataType:onValue:offValue:name:@
 oneHotWithIndicesTensor_depth_axis_dataType_onValue_offValue_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> indicesTensor -> CULong -> CULong -> MPSDataType -> CDouble -> CDouble -> name -> IO (Id MPSGraphTensor)
 oneHotWithIndicesTensor_depth_axis_dataType_onValue_offValue_name mpsGraph indicesTensor depth axis dataType onValue offValue name =
   sendMessage mpsGraph oneHotWithIndicesTensor_depth_axis_dataType_onValue_offValue_nameSelector (toMPSGraphTensor indicesTensor) depth axis dataType onValue offValue (toNSString name)
 
--- | Creates a oneHot operation and returns the result tensor.
---
--- Creates a tensor of rank equal to the rank of @indicesTensor@ + 1. Inserts a new axis at the minor dimension. The values at the indices in the indicesTensor will have the onValue, and all other values will be set to the offValue.
---
--- - Parameters:   - indicesTensor: Tensor of indices for on values   - depth: Depth of the oneHot vector along the axis   - dataType: MPSDataType of the result tensor.   - onValue: The value for indices designated by the indicesTensor. This value must match the specified data type.   - offValue: The value for indices not designated by the indicesTensor. This value must match the specified data type.   - name: Name for the operation - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- oneHotWithIndicesTensor:depth:dataType:onValue:offValue:name:@
+-- | @- oneHotWithIndicesTensor:depth:dataType:onValue:offValue:name:@
 oneHotWithIndicesTensor_depth_dataType_onValue_offValue_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> indicesTensor -> CULong -> MPSDataType -> CDouble -> CDouble -> name -> IO (Id MPSGraphTensor)
 oneHotWithIndicesTensor_depth_dataType_onValue_offValue_name mpsGraph indicesTensor depth dataType onValue offValue name =
   sendMessage mpsGraph oneHotWithIndicesTensor_depth_dataType_onValue_offValue_nameSelector (toMPSGraphTensor indicesTensor) depth dataType onValue offValue (toNSString name)
 
--- | Creates a oneHot operation and returns the result tensor.
---
--- Creates a tensor of rank equal to the rank of @indicesTensor@ + 1. Inserts a new axis at the axis specified, or the minor axis if @axis@ is -1. The values at the indices in the indicesTensor will be set to 1, and all other values will be set to 0.
---
--- - Parameters:   - indicesTensor: Tensor of indices for on values   - depth: Depth of the oneHot vector along the axis   - axis: The axis to insert the new oneHot vector at   - dataType: MPSDataType of the result tensor.   - name: Name for the operation - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- oneHotWithIndicesTensor:depth:axis:dataType:name:@
+-- | @- oneHotWithIndicesTensor:depth:axis:dataType:name:@
 oneHotWithIndicesTensor_depth_axis_dataType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> indicesTensor -> CULong -> CULong -> MPSDataType -> name -> IO (Id MPSGraphTensor)
 oneHotWithIndicesTensor_depth_axis_dataType_name mpsGraph indicesTensor depth axis dataType name =
   sendMessage mpsGraph oneHotWithIndicesTensor_depth_axis_dataType_nameSelector (toMPSGraphTensor indicesTensor) depth axis dataType (toNSString name)
 
--- | Creates a oneHot operation and returns the result tensor.
---
--- Creates a tensor of rank equal to the rank of @indicesTensor@ + 1, of type MPSDataTypeFloat32. Inserts a new axis at the axis specified, or the minor axis if @axis@ is -1. The values at the indices in the indicesTensor will be set to 1, and all other values will be set to 0.
---
--- - Parameters:   - indicesTensor: Tensor of indices for on values   - depth: Depth of the oneHot vector along the axis   - axis: The axis to insert the new oneHot vector at   - name: Name for the operation - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- oneHotWithIndicesTensor:depth:axis:name:@
+-- | @- oneHotWithIndicesTensor:depth:axis:name:@
 oneHotWithIndicesTensor_depth_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> indicesTensor -> CULong -> CULong -> name -> IO (Id MPSGraphTensor)
 oneHotWithIndicesTensor_depth_axis_name mpsGraph indicesTensor depth axis name =
   sendMessage mpsGraph oneHotWithIndicesTensor_depth_axis_nameSelector (toMPSGraphTensor indicesTensor) depth axis (toNSString name)
 
--- | Creates a oneHot operation and returns the result tensor.
---
--- Creates a tensor of rank equal to the rank of @indicesTensor@ + 1. Inserts a new axis at the minor dimension. The values at the indices in the indicesTensor will be set to 1, and all other values will be set to 0.
---
--- - Parameters:   - indicesTensor: Tensor of indices for on values   - depth: Depth of the oneHot vector along the axis   - dataType: MPSDataType of the result tensor.   - name: Name for the operation - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- oneHotWithIndicesTensor:depth:dataType:name:@
+-- | @- oneHotWithIndicesTensor:depth:dataType:name:@
 oneHotWithIndicesTensor_depth_dataType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> indicesTensor -> CULong -> MPSDataType -> name -> IO (Id MPSGraphTensor)
 oneHotWithIndicesTensor_depth_dataType_name mpsGraph indicesTensor depth dataType name =
   sendMessage mpsGraph oneHotWithIndicesTensor_depth_dataType_nameSelector (toMPSGraphTensor indicesTensor) depth dataType (toNSString name)
 
--- | Creates a oneHot operation and returns the result tensor.
---
--- Creates a tensor of rank equal to the rank of @indicesTensor@ + 1, of type MPSDataTypeFloat32. Inserts a new axis at the minor dimension. The values at the indices in the indicesTensor will be set to 1, and all other values will be set to 0.
---
--- - Parameters:   - indicesTensor: Tensor of indices for on values   - depth: Depth of the oneHot vector along the axis   - name: Name for the operation - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- oneHotWithIndicesTensor:depth:name:@
+-- | @- oneHotWithIndicesTensor:depth:name:@
 oneHotWithIndicesTensor_depth_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> indicesTensor -> CULong -> name -> IO (Id MPSGraphTensor)
 oneHotWithIndicesTensor_depth_name mpsGraph indicesTensor depth name =
   sendMessage mpsGraph oneHotWithIndicesTensor_depth_nameSelector (toMPSGraphTensor indicesTensor) depth (toNSString name)
 
--- | Returns the mean of the first input along the specified axes.
+-- | Create a mean op and return the result tensor
 --
--- - Parameters:   - axes: A list of axes over which to perform the reduction. The order of dimensions goes from the slowest moving at axis=0 to the fastest moving dimension.   - name: An optional name for the operation. - Returns: A valid @MPSGraphTensor@ object.
+-- @axes@ — A list of axes over which to perform the reduction. The order of dimensions goes from the slowest moving at axis=0 to the fastest moving dimension.
+--
+-- @name@ — name for the placeholder operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- meanOfTensor:axes:name:@
 meanOfTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 meanOfTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph meanOfTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Returns the variance of the first input along the specified axes when the mean has been precomputed.
+-- | Create a variance op when you already have a precomputed mean and return the result tensor
 --
--- - Parameters:   - axes: A list of axes over which to perform the reduction such that the order of dimensions goes from the slowest moving at axis=0 to the fastest moving dimension.   - name: An optional name for the operation. - Returns: A valid @MPSGraphTensor@ object.
+-- @axes@ — A list of axes over which to perform the reduction such that the order of dimensions goes from the slowest moving at axis=0 to the fastest moving dimension.
+--
+-- @name@ — name for the placeholder operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- varianceOfTensor:meanTensor:axes:name:@
 varianceOfTensor_meanTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor meanTensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> meanTensor -> axes -> name -> IO (Id MPSGraphTensor)
 varianceOfTensor_meanTensor_axes_name mpsGraph tensor meanTensor axes name =
   sendMessage mpsGraph varianceOfTensor_meanTensor_axes_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor meanTensor) (toNSArray axes) (toNSString name)
 
--- | Returns the variance of the first input along the specified axes.
+-- | Create a variance op and return the result tensor
 --
--- - Parameters:   - axes: A list of axes over which to perform the reduction. Tthe order of dimensions goes from the slowest moving at axis=0 to the fastest moving dimension.   - name: An optional name for the operation. - Returns: A valid @MPSGraphTensor@ object.
+-- @axes@ — A list of axes over which to perform the reduction. Tthe order of dimensions goes from the slowest moving at axis=0 to the fastest moving dimension.
+--
+-- @name@ — name for the placeholder operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- varianceOfTensor:axes:name:@
 varianceOfTensor_axes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsNSString name) => mpsGraph -> tensor -> axes -> name -> IO (Id MPSGraphTensor)
 varianceOfTensor_axes_name mpsGraph tensor axes name =
   sendMessage mpsGraph varianceOfTensor_axes_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toNSString name)
 
--- | Creates a batch normalization operation and returns the result tensor.
+-- | Create a batch normalization op and return the result tensor
 --
--- The mean and variance tensors should be outputs of @meanWithTensor:axes:name@ and @varianceWithTensor:meanTensor:axes:name@.  Use the axes parameter to achieve different types of normalizations.  For example (assuming your data is in NxHxWxC format)  Batch normalization: axes = [0, 1, 2]  Instance normalization: axes = [1, 2]  Shapes for gamma and beta must match the input data along at least one dimension and will be broadcast along the rest.  For batch normalization, gamma and beta would typically be 1x1x1xC i.e. one value per channel.
+-- The mean and variance tensors should be outputs of meanWithTensor:axes:name and varianceWithTensor:meanTensor:axes:name.             Use the axes parameter to achieve different types of normalizations.             For example (assuming your data is in NxHxWxC format)                  Batch normalization: axes = [0, 1, 2]                  Instance normalization: axes = [1, 2]             Shapes for gamma and beta must match the input data along at least one dimension and will be broadcast along the rest.             For batch normalization, gamma and beta would typically be 1x1x1xC i.e. one value per channel.
 --
--- - Parameters:   - tensor: The input tensor.   - mean: The mean tensor.   - variance: The variance tensor.   - gamma: The tensor used to scale the normalized result.   - beta: The tensor used to bias the normalized result.   - epsilon: A small value to add to the variance when normalizing the inputs.   - name: An optional name for the operation. - Returns: A valid @MPSGraphTensor@ object.
+-- @mean@ — mean
+--
+-- @variance@ — variance
+--
+-- @gamma@ — Tensor used to scale the normalized result
+--
+-- @beta@ — Tensor used to bias the normalized result
+--
+-- @epsilon@ — A small value to add to the variance when normalizing the inputs.
+--
+-- @name@ — name for the placeholder operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- normalizationWithTensor:meanTensor:varianceTensor:gammaTensor:betaTensor:epsilon:name:@
 normalizationWithTensor_meanTensor_varianceTensor_gammaTensor_betaTensor_epsilon_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor mean, IsMPSGraphTensor variance, IsMPSGraphTensor gamma, IsMPSGraphTensor beta, IsNSString name) => mpsGraph -> tensor -> mean -> variance -> gamma -> beta -> CFloat -> name -> IO (Id MPSGraphTensor)
 normalizationWithTensor_meanTensor_varianceTensor_gammaTensor_betaTensor_epsilon_name mpsGraph tensor mean variance gamma beta epsilon name =
   sendMessage mpsGraph normalizationWithTensor_meanTensor_varianceTensor_gammaTensor_betaTensor_epsilon_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor mean) (toMPSGraphTensor variance) (toMPSGraphTensor gamma) (toMPSGraphTensor beta) epsilon (toNSString name)
 
--- | Creates a normalization gamma-gradient operation and returns the result tensor.
---
--- The mean and variance tensors should be outputs of ``meanWithTensor:axes:name`` and ``varianceWithTensor:meanTensor:axes:name``. Use the axes parameter to achieve different types of normalizations. For example (assuming your data is in @NxHxWxC@ format) Batch normalization: axes = [0, 1, 2] Instance normalization: axes = [1, 2]
---
--- - Parameters:   - incomingGradientTensor: The incoming original @resultTensor@ gradient.   - sourceTensor: The original input source in forward direction.   - meanTensor: The mean tensor.   - varianceTensor: The variance tensor.   - axes: The axes of normalization.   - epsilon: A small value to add to the variance when normalizing the inputs.   - name: An optional name for the operation. - Returns: A valid @MPSGraphTensor@ object.
---
--- ObjC selector: @- normalizationGammaGradientWithIncomingGradientTensor:sourceTensor:meanTensor:varianceTensor:reductionAxes:epsilon:name:@
+-- | @- normalizationGammaGradientWithIncomingGradientTensor:sourceTensor:meanTensor:varianceTensor:reductionAxes:epsilon:name:@
 normalizationGammaGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_reductionAxes_epsilon_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradientTensor, IsMPSGraphTensor sourceTensor, IsMPSGraphTensor meanTensor, IsMPSGraphTensor varianceTensor, IsNSArray axes, IsNSString name) => mpsGraph -> incomingGradientTensor -> sourceTensor -> meanTensor -> varianceTensor -> axes -> CFloat -> name -> IO (Id MPSGraphTensor)
 normalizationGammaGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_reductionAxes_epsilon_name mpsGraph incomingGradientTensor sourceTensor meanTensor varianceTensor axes epsilon name =
   sendMessage mpsGraph normalizationGammaGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_reductionAxes_epsilon_nameSelector (toMPSGraphTensor incomingGradientTensor) (toMPSGraphTensor sourceTensor) (toMPSGraphTensor meanTensor) (toMPSGraphTensor varianceTensor) (toNSArray axes) epsilon (toNSString name)
 
--- | Creates a normalization beta-gradient operation and returns the result tensor.
---
--- The mean and variance tensors should be outputs of ``meanWithTensor:axes:name`` and ``varianceWithTensor:meanTensor:axes:name``. Use the axes parameter to achieve different types of normalizations. For example (assuming your data is in @NxHxWxC@ format) Batch normalization: axes = [0, 1, 2] Instance normalization: axes = [1, 2]
---
--- - Parameters:   - incomingGradientTensor: The incoming original @resultTensor@ gradient.   - sourceTensor: The original input source in forward direction.   - axes: The axes of normalization.   - name: An optional name for the operation. - Returns: A valid @MPSGraphTensor@ object.
---
--- ObjC selector: @- normalizationBetaGradientWithIncomingGradientTensor:sourceTensor:reductionAxes:name:@
+-- | @- normalizationBetaGradientWithIncomingGradientTensor:sourceTensor:reductionAxes:name:@
 normalizationBetaGradientWithIncomingGradientTensor_sourceTensor_reductionAxes_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradientTensor, IsMPSGraphTensor sourceTensor, IsNSArray axes, IsNSString name) => mpsGraph -> incomingGradientTensor -> sourceTensor -> axes -> name -> IO (Id MPSGraphTensor)
 normalizationBetaGradientWithIncomingGradientTensor_sourceTensor_reductionAxes_name mpsGraph incomingGradientTensor sourceTensor axes name =
   sendMessage mpsGraph normalizationBetaGradientWithIncomingGradientTensor_sourceTensor_reductionAxes_nameSelector (toMPSGraphTensor incomingGradientTensor) (toMPSGraphTensor sourceTensor) (toNSArray axes) (toNSString name)
 
--- | Creates a normalization input gradient operation and returns the result tensor.
---
--- The mean and variance tensors should be outputs of ``meanWithTensor:axes:name`` and ``varianceWithTensor:meanTensor:axes:name``. Use the axes parameter to achieve different types of normalizations. For example (assuming your data is in @NxHxWxC@ format) Batch normalization: axes = [0, 1, 2] Instance normalization: axes = [1, 2]
---
--- - Parameters:   - incomingGradientTensor: The incoming original @resultTensor@ gradient.   - sourceTensor: The original input source in forward direction.   - meanTensor: The mean tensor.   - varianceTensor: The variance tensor.   - gamma: The gamma tensor.   - gammaGradient: The @gammaGradient@ tensor.   - betaGradient: The @betaGradient@ tensor   - axes: The axes of normalization.   - epsilon: A small value to add to the variance when normalizing the inputs.   - name: An optional name for the operation.
---
--- ObjC selector: @- normalizationGradientWithIncomingGradientTensor:sourceTensor:meanTensor:varianceTensor:gammaTensor:gammaGradientTensor:betaGradientTensor:reductionAxes:epsilon:name:@
+-- | @- normalizationGradientWithIncomingGradientTensor:sourceTensor:meanTensor:varianceTensor:gammaTensor:gammaGradientTensor:betaGradientTensor:reductionAxes:epsilon:name:@
 normalizationGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_gammaTensor_gammaGradientTensor_betaGradientTensor_reductionAxes_epsilon_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradientTensor, IsMPSGraphTensor sourceTensor, IsMPSGraphTensor meanTensor, IsMPSGraphTensor varianceTensor, IsMPSGraphTensor gamma, IsMPSGraphTensor gammaGradient, IsMPSGraphTensor betaGradient, IsNSArray axes, IsNSString name) => mpsGraph -> incomingGradientTensor -> sourceTensor -> meanTensor -> varianceTensor -> gamma -> gammaGradient -> betaGradient -> axes -> CFloat -> name -> IO (Id MPSGraphTensor)
 normalizationGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_gammaTensor_gammaGradientTensor_betaGradientTensor_reductionAxes_epsilon_name mpsGraph incomingGradientTensor sourceTensor meanTensor varianceTensor gamma gammaGradient betaGradient axes epsilon name =
   sendMessage mpsGraph normalizationGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_gammaTensor_gammaGradientTensor_betaGradientTensor_reductionAxes_epsilon_nameSelector (toMPSGraphTensor incomingGradientTensor) (toMPSGraphTensor sourceTensor) (toMPSGraphTensor meanTensor) (toMPSGraphTensor varianceTensor) (toMPSGraphTensor gamma) (toMPSGraphTensor gammaGradient) (toMPSGraphTensor betaGradient) (toNSArray axes) epsilon (toNSString name)
 
--- | Computes the indices of the non-zero elements of the input tensor.
+-- | Create a placeholder op and return the result tensor
 --
--- The indices are returned as a two-dimensional tensor of size @[number_of_nonzeros, input_rank]@. Each row in the result contains indices of a nonzero elements in input. For example: ```md tensor = [[ 1,  0, 3],           [ 0, 10, 0]] indices = [[ 0, 0],            [ 0, 2],            [ 1, 1]] ```
+-- @shape@ — shape of the output tensor, nil shape will result in an unranked tensor
 --
--- - Parameters:   - tensor: An MPSGraphTensor of which to compute the non-zero indices. - Returns: A valid MPSGraphTensor containing indices in signed int32 data type.
+-- @dataType@ — dataType of the placeholder tensor
 --
--- ObjC selector: @- nonZeroIndicesOfTensor:name:@
-nonZeroIndicesOfTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
-nonZeroIndicesOfTensor_name mpsGraph tensor name =
-  sendMessage mpsGraph nonZeroIndicesOfTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
-
--- | Creates a nonMaximumumSuppression operation and returns the result tensor. - Parameters:   - boxesTensor: A tensor containing the coordinates of the input boxes. Must be a rank 3 tensor of shape [N,B,4] of type ``MPSDataTypeFloat32``   - scoresTensor: A tensor containing the scores of the input boxes. Must be a rank 3 tensor of shape [N,B,K] of type ``MPSDataTypeFloat32``   - IOUThreshold: The threshold for when to reject boxes based on their Intersection Over Union. Valid range is [0,1].   - scoreThreshold: The threshold for when to reject boxes based on their score, before IOU suppression.   - perClassSuppression: When this is specified a box will only suppress another box if they have the same class.   - coordinateMode: The coordinate mode the box coordinates are provided in.   - name: The name for the operation.
+-- @name@ — name for the placeholder operation
 --
--- ObjC selector: @- nonMaximumSuppressionWithBoxesTensor:scoresTensor:IOUThreshold:scoreThreshold:perClassSuppression:coordinateMode:name:@
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor boxesTensor, IsMPSGraphTensor scoresTensor, IsNSString name) => mpsGraph -> boxesTensor -> scoresTensor -> CFloat -> CFloat -> Bool -> MPSGraphNonMaximumSuppressionCoordinateMode -> name -> IO (Id MPSGraphTensor)
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_name mpsGraph boxesTensor scoresTensor iouThreshold scoreThreshold perClassSuppression coordinateMode name =
-  sendMessage mpsGraph nonMaximumSuppressionWithBoxesTensor_scoresTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector (toMPSGraphTensor boxesTensor) (toMPSGraphTensor scoresTensor) iouThreshold scoreThreshold perClassSuppression coordinateMode (toNSString name)
-
--- | Creates a nonMaximumumSuppression operation and returns the result tensor. - Parameters:   - boxesTensor: A tensor containing the coordinates of the input boxes. Must be a rank 3 tensor of shape [N,B,4] of type ``MPSDataTypeFloat32``   - scoresTensor: A tensor containing the scores of the input boxes. Must be a rank 3 tensor of shape [N,B,1] of type ``MPSDataTypeFloat32``   - classIndicesTensor: A tensor containing the class indices of the input boxes. Must be a rank 2 tensor of shape [N,B] of type ``MPSDataTypeInt32``   - IOUThreshold: The threshold for when to reject boxes based on their Intersection Over Union. Valid range is [0,1].   - scoreThreshold: The threshold for when to reject boxes based on their score, before IOU suppression.   - perClassSuppression: When this is specified a box will only suppress another box if they have the same class.   - coordinateMode: The coordinate mode the box coordinates are provided in.   - name: The name for the operation.
---
--- ObjC selector: @- nonMaximumSuppressionWithBoxesTensor:scoresTensor:classIndicesTensor:IOUThreshold:scoreThreshold:perClassSuppression:coordinateMode:name:@
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_classIndicesTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor boxesTensor, IsMPSGraphTensor scoresTensor, IsMPSGraphTensor classIndicesTensor, IsNSString name) => mpsGraph -> boxesTensor -> scoresTensor -> classIndicesTensor -> CFloat -> CFloat -> Bool -> MPSGraphNonMaximumSuppressionCoordinateMode -> name -> IO (Id MPSGraphTensor)
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_classIndicesTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_name mpsGraph boxesTensor scoresTensor classIndicesTensor iouThreshold scoreThreshold perClassSuppression coordinateMode name =
-  sendMessage mpsGraph nonMaximumSuppressionWithBoxesTensor_scoresTensor_classIndicesTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector (toMPSGraphTensor boxesTensor) (toMPSGraphTensor scoresTensor) (toMPSGraphTensor classIndicesTensor) iouThreshold scoreThreshold perClassSuppression coordinateMode (toNSString name)
-
--- | Creates a placeholder operation and returns the result tensor.
---
--- - Parameters:   - shape: The shape of the output tensor. A nil shape will result in an unranked tensor.   - dataType: The dataType of the placeholder tensor.   - name: The name for the placeholder operation. - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- placeholderWithShape:dataType:name:@
 placeholderWithShape_dataType_name :: (IsMPSGraph mpsGraph, IsNSString name) => mpsGraph -> RawId -> MPSDataType -> name -> IO (Id MPSGraphTensor)
 placeholderWithShape_dataType_name mpsGraph shape dataType name =
   sendMessage mpsGraph placeholderWithShape_dataType_nameSelector shape dataType (toNSString name)
 
--- | Creates a placeholder operation and returns the result tensor with the dataType of the placeholder tensor set to 32 bit float.
+-- | Create a placeholder op and return the result tensor              dataType of the placeholder tensor set to MPSDataTypeFloat32
 --
--- - Parameters:   - shape: The shape of the output tensor. A nil shape will result in an unranked tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @shape@ — shape of the output tensor, nil shape will result in an unranked tensor
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- placeholderWithShape:name:@
 placeholderWithShape_name :: (IsMPSGraph mpsGraph, IsNSString name) => mpsGraph -> RawId -> name -> IO (Id MPSGraphTensor)
 placeholderWithShape_name mpsGraph shape name =
   sendMessage mpsGraph placeholderWithShape_nameSelector shape (toNSString name)
 
--- | Creates a constant op with a given shape and data, and returns the result tensor.
+-- | Create a constant op and return the result tensor
 --
--- - Parameters:   - data: The data for the tensor. The number of bytes should be sizeof(dataType)numberOfElements.   - shape: The shape of the output tensor. This has to be statically shaped.   - dataType: The dataType of theconstant tensor. - Returns: A valid MPSGraphTensor object.
+-- @data@ — data for the tensor, number of bytes should be sizeof(dataType) * numberOfElements
+--
+-- @shape@ — shape of the output tensor, has to be statically shaped
+--
+-- @dataType@ — dataType of theconstant tensor
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- constantWithData:shape:dataType:@
 constantWithData_shape_dataType :: (IsMPSGraph mpsGraph, IsNSData data_) => mpsGraph -> data_ -> RawId -> MPSDataType -> IO (Id MPSGraphTensor)
 constantWithData_shape_dataType mpsGraph data_ shape dataType =
   sendMessage mpsGraph constantWithData_shape_dataTypeSelector (toNSData data_) shape dataType
 
--- | Creates a constant operation and returns the result tensor.
+-- | Create a constant op and return the result tensor
 --
--- - Parameters:   - scalar: The scalar value to fill the entire tensor values with.   - dataType: The dataType of the constant tensor. - Returns: A valid MPSGraphTensor object.
+-- @scalar@ — scalar to fill the entire tensor values with
+--
+-- @dataType@ — dataType of the constant tensor
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- constantWithScalar:dataType:@
 constantWithScalar_dataType :: IsMPSGraph mpsGraph => mpsGraph -> CDouble -> MPSDataType -> IO (Id MPSGraphTensor)
 constantWithScalar_dataType mpsGraph scalar dataType =
   sendMessage mpsGraph constantWithScalar_dataTypeSelector scalar dataType
 
--- | Creates a constant op with a given shape and returns the result tensor.
+-- | Create a constant op and return the result tensor
 --
--- - Parameters:   - scalar: The scalar value to fill the entire tensor values with.   - shape: The shape of the output tensor.   - dataType: The dataType of the constant tensor. - Returns: A valid MPSGraphTensor object.
+-- @scalar@ — scalar to fill the entire tensor values with
+--
+-- @shape@ — shape of the output tensor. \@[], \@[\@1] or \@[\@-1] means that the shape will be resolved via shape inference at runtime
+--
+-- @dataType@ — dataType of the constant tensor
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- constantWithScalar:shape:dataType:@
 constantWithScalar_shape_dataType :: IsMPSGraph mpsGraph => mpsGraph -> CDouble -> RawId -> MPSDataType -> IO (Id MPSGraphTensor)
 constantWithScalar_shape_dataType mpsGraph scalar shape dataType =
   sendMessage mpsGraph constantWithScalar_shape_dataTypeSelector scalar shape dataType
 
--- | Creates a complex constant op with the MPSDataTypeComplexFloat32 data type and returns the result tensor.
+-- | Create a variable op and return the result tensor
 --
--- - Parameters:   - realPart: The real part of the complex scalar to fill the entire tensor values with.   - imaginaryPart: The imaginary part of the complex scalar to fill the entire tensor values with.   - dataType: The dataType of the constant tensor. - Returns: A valid MPSGraphTensor object.
+-- @data@ — data for the tensor, number of bytes should be sizeof(dataType) * numberOfElements
 --
--- ObjC selector: @- constantWithRealPart:imaginaryPart:@
-constantWithRealPart_imaginaryPart :: IsMPSGraph mpsGraph => mpsGraph -> CDouble -> CDouble -> IO (Id MPSGraphTensor)
-constantWithRealPart_imaginaryPart mpsGraph realPart imaginaryPart =
-  sendMessage mpsGraph constantWithRealPart_imaginaryPartSelector realPart imaginaryPart
-
--- | Creates a complex constant operation and returns the result tensor.
+-- @shape@ — shape of the output tensor, has to be statically shaped
 --
--- - Parameters:   - realPart: The real part of the complex scalar to fill the entire tensor values with.   - imaginaryPart: The imaginary part of the complex scalar to fill the entire tensor values with.   - dataType: The dataType of the constant tensor. - Returns: A valid MPSGraphTensor object.
+-- @dataType@ — dataType of theconstant tensor
 --
--- ObjC selector: @- constantWithRealPart:imaginaryPart:dataType:@
-constantWithRealPart_imaginaryPart_dataType :: IsMPSGraph mpsGraph => mpsGraph -> CDouble -> CDouble -> MPSDataType -> IO (Id MPSGraphTensor)
-constantWithRealPart_imaginaryPart_dataType mpsGraph realPart imaginaryPart dataType =
-  sendMessage mpsGraph constantWithRealPart_imaginaryPart_dataTypeSelector realPart imaginaryPart dataType
-
--- | Creates a complex constant op with a given shape and returns the result tensor.
+-- @name@ — name for the operation
 --
--- - Parameters:   - realPart: The real part of the complex scalar to fill the entire tensor values with.   - imaginaryPart: The imaginary part of the complex scalar to fill the entire tensor values with.   - shape: The shape of the output tensor. This has to be statically shaped.   - dataType: The dataType of the constant tensor. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- constantWithRealPart:imaginaryPart:shape:dataType:@
-constantWithRealPart_imaginaryPart_shape_dataType :: IsMPSGraph mpsGraph => mpsGraph -> CDouble -> CDouble -> RawId -> MPSDataType -> IO (Id MPSGraphTensor)
-constantWithRealPart_imaginaryPart_shape_dataType mpsGraph realPart imaginaryPart shape dataType =
-  sendMessage mpsGraph constantWithRealPart_imaginaryPart_shape_dataTypeSelector realPart imaginaryPart shape dataType
-
--- | Creates a variable operation and returns the result tensor.
---
--- - Parameters:   - data: The data for the tensor. The number of bytes should be sizeof(dataType)numberOfElements.   - shape: The shape of the output tensor. This has to be statically shaped.   - dataType: The dataType of the constant tensor.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- variableWithData:shape:dataType:name:@
 variableWithData_shape_dataType_name :: (IsMPSGraph mpsGraph, IsNSData data_, IsNSString name) => mpsGraph -> data_ -> RawId -> MPSDataType -> name -> IO (Id MPSGraphTensor)
 variableWithData_shape_dataType_name mpsGraph data_ shape dataType name =
   sendMessage mpsGraph variableWithData_shape_dataType_nameSelector (toNSData data_) shape dataType (toNSString name)
 
--- | Creates a variable from an input tensor.
+-- | Create a read op which reads at this point of execution of the graph and return the result tensor
 --
--- - Parameters:   - tensor: The tensor from which to form the variable.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @variable@ — variable resource tensor to read from
 --
--- ObjC selector: @- variableFromTensorWithTensor:name:@
-variableFromTensorWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
-variableFromTensorWithTensor_name mpsGraph tensor name =
-  sendMessage mpsGraph variableFromTensorWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
-
--- | Creates a read op which reads at this point of execution of the graph and returns the result tensor.
+-- @name@ — name for the operation
 --
--- - Parameters:   - variable: The variable resource tensor to read from.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- readVariable:name:@
 readVariable_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor variable, IsNSString name) => mpsGraph -> variable -> name -> IO (Id MPSGraphTensor)
 readVariable_name mpsGraph variable name =
   sendMessage mpsGraph readVariable_nameSelector (toMPSGraphTensor variable) (toNSString name)
 
--- | Creates an assign operation which writes at this point of execution of the graph.
+-- | Create a read op which reads at this point of execution of the graph and return the result tensor
 --
--- - Parameters:   - variable: The variable resource tensor to assign to.   - tensor: The tensor to assign to the variable.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @variable@ — variable resource tensor to read from
+--
+-- @tensor@ — tensor to assign to variable
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- assignVariable:withValueOfTensor:name:@
 assignVariable_withValueOfTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor variable, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> variable -> tensor -> name -> IO (Id MPSGraphOperation)
 assignVariable_withValueOfTensor_name mpsGraph variable tensor name =
   sendMessage mpsGraph assignVariable_withValueOfTensor_nameSelector (toMPSGraphTensor variable) (toMPSGraphTensor tensor) (toNSString name)
 
--- | Computes the matrix multiplication of 2 input tensors with support for broadcasting.
+-- | Create  MatMul op and return the result tensor, it supports broadcasting as well
 --
--- - Parameters:   - primaryTensor: The left-hand side tensor.   - secondaryTensor: The right-hand side tensor.   - name: The name for the operation. - Returns: A valid tensor containing the product of the input matrices.
+-- resultTensor = matmul(primaryTensor, secondaryTensor)
+--
+-- @primaryTensor@ — LHS tensor of the binary Op
+--
+-- @secondaryTensor@ — RHS tensor of the binary Op
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- matrixMultiplicationWithPrimaryTensor:secondaryTensor:name:@
 matrixMultiplicationWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 matrixMultiplicationWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph matrixMultiplicationWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Computes the hamming distance of two input tensors with support for broadcasting.
+-- | Create a  Hamming Distance op and return the result tensor, it supports broadcasting as well.
 --
--- The hamming distance is computed between 2 sets of vectors and the last dimension(s) of each  input tensor is considered a vector.
+-- The Hamming Distance is computed between sets of vectors and the last dimension(s) of each              input tensor is considered a vector. If the shape of primaryTensor is @[Na, M, K]@ and the shape              of secondaryTensor is @[Nb, N, K]@, with Na, Nb being any batch dimensions,              then the result shape is @[Na/Nb, M, N]@, where @Na/Nb@ are the broadcasted batch dimensions.              The result datatype is either MPSDataTypeUInt32 or MPSDataTypeUInt16.
 --
--- - Parameters:   - primaryTensor: The first input tensor.   - secondaryTensor: The second input tensor.   - resultDataType: The datatype of the return MPSGraphTensor. Must be either ``MPSDataTypeUInt32`` or ``MPSDataTypeUInt16``.   - name: The name for the operation. - Returns: A valid tensor containing the hamming distance between the input tensors.
+-- @primaryTensor@ — LHS tensor of the binary Op
+--
+-- @secondaryTensor@ — RHS tensor of the binary Op
+--
+-- @resultDataType@ — Must be either MPSDataTypeUInt32 or MPSDataTypeUInt16
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- HammingDistanceWithPrimaryTensor:secondaryTensor:resultDataType:name:@
 hammingDistanceWithPrimaryTensor_secondaryTensor_resultDataType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> MPSDataType -> name -> IO (Id MPSGraphTensor)
 hammingDistanceWithPrimaryTensor_secondaryTensor_resultDataType_name mpsGraph primaryTensor secondaryTensor resultDataType name =
   sendMessage mpsGraph hammingDistanceWithPrimaryTensor_secondaryTensor_resultDataType_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) resultDataType (toNSString name)
 
--- | Creates a scaled dot product attention (SDPA) operation and returns the result tensor.
+-- | Create  Matrix inverse op and return the result tensor
 --
--- SDPA Op computes attention by computing softmax(scale * QK^T + M)V. queryTensor Q with shape [B, Hq, Nq, F] and keyTensor K with shape [B, Hq, Nkv, F], with Q's H dimension expandable to satisfy matmul QK^T. maskTensor M's shape should be broadcast compatible to satisfy (QK^T + M). valueTensor V with shape [B, Hv, Nkv, F] should satisfy the matmul (QK^T + M)V.
+-- Find the inverse of a square matrix by calling LU decomposition and solver              The op computes inverse for all batches If the input tensor has more than              2 dimensions. Results are undefined for ill conditioned matrices.
 --
--- - Parameters:   - queryTensor: A tensor that represents the query projection.   - keyTensor: A tensor that represents the key projection.   - valueTensor: A tensor that represents the value projection.   - maskTensor: An optional tensor that contains a mask that is applied to the scaled, matrix   multiplied query and value matrices. If mask tensor is nil, the QK^T is not element-wise masked.   - scale: A scale that is applied to the result of query and value matrix multiply.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @inputTensor@ — input tensor to inverse op
 --
--- ObjC selector: @- scaledDotProductAttentionWithQueryTensor:keyTensor:valueTensor:maskTensor:scale:name:@
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_maskTensor_scale_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor queryTensor, IsMPSGraphTensor keyTensor, IsMPSGraphTensor valueTensor, IsMPSGraphTensor maskTensor, IsNSString name) => mpsGraph -> queryTensor -> keyTensor -> valueTensor -> maskTensor -> CFloat -> name -> IO (Id MPSGraphTensor)
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_maskTensor_scale_name mpsGraph queryTensor keyTensor valueTensor maskTensor scale name =
-  sendMessage mpsGraph scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_maskTensor_scale_nameSelector (toMPSGraphTensor queryTensor) (toMPSGraphTensor keyTensor) (toMPSGraphTensor valueTensor) (toMPSGraphTensor maskTensor) scale (toNSString name)
-
--- | Creates a scaled dot product attention (SDPA) operation (without a mask) and returns the result tensor.
+-- @name@ — name for the operation
 --
--- - Parameters:   - queryTensor: A tensor that represents the query projection.   - keyTensor: A tensor that represents the key projection.   - valueTensor: A tensor that represents the value projection.   - scale: A scale that is applied on the result of query and value matrix multiply.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
---
--- ObjC selector: @- scaledDotProductAttentionWithQueryTensor:keyTensor:valueTensor:scale:name:@
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_scale_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor queryTensor, IsMPSGraphTensor keyTensor, IsMPSGraphTensor valueTensor, IsNSString name) => mpsGraph -> queryTensor -> keyTensor -> valueTensor -> CFloat -> name -> IO (Id MPSGraphTensor)
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_scale_name mpsGraph queryTensor keyTensor valueTensor scale name =
-  sendMessage mpsGraph scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_scale_nameSelector (toMPSGraphTensor queryTensor) (toMPSGraphTensor keyTensor) (toMPSGraphTensor valueTensor) scale (toNSString name)
-
--- | Computes the inverse of an input tensor.
---
--- The framework computes the inverse of a square matrix by calling LU decomposition and LU solver. All dimensions after the first 2 are treated as batch dimensions and the inverse for each batch is computed. Results are undefined for ill conditioned matrices.
---
--- - Parameters:   - inputTensor: The input tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object containing the inverse of the input tensor.
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- inverseOfTensor:name:@
 inverseOfTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor inputTensor, IsNSString name) => mpsGraph -> inputTensor -> name -> IO (Id MPSGraphTensor)
 inverseOfTensor_name mpsGraph inputTensor name =
   sendMessage mpsGraph inverseOfTensor_nameSelector (toMPSGraphTensor inputTensor) (toNSString name)
 
--- | Creates a softmax cross-entropy loss operation and returns the result tensor.
+-- | Create a softmax cross entropy loss op and return the result tensor
 --
--- The softmax cross-entropy operation computes: ```md     loss = reduction( - labels*ln( softmax(source) )), where     sotfmax(source) = exp(source) / sum( exp(source) ), and ``` the operation performs the reduction over the @axis@ dimension.
+-- @sourceTensor@ — sourceTensor
 --
--- - Parameters:   - sourceTensor: The source tensor.   - labelsTensor: The labels tensor.   - axis: The axis over which the operation computes the softmax reduction.   - reductionType: The type of reduction MPSGraph uses to reduce across all other axes than @axis@. See: ``MPSGraphLossReductionType``.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @labelsTensor@ — labelsTensor
+--
+-- @axis@ — axis over which loss reuction happens
+--
+-- @reductionType@ — reductionType which reduces across all other axes
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- softMaxCrossEntropyWithSourceTensor:labelsTensor:axis:reductionType:name:@
 softMaxCrossEntropyWithSourceTensor_labelsTensor_axis_reductionType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor sourceTensor, IsMPSGraphTensor labelsTensor, IsNSString name) => mpsGraph -> sourceTensor -> labelsTensor -> CLong -> MPSGraphLossReductionType -> name -> IO (Id MPSGraphTensor)
 softMaxCrossEntropyWithSourceTensor_labelsTensor_axis_reductionType_name mpsGraph sourceTensor labelsTensor axis reductionType name =
   sendMessage mpsGraph softMaxCrossEntropyWithSourceTensor_labelsTensor_axis_reductionType_nameSelector (toMPSGraphTensor sourceTensor) (toMPSGraphTensor labelsTensor) axis reductionType (toNSString name)
 
--- | Creates the gradient of a softmax cross-entropy loss operation and returns the result tensor.
+-- | Create a softmax cross entropy loss op and return the result tensor
 --
--- - Parameters:   - gradientTensor: The input gradientTensor. Note: in most cases this is the initial gradient tensor, which is a constant tensor with value one.   - sourceTensor: The source tensor.   - labelsTensor: The labels tensor.   - axis: The axis over which the operation computes the softmax reduction.   - reductionType: The type of reduction MPSGraph uses to reduce across all other axes than @axis@. See: ``MPSGraphLossReductionType``.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @gradientTensor@ — gradientTensor
+--
+-- @sourceTensor@ — sourceTensor
+--
+-- @labelsTensor@ — labelsTensor
+--
+-- @axis@ — axis over which loss reuction happens
+--
+-- @reductionType@ — reductionType which reduces across all other axes
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- softMaxCrossEntropyGradientWithIncomingGradientTensor:sourceTensor:labelsTensor:axis:reductionType:name:@
 softMaxCrossEntropyGradientWithIncomingGradientTensor_sourceTensor_labelsTensor_axis_reductionType_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradientTensor, IsMPSGraphTensor sourceTensor, IsMPSGraphTensor labelsTensor, IsNSString name) => mpsGraph -> gradientTensor -> sourceTensor -> labelsTensor -> CLong -> MPSGraphLossReductionType -> name -> IO (Id MPSGraphTensor)
 softMaxCrossEntropyGradientWithIncomingGradientTensor_sourceTensor_labelsTensor_axis_reductionType_name mpsGraph gradientTensor sourceTensor labelsTensor axis reductionType name =
   sendMessage mpsGraph softMaxCrossEntropyGradientWithIncomingGradientTensor_sourceTensor_labelsTensor_axis_reductionType_nameSelector (toMPSGraphTensor gradientTensor) (toMPSGraphTensor sourceTensor) (toMPSGraphTensor labelsTensor) axis reductionType (toNSString name)
 
--- | Computes the band part of an input tensor.
+-- | Create band part op and return the result
 --
--- This operation copies a diagonal band of values from input tensor to a result tensor of the same size. A coordinate @[..., i, j]@ is in the band if  ```md  (numLower < 0 || (i-j) <= numLower) && (numUpper < 0 || (j-i) <= numUpper)  ```  The values outside of the band are set to 0.
+-- Copies a diagonal band of values from input tensor to a result tensor of the same size.              A coordinate
 --
--- - Parameters:   - inputTensor: input tensor   - numLower: the number of diagonals in the lower triangle to keep. If -1, the framework returns all sub diagnols.   - numUpper: the number of diagonals in the upper triangle to keep. If -1,  the framework returns all super diagnols.   - name: name for the operation. - Returns: A valid MPSGraphTensor object.
+-- [..., i, j]
+--
+-- is in the band if
+--
+-- (numLower < 0 || (i-j) <= numLower) && (numUpper < 0 || (j-i) <= numUpper)
+--
+-- Values outside of the band are set to 0.
+--
+-- @inputTensor@ — The source tensor to copy
+--
+-- @numLower@ — The number of diagonals in the lower triangle to keep. If -1, keep all
+--
+-- @numUpper@ — The number of diagonals in the upper triangle to keep. If -1, keep all
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- bandPartWithTensor:numLower:numUpper:name:@
 bandPartWithTensor_numLower_numUpper_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor inputTensor, IsNSString name) => mpsGraph -> inputTensor -> CLong -> CLong -> name -> IO (Id MPSGraphTensor)
 bandPartWithTensor_numLower_numUpper_name mpsGraph inputTensor numLower numUpper name =
   sendMessage mpsGraph bandPartWithTensor_numLower_numUpper_nameSelector (toMPSGraphTensor inputTensor) numLower numUpper (toNSString name)
 
--- | Creates the band part operation and returns the result.
+-- | Create band part op and return the result
 --
 -- See above discussion of bandPartWithTensor: numLower: numUpper: name:
 --
--- - Parameters:   - inputTensor: The source tensor to copy.   - numLowerTensor: Scalar Int32 tensor. The number of diagonals in the lower triangle to keep. If -1, keep all.   - numUpperTensor: Scalar Int32 tensor. The number of diagonals in the upper triangle to keep. If -1, keep all.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object.
+-- @inputTensor@ — The source tensor to copy
+--
+-- @numLowerTensor@ — Scalar Int32 tensor. The number of diagonals in the lower triangle to keep. If -1, keep all.
+--
+-- @numUpperTensor@ — Scalar Int32 tensor. The number of diagonals in the upper triangle to keep. If -1, keep all.
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- bandPartWithTensor:numLowerTensor:numUpperTensor:name:@
 bandPartWithTensor_numLowerTensor_numUpperTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor inputTensor, IsMPSGraphTensor numLowerTensor, IsMPSGraphTensor numUpperTensor, IsNSString name) => mpsGraph -> inputTensor -> numLowerTensor -> numUpperTensor -> name -> IO (Id MPSGraphTensor)
 bandPartWithTensor_numLowerTensor_numUpperTensor_name mpsGraph inputTensor numLowerTensor numUpperTensor name =
   sendMessage mpsGraph bandPartWithTensor_numLowerTensor_numUpperTensor_nameSelector (toMPSGraphTensor inputTensor) (toMPSGraphTensor numLowerTensor) (toMPSGraphTensor numUpperTensor) (toNSString name)
 
--- | Creates an imToCol operation and returns the result tensor.
+-- | Create GatherAlongAxis op and return the result tensor
 --
--- - Parameters:   - source: The tensor containing the source data. Must be of rank 4. The layout is defined by @descriptor.dataLayout@.   - descriptor: The descriptor object that specifies the parameters of the operation.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- Gather values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@.              The shape of @updatesTensor@ and @indicesTensor@ must match except at @axis@.              The shape of the result tensor is equal to the shape of @indicesTensor@.              If an index is out of bounds of the @updatesTensor@ along @axis@ a 0 is inserted.
 --
--- ObjC selector: @- imToColWithSourceTensor:descriptor:name:@
-imToColWithSourceTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphImToColOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> descriptor -> name -> IO (Id MPSGraphTensor)
-imToColWithSourceTensor_descriptor_name mpsGraph source descriptor name =
-  sendMessage mpsGraph imToColWithSourceTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphImToColOpDescriptor descriptor) (toNSString name)
-
--- | Creates a column to image operation and returns the result tensor.
+-- @axis@ — The axis to gather from. Negative values wrap around
 --
--- - Parameters:   - source: The tensor containing the source data. Must be of rank 4. The layout is defined by @descriptor.dataLayout@.   - outputShape: The result tensor shape.   - descriptor: The descriptor object that specifies the parameters of the operation.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @updatesTensor@ — The input tensor to gather values from
 --
--- ObjC selector: @- colToImWithSourceTensor:outputShape:descriptor:name:@
-colToImWithSourceTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphImToColOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
-colToImWithSourceTensor_outputShape_descriptor_name mpsGraph source outputShape descriptor name =
-  sendMessage mpsGraph colToImWithSourceTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor source) outputShape (toMPSGraphImToColOpDescriptor descriptor) (toNSString name)
-
--- | Creates a GatherAlongAxis operation and returns the result tensor.
+-- @indicesTensor@ — Int32 or Int64 tensor used to index @updatesTensor@
 --
--- Gather values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@.  The shape of @updatesTensor@ and @indicesTensor@ must match except at @axis@.  The shape of the result tensor is equal to the shape of @indicesTensor@.  If an index is out of bounds of the @updatesTensor@ along @axis@ a 0 is inserted.
+-- @name@ — The name for the operation
 --
--- - Parameters:   - axis: The axis to gather from. Negative values wrap around   - updatesTensor: The input tensor to gather values from   - indicesTensor: Int32 or Int64 tensor used to index @updatesTensor@   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- gatherAlongAxis:withUpdatesTensor:indicesTensor:name:@
 gatherAlongAxis_withUpdatesTensor_indicesTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> CLong -> updatesTensor -> indicesTensor -> name -> IO (Id MPSGraphTensor)
 gatherAlongAxis_withUpdatesTensor_indicesTensor_name mpsGraph axis updatesTensor indicesTensor name =
   sendMessage mpsGraph gatherAlongAxis_withUpdatesTensor_indicesTensor_nameSelector axis (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) (toNSString name)
 
--- | Creates a GatherAlongAxis operation and returns the result tensor.
+-- | Create GatherAlongAxis op and return the result tensor
 --
--- Gather values from @updatesTensor@ along the specified @axis@ at indices in @indicesTensor@. The shape of @updatesTensor@ and @indicesTensor@ must match except at @axis@. The shape of the result tensor is equal to the shape of @indicesTensor@. If an index is out of bounds of the @updatesTensor@ along @axis@ a 0 is inserted.
+-- See above discussion of gatherAlongAxis: withUpdatesTensor: indicesTensor: name:
 --
--- - Parameters:   - axisTensor: Scalar Int32 tensor. The axis to gather from. Negative values wrap around   - updatesTensor: The input tensor to gather values from   - indicesTensor: Int32 or Int64 tensor used to index @updatesTensor@   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @axisTensor@ — Scalar Int32 tensor. The axis to gather from. Negative values wrap around
+--
+-- @updatesTensor@ — The input tensor to gather values from
+--
+-- @indicesTensor@ — Int32 or Int64 tensor used to index @updatesTensor@
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- gatherAlongAxisTensor:withUpdatesTensor:indicesTensor:name:@
 gatherAlongAxisTensor_withUpdatesTensor_indicesTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor axisTensor, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> axisTensor -> updatesTensor -> indicesTensor -> name -> IO (Id MPSGraphTensor)
 gatherAlongAxisTensor_withUpdatesTensor_indicesTensor_name mpsGraph axisTensor updatesTensor indicesTensor name =
   sendMessage mpsGraph gatherAlongAxisTensor_withUpdatesTensor_indicesTensor_nameSelector (toMPSGraphTensor axisTensor) (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) (toNSString name)
 
--- | Creates a Gather operation and returns the result tensor.
+-- | Create Gather op and return the result tensor
 --
--- Gathers the values in updatesTensor to the result tensor along the indices in indicesTensor.  The gather is defined as  ```md  B = batchDims  U = updates.rank  P = res.rank  Q = inds.rank  res[p_{0},...p_{axis-1}, i_{B},...,i_{Q}, ...,p_{axis+1},...,p{U-1}] =  updates[p_{0},...p_{axis-1}, indices[p_{0},...,p_{B-1},i_{B},...,i_{Q}, ...,p_{axis+1},...,p{U-1}]  ```  The tensors have the following shape requirements  ```md  P = Q-B + U-1  indices.shape[0:B] = updates.shape[0:B] = res.shape[0:B]  res.shape[0:axis] = updates.shape[0:axis]  res.shape[axis:axis+Q-B] = indices.shape[B:]  res.shape[axis+1+Q-B:] = updates.shape[axis+1:]  ```
+-- Gathers the values in updatesTensor to the result tensor along the indices in indicesTensor.              The gather is defined as
 --
--- - Parameters:   - updatesTensor: Tensor containing slices to be inserted into the result tensor.   - indicesTensor: Tensor containg the updates indices to read slices from   - axis: The dimension on which to perform the gather   - batchDimensions: The number of batch dimensions   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- B = batchDims
+-- U = updates.rank
+-- P = res.rank
+-- Q = inds.rank
+--
+-- res[p_{0},...p_{axis-1},                               i_{B},...,i_{Q}, ...,p_{axis+1},...,p{U-1}] =
+-- updates[p_{0},...p_{axis-1}, indices[p_{0},...,p_{B-1},i_{B},...,i_{Q}, ...,p_{axis+1},...,p{U-1}]
+--
+-- The tensors have the following shape requirements
+--
+-- P = Q-B + U-1
+-- indices.shape[0:B] = updates.shape[0:B] = res.shape[0:B]
+-- res.shape[0:axis] = updates.shape[0:axis]
+-- res.shape[axis:axis+Q-B] = indices.shape[B:]
+-- res.shape[axis+1+Q-B:] = updates.shape[axis+1:]
+--
+-- @updatesTensor@ — Tensor containing slices to be inserted into the result tensor
+--
+-- @indicesTensor@ — Tensor containg the updates indices to read slices from
+--
+-- @axis@ — The dimension on which to perform the gather
+--
+-- @batchDimensions@ — The number of batch dimensions
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- gatherWithUpdatesTensor:indicesTensor:axis:batchDimensions:name:@
 gatherWithUpdatesTensor_indicesTensor_axis_batchDimensions_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> updatesTensor -> indicesTensor -> CULong -> CULong -> name -> IO (Id MPSGraphTensor)
 gatherWithUpdatesTensor_indicesTensor_axis_batchDimensions_name mpsGraph updatesTensor indicesTensor axis batchDimensions name =
   sendMessage mpsGraph gatherWithUpdatesTensor_indicesTensor_axis_batchDimensions_nameSelector (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) axis batchDimensions (toNSString name)
 
--- | Creates a GatherND operation and returns the result tensor.
+-- | Create GatherND op and return the result tensor
 --
--- Gathers the slices in updatesTensor to the result tensor along the indices in indicesTensor.  The gather is defined as  ```md  B = batchDims  U = updates.rank - B  P = res.rank - B  Q = inds.rank - B  K = inds.shape[-1]  index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]  res[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}] = updates[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]]  ```  The tensors have the following shape requirements  ```md  U > 0; P > 0; Q > 0  K <= U  P = (U-K) + Q-1  indices.shape[0:Q-1] = res.shape[0:Q-1]  res.shape[Q:P] = updates.shape[K:U]  ```
+-- Gathers the slices in updatesTensor to the result tensor along the indices in indicesTensor.              The gather is defined as
 --
--- - Parameters:   - updatesTensor: Tensor containing slices to be inserted into the result tensor.   - indicesTensor: Tensor containg the updates indices to read slices from   - batchDimensions: The number of batch dimensions   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- B = batchDims
+-- U = updates.rank - B
+-- P = res.rank - B
+-- Q = inds.rank - B
+-- K = inds.shape[-1]
+-- index_slice = indices[i_{b0},...,i_{bB},i_{0},..,i_{Q-1}]
+-- res[i_{b0},...,i_{bB},i_{0},...,i_{Q-1}] = updates[i_{b0},...,i_{bB},index_slice[0],...,index_slice[K-1]]
+--
+-- The tensors have the following shape requirements
+--
+-- U > 0; P > 0; Q > 0
+-- K <= U
+-- P = (U-K) + Q-1
+-- indices.shape[0:Q-1] = res.shape[0:Q-1]
+-- res.shape[Q:P] = updates.shape[K:U]
+--
+-- @updatesTensor@ — Tensor containing slices to be inserted into the result tensor
+--
+-- @indicesTensor@ — Tensor containg the updates indices to read slices from
+--
+-- @batchDimensions@ — The number of batch dimensions
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- gatherNDWithUpdatesTensor:indicesTensor:batchDimensions:name:@
 gatherNDWithUpdatesTensor_indicesTensor_batchDimensions_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor updatesTensor, IsMPSGraphTensor indicesTensor, IsNSString name) => mpsGraph -> updatesTensor -> indicesTensor -> CULong -> name -> IO (Id MPSGraphTensor)
 gatherNDWithUpdatesTensor_indicesTensor_batchDimensions_name mpsGraph updatesTensor indicesTensor batchDimensions name =
   sendMessage mpsGraph gatherNDWithUpdatesTensor_indicesTensor_batchDimensions_nameSelector (toMPSGraphTensor updatesTensor) (toMPSGraphTensor indicesTensor) batchDimensions (toNSString name)
 
--- | Creates a fast Fourier transform operation and returns the result tensor.
---
--- This operation computes the fast Fourier transform of the input tensor according to the following formulae. ```md     output[mu] = scale * sum_nu exp( +/- i * 2Pi * mu * nu / n ) input[nu], where ``` @scale = 1@ for @scaling_mode = none@, @scale = 1/V_f@ for @scaling_mode = size@, @scale = 1/sqrt(V_f)@ for @scaling_mode = unitary@, where @V_f@ is the volume of the transformation defined by the dimensions included in @axes@ (`V_f = prod_{i  axes} shape(input)[i]@) (see @@MPSGraphFFTDescriptor/scalingMode@`), @+@ is selected in @+/-@ when @inverse@ is specified, otherwise @-@ is used and the sum is done separately over each dimension in @axes@ and @n@ is the dimension length of that axis.
---
--- > Tip: Currently MPSGraph supports the transformation only within the last four dimensions of the input tensor. In case  you need to transform higher dimensions than the last four, you can tranpose the higher dimensions of the input  with ``MPSGraph/transposeTensor:permutation:name:``  to be within that last four and then transpose  the result tensor back with the inverse of the input transpose.
---
--- - Parameters:   - tensor: A complex or real-valued input tensor.   - axes: An array of numbers that specifies over which axes MPSGraph performs the Fourier transform - all axes must be contained within last four dimensions of the input tensor.   - descriptor: A descriptor that defines the parameters of the Fourier transform operation - see ``MPSGraphFFTDescriptor``.   - name: The name for the operation. - Returns: A valid complex-valued MPSGraphTensor of the same shape as @tensor@.
---
--- ObjC selector: @- fastFourierTransformWithTensor:axes:descriptor:name:@
-fastFourierTransformWithTensor_axes_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsMPSGraphFFTDescriptor descriptor, IsNSString name) => mpsGraph -> tensor -> axes -> descriptor -> name -> IO (Id MPSGraphTensor)
-fastFourierTransformWithTensor_axes_descriptor_name mpsGraph tensor axes descriptor name =
-  sendMessage mpsGraph fastFourierTransformWithTensor_axes_descriptor_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toMPSGraphFFTDescriptor descriptor) (toNSString name)
-
--- | Creates a fast Fourier transform operation and returns the result tensor.
---
--- This operation computes the fast Fourier transform of the input tensor according to the following formulae. ```md     output[mu] = scale * sum_nu exp( +/- i * 2Pi * mu * nu / n ) input[nu], where ``` @scale = 1@ for @scaling_mode = none@, @scale = 1/V_f@ for @scaling_mode = size@, @scale = 1/sqrt(V_f)@ for @scaling_mode = unitary@, where @V_f@ is the volume of the transformation defined by the dimensions included in @axes@ (`V_f = prod_{i  axes} shape(input)[i]@) (see @@MPSGraphFFTDescriptor/scalingMode@`), @+@ is selected in @+/-@ when @inverse@ is specified, otherwise @-@ is used and the sum is done separately over each dimension in @axes@ and @n@ is the dimension length of that axis.
---
--- > Tip: Currently MPSGraph supports the transformation only within the last four dimensions of the input tensor. In case  you need to transform higher dimensions than the last four, you can tranpose the higher dimensions of the input  with ``MPSGraph/transposeTensor:permutation:name:``  to be within that last four and then transpose  the result tensor back with the inverse of the input transpose.
---
--- - Parameters:   - tensor: A complex or real-valued input tensor.   - axesTensor: A tensor of rank one containing the axes over which MPSGraph performs the transformation. See ``MPSGraph/fastFourierTransformWithTensor:axes:descriptor:name:``.   - descriptor: A descriptor that defines the parameters of the Fourier transform operation - see ``MPSGraphFFTDescriptor``.   - name: The name for the operation. - Returns: A valid complex-valued MPSGraphTensor of the same shape as @tensor@.
---
--- ObjC selector: @- fastFourierTransformWithTensor:axesTensor:descriptor:name:@
-fastFourierTransformWithTensor_axesTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axesTensor, IsMPSGraphFFTDescriptor descriptor, IsNSString name) => mpsGraph -> tensor -> axesTensor -> descriptor -> name -> IO (Id MPSGraphTensor)
-fastFourierTransformWithTensor_axesTensor_descriptor_name mpsGraph tensor axesTensor descriptor name =
-  sendMessage mpsGraph fastFourierTransformWithTensor_axesTensor_descriptor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axesTensor) (toMPSGraphFFTDescriptor descriptor) (toNSString name)
-
--- | Creates a Real-to-Hermitean fast Fourier transform operation and returns the result tensor.
---
--- This operation computes the fast Fourier transform of a real-valued input tensor according to the following formulae. ```md     output[mu] = scale * sum_nu exp( +/- i * 2Pi * mu * nu / n ) input[nu], where ``` @scale = 1@ for @scaling_mode = none@, @scale = 1/V_f@ for @scaling_mode = size@, @scale = 1/sqrt(V_f)@ for @scaling_mode = unitary@, where @V_f@ is the volume of the transformation defined by the dimensions included in @axes@ (`V_f = prod_{i  axes} shape(input)[i]@) (see @@MPSGraphFFTDescriptor/scalingMode@`), @+@ is selected in @+/-@ when @inverse@ is specified, otherwise @-@ is used and the sum is done separately over each dimension in @axes@ and @n@ is the dimension length of that axis. With this API MPSGraph writes out only the results for the unique frequencies, resulting in a tensor which has size @(n/2)+1@ in the last dimension defined by @axes@.
---
--- > Tip: Currently MPSGraph supports the transformation only within the last four dimensions of the input tensor. In case  you need to transform higher dimensions than the last four, you can tranpose the higher dimensions of the input  with ``MPSGraph/transposeTensor:permutation:name:``  to be within that last four and then transpose  the result tensor back with the inverse of the input transpose.
---
--- - Parameters:   - tensor: A Real-valued input tensor. Must have datatype @MPSDataTypeFloat32@ or @MPSDatatypeFloat16@.   - axes: An array of numbers that specifies over which axes MPSGraph performs the Fourier transform - all axes must be contained within last four dimensions of the input tensor.   - descriptor: A descriptor that defines the parameters of the Fourier transform operation - see ``MPSGraphFFTDescriptor``.   - name: The name for the operation. - Returns: A valid MPSGraphTensor of type @MPSDataTypeComplexFloat32@ or @MPSDataTypeComplexFloat16@ with reduced size (see Discussion).
---
--- ObjC selector: @- realToHermiteanFFTWithTensor:axes:descriptor:name:@
-realToHermiteanFFTWithTensor_axes_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsMPSGraphFFTDescriptor descriptor, IsNSString name) => mpsGraph -> tensor -> axes -> descriptor -> name -> IO (Id MPSGraphTensor)
-realToHermiteanFFTWithTensor_axes_descriptor_name mpsGraph tensor axes descriptor name =
-  sendMessage mpsGraph realToHermiteanFFTWithTensor_axes_descriptor_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toMPSGraphFFTDescriptor descriptor) (toNSString name)
-
--- | Creates a Real-to-Hermitean fast Fourier transform operation and returns the result tensor.
---
--- This operation computes the fast Fourier transform of a real-valued input tensor according to the following formulae. ```md     output[mu] = scale * sum_nu exp( +/- i * 2Pi * mu * nu / n ) input[nu], where ``` @scale = 1@ for @scaling_mode = none@, @scale = 1/V_f@ for @scaling_mode = size@, @scale = 1/sqrt(V_f)@ for @scaling_mode = unitary@, where @V_f@ is the volume of the transformation defined by the dimensions included in @axes@ (`V_f = prod_{i  axes} shape(input)[i]@) (see @@MPSGraphFFTDescriptor/scalingMode@`), @+@ is selected in @+/-@ when @inverse@ is specified, otherwise @-@ is used and the sum is done separately over each dimension in @axes@ and @n@ is the dimension length of that axis. With this API MPSGraph writes out only the results for the unique frequencies, resulting in a tensor which has size @(n/2)+1@ in the last dimension defined by @axes@.
---
--- > Tip: Currently MPSGraph supports the transformation only within the last four dimensions of the input tensor. In case  you need to transform higher dimensions than the last four, you can tranpose the higher dimensions of the input  with ``MPSGraph/transposeTensor:permutation:name:``  to be within that last four and then transpose  the result tensor back with the inverse of the input transpose.
---
--- - Parameters:   - tensor: A real-valued input tensor. Must have datatype @MPSDataTypeFloat32@ or @MPSDatatypeFloat16@.   - axesTensor: A tensor of rank one containing the axes over which MPSGraph performs the transformation. See ``MPSGraph/fastFourierTransformWithTensor:axes:descriptor:name:``.   - descriptor: A descriptor that defines the parameters of the Fourier transform operation - see ``MPSGraphFFTDescriptor``.   - name: The name for the operation. - Returns: A valid MPSGraphTensor of type @MPSDataTypeComplexFloat32@ or @MPSDataTypeComplexFloat16@  with reduced size (see Discussion).
---
--- ObjC selector: @- realToHermiteanFFTWithTensor:axesTensor:descriptor:name:@
-realToHermiteanFFTWithTensor_axesTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axesTensor, IsMPSGraphFFTDescriptor descriptor, IsNSString name) => mpsGraph -> tensor -> axesTensor -> descriptor -> name -> IO (Id MPSGraphTensor)
-realToHermiteanFFTWithTensor_axesTensor_descriptor_name mpsGraph tensor axesTensor descriptor name =
-  sendMessage mpsGraph realToHermiteanFFTWithTensor_axesTensor_descriptor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axesTensor) (toMPSGraphFFTDescriptor descriptor) (toNSString name)
-
--- | Creates a Hermitean-to-real fast Fourier transform operation and returns the result tensor.
---
--- This operation computes the fast Fourier transform of a complex-valued input tensor according to the following formulae. ```md     output[mu] = scale * sum_nu exp( +/- i * 2Pi * mu * nu / n ) in'[nu], where ``` @in'[nu] = conjugate(in[n - nu])@, for the last dimension defined by @axes@ when @nu@ is out of range of the input dimension. @scale = 1@ for @scaling_mode = none@, @scale = 1/V_f@ for @scaling_mode = size@, @scale = 1/sqrt(V_f)@ for @scaling_mode = unitary@, where @V_f@ is the volume of the transformation defined by the dimensions included in @axes@ (`V_f = prod_{i  axes} shape(input)[i]@) (see @@MPSGraphFFTDescriptor/scalingMode@`), @+@ is selected in @+/-@ when @inverse@ is specified, otherwise @-@ is used and the sum is done separately over each dimension in @axes@ and @n@ is the dimension length of that axis. With this API MPSGraph treats the input tensor to have only the unique frequencies, which means that the resulting tensor has size @(inSize-1)*2 + x@ in the last dimension defined by @axes@, where @inSize = shape(input)[axis] ( = (n/2)+1 )@ is the size of the input @tensor@ in the last transformed dimension and @x = 1@ when ``MPSGraphFFTDescriptor/roundToOddHermitean`` = @YES@ and @x = 0@ otherwise.
---
--- > Tip: Currently transformation is supported only within the last four dimensions of the input tensor. In case  you need to transform higher dimensions than the last four, you can tranpose the higher dimensions of the input  with ``MPSGraph/transposeTensor:permutation:name:``  to be within that last four and then transpose  the result tensor back with the inverse of the input transpose.
---
--- - Parameters:   - tensor: A complex-valued input tensor with reduced size (see Discussion). Must have datatype @MPSDataTypeComplexFloat32@ or @MPSDataTypeComplexFloat16@.   - axes: An array of numbers that specifies over which axes MPSGraph performs the Fourier transform - all axes must be contained within last four dimensions of the input tensor.   - descriptor: A descriptor that defines the parameters of the Fourier transform operation - see ``MPSGraphFFTDescriptor``.   - name: The name for the operation. - Returns: A valid MPSGraphTensor of type @MPSDataTypeFloat32@ or @MPSDataTypeFloat16@ (full size).
---
--- ObjC selector: @- HermiteanToRealFFTWithTensor:axes:descriptor:name:@
-hermiteanToRealFFTWithTensor_axes_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSArray axes, IsMPSGraphFFTDescriptor descriptor, IsNSString name) => mpsGraph -> tensor -> axes -> descriptor -> name -> IO (Id MPSGraphTensor)
-hermiteanToRealFFTWithTensor_axes_descriptor_name mpsGraph tensor axes descriptor name =
-  sendMessage mpsGraph hermiteanToRealFFTWithTensor_axes_descriptor_nameSelector (toMPSGraphTensor tensor) (toNSArray axes) (toMPSGraphFFTDescriptor descriptor) (toNSString name)
-
--- | Creates a Hermitean-to-real fast Fourier transform operation and returns the result tensor.
---
--- This operation computes the fast Fourier transform of a complex-valued input tensor according to the following formulae. ```md     output[mu] = scale * sum_nu exp( +/- i * 2Pi * mu * nu / n ) in'[nu], where ``` @in'[nu] = conjugate(in[n - nu])@, for the last dimension defined by @axes@ when @nu@ is out of range of the input dimension. @scale = 1@ for @scaling_mode = none@, @scale = 1/V_f@ for @scaling_mode = size@, @scale = 1/sqrt(V_f)@ for @scaling_mode = unitary@, where @V_f@ is the volume of the transformation defined by the dimensions included in @axes@ (`V_f = prod_{i  axes} shape(input)[i]@) (see @@MPSGraphFFTDescriptor/scalingMode@`), @+@ is selected in @+/-@ when @inverse@ is specified, otherwise @-@ is used and the sum is done separately over each dimension in @axes@ and @n@ is the dimension length of that axis. With this API MPSGraph treats the input tensor to have only the unique frequencies, which means that the resulting tensor has size @(inSize-1)*2 + x@ in the last dimension defined by @axes@, where @inSize = shape(input)[axis] ( = (n/2)+1 )@ is the size of the input @tensor@ in the last transformed dimension and @x = 1@ when ``MPSGraphFFTDescriptor/roundToOddHermitean`` = @YES@ and @x = 0@ otherwise.
---
--- > Tip: Currently MPSGraph supports the transformation only within the last four dimensions of the input tensor. In case  you need to transform higher dimensions than the last four, you can tranpose the higher dimensions of the input  with ``MPSGraph/transposeTensor:permutation:name:``  to be within that last four and then transpose  the result tensor back with the inverse of the input transpose.
---
--- - Parameters:   - tensor: A complex-valued input tensor with reduced size (see Discussion). Must have datatype @MPSDataTypeComplexFloat32@ or @MPSDataTypeComplexFloat16@.   - axesTensor: A tensor of rank one containing the axes over which MPSGraph performs the transformation. See ``MPSGraph/fastFourierTransformWithTensor:axes:descriptor:name:``.   - descriptor: A descriptor that defines the parameters of the Fourier transform operation - see ``MPSGraphFFTDescriptor``.   - name: The name for the operation. - Returns: A valid MPSGraphTensor of type @MPSDataTypeFloat32@ or @MPSDataTypeFloat16@ (full size).
---
--- ObjC selector: @- HermiteanToRealFFTWithTensor:axesTensor:descriptor:name:@
-hermiteanToRealFFTWithTensor_axesTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axesTensor, IsMPSGraphFFTDescriptor descriptor, IsNSString name) => mpsGraph -> tensor -> axesTensor -> descriptor -> name -> IO (Id MPSGraphTensor)
-hermiteanToRealFFTWithTensor_axesTensor_descriptor_name mpsGraph tensor axesTensor descriptor name =
-  sendMessage mpsGraph hermiteanToRealFFTWithTensor_axesTensor_descriptor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axesTensor) (toMPSGraphFFTDescriptor descriptor) (toNSString name)
-
--- | Creates a 2D-depthwise convolution operation and returns the result tensor.
---
--- - Parameters:   - source: A 2D Image source as tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - weights: The weights tensor, must be rank=4. The layout is defined by @descriptor.weightsLayout@.   - descriptor: The descriptor object that specifies strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- depthwiseConvolution2DWithSourceTensor:weightsTensor:descriptor:name:@
+-- | @- depthwiseConvolution2DWithSourceTensor:weightsTensor:descriptor:name:@
 depthwiseConvolution2DWithSourceTensor_weightsTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor weights, IsMPSGraphDepthwiseConvolution2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> weights -> descriptor -> name -> IO (Id MPSGraphTensor)
 depthwiseConvolution2DWithSourceTensor_weightsTensor_descriptor_name mpsGraph source weights descriptor name =
   sendMessage mpsGraph depthwiseConvolution2DWithSourceTensor_weightsTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor weights) (toMPSGraphDepthwiseConvolution2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 2D-depthwise convolution gradient for data operation and returns the result tensor.
---
--- - Parameters:   - incomingGradient: A 2D input gradient tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - weights: The weights tensor, must be rank=4. The layout is defined by @descriptor.weightsLayout@.   - outputShape: The shape of the οutput tensor (and therefore input tensor of forward pass).   - descriptor: The descriptor object that specifies strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- depthwiseConvolution2DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:descriptor:name:@
+-- | @- depthwiseConvolution2DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:descriptor:name:@
 depthwiseConvolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor weights, IsMPSGraphDepthwiseConvolution2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> incomingGradient -> weights -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 depthwiseConvolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_name mpsGraph incomingGradient weights outputShape descriptor name =
   sendMessage mpsGraph depthwiseConvolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor weights) outputShape (toMPSGraphDepthwiseConvolution2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 2D-depthwise convolution gradient for weights operation and returns the result tensor.
---
--- - Parameters:   - incomingGradient: A 2D input gradient tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - source: A 2D Image source as tensor - must be of rank=4. The layout is defined by @descriptor.dataLayout@.   - outputShape: The shape of the οutput tensor (and therefore weight tensor of forward pass).   - descriptor: The descriptor object that specifies strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- depthwiseConvolution2DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:descriptor:name:@
+-- | @- depthwiseConvolution2DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:descriptor:name:@
 depthwiseConvolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor source, IsMPSGraphDepthwiseConvolution2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> incomingGradient -> source -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 depthwiseConvolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_name mpsGraph incomingGradient source outputShape descriptor name =
   sendMessage mpsGraph depthwiseConvolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor source) outputShape (toMPSGraphDepthwiseConvolution2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 3D depthwise convolution operation and returns the result tensor.
+-- | Create 3d depthwise convolution operation and return the result tensor.
 --
--- Works exactly like depthwise convolution2D, but in three dimensions. Supports different layouts with the ``MPSGraphDepthwiseConvolution3DOpDescriptor/channelDimensionIndex`` property. If your weights need a different layout add a permute operation on them before this operation.
+-- Just like depthwise convolution2d, but in three dimensions. Different layouts are supported by using              the
 --
--- - Parameters:   - source: A 3D Image source as tensor - must be at least rank=4 (CDHW when channelDimensionIndex = -4).   - weights: The weights tensor, must be rank=4 - axes are interpreted as CDHW when channelDimensionIndex = -4 .   - descriptor: The descriptor object that specifies strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- channelDimensionIndex
+--
+-- property. If your weights need a different layout              add a permute operation on them before this operation.
+--
+-- @source@ — 3d Image source as tensor - must be at least rank=4 (CDHW when channelDimensionIndex = -4).
+--
+-- @weights@ — Weights tensor, must be rank=4 - axes are interpreted as CDHW when channelDimensionIndex = -4 .
+--
+-- @descriptor@ — Specifies strides, dilation rates and paddings.
+--
+-- @name@ — The name for the operation.
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- depthwiseConvolution3DWithSourceTensor:weightsTensor:descriptor:name:@
 depthwiseConvolution3DWithSourceTensor_weightsTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor weights, IsMPSGraphDepthwiseConvolution3DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> weights -> descriptor -> name -> IO (Id MPSGraphTensor)
 depthwiseConvolution3DWithSourceTensor_weightsTensor_descriptor_name mpsGraph source weights descriptor name =
   sendMessage mpsGraph depthwiseConvolution3DWithSourceTensor_weightsTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor weights) (toMPSGraphDepthwiseConvolution3DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 3D depthwise convolution gradient for data operation and returns the result tensor.
+-- | Create 3d depthwise convolution gradient for data operation and return the result tensor.
 --
--- - Parameters:   - incomingGradient: A 3D input gradient tensor - must be at least rank=4 (CDHW).   - weights: The weights tensor, must be rank=4 - axes are interpreted as CDHW.   - outputShape: The shape of the οutput tensor (and therefore input tensor of forward pass).   - descriptor: The descriptor object that  specifies strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradient@ — 3d input gradient tensor - must be at least rank=4 (CDHW).
+--
+-- @weights@ — Weights tenstor, must be rank=4 - axes are interpreted as CDHW.
+--
+-- @outputShape@ — Shape of the οutput tensor (and therefore input tensor of forward pass).
+--
+-- @descriptor@ — Specifies strides, dilation rates and paddings.
+--
+-- @name@ — The name for the operation (NCDHW).
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- depthwiseConvolution3DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:descriptor:name:@
 depthwiseConvolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor weights, IsMPSGraphDepthwiseConvolution3DOpDescriptor descriptor, IsNSString name) => mpsGraph -> incomingGradient -> weights -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 depthwiseConvolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_name mpsGraph incomingGradient weights outputShape descriptor name =
   sendMessage mpsGraph depthwiseConvolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor weights) outputShape (toMPSGraphDepthwiseConvolution3DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 3D depthwise convolution gradient for weights operation and returns the result tensor.
+-- | Create 3d depthwise convolution gradient for weights operation and return the result tensor.
 --
--- - Parameters:   - incomingGradient: A 3D input gradient tensor - must be at least rank=4 (NCDHW).   - source: The forward pass 3D Image source as tensor - must be at least rank=4 (NCDHW).   - outputShape: The shape of the οutput tensor (and therefore weight tensor of forward pass).   - descriptor: The descriptor object that specifies strides, dilation rates and paddings.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradient@ — 3d input gradient tensor - must be at least rank=4 (NCDHW).
+--
+-- @source@ — Forward pass 3d Image source as tensor - must be at least rank=4 (NCDHW).
+--
+-- @outputShape@ — Shape of the οutput tensor (and therefore weight tensor of forward pass).
+--
+-- @descriptor@ — Specifies strides, dilation rates and paddings.
+--
+-- @name@ — The name for the operation (NCDHW).
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- depthwiseConvolution3DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:descriptor:name:@
 depthwiseConvolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor source, IsMPSGraphDepthwiseConvolution3DOpDescriptor descriptor, IsNSString name) => mpsGraph -> incomingGradient -> source -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 depthwiseConvolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_name mpsGraph incomingGradient source outputShape descriptor name =
   sendMessage mpsGraph depthwiseConvolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor source) outputShape (toMPSGraphDepthwiseConvolution3DOpDescriptor descriptor) (toNSString name)
 
--- | Computes the cumulative sum of the input tensor along the specified axis.
+-- | Create the cumulative sum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to zero   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative sum operation, and the first element will be equal to zero.
+--
+-- @reverse@ — reverse the direction of the cumulative sum operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeSumWithTensor:axis:exclusive:reverse:name:@
 cumulativeSumWithTensor_axis_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeSumWithTensor_axis_exclusive_reverse_name mpsGraph tensor axis exclusive reverse_ name =
   sendMessage mpsGraph cumulativeSumWithTensor_axis_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) axis exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative sum of the input tensor along the specified axis.
+-- | Create the cumulative sum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to zero   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative sum operation, and the first element will be equal to zero.
+--
+-- @reverse@ — reverse the direction of the cumulative sum operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeSumWithTensor:axisTensor:exclusive:reverse:name:@
 cumulativeSumWithTensor_axisTensor_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeSumWithTensor_axisTensor_exclusive_reverse_name mpsGraph tensor axisTensor exclusive reverse_ name =
   sendMessage mpsGraph cumulativeSumWithTensor_axisTensor_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative sum of the input tensor along the specified axis.
+-- | Create the inclusive cumulative sum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeSumWithTensor:axis:name:@
 cumulativeSumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 cumulativeSumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph cumulativeSumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Computes the cumulative sum of the input tensor along the specified axis.
+-- | Create the inclusive cumulative sum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeSumWithTensor:axisTensor:name:@
 cumulativeSumWithTensor_axisTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> name -> IO (Id MPSGraphTensor)
 cumulativeSumWithTensor_axisTensor_name mpsGraph tensor axisTensor name =
   sendMessage mpsGraph cumulativeSumWithTensor_axisTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) (toNSString name)
 
--- | Computes the cumulative product of the input tensor along the specified axis.
+-- | Create the cumulative product op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to one   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative product operation, and the first element will be equal to one.
+--
+-- @reverse@ — reverse the direction of the cumulative product operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeProductWithTensor:axis:exclusive:reverse:name:@
 cumulativeProductWithTensor_axis_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeProductWithTensor_axis_exclusive_reverse_name mpsGraph tensor axis exclusive reverse_ name =
   sendMessage mpsGraph cumulativeProductWithTensor_axis_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) axis exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative product of the input tensor along the specified axis.
+-- | Create the cumulative product op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to one   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative product operation, and the first element will be equal to one.
+--
+-- @reverse@ — reverse the direction of the cumulative product operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeProductWithTensor:axisTensor:exclusive:reverse:name:@
 cumulativeProductWithTensor_axisTensor_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeProductWithTensor_axisTensor_exclusive_reverse_name mpsGraph tensor axisTensor exclusive reverse_ name =
   sendMessage mpsGraph cumulativeProductWithTensor_axisTensor_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative product of the input tensor along the specified axis.
+-- | Create the inclusive cumulative product op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeProductWithTensor:axis:name:@
 cumulativeProductWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 cumulativeProductWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph cumulativeProductWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Computes the cumulative product of the input tensor along the specified axis.
+-- | Create the inclusive cumulative product op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to one   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeProductWithTensor:axisTensor:name:@
 cumulativeProductWithTensor_axisTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> name -> IO (Id MPSGraphTensor)
 cumulativeProductWithTensor_axisTensor_name mpsGraph tensor axisTensor name =
   sendMessage mpsGraph cumulativeProductWithTensor_axisTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) (toNSString name)
 
--- | Computes the cumulative minimum of the input tensor along the specified axis.
+-- | Create the cumulative minimum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to the largest value of the tensor data type   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative minimum operation, and the first element will be equal to the highest value of data type.
+--
+-- @reverse@ — reverse the direction of the cumulative minimum operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMinimumWithTensor:axis:exclusive:reverse:name:@
 cumulativeMinimumWithTensor_axis_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeMinimumWithTensor_axis_exclusive_reverse_name mpsGraph tensor axis exclusive reverse_ name =
   sendMessage mpsGraph cumulativeMinimumWithTensor_axis_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) axis exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative minimum of the input tensor along the specified axis.
+-- | Create the cumulative minimum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to the largest value of the tensor data type   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative minimum operation, and the first element will be equal to the highest value of data type.
+--
+-- @reverse@ — reverse the direction of the cumulative minimum operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMinimumWithTensor:axisTensor:exclusive:reverse:name:@
 cumulativeMinimumWithTensor_axisTensor_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeMinimumWithTensor_axisTensor_exclusive_reverse_name mpsGraph tensor axisTensor exclusive reverse_ name =
   sendMessage mpsGraph cumulativeMinimumWithTensor_axisTensor_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative minimum of the input tensor along the specified axis.
+-- | Create the inclusive cumulative minimum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMinimumWithTensor:axis:name:@
 cumulativeMinimumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 cumulativeMinimumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph cumulativeMinimumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Computes the cumulative minimum of the input tensor along the specified axis.
+-- | Create the inclusive cumulative minimum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to the largest value of the tensor data type   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMinimumWithTensor:axisTensor:name:@
 cumulativeMinimumWithTensor_axisTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> name -> IO (Id MPSGraphTensor)
 cumulativeMinimumWithTensor_axisTensor_name mpsGraph tensor axisTensor name =
   sendMessage mpsGraph cumulativeMinimumWithTensor_axisTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) (toNSString name)
 
--- | Computes the cumulative maximum of the input tensor along the specified axis.
+-- | Create the cumulative maximum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to the lowest value of the tensor data type   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative maximum operation, and the first element will be equal to the lowest value of data type.
+--
+-- @reverse@ — reverse the direction of the cumulative maximum operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMaximumWithTensor:axis:exclusive:reverse:name:@
 cumulativeMaximumWithTensor_axis_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeMaximumWithTensor_axis_exclusive_reverse_name mpsGraph tensor axis exclusive reverse_ name =
   sendMessage mpsGraph cumulativeMaximumWithTensor_axis_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) axis exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative maximum of the input tensor along the specified axis.
+-- | Create the cumulative maximum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - exclusive: If true, perform the exclusive cumulative operation, and the first element will be equal to the lowest value of the tensor data type   - reverse: If true, reverse the direction of the cumulative operation along the specified axis   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @exclusive@ — if true, performs the exclusive cumulative maximum operation, and the first element will be equal to the lowest value of data type.
+--
+-- @reverse@ — reverse the direction of the cumulative maximum operation along the given axis
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMaximumWithTensor:axisTensor:exclusive:reverse:name:@
 cumulativeMaximumWithTensor_axisTensor_exclusive_reverse_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> Bool -> Bool -> name -> IO (Id MPSGraphTensor)
 cumulativeMaximumWithTensor_axisTensor_exclusive_reverse_name mpsGraph tensor axisTensor exclusive reverse_ name =
   sendMessage mpsGraph cumulativeMaximumWithTensor_axisTensor_exclusive_reverse_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) exclusive reverse_ (toNSString name)
 
--- | Computes the cumulative maximum of the input tensor along the specified axis.
+-- | Create the inclusive cumulative maximum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axis: The tensor dimension where you compute the cumulative operation   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axis@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMaximumWithTensor:axis:name:@
 cumulativeMaximumWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 cumulativeMaximumWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph cumulativeMaximumWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Computes the cumulative maximum of the input tensor along the specified axis.
+-- | Create the inclusive cumulative maximum op and return the result tensor.
 --
--- - Parameters:   - tensor: The input tensor   - axisTensor: The tensor dimension where you compute the cumulative operation   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @tensor@ — input tensor
+--
+-- @axisTensor@ — the tensor dimension over which the cumulative operation occurs
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- cumulativeMaximumWithTensor:axisTensor:name:@
 cumulativeMaximumWithTensor_axisTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor axisTensor, IsNSString name) => mpsGraph -> tensor -> axisTensor -> name -> IO (Id MPSGraphTensor)
 cumulativeMaximumWithTensor_axisTensor_name mpsGraph tensor axisTensor name =
   sendMessage mpsGraph cumulativeMaximumWithTensor_axisTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor axisTensor) (toNSString name)
 
--- | Runs the graph for the given feeds and returns the target tensor values, ensuring all target operations also executed.
+-- | Runs the graph for given feeds to return targetTensor values, ensuring all target operations also executed. This call blocks till execution has completed.
 --
--- This call blocks until execution has completed.
+-- @operations@ — Operations maked as control dependency for all ops created inside the dependent block
 --
--- - Parameters:   - operations: Operations maked as control dependency for all ops created inside the dependent block   - dependentBlock: MPSGraphControlFlowDependencyBlock which is provided by caller to create dependent ops   - name: name of scope - Returns: A valid MPSGraphTensor array with results returned from dependentBlock forwarded
+-- @dependentBlock@ — MPSGraphControlFlowDependencyBlock which is provided by caller to create dependent ops
+--
+-- @name@ — name of scope
+--
+-- Returns: A valid MPSGraphTensor array with results returned from dependentBlock forwarded
 --
 -- ObjC selector: @- controlDependencyWithOperations:dependentBlock:name:@
 controlDependencyWithOperations_dependentBlock_name :: (IsMPSGraph mpsGraph, IsNSArray operations, IsNSString name) => mpsGraph -> operations -> Ptr () -> name -> IO (Id NSArray)
 controlDependencyWithOperations_dependentBlock_name mpsGraph operations dependentBlock name =
   sendMessage mpsGraph controlDependencyWithOperations_dependentBlock_nameSelector (toNSArray operations) dependentBlock (toNSString name)
 
--- | Adds an if-then-else operation to the graph.
+-- | Add an if/then/else op to the graph
 --
--- - Parameters:   - predicateTensor: Tensor must have a single scalar value, used to decide between then/else branches   - thenBlock: If predicate is true operations in this block are executed   - elseBlock: If predicate is false operations in this block are executed   - name: name of operation - Returns: results If no error, the tensors returned by user. If not empty, user must define both then/else block,  both should have same number of arguments and each corresponding argument should have same elementTypes.
+-- @predicateTensor@ — Tensor must have a single scalar value, used to decide between then/else branches
+--
+-- @thenBlock@ — If predicate is true operations in this block are executed
+--
+-- @elseBlock@ — If predicate is false operations in this block are executed
+--
+-- @name@ — name of operation
+--
+-- Returns: results  If no error, the tensors returned by user. If not empty, user must define both then/else block,              both should have same number of arguments and each corresponding argument should have same elementTypes.
 --
 -- ObjC selector: @- ifWithPredicateTensor:thenBlock:elseBlock:name:@
 ifWithPredicateTensor_thenBlock_elseBlock_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor predicateTensor, IsNSString name) => mpsGraph -> predicateTensor -> Ptr () -> Ptr () -> name -> IO (Id NSArray)
 ifWithPredicateTensor_thenBlock_elseBlock_name mpsGraph predicateTensor thenBlock elseBlock name =
   sendMessage mpsGraph ifWithPredicateTensor_thenBlock_elseBlock_nameSelector (toMPSGraphTensor predicateTensor) thenBlock elseBlock (toNSString name)
 
--- | Adds a while loop operation.
+-- | Adds a whileLoop operation
 --
--- - Parameters:   - initialInputs: inputTensors to the @beforeBlock@, for the 1st iteration will be same as initialInputs passed to the while loop.   - before: @beforeBlock@, this will be run first and then call the @afterBlock@ with results or return results from the loop.   - after: @afterBlock@, this will execute after the condition evaluation.   - name: name of operation. - Returns: A valid MPSGraphTensor array with results returned from the conditionBlock depending on the predicate tensor.
+-- @initialInputs@ — inputTensors to the whileBeforeBlock, for the 1st iteration will be same as initialInputs passed to the whileLoop
+--
+-- @before@ — beforeBlock, this will be run first and then call the afterBlock with results or return results from the loop
+--
+-- @after@ — afterBlock, this will execute after the condition evaluation
+--
+-- @name@ — name of operation
+--
+-- Returns: A valid MPSGraphTensor array with results returned from the conditionBlock depending on the predicateTensor
 --
 -- ObjC selector: @- whileWithInitialInputs:before:after:name:@
 whileWithInitialInputs_before_after_name :: (IsMPSGraph mpsGraph, IsNSArray initialInputs, IsNSString name) => mpsGraph -> initialInputs -> Ptr () -> Ptr () -> name -> IO (Id NSArray)
 whileWithInitialInputs_before_after_name mpsGraph initialInputs before after name =
   sendMessage mpsGraph whileWithInitialInputs_before_after_nameSelector (toNSArray initialInputs) before after (toNSString name)
 
--- | Adds a for loop operation, The lower and upper bounds specify a half-open range: the range includes the lower bound but does not include the upper bound.
+-- | Adds a forLoop operation, The lower and upper bounds specify a half-open range: the range includes the lower bound but does not include the upper bound.
 --
--- - Parameters:   - lowerBound: Lower bound value of the loop, this is a scalar tensor, this is the index the loop will start with.   - upperBound: Upper bound value of the loop, this is a scalar tensor.   - step: Step value of the loop, this is a scalar tensor and must be positive.   - initialBodyArguments: initial set of iteration arguments passed to the bodyBlock of the for loop.   - body: This block will execute the body of the for loop.   - name: name of operation. - Returns: A valid @MPSGraphTensor@ array with same count and corresponding element types as @initialIterationArguments@ and return types of the for loop.
+-- @lowerBound@ — lowerBound value of the loop, this is a scalar tensor, this is the index the loop will start with
+--
+-- @upperBound@ — upperBound value of the loop, this is a scalar tensor
+--
+-- @step@ — step value of the loop, this is a scalar tensor and must be positive
+--
+-- @initialBodyArguments@ — initial set of iteration arguments passed to the bodyBlock of the for loop
+--
+-- @body@ — bodyBlock, this will execute the body of the forLoop
+--
+-- @name@ — name of operation
+--
+-- Returns: A valid MPSGraphTensor array with same count and corresponding elementTypes as initialIterationArguments and return types of the forLoop
 --
 -- ObjC selector: @- forLoopWithLowerBound:upperBound:step:initialBodyArguments:body:name:@
 forLoopWithLowerBound_upperBound_step_initialBodyArguments_body_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor lowerBound, IsMPSGraphTensor upperBound, IsMPSGraphTensor step, IsNSArray initialBodyArguments, IsNSString name) => mpsGraph -> lowerBound -> upperBound -> step -> initialBodyArguments -> Ptr () -> name -> IO (Id NSArray)
 forLoopWithLowerBound_upperBound_step_initialBodyArguments_body_name mpsGraph lowerBound upperBound step initialBodyArguments body name =
   sendMessage mpsGraph forLoopWithLowerBound_upperBound_step_initialBodyArguments_body_nameSelector (toMPSGraphTensor lowerBound) (toMPSGraphTensor upperBound) (toMPSGraphTensor step) (toNSArray initialBodyArguments) body (toNSString name)
 
--- | Adds a for loop operation, with a specific number of iterations.
+-- | Adds a forLoop operation, with a specific number of iterations
 --
--- - Parameters:   - numberOfIterations: tensor with number of iterations the loop will execute   - initialBodyArguments: initial set of iteration arguments passed to the bodyBlock of the for loop   - body: bodyBlock, this will execute the body of the for loop, index will go from 0 to numberOfIterations-1   - name: name of operation - Returns: A valid MPSGraphTensor array with same count and corresponding elementTypes as initialIterationArguments and return types of the for loop
+-- @numberOfIterations@ — tensor with number of iterations the loop will execute
+--
+-- @initialBodyArguments@ — initial set of iteration arguments passed to the bodyBlock of the for loop
+--
+-- @body@ — bodyBlock, this will execute the body of the forLoop, index will go from 0 to numberOfIterations-1
+--
+-- @name@ — name of operation
+--
+-- Returns: A valid MPSGraphTensor array with same count and corresponding elementTypes as initialIterationArguments and return types of the forLoop
 --
 -- ObjC selector: @- forLoopWithNumberOfIterations:initialBodyArguments:body:name:@
 forLoopWithNumberOfIterations_initialBodyArguments_body_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor numberOfIterations, IsNSArray initialBodyArguments, IsNSString name) => mpsGraph -> numberOfIterations -> initialBodyArguments -> Ptr () -> name -> IO (Id NSArray)
 forLoopWithNumberOfIterations_initialBodyArguments_body_name mpsGraph numberOfIterations initialBodyArguments body name =
   sendMessage mpsGraph forLoopWithNumberOfIterations_initialBodyArguments_body_nameSelector (toMPSGraphTensor numberOfIterations) (toNSArray initialBodyArguments) body (toNSString name)
 
--- | Creates a convolution transpose operation and returns the result tensor.
+-- | Create ConvolutionTranspose op and return the result tensor
 --
--- Convolution Tranpose operation is exactly the same as convolution gradint with respect to input image @convolution2DDataGradientWithIncomingGradient@. Weights tensor and source tensors are interpreted as they are in @convolution2DDataGradientWithIncomingGradient@. Convolution with stride @s@ downsamples source tensor by factor @s@ in spatial dimensions whereas convolution tranpose with stride @s@ upsamples source tensor by factor @s@. Convolution transpose can map the same source size to multiple destination sizes. The relationship between the width of the source and the width of the destination is `(sourceWidth - 1)stride + 1 + (kernelWidth - 1)dilationRate <= destinationWidth + paddingLeft + paddingRight` so there are stride -1 values of the width of the destination that give same width of the source. In order to disambiguate, outputShape parameter is used.
+-- Convolution Tranpose op is exactly the same as convolution gradint with respect to input image (convolution2DDataGradient)              Weights tensor and source tensors are interpreted as they are in convolution2DDataGradientWithIncomingGradient. For example              if weightsTensor layout is HWIO, inner most (fastest moving) dimension, denoted by O here should be equal to inputFeatureChannels              i.e. number of channels in source tensor              and next fasted moving dimension denoated by I is equal to number of channels in returns (destination) tensor outputFeatureChannels.              TensorFlow interprets the weights tensor same way excpet that it states weights are in HWOI format. We dont define another weights format enum              rather we reinterpret HWIO just like TensorFlow does for gradient with data.              Normally in auto encoder, convoluton transpose is associated with regular convolution i.e. convolution downsamples by stride s              and convolution tranpose upsamples by factor s.              In that case, convolution transpose can map same source size to multiple destination sizes. The relationship between sourceWidth and destinationWidth is              (sourceWidth - 1) * stride + 1 + (kernelWidth - 1) * dilationRate <= destinationWidth + paddingLeft + paddingRight              so there are stride -1 destinationWidth that give same sourceWidth. In order to disambiguate, outputShape parameter is used.              This is what TensorFlow does.              PyTourch takes additional outputPadding that is applied to destination size.
 --
--- - Parameters:   - source: input tensor   - weights: weights tensor   - outputShape: shape of the result tensor.   - descriptor: descriptor for the corresponding forward 2D-convolution operation   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- @source@ — input tensor
+--
+-- @weights@ — weights tensor
+--
+-- @outputShape@ — shape of the result tensor
+--
+-- @descriptor@ — descriptor for the corresponding forward Conv2d operation
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- convolutionTranspose2DWithSourceTensor:weightsTensor:outputShape:descriptor:name:@
 convolutionTranspose2DWithSourceTensor_weightsTensor_outputShape_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor weights, IsMPSGraphConvolution2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> weights -> RawId -> descriptor -> name -> IO (Id MPSGraphTensor)
 convolutionTranspose2DWithSourceTensor_weightsTensor_outputShape_descriptor_name mpsGraph source weights outputShape descriptor name =
   sendMessage mpsGraph convolutionTranspose2DWithSourceTensor_weightsTensor_outputShape_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor weights) outputShape (toMPSGraphConvolution2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a convolution transpose operation and returns the result tensor.
+-- | Create ConvolutionTranspose op and return the result tensor
 --
--- - Parameters:   - source: input tensor   - weights: weights tensor   - outputShape: 1D Int32 or Int64 tensor. shape of the result tensor.   - descriptor: descriptor for the corresponding forward Conv2D operation   - name: name for the operation - Returns: A valid MPSGraphTensor object.
+-- Convolution Tranpose op is exactly the same as convolution gradint with respect to input image (convolution2DDataGradient)              Weights tensor and source tensors are interpreted as they are in convolution2DDataGradientWithIncomingGradient. For example              if weightsTensor layout is HWIO, inner most (fastest moving) dimension, denoted by O here should be equal to inputFeatureChannels              i.e. number of channels in source tensor              and next fasted moving dimension denoated by I is equal to number of channels in returns (destination) tensor outputFeatureChannels.              TensorFlow interprets the weights tensor same way excpet that it states weights are in HWOI format. We dont define another weights format enum              rather we reinterpret HWIO just like TensorFlow does for gradient with data.              Normally in auto encoder, convoluton transpose is associated with regular convolution i.e. convolution downsamples by stride s              and convolution tranpose upsamples by factor s.              In that case, convolution transpose can map same source size to multiple destination sizes. The relationship between sourceWidth and destinationWidth is              (sourceWidth - 1) * stride + 1 + (kernelWidth - 1) * dilationRate <= destinationWidth + paddingLeft + paddingRight              so there are stride -1 destinationWidth that give same sourceWidth. In order to disambiguate, outputShape parameter is used.              This is what TensorFlow does.              PyTourch takes additional outputPadding that is applied to destination size.
+--
+-- @source@ — input tensor
+--
+-- @weights@ — weights tensor
+--
+-- @outputShape@ — 1D Int32 or Int64 tensor. shape of the result tensor
+--
+-- @descriptor@ — descriptor for the corresponding forward Conv2d operation
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- convolutionTranspose2DWithSourceTensor:weightsTensor:outputShapeTensor:descriptor:name:@
 convolutionTranspose2DWithSourceTensor_weightsTensor_outputShapeTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor weights, IsMPSGraphTensor outputShape, IsMPSGraphConvolution2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> weights -> outputShape -> descriptor -> name -> IO (Id MPSGraphTensor)
 convolutionTranspose2DWithSourceTensor_weightsTensor_outputShapeTensor_descriptor_name mpsGraph source weights outputShape descriptor name =
   sendMessage mpsGraph convolutionTranspose2DWithSourceTensor_weightsTensor_outputShapeTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor weights) (toMPSGraphTensor outputShape) (toMPSGraphConvolution2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a convolution transpose gradient operation with respect to the source tensor of convolution transpose operation and returns the result tensor.
+-- | Create ConvolutionTranspose gradient op and return the result tensor
 --
--- Inserts an operation in graph to compute gradient of convolution transpose with respect to source tensor of the corresponding convolution transpose operation.
+-- Computes the gradient of source input for the forward pass ConvolutionTranspose op with identical parameters.              See discussion of convolutionTranspose2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradient: Incoming gradient tensor   - weights: Forward pass weights tensor   - outputShape: Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward pass op descriptor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradient@ — Incoming gradient tensor
+--
+-- @weights@ — Forward pass weights tensor
+--
+-- @outputShape@ — Shape of the forward pass source tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolutionTranspose2DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:forwardConvolutionDescriptor:name:@
 convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor weights, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradient -> weights -> RawId -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_name mpsGraph incomingGradient weights outputShape forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor weights) outputShape (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a convolution transpose gradient operation with respect to the source tensor of convolution transpose operation and returns the result tensor.
+-- | Create ConvolutionTranspose gradient op and return the result tensor
 --
--- Inserts an operation in graph to compute gradient of convolution transpose with respect to source tensor of the corresponding convolution transpose operation.
+-- Computes the gradient of source input for the forward pass ConvolutionTranspose op with identical parameters.              See discussion of convolutionTranspose2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradient: Incoming gradient tensor   - weights: Forward pass weights tensor   - outputShape: 1D Int32 or Int64 Tensor. Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward pass op descriptor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradient@ — Incoming gradient tensor
+--
+-- @weights@ — Forward pass weights tensor
+--
+-- @outputShape@ — 1D Int32 or Int64 Tensor. Shape of the forward pass source tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolutionTranspose2DDataGradientWithIncomingGradientTensor:weightsTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
 convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor weights, IsMPSGraphTensor outputShape, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradient -> weights -> outputShape -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name mpsGraph incomingGradient weights outputShape forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolutionTranspose2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor weights) (toMPSGraphTensor outputShape) (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a convolution transpose gradient operation with respect to the weights tensor of the convolution transpose operation and returns the result tensor.
+-- | Create ConvolutionTranspose gradient op and return the result tensor
 --
--- Inserts an operation in graph to compute gradient of convolution transpose with respect to the weights tensor of the corresponding convolution transpose operation.
+-- Computes the gradient of weights input for the forward pass ConvolutionTranspose op with identical parameters.              See discussion of convolutionTranspose2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradientTensor: Incoming gradient tensor   - source: Forward pass source tensor   - outputShape: Shape of the forward pass source weights tensor   - forwardConvolutionDescriptor: Forward pass op descriptor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradientTensor@ — Incoming gradient tensor
+--
+-- @source@ — Forward pass source tensor
+--
+-- @outputShape@ — Shape of the forward pass source weights tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolutionTranspose2DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:forwardConvolutionDescriptor:name:@
 convolutionTranspose2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradientTensor, IsMPSGraphTensor source, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradientTensor -> source -> RawId -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolutionTranspose2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name mpsGraph incomingGradientTensor source outputShape forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolutionTranspose2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradientTensor) (toMPSGraphTensor source) outputShape (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a convolution transpose gradient operation with respect to the weights tensor of the convolution transpose operation and returns the result tensor.
+-- | Create ConvolutionTranspose gradient op and return the result tensor
 --
--- Inserts an operation in graph to compute gradient of convolution transpose with respect to the weights tensor of the corresponding convolution transpose operation.
+-- Computes the gradient of weights input for the forward pass ConvolutionTranspose op with identical parameters.              See discussion of convolutionTranspose2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradientTensor: Incoming gradient tensor   - source: Forward pass source tensor   - outputShape: 1D Int32 or Int64 Tensor. Shape of the forward pass source weights tensor   - forwardConvolutionDescriptor: Forward pass op descriptor   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradientTensor@ — Incoming gradient tensor
+--
+-- @source@ — Forward pass source tensor
+--
+-- @outputShape@ — 1D Int32 or Int64 Tensor. Shape of the forward pass source weights tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolutionTranspose2DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
 convolutionTranspose2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradientTensor, IsMPSGraphTensor source, IsMPSGraphTensor outputShape, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradientTensor -> source -> outputShape -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolutionTranspose2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name mpsGraph incomingGradientTensor source outputShape forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolutionTranspose2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradientTensor) (toMPSGraphTensor source) (toMPSGraphTensor outputShape) (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a 2D (forward) convolution operation and returns the result tensor.
---
--- - Parameters:   - source: source tensor - must be a rank 4 tensor. The layout is defined by ``descriptor.dataLayout``.   - weights: weights tensor, must be rank 4. The layout is defined by ``descriptor.weightsLayout``.   - descriptor: Specifies strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- convolution2DWithSourceTensor:weightsTensor:descriptor:name:@
+-- | @- convolution2DWithSourceTensor:weightsTensor:descriptor:name:@
 convolution2DWithSourceTensor_weightsTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor weights, IsMPSGraphConvolution2DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> weights -> descriptor -> name -> IO (Id MPSGraphTensor)
 convolution2DWithSourceTensor_weightsTensor_descriptor_name mpsGraph source weights descriptor name =
   sendMessage mpsGraph convolution2DWithSourceTensor_weightsTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor weights) (toMPSGraphConvolution2DOpDescriptor descriptor) (toNSString name)
 
--- | Creates a 2D convolution gradient operation with respect to the source tensor of the forward convolution.
+-- | Create Convolution gradient op and return the result tensor
 --
--- If @S@ is source tensor to forward convolution, @R@ is the result/returned tensor from forward convolution, and @L@ is the loss function, @convolution2DDataGradientWithIncomingGradientTensor@ returns tensor @dL/dS = dL/dR * dR/dS@, where @dL/dR@ is the incomingGradient parameter.
+-- Computes the gradient of source input for the forward pass Convolution op with identical parameters.              See discussion of convolution2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShape: Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradient@ — Incoming gradient tensor
+--
+-- @weights@ — Forward pass weights tensor
+--
+-- @outputShape@ — Shape of the forward pass source tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolution2DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:forwardConvolutionDescriptor:name:@
 convolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor weights, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradient -> weights -> RawId -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_name mpsGraph incomingGradient weights outputShape forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor weights) outputShape (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a 2D convolution gradient operation with respect to the source tensor of the forward convolution.
+-- | Create Convolution gradient op and return the result tensor
 --
--- If @S@ is source tensor to forward convolution, @R@ is the result/returned tensor of forward convolution, and @L@ is the loss function, convolution2DDataGradientWithIncomingGradientTensor returns tensor @dL/dS = dL/dR * dR/dS@, where @dL/dR@ is the incomingGradient parameter.
+-- Computes the gradient of source input for the forward pass Convolution op with identical parameters.              See discussion of convolution2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShapeTensor: 4D Int32 or Int64 tensor. Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
+--
+-- @weights@ — Forward pass weights tensor
+--
+-- @outputShapeTensor@ — 1D Int32 or Int64 Tensor. Shape of the forward pass source tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolution2DDataGradientWithIncomingGradientTensor:weightsTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
 convolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor weights, IsMPSGraphTensor outputShapeTensor, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> gradient -> weights -> outputShapeTensor -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name mpsGraph gradient weights outputShapeTensor forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolution2DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor weights) (toMPSGraphTensor outputShapeTensor) (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a 2D convolution gradient operation with respect to the weights tensor of the forward convolution.
+-- | Create Convolution gradient op and return the result tensor
 --
--- If @W@ is weights tensor to forward convolution, @R@ is the result/returned tensor of forward convolution, and @L@ is the loss function, convolution2DWeightsGradientWithIncomingGradientTensor returns tensor @dL/dW = dL/dR * dR/dW@, where @dL/dR@ is the incomingGradient parameter.
+-- Computes the gradient of weights input for the forward pass Convolution op with identical parameters.              See discussion of convolution2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShape: Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @incomingGradient@ — Incoming gradient tensor
+--
+-- @source@ — Forward pass source tensor
+--
+-- @outputShape@ — Shape of the forward pass weights tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolution2DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:forwardConvolutionDescriptor:name:@
 convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor source, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradient -> source -> RawId -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name mpsGraph incomingGradient source outputShape forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor source) outputShape (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a 2D convolution gradient operation with respect to weights tensor of forward convolution.
+-- | Create Convolution gradient op and return the result tensor
 --
--- If @W@ is weights tensor to forward convolution, @R@ is the result/returned tensor of forward convolution, and @L@ is the loss function, convolution2DWeightsGradientWithIncomingGradientTensor returns tensor @dL/dW = dL/dR * dR/dW@, where @dL/dR@ is the incomingGradient parameter.
+-- Computes the gradient of weights input for the forward pass Convolution op with identical parameters.              See discussion of convolution2DWithSourceTensor for more in depth description of  paramters.
 --
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShapeTensor: 4D int32 or Int64 Tensor. Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
+-- @gradient@ — Incoming gradient tensor
+--
+-- @source@ — Forward pass source tensor
+--
+-- @outputShapeTensor@ — 1D int32 or Int64 Tensor. Shape of the forward pass weights tensor
+--
+-- @forwardConvolutionDescriptor@ — Forward pass op descriptor
+--
+-- @name@ — The name for the operation
+--
+-- Returns: A valid MPSGraphTensor object
 --
 -- ObjC selector: @- convolution2DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
 convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphTensor outputShapeTensor, IsMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> gradient -> source -> outputShapeTensor -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
 convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name mpsGraph gradient source outputShapeTensor forwardConvolutionDescriptor name =
   sendMessage mpsGraph convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphTensor outputShapeTensor) (toMPSGraphConvolution2DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
 
--- | Creates a 3D forward convolution operation and returns the result tensor.
---
--- - Parameters:   - source: source tensor - must be of rank 5. The layout is defined by ``descriptor.dataLayout``.   - weights: weights tensor, must be rank 5. The layout is defined by ``descriptor.weightsLayout``.   - descriptor: Specifies strides, dilation rates, paddings and layouts.   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- convolution3DWithSourceTensor:weightsTensor:descriptor:name:@
-convolution3DWithSourceTensor_weightsTensor_descriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor source, IsMPSGraphTensor weights, IsMPSGraphConvolution3DOpDescriptor descriptor, IsNSString name) => mpsGraph -> source -> weights -> descriptor -> name -> IO (Id MPSGraphTensor)
-convolution3DWithSourceTensor_weightsTensor_descriptor_name mpsGraph source weights descriptor name =
-  sendMessage mpsGraph convolution3DWithSourceTensor_weightsTensor_descriptor_nameSelector (toMPSGraphTensor source) (toMPSGraphTensor weights) (toMPSGraphConvolution3DOpDescriptor descriptor) (toNSString name)
-
--- | Creates a 3D convolution gradient operation with respect to the source tensor of the forward convolution.
---
--- If @S@ is source tensor to forward convolution, @R@ is the result/returned tensor of forward convolution, and @L@ is the loss function, convolution3DDataGradientWithIncomingGradientTensor returns tensor @dL/dS = dL/dR * dR/dS@, where @dL/dR@ is the incomingGradient parameter.
---
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShape: Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- convolution3DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:forwardConvolutionDescriptor:name:@
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor weights, IsMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradient -> weights -> RawId -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_name mpsGraph incomingGradient weights outputShape forwardConvolutionDescriptor name =
-  sendMessage mpsGraph convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor weights) outputShape (toMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
-
--- | Creates a 3D convolution gradient operation with respect to the source tensor of the forward convolution.
---
--- If @S@ is source tensor to forward convolution, @R@ is the result/returned tensor of forward convolution, and @L@ is the loss function, convolution3DDataGradientWithIncomingGradientTensor returns tensor @dL/dS = dL/dR * dR/dS@, where @dL/dR@ is the incomingGradient parameter.
---
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShapeTensor: 4D Int32 or Int64 tensor. Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- convolution3DDataGradientWithIncomingGradientTensor:weightsTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor weights, IsMPSGraphTensor outputShapeTensor, IsMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> gradient -> weights -> outputShapeTensor -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_name mpsGraph gradient weights outputShapeTensor forwardConvolutionDescriptor name =
-  sendMessage mpsGraph convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor weights) (toMPSGraphTensor outputShapeTensor) (toMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
-
--- | Creates a 3D convolution gradient operation with respect to the weights tensor of the forward convolution.
---
--- If @W@ is weights tensor to forward convolution, @R@ is the result/returned tensor of forward convolution, and @L@ is the loss function, convolution3DWeightsGradientWithIncomingGradientTensor returns tensor @dL/dW = dL/dR * dR/dW@, where @dL/dR@ is the incomingGradient parameter.
---
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShape: Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- convolution3DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:forwardConvolutionDescriptor:name:@
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor incomingGradient, IsMPSGraphTensor source, IsMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> incomingGradient -> source -> RawId -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_name mpsGraph incomingGradient source outputShape forwardConvolutionDescriptor name =
-  sendMessage mpsGraph convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor incomingGradient) (toMPSGraphTensor source) outputShape (toMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
-
--- | Creates a 3D convolution gradient operation with respect to the weights tensor of the forward convolution.
---
--- If @W@ is weights tensor to forward convolution, @R@ is the result/returned tensor of forward convolution, and @L@ is the loss function, convolution3DWeightsGradientWithIncomingGradientTensor returns tensor @dL/dW = dL/dR * dR/dW@, where @dL/dR@ is the incomingGradient parameter.
---
--- - Parameters:   - incomingGradient: Incoming loss gradient tensor   - weights: Forward pass weights tensor   - outputShapeTensor: 4D int32 or Int64 Tensor. Shape of the forward pass source tensor   - forwardConvolutionDescriptor: Forward convolution 2D op ``descriptor``   - name: The name for the operation. - Returns: A valid MPSGraphTensor object
---
--- ObjC selector: @- convolution3DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphTensor outputShapeTensor, IsMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor, IsNSString name) => mpsGraph -> gradient -> source -> outputShapeTensor -> forwardConvolutionDescriptor -> name -> IO (Id MPSGraphTensor)
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_name mpsGraph gradient source outputShapeTensor forwardConvolutionDescriptor name =
-  sendMessage mpsGraph convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphTensor outputShapeTensor) (toMPSGraphConvolution3DOpDescriptor forwardConvolutionDescriptor) (toNSString name)
-
--- | Creates an operation which invokes another executable.
---
--- - Parameters:   - symbolName: The unique identifier used to find the executable in the ``MPSGraphCompilationDescriptor.callables`` directory.   - inputTensors: The tensors which are passed as inputs to the executable being invoked.   - outputTypes: The expected return types of the executable being invoked.   - name: name of operation. - Returns: An array of valid ``MPSGraphTensor`` objects representing the return tensors of the invoked executable.
---
--- ObjC selector: @- callSymbolName:inputTensors:outputTypes:name:@
-callSymbolName_inputTensors_outputTypes_name :: (IsMPSGraph mpsGraph, IsNSString symbolName, IsNSArray inputTensors, IsNSArray outputTypes, IsNSString name) => mpsGraph -> symbolName -> inputTensors -> outputTypes -> name -> IO (Id NSArray)
-callSymbolName_inputTensors_outputTypes_name mpsGraph symbolName inputTensors outputTypes name =
-  sendMessage mpsGraph callSymbolName_inputTensors_outputTypes_nameSelector (toNSString symbolName) (toNSArray inputTensors) (toNSArray outputTypes) (toNSString name)
-
--- | Copies the input tensor values into the output, behaving as an identity operation.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object which is a copy of the input.
---
--- ObjC selector: @- identityWithTensor:name:@
+-- | @- identityWithTensor:name:@
 identityWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 identityWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph identityWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the natural exponent to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- exponentWithTensor:name:@
+-- | @- exponentWithTensor:name:@
 exponentWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 exponentWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph exponentWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies an exponent with base 2 to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- exponentBase2WithTensor:name:@
+-- | @- exponentBase2WithTensor:name:@
 exponentBase2WithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 exponentBase2WithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph exponentBase2WithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies an exponent with base 10 to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- exponentBase10WithTensor:name:@
+-- | @- exponentBase10WithTensor:name:@
 exponentBase10WithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 exponentBase10WithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph exponentBase10WithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Computes the natural logarithm to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logarithmWithTensor:name:@
+-- | @- logarithmWithTensor:name:@
 logarithmWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 logarithmWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph logarithmWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Computes the logarithm with base 2 to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logarithmBase2WithTensor:name:@
+-- | @- logarithmBase2WithTensor:name:@
 logarithmBase2WithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 logarithmBase2WithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph logarithmBase2WithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Computes the logarithm with base 10 to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logarithmBase10WithTensor:name:@
+-- | @- logarithmBase10WithTensor:name:@
 logarithmBase10WithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 logarithmBase10WithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph logarithmBase10WithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the square operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- squareWithTensor:name:@
+-- | @- squareWithTensor:name:@
 squareWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 squareWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph squareWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the square root operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- squareRootWithTensor:name:@
+-- | @- squareRootWithTensor:name:@
 squareRootWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 squareRootWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph squareRootWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the reciprocal square root operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- reciprocalSquareRootWithTensor:name:@
-reciprocalSquareRootWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
-reciprocalSquareRootWithTensor_name mpsGraph tensor name =
-  sendMessage mpsGraph reciprocalSquareRootWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
-
--- | Applies the reverse square root operation to the input tensor elements.
---
--- The reverse square root operation is the reciprocal of the square root.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- reverseSquareRootWithTensor:name:@
+-- | @- reverseSquareRootWithTensor:name:@
 reverseSquareRootWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 reverseSquareRootWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph reverseSquareRootWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the reciprocal operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- reciprocalWithTensor:name:@
+-- | @- reciprocalWithTensor:name:@
 reciprocalWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 reciprocalWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph reciprocalWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Returns the absolute values of the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- absoluteWithTensor:name:@
+-- | @- absoluteWithTensor:name:@
 absoluteWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 absoluteWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph absoluteWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Returns the absolute square of the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation.. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- absoluteSquareWithTensor:name:@
-absoluteSquareWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
-absoluteSquareWithTensor_name mpsGraph tensor name =
-  sendMessage mpsGraph absoluteSquareWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
-
--- | Applies negative to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- negativeWithTensor:name:@
+-- | @- negativeWithTensor:name:@
 negativeWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 negativeWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph negativeWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Returns the sign of the input tensor elements.
---
--- This operation returns 1.0 if the correspnding input element is greater than 0, -1.0 if it is lesser than 0, -0.0 if it is equal to -0.0, and +0.0 if it is equal to +0.0.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- signWithTensor:name:@
+-- | @- signWithTensor:name:@
 signWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 signWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph signWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Returns the sign bit of the input tensor elements.
---
--- This operation returns @true@ if the sign bit is set for the correspnding floating-point input element, otherwise it returns @false@.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- signbitWithTensor:name:@
+-- | @- signbitWithTensor:name:@
 signbitWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 signbitWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph signbitWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the ceiling operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- ceilWithTensor:name:@
+-- | @- ceilWithTensor:name:@
 ceilWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 ceilWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph ceilWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the floor operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- floorWithTensor:name:@
+-- | @- floorWithTensor:name:@
 floorWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 floorWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph floorWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Rounds the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- roundWithTensor:name:@
+-- | @- roundWithTensor:name:@
 roundWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 roundWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph roundWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Rounds the input tensor elements by rounding to nearest even.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- rintWithTensor:name:@
+-- | @- rintWithTensor:name:@
 rintWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 rintWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph rintWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the sine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- sinWithTensor:name:@
+-- | @- sinWithTensor:name:@
 sinWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 sinWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph sinWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the cosine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- cosWithTensor:name:@
+-- | @- cosWithTensor:name:@
 cosWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 cosWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph cosWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the tangent operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- tanWithTensor:name:@
+-- | @- tanWithTensor:name:@
 tanWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 tanWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph tanWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the hyperbolic sine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- sinhWithTensor:name:@
+-- | @- sinhWithTensor:name:@
 sinhWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 sinhWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph sinhWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the hyperbolic cosine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- coshWithTensor:name:@
+-- | @- coshWithTensor:name:@
 coshWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 coshWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph coshWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the hyperbolic tangent operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- tanhWithTensor:name:@
+-- | @- tanhWithTensor:name:@
 tanhWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 tanhWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph tanhWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the inverse sine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- asinWithTensor:name:@
+-- | @- asinWithTensor:name:@
 asinWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 asinWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph asinWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the inverse cosine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- acosWithTensor:name:@
+-- | @- acosWithTensor:name:@
 acosWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 acosWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph acosWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the inverse tangent operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- atanWithTensor:name:@
+-- | @- atanWithTensor:name:@
 atanWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 atanWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph atanWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the inverse hyperbolic sine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- asinhWithTensor:name:@
+-- | @- asinhWithTensor:name:@
 asinhWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 asinhWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph asinhWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the inverse hyperbolic cosine operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- acoshWithTensor:name:@
+-- | @- acoshWithTensor:name:@
 acoshWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 acoshWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph acoshWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the inverse hyperbolic tangent operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- atanhWithTensor:name:@
+-- | @- atanhWithTensor:name:@
 atanhWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 atanhWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph atanhWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the logical NOT operation to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- notWithTensor:name:@
+-- | @- notWithTensor:name:@
 notWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 notWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph notWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Checks if the input tensor elements are infinite or not.
---
--- If the input tensor element is infinite, the operation returns @true@, else it returns @false@.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- isInfiniteWithTensor:name:@
+-- | @- isInfiniteWithTensor:name:@
 isInfiniteWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 isInfiniteWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph isInfiniteWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Checks if the input tensor elements are finite or not.
---
--- If the input tensor element is finite, the operation returns @true@, else it returns @false@.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- isFiniteWithTensor:name:@
+-- | @- isFiniteWithTensor:name:@
 isFiniteWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 isFiniteWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph isFiniteWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Checks if the input tensor elements are @NaN@ or not.
---
--- If the input tensor element is @NaN@, the operation returns @true@, else it returns @false@.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- isNaNWithTensor:name:@
+-- | @- isNaNWithTensor:name:@
 isNaNWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 isNaNWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph isNaNWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the error function to the input tensor elements.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- erfWithTensor:name:@
+-- | @- erfWithTensor:name:@
 erfWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 erfWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph erfWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the truncate operation to the input tensor elements.
+-- | Truncate op - floor for positive inputs, ceil for negative.
 --
--- This operation applies the floor operation to positive inputs and ceiling operation to negative inputs.
+-- @tensor@ — The input
 --
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @name@ — Name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- truncateWithTensor:name:@
 truncateWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 truncateWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph truncateWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Applies the bitwise NOT operation to the input tensor element.
+-- | Return bitwise not of tensor, takes in only integer dataTypes
 --
--- This operation only accepts integer tensors.
+-- @tensor@ — input tensor, must be integer dataType
 --
--- - Parameters:   - tensor: The input tensor, which must be of integer type.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- bitwiseNOTWithTensor:name:@
 bitwiseNOTWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 bitwiseNOTWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph bitwiseNOTWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Returns the population count of the input tensor elements.
+-- | Return population count of a tensor, takes in only integer dataTypes
 --
--- This operation only accepts integer tensors, and returns the number of bits set in the input element.
+-- @tensor@ — input tensor, must be integer dataType
 --
--- - Parameters:   - tensor: The input tensor, which must be of integer type.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- bitwisePopulationCountWithTensor:name:@
 bitwisePopulationCountWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 bitwisePopulationCountWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph bitwisePopulationCountWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Returns the complex conjugate of the input tensor elements.
+-- | Create Add op and return the result tensor, it supports broadcasting as well
 --
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation.. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- resultTensor = primaryTensor + secondaryTensor
 --
--- ObjC selector: @- conjugateWithTensor:name:@
-conjugateWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
-conjugateWithTensor_name mpsGraph tensor name =
-  sendMessage mpsGraph conjugateWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
-
--- | Adds two input tensors.
+-- @primaryTensor@ — LHS tensor of the binary Op
 --
--- This operation creates an add operation and returns the result tensor. It supports broadcasting as well.  ```md  resultTensor = primaryTensor + secondaryTensor  ```
+-- @secondaryTensor@ — RHS tensor of the binary Op
 --
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- additionWithPrimaryTensor:secondaryTensor:name:@
 additionWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 additionWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph additionWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Subtracts the second input tensor from the first.
+-- | Create Subtract op and return the result tensor, it supports broadcasting as well
 --
--- This operation creates a subtract operation and returns the result tensor. It supports broadcasting as well.  ```md  resultTensor = primaryTensor - secondaryTensor  ```
+-- resultTensor = primaryTensor - secondaryTensor
 --
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — LHS tensor of the binary Op
+--
+-- @secondaryTensor@ — RHS tensor of the binary Op
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- subtractionWithPrimaryTensor:secondaryTensor:name:@
 subtractionWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 subtractionWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph subtractionWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Multiplies two input tensors.
+-- | Create Multiply op and return the result tensor, it supports broadcasting as well
 --
--- This operation creates a multiply operation and returns the result tensor. It supports broadcasting as well.  ```md  resultTensor = primaryTensor * secondaryTensor  ```
+-- resultTensor = primaryTensor * secondaryTensor
 --
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — LHS tensor of the binary Op
+--
+-- @secondaryTensor@ — RHS tensor of the binary Op
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- multiplicationWithPrimaryTensor:secondaryTensor:name:@
 multiplicationWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 multiplicationWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph multiplicationWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Divides the first input tensor by the second.
+-- | Create Divide op and return the result tensor, it supports broadcasting as well
 --
--- This operation creates a divide operation and returns the result tensor. It supports broadcasting as well.  ```md  resultTensor = primaryTensor / secondaryTensor  ```
+-- resultTensor = primaryTensor / secondaryTensor
 --
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — LHS tensor of the binary Op
+--
+-- @secondaryTensor@ — RHS tensor of the binary Op
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- divisionWithPrimaryTensor:secondaryTensor:name:@
 divisionWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 divisionWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph divisionWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the remainder obtained by dividing the first input tensor by the second.
---
--- This operation creates a modulo operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor % secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- moduloWithPrimaryTensor:secondaryTensor:name:@
+-- | @- moduloWithPrimaryTensor:secondaryTensor:name:@
 moduloWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 moduloWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph moduloWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise result of raising the first tensor to the power of the second tensor.
---
--- This operation creates a power operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = pow(primaryTensor, secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- powerWithPrimaryTensor:secondaryTensor:name:@
+-- | @- powerWithPrimaryTensor:secondaryTensor:name:@
 powerWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 powerWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph powerWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise minimum of the input tensors.
---
--- This operation creates a minimum operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = min(primaryTensor, secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- minimumWithPrimaryTensor:secondaryTensor:name:@
+-- | @- minimumWithPrimaryTensor:secondaryTensor:name:@
 minimumWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 minimumWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph minimumWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise maximum of the input tensors.
---
--- This operation creates a maximum operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = max(primaryTensor, secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- maximumWithPrimaryTensor:secondaryTensor:name:@
+-- | @- maximumWithPrimaryTensor:secondaryTensor:name:@
 maximumWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 maximumWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph maximumWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise minimum of the input tensors, while propagating @NaN@ values.
+-- | Create Minimum op and return the result tensor, it supports broadcasting as well. If any of the operands is NaN, NaN is returned
 --
--- This operation creates a minimum with @NaN@ propagation operation and returns the result tensor. This means that if any of the elementwise operands is @NaN@, the result is @NaN@. It supports broadcasting as well.  ```md  resultTensor = isNaN(primaryTensor) || isNan(secondaryTensor) ? NaN : min(primaryTensor, secondaryTensor)  ```
+-- resultTensor = isNaN(primaryTensor) || isNan(secondaryTensor) ? NaN : min(primaryTensor, secondaryTensor)
 --
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — LHS tensor of the binary Op
+--
+-- @secondaryTensor@ — RHS tensor of the binary Op
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- minimumWithNaNPropagationWithPrimaryTensor:secondaryTensor:name:@
 minimumWithNaNPropagationWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 minimumWithNaNPropagationWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph minimumWithNaNPropagationWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise maximum of the input tensors, while propagating @NaN@ values.
+-- | Create Maximum op and return the result tensor, it supports broadcasting as well. If any of the operands is NaN, NaN is returned
 --
--- This operation creates a maximum with @NaN@ propagation operation and returns the result tensor. This means that if any of the elementwise operands is @NaN@, the result is @NaN@. It supports broadcasting as well.  ```md  resultTensor = isNaN(primaryTensor) || isNan(secondaryTensor) ? NaN : max(primaryTensor, secondaryTensor)  ```
+-- resultTensor = isNaN(primaryTensor) || isNan(secondaryTensor) ? NaN : max(primaryTensor, secondaryTensor)
 --
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — LHS tensor of the binary Op
+--
+-- @secondaryTensor@ — RHS tensor of the binary Op
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- maximumWithNaNPropagationWithPrimaryTensor:secondaryTensor:name:@
 maximumWithNaNPropagationWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 maximumWithNaNPropagationWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph maximumWithNaNPropagationWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise equality check of the input tensors.
---
--- This operation creates a equal operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor == secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- equalWithPrimaryTensor:secondaryTensor:name:@
+-- | @- equalWithPrimaryTensor:secondaryTensor:name:@
 equalWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 equalWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph equalWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise inequality check of the input tensors.
---
--- This operation creates a not equal operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor != secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- notEqualWithPrimaryTensor:secondaryTensor:name:@
+-- | @- notEqualWithPrimaryTensor:secondaryTensor:name:@
 notEqualWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 notEqualWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph notEqualWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Checks in an elementwise manner if the first input tensor is less than the second.
---
--- This operation creates a @lessThan@ operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor < secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- lessThanWithPrimaryTensor:secondaryTensor:name:@
+-- | @- lessThanWithPrimaryTensor:secondaryTensor:name:@
 lessThanWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 lessThanWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph lessThanWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Checks in an elementwise manner if the first input tensor is less than or equal to the second.
---
--- This operation creates a @lessThanOrEqualTo@ operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor <= secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- lessThanOrEqualToWithPrimaryTensor:secondaryTensor:name:@
+-- | @- lessThanOrEqualToWithPrimaryTensor:secondaryTensor:name:@
 lessThanOrEqualToWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 lessThanOrEqualToWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph lessThanOrEqualToWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Checks in an elementwise manner if the first input tensor is greater than the second.
---
--- This operation creates a @greaterThan@ operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor > secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- greaterThanWithPrimaryTensor:secondaryTensor:name:@
+-- | @- greaterThanWithPrimaryTensor:secondaryTensor:name:@
 greaterThanWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 greaterThanWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph greaterThanWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Checks in an elementwise manner if the first input tensor is greater than or equal to the second.
---
--- This operation creates a @greaterThanOrEqual@ operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor < secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- greaterThanOrEqualToWithPrimaryTensor:secondaryTensor:name:@
+-- | @- greaterThanOrEqualToWithPrimaryTensor:secondaryTensor:name:@
 greaterThanOrEqualToWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 greaterThanOrEqualToWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph greaterThanOrEqualToWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise logical AND of the input tensors.
---
--- This operation creates a logical AND operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor && secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logicalANDWithPrimaryTensor:secondaryTensor:name:@
+-- | @- logicalANDWithPrimaryTensor:secondaryTensor:name:@
 logicalANDWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 logicalANDWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph logicalANDWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise logical OR of the input tensors.
---
--- This operation creates a logical OR operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = primaryTensor || secondaryTensor ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logicalORWithPrimaryTensor:secondaryTensor:name:@
+-- | @- logicalORWithPrimaryTensor:secondaryTensor:name:@
 logicalORWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 logicalORWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph logicalORWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise logical NAND of the input tensors.
---
--- This operation creates a logical NAND operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = !(primaryTensor && secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logicalNANDWithPrimaryTensor:secondaryTensor:name:@
+-- | @- logicalNANDWithPrimaryTensor:secondaryTensor:name:@
 logicalNANDWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 logicalNANDWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph logicalNANDWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise logical NOR of the input tensors.
---
--- This operation creates a logical NOR operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = !(primaryTensor || secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logicalNORWithPrimaryTensor:secondaryTensor:name:@
+-- | @- logicalNORWithPrimaryTensor:secondaryTensor:name:@
 logicalNORWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 logicalNORWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph logicalNORWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise logical XOR of the input tensors.
---
--- This operation creates a logical XOR operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = XOR(primaryTensor, secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logicalXORWithPrimaryTensor:secondaryTensor:name:@
+-- | @- logicalXORWithPrimaryTensor:secondaryTensor:name:@
 logicalXORWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 logicalXORWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph logicalXORWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise logical XNOR of the input tensors.
---
--- This operation creates a logical XNOR operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = XNOR(primaryTensor, secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- logicalXNORWithPrimaryTensor:secondaryTensor:name:@
+-- | @- logicalXNORWithPrimaryTensor:secondaryTensor:name:@
 logicalXNORWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 logicalXNORWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph logicalXNORWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise two-argument arctangent of the input tensors.
---
--- This operation creates a @atan2@ operation and returns the result tensor. It supports broadcasting as well.  Graph computes arc tangent of primaryTensor over secondaryTensor. ```md resultTensor = atan2(primaryTensor, secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- atan2WithPrimaryTensor:secondaryTensor:name:@
+-- | @- atan2WithPrimaryTensor:secondaryTensor:name:@
 atan2WithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 atan2WithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph atan2WithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise bitwise AND of binary representations of two integer tensors.
+-- | Return bitwise AND of binary representations of 2 integer tensors
 --
--- - Parameters:   - primaryTensor: The primary input tensor, must be of integer type.   - secondaryTensor: The secondary input tensor, must be of integer type.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — primary input tensor, must be integer dataType
+--
+-- @secondaryTensor@ — secondary input tensor, must be integer dataType
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- bitwiseANDWithPrimaryTensor:secondaryTensor:name:@
 bitwiseANDWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 bitwiseANDWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph bitwiseANDWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise bitwise OR of binary representations of two integer tensors.
+-- | Return bitwise OR of binary representations of 2 integer tensors
 --
--- - Parameters:   - primaryTensor: The primary input tensor, must be of integer type.   - secondaryTensor: The secondary input tensor, must be of integer type.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — primary input tensor, must be integer dataType
+--
+-- @secondaryTensor@ — secondary input tensor, must be integer dataType
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- bitwiseORWithPrimaryTensor:secondaryTensor:name:@
 bitwiseORWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 bitwiseORWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph bitwiseORWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise bitwise XOR of binary representations of two integer tensors.
+-- | Return bitwise XOR of binary representations of 2 integer tensors
 --
--- - Parameters:   - primaryTensor: The primary input tensor, must be of integer type.   - secondaryTensor: The secondary input tensor, must be of integer type.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — primary input tensor, must be integer dataType
+--
+-- @secondaryTensor@ — secondary input tensor, must be integer dataType
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- bitwiseXORWithPrimaryTensor:secondaryTensor:name:@
 bitwiseXORWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 bitwiseXORWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph bitwiseXORWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise left-shifted binary representations of the primary integer by the secondary tensor amount.
+-- | Return bitwise left shifted binary representations of primary integer tensor by secondary tensor amount
 --
--- - Parameters:   - primaryTensor: The primary input tensor, must be of integer type.   - secondaryTensor: The secondary input tensor, must be of integer type.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — primary input tensor, must be integer dataType
+--
+-- @secondaryTensor@ — secondary input tensor, must be integer dataType
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- bitwiseLeftShiftWithPrimaryTensor:secondaryTensor:name:@
 bitwiseLeftShiftWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 bitwiseLeftShiftWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph bitwiseLeftShiftWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the elementwise right-shifted binary representations of the primary integer by the secondary tensor amount.
+-- | Return bitwise right shifted binary representations of primary integer tensor by secondary tensor amount
 --
--- - Parameters:   - primaryTensor: The primary input tensor, must be of integer type.   - secondaryTensor: The secondary input tensor, must be of integer type.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
+-- @primaryTensor@ — primary input tensor, must be integer dataType
+--
+-- @secondaryTensor@ — secondary input tensor, must be integer dataType
+--
+-- @name@ — name for the operation
+--
+-- Returns: A valid MPSGraphTensor object.
 --
 -- ObjC selector: @- bitwiseRightShiftWithPrimaryTensor:secondaryTensor:name:@
 bitwiseRightShiftWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 bitwiseRightShiftWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph bitwiseRightShiftWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Selects values from either the true or false predicate tensor, depending on the values in the first input.
---
--- This operation creates a select operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = select(predicateTensor, truePredicateTensor, falseSelectTensor) ```
---
--- - Parameters:   - predicateTensor: The predicate tensor.   - truePredicateTensor: The tensor to select values from if predicate is true.   - falseSelectTensor: The tensor to select values from if predicate is false.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- selectWithPredicateTensor:truePredicateTensor:falsePredicateTensor:name:@
+-- | @- selectWithPredicateTensor:truePredicateTensor:falsePredicateTensor:name:@
 selectWithPredicateTensor_truePredicateTensor_falsePredicateTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor predicateTensor, IsMPSGraphTensor truePredicateTensor, IsMPSGraphTensor falseSelectTensor, IsNSString name) => mpsGraph -> predicateTensor -> truePredicateTensor -> falseSelectTensor -> name -> IO (Id MPSGraphTensor)
 selectWithPredicateTensor_truePredicateTensor_falsePredicateTensor_name mpsGraph predicateTensor truePredicateTensor falseSelectTensor name =
   sendMessage mpsGraph selectWithPredicateTensor_truePredicateTensor_falsePredicateTensor_nameSelector (toMPSGraphTensor predicateTensor) (toMPSGraphTensor truePredicateTensor) (toMPSGraphTensor falseSelectTensor) (toNSString name)
 
--- | Clamps the values in the first tensor between the corresponding values in the minimum and maximum value tensor.
---
--- This operation creates a clamp operation and returns the result tensor. It supports broadcasting as well.  ```md resultTensor = clamp(tensor, minValueTensor, maxValueTensor) ```
---
--- - Parameters:   - tensor: The tensor to be clamped.   - minValueTensor: The tensor with min values to clamp to.   - minValueTensor: The tensor with max values to clamp to.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- clampWithTensor:minValueTensor:maxValueTensor:name:@
+-- | @- clampWithTensor:minValueTensor:maxValueTensor:name:@
 clampWithTensor_minValueTensor_maxValueTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor minValueTensor, IsMPSGraphTensor maxValueTensor, IsNSString name) => mpsGraph -> tensor -> minValueTensor -> maxValueTensor -> name -> IO (Id MPSGraphTensor)
 clampWithTensor_minValueTensor_maxValueTensor_name mpsGraph tensor minValueTensor maxValueTensor name =
   sendMessage mpsGraph clampWithTensor_minValueTensor_maxValueTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor minValueTensor) (toMPSGraphTensor maxValueTensor) (toNSString name)
 
--- | Divides the first input tensor by the second, with the result being 0 if the denominator is 0.
---
--- ```md resultTensor = select(secondaryTensor, primaryTensor / secondaryTensor, 0) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- divisionNoNaNWithPrimaryTensor:secondaryTensor:name:@
+-- | @- divisionNoNaNWithPrimaryTensor:secondaryTensor:name:@
 divisionNoNaNWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 divisionNoNaNWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph divisionNoNaNWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the remainder of floor divison between the primary and secondary tensor.
---
--- Creates a floorModulo operation and returns the result tensor, it supports broadcasting as well, returns 0 if divisor is 0. ```md resultTensor = primaryTensor - (floor(primaryTensor / secondaryTensor) * secondaryTensor) ```
---
--- - Parameters:   - primaryTensor: The LHS tensor of the binary Op.   - secondaryTensor: The RHS tensor of the binary Op.   - name: An optional string which serves as an identifier for the operation. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- floorModuloWithPrimaryTensor:secondaryTensor:name:@
+-- | @- floorModuloWithPrimaryTensor:secondaryTensor:name:@
 floorModuloWithPrimaryTensor_secondaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsMPSGraphTensor secondaryTensor, IsNSString name) => mpsGraph -> primaryTensor -> secondaryTensor -> name -> IO (Id MPSGraphTensor)
 floorModuloWithPrimaryTensor_secondaryTensor_name mpsGraph primaryTensor secondaryTensor name =
   sendMessage mpsGraph floorModuloWithPrimaryTensor_secondaryTensor_nameSelector (toMPSGraphTensor primaryTensor) (toMPSGraphTensor secondaryTensor) (toNSString name)
 
--- | Returns the real part of a tensor.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation.. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- realPartOfTensor:name:@
-realPartOfTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
-realPartOfTensor_name mpsGraph tensor name =
-  sendMessage mpsGraph realPartOfTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
-
--- | Returns the imaginary part of a tensor.
---
--- - Parameters:   - tensor: The input tensor.   - name: An optional string which serves as an identifier for the operation.. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- imaginaryPartOfTensor:name:@
-imaginaryPartOfTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
-imaginaryPartOfTensor_name mpsGraph tensor name =
-  sendMessage mpsGraph imaginaryPartOfTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
-
--- | Returns a complex tensor from the two input tensors.
---
--- - Parameters:   - realTensor: The real part of the complex tensor.   - imaginaryTensor: The imaginary part of the complex tensor.   - name: An optional string which serves as an identifier for the operation.. - Returns: A valid @MPSGraphTensor@ object containing the elementwise result of the applied operation.
---
--- ObjC selector: @- complexTensorWithRealTensor:imaginaryTensor:name:@
-complexTensorWithRealTensor_imaginaryTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor realTensor, IsMPSGraphTensor imaginaryTensor, IsNSString name) => mpsGraph -> realTensor -> imaginaryTensor -> name -> IO (Id MPSGraphTensor)
-complexTensorWithRealTensor_imaginaryTensor_name mpsGraph realTensor imaginaryTensor name =
-  sendMessage mpsGraph complexTensorWithRealTensor_imaginaryTensor_nameSelector (toMPSGraphTensor realTensor) (toMPSGraphTensor imaginaryTensor) (toNSString name)
-
--- | Computes the ReLU (rectified linear activation unit) function with the input tensor.
---
--- The operation is:  f(x) = max(x, 0).
---
--- - Parameters:   - tensor: The input tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object.
---
--- ObjC selector: @- reLUWithTensor:name:@
+-- | @- reLUWithTensor:name:@
 reLUWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 reLUWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph reLUWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Computes the gradient of the ReLU  (rectified linear activation unit) function using the incoming gradient.
---
--- - Parameters:   - gradient: The incoming gradient tensor.   - source: The input tensor from forward pass.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object.
---
--- ObjC selector: @- reLUGradientWithIncomingGradient:sourceTensor:name:@
+-- | @- reLUGradientWithIncomingGradient:sourceTensor:name:@
 reLUGradientWithIncomingGradient_sourceTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> gradient -> source -> name -> IO (Id MPSGraphTensor)
 reLUGradientWithIncomingGradient_sourceTensor_name mpsGraph gradient source name =
   sendMessage mpsGraph reLUGradientWithIncomingGradient_sourceTensor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toNSString name)
 
--- | Computes the sigmoid operation on an input tensor.
---
--- - Parameters:   - tensor: The input tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object.
---
--- ObjC selector: @- sigmoidWithTensor:name:@
+-- | @- sigmoidWithTensor:name:@
 sigmoidWithTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> name -> IO (Id MPSGraphTensor)
 sigmoidWithTensor_name mpsGraph tensor name =
   sendMessage mpsGraph sigmoidWithTensor_nameSelector (toMPSGraphTensor tensor) (toNSString name)
 
--- | Computes the gradient of the sigmoid function using the incoming gradient tensor.
---
--- - Parameters:   - gradient: The incoming gradient tensor.   - source: The input tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object
---
--- ObjC selector: @- sigmoidGradientWithIncomingGradient:sourceTensor:name:@
+-- | @- sigmoidGradientWithIncomingGradient:sourceTensor:name:@
 sigmoidGradientWithIncomingGradient_sourceTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> gradient -> source -> name -> IO (Id MPSGraphTensor)
 sigmoidGradientWithIncomingGradient_sourceTensor_name mpsGraph gradient source name =
   sendMessage mpsGraph sigmoidGradientWithIncomingGradient_sourceTensor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toNSString name)
 
--- | Computes the softmax function on the input tensor along the specified axis.
---
--- - Parameters:   - tensor: The input tensor.   - axis: The axis along which softmax is computed.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object
---
--- ObjC selector: @- softMaxWithTensor:axis:name:@
+-- | @- softMaxWithTensor:axis:name:@
 softMaxWithTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CLong -> name -> IO (Id MPSGraphTensor)
 softMaxWithTensor_axis_name mpsGraph tensor axis name =
   sendMessage mpsGraph softMaxWithTensor_axis_nameSelector (toMPSGraphTensor tensor) axis (toNSString name)
 
--- | Computes the gradient of the softmax function along the specified axis using the incoming gradient tensor.
---
--- - Parameters:   - gradient: The incoming gradient tensor.   - source: The input tensor.   - axis: The axis along which softmax is computed.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object
---
--- ObjC selector: @- softMaxGradientWithIncomingGradient:sourceTensor:axis:name:@
+-- | @- softMaxGradientWithIncomingGradient:sourceTensor:axis:name:@
 softMaxGradientWithIncomingGradient_sourceTensor_axis_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsNSString name) => mpsGraph -> gradient -> source -> CLong -> name -> IO (Id MPSGraphTensor)
 softMaxGradientWithIncomingGradient_sourceTensor_axis_name mpsGraph gradient source axis name =
   sendMessage mpsGraph softMaxGradientWithIncomingGradient_sourceTensor_axis_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) axis (toNSString name)
 
--- | Computes the leaky rectified linear unit (ReLU) activation function on the input tensor.
+-- | Leaky ReLU activation tensor
 --
--- The operation is: f(x) = max(x, alpha).
---
--- - Parameters:   - tensor: An input tensor.   - alpha: The scalar value alpha used by all elements in the input tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object
+-- Specifies the leaky ReLU activation tensor.             For each pixel, applies the following function: f(x) = max(x, alpha * x)
 --
 -- ObjC selector: @- leakyReLUWithTensor:alpha:name:@
 leakyReLUWithTensor_alpha_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsNSString name) => mpsGraph -> tensor -> CDouble -> name -> IO (Id MPSGraphTensor)
 leakyReLUWithTensor_alpha_name mpsGraph tensor alpha name =
   sendMessage mpsGraph leakyReLUWithTensor_alpha_nameSelector (toMPSGraphTensor tensor) alpha (toNSString name)
 
--- | Computes the leaky rectified linear unit (ReLU) activation function on the input tensor.
---
--- The operation is: f(x) = max(x, alpha). This operation supports broadcasting with the alpha tensor.
---
--- - Parameters:   - tensor: The input tensor.   - alpha: The alpha tensor.   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object
---
--- ObjC selector: @- leakyReLUWithTensor:alphaTensor:name:@
+-- | @- leakyReLUWithTensor:alphaTensor:name:@
 leakyReLUWithTensor_alphaTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor tensor, IsMPSGraphTensor alphaTensor, IsNSString name) => mpsGraph -> tensor -> alphaTensor -> name -> IO (Id MPSGraphTensor)
 leakyReLUWithTensor_alphaTensor_name mpsGraph tensor alphaTensor name =
   sendMessage mpsGraph leakyReLUWithTensor_alphaTensor_nameSelector (toMPSGraphTensor tensor) (toMPSGraphTensor alphaTensor) (toNSString name)
 
--- | Computes the gradient of the leaky rectified linear unit (ReLU) activation.
---
--- This operation supports broadcasting with the alpha tensor.
---
--- - Parameters:   - gradient: The incoming gradient tensor.   - source: The input tensor in forward pass.   - alpha: The alpha tensor   - name: The name for the operation. - Returns: A valid ``MPSGraphTensor`` object
---
--- ObjC selector: @- leakyReLUGradientWithIncomingGradient:sourceTensor:alphaTensor:name:@
+-- | @- leakyReLUGradientWithIncomingGradient:sourceTensor:alphaTensor:name:@
 leakyReLUGradientWithIncomingGradient_sourceTensor_alphaTensor_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor gradient, IsMPSGraphTensor source, IsMPSGraphTensor alphaTensor, IsNSString name) => mpsGraph -> gradient -> source -> alphaTensor -> name -> IO (Id MPSGraphTensor)
 leakyReLUGradientWithIncomingGradient_sourceTensor_alphaTensor_name mpsGraph gradient source alphaTensor name =
   sendMessage mpsGraph leakyReLUGradientWithIncomingGradient_sourceTensor_alphaTensor_nameSelector (toMPSGraphTensor gradient) (toMPSGraphTensor source) (toMPSGraphTensor alphaTensor) (toNSString name)
 
--- | Calculates a partial derivative of primaryTensor with respect to the tensors.
+-- | Calculates partial derviative of primaryTensor wrt secondaryTensor
 --
--- - Parameters:   - primaryTensor: Tensor to be differentiated (numerator).   - tensors: Tensors to do the differentiation with (denominator).   - name: Name for the gradient operation. - Returns: A valid MPSGraphTensor dictionary object containing partial derivative d(primaryTensor)/d(secondaryTensor) for each tensor as key.
+-- @primaryTensor@ — tensor to be differentiated (numerator)
+--
+-- @tensors@ — tensors to do the differentiation with (denominator)
+--
+-- @name@ — name for the gradient operation
+--
+-- Returns: A valid MPSGraphTensor dictionary object containing partial derivative d(primaryTensor)/d(secondaryTensor) for each tensor as key
 --
 -- ObjC selector: @- gradientForPrimaryTensor:withTensors:name:@
 gradientForPrimaryTensor_withTensors_name :: (IsMPSGraph mpsGraph, IsMPSGraphTensor primaryTensor, IsNSArray tensors, IsNSString name) => mpsGraph -> primaryTensor -> tensors -> name -> IO (Id NSDictionary)
 gradientForPrimaryTensor_withTensors_name mpsGraph primaryTensor tensors name =
   sendMessage mpsGraph gradientForPrimaryTensor_withTensors_nameSelector (toMPSGraphTensor primaryTensor) (toNSArray tensors) (toNSString name)
 
--- | Options for the graph.
+-- | options
 --
--- The default value is @MPSGraphOptionsDefault@.
+-- options for the graph, default value is MPSGraphOptionsDefault
 --
 -- ObjC selector: @- options@
 options :: IsMPSGraph mpsGraph => mpsGraph -> IO MPSGraphOptions
 options mpsGraph =
   sendMessage mpsGraph optionsSelector
 
--- | Options for the graph.
+-- | options
 --
--- The default value is @MPSGraphOptionsDefault@.
+-- options for the graph, default value is MPSGraphOptionsDefault
 --
 -- ObjC selector: @- setOptions:@
 setOptions :: IsMPSGraph mpsGraph => mpsGraph -> MPSGraphOptions -> IO ()
 setOptions mpsGraph value =
   sendMessage mpsGraph setOptionsSelector value
 
--- | Array of all the placeholder tensors.
+-- | placeholderTensors
+--
+-- an array of all the placeholderTensors
 --
 -- ObjC selector: @- placeholderTensors@
 placeholderTensors :: IsMPSGraph mpsGraph => mpsGraph -> IO (Id NSArray)
@@ -4939,25 +5278,9 @@ encodeToCommandBuffer_feeds_targetOperations_resultsDictionary_executionDescript
 topKWithGradientTensor_source_k_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CULong, Id NSString] (Id MPSGraphTensor)
 topKWithGradientTensor_source_k_nameSelector = mkSelector "topKWithGradientTensor:source:k:name:"
 
--- | @Selector@ for @topKWithGradientTensor:source:axis:k:name:@
-topKWithGradientTensor_source_axis_k_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CLong, CULong, Id NSString] (Id MPSGraphTensor)
-topKWithGradientTensor_source_axis_k_nameSelector = mkSelector "topKWithGradientTensor:source:axis:k:name:"
-
--- | @Selector@ for @bottomKWithGradientTensor:source:axis:k:name:@
-bottomKWithGradientTensor_source_axis_k_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CLong, CULong, Id NSString] (Id MPSGraphTensor)
-bottomKWithGradientTensor_source_axis_k_nameSelector = mkSelector "bottomKWithGradientTensor:source:axis:k:name:"
-
 -- | @Selector@ for @topKWithGradientTensor:source:kTensor:name:@
 topKWithGradientTensor_source_kTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 topKWithGradientTensor_source_kTensor_nameSelector = mkSelector "topKWithGradientTensor:source:kTensor:name:"
-
--- | @Selector@ for @topKWithGradientTensor:source:axisTensor:kTensor:name:@
-topKWithGradientTensor_source_axisTensor_kTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-topKWithGradientTensor_source_axisTensor_kTensor_nameSelector = mkSelector "topKWithGradientTensor:source:axisTensor:kTensor:name:"
-
--- | @Selector@ for @bottomKWithGradientTensor:source:axisTensor:kTensor:name:@
-bottomKWithGradientTensor_source_axisTensor_kTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-bottomKWithGradientTensor_source_axisTensor_kTensor_nameSelector = mkSelector "bottomKWithGradientTensor:source:axisTensor:kTensor:name:"
 
 -- | @Selector@ for @topKWithSourceTensor:k:name:@
 topKWithSourceTensor_k_nameSelector :: Selector '[Id MPSGraphTensor, CULong, Id NSString] (Id NSArray)
@@ -4966,22 +5289,6 @@ topKWithSourceTensor_k_nameSelector = mkSelector "topKWithSourceTensor:k:name:"
 -- | @Selector@ for @topKWithSourceTensor:kTensor:name:@
 topKWithSourceTensor_kTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id NSArray)
 topKWithSourceTensor_kTensor_nameSelector = mkSelector "topKWithSourceTensor:kTensor:name:"
-
--- | @Selector@ for @topKWithSourceTensor:axis:k:name:@
-topKWithSourceTensor_axis_k_nameSelector :: Selector '[Id MPSGraphTensor, CLong, CULong, Id NSString] (Id NSArray)
-topKWithSourceTensor_axis_k_nameSelector = mkSelector "topKWithSourceTensor:axis:k:name:"
-
--- | @Selector@ for @bottomKWithSourceTensor:axis:k:name:@
-bottomKWithSourceTensor_axis_k_nameSelector :: Selector '[Id MPSGraphTensor, CLong, CULong, Id NSString] (Id NSArray)
-bottomKWithSourceTensor_axis_k_nameSelector = mkSelector "bottomKWithSourceTensor:axis:k:name:"
-
--- | @Selector@ for @topKWithSourceTensor:axisTensor:kTensor:name:@
-topKWithSourceTensor_axisTensor_kTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id NSArray)
-topKWithSourceTensor_axisTensor_kTensor_nameSelector = mkSelector "topKWithSourceTensor:axisTensor:kTensor:name:"
-
--- | @Selector@ for @bottomKWithSourceTensor:axisTensor:kTensor:name:@
-bottomKWithSourceTensor_axisTensor_kTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id NSArray)
-bottomKWithSourceTensor_axisTensor_kTensor_nameSelector = mkSelector "bottomKWithSourceTensor:axisTensor:kTensor:name:"
 
 -- | @Selector@ for @reshapeTensor:withShape:name:@
 reshapeTensor_withShape_nameSelector :: Selector '[Id MPSGraphTensor, RawId, Id NSString] (Id MPSGraphTensor)
@@ -5011,45 +5318,13 @@ sliceTensor_starts_ends_strides_nameSelector = mkSelector "sliceTensor:starts:en
 sliceTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id NSArray, Id NSArray, Id NSArray, CUInt, CUInt, CUInt, Id NSString] (Id MPSGraphTensor)
 sliceTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector = mkSelector "sliceTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:"
 
--- | @Selector@ for @sliceTensor:startTensor:endTensor:strideTensor:startMask:endMask:squeezeMask:name:@
-sliceTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CUInt, CUInt, CUInt, Id NSString] (Id MPSGraphTensor)
-sliceTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector = mkSelector "sliceTensor:startTensor:endTensor:strideTensor:startMask:endMask:squeezeMask:name:"
-
--- | @Selector@ for @sliceTensor:startTensor:sizeTensor:squeezeMask:name:@
-sliceTensor_startTensor_sizeTensor_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CUInt, Id NSString] (Id MPSGraphTensor)
-sliceTensor_startTensor_sizeTensor_squeezeMask_nameSelector = mkSelector "sliceTensor:startTensor:sizeTensor:squeezeMask:name:"
-
 -- | @Selector@ for @sliceGradientTensor:fwdInShapeTensor:starts:ends:strides:name:@
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSArray, Id NSArray, Id NSArray, Id NSString] (Id MPSGraphTensor)
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_nameSelector = mkSelector "sliceGradientTensor:fwdInShapeTensor:starts:ends:strides:name:"
 
--- | @Selector@ for @sliceGradientTensor:fwdInShapeTensor:startTensor:endTensor:strideTensor:startMask:endMask:squeezeMask:name:@
-sliceGradientTensor_fwdInShapeTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CUInt, CUInt, CUInt, Id NSString] (Id MPSGraphTensor)
-sliceGradientTensor_fwdInShapeTensor_startTensor_endTensor_strideTensor_startMask_endMask_squeezeMask_nameSelector = mkSelector "sliceGradientTensor:fwdInShapeTensor:startTensor:endTensor:strideTensor:startMask:endMask:squeezeMask:name:"
-
--- | @Selector@ for @sliceGradientTensor:fwdInShapeTensor:startTensor:sizeTensor:squeezeMask:name:@
-sliceGradientTensor_fwdInShapeTensor_startTensor_sizeTensor_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CUInt, Id NSString] (Id MPSGraphTensor)
-sliceGradientTensor_fwdInShapeTensor_startTensor_sizeTensor_squeezeMask_nameSelector = mkSelector "sliceGradientTensor:fwdInShapeTensor:startTensor:sizeTensor:squeezeMask:name:"
-
 -- | @Selector@ for @sliceGradientTensor:fwdInShapeTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:@
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSArray, Id NSArray, Id NSArray, CUInt, CUInt, CUInt, Id NSString] (Id MPSGraphTensor)
 sliceGradientTensor_fwdInShapeTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector = mkSelector "sliceGradientTensor:fwdInShapeTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:"
-
--- | @Selector@ for @sliceUpdateDataTensor:updateTensor:startsTensor:endsTensor:stridesTensor:startMask:endMask:squeezeMask:name:@
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_startMask_endMask_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CUInt, CUInt, CUInt, Id NSString] (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_startMask_endMask_squeezeMask_nameSelector = mkSelector "sliceUpdateDataTensor:updateTensor:startsTensor:endsTensor:stridesTensor:startMask:endMask:squeezeMask:name:"
-
--- | @Selector@ for @sliceUpdateDataTensor:updateTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:@
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSArray, Id NSArray, Id NSArray, CUInt, CUInt, CUInt, Id NSString] (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_startMask_endMask_squeezeMask_nameSelector = mkSelector "sliceUpdateDataTensor:updateTensor:starts:ends:strides:startMask:endMask:squeezeMask:name:"
-
--- | @Selector@ for @sliceUpdateDataTensor:updateTensor:startsTensor:endsTensor:stridesTensor:name:@
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_startsTensor_endsTensor_stridesTensor_nameSelector = mkSelector "sliceUpdateDataTensor:updateTensor:startsTensor:endsTensor:stridesTensor:name:"
-
--- | @Selector@ for @sliceUpdateDataTensor:updateTensor:starts:ends:strides:name:@
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSArray, Id NSArray, Id NSArray, Id NSString] (Id MPSGraphTensor)
-sliceUpdateDataTensor_updateTensor_starts_ends_strides_nameSelector = mkSelector "sliceUpdateDataTensor:updateTensor:starts:ends:strides:name:"
 
 -- | @Selector@ for @concatTensor:withTensor:dimension:name:@
 concatTensor_withTensor_dimension_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CLong, Id NSString] (Id MPSGraphTensor)
@@ -5146,10 +5421,6 @@ shapeOfTensor_nameSelector = mkSelector "shapeOfTensor:name:"
 -- | @Selector@ for @castTensor:toType:name:@
 castTensor_toType_nameSelector :: Selector '[Id MPSGraphTensor, MPSDataType, Id NSString] (Id MPSGraphTensor)
 castTensor_toType_nameSelector = mkSelector "castTensor:toType:name:"
-
--- | @Selector@ for @reinterpretCastTensor:toType:name:@
-reinterpretCastTensor_toType_nameSelector :: Selector '[Id MPSGraphTensor, MPSDataType, Id NSString] (Id MPSGraphTensor)
-reinterpretCastTensor_toType_nameSelector = mkSelector "reinterpretCastTensor:toType:name:"
 
 -- | @Selector@ for @stackTensors:axis:name:@
 stackTensors_axis_nameSelector :: Selector '[Id NSArray, CLong, Id NSString] (Id MPSGraphTensor)
@@ -5291,14 +5562,6 @@ scatterNDWithUpdatesTensor_indicesTensor_shape_batchDimensions_nameSelector = mk
 scatterNDWithDataTensor_updatesTensor_indicesTensor_batchDimensions_mode_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CULong, MPSGraphScatterMode, Id NSString] (Id MPSGraphTensor)
 scatterNDWithDataTensor_updatesTensor_indicesTensor_batchDimensions_mode_nameSelector = mkSelector "scatterNDWithDataTensor:updatesTensor:indicesTensor:batchDimensions:mode:name:"
 
--- | @Selector@ for @sampleGridWithSourceTensor:coordinateTensor:layout:normalizeCoordinates:relativeCoordinates:alignCorners:paddingMode:samplingMode:constantValue:name:@
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_samplingMode_constantValue_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphTensorNamedDataLayout, Bool, Bool, Bool, MPSGraphPaddingMode, MPSGraphResizeMode, CDouble, Id NSString] (Id MPSGraphTensor)
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_samplingMode_constantValue_nameSelector = mkSelector "sampleGridWithSourceTensor:coordinateTensor:layout:normalizeCoordinates:relativeCoordinates:alignCorners:paddingMode:samplingMode:constantValue:name:"
-
--- | @Selector@ for @sampleGridWithSourceTensor:coordinateTensor:layout:normalizeCoordinates:relativeCoordinates:alignCorners:paddingMode:nearestRoundingMode:constantValue:name:@
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_nearestRoundingMode_constantValue_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphTensorNamedDataLayout, Bool, Bool, Bool, MPSGraphPaddingMode, MPSGraphResizeNearestRoundingMode, CDouble, Id NSString] (Id MPSGraphTensor)
-sampleGridWithSourceTensor_coordinateTensor_layout_normalizeCoordinates_relativeCoordinates_alignCorners_paddingMode_nearestRoundingMode_constantValue_nameSelector = mkSelector "sampleGridWithSourceTensor:coordinateTensor:layout:normalizeCoordinates:relativeCoordinates:alignCorners:paddingMode:nearestRoundingMode:constantValue:name:"
-
 -- | @Selector@ for @singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:@
 singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphSingleGateRNNDescriptor, Id NSString] (Id NSArray)
 singleGateRNNWithSourceTensor_recurrentWeight_inputWeight_bias_initState_mask_descriptor_nameSelector = mkSelector "singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:"
@@ -5387,49 +5650,25 @@ resizeTensor_size_mode_centerResult_alignCorners_layout_nameSelector = mkSelecto
 resizeTensor_sizeTensor_mode_centerResult_alignCorners_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeMode, Bool, Bool, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeTensor_sizeTensor_mode_centerResult_alignCorners_layout_nameSelector = mkSelector "resizeTensor:sizeTensor:mode:centerResult:alignCorners:layout:name:"
 
--- | @Selector@ for @resizeTensor:sizeTensor:mode:centerResult:alignCorners:name:@
-resizeTensor_sizeTensor_mode_centerResult_alignCorners_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeMode, Bool, Bool, Id NSString] (Id MPSGraphTensor)
-resizeTensor_sizeTensor_mode_centerResult_alignCorners_nameSelector = mkSelector "resizeTensor:sizeTensor:mode:centerResult:alignCorners:name:"
-
 -- | @Selector@ for @resizeNearestWithTensor:sizeTensor:nearestRoundingMode:centerResult:alignCorners:layout:name:@
 resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeNearestRoundingMode, Bool, Bool, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_layout_nameSelector = mkSelector "resizeNearestWithTensor:sizeTensor:nearestRoundingMode:centerResult:alignCorners:layout:name:"
-
--- | @Selector@ for @resizeNearestWithTensor:sizeTensor:nearestRoundingMode:centerResult:alignCorners:name:@
-resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeNearestRoundingMode, Bool, Bool, Id NSString] (Id MPSGraphTensor)
-resizeNearestWithTensor_sizeTensor_nearestRoundingMode_centerResult_alignCorners_nameSelector = mkSelector "resizeNearestWithTensor:sizeTensor:nearestRoundingMode:centerResult:alignCorners:name:"
 
 -- | @Selector@ for @resizeBilinearWithTensor:sizeTensor:centerResult:alignCorners:layout:name:@
 resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Bool, Bool, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_layout_nameSelector = mkSelector "resizeBilinearWithTensor:sizeTensor:centerResult:alignCorners:layout:name:"
 
--- | @Selector@ for @resizeBilinearWithTensor:sizeTensor:centerResult:alignCorners:name:@
-resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Bool, Bool, Id NSString] (Id MPSGraphTensor)
-resizeBilinearWithTensor_sizeTensor_centerResult_alignCorners_nameSelector = mkSelector "resizeBilinearWithTensor:sizeTensor:centerResult:alignCorners:name:"
-
 -- | @Selector@ for @resizeTensor:sizeTensor:scaleOffsetTensor:mode:layout:name:@
 resizeTensor_sizeTensor_scaleOffsetTensor_mode_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeMode, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeTensor_sizeTensor_scaleOffsetTensor_mode_layout_nameSelector = mkSelector "resizeTensor:sizeTensor:scaleOffsetTensor:mode:layout:name:"
-
--- | @Selector@ for @resizeTensor:sizeTensor:scaleTensor:offsetTensor:mode:name:@
-resizeTensor_sizeTensor_scaleTensor_offsetTensor_mode_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeMode, Id NSString] (Id MPSGraphTensor)
-resizeTensor_sizeTensor_scaleTensor_offsetTensor_mode_nameSelector = mkSelector "resizeTensor:sizeTensor:scaleTensor:offsetTensor:mode:name:"
 
 -- | @Selector@ for @resizeNearestWithTensor:sizeTensor:scaleOffsetTensor:nearestRoundingMode:layout:name:@
 resizeNearestWithTensor_sizeTensor_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeNearestRoundingMode, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeNearestWithTensor_sizeTensor_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector = mkSelector "resizeNearestWithTensor:sizeTensor:scaleOffsetTensor:nearestRoundingMode:layout:name:"
 
--- | @Selector@ for @resizeNearestWithTensor:sizeTensor:scaleTensor:offsetTensor:nearestRoundingMode:name:@
-resizeNearestWithTensor_sizeTensor_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeNearestRoundingMode, Id NSString] (Id MPSGraphTensor)
-resizeNearestWithTensor_sizeTensor_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector = mkSelector "resizeNearestWithTensor:sizeTensor:scaleTensor:offsetTensor:nearestRoundingMode:name:"
-
 -- | @Selector@ for @resizeBilinearWithTensor:sizeTensor:scaleOffsetTensor:layout:name:@
 resizeBilinearWithTensor_sizeTensor_scaleOffsetTensor_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeBilinearWithTensor_sizeTensor_scaleOffsetTensor_layout_nameSelector = mkSelector "resizeBilinearWithTensor:sizeTensor:scaleOffsetTensor:layout:name:"
-
--- | @Selector@ for @resizeBilinearWithTensor:sizeTensor:scaleTensor:offsetTensor:name:@
-resizeBilinearWithTensor_sizeTensor_scaleTensor_offsetTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-resizeBilinearWithTensor_sizeTensor_scaleTensor_offsetTensor_nameSelector = mkSelector "resizeBilinearWithTensor:sizeTensor:scaleTensor:offsetTensor:name:"
 
 -- | @Selector@ for @resizeWithGradientTensor:input:mode:centerResult:alignCorners:layout:name:@
 resizeWithGradientTensor_input_mode_centerResult_alignCorners_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeMode, Bool, Bool, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
@@ -5447,25 +5686,13 @@ resizeBilinearWithGradientTensor_input_centerResult_alignCorners_layout_nameSele
 resizeWithGradientTensor_input_scaleOffsetTensor_mode_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeMode, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeWithGradientTensor_input_scaleOffsetTensor_mode_layout_nameSelector = mkSelector "resizeWithGradientTensor:input:scaleOffsetTensor:mode:layout:name:"
 
--- | @Selector@ for @resizeWithGradientTensor:input:scaleTensor:offsetTensor:mode:name:@
-resizeWithGradientTensor_input_scaleTensor_offsetTensor_mode_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeMode, Id NSString] (Id MPSGraphTensor)
-resizeWithGradientTensor_input_scaleTensor_offsetTensor_mode_nameSelector = mkSelector "resizeWithGradientTensor:input:scaleTensor:offsetTensor:mode:name:"
-
 -- | @Selector@ for @resizeNearestWithGradientTensor:input:scaleOffsetTensor:nearestRoundingMode:layout:name:@
 resizeNearestWithGradientTensor_input_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeNearestRoundingMode, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeNearestWithGradientTensor_input_scaleOffsetTensor_nearestRoundingMode_layout_nameSelector = mkSelector "resizeNearestWithGradientTensor:input:scaleOffsetTensor:nearestRoundingMode:layout:name:"
 
--- | @Selector@ for @resizeNearestWithGradientTensor:input:scaleTensor:offsetTensor:nearestRoundingMode:name:@
-resizeNearestWithGradientTensor_input_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphResizeNearestRoundingMode, Id NSString] (Id MPSGraphTensor)
-resizeNearestWithGradientTensor_input_scaleTensor_offsetTensor_nearestRoundingMode_nameSelector = mkSelector "resizeNearestWithGradientTensor:input:scaleTensor:offsetTensor:nearestRoundingMode:name:"
-
 -- | @Selector@ for @resizeBilinearWithGradientTensor:input:scaleOffsetTensor:layout:name:@
 resizeBilinearWithGradientTensor_input_scaleOffsetTensor_layout_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSGraphTensorNamedDataLayout, Id NSString] (Id MPSGraphTensor)
 resizeBilinearWithGradientTensor_input_scaleOffsetTensor_layout_nameSelector = mkSelector "resizeBilinearWithGradientTensor:input:scaleOffsetTensor:layout:name:"
-
--- | @Selector@ for @resizeBilinearWithGradientTensor:input:scaleTensor:offsetTensor:name:@
-resizeBilinearWithGradientTensor_input_scaleTensor_offsetTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-resizeBilinearWithGradientTensor_input_scaleTensor_offsetTensor_nameSelector = mkSelector "resizeBilinearWithGradientTensor:input:scaleTensor:offsetTensor:name:"
 
 -- | @Selector@ for @reductionSumWithTensor:axis:name:@
 reductionSumWithTensor_axis_nameSelector :: Selector '[Id MPSGraphTensor, CLong, Id NSString] (Id MPSGraphTensor)
@@ -5603,46 +5830,6 @@ dropoutTensor_rate_nameSelector = mkSelector "dropoutTensor:rate:name:"
 dropoutTensor_rateTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 dropoutTensor_rateTensor_nameSelector = mkSelector "dropoutTensor:rateTensor:name:"
 
--- | @Selector@ for @quantizeTensor:scale:zeroPoint:dataType:name:@
-quantizeTensor_scale_zeroPoint_dataType_nameSelector :: Selector '[Id MPSGraphTensor, CDouble, CDouble, MPSDataType, Id NSString] (Id MPSGraphTensor)
-quantizeTensor_scale_zeroPoint_dataType_nameSelector = mkSelector "quantizeTensor:scale:zeroPoint:dataType:name:"
-
--- | @Selector@ for @dequantizeTensor:scale:zeroPoint:dataType:name:@
-dequantizeTensor_scale_zeroPoint_dataType_nameSelector :: Selector '[Id MPSGraphTensor, CDouble, CDouble, MPSDataType, Id NSString] (Id MPSGraphTensor)
-dequantizeTensor_scale_zeroPoint_dataType_nameSelector = mkSelector "dequantizeTensor:scale:zeroPoint:dataType:name:"
-
--- | @Selector@ for @quantizeTensor:scaleTensor:zeroPoint:dataType:axis:name:@
-quantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CDouble, MPSDataType, CLong, Id NSString] (Id MPSGraphTensor)
-quantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector = mkSelector "quantizeTensor:scaleTensor:zeroPoint:dataType:axis:name:"
-
--- | @Selector@ for @dequantizeTensor:scaleTensor:zeroPoint:dataType:axis:name:@
-dequantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CDouble, MPSDataType, CLong, Id NSString] (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_zeroPoint_dataType_axis_nameSelector = mkSelector "dequantizeTensor:scaleTensor:zeroPoint:dataType:axis:name:"
-
--- | @Selector@ for @quantizeTensor:scaleTensor:zeroPointTensor:dataType:axis:name:@
-quantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSDataType, CLong, Id NSString] (Id MPSGraphTensor)
-quantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector = mkSelector "quantizeTensor:scaleTensor:zeroPointTensor:dataType:axis:name:"
-
--- | @Selector@ for @dequantizeTensor:scaleTensor:zeroPointTensor:dataType:axis:name:@
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSDataType, CLong, Id NSString] (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_axis_nameSelector = mkSelector "dequantizeTensor:scaleTensor:zeroPointTensor:dataType:axis:name:"
-
--- | @Selector@ for @dequantizeTensor:scaleTensor:zeroPointTensor:dataType:name:@
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, MPSDataType, Id NSString] (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_zeroPointTensor_dataType_nameSelector = mkSelector "dequantizeTensor:scaleTensor:zeroPointTensor:dataType:name:"
-
--- | @Selector@ for @dequantizeTensor:scaleTensor:dataType:name:@
-dequantizeTensor_scaleTensor_dataType_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSDataType, Id NSString] (Id MPSGraphTensor)
-dequantizeTensor_scaleTensor_dataType_nameSelector = mkSelector "dequantizeTensor:scaleTensor:dataType:name:"
-
--- | @Selector@ for @dequantizeTensor:LUTTensor:name:@
-dequantizeTensor_LUTTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-dequantizeTensor_LUTTensor_nameSelector = mkSelector "dequantizeTensor:LUTTensor:name:"
-
--- | @Selector@ for @dequantizeTensor:LUTTensor:axis:name:@
-dequantizeTensor_LUTTensor_axis_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CLong, Id NSString] (Id MPSGraphTensor)
-dequantizeTensor_LUTTensor_axis_nameSelector = mkSelector "dequantizeTensor:LUTTensor:axis:name:"
-
 -- | @Selector@ for @maxPooling2DWithSourceTensor:descriptor:name:@
 maxPooling2DWithSourceTensor_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphPooling2DOpDescriptor, Id NSString] (Id MPSGraphTensor)
 maxPooling2DWithSourceTensor_descriptor_nameSelector = mkSelector "maxPooling2DWithSourceTensor:descriptor:name:"
@@ -5775,18 +5962,6 @@ normalizationBetaGradientWithIncomingGradientTensor_sourceTensor_reductionAxes_n
 normalizationGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_gammaTensor_gammaGradientTensor_betaGradientTensor_reductionAxes_epsilon_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSArray, CFloat, Id NSString] (Id MPSGraphTensor)
 normalizationGradientWithIncomingGradientTensor_sourceTensor_meanTensor_varianceTensor_gammaTensor_gammaGradientTensor_betaGradientTensor_reductionAxes_epsilon_nameSelector = mkSelector "normalizationGradientWithIncomingGradientTensor:sourceTensor:meanTensor:varianceTensor:gammaTensor:gammaGradientTensor:betaGradientTensor:reductionAxes:epsilon:name:"
 
--- | @Selector@ for @nonZeroIndicesOfTensor:name:@
-nonZeroIndicesOfTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-nonZeroIndicesOfTensor_nameSelector = mkSelector "nonZeroIndicesOfTensor:name:"
-
--- | @Selector@ for @nonMaximumSuppressionWithBoxesTensor:scoresTensor:IOUThreshold:scoreThreshold:perClassSuppression:coordinateMode:name:@
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CFloat, CFloat, Bool, MPSGraphNonMaximumSuppressionCoordinateMode, Id NSString] (Id MPSGraphTensor)
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector = mkSelector "nonMaximumSuppressionWithBoxesTensor:scoresTensor:IOUThreshold:scoreThreshold:perClassSuppression:coordinateMode:name:"
-
--- | @Selector@ for @nonMaximumSuppressionWithBoxesTensor:scoresTensor:classIndicesTensor:IOUThreshold:scoreThreshold:perClassSuppression:coordinateMode:name:@
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_classIndicesTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CFloat, CFloat, Bool, MPSGraphNonMaximumSuppressionCoordinateMode, Id NSString] (Id MPSGraphTensor)
-nonMaximumSuppressionWithBoxesTensor_scoresTensor_classIndicesTensor_IOUThreshold_scoreThreshold_perClassSuppression_coordinateMode_nameSelector = mkSelector "nonMaximumSuppressionWithBoxesTensor:scoresTensor:classIndicesTensor:IOUThreshold:scoreThreshold:perClassSuppression:coordinateMode:name:"
-
 -- | @Selector@ for @placeholderWithShape:dataType:name:@
 placeholderWithShape_dataType_nameSelector :: Selector '[RawId, MPSDataType, Id NSString] (Id MPSGraphTensor)
 placeholderWithShape_dataType_nameSelector = mkSelector "placeholderWithShape:dataType:name:"
@@ -5807,25 +5982,9 @@ constantWithScalar_dataTypeSelector = mkSelector "constantWithScalar:dataType:"
 constantWithScalar_shape_dataTypeSelector :: Selector '[CDouble, RawId, MPSDataType] (Id MPSGraphTensor)
 constantWithScalar_shape_dataTypeSelector = mkSelector "constantWithScalar:shape:dataType:"
 
--- | @Selector@ for @constantWithRealPart:imaginaryPart:@
-constantWithRealPart_imaginaryPartSelector :: Selector '[CDouble, CDouble] (Id MPSGraphTensor)
-constantWithRealPart_imaginaryPartSelector = mkSelector "constantWithRealPart:imaginaryPart:"
-
--- | @Selector@ for @constantWithRealPart:imaginaryPart:dataType:@
-constantWithRealPart_imaginaryPart_dataTypeSelector :: Selector '[CDouble, CDouble, MPSDataType] (Id MPSGraphTensor)
-constantWithRealPart_imaginaryPart_dataTypeSelector = mkSelector "constantWithRealPart:imaginaryPart:dataType:"
-
--- | @Selector@ for @constantWithRealPart:imaginaryPart:shape:dataType:@
-constantWithRealPart_imaginaryPart_shape_dataTypeSelector :: Selector '[CDouble, CDouble, RawId, MPSDataType] (Id MPSGraphTensor)
-constantWithRealPart_imaginaryPart_shape_dataTypeSelector = mkSelector "constantWithRealPart:imaginaryPart:shape:dataType:"
-
 -- | @Selector@ for @variableWithData:shape:dataType:name:@
 variableWithData_shape_dataType_nameSelector :: Selector '[Id NSData, RawId, MPSDataType, Id NSString] (Id MPSGraphTensor)
 variableWithData_shape_dataType_nameSelector = mkSelector "variableWithData:shape:dataType:name:"
-
--- | @Selector@ for @variableFromTensorWithTensor:name:@
-variableFromTensorWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-variableFromTensorWithTensor_nameSelector = mkSelector "variableFromTensorWithTensor:name:"
 
 -- | @Selector@ for @readVariable:name:@
 readVariable_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
@@ -5842,14 +6001,6 @@ matrixMultiplicationWithPrimaryTensor_secondaryTensor_nameSelector = mkSelector 
 -- | @Selector@ for @HammingDistanceWithPrimaryTensor:secondaryTensor:resultDataType:name:@
 hammingDistanceWithPrimaryTensor_secondaryTensor_resultDataType_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, MPSDataType, Id NSString] (Id MPSGraphTensor)
 hammingDistanceWithPrimaryTensor_secondaryTensor_resultDataType_nameSelector = mkSelector "HammingDistanceWithPrimaryTensor:secondaryTensor:resultDataType:name:"
-
--- | @Selector@ for @scaledDotProductAttentionWithQueryTensor:keyTensor:valueTensor:maskTensor:scale:name:@
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_maskTensor_scale_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CFloat, Id NSString] (Id MPSGraphTensor)
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_maskTensor_scale_nameSelector = mkSelector "scaledDotProductAttentionWithQueryTensor:keyTensor:valueTensor:maskTensor:scale:name:"
-
--- | @Selector@ for @scaledDotProductAttentionWithQueryTensor:keyTensor:valueTensor:scale:name:@
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_scale_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, CFloat, Id NSString] (Id MPSGraphTensor)
-scaledDotProductAttentionWithQueryTensor_keyTensor_valueTensor_scale_nameSelector = mkSelector "scaledDotProductAttentionWithQueryTensor:keyTensor:valueTensor:scale:name:"
 
 -- | @Selector@ for @inverseOfTensor:name:@
 inverseOfTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
@@ -5871,14 +6022,6 @@ bandPartWithTensor_numLower_numUpper_nameSelector = mkSelector "bandPartWithTens
 bandPartWithTensor_numLowerTensor_numUpperTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 bandPartWithTensor_numLowerTensor_numUpperTensor_nameSelector = mkSelector "bandPartWithTensor:numLowerTensor:numUpperTensor:name:"
 
--- | @Selector@ for @imToColWithSourceTensor:descriptor:name:@
-imToColWithSourceTensor_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphImToColOpDescriptor, Id NSString] (Id MPSGraphTensor)
-imToColWithSourceTensor_descriptor_nameSelector = mkSelector "imToColWithSourceTensor:descriptor:name:"
-
--- | @Selector@ for @colToImWithSourceTensor:outputShape:descriptor:name:@
-colToImWithSourceTensor_outputShape_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, RawId, Id MPSGraphImToColOpDescriptor, Id NSString] (Id MPSGraphTensor)
-colToImWithSourceTensor_outputShape_descriptor_nameSelector = mkSelector "colToImWithSourceTensor:outputShape:descriptor:name:"
-
 -- | @Selector@ for @gatherAlongAxis:withUpdatesTensor:indicesTensor:name:@
 gatherAlongAxis_withUpdatesTensor_indicesTensor_nameSelector :: Selector '[CLong, Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 gatherAlongAxis_withUpdatesTensor_indicesTensor_nameSelector = mkSelector "gatherAlongAxis:withUpdatesTensor:indicesTensor:name:"
@@ -5894,30 +6037,6 @@ gatherWithUpdatesTensor_indicesTensor_axis_batchDimensions_nameSelector = mkSele
 -- | @Selector@ for @gatherNDWithUpdatesTensor:indicesTensor:batchDimensions:name:@
 gatherNDWithUpdatesTensor_indicesTensor_batchDimensions_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, CULong, Id NSString] (Id MPSGraphTensor)
 gatherNDWithUpdatesTensor_indicesTensor_batchDimensions_nameSelector = mkSelector "gatherNDWithUpdatesTensor:indicesTensor:batchDimensions:name:"
-
--- | @Selector@ for @fastFourierTransformWithTensor:axes:descriptor:name:@
-fastFourierTransformWithTensor_axes_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSArray, Id MPSGraphFFTDescriptor, Id NSString] (Id MPSGraphTensor)
-fastFourierTransformWithTensor_axes_descriptor_nameSelector = mkSelector "fastFourierTransformWithTensor:axes:descriptor:name:"
-
--- | @Selector@ for @fastFourierTransformWithTensor:axesTensor:descriptor:name:@
-fastFourierTransformWithTensor_axesTensor_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphFFTDescriptor, Id NSString] (Id MPSGraphTensor)
-fastFourierTransformWithTensor_axesTensor_descriptor_nameSelector = mkSelector "fastFourierTransformWithTensor:axesTensor:descriptor:name:"
-
--- | @Selector@ for @realToHermiteanFFTWithTensor:axes:descriptor:name:@
-realToHermiteanFFTWithTensor_axes_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSArray, Id MPSGraphFFTDescriptor, Id NSString] (Id MPSGraphTensor)
-realToHermiteanFFTWithTensor_axes_descriptor_nameSelector = mkSelector "realToHermiteanFFTWithTensor:axes:descriptor:name:"
-
--- | @Selector@ for @realToHermiteanFFTWithTensor:axesTensor:descriptor:name:@
-realToHermiteanFFTWithTensor_axesTensor_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphFFTDescriptor, Id NSString] (Id MPSGraphTensor)
-realToHermiteanFFTWithTensor_axesTensor_descriptor_nameSelector = mkSelector "realToHermiteanFFTWithTensor:axesTensor:descriptor:name:"
-
--- | @Selector@ for @HermiteanToRealFFTWithTensor:axes:descriptor:name:@
-hermiteanToRealFFTWithTensor_axes_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSArray, Id MPSGraphFFTDescriptor, Id NSString] (Id MPSGraphTensor)
-hermiteanToRealFFTWithTensor_axes_descriptor_nameSelector = mkSelector "HermiteanToRealFFTWithTensor:axes:descriptor:name:"
-
--- | @Selector@ for @HermiteanToRealFFTWithTensor:axesTensor:descriptor:name:@
-hermiteanToRealFFTWithTensor_axesTensor_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphFFTDescriptor, Id NSString] (Id MPSGraphTensor)
-hermiteanToRealFFTWithTensor_axesTensor_descriptor_nameSelector = mkSelector "HermiteanToRealFFTWithTensor:axesTensor:descriptor:name:"
 
 -- | @Selector@ for @depthwiseConvolution2DWithSourceTensor:weightsTensor:descriptor:name:@
 depthwiseConvolution2DWithSourceTensor_weightsTensor_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphDepthwiseConvolution2DOpDescriptor, Id NSString] (Id MPSGraphTensor)
@@ -6071,30 +6190,6 @@ convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_
 convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphConvolution2DOpDescriptor, Id NSString] (Id MPSGraphTensor)
 convolution2DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector = mkSelector "convolution2DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShapeTensor:forwardConvolutionDescriptor:name:"
 
--- | @Selector@ for @convolution3DWithSourceTensor:weightsTensor:descriptor:name:@
-convolution3DWithSourceTensor_weightsTensor_descriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphConvolution3DOpDescriptor, Id NSString] (Id MPSGraphTensor)
-convolution3DWithSourceTensor_weightsTensor_descriptor_nameSelector = mkSelector "convolution3DWithSourceTensor:weightsTensor:descriptor:name:"
-
--- | @Selector@ for @convolution3DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:forwardConvolutionDescriptor:name:@
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, RawId, Id MPSGraphConvolution3DOpDescriptor, Id NSString] (Id MPSGraphTensor)
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShape_forwardConvolutionDescriptor_nameSelector = mkSelector "convolution3DDataGradientWithIncomingGradientTensor:weightsTensor:outputShape:forwardConvolutionDescriptor:name:"
-
--- | @Selector@ for @convolution3DDataGradientWithIncomingGradientTensor:weightsTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphConvolution3DOpDescriptor, Id NSString] (Id MPSGraphTensor)
-convolution3DDataGradientWithIncomingGradientTensor_weightsTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector = mkSelector "convolution3DDataGradientWithIncomingGradientTensor:weightsTensor:outputShapeTensor:forwardConvolutionDescriptor:name:"
-
--- | @Selector@ for @convolution3DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:forwardConvolutionDescriptor:name:@
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, RawId, Id MPSGraphConvolution3DOpDescriptor, Id NSString] (Id MPSGraphTensor)
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShape_forwardConvolutionDescriptor_nameSelector = mkSelector "convolution3DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShape:forwardConvolutionDescriptor:name:"
-
--- | @Selector@ for @convolution3DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShapeTensor:forwardConvolutionDescriptor:name:@
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphTensor, Id MPSGraphConvolution3DOpDescriptor, Id NSString] (Id MPSGraphTensor)
-convolution3DWeightsGradientWithIncomingGradientTensor_sourceTensor_outputShapeTensor_forwardConvolutionDescriptor_nameSelector = mkSelector "convolution3DWeightsGradientWithIncomingGradientTensor:sourceTensor:outputShapeTensor:forwardConvolutionDescriptor:name:"
-
--- | @Selector@ for @callSymbolName:inputTensors:outputTypes:name:@
-callSymbolName_inputTensors_outputTypes_nameSelector :: Selector '[Id NSString, Id NSArray, Id NSArray, Id NSString] (Id NSArray)
-callSymbolName_inputTensors_outputTypes_nameSelector = mkSelector "callSymbolName:inputTensors:outputTypes:name:"
-
 -- | @Selector@ for @identityWithTensor:name:@
 identityWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 identityWithTensor_nameSelector = mkSelector "identityWithTensor:name:"
@@ -6131,10 +6226,6 @@ squareWithTensor_nameSelector = mkSelector "squareWithTensor:name:"
 squareRootWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 squareRootWithTensor_nameSelector = mkSelector "squareRootWithTensor:name:"
 
--- | @Selector@ for @reciprocalSquareRootWithTensor:name:@
-reciprocalSquareRootWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-reciprocalSquareRootWithTensor_nameSelector = mkSelector "reciprocalSquareRootWithTensor:name:"
-
 -- | @Selector@ for @reverseSquareRootWithTensor:name:@
 reverseSquareRootWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 reverseSquareRootWithTensor_nameSelector = mkSelector "reverseSquareRootWithTensor:name:"
@@ -6146,10 +6237,6 @@ reciprocalWithTensor_nameSelector = mkSelector "reciprocalWithTensor:name:"
 -- | @Selector@ for @absoluteWithTensor:name:@
 absoluteWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 absoluteWithTensor_nameSelector = mkSelector "absoluteWithTensor:name:"
-
--- | @Selector@ for @absoluteSquareWithTensor:name:@
-absoluteSquareWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-absoluteSquareWithTensor_nameSelector = mkSelector "absoluteSquareWithTensor:name:"
 
 -- | @Selector@ for @negativeWithTensor:name:@
 negativeWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
@@ -6258,10 +6345,6 @@ bitwiseNOTWithTensor_nameSelector = mkSelector "bitwiseNOTWithTensor:name:"
 -- | @Selector@ for @bitwisePopulationCountWithTensor:name:@
 bitwisePopulationCountWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 bitwisePopulationCountWithTensor_nameSelector = mkSelector "bitwisePopulationCountWithTensor:name:"
-
--- | @Selector@ for @conjugateWithTensor:name:@
-conjugateWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-conjugateWithTensor_nameSelector = mkSelector "conjugateWithTensor:name:"
 
 -- | @Selector@ for @additionWithPrimaryTensor:secondaryTensor:name:@
 additionWithPrimaryTensor_secondaryTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
@@ -6390,18 +6473,6 @@ divisionNoNaNWithPrimaryTensor_secondaryTensor_nameSelector = mkSelector "divisi
 -- | @Selector@ for @floorModuloWithPrimaryTensor:secondaryTensor:name:@
 floorModuloWithPrimaryTensor_secondaryTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
 floorModuloWithPrimaryTensor_secondaryTensor_nameSelector = mkSelector "floorModuloWithPrimaryTensor:secondaryTensor:name:"
-
--- | @Selector@ for @realPartOfTensor:name:@
-realPartOfTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-realPartOfTensor_nameSelector = mkSelector "realPartOfTensor:name:"
-
--- | @Selector@ for @imaginaryPartOfTensor:name:@
-imaginaryPartOfTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-imaginaryPartOfTensor_nameSelector = mkSelector "imaginaryPartOfTensor:name:"
-
--- | @Selector@ for @complexTensorWithRealTensor:imaginaryTensor:name:@
-complexTensorWithRealTensor_imaginaryTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)
-complexTensorWithRealTensor_imaginaryTensor_nameSelector = mkSelector "complexTensorWithRealTensor:imaginaryTensor:name:"
 
 -- | @Selector@ for @reLUWithTensor:name:@
 reLUWithTensor_nameSelector :: Selector '[Id MPSGraphTensor, Id NSString] (Id MPSGraphTensor)

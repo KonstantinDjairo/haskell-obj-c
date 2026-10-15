@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent
   ( MTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent
   , IsMTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent(..)
+  , init_
+  , copyWithZone
   , current
   , setCurrent
   , previous
   , setPrevious
+  , copyWithZoneSelector
   , currentSelector
+  , initSelector
   , previousSelector
   , setCurrentSelector
   , setPreviousSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent => mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent -> IO (Id MTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent)
+init_ mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent => mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent -> Ptr () -> IO RawId
+copyWithZone mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent zone =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent copyWithZoneSelector zone
 
 -- | @- current@
 current :: IsMTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent => mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent -> IO (Id NSArray)
@@ -53,6 +67,14 @@ setPrevious mtrThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThreadNetworkDiagnosticsClusterNetworkFaultChangeEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @current@
 currentSelector :: Selector '[] (Id NSArray)

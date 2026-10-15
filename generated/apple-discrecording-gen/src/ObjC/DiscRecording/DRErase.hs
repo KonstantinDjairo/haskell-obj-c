@@ -3,7 +3,61 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @DRErase@.
+-- | DRErase
+--
+-- A DRErase object handles the process of erasing a rewritable CD or DVD disc.
+--
+-- Each time you want to erase a disc, an instance of this class needs to be created.
+--
+-- When an instance is created, you pass in an instance of
+--
+-- //apple_ref/occ/cl/DRDevice DRDevice
+--
+-- to let the object 				know what device to erase. This object is retained for the life of the DRErase instance.
+--
+-- A DRErase object will send out notifications through the
+--
+-- //apple_ref/occ/cl/DRNotificationCenter DRNotificationCenter
+--
+-- mechanism to 				broadcast the erase state to any interested observers. However, if for some reason you don't want				to use notifications, you can poll the erase object at any time for the current status using
+--
+-- //apple_ref/occ/instm/DRErase/status status
+--
+-- . This is not recommended in any 				application using a run loop, because it involves polling.
+--
+-- Here's an example that shows you how to use this class:
+--
+-- - (void) doErase
+-- {
+-- DRDevice*       device;
+-- DRErase*        erase;
+--
+-- // Determine correct device to erase...
+--
+-- erase = [[DRErase alloc] initWithDevice:device];
+--
+-- // we'll do a quick erase. It's typically all that's needed.
+-- [erase setEraseType:DREraseTypeQuick];
+--
+-- // register to receive notification about the erase status.
+-- [[DRNotificationCenter currentRunLoopCenter] addObserver:self
+-- selector:&#x40;selector(eraseNotification:)
+-- name:DREraseStatusChangedNotification
+-- object:erase];
+--
+-- // start the erase
+-- [erase start];
+-- }
+--
+-- - (void) eraseNotification:(NSNotification*)notification
+-- {
+-- DRErase*        erase = [notification object];
+-- NSDictionary*   status = [notification userInfo];
+--
+-- // Do what you wish with the notification...
+-- }
+--
+-- Generated bindings for @DRErase@.
 module ObjC.DiscRecording.DRErase
   ( DRErase
   , IsDRErase(..)

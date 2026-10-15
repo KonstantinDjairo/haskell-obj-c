@@ -11,8 +11,6 @@
 --
 -- AVCaptureMultiCamSession supports dynamic enabling and disabling of individual camera inputs without interrupting preview. In order to stop an individual camera input, set the enabled property on all of its connections or connected ports to NO. When the last active connection or port is disabled, the source camera stops streaming to save power and bandwidth. Other inputs streaming data through the session are unaffected.
 --
--- Prior to iOS 26, AVCaptureMultiCamSession requires all input devices to have an activeFormat where multiCamSupported returns YES. In applications linked on or after iOS 26, this requirement is not enforced when only a single input device is used.
---
 -- Generated bindings for @AVCaptureMultiCamSession@.
 module ObjC.AVFoundation.AVCaptureMultiCamSession
   ( AVCaptureMultiCamSession

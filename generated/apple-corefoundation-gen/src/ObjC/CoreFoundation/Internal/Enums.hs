@@ -67,9 +67,6 @@ pattern KCFCalendarUnitWeekOfYear = CFCalendarUnit 8192
 pattern KCFCalendarUnitYearForWeekOfYear :: CFCalendarUnit
 pattern KCFCalendarUnitYearForWeekOfYear = CFCalendarUnit 16384
 
-pattern KCFCalendarUnitDayOfYear :: CFCalendarUnit
-pattern KCFCalendarUnitDayOfYear = CFCalendarUnit 65536
-
 instance ObjCArgument CFCalendarUnit where
   withObjCArg (CFCalendarUnit x) k = k (argCULong x)
 

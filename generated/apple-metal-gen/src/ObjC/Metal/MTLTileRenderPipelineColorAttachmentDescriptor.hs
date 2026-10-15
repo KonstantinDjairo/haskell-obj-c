@@ -154,7 +154,6 @@ module ObjC.Metal.MTLTileRenderPipelineColorAttachmentDescriptor
   , pattern MTLPixelFormatDepth32Float_Stencil8
   , pattern MTLPixelFormatX32_Stencil8
   , pattern MTLPixelFormatX24_Stencil8
-  , pattern MTLPixelFormatUnspecialized
 
   ) where
 

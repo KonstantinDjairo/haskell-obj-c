@@ -7,9 +7,13 @@
 module ObjC.Matter.MTRDoorLockClusterDoorStateChangeEvent
   ( MTRDoorLockClusterDoorStateChangeEvent
   , IsMTRDoorLockClusterDoorStateChangeEvent(..)
+  , init_
+  , copyWithZone
   , doorState
   , setDoorState
+  , copyWithZoneSelector
   , doorStateSelector
+  , initSelector
   , setDoorStateSelector
 
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRDoorLockClusterDoorStateChangeEvent mtrDoorLockClusterDoorStateChangeEvent => mtrDoorLockClusterDoorStateChangeEvent -> IO (Id MTRDoorLockClusterDoorStateChangeEvent)
+init_ mtrDoorLockClusterDoorStateChangeEvent =
+  sendOwnedMessage mtrDoorLockClusterDoorStateChangeEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterDoorStateChangeEvent mtrDoorLockClusterDoorStateChangeEvent => mtrDoorLockClusterDoorStateChangeEvent -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterDoorStateChangeEvent zone =
+  sendOwnedMessage mtrDoorLockClusterDoorStateChangeEvent copyWithZoneSelector zone
+
 -- | @- doorState@
 doorState :: IsMTRDoorLockClusterDoorStateChangeEvent mtrDoorLockClusterDoorStateChangeEvent => mtrDoorLockClusterDoorStateChangeEvent -> IO (Id NSNumber)
 doorState mtrDoorLockClusterDoorStateChangeEvent =
@@ -39,6 +53,14 @@ setDoorState mtrDoorLockClusterDoorStateChangeEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterDoorStateChangeEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @doorState@
 doorStateSelector :: Selector '[] (Id NSNumber)

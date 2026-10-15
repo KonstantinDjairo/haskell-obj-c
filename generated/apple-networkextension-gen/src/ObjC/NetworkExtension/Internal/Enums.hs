@@ -510,10 +510,6 @@ instance ObjCReturn NEHotspotConfigurationEAPType where
 -- NEHotspotConfigurationErrorApplicationIsNotInForeground The application is not in the foreground.
 --
 -- NEHotspotConfigurationErrorInvalidSSIDPrefix The given SSID Prefix string is invalid.
---
--- NEHotspotConfigurationErrorUserUnauthorized The accessory is unauthorized by the user.
---
--- NEHotspotConfigurationErrorSystemDenied System denied configuration of accessory network.
 -- | @NEHotspotConfigurationError@
 newtype NEHotspotConfigurationError = NEHotspotConfigurationError CLong
   deriving stock (Eq, Ord, Show)
@@ -566,12 +562,6 @@ pattern NEHotspotConfigurationErrorApplicationIsNotInForeground = NEHotspotConfi
 
 pattern NEHotspotConfigurationErrorInvalidSSIDPrefix :: NEHotspotConfigurationError
 pattern NEHotspotConfigurationErrorInvalidSSIDPrefix = NEHotspotConfigurationError 15
-
-pattern NEHotspotConfigurationErrorUserUnauthorized :: NEHotspotConfigurationError
-pattern NEHotspotConfigurationErrorUserUnauthorized = NEHotspotConfigurationError 16
-
-pattern NEHotspotConfigurationErrorSystemDenied :: NEHotspotConfigurationError
-pattern NEHotspotConfigurationErrorSystemDenied = NEHotspotConfigurationError 17
 
 instance ObjCArgument NEHotspotConfigurationError where
   withObjCArg (NEHotspotConfigurationError x) k = k (argCLong x)
@@ -964,9 +954,6 @@ pattern NEProviderStopReasonSleep = NEProviderStopReason 15
 pattern NEProviderStopReasonAppUpdate :: NEProviderStopReason
 pattern NEProviderStopReasonAppUpdate = NEProviderStopReason 16
 
-pattern NEProviderStopReasonInternalError :: NEProviderStopReason
-pattern NEProviderStopReasonInternalError = NEProviderStopReason 17
-
 instance ObjCArgument NEProviderStopReason where
   withObjCArg (NEProviderStopReason x) k = k (argCLong x)
 
@@ -976,84 +963,6 @@ instance ObjCReturn NEProviderStopReason where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NEProviderStopReason x)
   fromOwned x = pure (NEProviderStopReason x)
-
--- | NERelayManagerClientError
---
--- NERelay Manager error codes detected by the client while trying to use this relay
--- | @NERelayManagerClientError@
-newtype NERelayManagerClientError = NERelayManagerClientError CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NERelayManagerClientErrorNone :: NERelayManagerClientError
-pattern NERelayManagerClientErrorNone = NERelayManagerClientError 1
-
-pattern NERelayManagerClientErrorDNSFailed :: NERelayManagerClientError
-pattern NERelayManagerClientErrorDNSFailed = NERelayManagerClientError 2
-
-pattern NERelayManagerClientErrorServerUnreachable :: NERelayManagerClientError
-pattern NERelayManagerClientErrorServerUnreachable = NERelayManagerClientError 3
-
-pattern NERelayManagerClientErrorServerDisconnected :: NERelayManagerClientError
-pattern NERelayManagerClientErrorServerDisconnected = NERelayManagerClientError 4
-
-pattern NERelayManagerClientErrorCertificateMissing :: NERelayManagerClientError
-pattern NERelayManagerClientErrorCertificateMissing = NERelayManagerClientError 5
-
-pattern NERelayManagerClientErrorCertificateInvalid :: NERelayManagerClientError
-pattern NERelayManagerClientErrorCertificateInvalid = NERelayManagerClientError 6
-
-pattern NERelayManagerClientErrorCertificateExpired :: NERelayManagerClientError
-pattern NERelayManagerClientErrorCertificateExpired = NERelayManagerClientError 7
-
-pattern NERelayManagerClientErrorServerCertificateInvalid :: NERelayManagerClientError
-pattern NERelayManagerClientErrorServerCertificateInvalid = NERelayManagerClientError 8
-
-pattern NERelayManagerClientErrorServerCertificateExpired :: NERelayManagerClientError
-pattern NERelayManagerClientErrorServerCertificateExpired = NERelayManagerClientError 9
-
-pattern NERelayManagerClientErrorOther :: NERelayManagerClientError
-pattern NERelayManagerClientErrorOther = NERelayManagerClientError 10
-
-instance ObjCArgument NERelayManagerClientError where
-  withObjCArg (NERelayManagerClientError x) k = k (argCLong x)
-
-instance ObjCReturn NERelayManagerClientError where
-  type RawReturn NERelayManagerClientError = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NERelayManagerClientError x)
-  fromOwned x = pure (NERelayManagerClientError x)
-
--- | NERelayManagerError
---
--- NERelay Manager error codes
--- | @NERelayManagerError@
-newtype NERelayManagerError = NERelayManagerError CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NERelayManagerErrorConfigurationInvalid :: NERelayManagerError
-pattern NERelayManagerErrorConfigurationInvalid = NERelayManagerError 1
-
-pattern NERelayManagerErrorConfigurationDisabled :: NERelayManagerError
-pattern NERelayManagerErrorConfigurationDisabled = NERelayManagerError 2
-
-pattern NERelayManagerErrorConfigurationStale :: NERelayManagerError
-pattern NERelayManagerErrorConfigurationStale = NERelayManagerError 3
-
-pattern NERelayManagerErrorConfigurationCannotBeRemoved :: NERelayManagerError
-pattern NERelayManagerErrorConfigurationCannotBeRemoved = NERelayManagerError 4
-
-instance ObjCArgument NERelayManagerError where
-  withObjCArg (NERelayManagerError x) k = k (argCLong x)
-
-instance ObjCReturn NERelayManagerError where
-  type RawReturn NERelayManagerError = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NERelayManagerError x)
-  fromOwned x = pure (NERelayManagerError x)
 
 -- | NETrafficDirection
 --
@@ -1135,31 +1044,6 @@ instance ObjCReturn NETunnelProviderRoutingMethod where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NETunnelProviderRoutingMethod x)
   fromOwned x = pure (NETunnelProviderRoutingMethod x)
-
--- | URL Filter Verdicts
--- | @NEURLFilterVerdict@
-newtype NEURLFilterVerdict = NEURLFilterVerdict CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NEURLFilterVerdictUnknown :: NEURLFilterVerdict
-pattern NEURLFilterVerdictUnknown = NEURLFilterVerdict 1
-
-pattern NEURLFilterVerdictAllow :: NEURLFilterVerdict
-pattern NEURLFilterVerdictAllow = NEURLFilterVerdict 2
-
-pattern NEURLFilterVerdictDeny :: NEURLFilterVerdict
-pattern NEURLFilterVerdictDeny = NEURLFilterVerdict 3
-
-instance ObjCArgument NEURLFilterVerdict where
-  withObjCArg (NEURLFilterVerdict x) k = k (argCLong x)
-
-instance ObjCReturn NEURLFilterVerdict where
-  type RawReturn NEURLFilterVerdict = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NEURLFilterVerdict x)
-  fromOwned x = pure (NEURLFilterVerdict x)
 
 -- | NEVPNConnectionError
 --
@@ -1322,9 +1206,6 @@ pattern NEVPNIKEv2CertificateTypeECDSA521 = NEVPNIKEv2CertificateType 4
 pattern NEVPNIKEv2CertificateTypeEd25519 :: NEVPNIKEv2CertificateType
 pattern NEVPNIKEv2CertificateTypeEd25519 = NEVPNIKEv2CertificateType 5
 
-pattern NEVPNIKEv2CertificateTypeRSAPSS :: NEVPNIKEv2CertificateType
-pattern NEVPNIKEv2CertificateTypeRSAPSS = NEVPNIKEv2CertificateType 6
-
 instance ObjCArgument NEVPNIKEv2CertificateType where
   withObjCArg (NEVPNIKEv2CertificateType x) k = k (argCLong x)
 
@@ -1412,9 +1293,6 @@ pattern NEVPNIKEv2DiffieHellmanGroup21 = NEVPNIKEv2DiffieHellmanGroup 21
 pattern NEVPNIKEv2DiffieHellmanGroup31 :: NEVPNIKEv2DiffieHellmanGroup
 pattern NEVPNIKEv2DiffieHellmanGroup31 = NEVPNIKEv2DiffieHellmanGroup 31
 
-pattern NEVPNIKEv2DiffieHellmanGroup32 :: NEVPNIKEv2DiffieHellmanGroup
-pattern NEVPNIKEv2DiffieHellmanGroup32 = NEVPNIKEv2DiffieHellmanGroup 32
-
 instance ObjCArgument NEVPNIKEv2DiffieHellmanGroup where
   withObjCArg (NEVPNIKEv2DiffieHellmanGroup x) k = k (argCLong x)
 
@@ -1496,33 +1374,6 @@ instance ObjCReturn NEVPNIKEv2IntegrityAlgorithm where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NEVPNIKEv2IntegrityAlgorithm x)
   fromOwned x = pure (NEVPNIKEv2IntegrityAlgorithm x)
-
--- | NEVPNIKEv2PostQuantumKeyExchangeMethod
---
--- IKEv2 post-quantum key exchange methods
--- | @NEVPNIKEv2PostQuantumKeyExchangeMethod@
-newtype NEVPNIKEv2PostQuantumKeyExchangeMethod = NEVPNIKEv2PostQuantumKeyExchangeMethod CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NEVPNIKEv2PostQuantumKeyExchangeMethodNone :: NEVPNIKEv2PostQuantumKeyExchangeMethod
-pattern NEVPNIKEv2PostQuantumKeyExchangeMethodNone = NEVPNIKEv2PostQuantumKeyExchangeMethod 0
-
-pattern NEVPNIKEv2PostQuantumKeyExchangeMethod36 :: NEVPNIKEv2PostQuantumKeyExchangeMethod
-pattern NEVPNIKEv2PostQuantumKeyExchangeMethod36 = NEVPNIKEv2PostQuantumKeyExchangeMethod 36
-
-pattern NEVPNIKEv2PostQuantumKeyExchangeMethod37 :: NEVPNIKEv2PostQuantumKeyExchangeMethod
-pattern NEVPNIKEv2PostQuantumKeyExchangeMethod37 = NEVPNIKEv2PostQuantumKeyExchangeMethod 37
-
-instance ObjCArgument NEVPNIKEv2PostQuantumKeyExchangeMethod where
-  withObjCArg (NEVPNIKEv2PostQuantumKeyExchangeMethod x) k = k (argCLong x)
-
-instance ObjCReturn NEVPNIKEv2PostQuantumKeyExchangeMethod where
-  type RawReturn NEVPNIKEv2PostQuantumKeyExchangeMethod = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NEVPNIKEv2PostQuantumKeyExchangeMethod x)
-  fromOwned x = pure (NEVPNIKEv2PostQuantumKeyExchangeMethod x)
 
 -- | NEVPNIKEv2TLSVersion
 --

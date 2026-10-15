@@ -172,11 +172,8 @@ module ObjC.Foundation.NSCalendar
   , pattern NSCalendarUnitWeekOfYear
   , pattern NSCalendarUnitYearForWeekOfYear
   , pattern NSCalendarUnitNanosecond
-  , pattern NSCalendarUnitDayOfYear
   , pattern NSCalendarUnitCalendar
   , pattern NSCalendarUnitTimeZone
-  , pattern NSCalendarUnitIsLeapMonth
-  , pattern NSCalendarUnitIsRepeatedDay
   , pattern NSEraCalendarUnit
   , pattern NSYearCalendarUnit
   , pattern NSMonthCalendarUnit

@@ -11,18 +11,10 @@ module ObjC.AutomaticAssessmentConfiguration.AEAssessmentParticipantConfiguratio
   , new
   , allowsNetworkAccess
   , setAllowsNetworkAccess
-  , required
-  , setRequired
-  , configurationInfo
-  , setConfigurationInfo
   , allowsNetworkAccessSelector
-  , configurationInfoSelector
   , initSelector
   , newSelector
-  , requiredSelector
   , setAllowsNetworkAccessSelector
-  , setConfigurationInfoSelector
-  , setRequiredSelector
 
 
   ) where
@@ -60,26 +52,6 @@ setAllowsNetworkAccess :: IsAEAssessmentParticipantConfiguration aeAssessmentPar
 setAllowsNetworkAccess aeAssessmentParticipantConfiguration value =
   sendMessage aeAssessmentParticipantConfiguration setAllowsNetworkAccessSelector value
 
--- | @- required@
-required :: IsAEAssessmentParticipantConfiguration aeAssessmentParticipantConfiguration => aeAssessmentParticipantConfiguration -> IO Bool
-required aeAssessmentParticipantConfiguration =
-  sendMessage aeAssessmentParticipantConfiguration requiredSelector
-
--- | @- setRequired:@
-setRequired :: IsAEAssessmentParticipantConfiguration aeAssessmentParticipantConfiguration => aeAssessmentParticipantConfiguration -> Bool -> IO ()
-setRequired aeAssessmentParticipantConfiguration value =
-  sendMessage aeAssessmentParticipantConfiguration setRequiredSelector value
-
--- | @- configurationInfo@
-configurationInfo :: IsAEAssessmentParticipantConfiguration aeAssessmentParticipantConfiguration => aeAssessmentParticipantConfiguration -> IO (Id NSDictionary)
-configurationInfo aeAssessmentParticipantConfiguration =
-  sendMessage aeAssessmentParticipantConfiguration configurationInfoSelector
-
--- | @- setConfigurationInfo:@
-setConfigurationInfo :: (IsAEAssessmentParticipantConfiguration aeAssessmentParticipantConfiguration, IsNSDictionary value) => aeAssessmentParticipantConfiguration -> value -> IO ()
-setConfigurationInfo aeAssessmentParticipantConfiguration value =
-  sendMessage aeAssessmentParticipantConfiguration setConfigurationInfoSelector (toNSDictionary value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -99,20 +71,4 @@ allowsNetworkAccessSelector = mkSelector "allowsNetworkAccess"
 -- | @Selector@ for @setAllowsNetworkAccess:@
 setAllowsNetworkAccessSelector :: Selector '[Bool] ()
 setAllowsNetworkAccessSelector = mkSelector "setAllowsNetworkAccess:"
-
--- | @Selector@ for @required@
-requiredSelector :: Selector '[] Bool
-requiredSelector = mkSelector "required"
-
--- | @Selector@ for @setRequired:@
-setRequiredSelector :: Selector '[Bool] ()
-setRequiredSelector = mkSelector "setRequired:"
-
--- | @Selector@ for @configurationInfo@
-configurationInfoSelector :: Selector '[] (Id NSDictionary)
-configurationInfoSelector = mkSelector "configurationInfo"
-
--- | @Selector@ for @setConfigurationInfo:@
-setConfigurationInfoSelector :: Selector '[Id NSDictionary] ()
-setConfigurationInfoSelector = mkSelector "setConfigurationInfo:"
 

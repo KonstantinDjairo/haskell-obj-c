@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The value of a voice analysis metric.
---
--- Generated bindings for @SFAcousticFeature@.
+-- | Generated bindings for @SFAcousticFeature@.
 module ObjC.Speech.SFAcousticFeature
   ( SFAcousticFeature
   , IsSFAcousticFeature(..)
@@ -28,16 +26,12 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Speech.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | An array of feature values, one value per audio frame, corresponding to a transcript segment of recorded audio.
---
--- ObjC selector: @- acousticFeatureValuePerFrame@
+-- | @- acousticFeatureValuePerFrame@
 acousticFeatureValuePerFrame :: IsSFAcousticFeature sfAcousticFeature => sfAcousticFeature -> IO (Id NSArray)
 acousticFeatureValuePerFrame sfAcousticFeature =
   sendMessage sfAcousticFeature acousticFeatureValuePerFrameSelector
 
--- | The duration of the audio frame.
---
--- ObjC selector: @- frameDuration@
+-- | @- frameDuration@
 frameDuration :: IsSFAcousticFeature sfAcousticFeature => sfAcousticFeature -> IO CDouble
 frameDuration sfAcousticFeature =
   sendMessage sfAcousticFeature frameDurationSelector

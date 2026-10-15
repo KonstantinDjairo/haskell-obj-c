@@ -8,11 +8,14 @@
 module ObjC.AppKit.NSAttributedString
   ( NSAttributedString
   , IsNSAttributedString(..)
-  , attributedStringWithAdaptiveImageGlyph_attributes
   , drawWithRect_options
   , boundingRectWithSize_options
+  , drawWithRect_options_context
+  , boundingRectWithSize_options_context
+  , size
+  , drawAtPoint
+  , drawInRect
   , attributedStringWithAttachment
-  , attributedStringWithAttachment_attributes
   , textFileTypes
   , textPasteboardTypes
   , textUnfilteredFileTypes
@@ -22,6 +25,7 @@ module ObjC.AppKit.NSAttributedString
   , urlAtIndex_effectiveRange
   , fontAttributesInRange
   , rulerAttributesInRange
+  , containsAttachmentsInRange
   , lineBreakBeforeIndex_withinRange
   , lineBreakByHyphenatingBeforeIndex_withinRange
   , doubleClickAtIndex
@@ -30,6 +34,10 @@ module ObjC.AppKit.NSAttributedString
   , rangeOfTextTable_atIndex
   , rangeOfTextList_atIndex
   , itemNumberInTextList_atIndex
+  , initWithURL_options_documentAttributes_error
+  , initWithData_options_documentAttributes_error
+  , dataFromRange_documentAttributes_error
+  , fileWrapperFromRange_documentAttributes_error
   , initWithRTF_documentAttributes
   , initWithRTFD_documentAttributes
   , initWithHTML_documentAttributes
@@ -41,25 +49,19 @@ module ObjC.AppKit.NSAttributedString
   , rtfdFromRange_documentAttributes
   , rtfdFileWrapperFromRange_documentAttributes
   , docFormatFromRange_documentAttributes
-  , containsAttachmentsInRange
-  , prefersRTFDInRange
-  , initWithURL_options_documentAttributes_error
-  , initWithData_options_documentAttributes_error
-  , dataFromRange_documentAttributes_error
-  , fileWrapperFromRange_documentAttributes_error
   , containsAttachments
-  , textTypes
-  , textUnfilteredTypes
-  , attributedStringWithAdaptiveImageGlyph_attributesSelector
   , attributedStringWithAttachmentSelector
-  , attributedStringWithAttachment_attributesSelector
   , boundingRectWithSize_optionsSelector
+  , boundingRectWithSize_options_contextSelector
   , containsAttachmentsInRangeSelector
   , containsAttachmentsSelector
   , dataFromRange_documentAttributes_errorSelector
   , docFormatFromRange_documentAttributesSelector
   , doubleClickAtIndexSelector
+  , drawAtPointSelector
+  , drawInRectSelector
   , drawWithRect_optionsSelector
+  , drawWithRect_options_contextSelector
   , fileWrapperFromRange_documentAttributes_errorSelector
   , fontAttributesInRangeSelector
   , initWithData_options_documentAttributes_errorSelector
@@ -77,7 +79,6 @@ module ObjC.AppKit.NSAttributedString
   , lineBreakBeforeIndex_withinRangeSelector
   , lineBreakByHyphenatingBeforeIndex_withinRangeSelector
   , nextWordFromIndex_forwardSelector
-  , prefersRTFDInRangeSelector
   , rangeOfTextBlock_atIndexSelector
   , rangeOfTextList_atIndexSelector
   , rangeOfTextTable_atIndexSelector
@@ -85,12 +86,11 @@ module ObjC.AppKit.NSAttributedString
   , rtfdFileWrapperFromRange_documentAttributesSelector
   , rtfdFromRange_documentAttributesSelector
   , rulerAttributesInRangeSelector
+  , sizeSelector
   , textFileTypesSelector
   , textPasteboardTypesSelector
-  , textTypesSelector
   , textUnfilteredFileTypesSelector
   , textUnfilteredPasteboardTypesSelector
-  , textUnfilteredTypesSelector
   , urlAtIndex_effectiveRangeSelector
 
   -- * Enum types
@@ -99,7 +99,6 @@ module ObjC.AppKit.NSAttributedString
   , pattern NSStringDrawingUsesFontLeading
   , pattern NSStringDrawingUsesDeviceMetrics
   , pattern NSStringDrawingTruncatesLastVisibleLine
-  , pattern NSStringDrawingOptionsResolvesNaturalAlignmentWithBaseWritingDirection
   , pattern NSStringDrawingDisableScreenFontSubstitution
   , pattern NSStringDrawingOneShot
 
@@ -118,13 +117,6 @@ import ObjC.Foundation.Internal.Structs
 import ObjC.AppKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | @+ attributedStringWithAdaptiveImageGlyph:attributes:@
-attributedStringWithAdaptiveImageGlyph_attributes :: (IsNSAdaptiveImageGlyph adaptiveImageGlyph, IsNSDictionary attributes) => adaptiveImageGlyph -> attributes -> IO (Id NSAttributedString)
-attributedStringWithAdaptiveImageGlyph_attributes adaptiveImageGlyph attributes =
-  do
-    cls' <- getRequiredClass "NSAttributedString"
-    sendClassMessage cls' attributedStringWithAdaptiveImageGlyph_attributesSelector (toNSAdaptiveImageGlyph adaptiveImageGlyph) (toNSDictionary attributes)
-
 -- | @- drawWithRect:options:@
 drawWithRect_options :: IsNSAttributedString nsAttributedString => nsAttributedString -> NSRect -> NSStringDrawingOptions -> IO ()
 drawWithRect_options nsAttributedString rect options =
@@ -135,19 +127,37 @@ boundingRectWithSize_options :: IsNSAttributedString nsAttributedString => nsAtt
 boundingRectWithSize_options nsAttributedString size options =
   sendMessage nsAttributedString boundingRectWithSize_optionsSelector size options
 
+-- | @- drawWithRect:options:context:@
+drawWithRect_options_context :: (IsNSAttributedString nsAttributedString, IsNSStringDrawingContext context) => nsAttributedString -> NSRect -> NSStringDrawingOptions -> context -> IO ()
+drawWithRect_options_context nsAttributedString rect options context =
+  sendMessage nsAttributedString drawWithRect_options_contextSelector rect options (toNSStringDrawingContext context)
+
+-- | @- boundingRectWithSize:options:context:@
+boundingRectWithSize_options_context :: (IsNSAttributedString nsAttributedString, IsNSStringDrawingContext context) => nsAttributedString -> NSSize -> NSStringDrawingOptions -> context -> IO NSRect
+boundingRectWithSize_options_context nsAttributedString size options context =
+  sendMessage nsAttributedString boundingRectWithSize_options_contextSelector size options (toNSStringDrawingContext context)
+
+-- | @- size@
+size :: IsNSAttributedString nsAttributedString => nsAttributedString -> IO NSSize
+size nsAttributedString =
+  sendMessage nsAttributedString sizeSelector
+
+-- | @- drawAtPoint:@
+drawAtPoint :: IsNSAttributedString nsAttributedString => nsAttributedString -> NSPoint -> IO ()
+drawAtPoint nsAttributedString point =
+  sendMessage nsAttributedString drawAtPointSelector point
+
+-- | @- drawInRect:@
+drawInRect :: IsNSAttributedString nsAttributedString => nsAttributedString -> NSRect -> IO ()
+drawInRect nsAttributedString rect =
+  sendMessage nsAttributedString drawInRectSelector rect
+
 -- | @+ attributedStringWithAttachment:@
 attributedStringWithAttachment :: IsNSTextAttachment attachment => attachment -> IO (Id NSAttributedString)
 attributedStringWithAttachment attachment =
   do
     cls' <- getRequiredClass "NSAttributedString"
     sendClassMessage cls' attributedStringWithAttachmentSelector (toNSTextAttachment attachment)
-
--- | @+ attributedStringWithAttachment:attributes:@
-attributedStringWithAttachment_attributes :: (IsNSTextAttachment attachment, IsNSDictionary attributes) => attachment -> attributes -> IO (Id NSAttributedString)
-attributedStringWithAttachment_attributes attachment attributes =
-  do
-    cls' <- getRequiredClass "NSAttributedString"
-    sendClassMessage cls' attributedStringWithAttachment_attributesSelector (toNSTextAttachment attachment) (toNSDictionary attributes)
 
 -- | @+ textFileTypes@
 textFileTypes :: IO (Id NSArray)
@@ -202,6 +212,11 @@ rulerAttributesInRange :: IsNSAttributedString nsAttributedString => nsAttribute
 rulerAttributesInRange nsAttributedString range =
   sendMessage nsAttributedString rulerAttributesInRangeSelector range
 
+-- | @- containsAttachmentsInRange:@
+containsAttachmentsInRange :: IsNSAttributedString nsAttributedString => nsAttributedString -> NSRange -> IO Bool
+containsAttachmentsInRange nsAttributedString range =
+  sendMessage nsAttributedString containsAttachmentsInRangeSelector range
+
 -- | @- lineBreakBeforeIndex:withinRange:@
 lineBreakBeforeIndex_withinRange :: IsNSAttributedString nsAttributedString => nsAttributedString -> CULong -> NSRange -> IO CULong
 lineBreakBeforeIndex_withinRange nsAttributedString location aRange =
@@ -241,6 +256,26 @@ rangeOfTextList_atIndex nsAttributedString list location =
 itemNumberInTextList_atIndex :: (IsNSAttributedString nsAttributedString, IsNSTextList list) => nsAttributedString -> list -> CULong -> IO CLong
 itemNumberInTextList_atIndex nsAttributedString list location =
   sendMessage nsAttributedString itemNumberInTextList_atIndexSelector (toNSTextList list) location
+
+-- | @- initWithURL:options:documentAttributes:error:@
+initWithURL_options_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSURL url, IsNSDictionary options, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> url -> options -> dict -> error_ -> IO (Id NSAttributedString)
+initWithURL_options_documentAttributes_error nsAttributedString url options dict error_ =
+  sendOwnedMessage nsAttributedString initWithURL_options_documentAttributes_errorSelector (toNSURL url) (toNSDictionary options) (toNSDictionary dict) (toNSError error_)
+
+-- | @- initWithData:options:documentAttributes:error:@
+initWithData_options_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSData data_, IsNSDictionary options, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> data_ -> options -> dict -> error_ -> IO (Id NSAttributedString)
+initWithData_options_documentAttributes_error nsAttributedString data_ options dict error_ =
+  sendOwnedMessage nsAttributedString initWithData_options_documentAttributes_errorSelector (toNSData data_) (toNSDictionary options) (toNSDictionary dict) (toNSError error_)
+
+-- | @- dataFromRange:documentAttributes:error:@
+dataFromRange_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> NSRange -> dict -> error_ -> IO (Id NSData)
+dataFromRange_documentAttributes_error nsAttributedString range dict error_ =
+  sendMessage nsAttributedString dataFromRange_documentAttributes_errorSelector range (toNSDictionary dict) (toNSError error_)
+
+-- | @- fileWrapperFromRange:documentAttributes:error:@
+fileWrapperFromRange_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> NSRange -> dict -> error_ -> IO (Id NSFileWrapper)
+fileWrapperFromRange_documentAttributes_error nsAttributedString range dict error_ =
+  sendMessage nsAttributedString fileWrapperFromRange_documentAttributes_errorSelector range (toNSDictionary dict) (toNSError error_)
 
 -- | @- initWithRTF:documentAttributes:@
 initWithRTF_documentAttributes :: (IsNSAttributedString nsAttributedString, IsNSData data_, IsNSDictionary dict) => nsAttributedString -> data_ -> dict -> IO (Id NSAttributedString)
@@ -297,62 +332,14 @@ docFormatFromRange_documentAttributes :: (IsNSAttributedString nsAttributedStrin
 docFormatFromRange_documentAttributes nsAttributedString range dict =
   sendMessage nsAttributedString docFormatFromRange_documentAttributesSelector range (toNSDictionary dict)
 
--- | @- containsAttachmentsInRange:@
-containsAttachmentsInRange :: IsNSAttributedString nsAttributedString => nsAttributedString -> NSRange -> IO Bool
-containsAttachmentsInRange nsAttributedString range =
-  sendMessage nsAttributedString containsAttachmentsInRangeSelector range
-
--- | @- prefersRTFDInRange:@
-prefersRTFDInRange :: IsNSAttributedString nsAttributedString => nsAttributedString -> NSRange -> IO Bool
-prefersRTFDInRange nsAttributedString range =
-  sendMessage nsAttributedString prefersRTFDInRangeSelector range
-
--- | @- initWithURL:options:documentAttributes:error:@
-initWithURL_options_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSURL url, IsNSDictionary options, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> url -> options -> dict -> error_ -> IO (Id NSAttributedString)
-initWithURL_options_documentAttributes_error nsAttributedString url options dict error_ =
-  sendOwnedMessage nsAttributedString initWithURL_options_documentAttributes_errorSelector (toNSURL url) (toNSDictionary options) (toNSDictionary dict) (toNSError error_)
-
--- | @- initWithData:options:documentAttributes:error:@
-initWithData_options_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSData data_, IsNSDictionary options, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> data_ -> options -> dict -> error_ -> IO (Id NSAttributedString)
-initWithData_options_documentAttributes_error nsAttributedString data_ options dict error_ =
-  sendOwnedMessage nsAttributedString initWithData_options_documentAttributes_errorSelector (toNSData data_) (toNSDictionary options) (toNSDictionary dict) (toNSError error_)
-
--- | @- dataFromRange:documentAttributes:error:@
-dataFromRange_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> NSRange -> dict -> error_ -> IO (Id NSData)
-dataFromRange_documentAttributes_error nsAttributedString range dict error_ =
-  sendMessage nsAttributedString dataFromRange_documentAttributes_errorSelector range (toNSDictionary dict) (toNSError error_)
-
--- | @- fileWrapperFromRange:documentAttributes:error:@
-fileWrapperFromRange_documentAttributes_error :: (IsNSAttributedString nsAttributedString, IsNSDictionary dict, IsNSError error_) => nsAttributedString -> NSRange -> dict -> error_ -> IO (Id NSFileWrapper)
-fileWrapperFromRange_documentAttributes_error nsAttributedString range dict error_ =
-  sendMessage nsAttributedString fileWrapperFromRange_documentAttributes_errorSelector range (toNSDictionary dict) (toNSError error_)
-
 -- | @- containsAttachments@
 containsAttachments :: IsNSAttributedString nsAttributedString => nsAttributedString -> IO Bool
 containsAttachments nsAttributedString =
   sendMessage nsAttributedString containsAttachmentsSelector
 
--- | @+ textTypes@
-textTypes :: IO (Id NSArray)
-textTypes  =
-  do
-    cls' <- getRequiredClass "NSAttributedString"
-    sendClassMessage cls' textTypesSelector
-
--- | @+ textUnfilteredTypes@
-textUnfilteredTypes :: IO (Id NSArray)
-textUnfilteredTypes  =
-  do
-    cls' <- getRequiredClass "NSAttributedString"
-    sendClassMessage cls' textUnfilteredTypesSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @attributedStringWithAdaptiveImageGlyph:attributes:@
-attributedStringWithAdaptiveImageGlyph_attributesSelector :: Selector '[Id NSAdaptiveImageGlyph, Id NSDictionary] (Id NSAttributedString)
-attributedStringWithAdaptiveImageGlyph_attributesSelector = mkSelector "attributedStringWithAdaptiveImageGlyph:attributes:"
 
 -- | @Selector@ for @drawWithRect:options:@
 drawWithRect_optionsSelector :: Selector '[NSRect, NSStringDrawingOptions] ()
@@ -362,13 +349,29 @@ drawWithRect_optionsSelector = mkSelector "drawWithRect:options:"
 boundingRectWithSize_optionsSelector :: Selector '[NSSize, NSStringDrawingOptions] NSRect
 boundingRectWithSize_optionsSelector = mkSelector "boundingRectWithSize:options:"
 
+-- | @Selector@ for @drawWithRect:options:context:@
+drawWithRect_options_contextSelector :: Selector '[NSRect, NSStringDrawingOptions, Id NSStringDrawingContext] ()
+drawWithRect_options_contextSelector = mkSelector "drawWithRect:options:context:"
+
+-- | @Selector@ for @boundingRectWithSize:options:context:@
+boundingRectWithSize_options_contextSelector :: Selector '[NSSize, NSStringDrawingOptions, Id NSStringDrawingContext] NSRect
+boundingRectWithSize_options_contextSelector = mkSelector "boundingRectWithSize:options:context:"
+
+-- | @Selector@ for @size@
+sizeSelector :: Selector '[] NSSize
+sizeSelector = mkSelector "size"
+
+-- | @Selector@ for @drawAtPoint:@
+drawAtPointSelector :: Selector '[NSPoint] ()
+drawAtPointSelector = mkSelector "drawAtPoint:"
+
+-- | @Selector@ for @drawInRect:@
+drawInRectSelector :: Selector '[NSRect] ()
+drawInRectSelector = mkSelector "drawInRect:"
+
 -- | @Selector@ for @attributedStringWithAttachment:@
 attributedStringWithAttachmentSelector :: Selector '[Id NSTextAttachment] (Id NSAttributedString)
 attributedStringWithAttachmentSelector = mkSelector "attributedStringWithAttachment:"
-
--- | @Selector@ for @attributedStringWithAttachment:attributes:@
-attributedStringWithAttachment_attributesSelector :: Selector '[Id NSTextAttachment, Id NSDictionary] (Id NSAttributedString)
-attributedStringWithAttachment_attributesSelector = mkSelector "attributedStringWithAttachment:attributes:"
 
 -- | @Selector@ for @textFileTypes@
 textFileTypesSelector :: Selector '[] (Id NSArray)
@@ -406,6 +409,10 @@ fontAttributesInRangeSelector = mkSelector "fontAttributesInRange:"
 rulerAttributesInRangeSelector :: Selector '[NSRange] (Id NSDictionary)
 rulerAttributesInRangeSelector = mkSelector "rulerAttributesInRange:"
 
+-- | @Selector@ for @containsAttachmentsInRange:@
+containsAttachmentsInRangeSelector :: Selector '[NSRange] Bool
+containsAttachmentsInRangeSelector = mkSelector "containsAttachmentsInRange:"
+
 -- | @Selector@ for @lineBreakBeforeIndex:withinRange:@
 lineBreakBeforeIndex_withinRangeSelector :: Selector '[CULong, NSRange] CULong
 lineBreakBeforeIndex_withinRangeSelector = mkSelector "lineBreakBeforeIndex:withinRange:"
@@ -437,6 +444,22 @@ rangeOfTextList_atIndexSelector = mkSelector "rangeOfTextList:atIndex:"
 -- | @Selector@ for @itemNumberInTextList:atIndex:@
 itemNumberInTextList_atIndexSelector :: Selector '[Id NSTextList, CULong] CLong
 itemNumberInTextList_atIndexSelector = mkSelector "itemNumberInTextList:atIndex:"
+
+-- | @Selector@ for @initWithURL:options:documentAttributes:error:@
+initWithURL_options_documentAttributes_errorSelector :: Selector '[Id NSURL, Id NSDictionary, Id NSDictionary, Id NSError] (Id NSAttributedString)
+initWithURL_options_documentAttributes_errorSelector = mkSelector "initWithURL:options:documentAttributes:error:"
+
+-- | @Selector@ for @initWithData:options:documentAttributes:error:@
+initWithData_options_documentAttributes_errorSelector :: Selector '[Id NSData, Id NSDictionary, Id NSDictionary, Id NSError] (Id NSAttributedString)
+initWithData_options_documentAttributes_errorSelector = mkSelector "initWithData:options:documentAttributes:error:"
+
+-- | @Selector@ for @dataFromRange:documentAttributes:error:@
+dataFromRange_documentAttributes_errorSelector :: Selector '[NSRange, Id NSDictionary, Id NSError] (Id NSData)
+dataFromRange_documentAttributes_errorSelector = mkSelector "dataFromRange:documentAttributes:error:"
+
+-- | @Selector@ for @fileWrapperFromRange:documentAttributes:error:@
+fileWrapperFromRange_documentAttributes_errorSelector :: Selector '[NSRange, Id NSDictionary, Id NSError] (Id NSFileWrapper)
+fileWrapperFromRange_documentAttributes_errorSelector = mkSelector "fileWrapperFromRange:documentAttributes:error:"
 
 -- | @Selector@ for @initWithRTF:documentAttributes:@
 initWithRTF_documentAttributesSelector :: Selector '[Id NSData, Id NSDictionary] (Id NSAttributedString)
@@ -482,39 +505,7 @@ rtfdFileWrapperFromRange_documentAttributesSelector = mkSelector "RTFDFileWrappe
 docFormatFromRange_documentAttributesSelector :: Selector '[NSRange, Id NSDictionary] (Id NSData)
 docFormatFromRange_documentAttributesSelector = mkSelector "docFormatFromRange:documentAttributes:"
 
--- | @Selector@ for @containsAttachmentsInRange:@
-containsAttachmentsInRangeSelector :: Selector '[NSRange] Bool
-containsAttachmentsInRangeSelector = mkSelector "containsAttachmentsInRange:"
-
--- | @Selector@ for @prefersRTFDInRange:@
-prefersRTFDInRangeSelector :: Selector '[NSRange] Bool
-prefersRTFDInRangeSelector = mkSelector "prefersRTFDInRange:"
-
--- | @Selector@ for @initWithURL:options:documentAttributes:error:@
-initWithURL_options_documentAttributes_errorSelector :: Selector '[Id NSURL, Id NSDictionary, Id NSDictionary, Id NSError] (Id NSAttributedString)
-initWithURL_options_documentAttributes_errorSelector = mkSelector "initWithURL:options:documentAttributes:error:"
-
--- | @Selector@ for @initWithData:options:documentAttributes:error:@
-initWithData_options_documentAttributes_errorSelector :: Selector '[Id NSData, Id NSDictionary, Id NSDictionary, Id NSError] (Id NSAttributedString)
-initWithData_options_documentAttributes_errorSelector = mkSelector "initWithData:options:documentAttributes:error:"
-
--- | @Selector@ for @dataFromRange:documentAttributes:error:@
-dataFromRange_documentAttributes_errorSelector :: Selector '[NSRange, Id NSDictionary, Id NSError] (Id NSData)
-dataFromRange_documentAttributes_errorSelector = mkSelector "dataFromRange:documentAttributes:error:"
-
--- | @Selector@ for @fileWrapperFromRange:documentAttributes:error:@
-fileWrapperFromRange_documentAttributes_errorSelector :: Selector '[NSRange, Id NSDictionary, Id NSError] (Id NSFileWrapper)
-fileWrapperFromRange_documentAttributes_errorSelector = mkSelector "fileWrapperFromRange:documentAttributes:error:"
-
 -- | @Selector@ for @containsAttachments@
 containsAttachmentsSelector :: Selector '[] Bool
 containsAttachmentsSelector = mkSelector "containsAttachments"
-
--- | @Selector@ for @textTypes@
-textTypesSelector :: Selector '[] (Id NSArray)
-textTypesSelector = mkSelector "textTypes"
-
--- | @Selector@ for @textUnfilteredTypes@
-textUnfilteredTypesSelector :: Selector '[] (Id NSArray)
-textUnfilteredTypesSelector = mkSelector "textUnfilteredTypes"
 

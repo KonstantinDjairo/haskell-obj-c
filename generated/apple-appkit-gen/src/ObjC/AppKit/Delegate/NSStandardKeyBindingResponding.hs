@@ -131,7 +131,6 @@ data NSStandardKeyBindingRespondingOverrides = NSStandardKeyBindingRespondingOve
   , _makeTextWritingDirectionLeftToRight :: !(Maybe (RawId -> IO ()))
   , _makeTextWritingDirectionRightToLeft :: !(Maybe (RawId -> IO ()))
   , _quickLookPreviewItems :: !(Maybe (RawId -> IO ()))
-  , _showContextMenuForSelection :: !(Maybe (RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -232,7 +231,6 @@ defaultNSStandardKeyBindingRespondingOverrides = NSStandardKeyBindingRespondingO
   , _makeTextWritingDirectionLeftToRight = Nothing
   , _makeTextWritingDirectionRightToLeft = Nothing
   , _quickLookPreviewItems = Nothing
-  , _showContextMenuForSelection = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -354,7 +352,6 @@ nsStandardKeyBindingRespondingDelegateClass = unsafePerformIO $ do
       sel_makeTextWritingDirectionLeftToRight = unSelector (mkSelector "makeTextWritingDirectionLeftToRight:")
       sel_makeTextWritingDirectionRightToLeft = unSelector (mkSelector "makeTextWritingDirectionRightToLeft:")
       sel_quickLookPreviewItems = unSelector (mkSelector "quickLookPreviewItems:")
-      sel_showContextMenuForSelection = unSelector (mkSelector "showContextMenuForSelection:")
   -- insertText:
   stub_0 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
@@ -1210,15 +1207,6 @@ nsStandardKeyBindingRespondingDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0)
   addObjCMethod cls "quickLookPreviewItems:" "v@:@" stub_94
 
-  -- showContextMenuForSelection:
-  stub_95 <- wrap_at_v $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSStandardKeyBindingRespondingOverrides
-    case _showContextMenuForSelection rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0)
-  addObjCMethod cls "showContextMenuForSelection:" "v@:@" stub_95
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -1318,7 +1306,6 @@ nsStandardKeyBindingRespondingDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_makeTextWritingDirectionLeftToRight then pure (maybe 0 (const 1) (_makeTextWritingDirectionLeftToRight rec_))
     else if queriedSel == sel_makeTextWritingDirectionRightToLeft then pure (maybe 0 (const 1) (_makeTextWritingDirectionRightToLeft rec_))
     else if queriedSel == sel_quickLookPreviewItems then pure (maybe 0 (const 1) (_quickLookPreviewItems rec_))
-    else if queriedSel == sel_showContextMenuForSelection then pure (maybe 0 (const 1) (_showContextMenuForSelection rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

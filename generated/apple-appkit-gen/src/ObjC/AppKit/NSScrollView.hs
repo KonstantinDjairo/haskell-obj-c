@@ -198,7 +198,6 @@ module ObjC.AppKit.NSScrollView
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
   , NSEventGestureAxis(NSEventGestureAxis)
   , pattern NSEventGestureAxisNone
   , pattern NSEventGestureAxisHorizontal

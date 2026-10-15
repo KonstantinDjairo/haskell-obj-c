@@ -22,6 +22,10 @@ module ObjC.StoreKit.SKOverlayAppConfiguration
   , setCampaignToken
   , providerToken
   , setProviderToken
+  , customProductPageIdentifier
+  , setCustomProductPageIdentifier
+  , latestReleaseID
+  , setLatestReleaseID
   , position
   , setPosition
   , userDismissible
@@ -29,8 +33,10 @@ module ObjC.StoreKit.SKOverlayAppConfiguration
   , additionalValueForKeySelector
   , appIdentifierSelector
   , campaignTokenSelector
+  , customProductPageIdentifierSelector
   , initSelector
   , initWithAppIdentifier_positionSelector
+  , latestReleaseIDSelector
   , newSelector
   , positionSelector
   , providerTokenSelector
@@ -38,6 +44,8 @@ module ObjC.StoreKit.SKOverlayAppConfiguration
   , setAdditionalValue_forKeySelector
   , setAppIdentifierSelector
   , setCampaignTokenSelector
+  , setCustomProductPageIdentifierSelector
+  , setLatestReleaseIDSelector
   , setPositionSelector
   , setProviderTokenSelector
   , setUserDismissibleSelector
@@ -142,6 +150,34 @@ setProviderToken :: (IsSKOverlayAppConfiguration skOverlayAppConfiguration, IsNS
 setProviderToken skOverlayAppConfiguration value =
   sendMessage skOverlayAppConfiguration setProviderTokenSelector (toNSString value)
 
+-- | An optional identifier for an app's custom product page.
+--
+-- ObjC selector: @- customProductPageIdentifier@
+customProductPageIdentifier :: IsSKOverlayAppConfiguration skOverlayAppConfiguration => skOverlayAppConfiguration -> IO RawId
+customProductPageIdentifier skOverlayAppConfiguration =
+  sendMessage skOverlayAppConfiguration customProductPageIdentifierSelector
+
+-- | An optional identifier for an app's custom product page.
+--
+-- ObjC selector: @- setCustomProductPageIdentifier:@
+setCustomProductPageIdentifier :: IsSKOverlayAppConfiguration skOverlayAppConfiguration => skOverlayAppConfiguration -> RawId -> IO ()
+setCustomProductPageIdentifier skOverlayAppConfiguration value =
+  sendMessage skOverlayAppConfiguration setCustomProductPageIdentifierSelector value
+
+-- | An optional extra parameter for specifying the version of your app that will be shown to the user.
+--
+-- ObjC selector: @- latestReleaseID@
+latestReleaseID :: IsSKOverlayAppConfiguration skOverlayAppConfiguration => skOverlayAppConfiguration -> IO RawId
+latestReleaseID skOverlayAppConfiguration =
+  sendMessage skOverlayAppConfiguration latestReleaseIDSelector
+
+-- | An optional extra parameter for specifying the version of your app that will be shown to the user.
+--
+-- ObjC selector: @- setLatestReleaseID:@
+setLatestReleaseID :: IsSKOverlayAppConfiguration skOverlayAppConfiguration => skOverlayAppConfiguration -> RawId -> IO ()
+setLatestReleaseID skOverlayAppConfiguration value =
+  sendMessage skOverlayAppConfiguration setLatestReleaseIDSelector value
+
 -- | The position an overlay will show at on screen.
 --
 -- ObjC selector: @- position@
@@ -221,6 +257,22 @@ providerTokenSelector = mkSelector "providerToken"
 -- | @Selector@ for @setProviderToken:@
 setProviderTokenSelector :: Selector '[Id NSString] ()
 setProviderTokenSelector = mkSelector "setProviderToken:"
+
+-- | @Selector@ for @customProductPageIdentifier@
+customProductPageIdentifierSelector :: Selector '[] RawId
+customProductPageIdentifierSelector = mkSelector "customProductPageIdentifier"
+
+-- | @Selector@ for @setCustomProductPageIdentifier:@
+setCustomProductPageIdentifierSelector :: Selector '[RawId] ()
+setCustomProductPageIdentifierSelector = mkSelector "setCustomProductPageIdentifier:"
+
+-- | @Selector@ for @latestReleaseID@
+latestReleaseIDSelector :: Selector '[] RawId
+latestReleaseIDSelector = mkSelector "latestReleaseID"
+
+-- | @Selector@ for @setLatestReleaseID:@
+setLatestReleaseIDSelector :: Selector '[RawId] ()
+setLatestReleaseIDSelector = mkSelector "setLatestReleaseID:"
 
 -- | @Selector@ for @position@
 positionSelector :: Selector '[] SKOverlayPosition

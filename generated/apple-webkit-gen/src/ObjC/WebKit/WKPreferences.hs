@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -16,8 +15,6 @@ module ObjC.WebKit.WKPreferences
   , setJavaScriptCanOpenWindowsAutomatically
   , fraudulentWebsiteWarningEnabled
   , setFraudulentWebsiteWarningEnabled
-  , shouldPrintBackgrounds
-  , setShouldPrintBackgrounds
   , tabFocusesLinks
   , setTabFocusesLinks
   , textInteractionEnabled
@@ -26,20 +23,14 @@ module ObjC.WebKit.WKPreferences
   , setSiteSpecificQuirksModeEnabled
   , elementFullscreenEnabled
   , setElementFullscreenEnabled
-  , inactiveSchedulingPolicy
-  , setInactiveSchedulingPolicy
   , javaEnabled
   , setJavaEnabled
   , plugInsEnabled
   , setPlugInsEnabled
   , javaScriptEnabled
   , setJavaScriptEnabled
-  , isLookToScrollEnabled
-  , setIsLookToScrollEnabled
   , elementFullscreenEnabledSelector
   , fraudulentWebsiteWarningEnabledSelector
-  , inactiveSchedulingPolicySelector
-  , isLookToScrollEnabledSelector
   , javaEnabledSelector
   , javaScriptCanOpenWindowsAutomaticallySelector
   , javaScriptEnabledSelector
@@ -47,27 +38,18 @@ module ObjC.WebKit.WKPreferences
   , plugInsEnabledSelector
   , setElementFullscreenEnabledSelector
   , setFraudulentWebsiteWarningEnabledSelector
-  , setInactiveSchedulingPolicySelector
-  , setIsLookToScrollEnabledSelector
   , setJavaEnabledSelector
   , setJavaScriptCanOpenWindowsAutomaticallySelector
   , setJavaScriptEnabledSelector
   , setMinimumFontSizeSelector
   , setPlugInsEnabledSelector
-  , setShouldPrintBackgroundsSelector
   , setSiteSpecificQuirksModeEnabledSelector
   , setTabFocusesLinksSelector
   , setTextInteractionEnabledSelector
-  , shouldPrintBackgroundsSelector
   , siteSpecificQuirksModeEnabledSelector
   , tabFocusesLinksSelector
   , textInteractionEnabledSelector
 
-  -- * Enum types
-  , WKInactiveSchedulingPolicy(WKInactiveSchedulingPolicy)
-  , pattern WKInactiveSchedulingPolicySuspend
-  , pattern WKInactiveSchedulingPolicyThrottle
-  , pattern WKInactiveSchedulingPolicyNone
 
   ) where
 
@@ -80,7 +62,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.WebKit.Internal.Classes
-import ObjC.WebKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | The minimum font size in points.
@@ -136,24 +117,6 @@ fraudulentWebsiteWarningEnabled wkPreferences =
 setFraudulentWebsiteWarningEnabled :: IsWKPreferences wkPreferences => wkPreferences -> Bool -> IO ()
 setFraudulentWebsiteWarningEnabled wkPreferences value =
   sendMessage wkPreferences setFraudulentWebsiteWarningEnabledSelector value
-
--- | A Boolean value indicating whether the web view should include backgrounds when printing.
---
--- The default value is @NO@.
---
--- ObjC selector: @- shouldPrintBackgrounds@
-shouldPrintBackgrounds :: IsWKPreferences wkPreferences => wkPreferences -> IO Bool
-shouldPrintBackgrounds wkPreferences =
-  sendMessage wkPreferences shouldPrintBackgroundsSelector
-
--- | A Boolean value indicating whether the web view should include backgrounds when printing.
---
--- The default value is @NO@.
---
--- ObjC selector: @- setShouldPrintBackgrounds:@
-setShouldPrintBackgrounds :: IsWKPreferences wkPreferences => wkPreferences -> Bool -> IO ()
-setShouldPrintBackgrounds wkPreferences value =
-  sendMessage wkPreferences setShouldPrintBackgroundsSelector value
 
 -- | tabFocusesLinks
 --
@@ -219,20 +182,6 @@ setElementFullscreenEnabled :: IsWKPreferences wkPreferences => wkPreferences ->
 setElementFullscreenEnabled wkPreferences value =
   sendMessage wkPreferences setElementFullscreenEnabledSelector value
 
--- | Specify the scheduling policy for the web view when it is inactive and detached from the view hierarchy. Web views are not considered idle when playing media or loading web pages. A suspended web view will pause JavaScript execution and page layout.
---
--- ObjC selector: @- inactiveSchedulingPolicy@
-inactiveSchedulingPolicy :: IsWKPreferences wkPreferences => wkPreferences -> IO WKInactiveSchedulingPolicy
-inactiveSchedulingPolicy wkPreferences =
-  sendMessage wkPreferences inactiveSchedulingPolicySelector
-
--- | Specify the scheduling policy for the web view when it is inactive and detached from the view hierarchy. Web views are not considered idle when playing media or loading web pages. A suspended web view will pause JavaScript execution and page layout.
---
--- ObjC selector: @- setInactiveSchedulingPolicy:@
-setInactiveSchedulingPolicy :: IsWKPreferences wkPreferences => wkPreferences -> WKInactiveSchedulingPolicy -> IO ()
-setInactiveSchedulingPolicy wkPreferences value =
-  sendMessage wkPreferences setInactiveSchedulingPolicySelector value
-
 -- | @- javaEnabled@
 javaEnabled :: IsWKPreferences wkPreferences => wkPreferences -> IO Bool
 javaEnabled wkPreferences =
@@ -263,24 +212,6 @@ setJavaScriptEnabled :: IsWKPreferences wkPreferences => wkPreferences -> Bool -
 setJavaScriptEnabled wkPreferences value =
   sendMessage wkPreferences setJavaScriptEnabledSelector value
 
--- | A Boolean value indicating whether LookToScroll is enabled.
---
--- The default value is @NO@.
---
--- ObjC selector: @- isLookToScrollEnabled@
-isLookToScrollEnabled :: IsWKPreferences wkPreferences => wkPreferences -> IO Bool
-isLookToScrollEnabled wkPreferences =
-  sendMessage wkPreferences isLookToScrollEnabledSelector
-
--- | A Boolean value indicating whether LookToScroll is enabled.
---
--- The default value is @NO@.
---
--- ObjC selector: @- setIsLookToScrollEnabled:@
-setIsLookToScrollEnabled :: IsWKPreferences wkPreferences => wkPreferences -> Bool -> IO ()
-setIsLookToScrollEnabled wkPreferences value =
-  sendMessage wkPreferences setIsLookToScrollEnabledSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -308,14 +239,6 @@ fraudulentWebsiteWarningEnabledSelector = mkSelector "fraudulentWebsiteWarningEn
 -- | @Selector@ for @setFraudulentWebsiteWarningEnabled:@
 setFraudulentWebsiteWarningEnabledSelector :: Selector '[Bool] ()
 setFraudulentWebsiteWarningEnabledSelector = mkSelector "setFraudulentWebsiteWarningEnabled:"
-
--- | @Selector@ for @shouldPrintBackgrounds@
-shouldPrintBackgroundsSelector :: Selector '[] Bool
-shouldPrintBackgroundsSelector = mkSelector "shouldPrintBackgrounds"
-
--- | @Selector@ for @setShouldPrintBackgrounds:@
-setShouldPrintBackgroundsSelector :: Selector '[Bool] ()
-setShouldPrintBackgroundsSelector = mkSelector "setShouldPrintBackgrounds:"
 
 -- | @Selector@ for @tabFocusesLinks@
 tabFocusesLinksSelector :: Selector '[] Bool
@@ -349,14 +272,6 @@ elementFullscreenEnabledSelector = mkSelector "elementFullscreenEnabled"
 setElementFullscreenEnabledSelector :: Selector '[Bool] ()
 setElementFullscreenEnabledSelector = mkSelector "setElementFullscreenEnabled:"
 
--- | @Selector@ for @inactiveSchedulingPolicy@
-inactiveSchedulingPolicySelector :: Selector '[] WKInactiveSchedulingPolicy
-inactiveSchedulingPolicySelector = mkSelector "inactiveSchedulingPolicy"
-
--- | @Selector@ for @setInactiveSchedulingPolicy:@
-setInactiveSchedulingPolicySelector :: Selector '[WKInactiveSchedulingPolicy] ()
-setInactiveSchedulingPolicySelector = mkSelector "setInactiveSchedulingPolicy:"
-
 -- | @Selector@ for @javaEnabled@
 javaEnabledSelector :: Selector '[] Bool
 javaEnabledSelector = mkSelector "javaEnabled"
@@ -380,12 +295,4 @@ javaScriptEnabledSelector = mkSelector "javaScriptEnabled"
 -- | @Selector@ for @setJavaScriptEnabled:@
 setJavaScriptEnabledSelector :: Selector '[Bool] ()
 setJavaScriptEnabledSelector = mkSelector "setJavaScriptEnabled:"
-
--- | @Selector@ for @isLookToScrollEnabled@
-isLookToScrollEnabledSelector :: Selector '[] Bool
-isLookToScrollEnabledSelector = mkSelector "isLookToScrollEnabled"
-
--- | @Selector@ for @setIsLookToScrollEnabled:@
-setIsLookToScrollEnabledSelector :: Selector '[Bool] ()
-setIsLookToScrollEnabledSelector = mkSelector "setIsLookToScrollEnabled:"
 

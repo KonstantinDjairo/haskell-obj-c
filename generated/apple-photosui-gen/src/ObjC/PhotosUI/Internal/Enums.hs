@@ -59,46 +59,6 @@ instance ObjCReturn PHLivePhotoViewPlaybackStyle where
   fromRetained x = pure (PHLivePhotoViewPlaybackStyle x)
   fromOwned x = pure (PHLivePhotoViewPlaybackStyle x)
 
--- | Constants that specify one or a set of @PHPickerViewController@ capabilities.
--- | @PHPickerCapabilities@ (bitmask)
-newtype PHPickerCapabilities = PHPickerCapabilities CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup PHPickerCapabilities where
-  (<>) = (.|.)
-
-instance Monoid PHPickerCapabilities where
-  mempty = PHPickerCapabilities 0
-
-pattern PHPickerCapabilitiesNone :: PHPickerCapabilities
-pattern PHPickerCapabilitiesNone = PHPickerCapabilities 0
-
-pattern PHPickerCapabilitiesSearch :: PHPickerCapabilities
-pattern PHPickerCapabilitiesSearch = PHPickerCapabilities 1
-
-pattern PHPickerCapabilitiesStagingArea :: PHPickerCapabilities
-pattern PHPickerCapabilitiesStagingArea = PHPickerCapabilities 2
-
-pattern PHPickerCapabilitiesCollectionNavigation :: PHPickerCapabilities
-pattern PHPickerCapabilitiesCollectionNavigation = PHPickerCapabilities 4
-
-pattern PHPickerCapabilitiesSelectionActions :: PHPickerCapabilities
-pattern PHPickerCapabilitiesSelectionActions = PHPickerCapabilities 8
-
-pattern PHPickerCapabilitiesSensitivityAnalysisIntervention :: PHPickerCapabilities
-pattern PHPickerCapabilitiesSensitivityAnalysisIntervention = PHPickerCapabilities 16
-
-instance ObjCArgument PHPickerCapabilities where
-  withObjCArg (PHPickerCapabilities x) k = k (argCULong x)
-
-instance ObjCReturn PHPickerCapabilities where
-  type RawReturn PHPickerCapabilities = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PHPickerCapabilities x)
-  fromOwned x = pure (PHPickerCapabilities x)
-
 -- | A mode that determines which representation @PHPickerViewController@ should provide for an asset given a type identifier, if multiple representations are available.
 -- | @PHPickerConfigurationAssetRepresentationMode@
 newtype PHPickerConfigurationAssetRepresentationMode = PHPickerConfigurationAssetRepresentationMode CLong
@@ -136,12 +96,6 @@ pattern PHPickerConfigurationSelectionDefault = PHPickerConfigurationSelection 0
 pattern PHPickerConfigurationSelectionOrdered :: PHPickerConfigurationSelection
 pattern PHPickerConfigurationSelectionOrdered = PHPickerConfigurationSelection 1
 
-pattern PHPickerConfigurationSelectionContinuous :: PHPickerConfigurationSelection
-pattern PHPickerConfigurationSelectionContinuous = PHPickerConfigurationSelection 2
-
-pattern PHPickerConfigurationSelectionContinuousAndOrdered :: PHPickerConfigurationSelection
-pattern PHPickerConfigurationSelectionContinuousAndOrdered = PHPickerConfigurationSelection 3
-
 instance ObjCArgument PHPickerConfigurationSelection where
   withObjCArg (PHPickerConfigurationSelection x) k = k (argCLong x)
 
@@ -151,28 +105,6 @@ instance ObjCReturn PHPickerConfigurationSelection where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (PHPickerConfigurationSelection x)
   fromOwned x = pure (PHPickerConfigurationSelection x)
-
--- | An enum that determines the mode of @PHPickerViewController.@
--- | @PHPickerMode@
-newtype PHPickerMode = PHPickerMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PHPickerModeDefault :: PHPickerMode
-pattern PHPickerModeDefault = PHPickerMode 0
-
-pattern PHPickerModeCompact :: PHPickerMode
-pattern PHPickerModeCompact = PHPickerMode 1
-
-instance ObjCArgument PHPickerMode where
-  withObjCArg (PHPickerMode x) k = k (argCLong x)
-
-instance ObjCReturn PHPickerMode where
-  type RawReturn PHPickerMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PHPickerMode x)
-  fromOwned x = pure (PHPickerMode x)
 
 -- | PHProjectCreationSource is provided as a hint to project extensions of the user context at the time of project creation. For example, if a user is viewing a Memory in the Photos app and from that chooses the 'Create Project' option, the creationSource provided in PHProjectInfo will be PHProjectCreationSourceMemory.
 -- | @PHProjectCreationSource@

@@ -18,15 +18,11 @@ module ObjC.MetricKit.MXMetaData
   , deviceType
   , applicationBuildVersion
   , platformArchitecture
-  , pid
-  , bundleIdentifier
   , applicationBuildVersionSelector
-  , bundleIdentifierSelector
   , deviceTypeSelector
   , dictionaryRepresentationSelector
   , jsonRepresentationSelector
   , osVersionSelector
-  , pidSelector
   , platformArchitectureSelector
   , regionFormatSelector
 
@@ -111,26 +107,6 @@ platformArchitecture :: IsMXMetaData mxMetaData => mxMetaData -> IO (Id NSString
 platformArchitecture mxMetaData =
   sendMessage mxMetaData platformArchitectureSelector
 
--- | pid
---
--- pid of the process
---
--- Note: A value of -1 indicates that the PID was unavailable for the containing payload.
---
--- ObjC selector: @- pid@
-pid :: IsMXMetaData mxMetaData => mxMetaData -> IO CInt
-pid mxMetaData =
-  sendMessage mxMetaData pidSelector
-
--- | bundleIdentifier
---
--- String representation of the bundle ID of the process.
---
--- ObjC selector: @- bundleIdentifier@
-bundleIdentifier :: IsMXMetaData mxMetaData => mxMetaData -> IO (Id NSString)
-bundleIdentifier mxMetaData =
-  sendMessage mxMetaData bundleIdentifierSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -162,12 +138,4 @@ applicationBuildVersionSelector = mkSelector "applicationBuildVersion"
 -- | @Selector@ for @platformArchitecture@
 platformArchitectureSelector :: Selector '[] (Id NSString)
 platformArchitectureSelector = mkSelector "platformArchitecture"
-
--- | @Selector@ for @pid@
-pidSelector :: Selector '[] CInt
-pidSelector = mkSelector "pid"
-
--- | @Selector@ for @bundleIdentifier@
-bundleIdentifierSelector :: Selector '[] (Id NSString)
-bundleIdentifierSelector = mkSelector "bundleIdentifier"
 

@@ -17,9 +17,6 @@ module ObjC.HealthKit.HKUnit
   , unitFromEnergyFormatterUnit
   , energyFormatterUnitFromUnit
   , isNull
-  , appleEffortScoreUnit
-  , luxUnitWithMetricPrefix
-  , luxUnit
   , radianAngleUnitWithMetricPrefix
   , radianAngleUnit
   , degreeAngleUnit
@@ -84,7 +81,6 @@ module ObjC.HealthKit.HKUnit
   , moleUnitWithMetricPrefix_molarMass
   , moleUnitWithMolarMass
   , unitString
-  , appleEffortScoreUnitSelector
   , atmosphereUnitSelector
   , calorieUnitSelector
   , centimeterOfWaterUnitSelector
@@ -120,8 +116,6 @@ module ObjC.HealthKit.HKUnit
   , lengthFormatterUnitFromUnitSelector
   , literUnitSelector
   , literUnitWithMetricPrefixSelector
-  , luxUnitSelector
-  , luxUnitWithMetricPrefixSelector
   , massFormatterUnitFromUnitSelector
   , meterUnitSelector
   , meterUnitWithMetricPrefixSelector
@@ -271,27 +265,6 @@ energyFormatterUnitFromUnit unit =
 isNull :: IsHKUnit hkUnit => hkUnit -> IO Bool
 isNull hkUnit =
   sendMessage hkUnit isNullSelector
-
--- | @+ appleEffortScoreUnit@
-appleEffortScoreUnit :: IO (Id HKUnit)
-appleEffortScoreUnit  =
-  do
-    cls' <- getRequiredClass "HKUnit"
-    sendClassMessage cls' appleEffortScoreUnitSelector
-
--- | @+ luxUnitWithMetricPrefix:@
-luxUnitWithMetricPrefix :: HKMetricPrefix -> IO (Id HKUnit)
-luxUnitWithMetricPrefix prefix =
-  do
-    cls' <- getRequiredClass "HKUnit"
-    sendClassMessage cls' luxUnitWithMetricPrefixSelector prefix
-
--- | @+ luxUnit@
-luxUnit :: IO (Id HKUnit)
-luxUnit  =
-  do
-    cls' <- getRequiredClass "HKUnit"
-    sendClassMessage cls' luxUnitSelector
 
 -- | @+ radianAngleUnitWithMetricPrefix:@
 radianAngleUnitWithMetricPrefix :: HKMetricPrefix -> IO (Id HKUnit)
@@ -772,18 +745,6 @@ energyFormatterUnitFromUnitSelector = mkSelector "energyFormatterUnitFromUnit:"
 -- | @Selector@ for @isNull@
 isNullSelector :: Selector '[] Bool
 isNullSelector = mkSelector "isNull"
-
--- | @Selector@ for @appleEffortScoreUnit@
-appleEffortScoreUnitSelector :: Selector '[] (Id HKUnit)
-appleEffortScoreUnitSelector = mkSelector "appleEffortScoreUnit"
-
--- | @Selector@ for @luxUnitWithMetricPrefix:@
-luxUnitWithMetricPrefixSelector :: Selector '[HKMetricPrefix] (Id HKUnit)
-luxUnitWithMetricPrefixSelector = mkSelector "luxUnitWithMetricPrefix:"
-
--- | @Selector@ for @luxUnit@
-luxUnitSelector :: Selector '[] (Id HKUnit)
-luxUnitSelector = mkSelector "luxUnit"
 
 -- | @Selector@ for @radianAngleUnitWithMetricPrefix:@
 radianAngleUnitWithMetricPrefixSelector :: Selector '[HKMetricPrefix] (Id HKUnit)

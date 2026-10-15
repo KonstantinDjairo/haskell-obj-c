@@ -17,11 +17,9 @@ module ObjC.NetworkExtension.NEAppProxyTCPFlow
   , IsNEAppProxyTCPFlow(..)
   , readDataWithCompletionHandler
   , writeData_withCompletionHandler
-  , remoteFlowEndpoint
   , remoteEndpoint
   , readDataWithCompletionHandlerSelector
   , remoteEndpointSelector
-  , remoteFlowEndpointSelector
   , writeData_withCompletionHandlerSelector
 
 
@@ -62,15 +60,6 @@ writeData_withCompletionHandler :: (IsNEAppProxyTCPFlow neAppProxyTCPFlow, IsNSD
 writeData_withCompletionHandler neAppProxyTCPFlow data_ completionHandler =
   sendMessage neAppProxyTCPFlow writeData_withCompletionHandlerSelector (toNSData data_) completionHandler
 
--- | remoteFlowEndpoint
---
--- An @nw_endpoint_t@ object containing information about the intended remote endpoint of the flow.
---
--- ObjC selector: @- remoteFlowEndpoint@
-remoteFlowEndpoint :: IsNEAppProxyTCPFlow neAppProxyTCPFlow => neAppProxyTCPFlow -> IO (Id NSObject)
-remoteFlowEndpoint neAppProxyTCPFlow =
-  sendMessage neAppProxyTCPFlow remoteFlowEndpointSelector
-
 -- | remoteEndpoint
 --
 -- An NWEndpoint object containing information about the intended remote endpoint of the flow.
@@ -91,10 +80,6 @@ readDataWithCompletionHandlerSelector = mkSelector "readDataWithCompletionHandle
 -- | @Selector@ for @writeData:withCompletionHandler:@
 writeData_withCompletionHandlerSelector :: Selector '[Id NSData, Ptr ()] ()
 writeData_withCompletionHandlerSelector = mkSelector "writeData:withCompletionHandler:"
-
--- | @Selector@ for @remoteFlowEndpoint@
-remoteFlowEndpointSelector :: Selector '[] (Id NSObject)
-remoteFlowEndpointSelector = mkSelector "remoteFlowEndpoint"
 
 -- | @Selector@ for @remoteEndpoint@
 remoteEndpointSelector :: Selector '[] (Id NWEndpoint)

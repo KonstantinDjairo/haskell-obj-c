@@ -15,8 +15,6 @@ module ObjC.SensorKit.SRKeyboardMetrics
   , version
   , width
   , height
-  , inputModes
-  , sessionIdentifiers
   , totalPauses
   , totalPathPauses
   , typingSpeed
@@ -26,7 +24,6 @@ module ObjC.SensorKit.SRKeyboardMetrics
   , longWordDownErrorDistance
   , longWordTouchDownUp
   , longWordTouchDownDown
-  , longWordTouchUpDown
   , deleteToDeletes
   , upErrorDistance
   , downErrorDistance
@@ -41,7 +38,6 @@ module ObjC.SensorKit.SRKeyboardMetrics
   , deleteTouchDownUp
   , shortWordCharKeyTouchDownUp
   , touchDownDown
-  , touchUpDown
   , charKeyToPrediction
   , shortWordCharKeyToCharKey
   , charKeyToAnyTapKey
@@ -109,12 +105,10 @@ module ObjC.SensorKit.SRKeyboardMetrics
   , durationSelector
   , emojiCountForSentimentCategorySelector
   , heightSelector
-  , inputModesSelector
   , keyboardIdentifierSelector
   , longWordDownErrorDistanceSelector
   , longWordTouchDownDownSelector
   , longWordTouchDownUpSelector
-  , longWordTouchUpDownSelector
   , longWordUpErrorDistanceSelector
   , pathErrorDistanceRatioSelector
   , pathToDeleteSelector
@@ -123,7 +117,6 @@ module ObjC.SensorKit.SRKeyboardMetrics
   , pathTypingSpeedSelector
   , planeChangeKeyToCharKeySelector
   , planeChangeToAnyTapSelector
-  , sessionIdentifiersSelector
   , shortWordCharKeyDownErrorDistanceSelector
   , shortWordCharKeyToCharKeySelector
   , shortWordCharKeyTouchDownUpSelector
@@ -162,7 +155,6 @@ module ObjC.SensorKit.SRKeyboardMetrics
   , totalWordsSelector
   , touchDownDownSelector
   , touchDownUpSelector
-  , touchUpDownSelector
   , typingSpeedSelector
   , upErrorDistanceSelector
   , versionSelector
@@ -245,20 +237,6 @@ height :: IsSRKeyboardMetrics srKeyboardMetrics => srKeyboardMetrics -> IO (Id N
 height srKeyboardMetrics =
   sendMessage srKeyboardMetrics heightSelector
 
--- | The input modes used during a keyboard session
---
--- ObjC selector: @- inputModes@
-inputModes :: IsSRKeyboardMetrics srKeyboardMetrics => srKeyboardMetrics -> IO (Id NSArray)
-inputModes srKeyboardMetrics =
-  sendMessage srKeyboardMetrics inputModesSelector
-
--- | The keyboard session identifiers. These are the identifiers of the keyboard sessions that contributed to keyboard metrics sample to correlate current stream with another stream using the same keyboard session indentifiers
---
--- ObjC selector: @- sessionIdentifiers@
-sessionIdentifiers :: IsSRKeyboardMetrics srKeyboardMetrics => srKeyboardMetrics -> IO (Id NSArray)
-sessionIdentifiers srKeyboardMetrics =
-  sendMessage srKeyboardMetrics sessionIdentifiersSelector
-
 -- | The total number of pauses during the session
 --
 -- ObjC selector: @- totalPauses@
@@ -321,13 +299,6 @@ longWordTouchDownUp srKeyboardMetrics =
 longWordTouchDownDown :: IsSRKeyboardMetrics srKeyboardMetrics => srKeyboardMetrics -> IO (Id NSArray)
 longWordTouchDownDown srKeyboardMetrics =
   sendMessage srKeyboardMetrics longWordTouchDownDownSelector
-
--- | The duration between touch up and touch down of the character keys of all the long words in the session.
---
--- ObjC selector: @- longWordTouchUpDown@
-longWordTouchUpDown :: IsSRKeyboardMetrics srKeyboardMetrics => srKeyboardMetrics -> IO (Id NSArray)
-longWordTouchUpDown srKeyboardMetrics =
-  sendMessage srKeyboardMetrics longWordTouchUpDownSelector
 
 -- | The duration between touchup of the delete key and touch down of a sequential delete key
 --
@@ -426,13 +397,6 @@ shortWordCharKeyTouchDownUp srKeyboardMetrics =
 touchDownDown :: IsSRKeyboardMetrics srKeyboardMetrics => srKeyboardMetrics -> IO (Id SRKeyboardProbabilityMetric)
 touchDownDown srKeyboardMetrics =
   sendMessage srKeyboardMetrics touchDownDownSelector
-
--- | The duration between touch up and touch down for any key
---
--- ObjC selector: @- touchUpDown@
-touchUpDown :: IsSRKeyboardMetrics srKeyboardMetrics => srKeyboardMetrics -> IO (Id SRKeyboardProbabilityMetric)
-touchUpDown srKeyboardMetrics =
-  sendMessage srKeyboardMetrics touchUpDownSelector
 
 -- | The duration between touchup on a character key and touch down on a word in the prediction bar
 --
@@ -788,14 +752,6 @@ widthSelector = mkSelector "width"
 heightSelector :: Selector '[] (Id NSMeasurement)
 heightSelector = mkSelector "height"
 
--- | @Selector@ for @inputModes@
-inputModesSelector :: Selector '[] (Id NSArray)
-inputModesSelector = mkSelector "inputModes"
-
--- | @Selector@ for @sessionIdentifiers@
-sessionIdentifiersSelector :: Selector '[] (Id NSArray)
-sessionIdentifiersSelector = mkSelector "sessionIdentifiers"
-
 -- | @Selector@ for @totalPauses@
 totalPausesSelector :: Selector '[] CLong
 totalPausesSelector = mkSelector "totalPauses"
@@ -831,10 +787,6 @@ longWordTouchDownUpSelector = mkSelector "longWordTouchDownUp"
 -- | @Selector@ for @longWordTouchDownDown@
 longWordTouchDownDownSelector :: Selector '[] (Id NSArray)
 longWordTouchDownDownSelector = mkSelector "longWordTouchDownDown"
-
--- | @Selector@ for @longWordTouchUpDown@
-longWordTouchUpDownSelector :: Selector '[] (Id NSArray)
-longWordTouchUpDownSelector = mkSelector "longWordTouchUpDown"
 
 -- | @Selector@ for @deleteToDeletes@
 deleteToDeletesSelector :: Selector '[] (Id NSArray)
@@ -891,10 +843,6 @@ shortWordCharKeyTouchDownUpSelector = mkSelector "shortWordCharKeyTouchDownUp"
 -- | @Selector@ for @touchDownDown@
 touchDownDownSelector :: Selector '[] (Id SRKeyboardProbabilityMetric)
 touchDownDownSelector = mkSelector "touchDownDown"
-
--- | @Selector@ for @touchUpDown@
-touchUpDownSelector :: Selector '[] (Id SRKeyboardProbabilityMetric)
-touchUpDownSelector = mkSelector "touchUpDown"
 
 -- | @Selector@ for @charKeyToPrediction@
 charKeyToPredictionSelector :: Selector '[] (Id SRKeyboardProbabilityMetric)

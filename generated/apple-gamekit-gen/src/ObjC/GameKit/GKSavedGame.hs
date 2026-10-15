@@ -40,17 +40,17 @@ loadDataWithCompletionHandler gkSavedGame handler =
   sendMessage gkSavedGame loadDataWithCompletionHandlerSelector handler
 
 -- | @- name@
-name :: IsGKSavedGame gkSavedGame => gkSavedGame -> IO (Id NSString)
+name :: IsGKSavedGame gkSavedGame => gkSavedGame -> IO RawId
 name gkSavedGame =
   sendMessage gkSavedGame nameSelector
 
 -- | @- deviceName@
-deviceName :: IsGKSavedGame gkSavedGame => gkSavedGame -> IO (Id NSString)
+deviceName :: IsGKSavedGame gkSavedGame => gkSavedGame -> IO RawId
 deviceName gkSavedGame =
   sendMessage gkSavedGame deviceNameSelector
 
 -- | @- modificationDate@
-modificationDate :: IsGKSavedGame gkSavedGame => gkSavedGame -> IO (Id NSDate)
+modificationDate :: IsGKSavedGame gkSavedGame => gkSavedGame -> IO RawId
 modificationDate gkSavedGame =
   sendMessage gkSavedGame modificationDateSelector
 
@@ -63,14 +63,14 @@ loadDataWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 loadDataWithCompletionHandlerSelector = mkSelector "loadDataWithCompletionHandler:"
 
 -- | @Selector@ for @name@
-nameSelector :: Selector '[] (Id NSString)
+nameSelector :: Selector '[] RawId
 nameSelector = mkSelector "name"
 
 -- | @Selector@ for @deviceName@
-deviceNameSelector :: Selector '[] (Id NSString)
+deviceNameSelector :: Selector '[] RawId
 deviceNameSelector = mkSelector "deviceName"
 
 -- | @Selector@ for @modificationDate@
-modificationDateSelector :: Selector '[] (Id NSDate)
+modificationDateSelector :: Selector '[] RawId
 modificationDateSelector = mkSelector "modificationDate"
 

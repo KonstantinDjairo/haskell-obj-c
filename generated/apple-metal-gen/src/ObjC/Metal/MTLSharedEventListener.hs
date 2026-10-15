@@ -13,12 +13,10 @@ module ObjC.Metal.MTLSharedEventListener
   , IsMTLSharedEventListener(..)
   , init_
   , initWithDispatchQueue
-  , sharedListener
   , dispatchQueue
   , dispatchQueueSelector
   , initSelector
   , initWithDispatchQueueSelector
-  , sharedListenerSelector
 
 
   ) where
@@ -44,13 +42,6 @@ initWithDispatchQueue :: (IsMTLSharedEventListener mtlSharedEventListener, IsNSO
 initWithDispatchQueue mtlSharedEventListener dispatchQueue =
   sendOwnedMessage mtlSharedEventListener initWithDispatchQueueSelector (toNSObject dispatchQueue)
 
--- | @+ sharedListener@
-sharedListener :: IO (Id MTLSharedEventListener)
-sharedListener  =
-  do
-    cls' <- getRequiredClass "MTLSharedEventListener"
-    sendClassMessage cls' sharedListenerSelector
-
 -- | @- dispatchQueue@
 dispatchQueue :: IsMTLSharedEventListener mtlSharedEventListener => mtlSharedEventListener -> IO (Id NSObject)
 dispatchQueue mtlSharedEventListener =
@@ -67,10 +58,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @initWithDispatchQueue:@
 initWithDispatchQueueSelector :: Selector '[Id NSObject] (Id MTLSharedEventListener)
 initWithDispatchQueueSelector = mkSelector "initWithDispatchQueue:"
-
--- | @Selector@ for @sharedListener@
-sharedListenerSelector :: Selector '[] (Id MTLSharedEventListener)
-sharedListenerSelector = mkSelector "sharedListener"
 
 -- | @Selector@ for @dispatchQueue@
 dispatchQueueSelector :: Selector '[] (Id NSObject)

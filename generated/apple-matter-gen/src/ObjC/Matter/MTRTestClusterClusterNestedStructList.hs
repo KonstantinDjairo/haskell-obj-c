@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterNestedStructList
   ( MTRTestClusterClusterNestedStructList
   , IsMTRTestClusterClusterNestedStructList(..)
+  , init_
+  , copyWithZone
   , a
   , setA
   , b
@@ -24,10 +26,12 @@ module ObjC.Matter.MTRTestClusterClusterNestedStructList
   , aSelector
   , bSelector
   , cSelector
+  , copyWithZoneSelector
   , dSelector
   , eSelector
   , fSelector
   , gSelector
+  , initSelector
   , setASelector
   , setBSelector
   , setCSelector
@@ -49,6 +53,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterNestedStructList mtrTestClusterClusterNestedStructList => mtrTestClusterClusterNestedStructList -> IO (Id MTRTestClusterClusterNestedStructList)
+init_ mtrTestClusterClusterNestedStructList =
+  sendOwnedMessage mtrTestClusterClusterNestedStructList initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterNestedStructList mtrTestClusterClusterNestedStructList => mtrTestClusterClusterNestedStructList -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterNestedStructList zone =
+  sendOwnedMessage mtrTestClusterClusterNestedStructList copyWithZoneSelector zone
 
 -- | @- a@
 a :: IsMTRTestClusterClusterNestedStructList mtrTestClusterClusterNestedStructList => mtrTestClusterClusterNestedStructList -> IO (Id NSNumber)
@@ -123,6 +137,14 @@ setG mtrTestClusterClusterNestedStructList value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterNestedStructList)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @a@
 aSelector :: Selector '[] (Id NSNumber)

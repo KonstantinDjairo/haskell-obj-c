@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -13,19 +12,10 @@ module ObjC.PencilKit.PKInk
   , initWithInkType_color
   , inkType
   , color
-  , requiredContentVersion
   , colorSelector
   , initWithInkType_colorSelector
   , inkTypeSelector
-  , requiredContentVersionSelector
 
-  -- * Enum types
-  , PKContentVersion(PKContentVersion)
-  , pattern PKContentVersion1
-  , pattern PKContentVersion2
-  , pattern PKContentVersion3
-  , pattern PKContentVersion4
-  , pattern PKContentVersionLatest
 
   ) where
 
@@ -38,7 +28,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PencilKit.Internal.Classes
-import ObjC.PencilKit.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
@@ -59,13 +48,6 @@ color :: IsPKInk pkInk => pkInk -> IO (Id NSColor)
 color pkInk =
   sendMessage pkInk colorSelector
 
--- | The PencilKit version required to use this ink.
---
--- ObjC selector: @- requiredContentVersion@
-requiredContentVersion :: IsPKInk pkInk => pkInk -> IO PKContentVersion
-requiredContentVersion pkInk =
-  sendMessage pkInk requiredContentVersionSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -81,8 +63,4 @@ inkTypeSelector = mkSelector "inkType"
 -- | @Selector@ for @color@
 colorSelector :: Selector '[] (Id NSColor)
 colorSelector = mkSelector "color"
-
--- | @Selector@ for @requiredContentVersion@
-requiredContentVersionSelector :: Selector '[] PKContentVersion
-requiredContentVersionSelector = mkSelector "requiredContentVersion"
 

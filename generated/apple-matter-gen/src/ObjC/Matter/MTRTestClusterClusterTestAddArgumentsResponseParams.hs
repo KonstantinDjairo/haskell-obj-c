@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRTestClusterClusterTestAddArgumentsResponseParams
   ( MTRTestClusterClusterTestAddArgumentsResponseParams
   , IsMTRTestClusterClusterTestAddArgumentsResponseParams(..)
+  , init_
+  , copyWithZone
   , returnValue
   , setReturnValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
+  , initSelector
   , returnValueSelector
   , setReturnValueSelector
   , setTimedInvokeTimeoutMsSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestAddArgumentsResponseParams mtrTestClusterClusterTestAddArgumentsResponseParams => mtrTestClusterClusterTestAddArgumentsResponseParams -> IO (Id MTRTestClusterClusterTestAddArgumentsResponseParams)
+init_ mtrTestClusterClusterTestAddArgumentsResponseParams =
+  sendOwnedMessage mtrTestClusterClusterTestAddArgumentsResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestAddArgumentsResponseParams mtrTestClusterClusterTestAddArgumentsResponseParams => mtrTestClusterClusterTestAddArgumentsResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestAddArgumentsResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestAddArgumentsResponseParams copyWithZoneSelector zone
 
 -- | @- returnValue@
 returnValue :: IsMTRTestClusterClusterTestAddArgumentsResponseParams mtrTestClusterClusterTestAddArgumentsResponseParams => mtrTestClusterClusterTestAddArgumentsResponseParams -> IO (Id NSNumber)
@@ -65,6 +79,14 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterTestAddArgumentsResponseParams valu
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestAddArgumentsResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @returnValue@
 returnValueSelector :: Selector '[] (Id NSNumber)

@@ -9,7 +9,7 @@
 module ObjC.Matter.MTRClusterFanControl
   ( MTRClusterFanControl
   , IsMTRClusterFanControl(..)
-  , stepWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
   , readAttributeFanModeWithParams
   , writeAttributeFanModeWithValue_expectedValueInterval
   , writeAttributeFanModeWithValue_expectedValueInterval_params
@@ -33,9 +33,6 @@ module ObjC.Matter.MTRClusterFanControl
   , readAttributeWindSettingWithParams
   , writeAttributeWindSettingWithValue_expectedValueInterval
   , writeAttributeWindSettingWithValue_expectedValueInterval_params
-  , readAttributeAirflowDirectionWithParams
-  , writeAttributeAirflowDirectionWithValue_expectedValueInterval
-  , writeAttributeAirflowDirectionWithValue_expectedValueInterval_params
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
   , readAttributeAttributeListWithParams
@@ -43,14 +40,10 @@ module ObjC.Matter.MTRClusterFanControl
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
-  , readAttributeAirflowDirectionWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
   , readAttributeClusterRevisionWithParamsSelector
   , readAttributeFanModeSequenceWithParamsSelector
@@ -66,9 +59,6 @@ module ObjC.Matter.MTRClusterFanControl
   , readAttributeSpeedSettingWithParamsSelector
   , readAttributeWindSettingWithParamsSelector
   , readAttributeWindSupportWithParamsSelector
-  , stepWithParams_expectedValues_expectedValueInterval_completionSelector
-  , writeAttributeAirflowDirectionWithValue_expectedValueIntervalSelector
-  , writeAttributeAirflowDirectionWithValue_expectedValueInterval_paramsSelector
   , writeAttributeFanModeSequenceWithValue_expectedValueIntervalSelector
   , writeAttributeFanModeSequenceWithValue_expectedValueInterval_paramsSelector
   , writeAttributeFanModeWithValue_expectedValueIntervalSelector
@@ -96,10 +86,10 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- stepWithParams:expectedValues:expectedValueInterval:completion:@
-stepWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterFanControl mtrClusterFanControl, IsMTRFanControlClusterStepParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterFanControl -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-stepWithParams_expectedValues_expectedValueInterval_completion mtrClusterFanControl params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterFanControl stepWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRFanControlClusterStepParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterFanControl mtrClusterFanControl, IsMTRDevice device, IsNSObject queue) => mtrClusterFanControl -> device -> CUShort -> queue -> IO (Id MTRClusterFanControl)
+initWithDevice_endpoint_queue mtrClusterFanControl device endpoint queue =
+  sendOwnedMessage mtrClusterFanControl initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeFanModeWithParams:@
 readAttributeFanModeWithParams :: (IsMTRClusterFanControl mtrClusterFanControl, IsMTRReadParams params) => mtrClusterFanControl -> params -> IO (Id NSDictionary)
@@ -216,21 +206,6 @@ writeAttributeWindSettingWithValue_expectedValueInterval_params :: (IsMTRCluster
 writeAttributeWindSettingWithValue_expectedValueInterval_params mtrClusterFanControl dataValueDictionary expectedValueIntervalMs params =
   sendMessage mtrClusterFanControl writeAttributeWindSettingWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
--- | @- readAttributeAirflowDirectionWithParams:@
-readAttributeAirflowDirectionWithParams :: (IsMTRClusterFanControl mtrClusterFanControl, IsMTRReadParams params) => mtrClusterFanControl -> params -> IO (Id NSDictionary)
-readAttributeAirflowDirectionWithParams mtrClusterFanControl params =
-  sendMessage mtrClusterFanControl readAttributeAirflowDirectionWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributeAirflowDirectionWithValue:expectedValueInterval:@
-writeAttributeAirflowDirectionWithValue_expectedValueInterval :: (IsMTRClusterFanControl mtrClusterFanControl, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterFanControl -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributeAirflowDirectionWithValue_expectedValueInterval mtrClusterFanControl dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterFanControl writeAttributeAirflowDirectionWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributeAirflowDirectionWithValue:expectedValueInterval:params:@
-writeAttributeAirflowDirectionWithValue_expectedValueInterval_params :: (IsMTRClusterFanControl mtrClusterFanControl, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterFanControl -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributeAirflowDirectionWithValue_expectedValueInterval_params mtrClusterFanControl dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterFanControl writeAttributeAirflowDirectionWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
 -- | @- readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParams :: (IsMTRClusterFanControl mtrClusterFanControl, IsMTRReadParams params) => mtrClusterFanControl -> params -> IO (Id NSDictionary)
 readAttributeGeneratedCommandListWithParams mtrClusterFanControl params =
@@ -268,25 +243,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterFanControl"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterFanControl mtrClusterFanControl, IsMTRDevice device, IsNSObject queue) => mtrClusterFanControl -> device -> CUShort -> queue -> IO (Id MTRClusterFanControl)
-initWithDevice_endpoint_queue mtrClusterFanControl device endpoint queue =
-  sendOwnedMessage mtrClusterFanControl initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterFanControl mtrClusterFanControl, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterFanControl -> device -> endpointID -> queue -> IO (Id MTRClusterFanControl)
-initWithDevice_endpointID_queue mtrClusterFanControl device endpointID queue =
-  sendOwnedMessage mtrClusterFanControl initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @stepWithParams:expectedValues:expectedValueInterval:completion:@
-stepWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRFanControlClusterStepParams, Id NSArray, Id NSNumber, Ptr ()] ()
-stepWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "stepWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterFanControl)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeFanModeWithParams:@
 readAttributeFanModeWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -380,18 +343,6 @@ writeAttributeWindSettingWithValue_expectedValueIntervalSelector = mkSelector "w
 writeAttributeWindSettingWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
 writeAttributeWindSettingWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeWindSettingWithValue:expectedValueInterval:params:"
 
--- | @Selector@ for @readAttributeAirflowDirectionWithParams:@
-readAttributeAirflowDirectionWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeAirflowDirectionWithParamsSelector = mkSelector "readAttributeAirflowDirectionWithParams:"
-
--- | @Selector@ for @writeAttributeAirflowDirectionWithValue:expectedValueInterval:@
-writeAttributeAirflowDirectionWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributeAirflowDirectionWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeAirflowDirectionWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributeAirflowDirectionWithValue:expectedValueInterval:params:@
-writeAttributeAirflowDirectionWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributeAirflowDirectionWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeAirflowDirectionWithValue:expectedValueInterval:params:"
-
 -- | @Selector@ for @readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributeGeneratedCommandListWithParamsSelector = mkSelector "readAttributeGeneratedCommandListWithParams:"
@@ -419,12 +370,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterFanControl)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterFanControl)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterFanControl)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

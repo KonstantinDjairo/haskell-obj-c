@@ -18,17 +18,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- THClient ----------
 
--- | A class that supports safely sharing Thread credentials between multiple clients.
---
--- Request credentials for either a specific Thread network or for the _preferred network_ using @THClient@. The preferred network is the default Thread network chosen by the framework for a home.
---
--- The ThreadNetwork framework maintains a database of network credentials. The class allows clients to store, list, and delete credentials for a given network from the database.
---
--- Some methods in @THClient@ use the _team ID_, a string that you store in your application’s @Info.plist@. The ThreadNetwork framework uses the team ID to preserve the privacy of the Thread network credentials across different clients. For example, credentials stored by one client can’t be deleted or modified by another client.
---
--- - Important: Thread credentials give you the ability to add any device into   the Thread network. Use this information responsibly.
--- 
--- Phantom type for @THClient@.
+-- | Phantom type for @THClient@.
 data THClient
 
 instance IsObjCObject (Id THClient) where
@@ -47,11 +37,7 @@ instance IsNSObject (Id THClient) where
 
 -- ---------- THCredentials ----------
 
--- | A class that contains credentials for a Thread network.
---
--- A Thread network defines parameters that all connected devices use. ``THCredentials`` provides these parameters.
--- 
--- Phantom type for @THCredentials@.
+-- | Phantom type for @THCredentials@.
 data THCredentials
 
 instance IsObjCObject (Id THCredentials) where

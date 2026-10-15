@@ -43,7 +43,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Creates a new analyzer
 --
--- - Parameter format: The format of the audio stream to be analyzed. Only PCM formats are supported.
+-- @format@ — The format of the audio stream to be analyzed. Only PCM formats are supported.
 --
 -- ObjC selector: @- initWithFormat:@
 initWithFormat :: (IsSNAudioStreamAnalyzer snAudioStreamAnalyzer, IsAVAudioFormat format) => snAudioStreamAnalyzer -> format -> IO (Id SNAudioStreamAnalyzer)
@@ -57,15 +57,13 @@ init_ snAudioStreamAnalyzer =
 
 -- | Adds a new analysis request to the analyzer
 --
--- - Parameters:
+-- @request@ — An audio analysis request to be performed on the audio stream
 --
--- - request: An audio analysis request to be performed on the audio stream
+-- @observer@ — The object that will receive the analysis results for the supplied request. The observer is weakly retained by the analyzer.
 --
--- - observer: The object that will receive the analysis results for the supplied request. The observer is weakly retained by the analyzer.
+-- @error@ — On input, a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
 --
--- - error: On input, a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
---
--- - Returns: YES if the request was successfully added, and NO otherwise.
+-- Returns: YES if the request was successfully added, and NO otherwise.
 --
 -- Requests can be added while analysis is in progress. If the analyzer cannot perform the requested analysis, an error will be returned. For example, an error could be returned if the request requires a stream format that doesn't match the analyzer's stream format.
 --
@@ -74,7 +72,11 @@ addRequest_withObserver_error :: (IsSNAudioStreamAnalyzer snAudioStreamAnalyzer,
 addRequest_withObserver_error snAudioStreamAnalyzer request observer error_ =
   sendMessage snAudioStreamAnalyzer addRequest_withObserver_errorSelector request observer (toNSError error_)
 
--- | Removes an existing analysis request from the analyzer - Parameter request: An audio analysis request to be removed Requests can be removed while analysis is in progress. Once the removeRequest method returns, the previously registered observer will not receive any more callbacks.
+-- | Removes an existing analysis request from the analyzer
+--
+-- @request@ — An audio analysis request to be removed
+--
+-- Requests can be removed while analysis is in progress. Once the removeRequest method returns, the previously registered observer will not receive any more callbacks.
 --
 -- ObjC selector: @- removeRequest:@
 removeRequest :: IsSNAudioStreamAnalyzer snAudioStreamAnalyzer => snAudioStreamAnalyzer -> RawId -> IO ()
@@ -90,11 +92,9 @@ removeAllRequests snAudioStreamAnalyzer =
 
 -- | Provides the next buffer for analysis
 --
--- - Parameters:
+-- @audioBuffer@ — The buffer containing the audio to be processed
 --
--- - audioBuffer: The buffer containing the audio to be processed
---
--- - audioFramePosition: The frame position of the data in the buffer
+-- @audioFramePosition@ — The frame position of the data in the buffer
 --
 -- The framePosition should be a monotonically increasing sample timestamp. If the sample timeline is detected to be non-continuous, the analyzer's internal state may reset to account for the jump. Some types of audio analysis are performed at a fixed block size, which may differ from the buffer sizes provided for analysis. For this reason, an invocation of analyzeAudioBuffer may cause an analysis request observer to be called zero times, one time, or many times, depending on the relationship between the input buffer size, current analyzer state, and native analysis block size. Any errors produced during analysis will be provided through the request observers. This method may block as a means of indicating backpressure to the caller. These methods are not safe to call from a realtime audio context but may be called from lower priority threads (i.e. AVAudioEngine tap callback or AudioQueue callback).
 --

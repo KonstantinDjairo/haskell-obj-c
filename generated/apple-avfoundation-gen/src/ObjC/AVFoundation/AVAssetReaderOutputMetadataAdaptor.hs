@@ -3,7 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @AVAssetReaderOutputMetadataAdaptor@.
+-- | AVAssetReaderOutputMetadataAdaptor
+--
+-- Defines an interface for reading metadata, packaged as instances of AVTimedMetadataGroup, from a single AVAssetReaderTrackOutput object.
+--
+-- Generated bindings for @AVAssetReaderOutputMetadataAdaptor@.
 module ObjC.AVFoundation.AVAssetReaderOutputMetadataAdaptor
   ( AVAssetReaderOutputMetadataAdaptor
   , IsAVAssetReaderOutputMetadataAdaptor(..)

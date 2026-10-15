@@ -22,9 +22,9 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- SHCatalog ----------
 
--- | An abstract base class for storing reference signatures and their associated metadata.
+-- | An abstract base class for storing signatures
 --
--- This is the base class of your custom catalog.
+-- You should not create instances of this class directly, instead use subclasses to provide the functionality that you need
 -- 
 -- Phantom type for @SHCatalog@.
 data SHCatalog
@@ -45,9 +45,11 @@ instance IsNSObject (Id SHCatalog) where
 
 -- ---------- SHMatch ----------
 
--- | An object that represents the catalog media items that match a query.
+-- | A @SHMatch@ indicates that a Signature matched a reference Signature in the target @SHCatalog@
 --
--- A single query signature may match more than one reference signature. In addition, one reference signature may map to many media items.
+-- A @SHSignature@ can match many reference Signatures in a catalog and in turn a Signature can map to many @SHMediaItem.@ Therefore a match encapsulates the query signature and all of the various @SHMediaItem@ it matched
+--
+-- Note: @SHMatch@ is not intended to be subclassed
 -- 
 -- Phantom type for @SHMatch@.
 data SHMatch
@@ -68,21 +70,13 @@ instance IsNSObject (Id SHMatch) where
 
 -- ---------- SHMediaItem ----------
 
--- | An object that represents the metadata for a reference signature.
+-- | @SHMediaItem@ represents metadata associated with a @SHSignature@
 --
--- This class uses subscripting for the data elements of a custom media item that an existing property doesn't already represent.
+-- A @SHMediaItem@ is used in two distinct ways     1. As the base class of a @SHMatchedMediaItem,@ and therefore as the result of a match     2. As a way of associating metadata with reference signatures in a @SHCustomCatalog@
 --
--- Add a readable custom property by extending ``SHMediaItemProperty-struct``  with a key for that property, and by extending this class with a property that uses the key. The following code shows the extensions for an episode number:
+-- A SHMediaItem contains no required fields and may be entirely blank, they can also contain custom data set with custom keys when making a @SHCustomCatalog.@
 --
--- ```swift // Add an episode number to the list of properties. extension SHMediaItemProperty {     static let episode = SHMediaItemProperty("Episode") }
---
--- // Add a property for returning the episode number using a subscript. extension SHMediaItem {     var episode: Int? {         return self[.episode] as? Int     } } ```
---
--- Add your custom property when you create the media item as the following code shows:
---
--- ```swift // Create a new media item and set the title, subtitle, and episode properties. let mediaItem = SHMediaItem(properties: [.episode: 42,                                          .title: "Question",                                          .subtitle: "The Answer"]) ```
---
--- > Note: > The class of the object that represents a custom object must be one of: @Dictionary@, @Array@, @URL@, @Number@, @String@, @Date@, or @Data@.
+-- Note: @SHMediaItem@  is not intended to be subclassed further.
 -- 
 -- Phantom type for @SHMediaItem@.
 data SHMediaItem
@@ -103,11 +97,9 @@ instance IsNSObject (Id SHMediaItem) where
 
 -- ---------- SHMediaLibrary ----------
 
--- | An object that represents the user's Shazam library.
+-- | @SHMediaLibrary@ represents the user's synced Shazam library.
 --
--- Use @SHMediaLibrary@ to add matched songs from the Shazam catalog to the user's Shazam library.
---
--- > Note: > There's no system permission necessary to write to the user's Shazam library. Consider requesting permission from the user before adding songs to the library.
+-- You can add new @SHMediaItem@ instances to the user's library. Before using any @SHMediaLibrary@ method, you must obtain permission from the user to use their Media Library by calling - [MPMediaLibrary requestAuthorization:].
 -- 
 -- Phantom type for @SHMediaLibrary@.
 data SHMediaLibrary
@@ -149,29 +141,11 @@ instance IsNSObject (Id SHRange) where
 
 -- ---------- SHSession ----------
 
--- | An object that matches a specific audio recording when a segment of that recording is part of captured sound in the Shazam catalog or your custom catalog.
+-- | A @SHSession@ matches instances of @SHSignature@ against a @SHCatalog@
 --
--- Prepare to make matches by:
+-- A @SHSession@ can be used in two distinct ways to match against a @SHCatalog@
 --
--- - Creating a session for the catalog that contains the reference signatures - Adding your delegate that receives the match results
---
--- Search for a match in one of two ways:
---
--- - Generate a signature for the captured audio and call ``match(_:)`` - Call ``matchStreamingBuffer(_:at:)`` with a streaming audio buffer, and ShazamKit generates the signature for you
---
--- Searching the catalog is asynchronous. The session calls your delegate methods with the result.
---
--- Matching songs in Shazam music requires enabling your app to access the catalog. For more information on enabling your app, see [Enable ShazamKit for an App ID](https://developer.apple.com/help/account/configure-app-services/shazamkit).
---
--- The code below shows searching for a match in the Shazam catalog using an existing audio buffer:
---
--- ```swift// Set up the session.let session = SHSession()
---
--- // Create a signature from the captured audio buffer.let signatureGenerator = SHSignatureGenerator()try signatureGenerator.append(buffer, at: audioTime)let signature = signatureGenerator.signature()
---
--- // Check for a match.let result = await session.result(from: signature)
---
--- // Use the result.switch result {  case .match(let match):       // Match found.  case .noMatch(let signature):       // No match found.  case .error(let error, let signature):       // An error occurred.} ```
+-- 1. Pass a @SHSignature@ to the -[SHSession matchSignature:] method and respond to matches sent to the delegate      There is a 1 to 1 relationship between calls to this method and calls to the delegate 2. Pass a continuous stream of @AVAudioPCMBuffer@ to the -[SHSession matchStreamingBuffer:atTime:] method, matches are sent to the delegate.        ShazamKit will convert the buffers in SHSignature objects internally and perform matches against the @SHCatalog.@ The details of how the matching        is performed is an implementation detail and is subject to change. As such there will be many callbacks to the delegate per stream of audio, and the same match        may be reported multiple times in succession.
 -- 
 -- Phantom type for @SHSession@.
 data SHSession
@@ -192,11 +166,15 @@ instance IsNSObject (Id SHSession) where
 
 -- ---------- SHSignature ----------
 
--- | An object that contains the opaque data and other information for a signature.
+-- | The @SHSignature@ class is an opaque data container that can be used to store recognition data.
 --
--- Save your signature to a file and share it with others by writing the data to a file. You can use the saved signatures of reference recordings to populate a custom catalog.
+-- Signatures are a compact lossy representation of the original audio. The original audio cannot be recreated from a Signature, there exists only enough data to confirm that the signature matches a certain piece of audio when it is also converted into a Signature. It is similar in utility to a hashing function.
 --
--- Check whether your captured query signature is long enough to search for a match by comparing ``duration`` to the ``SHCatalog/minimumQuerySignatureDuration`` and ``SHCatalog/maximumQuerySignatureDuration`` of a catalog.
+-- Signatures can be matched against any type of audio not just music. The only requirement for a match is that the reference and query Signatures both contain the exact same pre recorded audio e.g. a live rendition of a song will not match against a studio recorded performance of the same piece.
+--
+-- There are exceptions to the requirement for exactly matching audio, a signature is robust against slight changes in frequency and speed.
+--
+-- Note: @SHSignature@ is not intended to be subclassed
 -- 
 -- Phantom type for @SHSignature@.
 data SHSignature
@@ -217,9 +195,7 @@ instance IsNSObject (Id SHSignature) where
 
 -- ---------- SHSignatureGenerator ----------
 
--- | An object for converting audio data into a signature.
---
--- Create both reference and query signatures using this class.
+-- | @SHSignatureGenerator@ provides a way to convert audio data into instances of @SHSignature@
 -- 
 -- Phantom type for @SHSignatureGenerator@.
 data SHSignatureGenerator
@@ -240,9 +216,9 @@ instance IsNSObject (Id SHSignatureGenerator) where
 
 -- ---------- SHCustomCatalog ----------
 
--- | An object for storing the reference signatures for custom audio recordings and their associated metadata.
+-- | Configure a custom catalog of @SHSignature@ objects to match against
 --
--- Create a custom catalog by adding reference signatures that you generate from audio that you provide. You also add the associated metadata for each signature. Save your custom catalog and share it with others. You can also load a saved catalog.
+-- Use a custom catalog if you intend to search against reference signatures that you have provided yourself. All matches will be performed locally on the device against the signatures added to this Catalog. @SHMediaItem@ can be built using custom data that will be returned when a match is made. Once this catalog has been built it can be written to disk and loaded again at a later date.
 -- 
 -- Phantom type for @SHCustomCatalog@.
 data SHCustomCatalog
@@ -266,9 +242,11 @@ instance IsSHCatalog (Id SHCustomCatalog) where
 
 -- ---------- SHMatchedMediaItem ----------
 
--- | An object that represents the metadata for a matched reference signature.
+-- | @SHMatchedMediaItem@ represents metadata that has been matched against a @SHCatalog@
 --
--- To access properties for custom media items, use subscripting. For more information, see ``SHMediaItem``.
+-- Extra information is presented that can only be generated from a match. The properties provided here that are not available on @SHMediaItem@ are ephemeral and can differ each time there is a match of the @SHSignature@ that this object represents
+--
+-- Note: @SHMatchedMediaItem@ is not intended to be subclassed
 -- 
 -- Phantom type for @SHMatchedMediaItem@.
 data SHMatchedMediaItem

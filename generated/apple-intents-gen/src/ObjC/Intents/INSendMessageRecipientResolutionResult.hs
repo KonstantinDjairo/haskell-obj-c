@@ -21,7 +21,6 @@ module ObjC.Intents.INSendMessageRecipientResolutionResult
   , pattern INSendMessageRecipientUnsupportedReasonNoValidHandle
   , pattern INSendMessageRecipientUnsupportedReasonRequestedHandleInvalid
   , pattern INSendMessageRecipientUnsupportedReasonNoHandleForLabel
-  , pattern INSendMessageRecipientUnsupportedReasonRequiringInAppAuthentication
 
   ) where
 

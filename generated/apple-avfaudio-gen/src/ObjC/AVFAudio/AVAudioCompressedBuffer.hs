@@ -22,7 +22,6 @@ module ObjC.AVFAudio.AVAudioCompressedBuffer
   , byteLength
   , setByteLength
   , packetDescriptions
-  , packetDependencies
   , byteCapacitySelector
   , byteLengthSelector
   , dataSelector
@@ -31,7 +30,6 @@ module ObjC.AVFAudio.AVAudioCompressedBuffer
   , maximumPacketSizeSelector
   , packetCapacitySelector
   , packetCountSelector
-  , packetDependenciesSelector
   , packetDescriptionsSelector
   , setByteLengthSelector
   , setPacketCountSelector
@@ -173,17 +171,6 @@ packetDescriptions :: IsAVAudioCompressedBuffer avAudioCompressedBuffer => avAud
 packetDescriptions avAudioCompressedBuffer =
   sendMessage avAudioCompressedBuffer packetDescriptionsSelector
 
--- | packetDependencies
---
--- Access the buffer's array of packet dependencies, if any.
---
--- If the format doesn't employ packet dependencies, this will be nil.
---
--- ObjC selector: @- packetDependencies@
-packetDependencies :: IsAVAudioCompressedBuffer avAudioCompressedBuffer => avAudioCompressedBuffer -> IO RawId
-packetDependencies avAudioCompressedBuffer =
-  sendMessage avAudioCompressedBuffer packetDependenciesSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -231,8 +218,4 @@ setByteLengthSelector = mkSelector "setByteLength:"
 -- | @Selector@ for @packetDescriptions@
 packetDescriptionsSelector :: Selector '[] RawId
 packetDescriptionsSelector = mkSelector "packetDescriptions"
-
--- | @Selector@ for @packetDependencies@
-packetDependenciesSelector :: Selector '[] RawId
-packetDependenciesSelector = mkSelector "packetDependencies"
 

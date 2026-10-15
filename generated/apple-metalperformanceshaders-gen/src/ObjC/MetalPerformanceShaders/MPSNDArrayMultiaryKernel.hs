@@ -13,12 +13,10 @@ module ObjC.MetalPerformanceShaders.MPSNDArrayMultiaryKernel
   , encodeToCommandBuffer_sourceArrays_destinationArray
   , encodeToCommandBuffer_sourceArrays_resultState_outputStateIsTemporary
   , encodeToCommandBuffer_sourceArrays_resultState_destinationArray
-  , encodeToCommandEncoder_commandBuffer_sourceArrays_destinationArray
   , encodeToCommandBuffer_sourceArraysSelector
   , encodeToCommandBuffer_sourceArrays_destinationArraySelector
   , encodeToCommandBuffer_sourceArrays_resultState_destinationArraySelector
   , encodeToCommandBuffer_sourceArrays_resultState_outputStateIsTemporarySelector
-  , encodeToCommandEncoder_commandBuffer_sourceArrays_destinationArraySelector
   , initWithCoder_deviceSelector
   , initWithDevice_sourceCountSelector
 
@@ -104,21 +102,6 @@ encodeToCommandBuffer_sourceArrays_resultState_destinationArray :: (IsMPSNDArray
 encodeToCommandBuffer_sourceArrays_resultState_destinationArray mpsndArrayMultiaryKernel cmdBuf sourceArrays outGradientState destination =
   sendMessage mpsndArrayMultiaryKernel encodeToCommandBuffer_sourceArrays_resultState_destinationArraySelector cmdBuf (toNSArray sourceArrays) (toMPSState outGradientState) (toMPSNDArray destination)
 
--- | Encode a simple inference NDArray kernel and return a NDArray to hold the result
---
--- @encoder@ — The MTLComputeCommandEncoder that the kernel will be encoded on
---
--- @commandBuffer@ — The command buffer into which to encode the kernel
---
--- @sourceArrays@ — The list of sources for the filter in a NSArray.                                Ordering to be defined by subclass
---
--- @destination@ — A destination array to contain the result of the calculation              when the command buffer completes successfully.
---
--- ObjC selector: @- encodeToCommandEncoder:commandBuffer:sourceArrays:destinationArray:@
-encodeToCommandEncoder_commandBuffer_sourceArrays_destinationArray :: (IsMPSNDArrayMultiaryKernel mpsndArrayMultiaryKernel, IsNSArray sourceArrays, IsMPSNDArray destination) => mpsndArrayMultiaryKernel -> RawId -> RawId -> sourceArrays -> destination -> IO ()
-encodeToCommandEncoder_commandBuffer_sourceArrays_destinationArray mpsndArrayMultiaryKernel encoder commandBuffer sourceArrays destination =
-  sendMessage mpsndArrayMultiaryKernel encodeToCommandEncoder_commandBuffer_sourceArrays_destinationArraySelector encoder commandBuffer (toNSArray sourceArrays) (toMPSNDArray destination)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -146,8 +129,4 @@ encodeToCommandBuffer_sourceArrays_resultState_outputStateIsTemporarySelector = 
 -- | @Selector@ for @encodeToCommandBuffer:sourceArrays:resultState:destinationArray:@
 encodeToCommandBuffer_sourceArrays_resultState_destinationArraySelector :: Selector '[RawId, Id NSArray, Id MPSState, Id MPSNDArray] ()
 encodeToCommandBuffer_sourceArrays_resultState_destinationArraySelector = mkSelector "encodeToCommandBuffer:sourceArrays:resultState:destinationArray:"
-
--- | @Selector@ for @encodeToCommandEncoder:commandBuffer:sourceArrays:destinationArray:@
-encodeToCommandEncoder_commandBuffer_sourceArrays_destinationArraySelector :: Selector '[RawId, RawId, Id NSArray, Id MPSNDArray] ()
-encodeToCommandEncoder_commandBuffer_sourceArrays_destinationArraySelector = mkSelector "encodeToCommandEncoder:commandBuffer:sourceArrays:destinationArray:"
 

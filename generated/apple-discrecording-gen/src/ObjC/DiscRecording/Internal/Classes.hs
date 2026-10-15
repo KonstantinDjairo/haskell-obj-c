@@ -18,7 +18,31 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- DRBurn ----------
 
--- | Phantom type for @DRBurn@.
+-- | DRBurn
+--
+-- Handles the process of burning a CD or DVD disc.
+--
+-- Each time you want to burn to a disc, an instance of this class needs to be created.
+--
+-- When an instance is created, you pass in an instance of
+--
+-- //apple_ref/occ/cl/DRDevice DRDevice
+--
+-- to let the DRBurn object know 					what device to use. This object is retained for the life of the DRBurn instance. Before burning, 					you can set several options that control the behavior of the burn and the handling 					of the disc once the burn completes.
+--
+-- A DRBurn object will send out notifications through the
+--
+-- //apple_ref/occ/cl/DRNotificationCenter DRNotificationCenter
+--
+-- mechanism to 					broadcast the burn state to any interested observers. However, if for some reason you don't want					to use notifications, you can poll the burn object at any time for the current status using
+--
+-- //apple_ref/occ/instm/DRBurn/status status
+--
+-- . This is not recommended in any 					application using a run loop, because it involves polling.
+--
+-- For examples of how to use this class see the on-disk sample code projects at /Developer/Examples/DiscRecording/ObjectiveC/.
+-- 
+-- Phantom type for @DRBurn@.
 data DRBurn
 
 instance IsObjCObject (Id DRBurn) where
@@ -60,7 +84,93 @@ instance IsNSObject (Id DRCDTextBlock) where
 
 -- ---------- DRDevice ----------
 
--- | Phantom type for @DRDevice@.
+-- | DRDevice
+--
+-- Represents a CD or DVD burner connected to the computer.
+--
+-- About Devices				A DRDevice DRDevice represents a physical CD/DVD drive connected to the computer. This class is 				mainly for informational purposes since the device is configured by the burn 				engine before beginning to optimally handle the burn. The basis for obtaining the				device information is through two methods
+--
+-- //apple_ref/occ/instm/DRDevice/info info
+--
+-- and
+--
+-- //apple_ref/occ/instm/DRDevice/status status
+--
+-- .
+--
+-- //apple_ref/occ/instm/DRDevice/info info
+--
+-- returns 				information pertaining to the drive as a whole and is not affected by the state 				of any media in the drive.
+--
+-- //apple_ref/occ/instm/DRDevice/status status
+--
+-- returns information about the media in the drive as				well as those bits of information directly affected by the media (maximum burn speed,				BSD dev node name, etc.)
+--
+-- Obtaining Device instances				The programmer cannot directly create DRDevices. Devices are managed by the burn engine				and are asked for by client code. The preferred way of obtaining an instance is				by registering with the
+--
+-- //apple_ref/occ/cl/DRNotificationCenter DRNotificationCenter
+--
+-- and listening for the
+--
+-- DRDeviceAppearedNotification DRDeviceAppearedNotification
+--
+-- . This notification is sent to all				observers when a device is first detected by the burn engine (such as when a device				is plugged in or turned on). A registered  observer is guaranteed to receive all
+--
+-- DRDeviceAppearedNotification DRDeviceAppearedNotifications
+--
+-- . When a client registers for the
+--
+-- DRDeviceAppearedNotification DRDeviceAppearedNotification
+--
+-- , the engine will ensure that				the client gets notified of all devices currently connected to the machine. When a device				is removed, registed observers will receive a
+--
+-- DRDeviceDisappearedNotification DRDeviceDisappearedNotification
+--
+-- .
+--
+-- It's also possible to obtain a device instance from its IORegistry path 				(
+--
+-- //apple_ref/occ/clm/DRDevice/deviceForIORegistryEntryPath: deviceForIORegistryEntryPath:
+--
+-- ) 				or the BSD /dev node name (
+--
+-- //apple_ref/occ/clm/DRDevice/deviceForBSDName: deviceForBSDName:
+--
+-- ).				If you have a reference to a device instance, you can determine if the physical device				is still valid and connected by sending the
+--
+-- //apple_ref/occ/instm/DRDevice/isValid isValid
+--
+-- method to the instance.
+--
+-- Device Control				There is a limited set of operations that can be performed on a device. The most				important of these is media reservation. Reserving media is a process by which				applications arbitrate for blank media. An application registers interest in 				obtaining a media reservation by caling
+--
+-- //apple_ref/occ/instm/DRDevice/acquireMediaReservation acquireMediaReservation
+--
+-- and gives up				its interest by calling
+--
+-- //apple_ref/occ/instm/DRDevice/releaseMediaReservation releaseMediaReservation
+--
+-- . Asking to acquire a reservation does				not mean you will get it! Another application may already have the reservation and 				will refuse to give it up to you. In this case, the only thing to do is to play fair and				wait until the
+--
+-- DRDeviceMediaIsReservedKey DRDeviceMediaIsReservedKey
+--
+-- indicates that your app has obtained 				the reservation.
+--
+-- The device tray can be opened (
+--
+-- //apple_ref/occ/instm/DRDevice/openTray openTray
+--
+-- ) or 				closed (
+--
+-- //apple_ref/occ/instm/DRDevice/closeTray closeTray
+--
+-- ) and media 				can be ejected (
+--
+-- //apple_ref/occ/instm/DRDevice/ejectMedia ejectMedia
+--
+-- ).
+-- 
+-- Phantom type for @DRDevice@.
 data DRDevice
 
 instance IsObjCObject (Id DRDevice) where
@@ -79,7 +189,61 @@ instance IsNSObject (Id DRDevice) where
 
 -- ---------- DRErase ----------
 
--- | Phantom type for @DRErase@.
+-- | DRErase
+--
+-- A DRErase object handles the process of erasing a rewritable CD or DVD disc.
+--
+-- Each time you want to erase a disc, an instance of this class needs to be created.
+--
+-- When an instance is created, you pass in an instance of
+--
+-- //apple_ref/occ/cl/DRDevice DRDevice
+--
+-- to let the object 				know what device to erase. This object is retained for the life of the DRErase instance.
+--
+-- A DRErase object will send out notifications through the
+--
+-- //apple_ref/occ/cl/DRNotificationCenter DRNotificationCenter
+--
+-- mechanism to 				broadcast the erase state to any interested observers. However, if for some reason you don't want				to use notifications, you can poll the erase object at any time for the current status using
+--
+-- //apple_ref/occ/instm/DRErase/status status
+--
+-- . This is not recommended in any 				application using a run loop, because it involves polling.
+--
+-- Here's an example that shows you how to use this class:
+--
+-- - (void) doErase
+-- {
+-- DRDevice*       device;
+-- DRErase*        erase;
+--
+-- // Determine correct device to erase...
+--
+-- erase = [[DRErase alloc] initWithDevice:device];
+--
+-- // we'll do a quick erase. It's typically all that's needed.
+-- [erase setEraseType:DREraseTypeQuick];
+--
+-- // register to receive notification about the erase status.
+-- [[DRNotificationCenter currentRunLoopCenter] addObserver:self
+-- selector:&#x40;selector(eraseNotification:)
+-- name:DREraseStatusChangedNotification
+-- object:erase];
+--
+-- // start the erase
+-- [erase start];
+-- }
+--
+-- - (void) eraseNotification:(NSNotification*)notification
+-- {
+-- DRErase*        erase = [notification object];
+-- NSDictionary*   status = [notification userInfo];
+--
+-- // Do what you wish with the notification...
+-- }
+-- 
+-- Phantom type for @DRErase@.
 data DRErase
 
 instance IsObjCObject (Id DRErase) where
@@ -477,7 +641,15 @@ instance IsNSObject (Id DRMSFFormatter) where
 
 -- ---------- DRMSF ----------
 
--- | Phantom type for @DRMSF@.
+-- | DRMSF
+--
+-- Representation of a time interval expressed in minutes, seconds and frames.
+--
+-- On CDs, minutes/seconds/frames are used to identify positioning on a disc (which is 				most useful on an audio disc), but applies to any position on a disc no matter what type of 				data is present.
+--
+-- A frame is equivalent to a sector or block in normal disk parlance. 75 frames make up one				second, so a 2 second pause (typical pregap size) is 150 frames.
+-- 
+-- Phantom type for @DRMSF@.
 data DRMSF
 
 instance IsObjCObject (Id DRMSF) where

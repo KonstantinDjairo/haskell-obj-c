@@ -65,7 +65,7 @@ url neFilterFlow =
 -- A byte string that uniquely identifies the binary for each build of the source application of the flow.
 --
 -- ObjC selector: @- sourceAppUniqueIdentifier@
-sourceAppUniqueIdentifier :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO (Id NSData)
+sourceAppUniqueIdentifier :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO RawId
 sourceAppUniqueIdentifier neFilterFlow =
   sendMessage neFilterFlow sourceAppUniqueIdentifierSelector
 
@@ -74,7 +74,7 @@ sourceAppUniqueIdentifier neFilterFlow =
 -- A string containing the identifier of the source application of the flow. This identifier stays the same for all versions and builds of the application. This identifier is unique among all applications.
 --
 -- ObjC selector: @- sourceAppIdentifier@
-sourceAppIdentifier :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO (Id NSString)
+sourceAppIdentifier :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO RawId
 sourceAppIdentifier neFilterFlow =
   sendMessage neFilterFlow sourceAppIdentifierSelector
 
@@ -83,7 +83,7 @@ sourceAppIdentifier neFilterFlow =
 -- The short version string of the source application. Will be nil if the app info is unavailable.
 --
 -- ObjC selector: @- sourceAppVersion@
-sourceAppVersion :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO (Id NSString)
+sourceAppVersion :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO RawId
 sourceAppVersion neFilterFlow =
   sendMessage neFilterFlow sourceAppVersionSelector
 
@@ -101,7 +101,7 @@ direction neFilterFlow =
 -- Audit token of the source application of the flow.
 --
 -- ObjC selector: @- sourceAppAuditToken@
-sourceAppAuditToken :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO (Id NSData)
+sourceAppAuditToken :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO RawId
 sourceAppAuditToken neFilterFlow =
   sendMessage neFilterFlow sourceAppAuditTokenSelector
 
@@ -110,7 +110,7 @@ sourceAppAuditToken neFilterFlow =
 -- The audit token of the process that created the flow. In cases where the connection was created by a system process on behalf of the source application, sourceProcessAuditToken will be different from sourceAppAuditToken and will contain the audit token of the system process. In cases where the source application directly created the connection sourceAppAuditToken and sourceProcessAuditToken will be identical.
 --
 -- ObjC selector: @- sourceProcessAuditToken@
-sourceProcessAuditToken :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO (Id NSData)
+sourceProcessAuditToken :: IsNEFilterFlow neFilterFlow => neFilterFlow -> IO RawId
 sourceProcessAuditToken neFilterFlow =
   sendMessage neFilterFlow sourceProcessAuditTokenSelector
 
@@ -132,15 +132,15 @@ urlSelector :: Selector '[] (Id NSURL)
 urlSelector = mkSelector "URL"
 
 -- | @Selector@ for @sourceAppUniqueIdentifier@
-sourceAppUniqueIdentifierSelector :: Selector '[] (Id NSData)
+sourceAppUniqueIdentifierSelector :: Selector '[] RawId
 sourceAppUniqueIdentifierSelector = mkSelector "sourceAppUniqueIdentifier"
 
 -- | @Selector@ for @sourceAppIdentifier@
-sourceAppIdentifierSelector :: Selector '[] (Id NSString)
+sourceAppIdentifierSelector :: Selector '[] RawId
 sourceAppIdentifierSelector = mkSelector "sourceAppIdentifier"
 
 -- | @Selector@ for @sourceAppVersion@
-sourceAppVersionSelector :: Selector '[] (Id NSString)
+sourceAppVersionSelector :: Selector '[] RawId
 sourceAppVersionSelector = mkSelector "sourceAppVersion"
 
 -- | @Selector@ for @direction@
@@ -148,11 +148,11 @@ directionSelector :: Selector '[] NETrafficDirection
 directionSelector = mkSelector "direction"
 
 -- | @Selector@ for @sourceAppAuditToken@
-sourceAppAuditTokenSelector :: Selector '[] (Id NSData)
+sourceAppAuditTokenSelector :: Selector '[] RawId
 sourceAppAuditTokenSelector = mkSelector "sourceAppAuditToken"
 
 -- | @Selector@ for @sourceProcessAuditToken@
-sourceProcessAuditTokenSelector :: Selector '[] (Id NSData)
+sourceProcessAuditTokenSelector :: Selector '[] RawId
 sourceProcessAuditTokenSelector = mkSelector "sourceProcessAuditToken"
 
 -- | @Selector@ for @identifier@

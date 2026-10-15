@@ -32,8 +32,6 @@ module ObjC.AppKit.NSSlider
   , setMinValue
   , maxValue
   , setMaxValue
-  , neutralValue
-  , setNeutralValue
   , altIncrementValue
   , setAltIncrementValue
   , knobThickness
@@ -41,8 +39,6 @@ module ObjC.AppKit.NSSlider
   , setVertical
   , trackFillColor
   , setTrackFillColor
-  , tintProminence
-  , setTintProminence
   , numberOfTickMarks
   , setNumberOfTickMarks
   , tickMarkPosition
@@ -58,7 +54,6 @@ module ObjC.AppKit.NSSlider
   , knobThicknessSelector
   , maxValueSelector
   , minValueSelector
-  , neutralValueSelector
   , numberOfTickMarksSelector
   , rectOfTickMarkAtIndexSelector
   , setAllowsTickMarkValuesOnlySelector
@@ -67,11 +62,9 @@ module ObjC.AppKit.NSSlider
   , setKnobThicknessSelector
   , setMaxValueSelector
   , setMinValueSelector
-  , setNeutralValueSelector
   , setNumberOfTickMarksSelector
   , setSliderTypeSelector
   , setTickMarkPositionSelector
-  , setTintProminenceSelector
   , setTitleCellSelector
   , setTitleColorSelector
   , setTitleFontSelector
@@ -83,7 +76,6 @@ module ObjC.AppKit.NSSlider
   , sliderWithValue_minValue_maxValue_target_actionSelector
   , tickMarkPositionSelector
   , tickMarkValueAtIndexSelector
-  , tintProminenceSelector
   , titleCellSelector
   , titleColorSelector
   , titleFontSelector
@@ -100,11 +92,6 @@ module ObjC.AppKit.NSSlider
   , pattern NSTickMarkPositionAbove
   , pattern NSTickMarkPositionLeading
   , pattern NSTickMarkPositionTrailing
-  , NSTintProminence(NSTintProminence)
-  , pattern NSTintProminenceAutomatic
-  , pattern NSTintProminenceNone
-  , pattern NSTintProminencePrimary
-  , pattern NSTintProminenceSecondary
 
   ) where
 
@@ -267,20 +254,6 @@ setMaxValue :: IsNSSlider nsSlider => nsSlider -> CDouble -> IO ()
 setMaxValue nsSlider value =
   sendMessage nsSlider setMaxValueSelector value
 
--- | The value this slider will be filled from. This slider will be filled from its @neutralValue@ to its current value. If @neutralValue@ has not been explicitly set before, access to @neutralValue@ will return @minValue@.
---
--- ObjC selector: @- neutralValue@
-neutralValue :: IsNSSlider nsSlider => nsSlider -> IO CDouble
-neutralValue nsSlider =
-  sendMessage nsSlider neutralValueSelector
-
--- | The value this slider will be filled from. This slider will be filled from its @neutralValue@ to its current value. If @neutralValue@ has not been explicitly set before, access to @neutralValue@ will return @minValue@.
---
--- ObjC selector: @- setNeutralValue:@
-setNeutralValue :: IsNSSlider nsSlider => nsSlider -> CDouble -> IO ()
-setNeutralValue nsSlider value =
-  sendMessage nsSlider setNeutralValueSelector value
-
 -- | @- altIncrementValue@
 altIncrementValue :: IsNSSlider nsSlider => nsSlider -> IO CDouble
 altIncrementValue nsSlider =
@@ -307,28 +280,14 @@ setVertical nsSlider value =
   sendMessage nsSlider setVerticalSelector value
 
 -- | @- trackFillColor@
-trackFillColor :: IsNSSlider nsSlider => nsSlider -> IO (Id NSColor)
+trackFillColor :: IsNSSlider nsSlider => nsSlider -> IO RawId
 trackFillColor nsSlider =
   sendMessage nsSlider trackFillColorSelector
 
 -- | @- setTrackFillColor:@
-setTrackFillColor :: (IsNSSlider nsSlider, IsNSColor value) => nsSlider -> value -> IO ()
+setTrackFillColor :: IsNSSlider nsSlider => nsSlider -> RawId -> IO ()
 setTrackFillColor nsSlider value =
-  sendMessage nsSlider setTrackFillColorSelector (toNSColor value)
-
--- | The tint prominence of the slider. The automatic behavior for a regular slider tints its track fill, while a slider with tick marks is untinted. Setting the tint prominence will override this default behavior and choose an explicit track fill tint behavior. See ``NSTintProminence`` for a list of possible values.
---
--- ObjC selector: @- tintProminence@
-tintProminence :: IsNSSlider nsSlider => nsSlider -> IO NSTintProminence
-tintProminence nsSlider =
-  sendMessage nsSlider tintProminenceSelector
-
--- | The tint prominence of the slider. The automatic behavior for a regular slider tints its track fill, while a slider with tick marks is untinted. Setting the tint prominence will override this default behavior and choose an explicit track fill tint behavior. See ``NSTintProminence`` for a list of possible values.
---
--- ObjC selector: @- setTintProminence:@
-setTintProminence :: IsNSSlider nsSlider => nsSlider -> NSTintProminence -> IO ()
-setTintProminence nsSlider value =
-  sendMessage nsSlider setTintProminenceSelector value
+  sendMessage nsSlider setTrackFillColorSelector value
 
 -- | @- numberOfTickMarks@
 numberOfTickMarks :: IsNSSlider nsSlider => nsSlider -> IO CLong
@@ -460,14 +419,6 @@ maxValueSelector = mkSelector "maxValue"
 setMaxValueSelector :: Selector '[CDouble] ()
 setMaxValueSelector = mkSelector "setMaxValue:"
 
--- | @Selector@ for @neutralValue@
-neutralValueSelector :: Selector '[] CDouble
-neutralValueSelector = mkSelector "neutralValue"
-
--- | @Selector@ for @setNeutralValue:@
-setNeutralValueSelector :: Selector '[CDouble] ()
-setNeutralValueSelector = mkSelector "setNeutralValue:"
-
 -- | @Selector@ for @altIncrementValue@
 altIncrementValueSelector :: Selector '[] CDouble
 altIncrementValueSelector = mkSelector "altIncrementValue"
@@ -489,20 +440,12 @@ setVerticalSelector :: Selector '[Bool] ()
 setVerticalSelector = mkSelector "setVertical:"
 
 -- | @Selector@ for @trackFillColor@
-trackFillColorSelector :: Selector '[] (Id NSColor)
+trackFillColorSelector :: Selector '[] RawId
 trackFillColorSelector = mkSelector "trackFillColor"
 
 -- | @Selector@ for @setTrackFillColor:@
-setTrackFillColorSelector :: Selector '[Id NSColor] ()
+setTrackFillColorSelector :: Selector '[RawId] ()
 setTrackFillColorSelector = mkSelector "setTrackFillColor:"
-
--- | @Selector@ for @tintProminence@
-tintProminenceSelector :: Selector '[] NSTintProminence
-tintProminenceSelector = mkSelector "tintProminence"
-
--- | @Selector@ for @setTintProminence:@
-setTintProminenceSelector :: Selector '[NSTintProminence] ()
-setTintProminenceSelector = mkSelector "setTintProminence:"
 
 -- | @Selector@ for @numberOfTickMarks@
 numberOfTickMarksSelector :: Selector '[] CLong

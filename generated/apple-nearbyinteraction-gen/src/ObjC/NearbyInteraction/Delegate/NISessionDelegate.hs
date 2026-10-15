@@ -42,7 +42,6 @@ data NISessionDelegateOverrides = NISessionDelegateOverrides
   , _session_didInvalidateWithError :: !(Maybe (RawId -> RawId -> IO ()))
   , _session_didGenerateShareableConfigurationData_forObject :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _session_didUpdateAlgorithmConvergence_forObject :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
-  , _session_didUpdateDLTDOAMeasurements :: !(Maybe (RawId -> RawId -> IO ()))
   , _sessionDidStartRunning :: !(Maybe (RawId -> IO ()))
   }
 
@@ -55,7 +54,6 @@ defaultNISessionDelegateOverrides = NISessionDelegateOverrides
   , _session_didInvalidateWithError = Nothing
   , _session_didGenerateShareableConfigurationData_forObject = Nothing
   , _session_didUpdateAlgorithmConvergence_forObject = Nothing
-  , _session_didUpdateDLTDOAMeasurements = Nothing
   , _sessionDidStartRunning = Nothing
   }
 
@@ -94,7 +92,6 @@ niSessionDelegateDelegateClass = unsafePerformIO $ do
       sel_session_didInvalidateWithError = unSelector (mkSelector "session:didInvalidateWithError:")
       sel_session_didGenerateShareableConfigurationData_forObject = unSelector (mkSelector "session:didGenerateShareableConfigurationData:forObject:")
       sel_session_didUpdateAlgorithmConvergence_forObject = unSelector (mkSelector "session:didUpdateAlgorithmConvergence:forObject:")
-      sel_session_didUpdateDLTDOAMeasurements = unSelector (mkSelector "session:didUpdateDLTDOAMeasurements:")
       sel_sessionDidStartRunning = unSelector (mkSelector "sessionDidStartRunning:")
   -- session:didUpdateNearbyObjects:
   stub_0 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
@@ -150,23 +147,14 @@ niSessionDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
   addObjCMethod cls "session:didUpdateAlgorithmConvergence:forObject:" "v@:@@@" stub_5
 
-  -- session:didUpdateDLTDOAMeasurements:
-  stub_6 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NISessionDelegateOverrides
-    case _session_didUpdateDLTDOAMeasurements rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "session:didUpdateDLTDOAMeasurements:" "v@:@@" stub_6
-
   -- sessionDidStartRunning:
-  stub_7 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_6 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NISessionDelegateOverrides
     case _sessionDidStartRunning rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "sessionDidStartRunning:" "v@:@" stub_7
+  addObjCMethod cls "sessionDidStartRunning:" "v@:@" stub_6
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -178,7 +166,6 @@ niSessionDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_session_didInvalidateWithError then pure (maybe 0 (const 1) (_session_didInvalidateWithError rec_))
     else if queriedSel == sel_session_didGenerateShareableConfigurationData_forObject then pure (maybe 0 (const 1) (_session_didGenerateShareableConfigurationData_forObject rec_))
     else if queriedSel == sel_session_didUpdateAlgorithmConvergence_forObject then pure (maybe 0 (const 1) (_session_didUpdateAlgorithmConvergence_forObject rec_))
-    else if queriedSel == sel_session_didUpdateDLTDOAMeasurements then pure (maybe 0 (const 1) (_session_didUpdateDLTDOAMeasurements rec_))
     else if queriedSel == sel_sessionDidStartRunning then pure (maybe 0 (const 1) (_sessionDidStartRunning rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls

@@ -70,9 +70,7 @@ setStateFromMicroGamepad :: (IsGCMicroGamepad gcMicroGamepad, IsGCMicroGamepad m
 setStateFromMicroGamepad gcMicroGamepad microGamepad =
   sendMessage gcMicroGamepad setStateFromMicroGamepadSelector (toGCMicroGamepad microGamepad)
 
--- | A profile keeps a reference to the controller that this profile is mapping input from.
---
--- ObjC selector: @- controller@
+-- | @- controller@
 controller :: IsGCMicroGamepad gcMicroGamepad => gcMicroGamepad -> IO (Id GCController)
 controller gcMicroGamepad =
   sendMessage gcMicroGamepad controllerSelector

@@ -44,6 +44,10 @@ module ObjC.Metal.MTLArgument
   , typeSelector
 
   -- * Enum types
+  , MTLArgumentAccess(MTLArgumentAccess)
+  , pattern MTLArgumentAccessReadOnly
+  , pattern MTLArgumentAccessReadWrite
+  , pattern MTLArgumentAccessWriteOnly
   , MTLArgumentType(MTLArgumentType)
   , pattern MTLArgumentTypeBuffer
   , pattern MTLArgumentTypeThreadgroupMemory
@@ -55,13 +59,6 @@ module ObjC.Metal.MTLArgument
   , pattern MTLArgumentTypePrimitiveAccelerationStructure
   , pattern MTLArgumentTypeInstanceAccelerationStructure
   , pattern MTLArgumentTypeIntersectionFunctionTable
-  , MTLBindingAccess(MTLBindingAccess)
-  , pattern MTLBindingAccessReadOnly
-  , pattern MTLBindingAccessReadWrite
-  , pattern MTLBindingAccessWriteOnly
-  , pattern MTLArgumentAccessReadOnly
-  , pattern MTLArgumentAccessReadWrite
-  , pattern MTLArgumentAccessWriteOnly
   , MTLDataType(MTLDataType)
   , pattern MTLDataTypeNone
   , pattern MTLDataTypeStruct
@@ -154,12 +151,6 @@ module ObjC.Metal.MTLArgument
   , pattern MTLDataTypeIntersectionFunctionTable
   , pattern MTLDataTypePrimitiveAccelerationStructure
   , pattern MTLDataTypeInstanceAccelerationStructure
-  , pattern MTLDataTypeBFloat
-  , pattern MTLDataTypeBFloat2
-  , pattern MTLDataTypeBFloat3
-  , pattern MTLDataTypeBFloat4
-  , pattern MTLDataTypeDepthStencilState
-  , pattern MTLDataTypeTensor
   , MTLTextureType(MTLTextureType)
   , pattern MTLTextureType1D
   , pattern MTLTextureType1DArray
@@ -197,7 +188,7 @@ type_ mtlArgument =
   sendMessage mtlArgument typeSelector
 
 -- | @- access@
-access :: IsMTLArgument mtlArgument => mtlArgument -> IO MTLBindingAccess
+access :: IsMTLArgument mtlArgument => mtlArgument -> IO MTLArgumentAccess
 access mtlArgument =
   sendMessage mtlArgument accessSelector
 
@@ -279,7 +270,7 @@ typeSelector :: Selector '[] MTLArgumentType
 typeSelector = mkSelector "type"
 
 -- | @Selector@ for @access@
-accessSelector :: Selector '[] MTLBindingAccess
+accessSelector :: Selector '[] MTLArgumentAccess
 accessSelector = mkSelector "access"
 
 -- | @Selector@ for @index@

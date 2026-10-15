@@ -12,10 +12,9 @@ module ObjC.AppKit.NSToolbar
   , init_
   , insertItemWithItemIdentifier_atIndex
   , removeItemAtIndex
-  , removeItemWithItemIdentifier
   , runCustomizationPalette
-  , validateVisibleItems
   , setConfigurationFromDictionary
+  , validateVisibleItems
   , delegate
   , setDelegate
   , visible
@@ -25,35 +24,30 @@ module ObjC.AppKit.NSToolbar
   , setDisplayMode
   , selectedItemIdentifier
   , setSelectedItemIdentifier
+  , sizeMode
+  , setSizeMode
+  , showsBaselineSeparator
+  , setShowsBaselineSeparator
   , allowsUserCustomization
   , setAllowsUserCustomization
-  , allowsDisplayModeCustomization
-  , setAllowsDisplayModeCustomization
   , identifier
   , items
   , visibleItems
-  , itemIdentifiers
-  , setItemIdentifiers
   , centeredItemIdentifiers
   , setCenteredItemIdentifiers
-  , autosavesConfiguration
-  , setAutosavesConfiguration
-  , allowsExtensionItems
-  , setAllowsExtensionItems
-  , sizeMode
-  , setSizeMode
   , centeredItemIdentifier
   , setCenteredItemIdentifier
+  , autosavesConfiguration
+  , setAutosavesConfiguration
+  , configurationDictionary
+  , allowsExtensionItems
+  , setAllowsExtensionItems
   , fullScreenAccessoryView
   , setFullScreenAccessoryView
   , fullScreenAccessoryViewMinHeight
   , setFullScreenAccessoryViewMinHeight
   , fullScreenAccessoryViewMaxHeight
   , setFullScreenAccessoryViewMaxHeight
-  , showsBaselineSeparator
-  , setShowsBaselineSeparator
-  , configurationDictionary
-  , allowsDisplayModeCustomizationSelector
   , allowsExtensionItemsSelector
   , allowsUserCustomizationSelector
   , autosavesConfigurationSelector
@@ -70,13 +64,10 @@ module ObjC.AppKit.NSToolbar
   , initSelector
   , initWithIdentifierSelector
   , insertItemWithItemIdentifier_atIndexSelector
-  , itemIdentifiersSelector
   , itemsSelector
   , removeItemAtIndexSelector
-  , removeItemWithItemIdentifierSelector
   , runCustomizationPaletteSelector
   , selectedItemIdentifierSelector
-  , setAllowsDisplayModeCustomizationSelector
   , setAllowsExtensionItemsSelector
   , setAllowsUserCustomizationSelector
   , setAutosavesConfigurationSelector
@@ -88,7 +79,6 @@ module ObjC.AppKit.NSToolbar
   , setFullScreenAccessoryViewMaxHeightSelector
   , setFullScreenAccessoryViewMinHeightSelector
   , setFullScreenAccessoryViewSelector
-  , setItemIdentifiersSelector
   , setSelectedItemIdentifierSelector
   , setShowsBaselineSeparatorSelector
   , setSizeModeSelector
@@ -124,233 +114,85 @@ import ObjC.AppKit.Internal.Classes
 import ObjC.AppKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | The identifier is used to form the toolbar's autosave name. Toolbars with the same identifier are implicitly synchronized so that they maintain the same state.
---
--- ObjC selector: @- initWithIdentifier:@
+-- | @- initWithIdentifier:@
 initWithIdentifier :: (IsNSToolbar nsToolbar, IsNSString identifier) => nsToolbar -> identifier -> IO (Id NSToolbar)
 initWithIdentifier nsToolbar identifier =
   sendOwnedMessage nsToolbar initWithIdentifierSelector (toNSString identifier)
 
--- | Calls through to -initWithIdentifier: with an empty string identifier. Customizable toolbars should use @-initWithIdentifier:@ with a unique identifier instead.
---
--- ObjC selector: @- init@
+-- | @- init@
 init_ :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSToolbar)
 init_ nsToolbar =
   sendOwnedMessage nsToolbar initSelector
 
--- | Inserts an item with the specified identifier in the receiving toolbar at the specified index.
---
--- Any change made will be propagated immediately to all other toolbars with the same identifier.
---
--- ObjC selector: @- insertItemWithItemIdentifier:atIndex:@
+-- | @- insertItemWithItemIdentifier:atIndex:@
 insertItemWithItemIdentifier_atIndex :: (IsNSToolbar nsToolbar, IsNSString itemIdentifier) => nsToolbar -> itemIdentifier -> CLong -> IO ()
 insertItemWithItemIdentifier_atIndex nsToolbar itemIdentifier index =
   sendMessage nsToolbar insertItemWithItemIdentifier_atIndexSelector (toNSString itemIdentifier) index
 
--- | Removes the item at the specified index in the receiving toolbar.
---
--- Any change made will be propagated immediately to all other toolbars with the same identifier.
---
--- ObjC selector: @- removeItemAtIndex:@
+-- | @- removeItemAtIndex:@
 removeItemAtIndex :: IsNSToolbar nsToolbar => nsToolbar -> CLong -> IO ()
 removeItemAtIndex nsToolbar index =
   sendMessage nsToolbar removeItemAtIndexSelector index
 
--- | Removes the item with matching @itemIdentifier@ in the receiving toolbar. If multiple items share the same identifier (as is the case with space items) all matching items will be removed. To remove only a single space item, use @-removeItemAtIndex:@ instead.
---
--- Any change made will be propagated immediately to all other toolbars with the same identifier.
---
--- ObjC selector: @- removeItemWithItemIdentifier:@
-removeItemWithItemIdentifier :: (IsNSToolbar nsToolbar, IsNSString itemIdentifier) => nsToolbar -> itemIdentifier -> IO ()
-removeItemWithItemIdentifier nsToolbar itemIdentifier =
-  sendMessage nsToolbar removeItemWithItemIdentifierSelector (toNSString itemIdentifier)
-
--- | Customizable toolbars (those with delegates) can show a palette which allows users to populate the toolbar with individual items or to reset the toolbar to some default set of items. The items and item sets in the palette are specified by the delegate (@-toolbarAllowedItemIdentifiers:@ and @-toolbarDefaultItemIdentifiers:@). When the user is done configuring, they will dismiss the palette.
---
--- ObjC selector: @- runCustomizationPalette:@
+-- | @- runCustomizationPalette:@
 runCustomizationPalette :: IsNSToolbar nsToolbar => nsToolbar -> RawId -> IO ()
 runCustomizationPalette nsToolbar sender =
   sendMessage nsToolbar runCustomizationPaletteSelector sender
-
--- | Typically you should not invoke this method. This method is called on window updates with the purpose of validating each of the visible items. The toolbar will iterate through the list of visible items, sending each a @-validate@ message. If this method is invoked directly, all visible items including those with @autovalidates@ disabled will get a @-validate@ message.
---
--- ObjC selector: @- validateVisibleItems@
-validateVisibleItems :: IsNSToolbar nsToolbar => nsToolbar -> IO ()
-validateVisibleItems nsToolbar =
-  sendMessage nsToolbar validateVisibleItemsSelector
 
 -- | @- setConfigurationFromDictionary:@
 setConfigurationFromDictionary :: (IsNSToolbar nsToolbar, IsNSDictionary configDict) => nsToolbar -> configDict -> IO ()
 setConfigurationFromDictionary nsToolbar configDict =
   sendMessage nsToolbar setConfigurationFromDictionarySelector (toNSDictionary configDict)
 
--- | Customizable toolbars must have a delegate, and must implement the required @NSToolbarDelegate@ methods.
---
--- ObjC selector: @- delegate@
+-- | @- validateVisibleItems@
+validateVisibleItems :: IsNSToolbar nsToolbar => nsToolbar -> IO ()
+validateVisibleItems nsToolbar =
+  sendMessage nsToolbar validateVisibleItemsSelector
+
+-- | @- delegate@
 delegate :: IsNSToolbar nsToolbar => nsToolbar -> IO RawId
 delegate nsToolbar =
   sendMessage nsToolbar delegateSelector
 
--- | Customizable toolbars must have a delegate, and must implement the required @NSToolbarDelegate@ methods.
---
--- ObjC selector: @- setDelegate:@
+-- | @- setDelegate:@
 setDelegate :: IsNSToolbar nsToolbar => nsToolbar -> RawId -> IO ()
 setDelegate nsToolbar value =
   sendMessage nsToolbar setDelegateSelector value
 
--- | Toggles the visibility of the toolbar. This property may be modified by the user in toolbars with @allowsUserCustomization@ enabled. This property is key value observable on macOS 14.0 and higher.
---
--- ObjC selector: @- visible@
+-- | @- visible@
 visible :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
 visible nsToolbar =
   sendMessage nsToolbar visibleSelector
 
--- | Toggles the visibility of the toolbar. This property may be modified by the user in toolbars with @allowsUserCustomization@ enabled. This property is key value observable on macOS 14.0 and higher.
---
--- ObjC selector: @- setVisible:@
+-- | @- setVisible:@
 setVisible :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
 setVisible nsToolbar value =
   sendMessage nsToolbar setVisibleSelector value
 
--- | Whether or not the customization palette is currently running. On macOS 15.0 and above this property is key value observable.
---
--- ObjC selector: @- customizationPaletteIsRunning@
+-- | @- customizationPaletteIsRunning@
 customizationPaletteIsRunning :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
 customizationPaletteIsRunning nsToolbar =
   sendMessage nsToolbar customizationPaletteIsRunningSelector
 
--- | The current display mode of items in the toolbar. In toolbars with @allowsDisplayModeCustomization@ enabled this is a user modifiable property. This property is key value observable.
---
--- ObjC selector: @- displayMode@
+-- | @- displayMode@
 displayMode :: IsNSToolbar nsToolbar => nsToolbar -> IO NSToolbarDisplayMode
 displayMode nsToolbar =
   sendMessage nsToolbar displayModeSelector
 
--- | The current display mode of items in the toolbar. In toolbars with @allowsDisplayModeCustomization@ enabled this is a user modifiable property. This property is key value observable.
---
--- ObjC selector: @- setDisplayMode:@
+-- | @- setDisplayMode:@
 setDisplayMode :: IsNSToolbar nsToolbar => nsToolbar -> NSToolbarDisplayMode -> IO ()
 setDisplayMode nsToolbar value =
   sendMessage nsToolbar setDisplayModeSelector value
 
--- | Sets the toolbar's selected item by identifier. Use this to force an item identifier to be selected. Toolbar manages selection of image items automatically. This method can be used to select identifiers of custom view items, or to force a selection change. See @-toolbarSelectableItemIdentifiers:@ delegate method for more details. This property is key value observable.
---
--- ObjC selector: @- selectedItemIdentifier@
+-- | @- selectedItemIdentifier@
 selectedItemIdentifier :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSString)
 selectedItemIdentifier nsToolbar =
   sendMessage nsToolbar selectedItemIdentifierSelector
 
--- | Sets the toolbar's selected item by identifier. Use this to force an item identifier to be selected. Toolbar manages selection of image items automatically. This method can be used to select identifiers of custom view items, or to force a selection change. See @-toolbarSelectableItemIdentifiers:@ delegate method for more details. This property is key value observable.
---
--- ObjC selector: @- setSelectedItemIdentifier:@
+-- | @- setSelectedItemIdentifier:@
 setSelectedItemIdentifier :: (IsNSToolbar nsToolbar, IsNSString value) => nsToolbar -> value -> IO ()
 setSelectedItemIdentifier nsToolbar value =
   sendMessage nsToolbar setSelectedItemIdentifierSelector (toNSString value)
-
--- | This flag controls whether or not users can configure the toolbar by dragging items around, and whether or not the customization palette can be used. The default value is NO, but can be changed at any time. For instance, a developer may not want users to be able to edit the toolbar while some event is being processed.
---
--- ObjC selector: @- allowsUserCustomization@
-allowsUserCustomization :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
-allowsUserCustomization nsToolbar =
-  sendMessage nsToolbar allowsUserCustomizationSelector
-
--- | This flag controls whether or not users can configure the toolbar by dragging items around, and whether or not the customization palette can be used. The default value is NO, but can be changed at any time. For instance, a developer may not want users to be able to edit the toolbar while some event is being processed.
---
--- ObjC selector: @- setAllowsUserCustomization:@
-setAllowsUserCustomization :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
-setAllowsUserCustomization nsToolbar value =
-  sendMessage nsToolbar setAllowsUserCustomizationSelector value
-
--- | Whether or not the user is allowed to change display modes at run time. This functionality is independent of customizing the order of the items themselves. Only disable when the functionality or legibility of your toolbar could not be improved by another display mode. The user's selection will be persisted using the toolbar's @identifier@ when @autosavesConfiguration@ is enabled. The default is YES for apps linked on macOS 15.0 and above.
---
--- ObjC selector: @- allowsDisplayModeCustomization@
-allowsDisplayModeCustomization :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
-allowsDisplayModeCustomization nsToolbar =
-  sendMessage nsToolbar allowsDisplayModeCustomizationSelector
-
--- | Whether or not the user is allowed to change display modes at run time. This functionality is independent of customizing the order of the items themselves. Only disable when the functionality or legibility of your toolbar could not be improved by another display mode. The user's selection will be persisted using the toolbar's @identifier@ when @autosavesConfiguration@ is enabled. The default is YES for apps linked on macOS 15.0 and above.
---
--- ObjC selector: @- setAllowsDisplayModeCustomization:@
-setAllowsDisplayModeCustomization :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
-setAllowsDisplayModeCustomization nsToolbar value =
-  sendMessage nsToolbar setAllowsDisplayModeCustomizationSelector value
-
--- | All toolbars with the same name will share the same display attributes, and item order. If a toolbar autosaves its configuration, the item identifier will be used as the autosave name.
---
--- ObjC selector: @- identifier@
-identifier :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSString)
-identifier nsToolbar =
-  sendMessage nsToolbar identifierSelector
-
--- | Allows you to access all current items in the toolbar.
---
--- ObjC selector: @- items@
-items :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSArray)
-items nsToolbar =
-  sendMessage nsToolbar itemsSelector
-
--- | Allows you to access the current visible items (non clipped).
---
--- ObjC selector: @- visibleItems@
-visibleItems :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSArray)
-visibleItems nsToolbar =
-  sendMessage nsToolbar visibleItemsSelector
-
--- | An array of itemIdentifiers that represent the current items in the toolbar. Setting this property will set the current items in the toolbar by diffing against items that already exist. Use this with great caution if @allowsUserCustomization@ is enabled as it will override any customizations the user has made. This property is key value observable.
---
--- ObjC selector: @- itemIdentifiers@
-itemIdentifiers :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSArray)
-itemIdentifiers nsToolbar =
-  sendMessage nsToolbar itemIdentifiersSelector
-
--- | An array of itemIdentifiers that represent the current items in the toolbar. Setting this property will set the current items in the toolbar by diffing against items that already exist. Use this with great caution if @allowsUserCustomization@ is enabled as it will override any customizations the user has made. This property is key value observable.
---
--- ObjC selector: @- setItemIdentifiers:@
-setItemIdentifiers :: (IsNSToolbar nsToolbar, IsNSArray value) => nsToolbar -> value -> IO ()
-setItemIdentifiers nsToolbar value =
-  sendMessage nsToolbar setItemIdentifiersSelector (toNSArray value)
-
--- | Items with centered identifiers will be centered together in the Toolbar relative to the window assuming space allows. The order of items is initially defined by the default set of identifiers, but may be customized by the user. Centered items may not be moved outside of the center set of items by the user. This property is archived.
---
--- ObjC selector: @- centeredItemIdentifiers@
-centeredItemIdentifiers :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSSet)
-centeredItemIdentifiers nsToolbar =
-  sendMessage nsToolbar centeredItemIdentifiersSelector
-
--- | Items with centered identifiers will be centered together in the Toolbar relative to the window assuming space allows. The order of items is initially defined by the default set of identifiers, but may be customized by the user. Centered items may not be moved outside of the center set of items by the user. This property is archived.
---
--- ObjC selector: @- setCenteredItemIdentifiers:@
-setCenteredItemIdentifiers :: (IsNSToolbar nsToolbar, IsNSSet value) => nsToolbar -> value -> IO ()
-setCenteredItemIdentifiers nsToolbar value =
-  sendMessage nsToolbar setCenteredItemIdentifiersSelector (toNSSet value)
-
--- | If @autosavesConfiguration@ is YES, the toolbar will automatically write changes the user makes to user defaults. Customizable toolbars will want to set this flag to YES. Setting this to NO means changes in configuration are not written automatically, however you can use the @configurationDictionary@ method to do it yourself. Default is NO.
---
--- ObjC selector: @- autosavesConfiguration@
-autosavesConfiguration :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
-autosavesConfiguration nsToolbar =
-  sendMessage nsToolbar autosavesConfigurationSelector
-
--- | If @autosavesConfiguration@ is YES, the toolbar will automatically write changes the user makes to user defaults. Customizable toolbars will want to set this flag to YES. Setting this to NO means changes in configuration are not written automatically, however you can use the @configurationDictionary@ method to do it yourself. Default is NO.
---
--- ObjC selector: @- setAutosavesConfiguration:@
-setAutosavesConfiguration :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
-setAutosavesConfiguration nsToolbar value =
-  sendMessage nsToolbar setAutosavesConfigurationSelector value
-
--- | When YES, the receiver can dynamically create toolbar items for Action extensions in the toolbar configuration panel. To be included, an extension needs to declare NSExtensionServiceAllowsToolbarItem=YES in its Info.plist. The default value is NO.
---
--- ObjC selector: @- allowsExtensionItems@
-allowsExtensionItems :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
-allowsExtensionItems nsToolbar =
-  sendMessage nsToolbar allowsExtensionItemsSelector
-
--- | When YES, the receiver can dynamically create toolbar items for Action extensions in the toolbar configuration panel. To be included, an extension needs to declare NSExtensionServiceAllowsToolbarItem=YES in its Info.plist. The default value is NO.
---
--- ObjC selector: @- setAllowsExtensionItems:@
-setAllowsExtensionItems :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
-setAllowsExtensionItems nsToolbar value =
-  sendMessage nsToolbar setAllowsExtensionItemsSelector value
 
 -- | @- sizeMode@
 sizeMode :: IsNSToolbar nsToolbar => nsToolbar -> IO NSToolbarSizeMode
@@ -362,6 +204,59 @@ setSizeMode :: IsNSToolbar nsToolbar => nsToolbar -> NSToolbarSizeMode -> IO ()
 setSizeMode nsToolbar value =
   sendMessage nsToolbar setSizeModeSelector value
 
+-- | @- showsBaselineSeparator@
+showsBaselineSeparator :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
+showsBaselineSeparator nsToolbar =
+  sendMessage nsToolbar showsBaselineSeparatorSelector
+
+-- | @- setShowsBaselineSeparator:@
+setShowsBaselineSeparator :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
+setShowsBaselineSeparator nsToolbar value =
+  sendMessage nsToolbar setShowsBaselineSeparatorSelector value
+
+-- | @- allowsUserCustomization@
+allowsUserCustomization :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
+allowsUserCustomization nsToolbar =
+  sendMessage nsToolbar allowsUserCustomizationSelector
+
+-- | @- setAllowsUserCustomization:@
+setAllowsUserCustomization :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
+setAllowsUserCustomization nsToolbar value =
+  sendMessage nsToolbar setAllowsUserCustomizationSelector value
+
+-- | @- identifier@
+identifier :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSString)
+identifier nsToolbar =
+  sendMessage nsToolbar identifierSelector
+
+-- | @- items@
+items :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSArray)
+items nsToolbar =
+  sendMessage nsToolbar itemsSelector
+
+-- | @- visibleItems@
+visibleItems :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSArray)
+visibleItems nsToolbar =
+  sendMessage nsToolbar visibleItemsSelector
+
+-- | Items with centered identifiers will be centered together in the Toolbar relative to the window assuming space allows. The order of items is initially defined by the default set of identifiers, but may be customized by the user. Centered items may not be moved outside of the center set of items by the user.
+--
+-- This property is archived.
+--
+-- ObjC selector: @- centeredItemIdentifiers@
+centeredItemIdentifiers :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSSet)
+centeredItemIdentifiers nsToolbar =
+  sendMessage nsToolbar centeredItemIdentifiersSelector
+
+-- | Items with centered identifiers will be centered together in the Toolbar relative to the window assuming space allows. The order of items is initially defined by the default set of identifiers, but may be customized by the user. Centered items may not be moved outside of the center set of items by the user.
+--
+-- This property is archived.
+--
+-- ObjC selector: @- setCenteredItemIdentifiers:@
+setCenteredItemIdentifiers :: (IsNSToolbar nsToolbar, IsNSSet value) => nsToolbar -> value -> IO ()
+setCenteredItemIdentifiers nsToolbar value =
+  sendMessage nsToolbar setCenteredItemIdentifiersSelector (toNSSet value)
+
 -- | @- centeredItemIdentifier@
 centeredItemIdentifier :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSString)
 centeredItemIdentifier nsToolbar =
@@ -372,15 +267,40 @@ setCenteredItemIdentifier :: (IsNSToolbar nsToolbar, IsNSString value) => nsTool
 setCenteredItemIdentifier nsToolbar value =
   sendMessage nsToolbar setCenteredItemIdentifierSelector (toNSString value)
 
+-- | @- autosavesConfiguration@
+autosavesConfiguration :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
+autosavesConfiguration nsToolbar =
+  sendMessage nsToolbar autosavesConfigurationSelector
+
+-- | @- setAutosavesConfiguration:@
+setAutosavesConfiguration :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
+setAutosavesConfiguration nsToolbar value =
+  sendMessage nsToolbar setAutosavesConfigurationSelector value
+
+-- | @- configurationDictionary@
+configurationDictionary :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSDictionary)
+configurationDictionary nsToolbar =
+  sendMessage nsToolbar configurationDictionarySelector
+
+-- | @- allowsExtensionItems@
+allowsExtensionItems :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
+allowsExtensionItems nsToolbar =
+  sendMessage nsToolbar allowsExtensionItemsSelector
+
+-- | @- setAllowsExtensionItems:@
+setAllowsExtensionItems :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
+setAllowsExtensionItems nsToolbar value =
+  sendMessage nsToolbar setAllowsExtensionItemsSelector value
+
 -- | @- fullScreenAccessoryView@
-fullScreenAccessoryView :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSView)
+fullScreenAccessoryView :: IsNSToolbar nsToolbar => nsToolbar -> IO RawId
 fullScreenAccessoryView nsToolbar =
   sendMessage nsToolbar fullScreenAccessoryViewSelector
 
 -- | @- setFullScreenAccessoryView:@
-setFullScreenAccessoryView :: (IsNSToolbar nsToolbar, IsNSView value) => nsToolbar -> value -> IO ()
+setFullScreenAccessoryView :: IsNSToolbar nsToolbar => nsToolbar -> RawId -> IO ()
 setFullScreenAccessoryView nsToolbar value =
-  sendMessage nsToolbar setFullScreenAccessoryViewSelector (toNSView value)
+  sendMessage nsToolbar setFullScreenAccessoryViewSelector value
 
 -- | @- fullScreenAccessoryViewMinHeight@
 fullScreenAccessoryViewMinHeight :: IsNSToolbar nsToolbar => nsToolbar -> IO CDouble
@@ -402,21 +322,6 @@ setFullScreenAccessoryViewMaxHeight :: IsNSToolbar nsToolbar => nsToolbar -> CDo
 setFullScreenAccessoryViewMaxHeight nsToolbar value =
   sendMessage nsToolbar setFullScreenAccessoryViewMaxHeightSelector value
 
--- | @- showsBaselineSeparator@
-showsBaselineSeparator :: IsNSToolbar nsToolbar => nsToolbar -> IO Bool
-showsBaselineSeparator nsToolbar =
-  sendMessage nsToolbar showsBaselineSeparatorSelector
-
--- | @- setShowsBaselineSeparator:@
-setShowsBaselineSeparator :: IsNSToolbar nsToolbar => nsToolbar -> Bool -> IO ()
-setShowsBaselineSeparator nsToolbar value =
-  sendMessage nsToolbar setShowsBaselineSeparatorSelector value
-
--- | @- configurationDictionary@
-configurationDictionary :: IsNSToolbar nsToolbar => nsToolbar -> IO (Id NSDictionary)
-configurationDictionary nsToolbar =
-  sendMessage nsToolbar configurationDictionarySelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -437,21 +342,17 @@ insertItemWithItemIdentifier_atIndexSelector = mkSelector "insertItemWithItemIde
 removeItemAtIndexSelector :: Selector '[CLong] ()
 removeItemAtIndexSelector = mkSelector "removeItemAtIndex:"
 
--- | @Selector@ for @removeItemWithItemIdentifier:@
-removeItemWithItemIdentifierSelector :: Selector '[Id NSString] ()
-removeItemWithItemIdentifierSelector = mkSelector "removeItemWithItemIdentifier:"
-
 -- | @Selector@ for @runCustomizationPalette:@
 runCustomizationPaletteSelector :: Selector '[RawId] ()
 runCustomizationPaletteSelector = mkSelector "runCustomizationPalette:"
 
--- | @Selector@ for @validateVisibleItems@
-validateVisibleItemsSelector :: Selector '[] ()
-validateVisibleItemsSelector = mkSelector "validateVisibleItems"
-
 -- | @Selector@ for @setConfigurationFromDictionary:@
 setConfigurationFromDictionarySelector :: Selector '[Id NSDictionary] ()
 setConfigurationFromDictionarySelector = mkSelector "setConfigurationFromDictionary:"
+
+-- | @Selector@ for @validateVisibleItems@
+validateVisibleItemsSelector :: Selector '[] ()
+validateVisibleItemsSelector = mkSelector "validateVisibleItems"
 
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId
@@ -489,6 +390,22 @@ selectedItemIdentifierSelector = mkSelector "selectedItemIdentifier"
 setSelectedItemIdentifierSelector :: Selector '[Id NSString] ()
 setSelectedItemIdentifierSelector = mkSelector "setSelectedItemIdentifier:"
 
+-- | @Selector@ for @sizeMode@
+sizeModeSelector :: Selector '[] NSToolbarSizeMode
+sizeModeSelector = mkSelector "sizeMode"
+
+-- | @Selector@ for @setSizeMode:@
+setSizeModeSelector :: Selector '[NSToolbarSizeMode] ()
+setSizeModeSelector = mkSelector "setSizeMode:"
+
+-- | @Selector@ for @showsBaselineSeparator@
+showsBaselineSeparatorSelector :: Selector '[] Bool
+showsBaselineSeparatorSelector = mkSelector "showsBaselineSeparator"
+
+-- | @Selector@ for @setShowsBaselineSeparator:@
+setShowsBaselineSeparatorSelector :: Selector '[Bool] ()
+setShowsBaselineSeparatorSelector = mkSelector "setShowsBaselineSeparator:"
+
 -- | @Selector@ for @allowsUserCustomization@
 allowsUserCustomizationSelector :: Selector '[] Bool
 allowsUserCustomizationSelector = mkSelector "allowsUserCustomization"
@@ -496,14 +413,6 @@ allowsUserCustomizationSelector = mkSelector "allowsUserCustomization"
 -- | @Selector@ for @setAllowsUserCustomization:@
 setAllowsUserCustomizationSelector :: Selector '[Bool] ()
 setAllowsUserCustomizationSelector = mkSelector "setAllowsUserCustomization:"
-
--- | @Selector@ for @allowsDisplayModeCustomization@
-allowsDisplayModeCustomizationSelector :: Selector '[] Bool
-allowsDisplayModeCustomizationSelector = mkSelector "allowsDisplayModeCustomization"
-
--- | @Selector@ for @setAllowsDisplayModeCustomization:@
-setAllowsDisplayModeCustomizationSelector :: Selector '[Bool] ()
-setAllowsDisplayModeCustomizationSelector = mkSelector "setAllowsDisplayModeCustomization:"
 
 -- | @Selector@ for @identifier@
 identifierSelector :: Selector '[] (Id NSString)
@@ -517,14 +426,6 @@ itemsSelector = mkSelector "items"
 visibleItemsSelector :: Selector '[] (Id NSArray)
 visibleItemsSelector = mkSelector "visibleItems"
 
--- | @Selector@ for @itemIdentifiers@
-itemIdentifiersSelector :: Selector '[] (Id NSArray)
-itemIdentifiersSelector = mkSelector "itemIdentifiers"
-
--- | @Selector@ for @setItemIdentifiers:@
-setItemIdentifiersSelector :: Selector '[Id NSArray] ()
-setItemIdentifiersSelector = mkSelector "setItemIdentifiers:"
-
 -- | @Selector@ for @centeredItemIdentifiers@
 centeredItemIdentifiersSelector :: Selector '[] (Id NSSet)
 centeredItemIdentifiersSelector = mkSelector "centeredItemIdentifiers"
@@ -532,30 +433,6 @@ centeredItemIdentifiersSelector = mkSelector "centeredItemIdentifiers"
 -- | @Selector@ for @setCenteredItemIdentifiers:@
 setCenteredItemIdentifiersSelector :: Selector '[Id NSSet] ()
 setCenteredItemIdentifiersSelector = mkSelector "setCenteredItemIdentifiers:"
-
--- | @Selector@ for @autosavesConfiguration@
-autosavesConfigurationSelector :: Selector '[] Bool
-autosavesConfigurationSelector = mkSelector "autosavesConfiguration"
-
--- | @Selector@ for @setAutosavesConfiguration:@
-setAutosavesConfigurationSelector :: Selector '[Bool] ()
-setAutosavesConfigurationSelector = mkSelector "setAutosavesConfiguration:"
-
--- | @Selector@ for @allowsExtensionItems@
-allowsExtensionItemsSelector :: Selector '[] Bool
-allowsExtensionItemsSelector = mkSelector "allowsExtensionItems"
-
--- | @Selector@ for @setAllowsExtensionItems:@
-setAllowsExtensionItemsSelector :: Selector '[Bool] ()
-setAllowsExtensionItemsSelector = mkSelector "setAllowsExtensionItems:"
-
--- | @Selector@ for @sizeMode@
-sizeModeSelector :: Selector '[] NSToolbarSizeMode
-sizeModeSelector = mkSelector "sizeMode"
-
--- | @Selector@ for @setSizeMode:@
-setSizeModeSelector :: Selector '[NSToolbarSizeMode] ()
-setSizeModeSelector = mkSelector "setSizeMode:"
 
 -- | @Selector@ for @centeredItemIdentifier@
 centeredItemIdentifierSelector :: Selector '[] (Id NSString)
@@ -565,12 +442,32 @@ centeredItemIdentifierSelector = mkSelector "centeredItemIdentifier"
 setCenteredItemIdentifierSelector :: Selector '[Id NSString] ()
 setCenteredItemIdentifierSelector = mkSelector "setCenteredItemIdentifier:"
 
+-- | @Selector@ for @autosavesConfiguration@
+autosavesConfigurationSelector :: Selector '[] Bool
+autosavesConfigurationSelector = mkSelector "autosavesConfiguration"
+
+-- | @Selector@ for @setAutosavesConfiguration:@
+setAutosavesConfigurationSelector :: Selector '[Bool] ()
+setAutosavesConfigurationSelector = mkSelector "setAutosavesConfiguration:"
+
+-- | @Selector@ for @configurationDictionary@
+configurationDictionarySelector :: Selector '[] (Id NSDictionary)
+configurationDictionarySelector = mkSelector "configurationDictionary"
+
+-- | @Selector@ for @allowsExtensionItems@
+allowsExtensionItemsSelector :: Selector '[] Bool
+allowsExtensionItemsSelector = mkSelector "allowsExtensionItems"
+
+-- | @Selector@ for @setAllowsExtensionItems:@
+setAllowsExtensionItemsSelector :: Selector '[Bool] ()
+setAllowsExtensionItemsSelector = mkSelector "setAllowsExtensionItems:"
+
 -- | @Selector@ for @fullScreenAccessoryView@
-fullScreenAccessoryViewSelector :: Selector '[] (Id NSView)
+fullScreenAccessoryViewSelector :: Selector '[] RawId
 fullScreenAccessoryViewSelector = mkSelector "fullScreenAccessoryView"
 
 -- | @Selector@ for @setFullScreenAccessoryView:@
-setFullScreenAccessoryViewSelector :: Selector '[Id NSView] ()
+setFullScreenAccessoryViewSelector :: Selector '[RawId] ()
 setFullScreenAccessoryViewSelector = mkSelector "setFullScreenAccessoryView:"
 
 -- | @Selector@ for @fullScreenAccessoryViewMinHeight@
@@ -588,16 +485,4 @@ fullScreenAccessoryViewMaxHeightSelector = mkSelector "fullScreenAccessoryViewMa
 -- | @Selector@ for @setFullScreenAccessoryViewMaxHeight:@
 setFullScreenAccessoryViewMaxHeightSelector :: Selector '[CDouble] ()
 setFullScreenAccessoryViewMaxHeightSelector = mkSelector "setFullScreenAccessoryViewMaxHeight:"
-
--- | @Selector@ for @showsBaselineSeparator@
-showsBaselineSeparatorSelector :: Selector '[] Bool
-showsBaselineSeparatorSelector = mkSelector "showsBaselineSeparator"
-
--- | @Selector@ for @setShowsBaselineSeparator:@
-setShowsBaselineSeparatorSelector :: Selector '[Bool] ()
-setShowsBaselineSeparatorSelector = mkSelector "setShowsBaselineSeparator:"
-
--- | @Selector@ for @configurationDictionary@
-configurationDictionarySelector :: Selector '[] (Id NSDictionary)
-configurationDictionarySelector = mkSelector "configurationDictionary"
 

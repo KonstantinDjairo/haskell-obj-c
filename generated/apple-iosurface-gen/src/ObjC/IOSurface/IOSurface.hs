@@ -36,7 +36,6 @@ module ObjC.IOSurface.IOSurface
   , bytesPerElement
   , elementWidth
   , elementHeight
-  , surfaceID
   , seed
   , planeCount
   , inUse
@@ -72,7 +71,6 @@ module ObjC.IOSurface.IOSurface
   , setAllAttachmentsSelector
   , setAttachment_forKeySelector
   , setPurgeable_oldStateSelector
-  , surfaceIDSelector
   , unlockWithOptions_seedSelector
   , widthOfPlaneAtIndexSelector
   , widthSelector
@@ -241,11 +239,6 @@ elementHeight :: IsIOSurface ioSurface => ioSurface -> IO CLong
 elementHeight ioSurface =
   sendMessage ioSurface elementHeightSelector
 
--- | @- surfaceID@
-surfaceID :: IsIOSurface ioSurface => ioSurface -> IO CUInt
-surfaceID ioSurface =
-  sendMessage ioSurface surfaceIDSelector
-
 -- | @- seed@
 seed :: IsIOSurface ioSurface => ioSurface -> IO CUInt
 seed ioSurface =
@@ -386,10 +379,6 @@ elementWidthSelector = mkSelector "elementWidth"
 -- | @Selector@ for @elementHeight@
 elementHeightSelector :: Selector '[] CLong
 elementHeightSelector = mkSelector "elementHeight"
-
--- | @Selector@ for @surfaceID@
-surfaceIDSelector :: Selector '[] CUInt
-surfaceIDSelector = mkSelector "surfaceID"
 
 -- | @Selector@ for @seed@
 seedSelector :: Selector '[] CUInt

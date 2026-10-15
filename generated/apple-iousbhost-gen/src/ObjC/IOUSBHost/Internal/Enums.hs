@@ -115,42 +115,6 @@ instance ObjCReturn IOUSBHostIsochronousTransferOptions where
   fromRetained x = pure (IOUSBHostIsochronousTransferOptions x)
   fromOwned x = pure (IOUSBHostIsochronousTransferOptions x)
 
--- | IOUSBHostObjectDestroyOptions
---
--- Options for destroyWithOptions
---
--- IOUSBHostObjectDestroyOptionsDeviceSurrender Upon <code>destroyWithOptions</code> of the IOUSBHostDevice,
---
--- the device will not be reset and drivers will not be re-registered for matching.  This allows for IOUSBHostDevice              objects that were initialized with IOUSBHostObjectInitOptionsDeviceCapture to honor the              kUSBHostMessageDeviceIsRequestingClose message.
---
--- This option is only valid for macOS
--- | @IOUSBHostObjectDestroyOptions@ (bitmask)
-newtype IOUSBHostObjectDestroyOptions = IOUSBHostObjectDestroyOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup IOUSBHostObjectDestroyOptions where
-  (<>) = (.|.)
-
-instance Monoid IOUSBHostObjectDestroyOptions where
-  mempty = IOUSBHostObjectDestroyOptions 0
-
-pattern IOUSBHostObjectDestroyOptionsNone :: IOUSBHostObjectDestroyOptions
-pattern IOUSBHostObjectDestroyOptionsNone = IOUSBHostObjectDestroyOptions 0
-
-pattern IOUSBHostObjectDestroyOptionsDeviceSurrender :: IOUSBHostObjectDestroyOptions
-pattern IOUSBHostObjectDestroyOptionsDeviceSurrender = IOUSBHostObjectDestroyOptions 1
-
-instance ObjCArgument IOUSBHostObjectDestroyOptions where
-  withObjCArg (IOUSBHostObjectDestroyOptions x) k = k (argCULong x)
-
-instance ObjCReturn IOUSBHostObjectDestroyOptions where
-  type RawReturn IOUSBHostObjectDestroyOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (IOUSBHostObjectDestroyOptions x)
-  fromOwned x = pure (IOUSBHostObjectDestroyOptions x)
-
 -- | IOUSBHostObjectInitOptions
 --
 -- Options for initWithIOService:options:queue:error:interestHandler
@@ -158,10 +122,6 @@ instance ObjCReturn IOUSBHostObjectDestroyOptions where
 -- IOUSBHostObjectInitOptionsDeviceCapture Callers must have the "com.apple.vm.device-access" entitlement
 --
 -- and the IOUSBHostDevice IOService object needs to have successfully been authorized by IOServiceAuthorize().              If the caller has root privelages the entitlement and authorization is not needed. Using this option              will terminate all clients and drivers of the IOUSBHostDevice and associated IOUSBHostInterface clients              besides the caller.              Upon destroy of the IOUSBHostDevice, the device will be reset and drivers will be re-registered              for matching. This option is only valid for macOS
---
--- IOUSBHostObjectInitOptionsDeviceSeize This option will request the current owner of the underlying kernel
---
--- service to close via kUSBHostMessageDeviceIsRequestingClose message.  The message will include              the registry entry ID of the requesting service.
 -- | @IOUSBHostObjectInitOptions@ (bitmask)
 newtype IOUSBHostObjectInitOptions = IOUSBHostObjectInitOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -178,9 +138,6 @@ pattern IOUSBHostObjectInitOptionsNone = IOUSBHostObjectInitOptions 0
 
 pattern IOUSBHostObjectInitOptionsDeviceCapture :: IOUSBHostObjectInitOptions
 pattern IOUSBHostObjectInitOptionsDeviceCapture = IOUSBHostObjectInitOptions 1
-
-pattern IOUSBHostObjectInitOptionsDeviceSeize :: IOUSBHostObjectInitOptions
-pattern IOUSBHostObjectInitOptionsDeviceSeize = IOUSBHostObjectInitOptions 2
 
 instance ObjCArgument IOUSBHostObjectInitOptions where
   withObjCArg (IOUSBHostObjectInitOptions x) k = k (argCULong x)

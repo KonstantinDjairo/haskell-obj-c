@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -34,8 +33,6 @@ module ObjC.Metal.MTLComputePipelineDescriptor
   , setSupportAddingBinaryFunctions
   , maxCallStackDepth
   , setMaxCallStackDepth
-  , shaderValidation
-  , setShaderValidation
   , binaryArchivesSelector
   , buffersSelector
   , computeFunctionSelector
@@ -54,22 +51,15 @@ module ObjC.Metal.MTLComputePipelineDescriptor
   , setMaxCallStackDepthSelector
   , setMaxTotalThreadsPerThreadgroupSelector
   , setPreloadedLibrariesSelector
-  , setShaderValidationSelector
   , setStageInputDescriptorSelector
   , setSupportAddingBinaryFunctionsSelector
   , setSupportIndirectCommandBuffersSelector
   , setThreadGroupSizeIsMultipleOfThreadExecutionWidthSelector
-  , shaderValidationSelector
   , stageInputDescriptorSelector
   , supportAddingBinaryFunctionsSelector
   , supportIndirectCommandBuffersSelector
   , threadGroupSizeIsMultipleOfThreadExecutionWidthSelector
 
-  -- * Enum types
-  , MTLShaderValidation(MTLShaderValidation)
-  , pattern MTLShaderValidationDefault
-  , pattern MTLShaderValidationEnabled
-  , pattern MTLShaderValidationDisabled
 
   ) where
 
@@ -82,7 +72,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Metal.Internal.Classes
-import ObjC.Metal.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | reset
@@ -347,28 +336,6 @@ setMaxCallStackDepth :: IsMTLComputePipelineDescriptor mtlComputePipelineDescrip
 setMaxCallStackDepth mtlComputePipelineDescriptor value =
   sendMessage mtlComputePipelineDescriptor setMaxCallStackDepthSelector value
 
--- | shaderValidation
---
--- Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
---
--- The value can be overridden using @MTL_SHADER_VALIDATION_ENABLE_PIPELINES@ or @MTL_SHADER_VALIDATION_DISABLE_PIPELINES@ Environment Variables.
---
--- ObjC selector: @- shaderValidation@
-shaderValidation :: IsMTLComputePipelineDescriptor mtlComputePipelineDescriptor => mtlComputePipelineDescriptor -> IO MTLShaderValidation
-shaderValidation mtlComputePipelineDescriptor =
-  sendMessage mtlComputePipelineDescriptor shaderValidationSelector
-
--- | shaderValidation
---
--- Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
---
--- The value can be overridden using @MTL_SHADER_VALIDATION_ENABLE_PIPELINES@ or @MTL_SHADER_VALIDATION_DISABLE_PIPELINES@ Environment Variables.
---
--- ObjC selector: @- setShaderValidation:@
-setShaderValidation :: IsMTLComputePipelineDescriptor mtlComputePipelineDescriptor => mtlComputePipelineDescriptor -> MTLShaderValidation -> IO ()
-setShaderValidation mtlComputePipelineDescriptor value =
-  sendMessage mtlComputePipelineDescriptor setShaderValidationSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -476,12 +443,4 @@ maxCallStackDepthSelector = mkSelector "maxCallStackDepth"
 -- | @Selector@ for @setMaxCallStackDepth:@
 setMaxCallStackDepthSelector :: Selector '[CULong] ()
 setMaxCallStackDepthSelector = mkSelector "setMaxCallStackDepth:"
-
--- | @Selector@ for @shaderValidation@
-shaderValidationSelector :: Selector '[] MTLShaderValidation
-shaderValidationSelector = mkSelector "shaderValidation"
-
--- | @Selector@ for @setShaderValidation:@
-setShaderValidationSelector :: Selector '[MTLShaderValidation] ()
-setShaderValidationSelector = mkSelector "setShaderValidation:"
 

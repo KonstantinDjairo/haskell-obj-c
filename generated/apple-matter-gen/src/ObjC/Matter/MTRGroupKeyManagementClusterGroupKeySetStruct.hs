@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRGroupKeyManagementClusterGroupKeySetStruct
   ( MTRGroupKeyManagementClusterGroupKeySetStruct
   , IsMTRGroupKeyManagementClusterGroupKeySetStruct(..)
+  , init_
+  , copyWithZone
   , groupKeySetID
   , setGroupKeySetID
   , groupKeySecurityPolicy
@@ -23,6 +25,7 @@ module ObjC.Matter.MTRGroupKeyManagementClusterGroupKeySetStruct
   , setEpochKey2
   , epochStartTime2
   , setEpochStartTime2
+  , copyWithZoneSelector
   , epochKey0Selector
   , epochKey1Selector
   , epochKey2Selector
@@ -31,6 +34,7 @@ module ObjC.Matter.MTRGroupKeyManagementClusterGroupKeySetStruct
   , epochStartTime2Selector
   , groupKeySecurityPolicySelector
   , groupKeySetIDSelector
+  , initSelector
   , setEpochKey0Selector
   , setEpochKey1Selector
   , setEpochKey2Selector
@@ -53,6 +57,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGroupKeyManagementClusterGroupKeySetStruct mtrGroupKeyManagementClusterGroupKeySetStruct => mtrGroupKeyManagementClusterGroupKeySetStruct -> IO (Id MTRGroupKeyManagementClusterGroupKeySetStruct)
+init_ mtrGroupKeyManagementClusterGroupKeySetStruct =
+  sendOwnedMessage mtrGroupKeyManagementClusterGroupKeySetStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupKeyManagementClusterGroupKeySetStruct mtrGroupKeyManagementClusterGroupKeySetStruct => mtrGroupKeyManagementClusterGroupKeySetStruct -> Ptr () -> IO RawId
+copyWithZone mtrGroupKeyManagementClusterGroupKeySetStruct zone =
+  sendOwnedMessage mtrGroupKeyManagementClusterGroupKeySetStruct copyWithZoneSelector zone
 
 -- | @- groupKeySetID@
 groupKeySetID :: IsMTRGroupKeyManagementClusterGroupKeySetStruct mtrGroupKeyManagementClusterGroupKeySetStruct => mtrGroupKeyManagementClusterGroupKeySetStruct -> IO (Id NSNumber)
@@ -137,6 +151,14 @@ setEpochStartTime2 mtrGroupKeyManagementClusterGroupKeySetStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupKeyManagementClusterGroupKeySetStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @groupKeySetID@
 groupKeySetIDSelector :: Selector '[] (Id NSNumber)

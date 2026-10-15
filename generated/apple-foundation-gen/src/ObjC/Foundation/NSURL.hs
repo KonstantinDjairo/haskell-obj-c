@@ -23,13 +23,12 @@ module ObjC.Foundation.NSURL
   , initWithString_relativeToURL
   , urlWithString
   , urlWithString_relativeToURL
-  , initWithString_encodingInvalidCharacters
-  , urlWithString_encodingInvalidCharacters
   , initWithDataRepresentation_relativeToURL
   , urlWithDataRepresentation_relativeToURL
   , initAbsoluteURLWithDataRepresentation_relativeToURL
   , absoluteURLWithDataRepresentation_relativeToURL
   , getFileSystemRepresentation_maxLength
+  , checkResourceIsReachableAndReturnError
   , isFileReferenceURL
   , fileReferenceURL
   , getResourceValue_forKey_error
@@ -58,7 +57,6 @@ module ObjC.Foundation.NSURL
   , urlByAppendingPathComponent
   , urlByAppendingPathComponent_isDirectory
   , urlByAppendingPathExtension
-  , checkResourceIsReachableAndReturnError
   , getPromisedItemResourceValue_forKey_error
   , promisedItemResourceValuesForKeys_error
   , checkPromisedItemIsReachableAndReturnError
@@ -125,7 +123,6 @@ module ObjC.Foundation.NSURL
   , initWithDataRepresentation_relativeToURLSelector
   , initWithScheme_host_pathSelector
   , initWithStringSelector
-  , initWithString_encodingInvalidCharactersSelector
   , initWithString_relativeToURLSelector
   , isFileReferenceURLSelector
   , lastPathComponentSelector
@@ -168,7 +165,6 @@ module ObjC.Foundation.NSURL
   , urlHandleUsingCacheSelector
   , urlWithDataRepresentation_relativeToURLSelector
   , urlWithStringSelector
-  , urlWithString_encodingInvalidCharactersSelector
   , urlWithString_relativeToURLSelector
   , userSelector
   , writeBookmarkData_toURL_options_errorSelector
@@ -289,26 +285,6 @@ urlWithString_relativeToURL urlString baseURL =
     cls' <- getRequiredClass "NSURL"
     sendClassMessage cls' urlWithString_relativeToURLSelector (toNSString urlString) (toNSURL baseURL)
 
--- | Initializes an @NSURL@ with a URL string and the option to add (or skip) IDNA- and percent-encoding of invalid characters. If @encodingInvalidCharacters@ is false, and the URL string is invalid according to RFC 3986, @nil@ is returned. If @encodingInvalidCharacters@ is true, @NSURL@ will try to encode the string to create a valid URL. If the URL string is still invalid after encoding, @nil@ is returned.
---
--- - Parameter URLString: The URL string. - Parameter encodingInvalidCharacters: True if @NSURL@ should try to encode an invalid URL string, false otherwise. - Returns: An @NSURL@ instance for a valid URL, or @nil@ if the URL is invalid.
---
--- ObjC selector: @- initWithString:encodingInvalidCharacters:@
-initWithString_encodingInvalidCharacters :: (IsNSURL nsurl, IsNSString urlString) => nsurl -> urlString -> Bool -> IO (Id NSURL)
-initWithString_encodingInvalidCharacters nsurl urlString encodingInvalidCharacters =
-  sendOwnedMessage nsurl initWithString_encodingInvalidCharactersSelector (toNSString urlString) encodingInvalidCharacters
-
--- | Initializes and returns a newly created @NSURL@ with a URL string and the option to add (or skip) IDNA- and percent-encoding of invalid characters. If @encodingInvalidCharacters@ is false, and the URL string is invalid according to RFC 3986, @nil@ is returned. If @encodingInvalidCharacters@ is true, @NSURL@ will try to encode the string to create a valid URL. If the URL string is still invalid after encoding, @nil@ is returned.
---
--- - Parameter URLString: The URL string. - Parameter encodingInvalidCharacters: True if @NSURL@ should try to encode an invalid URL string, false otherwise. - Returns: An @NSURL@ instance for a valid URL, or @nil@ if the URL is invalid.
---
--- ObjC selector: @+ URLWithString:encodingInvalidCharacters:@
-urlWithString_encodingInvalidCharacters :: IsNSString urlString => urlString -> Bool -> IO (Id NSURL)
-urlWithString_encodingInvalidCharacters urlString encodingInvalidCharacters =
-  do
-    cls' <- getRequiredClass "NSURL"
-    sendClassMessage cls' urlWithString_encodingInvalidCharactersSelector (toNSString urlString) encodingInvalidCharacters
-
 -- | @- initWithDataRepresentation:relativeToURL:@
 initWithDataRepresentation_relativeToURL :: (IsNSURL nsurl, IsNSData data_, IsNSURL baseURL) => nsurl -> data_ -> baseURL -> IO (Id NSURL)
 initWithDataRepresentation_relativeToURL nsurl data_ baseURL =
@@ -337,6 +313,11 @@ absoluteURLWithDataRepresentation_relativeToURL data_ baseURL =
 getFileSystemRepresentation_maxLength :: IsNSURL nsurl => nsurl -> Ptr CChar -> CULong -> IO Bool
 getFileSystemRepresentation_maxLength nsurl buffer maxBufferLength =
   sendMessage nsurl getFileSystemRepresentation_maxLengthSelector buffer maxBufferLength
+
+-- | @- checkResourceIsReachableAndReturnError:@
+checkResourceIsReachableAndReturnError :: (IsNSURL nsurl, IsNSError error_) => nsurl -> error_ -> IO Bool
+checkResourceIsReachableAndReturnError nsurl error_ =
+  sendMessage nsurl checkResourceIsReachableAndReturnErrorSelector (toNSError error_)
 
 -- | @- isFileReferenceURL@
 isFileReferenceURL :: IsNSURL nsurl => nsurl -> IO Bool
@@ -489,11 +470,6 @@ urlByAppendingPathComponent_isDirectory nsurl pathComponent isDirectory =
 urlByAppendingPathExtension :: (IsNSURL nsurl, IsNSString pathExtension) => nsurl -> pathExtension -> IO (Id NSURL)
 urlByAppendingPathExtension nsurl pathExtension =
   sendMessage nsurl urlByAppendingPathExtensionSelector (toNSString pathExtension)
-
--- | @- checkResourceIsReachableAndReturnError:@
-checkResourceIsReachableAndReturnError :: (IsNSURL nsurl, IsNSError error_) => nsurl -> error_ -> IO Bool
-checkResourceIsReachableAndReturnError nsurl error_ =
-  sendMessage nsurl checkResourceIsReachableAndReturnErrorSelector (toNSError error_)
 
 -- | @- getPromisedItemResourceValue:forKey:error:@
 getPromisedItemResourceValue_forKey_error :: (IsNSURL nsurl, IsNSString key, IsNSError error_) => nsurl -> Ptr RawId -> key -> error_ -> IO Bool
@@ -714,14 +690,6 @@ urlWithStringSelector = mkSelector "URLWithString:"
 urlWithString_relativeToURLSelector :: Selector '[Id NSString, Id NSURL] (Id NSURL)
 urlWithString_relativeToURLSelector = mkSelector "URLWithString:relativeToURL:"
 
--- | @Selector@ for @initWithString:encodingInvalidCharacters:@
-initWithString_encodingInvalidCharactersSelector :: Selector '[Id NSString, Bool] (Id NSURL)
-initWithString_encodingInvalidCharactersSelector = mkSelector "initWithString:encodingInvalidCharacters:"
-
--- | @Selector@ for @URLWithString:encodingInvalidCharacters:@
-urlWithString_encodingInvalidCharactersSelector :: Selector '[Id NSString, Bool] (Id NSURL)
-urlWithString_encodingInvalidCharactersSelector = mkSelector "URLWithString:encodingInvalidCharacters:"
-
 -- | @Selector@ for @initWithDataRepresentation:relativeToURL:@
 initWithDataRepresentation_relativeToURLSelector :: Selector '[Id NSData, Id NSURL] (Id NSURL)
 initWithDataRepresentation_relativeToURLSelector = mkSelector "initWithDataRepresentation:relativeToURL:"
@@ -741,6 +709,10 @@ absoluteURLWithDataRepresentation_relativeToURLSelector = mkSelector "absoluteUR
 -- | @Selector@ for @getFileSystemRepresentation:maxLength:@
 getFileSystemRepresentation_maxLengthSelector :: Selector '[Ptr CChar, CULong] Bool
 getFileSystemRepresentation_maxLengthSelector = mkSelector "getFileSystemRepresentation:maxLength:"
+
+-- | @Selector@ for @checkResourceIsReachableAndReturnError:@
+checkResourceIsReachableAndReturnErrorSelector :: Selector '[Id NSError] Bool
+checkResourceIsReachableAndReturnErrorSelector = mkSelector "checkResourceIsReachableAndReturnError:"
 
 -- | @Selector@ for @isFileReferenceURL@
 isFileReferenceURLSelector :: Selector '[] Bool
@@ -853,10 +825,6 @@ urlByAppendingPathComponent_isDirectorySelector = mkSelector "URLByAppendingPath
 -- | @Selector@ for @URLByAppendingPathExtension:@
 urlByAppendingPathExtensionSelector :: Selector '[Id NSString] (Id NSURL)
 urlByAppendingPathExtensionSelector = mkSelector "URLByAppendingPathExtension:"
-
--- | @Selector@ for @checkResourceIsReachableAndReturnError:@
-checkResourceIsReachableAndReturnErrorSelector :: Selector '[Id NSError] Bool
-checkResourceIsReachableAndReturnErrorSelector = mkSelector "checkResourceIsReachableAndReturnError:"
 
 -- | @Selector@ for @getPromisedItemResourceValue:forKey:error:@
 getPromisedItemResourceValue_forKey_errorSelector :: Selector '[Ptr RawId, Id NSString, Id NSError] Bool

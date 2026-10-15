@@ -12,11 +12,9 @@ module ObjC.SensorKit.SRDevice
   , model
   , systemName
   , systemVersion
-  , productType
   , currentDeviceSelector
   , modelSelector
   , nameSelector
-  , productTypeSelector
   , systemNameSelector
   , systemVersionSelector
 
@@ -61,11 +59,6 @@ systemVersion :: IsSRDevice srDevice => srDevice -> IO (Id NSString)
 systemVersion srDevice =
   sendMessage srDevice systemVersionSelector
 
--- | @- productType@
-productType :: IsSRDevice srDevice => srDevice -> IO (Id NSString)
-productType srDevice =
-  sendMessage srDevice productTypeSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -89,8 +82,4 @@ systemNameSelector = mkSelector "systemName"
 -- | @Selector@ for @systemVersion@
 systemVersionSelector :: Selector '[] (Id NSString)
 systemVersionSelector = mkSelector "systemVersion"
-
--- | @Selector@ for @productType@
-productTypeSelector :: Selector '[] (Id NSString)
-productTypeSelector = mkSelector "productType"
 

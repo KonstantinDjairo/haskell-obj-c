@@ -47,8 +47,6 @@ module ObjC.WebKit.WKWebView
   , loadSimulatedRequest_withResponseHTMLString
   , printOperationWithPrintInfo
   , setMinimumViewportInset_maximumViewportInset
-  , fetchDataOfTypes_completionHandler
-  , restoreData_completionHandler
   , configuration
   , navigationDelegate
   , setNavigationDelegate
@@ -81,18 +79,12 @@ module ObjC.WebKit.WKWebView
   , setMediaType
   , interactionState
   , setInteractionState
-  , isBlockedByScreenTime
   , themeColor
   , underPageBackgroundColor
   , setUnderPageBackgroundColor
   , fullscreenState
   , minimumViewportInset
   , maximumViewportInset
-  , inspectable
-  , setInspectable
-  , writingToolsActive
-  , obscuredContentInsets
-  , setObscuredContentInsets
   , certificateChain
   , allowsBackForwardNavigationGesturesSelector
   , allowsLinkPreviewSelector
@@ -112,7 +104,6 @@ module ObjC.WebKit.WKWebView
   , estimatedProgressSelector
   , evaluateJavaScript_completionHandlerSelector
   , evaluateJavaScript_inFrame_inContentWorld_completionHandlerSelector
-  , fetchDataOfTypes_completionHandlerSelector
   , findString_withConfiguration_completionHandlerSelector
   , fullscreenStateSelector
   , goBackSelector
@@ -121,9 +112,7 @@ module ObjC.WebKit.WKWebView
   , handlesURLSchemeSelector
   , hasOnlySecureContentSelector
   , initWithCoderSelector
-  , inspectableSelector
   , interactionStateSelector
-  , isBlockedByScreenTimeSelector
   , loadData_MIMEType_characterEncodingName_baseURLSelector
   , loadFileRequest_allowingReadAccessToURLSelector
   , loadFileURL_allowingReadAccessToURLSelector
@@ -140,7 +129,6 @@ module ObjC.WebKit.WKWebView
   , microphoneCaptureStateSelector
   , minimumViewportInsetSelector
   , navigationDelegateSelector
-  , obscuredContentInsetsSelector
   , pageZoomSelector
   , pauseAllMediaPlaybackSelector
   , pauseAllMediaPlaybackWithCompletionHandlerSelector
@@ -149,7 +137,6 @@ module ObjC.WebKit.WKWebView
   , reloadSelector
   , requestMediaPlaybackStateSelector
   , requestMediaPlaybackStateWithCompletionHandlerSelector
-  , restoreData_completionHandlerSelector
   , resumeAllMediaPlaybackSelector
   , resumeDownloadFromResumeData_completionHandlerSelector
   , serverTrustSelector
@@ -159,14 +146,12 @@ module ObjC.WebKit.WKWebView
   , setAllowsMagnificationSelector
   , setCameraCaptureState_completionHandlerSelector
   , setCustomUserAgentSelector
-  , setInspectableSelector
   , setInteractionStateSelector
   , setMagnificationSelector
   , setMediaTypeSelector
   , setMicrophoneCaptureState_completionHandlerSelector
   , setMinimumViewportInset_maximumViewportInsetSelector
   , setNavigationDelegateSelector
-  , setObscuredContentInsetsSelector
   , setPageZoomSelector
   , setUIDelegateSelector
   , setUnderPageBackgroundColorSelector
@@ -179,7 +164,6 @@ module ObjC.WebKit.WKWebView
   , uiDelegateSelector
   , underPageBackgroundColorSelector
   , urlSelector
-  , writingToolsActiveSelector
 
   -- * Enum types
   , WKFullscreenState(WKFullscreenState)
@@ -191,8 +175,6 @@ module ObjC.WebKit.WKWebView
   , pattern WKMediaCaptureStateNone
   , pattern WKMediaCaptureStateActive
   , pattern WKMediaCaptureStateMuted
-  , WKWebViewDataType(WKWebViewDataType)
-  , pattern WKWebViewDataTypeSessionStorage
 
   ) where
 
@@ -541,16 +523,6 @@ setMinimumViewportInset_maximumViewportInset :: IsWKWebView wkWebView => wkWebVi
 setMinimumViewportInset_maximumViewportInset wkWebView minimumViewportInset maximumViewportInset =
   sendMessage wkWebView setMinimumViewportInset_maximumViewportInsetSelector minimumViewportInset maximumViewportInset
 
--- | @- fetchDataOfTypes:completionHandler:@
-fetchDataOfTypes_completionHandler :: IsWKWebView wkWebView => wkWebView -> WKWebViewDataType -> Ptr () -> IO ()
-fetchDataOfTypes_completionHandler wkWebView dataTypes completionHandler =
-  sendMessage wkWebView fetchDataOfTypes_completionHandlerSelector dataTypes completionHandler
-
--- | @- restoreData:completionHandler:@
-restoreData_completionHandler :: (IsWKWebView wkWebView, IsNSData data_) => wkWebView -> data_ -> Ptr () -> IO ()
-restoreData_completionHandler wkWebView data_ completionHandler =
-  sendMessage wkWebView restoreData_completionHandlerSelector (toNSData data_) completionHandler
-
 -- | A copy of the configuration with which the web view was initialized.
 --
 -- ObjC selector: @- configuration@
@@ -811,27 +783,20 @@ setInteractionState :: IsWKWebView wkWebView => wkWebView -> RawId -> IO ()
 setInteractionState wkWebView value =
   sendMessage wkWebView setInteractionStateSelector value
 
--- | A Boolean value indicating whether Screen Time blocking has occurred.
---
--- ObjC selector: @- isBlockedByScreenTime@
-isBlockedByScreenTime :: IsWKWebView wkWebView => wkWebView -> IO Bool
-isBlockedByScreenTime wkWebView =
-  sendMessage wkWebView isBlockedByScreenTimeSelector
-
 -- | @- themeColor@
-themeColor :: IsWKWebView wkWebView => wkWebView -> IO (Id NSColor)
+themeColor :: IsWKWebView wkWebView => wkWebView -> IO RawId
 themeColor wkWebView =
   sendMessage wkWebView themeColorSelector
 
 -- | @- underPageBackgroundColor@
-underPageBackgroundColor :: IsWKWebView wkWebView => wkWebView -> IO (Id NSColor)
+underPageBackgroundColor :: IsWKWebView wkWebView => wkWebView -> IO RawId
 underPageBackgroundColor wkWebView =
   sendMessage wkWebView underPageBackgroundColorSelector
 
 -- | @- setUnderPageBackgroundColor:@
-setUnderPageBackgroundColor :: (IsWKWebView wkWebView, IsNSColor value) => wkWebView -> value -> IO ()
+setUnderPageBackgroundColor :: IsWKWebView wkWebView => wkWebView -> RawId -> IO ()
 setUnderPageBackgroundColor wkWebView value =
-  sendMessage wkWebView setUnderPageBackgroundColorSelector (toNSColor value)
+  sendMessage wkWebView setUnderPageBackgroundColorSelector value
 
 -- | A WKWebView's fullscreen state.
 --
@@ -856,53 +821,6 @@ minimumViewportInset wkWebView =
 maximumViewportInset :: IsWKWebView wkWebView => wkWebView -> IO NSEdgeInsets
 maximumViewportInset wkWebView =
   sendMessage wkWebView maximumViewportInsetSelector
-
--- | Controls whether this
---
--- WKWebView
---
--- is inspectable in Web Inspector.
---
--- The default value is NO.
---
--- ObjC selector: @- inspectable@
-inspectable :: IsWKWebView wkWebView => wkWebView -> IO Bool
-inspectable wkWebView =
-  sendMessage wkWebView inspectableSelector
-
--- | Controls whether this
---
--- WKWebView
---
--- is inspectable in Web Inspector.
---
--- The default value is NO.
---
--- ObjC selector: @- setInspectable:@
-setInspectable :: IsWKWebView wkWebView => wkWebView -> Bool -> IO ()
-setInspectable wkWebView value =
-  sendMessage wkWebView setInspectableSelector value
-
--- | A Boolean value indicating whether Writing Tools is active for the view.
---
--- WKWebView
---
--- is key-value observing (KVO) compliant for this property.
---
--- ObjC selector: @- writingToolsActive@
-writingToolsActive :: IsWKWebView wkWebView => wkWebView -> IO Bool
-writingToolsActive wkWebView =
-  sendMessage wkWebView writingToolsActiveSelector
-
--- | @- obscuredContentInsets@
-obscuredContentInsets :: IsWKWebView wkWebView => wkWebView -> IO NSEdgeInsets
-obscuredContentInsets wkWebView =
-  sendMessage wkWebView obscuredContentInsetsSelector
-
--- | @- setObscuredContentInsets:@
-setObscuredContentInsets :: IsWKWebView wkWebView => wkWebView -> NSEdgeInsets -> IO ()
-setObscuredContentInsets wkWebView value =
-  sendMessage wkWebView setObscuredContentInsetsSelector value
 
 -- | @- certificateChain@
 certificateChain :: IsWKWebView wkWebView => wkWebView -> IO (Id NSArray)
@@ -1069,14 +987,6 @@ printOperationWithPrintInfoSelector = mkSelector "printOperationWithPrintInfo:"
 setMinimumViewportInset_maximumViewportInsetSelector :: Selector '[NSEdgeInsets, NSEdgeInsets] ()
 setMinimumViewportInset_maximumViewportInsetSelector = mkSelector "setMinimumViewportInset:maximumViewportInset:"
 
--- | @Selector@ for @fetchDataOfTypes:completionHandler:@
-fetchDataOfTypes_completionHandlerSelector :: Selector '[WKWebViewDataType, Ptr ()] ()
-fetchDataOfTypes_completionHandlerSelector = mkSelector "fetchDataOfTypes:completionHandler:"
-
--- | @Selector@ for @restoreData:completionHandler:@
-restoreData_completionHandlerSelector :: Selector '[Id NSData, Ptr ()] ()
-restoreData_completionHandlerSelector = mkSelector "restoreData:completionHandler:"
-
 -- | @Selector@ for @configuration@
 configurationSelector :: Selector '[] (Id WKWebViewConfiguration)
 configurationSelector = mkSelector "configuration"
@@ -1205,20 +1115,16 @@ interactionStateSelector = mkSelector "interactionState"
 setInteractionStateSelector :: Selector '[RawId] ()
 setInteractionStateSelector = mkSelector "setInteractionState:"
 
--- | @Selector@ for @isBlockedByScreenTime@
-isBlockedByScreenTimeSelector :: Selector '[] Bool
-isBlockedByScreenTimeSelector = mkSelector "isBlockedByScreenTime"
-
 -- | @Selector@ for @themeColor@
-themeColorSelector :: Selector '[] (Id NSColor)
+themeColorSelector :: Selector '[] RawId
 themeColorSelector = mkSelector "themeColor"
 
 -- | @Selector@ for @underPageBackgroundColor@
-underPageBackgroundColorSelector :: Selector '[] (Id NSColor)
+underPageBackgroundColorSelector :: Selector '[] RawId
 underPageBackgroundColorSelector = mkSelector "underPageBackgroundColor"
 
 -- | @Selector@ for @setUnderPageBackgroundColor:@
-setUnderPageBackgroundColorSelector :: Selector '[Id NSColor] ()
+setUnderPageBackgroundColorSelector :: Selector '[RawId] ()
 setUnderPageBackgroundColorSelector = mkSelector "setUnderPageBackgroundColor:"
 
 -- | @Selector@ for @fullscreenState@
@@ -1232,26 +1138,6 @@ minimumViewportInsetSelector = mkSelector "minimumViewportInset"
 -- | @Selector@ for @maximumViewportInset@
 maximumViewportInsetSelector :: Selector '[] NSEdgeInsets
 maximumViewportInsetSelector = mkSelector "maximumViewportInset"
-
--- | @Selector@ for @inspectable@
-inspectableSelector :: Selector '[] Bool
-inspectableSelector = mkSelector "inspectable"
-
--- | @Selector@ for @setInspectable:@
-setInspectableSelector :: Selector '[Bool] ()
-setInspectableSelector = mkSelector "setInspectable:"
-
--- | @Selector@ for @writingToolsActive@
-writingToolsActiveSelector :: Selector '[] Bool
-writingToolsActiveSelector = mkSelector "writingToolsActive"
-
--- | @Selector@ for @obscuredContentInsets@
-obscuredContentInsetsSelector :: Selector '[] NSEdgeInsets
-obscuredContentInsetsSelector = mkSelector "obscuredContentInsets"
-
--- | @Selector@ for @setObscuredContentInsets:@
-setObscuredContentInsetsSelector :: Selector '[NSEdgeInsets] ()
-setObscuredContentInsetsSelector = mkSelector "setObscuredContentInsets:"
 
 -- | @Selector@ for @certificateChain@
 certificateChainSelector :: Selector '[] (Id NSArray)

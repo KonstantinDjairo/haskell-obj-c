@@ -4,9 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A class that describes the compute device.
---
--- Generated bindings for @MPSGraphDevice@.
+-- | Generated bindings for @MPSGraphDevice@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphDevice
   ( MPSGraphDevice
   , IsMPSGraphDevice(..)
@@ -35,9 +33,11 @@ import ObjC.MetalPerformanceShadersGraph.Internal.Classes
 import ObjC.MetalPerformanceShadersGraph.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a device from a given Metal device.
+-- | Creates a Metal MPSGraphDevice from a MTLDevice
 --
--- - Parameters:   - metalDevice: @MTLDevice@ to create an MPSGraphDevice from. - Returns: A valid device.
+-- @metalDevice@ — MTLDevice to create an MPSGraphDevice from
+--
+-- Returns: A valid MPSGraphDevice
 --
 -- ObjC selector: @+ deviceWithMTLDevice:@
 deviceWithMTLDevice :: RawId -> IO (Id MPSGraphDevice)
@@ -46,14 +46,16 @@ deviceWithMTLDevice metalDevice =
     cls' <- getRequiredClass "MPSGraphDevice"
     sendClassMessage cls' deviceWithMTLDeviceSelector metalDevice
 
--- | Device of the MPSGraphDevice.
+-- | type
 --
 -- ObjC selector: @- type@
 type_ :: IsMPSGraphDevice mpsGraphDevice => mpsGraphDevice -> IO MPSGraphDeviceType
 type_ mpsGraphDevice =
   sendMessage mpsGraphDevice typeSelector
 
--- | If device type is Metal then returns the corresponding MTLDevice else nil.
+-- | metalDevice
+--
+-- if deviceType GPU then returns MTLDevice or nil
 --
 -- ObjC selector: @- metalDevice@
 metalDevice :: IsMPSGraphDevice mpsGraphDevice => mpsGraphDevice -> IO RawId

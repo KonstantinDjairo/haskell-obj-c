@@ -12,15 +12,13 @@ module ObjC.Photos.PHAssetResource
   , assetResourcesForLivePhoto
   , type_
   , assetLocalIdentifier
-  , originalFilename
-  , contentType
   , uniformTypeIdentifier
+  , originalFilename
   , pixelWidth
   , pixelHeight
   , assetLocalIdentifierSelector
   , assetResourcesForAssetSelector
   , assetResourcesForLivePhotoSelector
-  , contentTypeSelector
   , originalFilenameSelector
   , pixelHeightSelector
   , pixelWidthSelector
@@ -41,7 +39,6 @@ module ObjC.Photos.PHAssetResource
   , pattern PHAssetResourceTypeFullSizePairedVideo
   , pattern PHAssetResourceTypeAdjustmentBasePairedVideo
   , pattern PHAssetResourceTypeAdjustmentBaseVideo
-  , pattern PHAssetResourceTypePhotoProxy
 
   ) where
 
@@ -56,7 +53,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Photos.Internal.Classes
 import ObjC.Photos.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- | @+ assetResourcesForAsset:@
 assetResourcesForAsset :: IsPHAsset asset => asset -> IO (Id NSArray)
@@ -82,22 +78,15 @@ assetLocalIdentifier :: IsPHAssetResource phAssetResource => phAssetResource -> 
 assetLocalIdentifier phAssetResource =
   sendMessage phAssetResource assetLocalIdentifierSelector
 
--- | @- originalFilename@
-originalFilename :: IsPHAssetResource phAssetResource => phAssetResource -> IO (Id NSString)
-originalFilename phAssetResource =
-  sendMessage phAssetResource originalFilenameSelector
-
--- | The type of data associated with this asset resource (the data can be retrieved via PHAssetResourceManager)
---
--- ObjC selector: @- contentType@
-contentType :: IsPHAssetResource phAssetResource => phAssetResource -> IO (Id UTType)
-contentType phAssetResource =
-  sendMessage phAssetResource contentTypeSelector
-
 -- | @- uniformTypeIdentifier@
 uniformTypeIdentifier :: IsPHAssetResource phAssetResource => phAssetResource -> IO (Id NSString)
 uniformTypeIdentifier phAssetResource =
   sendMessage phAssetResource uniformTypeIdentifierSelector
+
+-- | @- originalFilename@
+originalFilename :: IsPHAssetResource phAssetResource => phAssetResource -> IO (Id NSString)
+originalFilename phAssetResource =
+  sendMessage phAssetResource originalFilenameSelector
 
 -- | @- pixelWidth@
 pixelWidth :: IsPHAssetResource phAssetResource => phAssetResource -> IO CLong
@@ -129,17 +118,13 @@ typeSelector = mkSelector "type"
 assetLocalIdentifierSelector :: Selector '[] (Id NSString)
 assetLocalIdentifierSelector = mkSelector "assetLocalIdentifier"
 
--- | @Selector@ for @originalFilename@
-originalFilenameSelector :: Selector '[] (Id NSString)
-originalFilenameSelector = mkSelector "originalFilename"
-
--- | @Selector@ for @contentType@
-contentTypeSelector :: Selector '[] (Id UTType)
-contentTypeSelector = mkSelector "contentType"
-
 -- | @Selector@ for @uniformTypeIdentifier@
 uniformTypeIdentifierSelector :: Selector '[] (Id NSString)
 uniformTypeIdentifierSelector = mkSelector "uniformTypeIdentifier"
+
+-- | @Selector@ for @originalFilename@
+originalFilenameSelector :: Selector '[] (Id NSString)
+originalFilenameSelector = mkSelector "originalFilename"
 
 -- | @Selector@ for @pixelWidth@
 pixelWidthSelector :: Selector '[] CLong

@@ -13,6 +13,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -42,14 +43,11 @@ library:
   - ObjC.GameKit.GKAchievementViewController
   - ObjC.GameKit.GKBasePlayer
   - ObjC.GameKit.GKChallenge
-  - ObjC.GameKit.GKChallengeDefinition
   - ObjC.GameKit.GKChallengeEventHandler
   - ObjC.GameKit.GKChallengesViewController
   - ObjC.GameKit.GKCloudPlayer
   - ObjC.GameKit.GKDialogController
   - ObjC.GameKit.GKFriendRequestComposeViewController
-  - ObjC.GameKit.GKGameActivity
-  - ObjC.GameKit.GKGameActivityDefinition
   - ObjC.GameKit.GKGameCenterViewController
   - ObjC.GameKit.GKGameSession
   - ObjC.GameKit.GKInvite
@@ -61,7 +59,6 @@ library:
   - ObjC.GameKit.GKLocalPlayer
   - ObjC.GameKit.GKMatch
   - ObjC.GameKit.GKMatchRequest
-  - ObjC.GameKit.GKMatchedPlayers
   - ObjC.GameKit.GKMatchmaker
   - ObjC.GameKit.GKMatchmakerViewController
   - ObjC.GameKit.GKNotificationBanner

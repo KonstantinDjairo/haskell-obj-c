@@ -35,7 +35,11 @@ module ObjC.AppKit.NSImage
   , addRepresentations
   , addRepresentation
   , removeRepresentation
+  , lockFocus
+  , lockFocusFlipped
+  , unlockFocus
   , canInitWithPasteboard
+  , cancelIncrementalLoad
   , initWithCGImage_size
   , cgImageForProposedRect_context_hints
   , bestRepresentationForRect_context_hints
@@ -43,18 +47,21 @@ module ObjC.AppKit.NSImage
   , recommendedLayerContentsScale
   , layerContentsForContentsScale
   , imageWithSymbolConfiguration
-  , imageWithLocale
+  , bestRepresentationForDevice
   , imageUnfilteredFileTypes
   , imageUnfilteredPasteboardTypes
   , imageFileTypes
   , imagePasteboardTypes
   , initWithIconRef
-  , bestRepresentationForDevice
-  , lockFocus
-  , lockFocusFlipped
-  , unlockFocus
   , setFlipped
   , isFlipped
+  , dissolveToPoint_fraction
+  , dissolveToPoint_fromRect_fraction
+  , compositeToPoint_operation
+  , compositeToPoint_fromRect_operation
+  , compositeToPoint_operation_fraction
+  , compositeToPoint_fromRect_operation_fraction
+  , lockFocusOnRepresentation
   , setScalesWhenResized
   , scalesWhenResized
   , setDataRetained
@@ -63,14 +70,6 @@ module ObjC.AppKit.NSImage
   , isCachedSeparately
   , setCacheDepthMatchesImageDepth
   , cacheDepthMatchesImageDepth
-  , dissolveToPoint_fraction
-  , dissolveToPoint_fromRect_fraction
-  , compositeToPoint_operation
-  , compositeToPoint_fromRect_operation
-  , compositeToPoint_operation_fraction
-  , compositeToPoint_fromRect_operation_fraction
-  , lockFocusOnRepresentation
-  , cancelIncrementalLoad
   , size
   , setSize
   , backgroundColor
@@ -88,8 +87,6 @@ module ObjC.AppKit.NSImage
   , valid
   , delegate
   , setDelegate
-  , imageTypes
-  , imageUnfilteredTypes
   , cacheMode
   , setCacheMode
   , alignmentRect
@@ -103,7 +100,6 @@ module ObjC.AppKit.NSImage
   , resizingMode
   , setResizingMode
   , symbolConfiguration
-  , locale
   , accessibilityDescriptionSelector
   , addRepresentationSelector
   , addRepresentationsSelector
@@ -133,11 +129,8 @@ module ObjC.AppKit.NSImage
   , imageFileTypesSelector
   , imageNamedSelector
   , imagePasteboardTypesSelector
-  , imageTypesSelector
   , imageUnfilteredFileTypesSelector
   , imageUnfilteredPasteboardTypesSelector
-  , imageUnfilteredTypesSelector
-  , imageWithLocaleSelector
   , imageWithSize_flipped_drawingHandlerSelector
   , imageWithSymbolConfigurationSelector
   , imageWithSymbolName_bundle_variableValueSelector
@@ -159,7 +152,6 @@ module ObjC.AppKit.NSImage
   , isDataRetainedSelector
   , isFlippedSelector
   , layerContentsForContentsScaleSelector
-  , localeSelector
   , lockFocusFlippedSelector
   , lockFocusOnRepresentationSelector
   , lockFocusSelector
@@ -238,8 +230,8 @@ module ObjC.AppKit.NSImage
   , pattern NSImageCacheBySize
   , pattern NSImageCacheNever
   , NSImageResizingMode(NSImageResizingMode)
-  , pattern NSImageResizingModeTile
   , pattern NSImageResizingModeStretch
+  , pattern NSImageResizingModeTile
   , NSTIFFCompression(NSTIFFCompression)
   , pattern NSTIFFCompressionNone
   , pattern NSTIFFCompressionCCITTFAX3
@@ -446,12 +438,32 @@ removeRepresentation :: (IsNSImage nsImage, IsNSImageRep imageRep) => nsImage ->
 removeRepresentation nsImage imageRep =
   sendMessage nsImage removeRepresentationSelector (toNSImageRep imageRep)
 
+-- | @- lockFocus@
+lockFocus :: IsNSImage nsImage => nsImage -> IO ()
+lockFocus nsImage =
+  sendMessage nsImage lockFocusSelector
+
+-- | @- lockFocusFlipped:@
+lockFocusFlipped :: IsNSImage nsImage => nsImage -> Bool -> IO ()
+lockFocusFlipped nsImage flipped =
+  sendMessage nsImage lockFocusFlippedSelector flipped
+
+-- | @- unlockFocus@
+unlockFocus :: IsNSImage nsImage => nsImage -> IO ()
+unlockFocus nsImage =
+  sendMessage nsImage unlockFocusSelector
+
 -- | @+ canInitWithPasteboard:@
 canInitWithPasteboard :: IsNSPasteboard pasteboard => pasteboard -> IO Bool
 canInitWithPasteboard pasteboard =
   do
     cls' <- getRequiredClass "NSImage"
     sendClassMessage cls' canInitWithPasteboardSelector (toNSPasteboard pasteboard)
+
+-- | @- cancelIncrementalLoad@
+cancelIncrementalLoad :: IsNSImage nsImage => nsImage -> IO ()
+cancelIncrementalLoad nsImage =
+  sendMessage nsImage cancelIncrementalLoadSelector
 
 -- | @- initWithCGImage:size:@
 initWithCGImage_size :: IsNSImage nsImage => nsImage -> Ptr () -> NSSize -> IO (Id NSImage)
@@ -488,12 +500,10 @@ imageWithSymbolConfiguration :: (IsNSImage nsImage, IsNSImageSymbolConfiguration
 imageWithSymbolConfiguration nsImage configuration =
   sendMessage nsImage imageWithSymbolConfigurationSelector (toNSImageSymbolConfiguration configuration)
 
--- | Creates and returns a new image with the specified locale. If the receiver contains locale-sensitive representations, the returned image will prefer to draw using representations appropriate for the specified locale. If locale is @nil@, the returned image uses the default behavior of choosing representations appropriate for the system’s currently-configured locale.
---
--- ObjC selector: @- imageWithLocale:@
-imageWithLocale :: (IsNSImage nsImage, IsNSLocale locale) => nsImage -> locale -> IO (Id NSImage)
-imageWithLocale nsImage locale =
-  sendMessage nsImage imageWithLocaleSelector (toNSLocale locale)
+-- | @- bestRepresentationForDevice:@
+bestRepresentationForDevice :: (IsNSImage nsImage, IsNSDictionary deviceDescription) => nsImage -> deviceDescription -> IO (Id NSImageRep)
+bestRepresentationForDevice nsImage deviceDescription =
+  sendMessage nsImage bestRepresentationForDeviceSelector (toNSDictionary deviceDescription)
 
 -- | @+ imageUnfilteredFileTypes@
 imageUnfilteredFileTypes :: IO (Id NSArray)
@@ -528,26 +538,6 @@ initWithIconRef :: IsNSImage nsImage => nsImage -> Ptr () -> IO (Id NSImage)
 initWithIconRef nsImage iconRef =
   sendOwnedMessage nsImage initWithIconRefSelector iconRef
 
--- | @- bestRepresentationForDevice:@
-bestRepresentationForDevice :: (IsNSImage nsImage, IsNSDictionary deviceDescription) => nsImage -> deviceDescription -> IO (Id NSImageRep)
-bestRepresentationForDevice nsImage deviceDescription =
-  sendMessage nsImage bestRepresentationForDeviceSelector (toNSDictionary deviceDescription)
-
--- | @- lockFocus@
-lockFocus :: IsNSImage nsImage => nsImage -> IO ()
-lockFocus nsImage =
-  sendMessage nsImage lockFocusSelector
-
--- | @- lockFocusFlipped:@
-lockFocusFlipped :: IsNSImage nsImage => nsImage -> Bool -> IO ()
-lockFocusFlipped nsImage flipped =
-  sendMessage nsImage lockFocusFlippedSelector flipped
-
--- | @- unlockFocus@
-unlockFocus :: IsNSImage nsImage => nsImage -> IO ()
-unlockFocus nsImage =
-  sendMessage nsImage unlockFocusSelector
-
 -- | @- setFlipped:@
 setFlipped :: IsNSImage nsImage => nsImage -> Bool -> IO ()
 setFlipped nsImage flag =
@@ -557,6 +547,41 @@ setFlipped nsImage flag =
 isFlipped :: IsNSImage nsImage => nsImage -> IO Bool
 isFlipped nsImage =
   sendMessage nsImage isFlippedSelector
+
+-- | @- dissolveToPoint:fraction:@
+dissolveToPoint_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> CDouble -> IO ()
+dissolveToPoint_fraction nsImage point fraction =
+  sendMessage nsImage dissolveToPoint_fractionSelector point fraction
+
+-- | @- dissolveToPoint:fromRect:fraction:@
+dissolveToPoint_fromRect_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> NSRect -> CDouble -> IO ()
+dissolveToPoint_fromRect_fraction nsImage point rect fraction =
+  sendMessage nsImage dissolveToPoint_fromRect_fractionSelector point rect fraction
+
+-- | @- compositeToPoint:operation:@
+compositeToPoint_operation :: IsNSImage nsImage => nsImage -> NSPoint -> NSCompositingOperation -> IO ()
+compositeToPoint_operation nsImage point op =
+  sendMessage nsImage compositeToPoint_operationSelector point op
+
+-- | @- compositeToPoint:fromRect:operation:@
+compositeToPoint_fromRect_operation :: IsNSImage nsImage => nsImage -> NSPoint -> NSRect -> NSCompositingOperation -> IO ()
+compositeToPoint_fromRect_operation nsImage point rect op =
+  sendMessage nsImage compositeToPoint_fromRect_operationSelector point rect op
+
+-- | @- compositeToPoint:operation:fraction:@
+compositeToPoint_operation_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> NSCompositingOperation -> CDouble -> IO ()
+compositeToPoint_operation_fraction nsImage point op delta =
+  sendMessage nsImage compositeToPoint_operation_fractionSelector point op delta
+
+-- | @- compositeToPoint:fromRect:operation:fraction:@
+compositeToPoint_fromRect_operation_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> NSRect -> NSCompositingOperation -> CDouble -> IO ()
+compositeToPoint_fromRect_operation_fraction nsImage point rect op delta =
+  sendMessage nsImage compositeToPoint_fromRect_operation_fractionSelector point rect op delta
+
+-- | @- lockFocusOnRepresentation:@
+lockFocusOnRepresentation :: (IsNSImage nsImage, IsNSImageRep imageRepresentation) => nsImage -> imageRepresentation -> IO ()
+lockFocusOnRepresentation nsImage imageRepresentation =
+  sendMessage nsImage lockFocusOnRepresentationSelector (toNSImageRep imageRepresentation)
 
 -- | @- setScalesWhenResized:@
 setScalesWhenResized :: IsNSImage nsImage => nsImage -> Bool -> IO ()
@@ -597,46 +622,6 @@ setCacheDepthMatchesImageDepth nsImage flag =
 cacheDepthMatchesImageDepth :: IsNSImage nsImage => nsImage -> IO Bool
 cacheDepthMatchesImageDepth nsImage =
   sendMessage nsImage cacheDepthMatchesImageDepthSelector
-
--- | @- dissolveToPoint:fraction:@
-dissolveToPoint_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> CDouble -> IO ()
-dissolveToPoint_fraction nsImage point fraction =
-  sendMessage nsImage dissolveToPoint_fractionSelector point fraction
-
--- | @- dissolveToPoint:fromRect:fraction:@
-dissolveToPoint_fromRect_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> NSRect -> CDouble -> IO ()
-dissolveToPoint_fromRect_fraction nsImage point rect fraction =
-  sendMessage nsImage dissolveToPoint_fromRect_fractionSelector point rect fraction
-
--- | @- compositeToPoint:operation:@
-compositeToPoint_operation :: IsNSImage nsImage => nsImage -> NSPoint -> NSCompositingOperation -> IO ()
-compositeToPoint_operation nsImage point operation =
-  sendMessage nsImage compositeToPoint_operationSelector point operation
-
--- | @- compositeToPoint:fromRect:operation:@
-compositeToPoint_fromRect_operation :: IsNSImage nsImage => nsImage -> NSPoint -> NSRect -> NSCompositingOperation -> IO ()
-compositeToPoint_fromRect_operation nsImage point rect operation =
-  sendMessage nsImage compositeToPoint_fromRect_operationSelector point rect operation
-
--- | @- compositeToPoint:operation:fraction:@
-compositeToPoint_operation_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> NSCompositingOperation -> CDouble -> IO ()
-compositeToPoint_operation_fraction nsImage point operation fraction =
-  sendMessage nsImage compositeToPoint_operation_fractionSelector point operation fraction
-
--- | @- compositeToPoint:fromRect:operation:fraction:@
-compositeToPoint_fromRect_operation_fraction :: IsNSImage nsImage => nsImage -> NSPoint -> NSRect -> NSCompositingOperation -> CDouble -> IO ()
-compositeToPoint_fromRect_operation_fraction nsImage point rect operation fraction =
-  sendMessage nsImage compositeToPoint_fromRect_operation_fractionSelector point rect operation fraction
-
--- | @- lockFocusOnRepresentation:@
-lockFocusOnRepresentation :: (IsNSImage nsImage, IsNSImageRep imageRepresentation) => nsImage -> imageRepresentation -> IO ()
-lockFocusOnRepresentation nsImage imageRepresentation =
-  sendMessage nsImage lockFocusOnRepresentationSelector (toNSImageRep imageRepresentation)
-
--- | @- cancelIncrementalLoad@
-cancelIncrementalLoad :: IsNSImage nsImage => nsImage -> IO ()
-cancelIncrementalLoad nsImage =
-  sendMessage nsImage cancelIncrementalLoadSelector
 
 -- | @- size@
 size :: IsNSImage nsImage => nsImage -> IO NSSize
@@ -723,20 +708,6 @@ setDelegate :: IsNSImage nsImage => nsImage -> RawId -> IO ()
 setDelegate nsImage value =
   sendMessage nsImage setDelegateSelector value
 
--- | @+ imageTypes@
-imageTypes :: IO (Id NSArray)
-imageTypes  =
-  do
-    cls' <- getRequiredClass "NSImage"
-    sendClassMessage cls' imageTypesSelector
-
--- | @+ imageUnfilteredTypes@
-imageUnfilteredTypes :: IO (Id NSArray)
-imageUnfilteredTypes  =
-  do
-    cls' <- getRequiredClass "NSImage"
-    sendClassMessage cls' imageUnfilteredTypesSelector
-
 -- | @- cacheMode@
 cacheMode :: IsNSImage nsImage => nsImage -> IO NSImageCacheMode
 cacheMode nsImage =
@@ -768,14 +739,14 @@ setTemplate nsImage value =
   sendMessage nsImage setTemplateSelector value
 
 -- | @- accessibilityDescription@
-accessibilityDescription :: IsNSImage nsImage => nsImage -> IO (Id NSString)
+accessibilityDescription :: IsNSImage nsImage => nsImage -> IO RawId
 accessibilityDescription nsImage =
   sendMessage nsImage accessibilityDescriptionSelector
 
 -- | @- setAccessibilityDescription:@
-setAccessibilityDescription :: (IsNSImage nsImage, IsNSString value) => nsImage -> value -> IO ()
+setAccessibilityDescription :: IsNSImage nsImage => nsImage -> RawId -> IO ()
 setAccessibilityDescription nsImage value =
-  sendMessage nsImage setAccessibilityDescriptionSelector (toNSString value)
+  sendMessage nsImage setAccessibilityDescriptionSelector value
 
 -- | @- capInsets@
 capInsets :: IsNSImage nsImage => nsImage -> IO NSEdgeInsets
@@ -798,16 +769,9 @@ setResizingMode nsImage value =
   sendMessage nsImage setResizingModeSelector value
 
 -- | @- symbolConfiguration@
-symbolConfiguration :: IsNSImage nsImage => nsImage -> IO (Id NSImageSymbolConfiguration)
+symbolConfiguration :: IsNSImage nsImage => nsImage -> IO RawId
 symbolConfiguration nsImage =
   sendMessage nsImage symbolConfigurationSelector
-
--- | The image’s preferred locale for resolving representations, if one has been specified using @-imageWithLocale:@. Otherwise, @nil@.
---
--- ObjC selector: @- locale@
-locale :: IsNSImage nsImage => nsImage -> IO (Id NSLocale)
-locale nsImage =
-  sendMessage nsImage localeSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -921,9 +885,25 @@ addRepresentationSelector = mkSelector "addRepresentation:"
 removeRepresentationSelector :: Selector '[Id NSImageRep] ()
 removeRepresentationSelector = mkSelector "removeRepresentation:"
 
+-- | @Selector@ for @lockFocus@
+lockFocusSelector :: Selector '[] ()
+lockFocusSelector = mkSelector "lockFocus"
+
+-- | @Selector@ for @lockFocusFlipped:@
+lockFocusFlippedSelector :: Selector '[Bool] ()
+lockFocusFlippedSelector = mkSelector "lockFocusFlipped:"
+
+-- | @Selector@ for @unlockFocus@
+unlockFocusSelector :: Selector '[] ()
+unlockFocusSelector = mkSelector "unlockFocus"
+
 -- | @Selector@ for @canInitWithPasteboard:@
 canInitWithPasteboardSelector :: Selector '[Id NSPasteboard] Bool
 canInitWithPasteboardSelector = mkSelector "canInitWithPasteboard:"
+
+-- | @Selector@ for @cancelIncrementalLoad@
+cancelIncrementalLoadSelector :: Selector '[] ()
+cancelIncrementalLoadSelector = mkSelector "cancelIncrementalLoad"
 
 -- | @Selector@ for @initWithCGImage:size:@
 initWithCGImage_sizeSelector :: Selector '[Ptr (), NSSize] (Id NSImage)
@@ -953,9 +933,9 @@ layerContentsForContentsScaleSelector = mkSelector "layerContentsForContentsScal
 imageWithSymbolConfigurationSelector :: Selector '[Id NSImageSymbolConfiguration] (Id NSImage)
 imageWithSymbolConfigurationSelector = mkSelector "imageWithSymbolConfiguration:"
 
--- | @Selector@ for @imageWithLocale:@
-imageWithLocaleSelector :: Selector '[Id NSLocale] (Id NSImage)
-imageWithLocaleSelector = mkSelector "imageWithLocale:"
+-- | @Selector@ for @bestRepresentationForDevice:@
+bestRepresentationForDeviceSelector :: Selector '[Id NSDictionary] (Id NSImageRep)
+bestRepresentationForDeviceSelector = mkSelector "bestRepresentationForDevice:"
 
 -- | @Selector@ for @imageUnfilteredFileTypes@
 imageUnfilteredFileTypesSelector :: Selector '[] (Id NSArray)
@@ -977,22 +957,6 @@ imagePasteboardTypesSelector = mkSelector "imagePasteboardTypes"
 initWithIconRefSelector :: Selector '[Ptr ()] (Id NSImage)
 initWithIconRefSelector = mkSelector "initWithIconRef:"
 
--- | @Selector@ for @bestRepresentationForDevice:@
-bestRepresentationForDeviceSelector :: Selector '[Id NSDictionary] (Id NSImageRep)
-bestRepresentationForDeviceSelector = mkSelector "bestRepresentationForDevice:"
-
--- | @Selector@ for @lockFocus@
-lockFocusSelector :: Selector '[] ()
-lockFocusSelector = mkSelector "lockFocus"
-
--- | @Selector@ for @lockFocusFlipped:@
-lockFocusFlippedSelector :: Selector '[Bool] ()
-lockFocusFlippedSelector = mkSelector "lockFocusFlipped:"
-
--- | @Selector@ for @unlockFocus@
-unlockFocusSelector :: Selector '[] ()
-unlockFocusSelector = mkSelector "unlockFocus"
-
 -- | @Selector@ for @setFlipped:@
 setFlippedSelector :: Selector '[Bool] ()
 setFlippedSelector = mkSelector "setFlipped:"
@@ -1000,6 +964,34 @@ setFlippedSelector = mkSelector "setFlipped:"
 -- | @Selector@ for @isFlipped@
 isFlippedSelector :: Selector '[] Bool
 isFlippedSelector = mkSelector "isFlipped"
+
+-- | @Selector@ for @dissolveToPoint:fraction:@
+dissolveToPoint_fractionSelector :: Selector '[NSPoint, CDouble] ()
+dissolveToPoint_fractionSelector = mkSelector "dissolveToPoint:fraction:"
+
+-- | @Selector@ for @dissolveToPoint:fromRect:fraction:@
+dissolveToPoint_fromRect_fractionSelector :: Selector '[NSPoint, NSRect, CDouble] ()
+dissolveToPoint_fromRect_fractionSelector = mkSelector "dissolveToPoint:fromRect:fraction:"
+
+-- | @Selector@ for @compositeToPoint:operation:@
+compositeToPoint_operationSelector :: Selector '[NSPoint, NSCompositingOperation] ()
+compositeToPoint_operationSelector = mkSelector "compositeToPoint:operation:"
+
+-- | @Selector@ for @compositeToPoint:fromRect:operation:@
+compositeToPoint_fromRect_operationSelector :: Selector '[NSPoint, NSRect, NSCompositingOperation] ()
+compositeToPoint_fromRect_operationSelector = mkSelector "compositeToPoint:fromRect:operation:"
+
+-- | @Selector@ for @compositeToPoint:operation:fraction:@
+compositeToPoint_operation_fractionSelector :: Selector '[NSPoint, NSCompositingOperation, CDouble] ()
+compositeToPoint_operation_fractionSelector = mkSelector "compositeToPoint:operation:fraction:"
+
+-- | @Selector@ for @compositeToPoint:fromRect:operation:fraction:@
+compositeToPoint_fromRect_operation_fractionSelector :: Selector '[NSPoint, NSRect, NSCompositingOperation, CDouble] ()
+compositeToPoint_fromRect_operation_fractionSelector = mkSelector "compositeToPoint:fromRect:operation:fraction:"
+
+-- | @Selector@ for @lockFocusOnRepresentation:@
+lockFocusOnRepresentationSelector :: Selector '[Id NSImageRep] ()
+lockFocusOnRepresentationSelector = mkSelector "lockFocusOnRepresentation:"
 
 -- | @Selector@ for @setScalesWhenResized:@
 setScalesWhenResizedSelector :: Selector '[Bool] ()
@@ -1032,38 +1024,6 @@ setCacheDepthMatchesImageDepthSelector = mkSelector "setCacheDepthMatchesImageDe
 -- | @Selector@ for @cacheDepthMatchesImageDepth@
 cacheDepthMatchesImageDepthSelector :: Selector '[] Bool
 cacheDepthMatchesImageDepthSelector = mkSelector "cacheDepthMatchesImageDepth"
-
--- | @Selector@ for @dissolveToPoint:fraction:@
-dissolveToPoint_fractionSelector :: Selector '[NSPoint, CDouble] ()
-dissolveToPoint_fractionSelector = mkSelector "dissolveToPoint:fraction:"
-
--- | @Selector@ for @dissolveToPoint:fromRect:fraction:@
-dissolveToPoint_fromRect_fractionSelector :: Selector '[NSPoint, NSRect, CDouble] ()
-dissolveToPoint_fromRect_fractionSelector = mkSelector "dissolveToPoint:fromRect:fraction:"
-
--- | @Selector@ for @compositeToPoint:operation:@
-compositeToPoint_operationSelector :: Selector '[NSPoint, NSCompositingOperation] ()
-compositeToPoint_operationSelector = mkSelector "compositeToPoint:operation:"
-
--- | @Selector@ for @compositeToPoint:fromRect:operation:@
-compositeToPoint_fromRect_operationSelector :: Selector '[NSPoint, NSRect, NSCompositingOperation] ()
-compositeToPoint_fromRect_operationSelector = mkSelector "compositeToPoint:fromRect:operation:"
-
--- | @Selector@ for @compositeToPoint:operation:fraction:@
-compositeToPoint_operation_fractionSelector :: Selector '[NSPoint, NSCompositingOperation, CDouble] ()
-compositeToPoint_operation_fractionSelector = mkSelector "compositeToPoint:operation:fraction:"
-
--- | @Selector@ for @compositeToPoint:fromRect:operation:fraction:@
-compositeToPoint_fromRect_operation_fractionSelector :: Selector '[NSPoint, NSRect, NSCompositingOperation, CDouble] ()
-compositeToPoint_fromRect_operation_fractionSelector = mkSelector "compositeToPoint:fromRect:operation:fraction:"
-
--- | @Selector@ for @lockFocusOnRepresentation:@
-lockFocusOnRepresentationSelector :: Selector '[Id NSImageRep] ()
-lockFocusOnRepresentationSelector = mkSelector "lockFocusOnRepresentation:"
-
--- | @Selector@ for @cancelIncrementalLoad@
-cancelIncrementalLoadSelector :: Selector '[] ()
-cancelIncrementalLoadSelector = mkSelector "cancelIncrementalLoad"
 
 -- | @Selector@ for @size@
 sizeSelector :: Selector '[] NSSize
@@ -1133,14 +1093,6 @@ delegateSelector = mkSelector "delegate"
 setDelegateSelector :: Selector '[RawId] ()
 setDelegateSelector = mkSelector "setDelegate:"
 
--- | @Selector@ for @imageTypes@
-imageTypesSelector :: Selector '[] (Id NSArray)
-imageTypesSelector = mkSelector "imageTypes"
-
--- | @Selector@ for @imageUnfilteredTypes@
-imageUnfilteredTypesSelector :: Selector '[] (Id NSArray)
-imageUnfilteredTypesSelector = mkSelector "imageUnfilteredTypes"
-
 -- | @Selector@ for @cacheMode@
 cacheModeSelector :: Selector '[] NSImageCacheMode
 cacheModeSelector = mkSelector "cacheMode"
@@ -1166,11 +1118,11 @@ setTemplateSelector :: Selector '[Bool] ()
 setTemplateSelector = mkSelector "setTemplate:"
 
 -- | @Selector@ for @accessibilityDescription@
-accessibilityDescriptionSelector :: Selector '[] (Id NSString)
+accessibilityDescriptionSelector :: Selector '[] RawId
 accessibilityDescriptionSelector = mkSelector "accessibilityDescription"
 
 -- | @Selector@ for @setAccessibilityDescription:@
-setAccessibilityDescriptionSelector :: Selector '[Id NSString] ()
+setAccessibilityDescriptionSelector :: Selector '[RawId] ()
 setAccessibilityDescriptionSelector = mkSelector "setAccessibilityDescription:"
 
 -- | @Selector@ for @capInsets@
@@ -1190,10 +1142,6 @@ setResizingModeSelector :: Selector '[NSImageResizingMode] ()
 setResizingModeSelector = mkSelector "setResizingMode:"
 
 -- | @Selector@ for @symbolConfiguration@
-symbolConfigurationSelector :: Selector '[] (Id NSImageSymbolConfiguration)
+symbolConfigurationSelector :: Selector '[] RawId
 symbolConfigurationSelector = mkSelector "symbolConfiguration"
-
--- | @Selector@ for @locale@
-localeSelector :: Selector '[] (Id NSLocale)
-localeSelector = mkSelector "locale"
 

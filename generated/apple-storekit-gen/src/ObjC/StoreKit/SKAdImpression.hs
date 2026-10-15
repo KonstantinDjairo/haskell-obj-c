@@ -129,16 +129,16 @@ setAdCampaignIdentifier skAdImpression value =
 -- | The source identifier
 --
 -- ObjC selector: @- sourceIdentifier@
-sourceIdentifier :: IsSKAdImpression skAdImpression => skAdImpression -> IO (Id NSNumber)
+sourceIdentifier :: IsSKAdImpression skAdImpression => skAdImpression -> IO RawId
 sourceIdentifier skAdImpression =
   sendMessage skAdImpression sourceIdentifierSelector
 
 -- | The source identifier
 --
 -- ObjC selector: @- setSourceIdentifier:@
-setSourceIdentifier :: (IsSKAdImpression skAdImpression, IsNSNumber value) => skAdImpression -> value -> IO ()
+setSourceIdentifier :: IsSKAdImpression skAdImpression => skAdImpression -> RawId -> IO ()
 setSourceIdentifier skAdImpression value =
-  sendMessage skAdImpression setSourceIdentifierSelector (toNSNumber value)
+  sendMessage skAdImpression setSourceIdentifierSelector value
 
 -- | The nonce used to generate the signature.
 --
@@ -275,11 +275,11 @@ setAdCampaignIdentifierSelector :: Selector '[Id NSNumber] ()
 setAdCampaignIdentifierSelector = mkSelector "setAdCampaignIdentifier:"
 
 -- | @Selector@ for @sourceIdentifier@
-sourceIdentifierSelector :: Selector '[] (Id NSNumber)
+sourceIdentifierSelector :: Selector '[] RawId
 sourceIdentifierSelector = mkSelector "sourceIdentifier"
 
 -- | @Selector@ for @setSourceIdentifier:@
-setSourceIdentifierSelector :: Selector '[Id NSNumber] ()
+setSourceIdentifierSelector :: Selector '[RawId] ()
 setSourceIdentifierSelector = mkSelector "setSourceIdentifier:"
 
 -- | @Selector@ for @adImpressionIdentifier@

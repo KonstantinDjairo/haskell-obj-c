@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRTestClusterClusterTestListInt8UReverseResponseParams
   ( MTRTestClusterClusterTestListInt8UReverseResponseParams
   , IsMTRTestClusterClusterTestListInt8UReverseResponseParams(..)
+  , init_
+  , copyWithZone
   , arg1
   , setArg1
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
   , arg1Selector
+  , copyWithZoneSelector
+  , initSelector
   , setArg1Selector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestListInt8UReverseResponseParams mtrTestClusterClusterTestListInt8UReverseResponseParams => mtrTestClusterClusterTestListInt8UReverseResponseParams -> IO (Id MTRTestClusterClusterTestListInt8UReverseResponseParams)
+init_ mtrTestClusterClusterTestListInt8UReverseResponseParams =
+  sendOwnedMessage mtrTestClusterClusterTestListInt8UReverseResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestListInt8UReverseResponseParams mtrTestClusterClusterTestListInt8UReverseResponseParams => mtrTestClusterClusterTestListInt8UReverseResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestListInt8UReverseResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestListInt8UReverseResponseParams copyWithZoneSelector zone
 
 -- | @- arg1@
 arg1 :: IsMTRTestClusterClusterTestListInt8UReverseResponseParams mtrTestClusterClusterTestListInt8UReverseResponseParams => mtrTestClusterClusterTestListInt8UReverseResponseParams -> IO (Id NSArray)
@@ -65,6 +79,14 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterTestListInt8UReverseResponseParams 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestListInt8UReverseResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @arg1@
 arg1Selector :: Selector '[] (Id NSArray)

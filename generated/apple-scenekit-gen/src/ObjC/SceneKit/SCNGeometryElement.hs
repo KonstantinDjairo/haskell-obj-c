@@ -13,17 +13,13 @@ module ObjC.SceneKit.SCNGeometryElement
   ( SCNGeometryElement
   , IsSCNGeometryElement(..)
   , geometryElementWithData_primitiveType_primitiveCount_bytesPerIndex
-  , geometryElementWithData_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndex
   , geometryElementWithBuffer_primitiveType_primitiveCount_bytesPerIndex
-  , geometryElementWithBuffer_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndex
   , data_
   , primitiveType
   , primitiveCount
-  , interleavedIndicesChannels
-  , indicesChannelCount
-  , bytesPerIndex
   , primitiveRange
   , setPrimitiveRange
+  , bytesPerIndex
   , pointSize
   , setPointSize
   , minimumPointScreenSpaceRadius
@@ -33,11 +29,7 @@ module ObjC.SceneKit.SCNGeometryElement
   , bytesPerIndexSelector
   , dataSelector
   , geometryElementWithBuffer_primitiveType_primitiveCount_bytesPerIndexSelector
-  , geometryElementWithBuffer_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector
   , geometryElementWithData_primitiveType_primitiveCount_bytesPerIndexSelector
-  , geometryElementWithData_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector
-  , indicesChannelCountSelector
-  , interleavedIndicesChannelsSelector
   , maximumPointScreenSpaceRadiusSelector
   , minimumPointScreenSpaceRadiusSelector
   , pointSizeSelector
@@ -76,7 +68,7 @@ import ObjC.Foundation.Internal.Classes
 --
 -- Creates and returns a geometry element from the given data and data format info.
 --
--- @data@ — The data that contains element indices. You can pass nil to use an implicit vertex ordering (0,1,2,…).
+-- @data@ — The data that contains element indexes. You can pass nil to use an implicit vertex ordering (0,1,2...).
 --
 -- @primitiveType@ — The primitive type, as listed in the SCNGeometryPrimitiveType enumeration.
 --
@@ -91,32 +83,11 @@ geometryElementWithData_primitiveType_primitiveCount_bytesPerIndex data_ primiti
     cls' <- getRequiredClass "SCNGeometryElement"
     sendClassMessage cls' geometryElementWithData_primitiveType_primitiveCount_bytesPerIndexSelector (toNSData data_) primitiveType primitiveCount bytesPerIndex
 
--- | geometryElementWithData:primitiveType:primitiveCount:indicesChannelCount:interleavedIndicesChannels:bytesPerIndex:
---
--- @data@ — The data that contains element indices. You can pass nil to use an implicit vertex ordering (0,1,2,…).
---
--- @primitiveType@ — The primitive type, as listed in the SCNGeometryPrimitiveType enumeration.
---
--- @primitiveCount@ — The number of primitives in the data.
---
--- @indicesChannelCount@ — The number of channels for the vertex indices.
---
--- @interleavedIndicesChannels@ — Whether the channels are interleaved.
---
--- @bytesPerIndex@ — The number of bytes that represent a single index value in the data.
---
--- ObjC selector: @+ geometryElementWithData:primitiveType:primitiveCount:indicesChannelCount:interleavedIndicesChannels:bytesPerIndex:@
-geometryElementWithData_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndex :: IsNSData data_ => data_ -> SCNGeometryPrimitiveType -> CLong -> CLong -> Bool -> CLong -> IO (Id SCNGeometryElement)
-geometryElementWithData_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndex data_ primitiveType primitiveCount indicesChannelCount interleavedIndicesChannels bytesPerIndex =
-  do
-    cls' <- getRequiredClass "SCNGeometryElement"
-    sendClassMessage cls' geometryElementWithData_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector (toNSData data_) primitiveType primitiveCount indicesChannelCount interleavedIndicesChannels bytesPerIndex
-
--- | geometryElementWithBuffer:primitiveType:primitiveCount:bytesPerIndex:
+-- | geometryElementWithBuffer:primitiveType:primitiveCount:bytesPerIndex
 --
 -- Creates and returns a geometry element from the given Metal buffer and parameters.
 --
--- @buffer@ — The buffer that contains element indices.
+-- @buffer@ — The buffer that contains element indexes.
 --
 -- @primitiveType@ — The primitive type, as listed in the SCNGeometryPrimitiveType enumeration.
 --
@@ -130,13 +101,6 @@ geometryElementWithBuffer_primitiveType_primitiveCount_bytesPerIndex buffer prim
   do
     cls' <- getRequiredClass "SCNGeometryElement"
     sendClassMessage cls' geometryElementWithBuffer_primitiveType_primitiveCount_bytesPerIndexSelector buffer primitiveType primitiveCount bytesPerIndex
-
--- | @+ geometryElementWithBuffer:primitiveType:primitiveCount:indicesChannelCount:interleavedIndicesChannels:bytesPerIndex:@
-geometryElementWithBuffer_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndex :: RawId -> SCNGeometryPrimitiveType -> CLong -> CLong -> Bool -> CLong -> IO (Id SCNGeometryElement)
-geometryElementWithBuffer_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndex buffer primitiveType primitiveCount indicesChannelCount interleavedIndicesChannels bytesPerIndex =
-  do
-    cls' <- getRequiredClass "SCNGeometryElement"
-    sendClassMessage cls' geometryElementWithBuffer_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector buffer primitiveType primitiveCount indicesChannelCount interleavedIndicesChannels bytesPerIndex
 
 -- | data
 --
@@ -165,36 +129,9 @@ primitiveCount :: IsSCNGeometryElement scnGeometryElement => scnGeometryElement 
 primitiveCount scnGeometryElement =
   sendMessage scnGeometryElement primitiveCountSelector
 
--- | interleavedIndicesChannels
---
--- Determines whether the channels are interleaved.
---
--- ObjC selector: @- interleavedIndicesChannels@
-interleavedIndicesChannels :: IsSCNGeometryElement scnGeometryElement => scnGeometryElement -> IO Bool
-interleavedIndicesChannels scnGeometryElement =
-  sendMessage scnGeometryElement interleavedIndicesChannelsSelector
-
--- | indicesChannelCount
---
--- The number of channels in the geometry element.
---
--- ObjC selector: @- indicesChannelCount@
-indicesChannelCount :: IsSCNGeometryElement scnGeometryElement => scnGeometryElement -> IO CLong
-indicesChannelCount scnGeometryElement =
-  sendMessage scnGeometryElement indicesChannelCountSelector
-
--- | bytesPerIndex
---
--- The number of bytes that represent an index value
---
--- ObjC selector: @- bytesPerIndex@
-bytesPerIndex :: IsSCNGeometryElement scnGeometryElement => scnGeometryElement -> IO CLong
-bytesPerIndex scnGeometryElement =
-  sendMessage scnGeometryElement bytesPerIndexSelector
-
 -- | primitiveRange
 --
--- Specifies the subrange of primitives to render within NSMakeRange(0, primitiveCount). Defaults to NSMakeRange(NSNotFound, 0).
+-- Specifies the subrange of primitves to render within NSMakeRange(0, primitiveCount). Defaults to NSMakeRange(NSNotFound, 0).
 --
 -- When the location of the range is set to NSNotFound, the entire geometry element is rendered.
 --
@@ -205,7 +142,7 @@ primitiveRange scnGeometryElement =
 
 -- | primitiveRange
 --
--- Specifies the subrange of primitives to render within NSMakeRange(0, primitiveCount). Defaults to NSMakeRange(NSNotFound, 0).
+-- Specifies the subrange of primitves to render within NSMakeRange(0, primitiveCount). Defaults to NSMakeRange(NSNotFound, 0).
 --
 -- When the location of the range is set to NSNotFound, the entire geometry element is rendered.
 --
@@ -213,6 +150,15 @@ primitiveRange scnGeometryElement =
 setPrimitiveRange :: IsSCNGeometryElement scnGeometryElement => scnGeometryElement -> NSRange -> IO ()
 setPrimitiveRange scnGeometryElement value =
   sendMessage scnGeometryElement setPrimitiveRangeSelector value
+
+-- | bytesPerIndex
+--
+-- The number of bytes that represent an index value
+--
+-- ObjC selector: @- bytesPerIndex@
+bytesPerIndex :: IsSCNGeometryElement scnGeometryElement => scnGeometryElement -> IO CLong
+bytesPerIndex scnGeometryElement =
+  sendMessage scnGeometryElement bytesPerIndexSelector
 
 -- | pointSize
 --
@@ -276,17 +222,9 @@ setMaximumPointScreenSpaceRadius scnGeometryElement value =
 geometryElementWithData_primitiveType_primitiveCount_bytesPerIndexSelector :: Selector '[Id NSData, SCNGeometryPrimitiveType, CLong, CLong] (Id SCNGeometryElement)
 geometryElementWithData_primitiveType_primitiveCount_bytesPerIndexSelector = mkSelector "geometryElementWithData:primitiveType:primitiveCount:bytesPerIndex:"
 
--- | @Selector@ for @geometryElementWithData:primitiveType:primitiveCount:indicesChannelCount:interleavedIndicesChannels:bytesPerIndex:@
-geometryElementWithData_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector :: Selector '[Id NSData, SCNGeometryPrimitiveType, CLong, CLong, Bool, CLong] (Id SCNGeometryElement)
-geometryElementWithData_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector = mkSelector "geometryElementWithData:primitiveType:primitiveCount:indicesChannelCount:interleavedIndicesChannels:bytesPerIndex:"
-
 -- | @Selector@ for @geometryElementWithBuffer:primitiveType:primitiveCount:bytesPerIndex:@
 geometryElementWithBuffer_primitiveType_primitiveCount_bytesPerIndexSelector :: Selector '[RawId, SCNGeometryPrimitiveType, CLong, CLong] (Id SCNGeometryElement)
 geometryElementWithBuffer_primitiveType_primitiveCount_bytesPerIndexSelector = mkSelector "geometryElementWithBuffer:primitiveType:primitiveCount:bytesPerIndex:"
-
--- | @Selector@ for @geometryElementWithBuffer:primitiveType:primitiveCount:indicesChannelCount:interleavedIndicesChannels:bytesPerIndex:@
-geometryElementWithBuffer_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector :: Selector '[RawId, SCNGeometryPrimitiveType, CLong, CLong, Bool, CLong] (Id SCNGeometryElement)
-geometryElementWithBuffer_primitiveType_primitiveCount_indicesChannelCount_interleavedIndicesChannels_bytesPerIndexSelector = mkSelector "geometryElementWithBuffer:primitiveType:primitiveCount:indicesChannelCount:interleavedIndicesChannels:bytesPerIndex:"
 
 -- | @Selector@ for @data@
 dataSelector :: Selector '[] (Id NSData)
@@ -300,18 +238,6 @@ primitiveTypeSelector = mkSelector "primitiveType"
 primitiveCountSelector :: Selector '[] CLong
 primitiveCountSelector = mkSelector "primitiveCount"
 
--- | @Selector@ for @interleavedIndicesChannels@
-interleavedIndicesChannelsSelector :: Selector '[] Bool
-interleavedIndicesChannelsSelector = mkSelector "interleavedIndicesChannels"
-
--- | @Selector@ for @indicesChannelCount@
-indicesChannelCountSelector :: Selector '[] CLong
-indicesChannelCountSelector = mkSelector "indicesChannelCount"
-
--- | @Selector@ for @bytesPerIndex@
-bytesPerIndexSelector :: Selector '[] CLong
-bytesPerIndexSelector = mkSelector "bytesPerIndex"
-
 -- | @Selector@ for @primitiveRange@
 primitiveRangeSelector :: Selector '[] NSRange
 primitiveRangeSelector = mkSelector "primitiveRange"
@@ -319,6 +245,10 @@ primitiveRangeSelector = mkSelector "primitiveRange"
 -- | @Selector@ for @setPrimitiveRange:@
 setPrimitiveRangeSelector :: Selector '[NSRange] ()
 setPrimitiveRangeSelector = mkSelector "setPrimitiveRange:"
+
+-- | @Selector@ for @bytesPerIndex@
+bytesPerIndexSelector :: Selector '[] CLong
+bytesPerIndexSelector = mkSelector "bytesPerIndex"
 
 -- | @Selector@ for @pointSize@
 pointSizeSelector :: Selector '[] CDouble

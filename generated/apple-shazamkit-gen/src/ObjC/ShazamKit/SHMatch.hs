@@ -3,9 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that represents the catalog media items that match a query.
+-- | A @SHMatch@ indicates that a Signature matched a reference Signature in the target @SHCatalog@
 --
--- A single query signature may match more than one reference signature. In addition, one reference signature may map to many media items.
+-- A @SHSignature@ can match many reference Signatures in a catalog and in turn a Signature can map to many @SHMediaItem.@ Therefore a match encapsulates the query signature and all of the various @SHMediaItem@ it matched
+--
+-- Note: @SHMatch@ is not intended to be subclassed
 --
 -- Generated bindings for @SHMatch@.
 module ObjC.ShazamKit.SHMatch
@@ -46,14 +48,18 @@ init_ :: IsSHMatch shMatch => shMatch -> IO (Id SHMatch)
 init_ shMatch =
   sendOwnedMessage shMatch initSelector
 
--- | An array of the media items in the catalog that match the query signature, in order of the quality of the match.
+-- | The @SHMatchedMediaItem@ belonging to the instance of @SHSignature@ that we matched
+--
+-- One signature may match multiple @SHMediaItem,@ especially in the case of audio that uses samples. The @SHMatchedMediaItem@ are ordered by  the quality of the match. Use the first @SHMediaItem@ if you intend to only show one result
 --
 -- ObjC selector: @- mediaItems@
 mediaItems :: IsSHMatch shMatch => shMatch -> IO (Id NSArray)
 mediaItems shMatch =
   sendMessage shMatch mediaItemsSelector
 
--- | The query signature for the match.
+-- | The @SHSignature@ used to search the @SHCatalog@
+--
+-- Note: This is Signature is the query Signature, not the reference signature contained in the @SHCatalog@
 --
 -- ObjC selector: @- querySignature@
 querySignature :: IsSHMatch shMatch => shMatch -> IO (Id SHSignature)

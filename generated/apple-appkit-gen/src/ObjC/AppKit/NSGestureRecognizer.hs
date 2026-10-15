@@ -25,7 +25,6 @@ module ObjC.AppKit.NSGestureRecognizer
   , mouseDragged
   , rightMouseDragged
   , otherMouseDragged
-  , mouseCancelled
   , keyDown
   , keyUp
   , flagsChanged
@@ -61,9 +60,6 @@ module ObjC.AppKit.NSGestureRecognizer
   , setDelaysMagnificationEvents
   , delaysRotationEvents
   , setDelaysRotationEvents
-  , name
-  , setName
-  , modifierFlags
   , setState
   , allowedTouchTypes
   , setAllowedTouchTypes
@@ -86,12 +82,9 @@ module ObjC.AppKit.NSGestureRecognizer
   , keyUpSelector
   , locationInViewSelector
   , magnifyWithEventSelector
-  , modifierFlagsSelector
-  , mouseCancelledSelector
   , mouseDownSelector
   , mouseDraggedSelector
   , mouseUpSelector
-  , nameSelector
   , otherMouseDownSelector
   , otherMouseDraggedSelector
   , otherMouseUpSelector
@@ -112,7 +105,6 @@ module ObjC.AppKit.NSGestureRecognizer
   , setDelaysSecondaryMouseButtonEventsSelector
   , setDelegateSelector
   , setEnabledSelector
-  , setNameSelector
   , setPressureConfigurationSelector
   , setStateSelector
   , setTargetSelector
@@ -128,16 +120,6 @@ module ObjC.AppKit.NSGestureRecognizer
   , viewSelector
 
   -- * Enum types
-  , NSEventModifierFlags(NSEventModifierFlags)
-  , pattern NSEventModifierFlagCapsLock
-  , pattern NSEventModifierFlagShift
-  , pattern NSEventModifierFlagControl
-  , pattern NSEventModifierFlagOption
-  , pattern NSEventModifierFlagCommand
-  , pattern NSEventModifierFlagNumericPad
-  , pattern NSEventModifierFlagHelp
-  , pattern NSEventModifierFlagFunction
-  , pattern NSEventModifierFlagDeviceIndependentFlagsMask
   , NSGestureRecognizerState(NSGestureRecognizerState)
   , pattern NSGestureRecognizerStatePossible
   , pattern NSGestureRecognizerStateBegan
@@ -250,11 +232,6 @@ otherMouseDragged :: (IsNSGestureRecognizer nsGestureRecognizer, IsNSEvent event
 otherMouseDragged nsGestureRecognizer event =
   sendMessage nsGestureRecognizer otherMouseDraggedSelector (toNSEvent event)
 
--- | @- mouseCancelled:@
-mouseCancelled :: (IsNSGestureRecognizer nsGestureRecognizer, IsNSEvent event) => nsGestureRecognizer -> event -> IO ()
-mouseCancelled nsGestureRecognizer event =
-  sendMessage nsGestureRecognizer mouseCancelledSelector (toNSEvent event)
-
 -- | @- keyDown:@
 keyDown :: (IsNSGestureRecognizer nsGestureRecognizer, IsNSEvent event) => nsGestureRecognizer -> event -> IO ()
 keyDown nsGestureRecognizer event =
@@ -361,14 +338,14 @@ view nsGestureRecognizer =
   sendMessage nsGestureRecognizer viewSelector
 
 -- | @- pressureConfiguration@
-pressureConfiguration :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> IO (Id NSPressureConfiguration)
+pressureConfiguration :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> IO RawId
 pressureConfiguration nsGestureRecognizer =
   sendMessage nsGestureRecognizer pressureConfigurationSelector
 
 -- | @- setPressureConfiguration:@
-setPressureConfiguration :: (IsNSGestureRecognizer nsGestureRecognizer, IsNSPressureConfiguration value) => nsGestureRecognizer -> value -> IO ()
+setPressureConfiguration :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> RawId -> IO ()
 setPressureConfiguration nsGestureRecognizer value =
-  sendMessage nsGestureRecognizer setPressureConfigurationSelector (toNSPressureConfiguration value)
+  sendMessage nsGestureRecognizer setPressureConfigurationSelector value
 
 -- | @- delaysPrimaryMouseButtonEvents@
 delaysPrimaryMouseButtonEvents :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> IO Bool
@@ -429,21 +406,6 @@ delaysRotationEvents nsGestureRecognizer =
 setDelaysRotationEvents :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> Bool -> IO ()
 setDelaysRotationEvents nsGestureRecognizer value =
   sendMessage nsGestureRecognizer setDelaysRotationEventsSelector value
-
--- | @- name@
-name :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> IO (Id NSString)
-name nsGestureRecognizer =
-  sendMessage nsGestureRecognizer nameSelector
-
--- | @- setName:@
-setName :: (IsNSGestureRecognizer nsGestureRecognizer, IsNSString value) => nsGestureRecognizer -> value -> IO ()
-setName nsGestureRecognizer value =
-  sendMessage nsGestureRecognizer setNameSelector (toNSString value)
-
--- | @- modifierFlags@
-modifierFlags :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> IO NSEventModifierFlags
-modifierFlags nsGestureRecognizer =
-  sendMessage nsGestureRecognizer modifierFlagsSelector
 
 -- | @- setState:@
 setState :: IsNSGestureRecognizer nsGestureRecognizer => nsGestureRecognizer -> NSGestureRecognizerState -> IO ()
@@ -532,10 +494,6 @@ rightMouseDraggedSelector = mkSelector "rightMouseDragged:"
 otherMouseDraggedSelector :: Selector '[Id NSEvent] ()
 otherMouseDraggedSelector = mkSelector "otherMouseDragged:"
 
--- | @Selector@ for @mouseCancelled:@
-mouseCancelledSelector :: Selector '[Id NSEvent] ()
-mouseCancelledSelector = mkSelector "mouseCancelled:"
-
 -- | @Selector@ for @keyDown:@
 keyDownSelector :: Selector '[Id NSEvent] ()
 keyDownSelector = mkSelector "keyDown:"
@@ -621,11 +579,11 @@ viewSelector :: Selector '[] (Id NSView)
 viewSelector = mkSelector "view"
 
 -- | @Selector@ for @pressureConfiguration@
-pressureConfigurationSelector :: Selector '[] (Id NSPressureConfiguration)
+pressureConfigurationSelector :: Selector '[] RawId
 pressureConfigurationSelector = mkSelector "pressureConfiguration"
 
 -- | @Selector@ for @setPressureConfiguration:@
-setPressureConfigurationSelector :: Selector '[Id NSPressureConfiguration] ()
+setPressureConfigurationSelector :: Selector '[RawId] ()
 setPressureConfigurationSelector = mkSelector "setPressureConfiguration:"
 
 -- | @Selector@ for @delaysPrimaryMouseButtonEvents@
@@ -675,18 +633,6 @@ delaysRotationEventsSelector = mkSelector "delaysRotationEvents"
 -- | @Selector@ for @setDelaysRotationEvents:@
 setDelaysRotationEventsSelector :: Selector '[Bool] ()
 setDelaysRotationEventsSelector = mkSelector "setDelaysRotationEvents:"
-
--- | @Selector@ for @name@
-nameSelector :: Selector '[] (Id NSString)
-nameSelector = mkSelector "name"
-
--- | @Selector@ for @setName:@
-setNameSelector :: Selector '[Id NSString] ()
-setNameSelector = mkSelector "setName:"
-
--- | @Selector@ for @modifierFlags@
-modifierFlagsSelector :: Selector '[] NSEventModifierFlags
-modifierFlagsSelector = mkSelector "modifierFlags"
 
 -- | @Selector@ for @setState:@
 setStateSelector :: Selector '[NSGestureRecognizerState] ()

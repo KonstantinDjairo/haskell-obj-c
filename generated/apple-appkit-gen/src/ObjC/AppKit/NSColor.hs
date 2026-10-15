@@ -32,9 +32,6 @@ module ObjC.AppKit.NSColor
   , colorWithPatternImage
   , colorUsingType
   , colorUsingColorSpace
-  , colorWithRed_green_blue_alpha_exposure
-  , colorWithRed_green_blue_alpha_linearExposure
-  , colorByApplyingContentHeadroom
   , colorForControlTint
   , highlightWithLevel
   , shadowWithLevel
@@ -57,7 +54,6 @@ module ObjC.AppKit.NSColor
   , colorUsingColorSpaceName_device
   , colorUsingColorSpaceName
   , type_
-  , standardDynamicRangeColor
   , blackColor
   , darkGrayColor
   , lightGrayColor
@@ -77,7 +73,6 @@ module ObjC.AppKit.NSColor
   , secondaryLabelColor
   , tertiaryLabelColor
   , quaternaryLabelColor
-  , quinaryLabelColor
   , linkColor
   , placeholderTextColor
   , windowFrameTextColor
@@ -91,11 +86,9 @@ module ObjC.AppKit.NSColor
   , controlBackgroundColor
   , selectedContentBackgroundColor
   , unemphasizedSelectedContentBackgroundColor
-  , alternatingContentBackgroundColors
   , findHighlightColor
   , textColor
   , textBackgroundColor
-  , textInsertionPointColor
   , selectedTextColor
   , selectedTextBackgroundColor
   , unemphasizedSelectedTextBackgroundColor
@@ -120,11 +113,6 @@ module ObjC.AppKit.NSColor
   , systemIndigoColor
   , systemMintColor
   , systemCyanColor
-  , systemFillColor
-  , secondarySystemFillColor
-  , tertiarySystemFillColor
-  , quaternarySystemFillColor
-  , quinarySystemFillColor
   , controlAccentColor
   , currentControlTint
   , highlightColor
@@ -148,7 +136,6 @@ module ObjC.AppKit.NSColor
   , numberOfComponents
   , patternImage
   , alphaComponent
-  , linearExposure
   , cgColor
   , ignoresAlpha
   , setIgnoresAlpha
@@ -164,12 +151,10 @@ module ObjC.AppKit.NSColor
   , headerColor
   , secondarySelectedControlColor
   , alternateSelectedControlColor
-  , controlAlternatingRowBackgroundColors
   , colorSpaceName
   , alphaComponentSelector
   , alternateSelectedControlColorSelector
   , alternateSelectedControlTextColorSelector
-  , alternatingContentBackgroundColorsSelector
   , blackColorSelector
   , blackComponentSelector
   , blendedColorWithFraction_ofColorSelector
@@ -180,7 +165,6 @@ module ObjC.AppKit.NSColor
   , catalogNameComponentSelector
   , cgColorSelector
   , clearColorSelector
-  , colorByApplyingContentHeadroomSelector
   , colorForControlTintSelector
   , colorFromPasteboardSelector
   , colorNameComponentSelector
@@ -211,13 +195,10 @@ module ObjC.AppKit.NSColor
   , colorWithName_dynamicProviderSelector
   , colorWithPatternImageSelector
   , colorWithRed_green_blue_alphaSelector
-  , colorWithRed_green_blue_alpha_exposureSelector
-  , colorWithRed_green_blue_alpha_linearExposureSelector
   , colorWithSRGBRed_green_blue_alphaSelector
   , colorWithSystemEffectSelector
   , colorWithWhite_alphaSelector
   , controlAccentColorSelector
-  , controlAlternatingRowBackgroundColorsSelector
   , controlBackgroundColorSelector
   , controlColorSelector
   , controlDarkShadowColorSelector
@@ -253,7 +234,6 @@ module ObjC.AppKit.NSColor
   , knobColorSelector
   , labelColorSelector
   , lightGrayColorSelector
-  , linearExposureSelector
   , linkColorSelector
   , localizedCatalogNameComponentSelector
   , localizedColorNameComponentSelector
@@ -265,9 +245,6 @@ module ObjC.AppKit.NSColor
   , placeholderTextColorSelector
   , purpleColorSelector
   , quaternaryLabelColorSelector
-  , quaternarySystemFillColorSelector
-  , quinaryLabelColorSelector
-  , quinarySystemFillColorSelector
   , redColorSelector
   , redComponentSelector
   , saturationComponentSelector
@@ -275,7 +252,6 @@ module ObjC.AppKit.NSColor
   , scrubberTexturedBackgroundColorSelector
   , secondaryLabelColorSelector
   , secondarySelectedControlColorSelector
-  , secondarySystemFillColorSelector
   , selectedContentBackgroundColorSelector
   , selectedControlColorSelector
   , selectedControlTextColorSelector
@@ -291,11 +267,9 @@ module ObjC.AppKit.NSColor
   , setStrokeSelector
   , shadowColorSelector
   , shadowWithLevelSelector
-  , standardDynamicRangeColorSelector
   , systemBlueColorSelector
   , systemBrownColorSelector
   , systemCyanColorSelector
-  , systemFillColorSelector
   , systemGrayColorSelector
   , systemGreenColorSelector
   , systemIndigoColorSelector
@@ -307,10 +281,8 @@ module ObjC.AppKit.NSColor
   , systemTealColorSelector
   , systemYellowColorSelector
   , tertiaryLabelColorSelector
-  , tertiarySystemFillColorSelector
   , textBackgroundColorSelector
   , textColorSelector
-  , textInsertionPointColorSelector
   , typeSelector
   , underPageBackgroundColorSelector
   , unemphasizedSelectedContentBackgroundColorSelector
@@ -518,31 +490,6 @@ colorUsingColorSpace :: (IsNSColor nsColor, IsNSColorSpace space) => nsColor -> 
 colorUsingColorSpace nsColor space =
   sendMessage nsColor colorUsingColorSpaceSelector (toNSColorSpace space)
 
--- | Generates an HDR color in the extended sRGB colorspace by applying an exposure to the SDR color defined by the red, green, and blue components. The @red@, @green@, and @blue@ components have a nominal range of [0..1], @exposure@ is a value >= 0. To produce an HDR color, we process the given color in a linear color space, multiplying component values by @2^exposure@. The produced color will have a @contentHeadroom@ equal to the linearized exposure value. Each whole value of exposure produces a color that is twice as bright.
---
--- ObjC selector: @+ colorWithRed:green:blue:alpha:exposure:@
-colorWithRed_green_blue_alpha_exposure :: CDouble -> CDouble -> CDouble -> CDouble -> CDouble -> IO (Id NSColor)
-colorWithRed_green_blue_alpha_exposure red green blue alpha exposure =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' colorWithRed_green_blue_alpha_exposureSelector red green blue alpha exposure
-
--- | Generates an HDR color in the extended sRGB colorspace by applying an exposure to the SDR color defined by the red, green, and blue components. The @red@, @green@, and @blue@ components have a nominal range of [0..1], @linearExposure@ is a value >= 1. To produce an HDR color, we process the given color in a linear color space, multiplying component values by @linearExposure @. The produced color will have a @contentHeadroom@ equal to @linearExposure@. Each doubling of @linearExposure@ produces a color that is twice as bright.
---
--- ObjC selector: @+ colorWithRed:green:blue:alpha:linearExposure:@
-colorWithRed_green_blue_alpha_linearExposure :: CDouble -> CDouble -> CDouble -> CDouble -> CDouble -> IO (Id NSColor)
-colorWithRed_green_blue_alpha_linearExposure red green blue alpha linearExposure =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' colorWithRed_green_blue_alpha_linearExposureSelector red green blue alpha linearExposure
-
--- | Reinterpret the color by applying a new @contentHeadroom@ without changing the color components. Changing the @contentHeadroom@ redefines the color relative to a different peak white, changing its behavior under tone mapping and the result of calling @standardDynamicRangeColor@. The new color will have a @contentHeadroom@ >= 1.0. If called on a color with a color space that does not support extended range, or does not have an equivalent extended range counterpart, this will return @self@.
---
--- ObjC selector: @- colorByApplyingContentHeadroom:@
-colorByApplyingContentHeadroom :: IsNSColor nsColor => nsColor -> CDouble -> IO (Id NSColor)
-colorByApplyingContentHeadroom nsColor contentHeadroom =
-  sendMessage nsColor colorByApplyingContentHeadroomSelector contentHeadroom
-
 -- | @+ colorForControlTint:@
 colorForControlTint :: NSControlTint -> IO (Id NSColor)
 colorForControlTint controlTint =
@@ -663,13 +610,6 @@ type_ :: IsNSColor nsColor => nsColor -> IO NSColorType
 type_ nsColor =
   sendMessage nsColor typeSelector
 
--- | In some cases it is useful to recover the color that was base the SDR color that was exposed to generate an HDR color. If a color's @linearExposure@ is > 1, then this will return the base SDR color. If the color is not an HDR color, this will return @self@.
---
--- ObjC selector: @- standardDynamicRangeColor@
-standardDynamicRangeColor :: IsNSColor nsColor => nsColor -> IO (Id NSColor)
-standardDynamicRangeColor nsColor =
-  sendMessage nsColor standardDynamicRangeColorSelector
-
 -- | @+ blackColor@
 blackColor :: IO (Id NSColor)
 blackColor  =
@@ -776,51 +716,42 @@ clearColor  =
     sendClassMessage cls' clearColorSelector
 
 -- | @+ labelColor@
-labelColor :: IO (Id NSColor)
+labelColor :: IO RawId
 labelColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' labelColorSelector
 
 -- | @+ secondaryLabelColor@
-secondaryLabelColor :: IO (Id NSColor)
+secondaryLabelColor :: IO RawId
 secondaryLabelColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' secondaryLabelColorSelector
 
 -- | @+ tertiaryLabelColor@
-tertiaryLabelColor :: IO (Id NSColor)
+tertiaryLabelColor :: IO RawId
 tertiaryLabelColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' tertiaryLabelColorSelector
 
 -- | @+ quaternaryLabelColor@
-quaternaryLabelColor :: IO (Id NSColor)
+quaternaryLabelColor :: IO RawId
 quaternaryLabelColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' quaternaryLabelColorSelector
 
--- | @+ quinaryLabelColor@
-quinaryLabelColor :: IO (Id NSColor)
-quinaryLabelColor  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' quinaryLabelColorSelector
-
--- | Used for large scale images or subtle decorative elements; not for general foreground content.
---
--- ObjC selector: @+ linkColor@
-linkColor :: IO (Id NSColor)
+-- | @+ linkColor@
+linkColor :: IO RawId
 linkColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' linkColorSelector
 
 -- | @+ placeholderTextColor@
-placeholderTextColor :: IO (Id NSColor)
+placeholderTextColor :: IO RawId
 placeholderTextColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -855,7 +786,7 @@ headerTextColor  =
     sendClassMessage cls' headerTextColorSelector
 
 -- | @+ separatorColor@
-separatorColor :: IO (Id NSColor)
+separatorColor :: IO RawId
 separatorColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -876,7 +807,7 @@ windowBackgroundColor  =
     sendClassMessage cls' windowBackgroundColorSelector
 
 -- | @+ underPageBackgroundColor@
-underPageBackgroundColor :: IO (Id NSColor)
+underPageBackgroundColor :: IO RawId
 underPageBackgroundColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -890,28 +821,21 @@ controlBackgroundColor  =
     sendClassMessage cls' controlBackgroundColorSelector
 
 -- | @+ selectedContentBackgroundColor@
-selectedContentBackgroundColor :: IO (Id NSColor)
+selectedContentBackgroundColor :: IO RawId
 selectedContentBackgroundColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' selectedContentBackgroundColorSelector
 
 -- | @+ unemphasizedSelectedContentBackgroundColor@
-unemphasizedSelectedContentBackgroundColor :: IO (Id NSColor)
+unemphasizedSelectedContentBackgroundColor :: IO RawId
 unemphasizedSelectedContentBackgroundColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' unemphasizedSelectedContentBackgroundColorSelector
 
--- | @+ alternatingContentBackgroundColors@
-alternatingContentBackgroundColors :: IO (Id NSArray)
-alternatingContentBackgroundColors  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' alternatingContentBackgroundColorsSelector
-
 -- | @+ findHighlightColor@
-findHighlightColor :: IO (Id NSColor)
+findHighlightColor :: IO RawId
 findHighlightColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -931,13 +855,6 @@ textBackgroundColor  =
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' textBackgroundColorSelector
 
--- | @+ textInsertionPointColor@
-textInsertionPointColor :: IO (Id NSColor)
-textInsertionPointColor  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' textInsertionPointColorSelector
-
 -- | @+ selectedTextColor@
 selectedTextColor :: IO (Id NSColor)
 selectedTextColor  =
@@ -953,14 +870,14 @@ selectedTextBackgroundColor  =
     sendClassMessage cls' selectedTextBackgroundColorSelector
 
 -- | @+ unemphasizedSelectedTextBackgroundColor@
-unemphasizedSelectedTextBackgroundColor :: IO (Id NSColor)
+unemphasizedSelectedTextBackgroundColor :: IO RawId
 unemphasizedSelectedTextBackgroundColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' unemphasizedSelectedTextBackgroundColorSelector
 
 -- | @+ unemphasizedSelectedTextColor@
-unemphasizedSelectedTextColor :: IO (Id NSColor)
+unemphasizedSelectedTextColor :: IO RawId
 unemphasizedSelectedTextColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1009,154 +926,107 @@ keyboardFocusIndicatorColor  =
     sendClassMessage cls' keyboardFocusIndicatorColorSelector
 
 -- | @+ scrubberTexturedBackgroundColor@
-scrubberTexturedBackgroundColor :: IO (Id NSColor)
+scrubberTexturedBackgroundColor :: IO RawId
 scrubberTexturedBackgroundColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' scrubberTexturedBackgroundColorSelector
 
 -- | @+ systemRedColor@
-systemRedColor :: IO (Id NSColor)
+systemRedColor :: IO RawId
 systemRedColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemRedColorSelector
 
 -- | @+ systemGreenColor@
-systemGreenColor :: IO (Id NSColor)
+systemGreenColor :: IO RawId
 systemGreenColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemGreenColorSelector
 
 -- | @+ systemBlueColor@
-systemBlueColor :: IO (Id NSColor)
+systemBlueColor :: IO RawId
 systemBlueColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemBlueColorSelector
 
 -- | @+ systemOrangeColor@
-systemOrangeColor :: IO (Id NSColor)
+systemOrangeColor :: IO RawId
 systemOrangeColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemOrangeColorSelector
 
 -- | @+ systemYellowColor@
-systemYellowColor :: IO (Id NSColor)
+systemYellowColor :: IO RawId
 systemYellowColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemYellowColorSelector
 
 -- | @+ systemBrownColor@
-systemBrownColor :: IO (Id NSColor)
+systemBrownColor :: IO RawId
 systemBrownColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemBrownColorSelector
 
 -- | @+ systemPinkColor@
-systemPinkColor :: IO (Id NSColor)
+systemPinkColor :: IO RawId
 systemPinkColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemPinkColorSelector
 
 -- | @+ systemPurpleColor@
-systemPurpleColor :: IO (Id NSColor)
+systemPurpleColor :: IO RawId
 systemPurpleColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemPurpleColorSelector
 
 -- | @+ systemGrayColor@
-systemGrayColor :: IO (Id NSColor)
+systemGrayColor :: IO RawId
 systemGrayColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemGrayColorSelector
 
 -- | @+ systemTealColor@
-systemTealColor :: IO (Id NSColor)
+systemTealColor :: IO RawId
 systemTealColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemTealColorSelector
 
 -- | @+ systemIndigoColor@
-systemIndigoColor :: IO (Id NSColor)
+systemIndigoColor :: IO RawId
 systemIndigoColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemIndigoColorSelector
 
 -- | @+ systemMintColor@
-systemMintColor :: IO (Id NSColor)
+systemMintColor :: IO RawId
 systemMintColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemMintColorSelector
 
 -- | @+ systemCyanColor@
-systemCyanColor :: IO (Id NSColor)
+systemCyanColor :: IO RawId
 systemCyanColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' systemCyanColorSelector
 
--- | Fill colors for UI elements. These are meant to be used over the background colors, since their alpha component is less than 1.
---
--- systemFillColor is appropriate for filling thin shapes, such as the track of a slider.
---
--- ObjC selector: @+ systemFillColor@
-systemFillColor :: IO (Id NSColor)
-systemFillColor  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' systemFillColorSelector
-
--- | secondarySystemFillColor is appropriate for filling small-size shapes, such as the backing of a progress indicator.
---
--- ObjC selector: @+ secondarySystemFillColor@
-secondarySystemFillColor :: IO (Id NSColor)
-secondarySystemFillColor  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' secondarySystemFillColorSelector
-
--- | tertiarySystemFillColor is appropriate for filling medium-size shapes,  such as the backing of a switch.
---
--- ObjC selector: @+ tertiarySystemFillColor@
-tertiarySystemFillColor :: IO (Id NSColor)
-tertiarySystemFillColor  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' tertiarySystemFillColorSelector
-
--- | quaternarySystemFillColor is appropriate for filling large areas, such as a group box or tab pane.
---
--- ObjC selector: @+ quaternarySystemFillColor@
-quaternarySystemFillColor :: IO (Id NSColor)
-quaternarySystemFillColor  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' quaternarySystemFillColorSelector
-
--- | quinarySystemFillColor is appropriate for filling large areas that require subtle emphasis, such as content of a form..
---
--- ObjC selector: @+ quinarySystemFillColor@
-quinarySystemFillColor :: IO (Id NSColor)
-quinarySystemFillColor  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' quinarySystemFillColorSelector
-
 -- | A dynamic color that reflects the user's current preferred accent color. This color automatically updates when the accent color preference changes. Do not make assumptions about the color space of this color, which may change across releases.
 --
 -- ObjC selector: @+ controlAccentColor@
-controlAccentColor :: IO (Id NSColor)
+controlAccentColor :: IO RawId
 controlAccentColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1280,13 +1150,6 @@ alphaComponent :: IsNSColor nsColor => nsColor -> IO CDouble
 alphaComponent nsColor =
   sendMessage nsColor alphaComponentSelector
 
--- | For HDR colors, the linear brightness multiplier that was applied when generating the color. Colors created with an exposure by NSColor create CGColors that are tagged with a contentHeadroom value. While CGColors created without a contentHeadroom tag will return 0 from CGColorGetHeadroom, NSColors generated in a similar fashion return a linearExposure of 1.0.
---
--- ObjC selector: @- linearExposure@
-linearExposure :: IsNSColor nsColor => nsColor -> IO CDouble
-linearExposure nsColor =
-  sendMessage nsColor linearExposureSelector
-
 -- | @- CGColor@
 cgColor :: IsNSColor nsColor => nsColor -> IO (Ptr ())
 cgColor nsColor =
@@ -1309,7 +1172,7 @@ setIgnoresAlpha value =
 -- | Historically used as the inner border highlight color for beveled buttons. No longer used.
 --
 -- ObjC selector: @+ controlHighlightColor@
-controlHighlightColor :: IO (Id NSColor)
+controlHighlightColor :: IO RawId
 controlHighlightColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1318,7 +1181,7 @@ controlHighlightColor  =
 -- | Historically used as the outer border highlight color for beveled buttons. No longer used.
 --
 -- ObjC selector: @+ controlLightHighlightColor@
-controlLightHighlightColor :: IO (Id NSColor)
+controlLightHighlightColor :: IO RawId
 controlLightHighlightColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1327,7 +1190,7 @@ controlLightHighlightColor  =
 -- | Historically used as the inner border shadow color for beveled buttons. No longer used.
 --
 -- ObjC selector: @+ controlShadowColor@
-controlShadowColor :: IO (Id NSColor)
+controlShadowColor :: IO RawId
 controlShadowColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1336,7 +1199,7 @@ controlShadowColor  =
 -- | Historically used as the outer border shadow color for beveled buttons. No longer used.
 --
 -- ObjC selector: @+ controlDarkShadowColor@
-controlDarkShadowColor :: IO (Id NSColor)
+controlDarkShadowColor :: IO RawId
 controlDarkShadowColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1345,7 +1208,7 @@ controlDarkShadowColor  =
 -- | Historically used as the color of scroll bars. No longer used.
 --
 -- ObjC selector: @+ scrollBarColor@
-scrollBarColor :: IO (Id NSColor)
+scrollBarColor :: IO RawId
 scrollBarColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1354,7 +1217,7 @@ scrollBarColor  =
 -- | Historically used as the color of scroll bar knobs. No longer used.
 --
 -- ObjC selector: @+ knobColor@
-knobColor :: IO (Id NSColor)
+knobColor :: IO RawId
 knobColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1363,7 +1226,7 @@ knobColor  =
 -- | Historically used as the color of scroll bar knobs being dragged. No longer used.
 --
 -- ObjC selector: @+ selectedKnobColor@
-selectedKnobColor :: IO (Id NSColor)
+selectedKnobColor :: IO RawId
 selectedKnobColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1372,7 +1235,7 @@ selectedKnobColor  =
 -- | Historically used as the color of the window chrome, which is no longer able to be represented by a color. No longer used.
 --
 -- ObjC selector: @+ windowFrameColor@
-windowFrameColor :: IO (Id NSColor)
+windowFrameColor :: IO RawId
 windowFrameColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1381,7 +1244,7 @@ windowFrameColor  =
 -- | Historically used as the color of selected menu items, which is no longer a color but a tinted blur effect. No longer used.
 --
 -- ObjC selector: @+ selectedMenuItemColor@
-selectedMenuItemColor :: IO (Id NSColor)
+selectedMenuItemColor :: IO RawId
 selectedMenuItemColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1390,7 +1253,7 @@ selectedMenuItemColor  =
 -- | Historically used as the color of table headers, which is no longer a color but a tinted blur effect.
 --
 -- ObjC selector: @+ headerColor@
-headerColor :: IO (Id NSColor)
+headerColor :: IO RawId
 headerColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1399,7 +1262,7 @@ headerColor  =
 -- | The background color of selected content or text that is unemphasized. Older alias for +unemphasizedSelectedContentBackgroundColor and +unemphasizedSelectedTextBackgroundColor
 --
 -- ObjC selector: @+ secondarySelectedControlColor@
-secondarySelectedControlColor :: IO (Id NSColor)
+secondarySelectedControlColor :: IO RawId
 secondarySelectedControlColor  =
   do
     cls' <- getRequiredClass "NSColor"
@@ -1408,20 +1271,11 @@ secondarySelectedControlColor  =
 -- | The background color of selected and emphasized (focused) content: table views rows, collection views, etc. Older alias for +selectedContentBackgroundColor
 --
 -- ObjC selector: @+ alternateSelectedControlColor@
-alternateSelectedControlColor :: IO (Id NSColor)
+alternateSelectedControlColor :: IO RawId
 alternateSelectedControlColor  =
   do
     cls' <- getRequiredClass "NSColor"
     sendClassMessage cls' alternateSelectedControlColorSelector
-
--- | The background colors for alternating content items: such as table view rows, collection view items. Older alias for +alternatingContentBackgroundColors
---
--- ObjC selector: @+ controlAlternatingRowBackgroundColors@
-controlAlternatingRowBackgroundColors :: IO (Id NSArray)
-controlAlternatingRowBackgroundColors  =
-  do
-    cls' <- getRequiredClass "NSColor"
-    sendClassMessage cls' controlAlternatingRowBackgroundColorsSelector
 
 -- | @- colorSpaceName@
 colorSpaceName :: IsNSColor nsColor => nsColor -> IO (Id NSString)
@@ -1528,18 +1382,6 @@ colorUsingTypeSelector = mkSelector "colorUsingType:"
 colorUsingColorSpaceSelector :: Selector '[Id NSColorSpace] (Id NSColor)
 colorUsingColorSpaceSelector = mkSelector "colorUsingColorSpace:"
 
--- | @Selector@ for @colorWithRed:green:blue:alpha:exposure:@
-colorWithRed_green_blue_alpha_exposureSelector :: Selector '[CDouble, CDouble, CDouble, CDouble, CDouble] (Id NSColor)
-colorWithRed_green_blue_alpha_exposureSelector = mkSelector "colorWithRed:green:blue:alpha:exposure:"
-
--- | @Selector@ for @colorWithRed:green:blue:alpha:linearExposure:@
-colorWithRed_green_blue_alpha_linearExposureSelector :: Selector '[CDouble, CDouble, CDouble, CDouble, CDouble] (Id NSColor)
-colorWithRed_green_blue_alpha_linearExposureSelector = mkSelector "colorWithRed:green:blue:alpha:linearExposure:"
-
--- | @Selector@ for @colorByApplyingContentHeadroom:@
-colorByApplyingContentHeadroomSelector :: Selector '[CDouble] (Id NSColor)
-colorByApplyingContentHeadroomSelector = mkSelector "colorByApplyingContentHeadroom:"
-
 -- | @Selector@ for @colorForControlTint:@
 colorForControlTintSelector :: Selector '[NSControlTint] (Id NSColor)
 colorForControlTintSelector = mkSelector "colorForControlTint:"
@@ -1628,10 +1470,6 @@ colorUsingColorSpaceNameSelector = mkSelector "colorUsingColorSpaceName:"
 typeSelector :: Selector '[] NSColorType
 typeSelector = mkSelector "type"
 
--- | @Selector@ for @standardDynamicRangeColor@
-standardDynamicRangeColorSelector :: Selector '[] (Id NSColor)
-standardDynamicRangeColorSelector = mkSelector "standardDynamicRangeColor"
-
 -- | @Selector@ for @blackColor@
 blackColorSelector :: Selector '[] (Id NSColor)
 blackColorSelector = mkSelector "blackColor"
@@ -1693,31 +1531,27 @@ clearColorSelector :: Selector '[] (Id NSColor)
 clearColorSelector = mkSelector "clearColor"
 
 -- | @Selector@ for @labelColor@
-labelColorSelector :: Selector '[] (Id NSColor)
+labelColorSelector :: Selector '[] RawId
 labelColorSelector = mkSelector "labelColor"
 
 -- | @Selector@ for @secondaryLabelColor@
-secondaryLabelColorSelector :: Selector '[] (Id NSColor)
+secondaryLabelColorSelector :: Selector '[] RawId
 secondaryLabelColorSelector = mkSelector "secondaryLabelColor"
 
 -- | @Selector@ for @tertiaryLabelColor@
-tertiaryLabelColorSelector :: Selector '[] (Id NSColor)
+tertiaryLabelColorSelector :: Selector '[] RawId
 tertiaryLabelColorSelector = mkSelector "tertiaryLabelColor"
 
 -- | @Selector@ for @quaternaryLabelColor@
-quaternaryLabelColorSelector :: Selector '[] (Id NSColor)
+quaternaryLabelColorSelector :: Selector '[] RawId
 quaternaryLabelColorSelector = mkSelector "quaternaryLabelColor"
 
--- | @Selector@ for @quinaryLabelColor@
-quinaryLabelColorSelector :: Selector '[] (Id NSColor)
-quinaryLabelColorSelector = mkSelector "quinaryLabelColor"
-
 -- | @Selector@ for @linkColor@
-linkColorSelector :: Selector '[] (Id NSColor)
+linkColorSelector :: Selector '[] RawId
 linkColorSelector = mkSelector "linkColor"
 
 -- | @Selector@ for @placeholderTextColor@
-placeholderTextColorSelector :: Selector '[] (Id NSColor)
+placeholderTextColorSelector :: Selector '[] RawId
 placeholderTextColorSelector = mkSelector "placeholderTextColor"
 
 -- | @Selector@ for @windowFrameTextColor@
@@ -1737,7 +1571,7 @@ headerTextColorSelector :: Selector '[] (Id NSColor)
 headerTextColorSelector = mkSelector "headerTextColor"
 
 -- | @Selector@ for @separatorColor@
-separatorColorSelector :: Selector '[] (Id NSColor)
+separatorColorSelector :: Selector '[] RawId
 separatorColorSelector = mkSelector "separatorColor"
 
 -- | @Selector@ for @gridColor@
@@ -1749,7 +1583,7 @@ windowBackgroundColorSelector :: Selector '[] (Id NSColor)
 windowBackgroundColorSelector = mkSelector "windowBackgroundColor"
 
 -- | @Selector@ for @underPageBackgroundColor@
-underPageBackgroundColorSelector :: Selector '[] (Id NSColor)
+underPageBackgroundColorSelector :: Selector '[] RawId
 underPageBackgroundColorSelector = mkSelector "underPageBackgroundColor"
 
 -- | @Selector@ for @controlBackgroundColor@
@@ -1757,19 +1591,15 @@ controlBackgroundColorSelector :: Selector '[] (Id NSColor)
 controlBackgroundColorSelector = mkSelector "controlBackgroundColor"
 
 -- | @Selector@ for @selectedContentBackgroundColor@
-selectedContentBackgroundColorSelector :: Selector '[] (Id NSColor)
+selectedContentBackgroundColorSelector :: Selector '[] RawId
 selectedContentBackgroundColorSelector = mkSelector "selectedContentBackgroundColor"
 
 -- | @Selector@ for @unemphasizedSelectedContentBackgroundColor@
-unemphasizedSelectedContentBackgroundColorSelector :: Selector '[] (Id NSColor)
+unemphasizedSelectedContentBackgroundColorSelector :: Selector '[] RawId
 unemphasizedSelectedContentBackgroundColorSelector = mkSelector "unemphasizedSelectedContentBackgroundColor"
 
--- | @Selector@ for @alternatingContentBackgroundColors@
-alternatingContentBackgroundColorsSelector :: Selector '[] (Id NSArray)
-alternatingContentBackgroundColorsSelector = mkSelector "alternatingContentBackgroundColors"
-
 -- | @Selector@ for @findHighlightColor@
-findHighlightColorSelector :: Selector '[] (Id NSColor)
+findHighlightColorSelector :: Selector '[] RawId
 findHighlightColorSelector = mkSelector "findHighlightColor"
 
 -- | @Selector@ for @textColor@
@@ -1780,10 +1610,6 @@ textColorSelector = mkSelector "textColor"
 textBackgroundColorSelector :: Selector '[] (Id NSColor)
 textBackgroundColorSelector = mkSelector "textBackgroundColor"
 
--- | @Selector@ for @textInsertionPointColor@
-textInsertionPointColorSelector :: Selector '[] (Id NSColor)
-textInsertionPointColorSelector = mkSelector "textInsertionPointColor"
-
 -- | @Selector@ for @selectedTextColor@
 selectedTextColorSelector :: Selector '[] (Id NSColor)
 selectedTextColorSelector = mkSelector "selectedTextColor"
@@ -1793,11 +1619,11 @@ selectedTextBackgroundColorSelector :: Selector '[] (Id NSColor)
 selectedTextBackgroundColorSelector = mkSelector "selectedTextBackgroundColor"
 
 -- | @Selector@ for @unemphasizedSelectedTextBackgroundColor@
-unemphasizedSelectedTextBackgroundColorSelector :: Selector '[] (Id NSColor)
+unemphasizedSelectedTextBackgroundColorSelector :: Selector '[] RawId
 unemphasizedSelectedTextBackgroundColorSelector = mkSelector "unemphasizedSelectedTextBackgroundColor"
 
 -- | @Selector@ for @unemphasizedSelectedTextColor@
-unemphasizedSelectedTextColorSelector :: Selector '[] (Id NSColor)
+unemphasizedSelectedTextColorSelector :: Selector '[] RawId
 unemphasizedSelectedTextColorSelector = mkSelector "unemphasizedSelectedTextColor"
 
 -- | @Selector@ for @controlColor@
@@ -1825,83 +1651,63 @@ keyboardFocusIndicatorColorSelector :: Selector '[] (Id NSColor)
 keyboardFocusIndicatorColorSelector = mkSelector "keyboardFocusIndicatorColor"
 
 -- | @Selector@ for @scrubberTexturedBackgroundColor@
-scrubberTexturedBackgroundColorSelector :: Selector '[] (Id NSColor)
+scrubberTexturedBackgroundColorSelector :: Selector '[] RawId
 scrubberTexturedBackgroundColorSelector = mkSelector "scrubberTexturedBackgroundColor"
 
 -- | @Selector@ for @systemRedColor@
-systemRedColorSelector :: Selector '[] (Id NSColor)
+systemRedColorSelector :: Selector '[] RawId
 systemRedColorSelector = mkSelector "systemRedColor"
 
 -- | @Selector@ for @systemGreenColor@
-systemGreenColorSelector :: Selector '[] (Id NSColor)
+systemGreenColorSelector :: Selector '[] RawId
 systemGreenColorSelector = mkSelector "systemGreenColor"
 
 -- | @Selector@ for @systemBlueColor@
-systemBlueColorSelector :: Selector '[] (Id NSColor)
+systemBlueColorSelector :: Selector '[] RawId
 systemBlueColorSelector = mkSelector "systemBlueColor"
 
 -- | @Selector@ for @systemOrangeColor@
-systemOrangeColorSelector :: Selector '[] (Id NSColor)
+systemOrangeColorSelector :: Selector '[] RawId
 systemOrangeColorSelector = mkSelector "systemOrangeColor"
 
 -- | @Selector@ for @systemYellowColor@
-systemYellowColorSelector :: Selector '[] (Id NSColor)
+systemYellowColorSelector :: Selector '[] RawId
 systemYellowColorSelector = mkSelector "systemYellowColor"
 
 -- | @Selector@ for @systemBrownColor@
-systemBrownColorSelector :: Selector '[] (Id NSColor)
+systemBrownColorSelector :: Selector '[] RawId
 systemBrownColorSelector = mkSelector "systemBrownColor"
 
 -- | @Selector@ for @systemPinkColor@
-systemPinkColorSelector :: Selector '[] (Id NSColor)
+systemPinkColorSelector :: Selector '[] RawId
 systemPinkColorSelector = mkSelector "systemPinkColor"
 
 -- | @Selector@ for @systemPurpleColor@
-systemPurpleColorSelector :: Selector '[] (Id NSColor)
+systemPurpleColorSelector :: Selector '[] RawId
 systemPurpleColorSelector = mkSelector "systemPurpleColor"
 
 -- | @Selector@ for @systemGrayColor@
-systemGrayColorSelector :: Selector '[] (Id NSColor)
+systemGrayColorSelector :: Selector '[] RawId
 systemGrayColorSelector = mkSelector "systemGrayColor"
 
 -- | @Selector@ for @systemTealColor@
-systemTealColorSelector :: Selector '[] (Id NSColor)
+systemTealColorSelector :: Selector '[] RawId
 systemTealColorSelector = mkSelector "systemTealColor"
 
 -- | @Selector@ for @systemIndigoColor@
-systemIndigoColorSelector :: Selector '[] (Id NSColor)
+systemIndigoColorSelector :: Selector '[] RawId
 systemIndigoColorSelector = mkSelector "systemIndigoColor"
 
 -- | @Selector@ for @systemMintColor@
-systemMintColorSelector :: Selector '[] (Id NSColor)
+systemMintColorSelector :: Selector '[] RawId
 systemMintColorSelector = mkSelector "systemMintColor"
 
 -- | @Selector@ for @systemCyanColor@
-systemCyanColorSelector :: Selector '[] (Id NSColor)
+systemCyanColorSelector :: Selector '[] RawId
 systemCyanColorSelector = mkSelector "systemCyanColor"
 
--- | @Selector@ for @systemFillColor@
-systemFillColorSelector :: Selector '[] (Id NSColor)
-systemFillColorSelector = mkSelector "systemFillColor"
-
--- | @Selector@ for @secondarySystemFillColor@
-secondarySystemFillColorSelector :: Selector '[] (Id NSColor)
-secondarySystemFillColorSelector = mkSelector "secondarySystemFillColor"
-
--- | @Selector@ for @tertiarySystemFillColor@
-tertiarySystemFillColorSelector :: Selector '[] (Id NSColor)
-tertiarySystemFillColorSelector = mkSelector "tertiarySystemFillColor"
-
--- | @Selector@ for @quaternarySystemFillColor@
-quaternarySystemFillColorSelector :: Selector '[] (Id NSColor)
-quaternarySystemFillColorSelector = mkSelector "quaternarySystemFillColor"
-
--- | @Selector@ for @quinarySystemFillColor@
-quinarySystemFillColorSelector :: Selector '[] (Id NSColor)
-quinarySystemFillColorSelector = mkSelector "quinarySystemFillColor"
-
 -- | @Selector@ for @controlAccentColor@
-controlAccentColorSelector :: Selector '[] (Id NSColor)
+controlAccentColorSelector :: Selector '[] RawId
 controlAccentColorSelector = mkSelector "controlAccentColor"
 
 -- | @Selector@ for @currentControlTint@
@@ -1992,10 +1798,6 @@ patternImageSelector = mkSelector "patternImage"
 alphaComponentSelector :: Selector '[] CDouble
 alphaComponentSelector = mkSelector "alphaComponent"
 
--- | @Selector@ for @linearExposure@
-linearExposureSelector :: Selector '[] CDouble
-linearExposureSelector = mkSelector "linearExposure"
-
 -- | @Selector@ for @CGColor@
 cgColorSelector :: Selector '[] (Ptr ())
 cgColorSelector = mkSelector "CGColor"
@@ -2009,56 +1811,52 @@ setIgnoresAlphaSelector :: Selector '[Bool] ()
 setIgnoresAlphaSelector = mkSelector "setIgnoresAlpha:"
 
 -- | @Selector@ for @controlHighlightColor@
-controlHighlightColorSelector :: Selector '[] (Id NSColor)
+controlHighlightColorSelector :: Selector '[] RawId
 controlHighlightColorSelector = mkSelector "controlHighlightColor"
 
 -- | @Selector@ for @controlLightHighlightColor@
-controlLightHighlightColorSelector :: Selector '[] (Id NSColor)
+controlLightHighlightColorSelector :: Selector '[] RawId
 controlLightHighlightColorSelector = mkSelector "controlLightHighlightColor"
 
 -- | @Selector@ for @controlShadowColor@
-controlShadowColorSelector :: Selector '[] (Id NSColor)
+controlShadowColorSelector :: Selector '[] RawId
 controlShadowColorSelector = mkSelector "controlShadowColor"
 
 -- | @Selector@ for @controlDarkShadowColor@
-controlDarkShadowColorSelector :: Selector '[] (Id NSColor)
+controlDarkShadowColorSelector :: Selector '[] RawId
 controlDarkShadowColorSelector = mkSelector "controlDarkShadowColor"
 
 -- | @Selector@ for @scrollBarColor@
-scrollBarColorSelector :: Selector '[] (Id NSColor)
+scrollBarColorSelector :: Selector '[] RawId
 scrollBarColorSelector = mkSelector "scrollBarColor"
 
 -- | @Selector@ for @knobColor@
-knobColorSelector :: Selector '[] (Id NSColor)
+knobColorSelector :: Selector '[] RawId
 knobColorSelector = mkSelector "knobColor"
 
 -- | @Selector@ for @selectedKnobColor@
-selectedKnobColorSelector :: Selector '[] (Id NSColor)
+selectedKnobColorSelector :: Selector '[] RawId
 selectedKnobColorSelector = mkSelector "selectedKnobColor"
 
 -- | @Selector@ for @windowFrameColor@
-windowFrameColorSelector :: Selector '[] (Id NSColor)
+windowFrameColorSelector :: Selector '[] RawId
 windowFrameColorSelector = mkSelector "windowFrameColor"
 
 -- | @Selector@ for @selectedMenuItemColor@
-selectedMenuItemColorSelector :: Selector '[] (Id NSColor)
+selectedMenuItemColorSelector :: Selector '[] RawId
 selectedMenuItemColorSelector = mkSelector "selectedMenuItemColor"
 
 -- | @Selector@ for @headerColor@
-headerColorSelector :: Selector '[] (Id NSColor)
+headerColorSelector :: Selector '[] RawId
 headerColorSelector = mkSelector "headerColor"
 
 -- | @Selector@ for @secondarySelectedControlColor@
-secondarySelectedControlColorSelector :: Selector '[] (Id NSColor)
+secondarySelectedControlColorSelector :: Selector '[] RawId
 secondarySelectedControlColorSelector = mkSelector "secondarySelectedControlColor"
 
 -- | @Selector@ for @alternateSelectedControlColor@
-alternateSelectedControlColorSelector :: Selector '[] (Id NSColor)
+alternateSelectedControlColorSelector :: Selector '[] RawId
 alternateSelectedControlColorSelector = mkSelector "alternateSelectedControlColor"
-
--- | @Selector@ for @controlAlternatingRowBackgroundColors@
-controlAlternatingRowBackgroundColorsSelector :: Selector '[] (Id NSArray)
-controlAlternatingRowBackgroundColorsSelector = mkSelector "controlAlternatingRowBackgroundColors"
 
 -- | @Selector@ for @colorSpaceName@
 colorSpaceNameSelector :: Selector '[] (Id NSString)

@@ -3,72 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Wi-Fi Network Diagnostics
---
--- The Wi-Fi Network Diagnostics Cluster provides a means to acquire standardized diagnostics metrics that MAY be used by a Node to assist a user or Administrative Node in diagnosing potential problems.
+-- | Cluster WiFi Network Diagnostics    The Wi-Fi Network Diagnostics Cluster provides a means to acquire standardized diagnostics metrics that MAY be used by a Node to assist a user or Administrative Node in diagnosing potential problems.
 --
 -- Generated bindings for @MTRBaseClusterWiFiNetworkDiagnostics@.
 module ObjC.Matter.MTRBaseClusterWiFiNetworkDiagnostics
   ( MTRBaseClusterWiFiNetworkDiagnostics
   , IsMTRBaseClusterWiFiNetworkDiagnostics(..)
-  , resetCountsWithParams_completion
-  , resetCountsWithCompletion
-  , readAttributeBSSIDWithCompletion
-  , subscribeAttributeBSSIDWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBSSIDWithClusterStateCache_endpoint_queue_completion
-  , readAttributeSecurityTypeWithCompletion
-  , subscribeAttributeSecurityTypeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeSecurityTypeWithClusterStateCache_endpoint_queue_completion
-  , readAttributeWiFiVersionWithCompletion
-  , subscribeAttributeWiFiVersionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeWiFiVersionWithClusterStateCache_endpoint_queue_completion
-  , readAttributeChannelNumberWithCompletion
-  , subscribeAttributeChannelNumberWithParams_subscriptionEstablished_reportHandler
-  , readAttributeChannelNumberWithClusterStateCache_endpoint_queue_completion
-  , readAttributeRSSIWithCompletion
-  , subscribeAttributeRSSIWithParams_subscriptionEstablished_reportHandler
-  , readAttributeRSSIWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBeaconLostCountWithCompletion
-  , subscribeAttributeBeaconLostCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBeaconLostCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBeaconRxCountWithCompletion
-  , subscribeAttributeBeaconRxCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBeaconRxCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributePacketMulticastRxCountWithCompletion
-  , subscribeAttributePacketMulticastRxCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributePacketMulticastRxCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributePacketMulticastTxCountWithCompletion
-  , subscribeAttributePacketMulticastTxCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributePacketMulticastTxCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributePacketUnicastRxCountWithCompletion
-  , subscribeAttributePacketUnicastRxCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributePacketUnicastRxCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributePacketUnicastTxCountWithCompletion
-  , subscribeAttributePacketUnicastTxCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributePacketUnicastTxCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributeCurrentMaxRateWithCompletion
-  , subscribeAttributeCurrentMaxRateWithParams_subscriptionEstablished_reportHandler
-  , readAttributeCurrentMaxRateWithClusterStateCache_endpoint_queue_completion
-  , readAttributeOverrunCountWithCompletion
-  , subscribeAttributeOverrunCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributeOverrunCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
-  , init_
-  , new
   , initWithDevice_endpoint_queue
   , resetCountsWithParams_completionHandler
   , resetCountsWithCompletionHandler
@@ -126,123 +66,67 @@ module ObjC.Matter.MTRBaseClusterWiFiNetworkDiagnostics
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
-  , initWithDevice_endpointID_queue
+  , init_
+  , new
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAttributeListWithCompletionHandlerSelector
-  , readAttributeAttributeListWithCompletionSelector
-  , readAttributeBSSIDWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeBSSIDWithCompletionSelector
   , readAttributeBeaconLostCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBeaconLostCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBeaconLostCountWithCompletionHandlerSelector
-  , readAttributeBeaconLostCountWithCompletionSelector
   , readAttributeBeaconRxCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBeaconRxCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBeaconRxCountWithCompletionHandlerSelector
-  , readAttributeBeaconRxCountWithCompletionSelector
   , readAttributeBssidWithAttributeCache_endpoint_queue_completionHandlerSelector
   , readAttributeBssidWithCompletionHandlerSelector
   , readAttributeChannelNumberWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeChannelNumberWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeChannelNumberWithCompletionHandlerSelector
-  , readAttributeChannelNumberWithCompletionSelector
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeClusterRevisionWithCompletionHandlerSelector
-  , readAttributeClusterRevisionWithCompletionSelector
   , readAttributeCurrentMaxRateWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeCurrentMaxRateWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeCurrentMaxRateWithCompletionHandlerSelector
-  , readAttributeCurrentMaxRateWithCompletionSelector
   , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeFeatureMapWithCompletionHandlerSelector
-  , readAttributeFeatureMapWithCompletionSelector
   , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeGeneratedCommandListWithCompletionHandlerSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
   , readAttributeOverrunCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeOverrunCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeOverrunCountWithCompletionHandlerSelector
-  , readAttributeOverrunCountWithCompletionSelector
   , readAttributePacketMulticastRxCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePacketMulticastRxCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePacketMulticastRxCountWithCompletionHandlerSelector
-  , readAttributePacketMulticastRxCountWithCompletionSelector
   , readAttributePacketMulticastTxCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePacketMulticastTxCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePacketMulticastTxCountWithCompletionHandlerSelector
-  , readAttributePacketMulticastTxCountWithCompletionSelector
   , readAttributePacketUnicastRxCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePacketUnicastRxCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePacketUnicastRxCountWithCompletionHandlerSelector
-  , readAttributePacketUnicastRxCountWithCompletionSelector
   , readAttributePacketUnicastTxCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePacketUnicastTxCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePacketUnicastTxCountWithCompletionHandlerSelector
-  , readAttributePacketUnicastTxCountWithCompletionSelector
-  , readAttributeRSSIWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeRSSIWithCompletionSelector
   , readAttributeRssiWithAttributeCache_endpoint_queue_completionHandlerSelector
   , readAttributeRssiWithCompletionHandlerSelector
   , readAttributeSecurityTypeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeSecurityTypeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeSecurityTypeWithCompletionHandlerSelector
-  , readAttributeSecurityTypeWithCompletionSelector
   , readAttributeWiFiVersionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeWiFiVersionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeWiFiVersionWithCompletionHandlerSelector
-  , readAttributeWiFiVersionWithCompletionSelector
   , resetCountsWithCompletionHandlerSelector
-  , resetCountsWithCompletionSelector
   , resetCountsWithParams_completionHandlerSelector
-  , resetCountsWithParams_completionSelector
   , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBSSIDWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBeaconLostCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBeaconLostCountWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBeaconRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBeaconRxCountWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBssidWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeChannelNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeChannelNumberWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeCurrentMaxRateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeCurrentMaxRateWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeOverrunCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeOverrunCountWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePacketMulticastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePacketMulticastRxCountWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePacketMulticastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePacketMulticastTxCountWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePacketUnicastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePacketUnicastRxCountWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePacketUnicastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePacketUnicastTxCountWithParams_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeRSSIWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeRssiWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeSecurityTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeSecurityTypeWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeWiFiVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeWiFiVersionWithParams_subscriptionEstablished_reportHandlerSelector
 
 
   ) where
@@ -257,338 +141,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | Command ResetCounts
---
--- This command is used to reset the count attributes.
---
--- ObjC selector: @- resetCountsWithParams:completion:@
-resetCountsWithParams_completion :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRWiFiNetworkDiagnosticsClusterResetCountsParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> IO ()
-resetCountsWithParams_completion mtrBaseClusterWiFiNetworkDiagnostics params completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics resetCountsWithParams_completionSelector (toMTRWiFiNetworkDiagnosticsClusterResetCountsParams params) completion
-
--- | @- resetCountsWithCompletion:@
-resetCountsWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-resetCountsWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics resetCountsWithCompletionSelector completion
-
--- | @- readAttributeBSSIDWithCompletion:@
-readAttributeBSSIDWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeBSSIDWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeBSSIDWithCompletionSelector completion
-
--- | @- subscribeAttributeBSSIDWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBSSIDWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBSSIDWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeBSSIDWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBSSIDWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBSSIDWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBSSIDWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeBSSIDWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeSecurityTypeWithCompletion:@
-readAttributeSecurityTypeWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeSecurityTypeWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeSecurityTypeWithCompletionSelector completion
-
--- | @- subscribeAttributeSecurityTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeSecurityTypeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeSecurityTypeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeSecurityTypeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeSecurityTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeSecurityTypeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeSecurityTypeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeSecurityTypeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeWiFiVersionWithCompletion:@
-readAttributeWiFiVersionWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeWiFiVersionWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeWiFiVersionWithCompletionSelector completion
-
--- | @- subscribeAttributeWiFiVersionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeWiFiVersionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeWiFiVersionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeWiFiVersionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeWiFiVersionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeWiFiVersionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeWiFiVersionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeWiFiVersionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeChannelNumberWithCompletion:@
-readAttributeChannelNumberWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeChannelNumberWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeChannelNumberWithCompletionSelector completion
-
--- | @- subscribeAttributeChannelNumberWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeChannelNumberWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeChannelNumberWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeChannelNumberWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeChannelNumberWithClusterStateCache:endpoint:queue:completion:@
-readAttributeChannelNumberWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeChannelNumberWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeChannelNumberWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeRSSIWithCompletion:@
-readAttributeRSSIWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeRSSIWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeRSSIWithCompletionSelector completion
-
--- | @- subscribeAttributeRSSIWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeRSSIWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeRSSIWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeRSSIWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeRSSIWithClusterStateCache:endpoint:queue:completion:@
-readAttributeRSSIWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeRSSIWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeRSSIWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBeaconLostCountWithCompletion:@
-readAttributeBeaconLostCountWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeBeaconLostCountWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeBeaconLostCountWithCompletionSelector completion
-
--- | @- subscribeAttributeBeaconLostCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBeaconLostCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBeaconLostCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeBeaconLostCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBeaconLostCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBeaconLostCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBeaconLostCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeBeaconLostCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBeaconRxCountWithCompletion:@
-readAttributeBeaconRxCountWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeBeaconRxCountWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeBeaconRxCountWithCompletionSelector completion
-
--- | @- subscribeAttributeBeaconRxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBeaconRxCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBeaconRxCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeBeaconRxCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBeaconRxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBeaconRxCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBeaconRxCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeBeaconRxCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributePacketMulticastRxCountWithCompletion:@
-readAttributePacketMulticastRxCountWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributePacketMulticastRxCountWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketMulticastRxCountWithCompletionSelector completion
-
--- | @- subscribeAttributePacketMulticastRxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketMulticastRxCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePacketMulticastRxCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketMulticastRxCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePacketMulticastRxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketMulticastRxCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePacketMulticastRxCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributePacketMulticastRxCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributePacketMulticastTxCountWithCompletion:@
-readAttributePacketMulticastTxCountWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributePacketMulticastTxCountWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketMulticastTxCountWithCompletionSelector completion
-
--- | @- subscribeAttributePacketMulticastTxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketMulticastTxCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePacketMulticastTxCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketMulticastTxCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePacketMulticastTxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketMulticastTxCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePacketMulticastTxCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributePacketMulticastTxCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributePacketUnicastRxCountWithCompletion:@
-readAttributePacketUnicastRxCountWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributePacketUnicastRxCountWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketUnicastRxCountWithCompletionSelector completion
-
--- | @- subscribeAttributePacketUnicastRxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketUnicastRxCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePacketUnicastRxCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketUnicastRxCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePacketUnicastRxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketUnicastRxCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePacketUnicastRxCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributePacketUnicastRxCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributePacketUnicastTxCountWithCompletion:@
-readAttributePacketUnicastTxCountWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributePacketUnicastTxCountWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketUnicastTxCountWithCompletionSelector completion
-
--- | @- subscribeAttributePacketUnicastTxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketUnicastTxCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePacketUnicastTxCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketUnicastTxCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePacketUnicastTxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketUnicastTxCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePacketUnicastTxCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributePacketUnicastTxCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeCurrentMaxRateWithCompletion:@
-readAttributeCurrentMaxRateWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeCurrentMaxRateWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeCurrentMaxRateWithCompletionSelector completion
-
--- | @- subscribeAttributeCurrentMaxRateWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentMaxRateWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeCurrentMaxRateWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeCurrentMaxRateWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeCurrentMaxRateWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentMaxRateWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeCurrentMaxRateWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeCurrentMaxRateWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeOverrunCountWithCompletion:@
-readAttributeOverrunCountWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeOverrunCountWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeOverrunCountWithCompletionSelector completion
-
--- | @- subscribeAttributeOverrunCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeOverrunCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeOverrunCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeOverrunCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeOverrunCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeOverrunCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeOverrunCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeOverrunCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeAcceptedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeAttributeListWithCompletionSelector completion
-
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeFeatureMapWithCompletionSelector completion
-
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterWiFiNetworkDiagnostics completion =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeClusterRevisionWithCompletionSelector completion
-
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- init@
-init_ :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> IO (Id MTRBaseClusterWiFiNetworkDiagnostics)
-init_ mtrBaseClusterWiFiNetworkDiagnostics =
-  sendOwnedMessage mtrBaseClusterWiFiNetworkDiagnostics initSelector
-
--- | @+ new@
-new :: IO (Id MTRBaseClusterWiFiNetworkDiagnostics)
-new  =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
-    sendOwnedClassMessage cls' newSelector
 
 -- | @- initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queue :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterWiFiNetworkDiagnostics -> device -> CUShort -> queue -> IO (Id MTRBaseClusterWiFiNetworkDiagnostics)
@@ -610,7 +162,9 @@ readAttributeBssidWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDiagnostic
 readAttributeBssidWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeBssidWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBssidWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBssidWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBssidWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBssidWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeBssidWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -627,7 +181,9 @@ readAttributeSecurityTypeWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDia
 readAttributeSecurityTypeWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeSecurityTypeWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeSecurityTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeSecurityTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeSecurityTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeSecurityTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeSecurityTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -644,7 +200,9 @@ readAttributeWiFiVersionWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDiag
 readAttributeWiFiVersionWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeWiFiVersionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeWiFiVersionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeWiFiVersionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeWiFiVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeWiFiVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeWiFiVersionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -661,7 +219,9 @@ readAttributeChannelNumberWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDi
 readAttributeChannelNumberWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeChannelNumberWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeChannelNumberWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeChannelNumberWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeChannelNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeChannelNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeChannelNumberWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -678,7 +238,9 @@ readAttributeRssiWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDiagnostics
 readAttributeRssiWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeRssiWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeRssiWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeRssiWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeRssiWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeRssiWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeRssiWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -695,7 +257,9 @@ readAttributeBeaconLostCountWithCompletionHandler :: IsMTRBaseClusterWiFiNetwork
 readAttributeBeaconLostCountWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeBeaconLostCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBeaconLostCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBeaconLostCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBeaconLostCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBeaconLostCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeBeaconLostCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -712,7 +276,9 @@ readAttributeBeaconRxCountWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDi
 readAttributeBeaconRxCountWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeBeaconRxCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBeaconRxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBeaconRxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBeaconRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBeaconRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeBeaconRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -729,7 +295,9 @@ readAttributePacketMulticastRxCountWithCompletionHandler :: IsMTRBaseClusterWiFi
 readAttributePacketMulticastRxCountWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketMulticastRxCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePacketMulticastRxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePacketMulticastRxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePacketMulticastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePacketMulticastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketMulticastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -746,7 +314,9 @@ readAttributePacketMulticastTxCountWithCompletionHandler :: IsMTRBaseClusterWiFi
 readAttributePacketMulticastTxCountWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketMulticastTxCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePacketMulticastTxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePacketMulticastTxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePacketMulticastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePacketMulticastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketMulticastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -763,7 +333,9 @@ readAttributePacketUnicastRxCountWithCompletionHandler :: IsMTRBaseClusterWiFiNe
 readAttributePacketUnicastRxCountWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketUnicastRxCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePacketUnicastRxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePacketUnicastRxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePacketUnicastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePacketUnicastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketUnicastRxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -780,7 +352,9 @@ readAttributePacketUnicastTxCountWithCompletionHandler :: IsMTRBaseClusterWiFiNe
 readAttributePacketUnicastTxCountWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributePacketUnicastTxCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePacketUnicastTxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePacketUnicastTxCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePacketUnicastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePacketUnicastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributePacketUnicastTxCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -797,7 +371,9 @@ readAttributeCurrentMaxRateWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkD
 readAttributeCurrentMaxRateWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeCurrentMaxRateWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeCurrentMaxRateWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCurrentMaxRateWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCurrentMaxRateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCurrentMaxRateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeCurrentMaxRateWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -814,7 +390,9 @@ readAttributeOverrunCountWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDia
 readAttributeOverrunCountWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeOverrunCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeOverrunCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeOverrunCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeOverrunCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeOverrunCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeOverrunCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -831,7 +409,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterWiFiNe
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -848,7 +428,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterWiFiNet
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -865,7 +447,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDi
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -882,7 +466,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterWiFiNetworkDiagn
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -899,7 +485,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterWiFiNetwork
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterWiFiNetworkDiagnostics completionHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWiFiNetworkDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWiFiNetworkDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWiFiNetworkDiagnostics subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -911,248 +499,21 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
     cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterWiFiNetworkDiagnostics -> device -> endpointID -> queue -> IO (Id MTRBaseClusterWiFiNetworkDiagnostics)
-initWithDevice_endpointID_queue mtrBaseClusterWiFiNetworkDiagnostics device endpointID queue =
-  sendOwnedMessage mtrBaseClusterWiFiNetworkDiagnostics initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
+-- | @- init@
+init_ :: IsMTRBaseClusterWiFiNetworkDiagnostics mtrBaseClusterWiFiNetworkDiagnostics => mtrBaseClusterWiFiNetworkDiagnostics -> IO (Id MTRBaseClusterWiFiNetworkDiagnostics)
+init_ mtrBaseClusterWiFiNetworkDiagnostics =
+  sendOwnedMessage mtrBaseClusterWiFiNetworkDiagnostics initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterWiFiNetworkDiagnostics)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterWiFiNetworkDiagnostics"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @resetCountsWithParams:completion:@
-resetCountsWithParams_completionSelector :: Selector '[Id MTRWiFiNetworkDiagnosticsClusterResetCountsParams, Ptr ()] ()
-resetCountsWithParams_completionSelector = mkSelector "resetCountsWithParams:completion:"
-
--- | @Selector@ for @resetCountsWithCompletion:@
-resetCountsWithCompletionSelector :: Selector '[Ptr ()] ()
-resetCountsWithCompletionSelector = mkSelector "resetCountsWithCompletion:"
-
--- | @Selector@ for @readAttributeBSSIDWithCompletion:@
-readAttributeBSSIDWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBSSIDWithCompletionSelector = mkSelector "readAttributeBSSIDWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBSSIDWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBSSIDWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBSSIDWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBSSIDWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBSSIDWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBSSIDWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBSSIDWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBSSIDWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeSecurityTypeWithCompletion:@
-readAttributeSecurityTypeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeSecurityTypeWithCompletionSelector = mkSelector "readAttributeSecurityTypeWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeSecurityTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeSecurityTypeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeSecurityTypeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeSecurityTypeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeSecurityTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeSecurityTypeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeSecurityTypeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeSecurityTypeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeWiFiVersionWithCompletion:@
-readAttributeWiFiVersionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeWiFiVersionWithCompletionSelector = mkSelector "readAttributeWiFiVersionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeWiFiVersionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeWiFiVersionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeWiFiVersionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeWiFiVersionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeWiFiVersionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeWiFiVersionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeWiFiVersionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeWiFiVersionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeChannelNumberWithCompletion:@
-readAttributeChannelNumberWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeChannelNumberWithCompletionSelector = mkSelector "readAttributeChannelNumberWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeChannelNumberWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeChannelNumberWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeChannelNumberWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeChannelNumberWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeChannelNumberWithClusterStateCache:endpoint:queue:completion:@
-readAttributeChannelNumberWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeChannelNumberWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeChannelNumberWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeRSSIWithCompletion:@
-readAttributeRSSIWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeRSSIWithCompletionSelector = mkSelector "readAttributeRSSIWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeRSSIWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeRSSIWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeRSSIWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeRSSIWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeRSSIWithClusterStateCache:endpoint:queue:completion:@
-readAttributeRSSIWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeRSSIWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeRSSIWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBeaconLostCountWithCompletion:@
-readAttributeBeaconLostCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBeaconLostCountWithCompletionSelector = mkSelector "readAttributeBeaconLostCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBeaconLostCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBeaconLostCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBeaconLostCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBeaconLostCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBeaconLostCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBeaconLostCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBeaconLostCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBeaconLostCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBeaconRxCountWithCompletion:@
-readAttributeBeaconRxCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBeaconRxCountWithCompletionSelector = mkSelector "readAttributeBeaconRxCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBeaconRxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBeaconRxCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBeaconRxCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBeaconRxCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBeaconRxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBeaconRxCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBeaconRxCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBeaconRxCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributePacketMulticastRxCountWithCompletion:@
-readAttributePacketMulticastRxCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePacketMulticastRxCountWithCompletionSelector = mkSelector "readAttributePacketMulticastRxCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePacketMulticastRxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketMulticastRxCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePacketMulticastRxCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePacketMulticastRxCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePacketMulticastRxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketMulticastRxCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePacketMulticastRxCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePacketMulticastRxCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributePacketMulticastTxCountWithCompletion:@
-readAttributePacketMulticastTxCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePacketMulticastTxCountWithCompletionSelector = mkSelector "readAttributePacketMulticastTxCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePacketMulticastTxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketMulticastTxCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePacketMulticastTxCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePacketMulticastTxCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePacketMulticastTxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketMulticastTxCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePacketMulticastTxCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePacketMulticastTxCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributePacketUnicastRxCountWithCompletion:@
-readAttributePacketUnicastRxCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePacketUnicastRxCountWithCompletionSelector = mkSelector "readAttributePacketUnicastRxCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePacketUnicastRxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketUnicastRxCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePacketUnicastRxCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePacketUnicastRxCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePacketUnicastRxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketUnicastRxCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePacketUnicastRxCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePacketUnicastRxCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributePacketUnicastTxCountWithCompletion:@
-readAttributePacketUnicastTxCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePacketUnicastTxCountWithCompletionSelector = mkSelector "readAttributePacketUnicastTxCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePacketUnicastTxCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePacketUnicastTxCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePacketUnicastTxCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePacketUnicastTxCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePacketUnicastTxCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributePacketUnicastTxCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePacketUnicastTxCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePacketUnicastTxCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeCurrentMaxRateWithCompletion:@
-readAttributeCurrentMaxRateWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeCurrentMaxRateWithCompletionSelector = mkSelector "readAttributeCurrentMaxRateWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeCurrentMaxRateWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentMaxRateWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeCurrentMaxRateWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeCurrentMaxRateWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeCurrentMaxRateWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentMaxRateWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeCurrentMaxRateWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeCurrentMaxRateWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeOverrunCountWithCompletion:@
-readAttributeOverrunCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeOverrunCountWithCompletionSelector = mkSelector "readAttributeOverrunCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeOverrunCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeOverrunCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeOverrunCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeOverrunCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeOverrunCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeOverrunCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeOverrunCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeOverrunCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterWiFiNetworkDiagnostics)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterWiFiNetworkDiagnostics)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterWiFiNetworkDiagnostics)
@@ -1382,7 +743,11 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterWiFiNetworkDiagnostics)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterWiFiNetworkDiagnostics)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterWiFiNetworkDiagnostics)
+newSelector = mkSelector "new"
 

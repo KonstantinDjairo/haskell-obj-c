@@ -99,7 +99,7 @@ subnetMasks neiPv4Settings =
 -- The address of the next-hop gateway router represented as a dotted decimal string. This property is ignored for TUN interfaces.
 --
 -- ObjC selector: @- router@
-router :: IsNEIPv4Settings neiPv4Settings => neiPv4Settings -> IO (Id NSString)
+router :: IsNEIPv4Settings neiPv4Settings => neiPv4Settings -> IO RawId
 router neiPv4Settings =
   sendMessage neiPv4Settings routerSelector
 
@@ -108,9 +108,9 @@ router neiPv4Settings =
 -- The address of the next-hop gateway router represented as a dotted decimal string. This property is ignored for TUN interfaces.
 --
 -- ObjC selector: @- setRouter:@
-setRouter :: (IsNEIPv4Settings neiPv4Settings, IsNSString value) => neiPv4Settings -> value -> IO ()
+setRouter :: IsNEIPv4Settings neiPv4Settings => neiPv4Settings -> RawId -> IO ()
 setRouter neiPv4Settings value =
-  sendMessage neiPv4Settings setRouterSelector (toNSString value)
+  sendMessage neiPv4Settings setRouterSelector value
 
 -- | includedRoutes
 --
@@ -169,11 +169,11 @@ subnetMasksSelector :: Selector '[] (Id NSArray)
 subnetMasksSelector = mkSelector "subnetMasks"
 
 -- | @Selector@ for @router@
-routerSelector :: Selector '[] (Id NSString)
+routerSelector :: Selector '[] RawId
 routerSelector = mkSelector "router"
 
 -- | @Selector@ for @setRouter:@
-setRouterSelector :: Selector '[Id NSString] ()
+setRouterSelector :: Selector '[RawId] ()
 setRouterSelector = mkSelector "setRouter:"
 
 -- | @Selector@ for @includedRoutes@

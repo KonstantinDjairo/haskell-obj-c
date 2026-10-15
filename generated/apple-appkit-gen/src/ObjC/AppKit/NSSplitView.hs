@@ -33,10 +33,8 @@ module ObjC.AppKit.NSSplitView
   , dividerThickness
   , arrangesAllSubviews
   , setArrangesAllSubviews
-  , arrangedSubviews
   , addArrangedSubviewSelector
   , adjustSubviewsSelector
-  , arrangedSubviewsSelector
   , arrangesAllSubviewsSelector
   , autosaveNameSelector
   , delegateSelector
@@ -194,7 +192,7 @@ setDelegate nsSplitView value =
   sendMessage nsSplitView setDelegateSelector value
 
 -- | @- dividerColor@
-dividerColor :: IsNSSplitView nsSplitView => nsSplitView -> IO (Id NSColor)
+dividerColor :: IsNSSplitView nsSplitView => nsSplitView -> IO RawId
 dividerColor nsSplitView =
   sendMessage nsSplitView dividerColorSelector
 
@@ -216,13 +214,6 @@ arrangesAllSubviews nsSplitView =
 setArrangesAllSubviews :: IsNSSplitView nsSplitView => nsSplitView -> Bool -> IO ()
 setArrangesAllSubviews nsSplitView value =
   sendMessage nsSplitView setArrangesAllSubviewsSelector value
-
--- | The list of views that are arranged as split panes in the receiver. They are a subset of @-subviews,@ with potential difference in ordering. If @-arrangesAllSubviews@ is YES, then @-arrangedSubviews@ is identical to @-subviews.@
---
--- ObjC selector: @- arrangedSubviews@
-arrangedSubviews :: IsNSSplitView nsSplitView => nsSplitView -> IO (Id NSArray)
-arrangedSubviews nsSplitView =
-  sendMessage nsSplitView arrangedSubviewsSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -313,7 +304,7 @@ setDelegateSelector :: Selector '[RawId] ()
 setDelegateSelector = mkSelector "setDelegate:"
 
 -- | @Selector@ for @dividerColor@
-dividerColorSelector :: Selector '[] (Id NSColor)
+dividerColorSelector :: Selector '[] RawId
 dividerColorSelector = mkSelector "dividerColor"
 
 -- | @Selector@ for @dividerThickness@
@@ -327,8 +318,4 @@ arrangesAllSubviewsSelector = mkSelector "arrangesAllSubviews"
 -- | @Selector@ for @setArrangesAllSubviews:@
 setArrangesAllSubviewsSelector :: Selector '[Bool] ()
 setArrangesAllSubviewsSelector = mkSelector "setArrangesAllSubviews:"
-
--- | @Selector@ for @arrangedSubviews@
-arrangedSubviewsSelector :: Selector '[] (Id NSArray)
-arrangedSubviewsSelector = mkSelector "arrangedSubviews"
 

@@ -14,7 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | The different kinds of custom menus that the Finder Sync extension can provide.
 -- | @FIMenuKind@
 newtype FIMenuKind = FIMenuKind CULong
   deriving stock (Eq, Ord, Show)

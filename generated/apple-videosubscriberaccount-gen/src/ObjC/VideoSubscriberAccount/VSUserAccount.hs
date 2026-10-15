@@ -21,8 +21,8 @@ module ObjC.VideoSubscriberAccount.VSUserAccount
   , setIdentifier
   , accountType
   , setAccountType
-  , signedOut
-  , setSignedOut
+  , deleted
+  , setDeleted
   , subscriptionBillingCycleEndDate
   , setSubscriptionBillingCycleEndDate
   , tierIdentifiers
@@ -33,13 +33,11 @@ module ObjC.VideoSubscriberAccount.VSUserAccount
   , setAuthenticationData
   , fromCurrentDevice
   , deviceCategory
-  , appleSubscription
-  , setAppleSubscription
   , accountProviderIdentifierSelector
   , accountTypeSelector
-  , appleSubscriptionSelector
   , authenticationDataSelector
   , billingIdentifierSelector
+  , deletedSelector
   , deviceCategorySelector
   , fromCurrentDeviceSelector
   , identifierSelector
@@ -49,16 +47,14 @@ module ObjC.VideoSubscriberAccount.VSUserAccount
   , requiresSystemTrustSelector
   , setAccountProviderIdentifierSelector
   , setAccountTypeSelector
-  , setAppleSubscriptionSelector
   , setAuthenticationDataSelector
   , setBillingIdentifierSelector
+  , setDeletedSelector
   , setIdentifierSelector
   , setRequiresSystemTrustSelector
-  , setSignedOutSelector
   , setSubscriptionBillingCycleEndDateSelector
   , setTierIdentifiersSelector
   , setUpdateURLSelector
-  , signedOutSelector
   , subscriptionBillingCycleEndDateSelector
   , tierIdentifiersSelector
   , updateURLSelector
@@ -152,15 +148,15 @@ setAccountType :: IsVSUserAccount vsUserAccount => vsUserAccount -> VSUserAccoun
 setAccountType vsUserAccount value =
   sendMessage vsUserAccount setAccountTypeSelector value
 
--- | @- signedOut@
-signedOut :: IsVSUserAccount vsUserAccount => vsUserAccount -> IO Bool
-signedOut vsUserAccount =
-  sendMessage vsUserAccount signedOutSelector
+-- | @- deleted@
+deleted :: IsVSUserAccount vsUserAccount => vsUserAccount -> IO Bool
+deleted vsUserAccount =
+  sendMessage vsUserAccount deletedSelector
 
--- | @- setSignedOut:@
-setSignedOut :: IsVSUserAccount vsUserAccount => vsUserAccount -> Bool -> IO ()
-setSignedOut vsUserAccount value =
-  sendMessage vsUserAccount setSignedOutSelector value
+-- | @- setDeleted:@
+setDeleted :: IsVSUserAccount vsUserAccount => vsUserAccount -> Bool -> IO ()
+setDeleted vsUserAccount value =
+  sendMessage vsUserAccount setDeletedSelector value
 
 -- | @- subscriptionBillingCycleEndDate@
 subscriptionBillingCycleEndDate :: IsVSUserAccount vsUserAccount => vsUserAccount -> IO (Id NSDate)
@@ -211,16 +207,6 @@ fromCurrentDevice vsUserAccount =
 deviceCategory :: IsVSUserAccount vsUserAccount => vsUserAccount -> IO VSOriginatingDeviceCategory
 deviceCategory vsUserAccount =
   sendMessage vsUserAccount deviceCategorySelector
-
--- | @- appleSubscription@
-appleSubscription :: IsVSUserAccount vsUserAccount => vsUserAccount -> IO (Id VSAppleSubscription)
-appleSubscription vsUserAccount =
-  sendMessage vsUserAccount appleSubscriptionSelector
-
--- | @- setAppleSubscription:@
-setAppleSubscription :: (IsVSUserAccount vsUserAccount, IsVSAppleSubscription value) => vsUserAccount -> value -> IO ()
-setAppleSubscription vsUserAccount value =
-  sendMessage vsUserAccount setAppleSubscriptionSelector (toVSAppleSubscription value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -278,13 +264,13 @@ accountTypeSelector = mkSelector "accountType"
 setAccountTypeSelector :: Selector '[VSUserAccountType] ()
 setAccountTypeSelector = mkSelector "setAccountType:"
 
--- | @Selector@ for @signedOut@
-signedOutSelector :: Selector '[] Bool
-signedOutSelector = mkSelector "signedOut"
+-- | @Selector@ for @deleted@
+deletedSelector :: Selector '[] Bool
+deletedSelector = mkSelector "deleted"
 
--- | @Selector@ for @setSignedOut:@
-setSignedOutSelector :: Selector '[Bool] ()
-setSignedOutSelector = mkSelector "setSignedOut:"
+-- | @Selector@ for @setDeleted:@
+setDeletedSelector :: Selector '[Bool] ()
+setDeletedSelector = mkSelector "setDeleted:"
 
 -- | @Selector@ for @subscriptionBillingCycleEndDate@
 subscriptionBillingCycleEndDateSelector :: Selector '[] (Id NSDate)
@@ -325,12 +311,4 @@ fromCurrentDeviceSelector = mkSelector "fromCurrentDevice"
 -- | @Selector@ for @deviceCategory@
 deviceCategorySelector :: Selector '[] VSOriginatingDeviceCategory
 deviceCategorySelector = mkSelector "deviceCategory"
-
--- | @Selector@ for @appleSubscription@
-appleSubscriptionSelector :: Selector '[] (Id VSAppleSubscription)
-appleSubscriptionSelector = mkSelector "appleSubscription"
-
--- | @Selector@ for @setAppleSubscription:@
-setAppleSubscriptionSelector :: Selector '[Id VSAppleSubscription] ()
-setAppleSubscriptionSelector = mkSelector "setAppleSubscription:"
 

@@ -42,8 +42,6 @@ data NSOpenSavePanelDelegateOverrides = NSOpenSavePanelDelegateOverrides
   , _panel_userEnteredFilename_confirmed :: !(Maybe (RawId -> RawId -> Bool -> IO RawId))
   , _panel_willExpand :: !(Maybe (RawId -> Bool -> IO ()))
   , _panelSelectionDidChange :: !(Maybe (RawId -> IO ()))
-  , _panel_displayNameForType :: !(Maybe (RawId -> RawId -> IO RawId))
-  , _panel_didSelectType :: !(Maybe (RawId -> RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -55,14 +53,7 @@ defaultNSOpenSavePanelDelegateOverrides = NSOpenSavePanelDelegateOverrides
   , _panel_userEnteredFilename_confirmed = Nothing
   , _panel_willExpand = Nothing
   , _panelSelectionDidChange = Nothing
-  , _panel_displayNameForType = Nothing
-  , _panel_didSelectType = Nothing
   }
-
-foreign import ccall "wrapper"
-  wrap_at_at_at
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> IO (Ptr ObjCObject))
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> IO (Ptr ObjCObject)))
 
 foreign import ccall "wrapper"
   wrap_at_v
@@ -114,8 +105,6 @@ nsOpenSavePanelDelegateDelegateClass = unsafePerformIO $ do
       sel_panel_userEnteredFilename_confirmed = unSelector (mkSelector "panel:userEnteredFilename:confirmed:")
       sel_panel_willExpand = unSelector (mkSelector "panel:willExpand:")
       sel_panelSelectionDidChange = unSelector (mkSelector "panelSelectionDidChange:")
-      sel_panel_displayNameForType = unSelector (mkSelector "panel:displayNameForType:")
-      sel_panel_didSelectType = unSelector (mkSelector "panel:didSelectType:")
   -- panel:shouldEnableURL:
   stub_0 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
@@ -176,26 +165,6 @@ nsOpenSavePanelDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0)
   addObjCMethod cls "panelSelectionDidChange:" "v@:@" stub_5
 
-  -- panel:displayNameForType:
-  stub_6 <- wrap_at_at_at $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSOpenSavePanelDelegateOverrides
-    case _panel_displayNameForType rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f (RawId arg0) (RawId arg1)
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "panel:displayNameForType:" "@@:@@" stub_6
-
-  -- panel:didSelectType:
-  stub_7 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSOpenSavePanelDelegateOverrides
-    case _panel_didSelectType rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "panel:didSelectType:" "v@:@@" stub_7
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -206,8 +175,6 @@ nsOpenSavePanelDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_panel_userEnteredFilename_confirmed then pure (maybe 0 (const 1) (_panel_userEnteredFilename_confirmed rec_))
     else if queriedSel == sel_panel_willExpand then pure (maybe 0 (const 1) (_panel_willExpand rec_))
     else if queriedSel == sel_panelSelectionDidChange then pure (maybe 0 (const 1) (_panelSelectionDidChange rec_))
-    else if queriedSel == sel_panel_displayNameForType then pure (maybe 0 (const 1) (_panel_displayNameForType rec_))
-    else if queriedSel == sel_panel_didSelectType then pure (maybe 0 (const 1) (_panel_didSelectType rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

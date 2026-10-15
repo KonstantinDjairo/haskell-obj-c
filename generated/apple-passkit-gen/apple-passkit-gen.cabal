@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -12,6 +12,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      ObjC.PassKit.Delegate.PKDisbursementAuthorizationControllerDelegate
       ObjC.PassKit.Delegate.PKIdentityDocumentDescriptor
       ObjC.PassKit.Delegate.PKPaymentAuthorizationControllerDelegate
       ObjC.PassKit.Delegate.PKPaymentAuthorizationViewControllerDelegate
@@ -20,9 +21,6 @@ library
       ObjC.PassKit.Internal.Classes
       ObjC.PassKit.Internal.Enums
       ObjC.PassKit.PKAddCarKeyPassConfiguration
-      ObjC.PassKit.PKAddIdentityDocumentConfiguration
-      ObjC.PassKit.PKAddIdentityDocumentMetadata
-      ObjC.PassKit.PKAddPassMetadataPreview
       ObjC.PassKit.PKAddPaymentPassRequest
       ObjC.PassKit.PKAddPaymentPassRequestConfiguration
       ObjC.PassKit.PKAddSecureElementPassConfiguration
@@ -36,30 +34,24 @@ library
       ObjC.PassKit.PKBarcodeEventSignatureResponse
       ObjC.PassKit.PKContact
       ObjC.PassKit.PKDateComponentsRange
-      ObjC.PassKit.PKDeferredPaymentRequest
       ObjC.PassKit.PKDeferredPaymentSummaryItem
+      ObjC.PassKit.PKDisbursementAuthorizationController
       ObjC.PassKit.PKDisbursementRequest
-      ObjC.PassKit.PKDisbursementSummaryItem
-      ObjC.PassKit.PKIdentityAnyOfDescriptor
+      ObjC.PassKit.PKDisbursementVoucher
       ObjC.PassKit.PKIdentityAuthorizationController
       ObjC.PassKit.PKIdentityDocument
-      ObjC.PassKit.PKIdentityDocumentMetadata
       ObjC.PassKit.PKIdentityDriversLicenseDescriptor
       ObjC.PassKit.PKIdentityElement
       ObjC.PassKit.PKIdentityIntentToStore
-      ObjC.PassKit.PKIdentityNationalIDCardDescriptor
-      ObjC.PassKit.PKIdentityPhotoIDDescriptor
       ObjC.PassKit.PKIdentityRequest
-      ObjC.PassKit.PKInstantFundsOutFeeSummaryItem
       ObjC.PassKit.PKIssuerProvisioningExtensionHandler
       ObjC.PassKit.PKIssuerProvisioningExtensionPassEntry
       ObjC.PassKit.PKIssuerProvisioningExtensionPaymentPassEntry
       ObjC.PassKit.PKIssuerProvisioningExtensionStatus
-      ObjC.PassKit.PKJapanIndividualNumberCardMetadata
       ObjC.PassKit.PKLabeledValue
+      ObjC.PassKit.PKObject
       ObjC.PassKit.PKPass
       ObjC.PassKit.PKPassLibrary
-      ObjC.PassKit.PKPassRelevantDate
       ObjC.PassKit.PKPayment
       ObjC.PassKit.PKPaymentAuthorizationController
       ObjC.PassKit.PKPaymentAuthorizationResult
@@ -97,7 +89,7 @@ library
       Paths_apple_passkit_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-appkit-gen
     , apple-foundation-gen

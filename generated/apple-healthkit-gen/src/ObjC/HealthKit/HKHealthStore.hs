@@ -35,8 +35,6 @@ module ObjC.HealthKit.HKHealthStore
   , fitzpatrickSkinTypeWithError
   , wheelchairUseWithError
   , activityMoveModeWithError
-  , relateWorkoutEffortSample_withWorkout_activity_completion
-  , unrelateWorkoutEffortSample_fromWorkout_activity_completion
   , recalibrateEstimatesForSampleType_atDate_completion
   , enableBackgroundDeliveryForType_frequency_withCompletion
   , disableBackgroundDeliveryForType_withCompletion
@@ -48,8 +46,6 @@ module ObjC.HealthKit.HKHealthStore
   , resumeWorkoutSession
   , startWatchAppWithWorkoutConfiguration_completion
   , recoverActiveWorkoutSessionWithCompletion
-  , workoutSessionMirroringStartHandler
-  , setWorkoutSessionMirroringStartHandler
   , activityMoveModeWithErrorSelector
   , addSamples_toWorkout_completionSelector
   , authorizationStatusForTypeSelector
@@ -73,21 +69,17 @@ module ObjC.HealthKit.HKHealthStore
   , pauseWorkoutSessionSelector
   , recalibrateEstimatesForSampleType_atDate_completionSelector
   , recoverActiveWorkoutSessionWithCompletionSelector
-  , relateWorkoutEffortSample_withWorkout_activity_completionSelector
   , requestAuthorizationToShareTypes_readTypes_completionSelector
   , requestPerObjectReadAuthorizationForType_predicate_completionSelector
   , resumeWorkoutSessionSelector
   , saveObject_withCompletionSelector
   , saveObjects_withCompletionSelector
-  , setWorkoutSessionMirroringStartHandlerSelector
   , splitTotalEnergy_startDate_endDate_resultsHandlerSelector
   , startWatchAppWithWorkoutConfiguration_completionSelector
   , startWorkoutSessionSelector
   , stopQuerySelector
   , supportsHealthRecordsSelector
-  , unrelateWorkoutEffortSample_fromWorkout_activity_completionSelector
   , wheelchairUseWithErrorSelector
-  , workoutSessionMirroringStartHandlerSelector
 
   -- * Enum types
   , HKAuthorizationStatus(HKAuthorizationStatus)
@@ -377,40 +369,6 @@ activityMoveModeWithError :: (IsHKHealthStore hkHealthStore, IsNSError error_) =
 activityMoveModeWithError hkHealthStore error_ =
   sendMessage hkHealthStore activityMoveModeWithErrorSelector (toNSError error_)
 
--- | relateWorkoutEffortSample:withWorkout:activity:completion
---
--- Relates a workout effort sample with a workout
---
--- @sample@ — The workout effort sample
---
--- @workout@ — The HKWorkout to relate the sample to
---
--- @activity@ — The HKWorkoutActivity on the HKWorkout
---
--- @completion@ — The block to be called when the sample has been related
---
--- ObjC selector: @- relateWorkoutEffortSample:withWorkout:activity:completion:@
-relateWorkoutEffortSample_withWorkout_activity_completion :: (IsHKHealthStore hkHealthStore, IsHKSample sample, IsHKWorkout workout, IsHKWorkoutActivity activity) => hkHealthStore -> sample -> workout -> activity -> Ptr () -> IO ()
-relateWorkoutEffortSample_withWorkout_activity_completion hkHealthStore sample workout activity completion =
-  sendMessage hkHealthStore relateWorkoutEffortSample_withWorkout_activity_completionSelector (toHKSample sample) (toHKWorkout workout) (toHKWorkoutActivity activity) completion
-
--- | unrelateWorkoutEffortSample:fromWorkout:activity:completion
---
--- Unrelates a workout effort sample from a workout
---
--- @sample@ — The workout effort sample
---
--- @workout@ — The HKWorkout to unrelate the sample from
---
--- @activity@ — The HKWorkoutActivity on the HKWorkout
---
--- @completion@ — The block to be called when the sample has been unrelated
---
--- ObjC selector: @- unrelateWorkoutEffortSample:fromWorkout:activity:completion:@
-unrelateWorkoutEffortSample_fromWorkout_activity_completion :: (IsHKHealthStore hkHealthStore, IsHKSample sample, IsHKWorkout workout, IsHKWorkoutActivity activity) => hkHealthStore -> sample -> workout -> activity -> Ptr () -> IO ()
-unrelateWorkoutEffortSample_fromWorkout_activity_completion hkHealthStore sample workout activity completion =
-  sendMessage hkHealthStore unrelateWorkoutEffortSample_fromWorkout_activity_completionSelector (toHKSample sample) (toHKWorkout workout) (toHKWorkoutActivity activity) completion
-
 -- | recalibrateEstimatesForSampleType:atDate:completion:
 --
 -- Recalibrates the prediction algorithm used for this sample type.
@@ -520,28 +478,6 @@ recoverActiveWorkoutSessionWithCompletion :: IsHKHealthStore hkHealthStore => hk
 recoverActiveWorkoutSessionWithCompletion hkHealthStore completion =
   sendMessage hkHealthStore recoverActiveWorkoutSessionWithCompletionSelector completion
 
--- | workoutSessionMirroringStartHandler
---
--- Called when a session has started mirroring.
---
--- This property should always be assigned a value promptly after your app is launched,                to ensure it is always observing for incoming mirrored workout sessions.                If your app is not active when a mirrored session starts, it will be launched in the background and given a one-time                permission to start a Live Activity from the background.                The assigned block will be executed on an arbitrary background queue.
---
--- ObjC selector: @- workoutSessionMirroringStartHandler@
-workoutSessionMirroringStartHandler :: IsHKHealthStore hkHealthStore => hkHealthStore -> IO (Ptr ())
-workoutSessionMirroringStartHandler hkHealthStore =
-  sendMessage hkHealthStore workoutSessionMirroringStartHandlerSelector
-
--- | workoutSessionMirroringStartHandler
---
--- Called when a session has started mirroring.
---
--- This property should always be assigned a value promptly after your app is launched,                to ensure it is always observing for incoming mirrored workout sessions.                If your app is not active when a mirrored session starts, it will be launched in the background and given a one-time                permission to start a Live Activity from the background.                The assigned block will be executed on an arbitrary background queue.
---
--- ObjC selector: @- setWorkoutSessionMirroringStartHandler:@
-setWorkoutSessionMirroringStartHandler :: IsHKHealthStore hkHealthStore => hkHealthStore -> Ptr () -> IO ()
-setWorkoutSessionMirroringStartHandler hkHealthStore value =
-  sendMessage hkHealthStore setWorkoutSessionMirroringStartHandlerSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -638,14 +574,6 @@ wheelchairUseWithErrorSelector = mkSelector "wheelchairUseWithError:"
 activityMoveModeWithErrorSelector :: Selector '[Id NSError] (Id HKActivityMoveModeObject)
 activityMoveModeWithErrorSelector = mkSelector "activityMoveModeWithError:"
 
--- | @Selector@ for @relateWorkoutEffortSample:withWorkout:activity:completion:@
-relateWorkoutEffortSample_withWorkout_activity_completionSelector :: Selector '[Id HKSample, Id HKWorkout, Id HKWorkoutActivity, Ptr ()] ()
-relateWorkoutEffortSample_withWorkout_activity_completionSelector = mkSelector "relateWorkoutEffortSample:withWorkout:activity:completion:"
-
--- | @Selector@ for @unrelateWorkoutEffortSample:fromWorkout:activity:completion:@
-unrelateWorkoutEffortSample_fromWorkout_activity_completionSelector :: Selector '[Id HKSample, Id HKWorkout, Id HKWorkoutActivity, Ptr ()] ()
-unrelateWorkoutEffortSample_fromWorkout_activity_completionSelector = mkSelector "unrelateWorkoutEffortSample:fromWorkout:activity:completion:"
-
 -- | @Selector@ for @recalibrateEstimatesForSampleType:atDate:completion:@
 recalibrateEstimatesForSampleType_atDate_completionSelector :: Selector '[Id HKSampleType, Id NSDate, Ptr ()] ()
 recalibrateEstimatesForSampleType_atDate_completionSelector = mkSelector "recalibrateEstimatesForSampleType:atDate:completion:"
@@ -689,12 +617,4 @@ startWatchAppWithWorkoutConfiguration_completionSelector = mkSelector "startWatc
 -- | @Selector@ for @recoverActiveWorkoutSessionWithCompletion:@
 recoverActiveWorkoutSessionWithCompletionSelector :: Selector '[Ptr ()] ()
 recoverActiveWorkoutSessionWithCompletionSelector = mkSelector "recoverActiveWorkoutSessionWithCompletion:"
-
--- | @Selector@ for @workoutSessionMirroringStartHandler@
-workoutSessionMirroringStartHandlerSelector :: Selector '[] (Ptr ())
-workoutSessionMirroringStartHandlerSelector = mkSelector "workoutSessionMirroringStartHandler"
-
--- | @Selector@ for @setWorkoutSessionMirroringStartHandler:@
-setWorkoutSessionMirroringStartHandlerSelector :: Selector '[Ptr ()] ()
-setWorkoutSessionMirroringStartHandlerSelector = mkSelector "setWorkoutSessionMirroringStartHandler:"
 

@@ -14,10 +14,6 @@ module ObjC.CoreML.MLModelConfiguration
   , setModelDisplayName
   , computeUnits
   , setComputeUnits
-  , optimizationHints
-  , setOptimizationHints
-  , functionName
-  , setFunctionName
   , parameters
   , setParameters
   , allowLowPrecisionAccumulationOnGPU
@@ -26,16 +22,12 @@ module ObjC.CoreML.MLModelConfiguration
   , setPreferredMetalDevice
   , allowLowPrecisionAccumulationOnGPUSelector
   , computeUnitsSelector
-  , functionNameSelector
   , modelDisplayNameSelector
-  , optimizationHintsSelector
   , parametersSelector
   , preferredMetalDeviceSelector
   , setAllowLowPrecisionAccumulationOnGPUSelector
   , setComputeUnitsSelector
-  , setFunctionNameSelector
   , setModelDisplayNameSelector
-  , setOptimizationHintsSelector
   , setParametersSelector
   , setPreferredMetalDeviceSelector
 
@@ -96,46 +88,6 @@ setComputeUnits :: IsMLModelConfiguration mlModelConfiguration => mlModelConfigu
 setComputeUnits mlModelConfiguration value =
   sendMessage mlModelConfiguration setComputeUnitsSelector value
 
--- | A group of hints for CoreML to optimize
---
--- ObjC selector: @- optimizationHints@
-optimizationHints :: IsMLModelConfiguration mlModelConfiguration => mlModelConfiguration -> IO (Id MLOptimizationHints)
-optimizationHints mlModelConfiguration =
-  sendMessage mlModelConfiguration optimizationHintsSelector
-
--- | A group of hints for CoreML to optimize
---
--- ObjC selector: @- setOptimizationHints:@
-setOptimizationHints :: (IsMLModelConfiguration mlModelConfiguration, IsMLOptimizationHints value) => mlModelConfiguration -> value -> IO ()
-setOptimizationHints mlModelConfiguration value =
-  sendMessage mlModelConfiguration setOptimizationHintsSelector (toMLOptimizationHints value)
-
--- | Function name that @MLModel@ will use.
---
--- Some model types (e.g. ML Program) supports multiple functions in a model asset, where each @MLModel@ instance is associated with a particular function.
---
--- Use @MLModelAsset@ to get the list of available functions. Use @nil@ to use a default function.
---
--- ```swift let configuration = MLModelConfiguration() configuration.functionName = "my_function" ```
---
--- ObjC selector: @- functionName@
-functionName :: IsMLModelConfiguration mlModelConfiguration => mlModelConfiguration -> IO (Id NSString)
-functionName mlModelConfiguration =
-  sendMessage mlModelConfiguration functionNameSelector
-
--- | Function name that @MLModel@ will use.
---
--- Some model types (e.g. ML Program) supports multiple functions in a model asset, where each @MLModel@ instance is associated with a particular function.
---
--- Use @MLModelAsset@ to get the list of available functions. Use @nil@ to use a default function.
---
--- ```swift let configuration = MLModelConfiguration() configuration.functionName = "my_function" ```
---
--- ObjC selector: @- setFunctionName:@
-setFunctionName :: (IsMLModelConfiguration mlModelConfiguration, IsNSString value) => mlModelConfiguration -> value -> IO ()
-setFunctionName mlModelConfiguration value =
-  sendMessage mlModelConfiguration setFunctionNameSelector (toNSString value)
-
 -- | @- parameters@
 parameters :: IsMLModelConfiguration mlModelConfiguration => mlModelConfiguration -> IO (Id NSDictionary)
 parameters mlModelConfiguration =
@@ -193,22 +145,6 @@ computeUnitsSelector = mkSelector "computeUnits"
 -- | @Selector@ for @setComputeUnits:@
 setComputeUnitsSelector :: Selector '[MLComputeUnits] ()
 setComputeUnitsSelector = mkSelector "setComputeUnits:"
-
--- | @Selector@ for @optimizationHints@
-optimizationHintsSelector :: Selector '[] (Id MLOptimizationHints)
-optimizationHintsSelector = mkSelector "optimizationHints"
-
--- | @Selector@ for @setOptimizationHints:@
-setOptimizationHintsSelector :: Selector '[Id MLOptimizationHints] ()
-setOptimizationHintsSelector = mkSelector "setOptimizationHints:"
-
--- | @Selector@ for @functionName@
-functionNameSelector :: Selector '[] (Id NSString)
-functionNameSelector = mkSelector "functionName"
-
--- | @Selector@ for @setFunctionName:@
-setFunctionNameSelector :: Selector '[Id NSString] ()
-setFunctionNameSelector = mkSelector "setFunctionName:"
 
 -- | @Selector@ for @parameters@
 parametersSelector :: Selector '[] (Id NSDictionary)

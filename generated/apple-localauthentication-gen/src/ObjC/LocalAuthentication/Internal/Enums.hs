@@ -64,9 +64,6 @@ pattern LABiometryTypeTouchID = LABiometryType 1
 pattern LABiometryTypeFaceID :: LABiometryType
 pattern LABiometryTypeFaceID = LABiometryType 2
 
-pattern LABiometryTypeOpticID :: LABiometryType
-pattern LABiometryTypeOpticID = LABiometryType 4
-
 instance ObjCArgument LABiometryType where
   withObjCArg (LABiometryType x) k = k (argCLong x)
 
@@ -76,30 +73,6 @@ instance ObjCReturn LABiometryType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (LABiometryType x)
   fromOwned x = pure (LABiometryType x)
-
--- | @LACompanionType@
-newtype LACompanionType = LACompanionType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern LACompanionTypeWatch :: LACompanionType
-pattern LACompanionTypeWatch = LACompanionType 1
-
-pattern LACompanionTypeMac :: LACompanionType
-pattern LACompanionTypeMac = LACompanionType 2
-
-pattern LACompanionTypeVision :: LACompanionType
-pattern LACompanionTypeVision = LACompanionType 4
-
-instance ObjCArgument LACompanionType where
-  withObjCArg (LACompanionType x) k = k (argCLong x)
-
-instance ObjCReturn LACompanionType where
-  type RawReturn LACompanionType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (LACompanionType x)
-  fromOwned x = pure (LACompanionType x)
 
 -- | @LACredentialType@
 newtype LACredentialType = LACredentialType CLong
@@ -172,9 +145,6 @@ pattern LAErrorNotInteractive = LAError (-1004)
 pattern LAErrorWatchNotAvailable :: LAError
 pattern LAErrorWatchNotAvailable = LAError (-11)
 
-pattern LAErrorCompanionNotAvailable :: LAError
-pattern LAErrorCompanionNotAvailable = LAError (-11)
-
 pattern LAErrorBiometryNotPaired :: LAError
 pattern LAErrorBiometryNotPaired = LAError (-12)
 
@@ -205,20 +175,14 @@ pattern LAPolicyDeviceOwnerAuthenticationWithBiometrics = LAPolicy 1
 pattern LAPolicyDeviceOwnerAuthentication :: LAPolicy
 pattern LAPolicyDeviceOwnerAuthentication = LAPolicy 2
 
-pattern LAPolicyDeviceOwnerAuthenticationWithCompanion :: LAPolicy
-pattern LAPolicyDeviceOwnerAuthenticationWithCompanion = LAPolicy 3
-
-pattern LAPolicyDeviceOwnerAuthenticationWithBiometricsOrCompanion :: LAPolicy
-pattern LAPolicyDeviceOwnerAuthenticationWithBiometricsOrCompanion = LAPolicy 4
-
-pattern LAPolicyDeviceOwnerAuthenticationWithWristDetection :: LAPolicy
-pattern LAPolicyDeviceOwnerAuthenticationWithWristDetection = LAPolicy 5
-
 pattern LAPolicyDeviceOwnerAuthenticationWithWatch :: LAPolicy
 pattern LAPolicyDeviceOwnerAuthenticationWithWatch = LAPolicy 3
 
 pattern LAPolicyDeviceOwnerAuthenticationWithBiometricsOrWatch :: LAPolicy
 pattern LAPolicyDeviceOwnerAuthenticationWithBiometricsOrWatch = LAPolicy 4
+
+pattern LAPolicyDeviceOwnerAuthenticationWithWristDetection :: LAPolicy
+pattern LAPolicyDeviceOwnerAuthenticationWithWristDetection = LAPolicy 5
 
 instance ObjCArgument LAPolicy where
   withObjCArg (LAPolicy x) k = k (argCLong x)

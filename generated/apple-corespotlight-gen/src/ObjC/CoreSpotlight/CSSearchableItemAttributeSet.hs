@@ -9,7 +9,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , IsCSSearchableItemAttributeSet(..)
   , initWithItemContentType
   , initWithContentType
-  , moveFrom
   , setValue_forCustomKey
   , valueForCustomKey
   , headline
@@ -284,10 +283,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , setInstantMessageAddresses
   , likelyJunk
   , setLikelyJunk
-  , isPriority
-  , textContentSummary
-  , transcribedTextContent
-  , setTranscribedTextContent
   , dueDate
   , setDueDate
   , completionDate
@@ -340,8 +335,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , setSupportsPhoneCall
   , supportsNavigation
   , setSupportsNavigation
-  , actionIdentifiers
-  , setActionIdentifiers
   , sharedItemContentType
   , setSharedItemContentType
   , displayName
@@ -388,7 +381,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , accountIdentifierSelector
   , acquisitionMakeSelector
   , acquisitionModelSelector
-  , actionIdentifiersSelector
   , addedDateSelector
   , additionalRecipientsSelector
   , albumSelector
@@ -486,7 +478,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , initWithItemContentTypeSelector
   , instantMessageAddressesSelector
   , instructionsSelector
-  , isPrioritySelector
   , isoSpeedSelector
   , keySignatureSelector
   , keywordsSelector
@@ -505,7 +496,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , mediaTypesSelector
   , metadataModificationDateSelector
   , meteringModeSelector
-  , moveFromSelector
   , musicalGenreSelector
   , musicalInstrumentCategorySelector
   , musicalInstrumentNameSelector
@@ -549,7 +539,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , setAccountIdentifierSelector
   , setAcquisitionMakeSelector
   , setAcquisitionModelSelector
-  , setActionIdentifiersSelector
   , setAddedDateSelector
   , setAdditionalRecipientsSelector
   , setAlbumSelector
@@ -721,7 +710,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , setTimestampSelector
   , setTitleSelector
   , setTotalBitRateSelector
-  , setTranscribedTextContentSelector
   , setURLSelector
   , setUserCreatedSelector
   , setUserCuratedSelector
@@ -742,7 +730,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , supportsPhoneCallSelector
   , tempoSelector
   , textContentSelector
-  , textContentSummarySelector
   , themeSelector
   , thoroughfareSelector
   , thumbnailDataSelector
@@ -751,7 +738,6 @@ module ObjC.CoreSpotlight.CSSearchableItemAttributeSet
   , timestampSelector
   , titleSelector
   , totalBitRateSelector
-  , transcribedTextContentSelector
   , urlSelector
   , userCreatedSelector
   , userCuratedSelector
@@ -786,11 +772,6 @@ initWithItemContentType csSearchableItemAttributeSet itemContentType =
 initWithContentType :: (IsCSSearchableItemAttributeSet csSearchableItemAttributeSet, IsUTType contentType) => csSearchableItemAttributeSet -> contentType -> IO (Id CSSearchableItemAttributeSet)
 initWithContentType csSearchableItemAttributeSet contentType =
   sendOwnedMessage csSearchableItemAttributeSet initWithContentTypeSelector (toUTType contentType)
-
--- | @- moveFrom:@
-moveFrom :: (IsCSSearchableItemAttributeSet csSearchableItemAttributeSet, IsCSSearchableItemAttributeSet sourceAttributeSet) => csSearchableItemAttributeSet -> sourceAttributeSet -> IO ()
-moveFrom csSearchableItemAttributeSet sourceAttributeSet =
-  sendMessage csSearchableItemAttributeSet moveFromSelector (toCSSearchableItemAttributeSet sourceAttributeSet)
 
 -- | @- setValue:forCustomKey:@
 setValue_forCustomKey :: (IsCSSearchableItemAttributeSet csSearchableItemAttributeSet, IsCSCustomAttributeKey key) => csSearchableItemAttributeSet -> RawId -> key -> IO ()
@@ -2162,26 +2143,6 @@ setLikelyJunk :: (IsCSSearchableItemAttributeSet csSearchableItemAttributeSet, I
 setLikelyJunk csSearchableItemAttributeSet value =
   sendMessage csSearchableItemAttributeSet setLikelyJunkSelector (toNSNumber value)
 
--- | @- isPriority@
-isPriority :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO RawId
-isPriority csSearchableItemAttributeSet =
-  sendMessage csSearchableItemAttributeSet isPrioritySelector
-
--- | @- textContentSummary@
-textContentSummary :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO RawId
-textContentSummary csSearchableItemAttributeSet =
-  sendMessage csSearchableItemAttributeSet textContentSummarySelector
-
--- | @- transcribedTextContent@
-transcribedTextContent :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO RawId
-transcribedTextContent csSearchableItemAttributeSet =
-  sendMessage csSearchableItemAttributeSet transcribedTextContentSelector
-
--- | @- setTranscribedTextContent:@
-setTranscribedTextContent :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> RawId -> IO ()
-setTranscribedTextContent csSearchableItemAttributeSet value =
-  sendMessage csSearchableItemAttributeSet setTranscribedTextContentSelector value
-
 -- | @- dueDate@
 dueDate :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO (Id NSDate)
 dueDate csSearchableItemAttributeSet =
@@ -2446,25 +2407,15 @@ setSupportsNavigation :: (IsCSSearchableItemAttributeSet csSearchableItemAttribu
 setSupportsNavigation csSearchableItemAttributeSet value =
   sendMessage csSearchableItemAttributeSet setSupportsNavigationSelector (toNSNumber value)
 
--- | @- actionIdentifiers@
-actionIdentifiers :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO (Id NSArray)
-actionIdentifiers csSearchableItemAttributeSet =
-  sendMessage csSearchableItemAttributeSet actionIdentifiersSelector
-
--- | @- setActionIdentifiers:@
-setActionIdentifiers :: (IsCSSearchableItemAttributeSet csSearchableItemAttributeSet, IsNSArray value) => csSearchableItemAttributeSet -> value -> IO ()
-setActionIdentifiers csSearchableItemAttributeSet value =
-  sendMessage csSearchableItemAttributeSet setActionIdentifiersSelector (toNSArray value)
-
 -- | @- sharedItemContentType@
-sharedItemContentType :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO (Id UTType)
+sharedItemContentType :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO RawId
 sharedItemContentType csSearchableItemAttributeSet =
   sendMessage csSearchableItemAttributeSet sharedItemContentTypeSelector
 
 -- | @- setSharedItemContentType:@
-setSharedItemContentType :: (IsCSSearchableItemAttributeSet csSearchableItemAttributeSet, IsUTType value) => csSearchableItemAttributeSet -> value -> IO ()
+setSharedItemContentType :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> RawId -> IO ()
 setSharedItemContentType csSearchableItemAttributeSet value =
-  sendMessage csSearchableItemAttributeSet setSharedItemContentTypeSelector (toUTType value)
+  sendMessage csSearchableItemAttributeSet setSharedItemContentTypeSelector value
 
 -- | @- displayName@
 displayName :: IsCSSearchableItemAttributeSet csSearchableItemAttributeSet => csSearchableItemAttributeSet -> IO (Id NSString)
@@ -2677,10 +2628,6 @@ initWithItemContentTypeSelector = mkSelector "initWithItemContentType:"
 -- | @Selector@ for @initWithContentType:@
 initWithContentTypeSelector :: Selector '[Id UTType] (Id CSSearchableItemAttributeSet)
 initWithContentTypeSelector = mkSelector "initWithContentType:"
-
--- | @Selector@ for @moveFrom:@
-moveFromSelector :: Selector '[Id CSSearchableItemAttributeSet] ()
-moveFromSelector = mkSelector "moveFrom:"
 
 -- | @Selector@ for @setValue:forCustomKey:@
 setValue_forCustomKeySelector :: Selector '[RawId, Id CSCustomAttributeKey] ()
@@ -3778,22 +3725,6 @@ likelyJunkSelector = mkSelector "likelyJunk"
 setLikelyJunkSelector :: Selector '[Id NSNumber] ()
 setLikelyJunkSelector = mkSelector "setLikelyJunk:"
 
--- | @Selector@ for @isPriority@
-isPrioritySelector :: Selector '[] RawId
-isPrioritySelector = mkSelector "isPriority"
-
--- | @Selector@ for @textContentSummary@
-textContentSummarySelector :: Selector '[] RawId
-textContentSummarySelector = mkSelector "textContentSummary"
-
--- | @Selector@ for @transcribedTextContent@
-transcribedTextContentSelector :: Selector '[] RawId
-transcribedTextContentSelector = mkSelector "transcribedTextContent"
-
--- | @Selector@ for @setTranscribedTextContent:@
-setTranscribedTextContentSelector :: Selector '[RawId] ()
-setTranscribedTextContentSelector = mkSelector "setTranscribedTextContent:"
-
 -- | @Selector@ for @dueDate@
 dueDateSelector :: Selector '[] (Id NSDate)
 dueDateSelector = mkSelector "dueDate"
@@ -4002,20 +3933,12 @@ supportsNavigationSelector = mkSelector "supportsNavigation"
 setSupportsNavigationSelector :: Selector '[Id NSNumber] ()
 setSupportsNavigationSelector = mkSelector "setSupportsNavigation:"
 
--- | @Selector@ for @actionIdentifiers@
-actionIdentifiersSelector :: Selector '[] (Id NSArray)
-actionIdentifiersSelector = mkSelector "actionIdentifiers"
-
--- | @Selector@ for @setActionIdentifiers:@
-setActionIdentifiersSelector :: Selector '[Id NSArray] ()
-setActionIdentifiersSelector = mkSelector "setActionIdentifiers:"
-
 -- | @Selector@ for @sharedItemContentType@
-sharedItemContentTypeSelector :: Selector '[] (Id UTType)
+sharedItemContentTypeSelector :: Selector '[] RawId
 sharedItemContentTypeSelector = mkSelector "sharedItemContentType"
 
 -- | @Selector@ for @setSharedItemContentType:@
-setSharedItemContentTypeSelector :: Selector '[Id UTType] ()
+setSharedItemContentTypeSelector :: Selector '[RawId] ()
 setSharedItemContentTypeSelector = mkSelector "setSharedItemContentType:"
 
 -- | @Selector@ for @displayName@

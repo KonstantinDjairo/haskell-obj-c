@@ -54,25 +54,6 @@ instance IsCMAttitude (Id CMAttitude) where
 instance IsNSObject (Id CMAttitude) where
   toNSObject = unsafeCastId
 
--- ---------- CMBatchedSensorManager ----------
-
--- | Phantom type for @CMBatchedSensorManager@.
-data CMBatchedSensorManager
-
-instance IsObjCObject (Id CMBatchedSensorManager) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CMBatchedSensorManager"
-
-class IsNSObject a => IsCMBatchedSensorManager a where
-  toCMBatchedSensorManager :: a -> Id CMBatchedSensorManager
-
-instance IsCMBatchedSensorManager (Id CMBatchedSensorManager) where
-  toCMBatchedSensorManager = unsafeCastId
-
-instance IsNSObject (Id CMBatchedSensorManager) where
-  toNSObject = unsafeCastId
-
 -- ---------- CMDyskineticSymptomResult ----------
 
 -- | CMDyskineticSymptomResult
@@ -144,25 +125,6 @@ instance IsCMFallDetectionManager (Id CMFallDetectionManager) where
   toCMFallDetectionManager = unsafeCastId
 
 instance IsNSObject (Id CMFallDetectionManager) where
-  toNSObject = unsafeCastId
-
--- ---------- CMHeadphoneActivityManager ----------
-
--- | Phantom type for @CMHeadphoneActivityManager@.
-data CMHeadphoneActivityManager
-
-instance IsObjCObject (Id CMHeadphoneActivityManager) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CMHeadphoneActivityManager"
-
-class IsNSObject a => IsCMHeadphoneActivityManager a where
-  toCMHeadphoneActivityManager :: a -> Id CMHeadphoneActivityManager
-
-instance IsCMHeadphoneActivityManager (Id CMHeadphoneActivityManager) where
-  toCMHeadphoneActivityManager = unsafeCastId
-
-instance IsNSObject (Id CMHeadphoneActivityManager) where
   toNSObject = unsafeCastId
 
 -- ---------- CMHeadphoneMotionManager ----------
@@ -262,25 +224,6 @@ instance IsCMMovementDisorderManager (Id CMMovementDisorderManager) where
   toCMMovementDisorderManager = unsafeCastId
 
 instance IsNSObject (Id CMMovementDisorderManager) where
-  toNSObject = unsafeCastId
-
--- ---------- CMOdometerData ----------
-
--- | Phantom type for @CMOdometerData@.
-data CMOdometerData
-
-instance IsObjCObject (Id CMOdometerData) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CMOdometerData"
-
-class IsNSObject a => IsCMOdometerData a where
-  toCMOdometerData :: a -> Id CMOdometerData
-
-instance IsCMOdometerData (Id CMOdometerData) where
-  toCMOdometerData = unsafeCastId
-
-instance IsNSObject (Id CMOdometerData) where
   toNSObject = unsafeCastId
 
 -- ---------- CMPedometer ----------
@@ -626,28 +569,6 @@ instance IsCMLogItem (Id CMGyroData) where
   toCMLogItem = unsafeCastId
 
 instance IsNSObject (Id CMGyroData) where
-  toNSObject = unsafeCastId
-
--- ---------- CMHighFrequencyHeartRateData ----------
-
--- | Phantom type for @CMHighFrequencyHeartRateData@.
-data CMHighFrequencyHeartRateData
-
-instance IsObjCObject (Id CMHighFrequencyHeartRateData) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CMHighFrequencyHeartRateData"
-
-class IsCMLogItem a => IsCMHighFrequencyHeartRateData a where
-  toCMHighFrequencyHeartRateData :: a -> Id CMHighFrequencyHeartRateData
-
-instance IsCMHighFrequencyHeartRateData (Id CMHighFrequencyHeartRateData) where
-  toCMHighFrequencyHeartRateData = unsafeCastId
-
-instance IsCMLogItem (Id CMHighFrequencyHeartRateData) where
-  toCMLogItem = unsafeCastId
-
-instance IsNSObject (Id CMHighFrequencyHeartRateData) where
   toNSObject = unsafeCastId
 
 -- ---------- CMMagnetometerData ----------

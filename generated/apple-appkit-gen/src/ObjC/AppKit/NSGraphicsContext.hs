@@ -9,6 +9,7 @@ module ObjC.AppKit.NSGraphicsContext
   ( NSGraphicsContext
   , IsNSGraphicsContext(..)
   , graphicsContextWithAttributes
+  , graphicsContextWithWindow
   , graphicsContextWithBitmapImageRep
   , graphicsContextWithCGContext_flipped
   , currentContextDrawingToScreen
@@ -21,7 +22,6 @@ module ObjC.AppKit.NSGraphicsContext
   , focusStack
   , setFocusStack
   , graphicsContextWithGraphicsPort_flipped
-  , graphicsContextWithWindow
   , currentContext
   , setCurrentContext
   , attributes
@@ -140,6 +140,13 @@ graphicsContextWithAttributes attributes =
     cls' <- getRequiredClass "NSGraphicsContext"
     sendClassMessage cls' graphicsContextWithAttributesSelector (toNSDictionary attributes)
 
+-- | @+ graphicsContextWithWindow:@
+graphicsContextWithWindow :: IsNSWindow window => window -> IO (Id NSGraphicsContext)
+graphicsContextWithWindow window =
+  do
+    cls' <- getRequiredClass "NSGraphicsContext"
+    sendClassMessage cls' graphicsContextWithWindowSelector (toNSWindow window)
+
 -- | @+ graphicsContextWithBitmapImageRep:@
 graphicsContextWithBitmapImageRep :: IsNSBitmapImageRep bitmapRep => bitmapRep -> IO (Id NSGraphicsContext)
 graphicsContextWithBitmapImageRep bitmapRep =
@@ -213,13 +220,6 @@ graphicsContextWithGraphicsPort_flipped graphicsPort initialFlippedState =
   do
     cls' <- getRequiredClass "NSGraphicsContext"
     sendClassMessage cls' graphicsContextWithGraphicsPort_flippedSelector graphicsPort initialFlippedState
-
--- | @+ graphicsContextWithWindow:@
-graphicsContextWithWindow :: IsNSWindow window => window -> IO (Id NSGraphicsContext)
-graphicsContextWithWindow window =
-  do
-    cls' <- getRequiredClass "NSGraphicsContext"
-    sendClassMessage cls' graphicsContextWithWindowSelector (toNSWindow window)
 
 -- | @+ currentContext@
 currentContext :: IO (Id NSGraphicsContext)
@@ -323,6 +323,10 @@ setColorRenderingIntent nsGraphicsContext value =
 graphicsContextWithAttributesSelector :: Selector '[Id NSDictionary] (Id NSGraphicsContext)
 graphicsContextWithAttributesSelector = mkSelector "graphicsContextWithAttributes:"
 
+-- | @Selector@ for @graphicsContextWithWindow:@
+graphicsContextWithWindowSelector :: Selector '[Id NSWindow] (Id NSGraphicsContext)
+graphicsContextWithWindowSelector = mkSelector "graphicsContextWithWindow:"
+
 -- | @Selector@ for @graphicsContextWithBitmapImageRep:@
 graphicsContextWithBitmapImageRepSelector :: Selector '[Id NSBitmapImageRep] (Id NSGraphicsContext)
 graphicsContextWithBitmapImageRepSelector = mkSelector "graphicsContextWithBitmapImageRep:"
@@ -370,10 +374,6 @@ setFocusStackSelector = mkSelector "setFocusStack:"
 -- | @Selector@ for @graphicsContextWithGraphicsPort:flipped:@
 graphicsContextWithGraphicsPort_flippedSelector :: Selector '[Ptr (), Bool] (Id NSGraphicsContext)
 graphicsContextWithGraphicsPort_flippedSelector = mkSelector "graphicsContextWithGraphicsPort:flipped:"
-
--- | @Selector@ for @graphicsContextWithWindow:@
-graphicsContextWithWindowSelector :: Selector '[Id NSWindow] (Id NSGraphicsContext)
-graphicsContextWithWindowSelector = mkSelector "graphicsContextWithWindow:"
 
 -- | @Selector@ for @currentContext@
 currentContextSelector :: Selector '[] (Id NSGraphicsContext)

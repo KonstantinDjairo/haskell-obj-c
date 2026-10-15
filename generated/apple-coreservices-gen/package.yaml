@@ -7,11 +7,11 @@ dependencies:
 - base >= 4.7 && < 5
 - haskell-obj-c
 - libffi
-- apple-corefoundation-gen
 
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src

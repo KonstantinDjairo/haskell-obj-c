@@ -32,7 +32,6 @@ module ObjC.MapKit.MKRoute
   , pattern MKDirectionsTransportTypeAutomobile
   , pattern MKDirectionsTransportTypeWalking
   , pattern MKDirectionsTransportTypeTransit
-  , pattern MKDirectionsTransportTypeCycling
   , pattern MKDirectionsTransportTypeAny
 
   ) where

@@ -13,7 +13,6 @@ module ObjC.Vision.VNGeneratePersonSegmentationRequest
   , new
   , init_
   , initWithCompletionHandler
-  , supportedOutputPixelFormatsAndReturnError
   , qualityLevel
   , setQualityLevel
   , outputPixelFormat
@@ -27,7 +26,6 @@ module ObjC.Vision.VNGeneratePersonSegmentationRequest
   , resultsSelector
   , setOutputPixelFormatSelector
   , setQualityLevelSelector
-  , supportedOutputPixelFormatsAndReturnErrorSelector
 
   -- * Enum types
   , VNGeneratePersonSegmentationRequestQualityLevel(VNGeneratePersonSegmentationRequestQualityLevel)
@@ -65,13 +63,6 @@ init_ vnGeneratePersonSegmentationRequest =
 initWithCompletionHandler :: IsVNGeneratePersonSegmentationRequest vnGeneratePersonSegmentationRequest => vnGeneratePersonSegmentationRequest -> Ptr () -> IO (Id VNGeneratePersonSegmentationRequest)
 initWithCompletionHandler vnGeneratePersonSegmentationRequest completionHandler =
   sendOwnedMessage vnGeneratePersonSegmentationRequest initWithCompletionHandlerSelector completionHandler
-
--- | Obtain the collection of supported output pixel formats for the configured request.
---
--- ObjC selector: @- supportedOutputPixelFormatsAndReturnError:@
-supportedOutputPixelFormatsAndReturnError :: (IsVNGeneratePersonSegmentationRequest vnGeneratePersonSegmentationRequest, IsNSError error_) => vnGeneratePersonSegmentationRequest -> error_ -> IO (Id NSArray)
-supportedOutputPixelFormatsAndReturnError vnGeneratePersonSegmentationRequest error_ =
-  sendMessage vnGeneratePersonSegmentationRequest supportedOutputPixelFormatsAndReturnErrorSelector (toNSError error_)
 
 -- | The quality level selects which techniques will be used during the person segmentation. There are trade-offs between performance and accuracy.
 --
@@ -121,10 +112,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @initWithCompletionHandler:@
 initWithCompletionHandlerSelector :: Selector '[Ptr ()] (Id VNGeneratePersonSegmentationRequest)
 initWithCompletionHandlerSelector = mkSelector "initWithCompletionHandler:"
-
--- | @Selector@ for @supportedOutputPixelFormatsAndReturnError:@
-supportedOutputPixelFormatsAndReturnErrorSelector :: Selector '[Id NSError] (Id NSArray)
-supportedOutputPixelFormatsAndReturnErrorSelector = mkSelector "supportedOutputPixelFormatsAndReturnError:"
 
 -- | @Selector@ for @qualityLevel@
 qualityLevelSelector :: Selector '[] VNGeneratePersonSegmentationRequestQualityLevel

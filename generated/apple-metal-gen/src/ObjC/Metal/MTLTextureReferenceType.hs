@@ -18,10 +18,7 @@ module ObjC.Metal.MTLTextureReferenceType
   , textureTypeSelector
 
   -- * Enum types
-  , MTLBindingAccess(MTLBindingAccess)
-  , pattern MTLBindingAccessReadOnly
-  , pattern MTLBindingAccessReadWrite
-  , pattern MTLBindingAccessWriteOnly
+  , MTLArgumentAccess(MTLArgumentAccess)
   , pattern MTLArgumentAccessReadOnly
   , pattern MTLArgumentAccessReadWrite
   , pattern MTLArgumentAccessWriteOnly
@@ -117,12 +114,6 @@ module ObjC.Metal.MTLTextureReferenceType
   , pattern MTLDataTypeIntersectionFunctionTable
   , pattern MTLDataTypePrimitiveAccelerationStructure
   , pattern MTLDataTypeInstanceAccelerationStructure
-  , pattern MTLDataTypeBFloat
-  , pattern MTLDataTypeBFloat2
-  , pattern MTLDataTypeBFloat3
-  , pattern MTLDataTypeBFloat4
-  , pattern MTLDataTypeDepthStencilState
-  , pattern MTLDataTypeTensor
   , MTLTextureType(MTLTextureType)
   , pattern MTLTextureType1D
   , pattern MTLTextureType1DArray
@@ -160,7 +151,7 @@ textureType mtlTextureReferenceType =
   sendMessage mtlTextureReferenceType textureTypeSelector
 
 -- | @- access@
-access :: IsMTLTextureReferenceType mtlTextureReferenceType => mtlTextureReferenceType -> IO MTLBindingAccess
+access :: IsMTLTextureReferenceType mtlTextureReferenceType => mtlTextureReferenceType -> IO MTLArgumentAccess
 access mtlTextureReferenceType =
   sendMessage mtlTextureReferenceType accessSelector
 
@@ -182,7 +173,7 @@ textureTypeSelector :: Selector '[] MTLTextureType
 textureTypeSelector = mkSelector "textureType"
 
 -- | @Selector@ for @access@
-accessSelector :: Selector '[] MTLBindingAccess
+accessSelector :: Selector '[] MTLArgumentAccess
 accessSelector = mkSelector "access"
 
 -- | @Selector@ for @isDepthTexture@

@@ -39,7 +39,6 @@ data NSSharingServicePickerDelegateOverrides = NSSharingServicePickerDelegateOve
   { _sharingServicePicker_sharingServicesForItems_proposedSharingServices :: !(Maybe (RawId -> RawId -> RawId -> IO RawId))
   , _sharingServicePicker_delegateForSharingService :: !(Maybe (RawId -> RawId -> IO RawId))
   , _sharingServicePicker_didChooseSharingService :: !(Maybe (RawId -> RawId -> IO ()))
-  , _sharingServicePickerCollaborationModeRestrictions :: !(Maybe (RawId -> IO RawId))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -48,13 +47,7 @@ defaultNSSharingServicePickerDelegateOverrides = NSSharingServicePickerDelegateO
   { _sharingServicePicker_sharingServicesForItems_proposedSharingServices = Nothing
   , _sharingServicePicker_delegateForSharingService = Nothing
   , _sharingServicePicker_didChooseSharingService = Nothing
-  , _sharingServicePickerCollaborationModeRestrictions = Nothing
   }
-
-foreign import ccall "wrapper"
-  wrap_at_at
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> IO (Ptr ObjCObject))
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> IO (Ptr ObjCObject)))
 
 foreign import ccall "wrapper"
   wrap_at_at_v
@@ -88,7 +81,6 @@ nsSharingServicePickerDelegateDelegateClass = unsafePerformIO $ do
   let sel_sharingServicePicker_sharingServicesForItems_proposedSharingServices = unSelector (mkSelector "sharingServicePicker:sharingServicesForItems:proposedSharingServices:")
       sel_sharingServicePicker_delegateForSharingService = unSelector (mkSelector "sharingServicePicker:delegateForSharingService:")
       sel_sharingServicePicker_didChooseSharingService = unSelector (mkSelector "sharingServicePicker:didChooseSharingService:")
-      sel_sharingServicePickerCollaborationModeRestrictions = unSelector (mkSelector "sharingServicePickerCollaborationModeRestrictions:")
   -- sharingServicePicker:sharingServicesForItems:proposedSharingServices:
   stub_0 <- wrap_at_at_at_at $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
@@ -120,17 +112,6 @@ nsSharingServicePickerDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1)
   addObjCMethod cls "sharingServicePicker:didChooseSharingService:" "v@:@@" stub_2
 
-  -- sharingServicePickerCollaborationModeRestrictions:
-  stub_3 <- wrap_at_at $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSSharingServicePickerDelegateOverrides
-    case _sharingServicePickerCollaborationModeRestrictions rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f (RawId arg0)
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "sharingServicePickerCollaborationModeRestrictions:" "@@:@" stub_3
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -138,7 +119,6 @@ nsSharingServicePickerDelegateDelegateClass = unsafePerformIO $ do
     if queriedSel == sel_sharingServicePicker_sharingServicesForItems_proposedSharingServices then pure (maybe 0 (const 1) (_sharingServicePicker_sharingServicesForItems_proposedSharingServices rec_))
     else if queriedSel == sel_sharingServicePicker_delegateForSharingService then pure (maybe 0 (const 1) (_sharingServicePicker_delegateForSharingService rec_))
     else if queriedSel == sel_sharingServicePicker_didChooseSharingService then pure (maybe 0 (const 1) (_sharingServicePicker_didChooseSharingService rec_))
-    else if queriedSel == sel_sharingServicePickerCollaborationModeRestrictions then pure (maybe 0 (const 1) (_sharingServicePickerCollaborationModeRestrictions rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

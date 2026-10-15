@@ -3,7 +3,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MIDICISession@.
+-- | MIDICISession
+--
+-- Object representating a MIDI Capability Inquiry session.
+--
+-- A MIDI Capability Inquiry session is a bidirectional communication path between a MIDI process     and a MIDI-CI node (i.e., paired MIDI source and destination) identified using MIDI-CI discovery.     A MIDICISession can be used to manipulate MIDI-CI profiles and to discover the MIDI-CI property     capability.
+--
+-- Generated bindings for @MIDICISession@.
 module ObjC.CoreMIDI.MIDICISession
   ( MIDICISession
   , IsMIDICISession(..)
@@ -54,7 +60,13 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.CoreMIDI.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- init@
+-- | Begin a MIDI-CI session with the provided discovered node.
+--
+-- dataReadyHandler will be called when properties of the session have become available.	Other methods of this class will not return valid/useful information before the dataReadyHandler	is called.
+--
+-- disconnectHandler will be called if the active MIDICISession is disconnected by the Responder    or if initial MIDI-CI discovery was unsuccessful.
+--
+-- ObjC selector: @- init@
 init_ :: IsMIDICISession midiciSession => midiciSession -> IO (Id MIDICISession)
 init_ midiciSession =
   sendOwnedMessage midiciSession initSelector
@@ -64,27 +76,37 @@ initWithDiscoveredNode_dataReadyHandler_disconnectHandler :: (IsMIDICISession mi
 initWithDiscoveredNode_dataReadyHandler_disconnectHandler midiciSession discoveredNode handler disconnectHandler =
   sendOwnedMessage midiciSession initWithDiscoveredNode_dataReadyHandler_disconnectHandlerSelector (toMIDICIDiscoveredNode discoveredNode) handler disconnectHandler
 
--- | @- profileStateForChannel:@
+-- | Given a MIDI channel number, return the supported profiles. Note that the arrays will be empty if this property is queried before data is ready.
+--
+-- ObjC selector: @- profileStateForChannel:@
 profileStateForChannel :: IsMIDICISession midiciSession => midiciSession -> CUChar -> IO (Id MIDICIProfileState)
 profileStateForChannel midiciSession channel =
   sendMessage midiciSession profileStateForChannelSelector channel
 
--- | @- enableProfile:onChannel:error:@
+-- | Given a MIDI channel number, asynchronously request that the supplied profile be enabled. The result of this operation is sent to the MIDICIProfileChangedBlock. Returns YES if the request is valid.
+--
+-- ObjC selector: @- enableProfile:onChannel:error:@
 enableProfile_onChannel_error :: (IsMIDICISession midiciSession, IsMIDICIProfile profile, IsNSError outError) => midiciSession -> profile -> CUChar -> outError -> IO Bool
 enableProfile_onChannel_error midiciSession profile channel outError =
   sendMessage midiciSession enableProfile_onChannel_errorSelector (toMIDICIProfile profile) channel (toNSError outError)
 
--- | @- disableProfile:onChannel:error:@
+-- | Given a MIDI channel number, asynchronously request that the supplied profile be disabled. The result of this operation is sent to the MIDICIProfileChangedBlock. Returnes YES if the request is valid.
+--
+-- ObjC selector: @- disableProfile:onChannel:error:@
 disableProfile_onChannel_error :: (IsMIDICISession midiciSession, IsMIDICIProfile profile, IsNSError outError) => midiciSession -> profile -> CUChar -> outError -> IO Bool
 disableProfile_onChannel_error midiciSession profile channel outError =
   sendMessage midiciSession disableProfile_onChannel_errorSelector (toMIDICIProfile profile) channel (toNSError outError)
 
--- | @- sendProfile:onChannel:profileData:@
+-- | Given a MIDI channel number, send profile specific data to the MIDICISession. Returns YES if the data was successfully sent.
+--
+-- ObjC selector: @- sendProfile:onChannel:profileData:@
 sendProfile_onChannel_profileData :: (IsMIDICISession midiciSession, IsMIDICIProfile profile, IsNSData profileSpecificData) => midiciSession -> profile -> CUChar -> profileSpecificData -> IO Bool
 sendProfile_onChannel_profileData midiciSession profile channel profileSpecificData =
   sendMessage midiciSession sendProfile_onChannel_profileDataSelector (toMIDICIProfile profile) channel (toNSData profileSpecificData)
 
--- | @- midiDestination@
+-- | The MIDI destination with which the session is communicating.
+--
+-- ObjC selector: @- midiDestination@
 midiDestination :: IsMIDICISession midiciSession => midiciSession -> IO CUInt
 midiDestination midiciSession =
   sendMessage midiciSession midiDestinationSelector
@@ -99,7 +121,9 @@ supportsPropertyCapability :: IsMIDICISession midiciSession => midiciSession -> 
 supportsPropertyCapability midiciSession =
   sendMessage midiciSession supportsPropertyCapabilitySelector
 
--- | @- deviceInfo@
+-- | Obtain the device's basic identification. Nil before data is ready or if the device does not support MIDI-CI.
+--
+-- ObjC selector: @- deviceInfo@
 deviceInfo :: IsMIDICISession midiciSession => midiciSession -> IO (Id MIDICIDeviceInfo)
 deviceInfo midiciSession =
   sendMessage midiciSession deviceInfoSelector
@@ -114,22 +138,30 @@ maxPropertyRequests :: IsMIDICISession midiciSession => midiciSession -> IO (Id 
 maxPropertyRequests midiciSession =
   sendMessage midiciSession maxPropertyRequestsSelector
 
--- | @- profileChangedCallback@
+-- | An optional block called when a device signals that a profile has been enabled or disabled.
+--
+-- ObjC selector: @- profileChangedCallback@
 profileChangedCallback :: IsMIDICISession midiciSession => midiciSession -> IO (Ptr ())
 profileChangedCallback midiciSession =
   sendMessage midiciSession profileChangedCallbackSelector
 
--- | @- setProfileChangedCallback:@
+-- | An optional block called when a device signals that a profile has been enabled or disabled.
+--
+-- ObjC selector: @- setProfileChangedCallback:@
 setProfileChangedCallback :: IsMIDICISession midiciSession => midiciSession -> Ptr () -> IO ()
 setProfileChangedCallback midiciSession value =
   sendMessage midiciSession setProfileChangedCallbackSelector value
 
--- | @- profileSpecificDataHandler@
+-- | An optional block called when a device sends profile-specific data to the session.
+--
+-- ObjC selector: @- profileSpecificDataHandler@
 profileSpecificDataHandler :: IsMIDICISession midiciSession => midiciSession -> IO (Ptr ())
 profileSpecificDataHandler midiciSession =
   sendMessage midiciSession profileSpecificDataHandlerSelector
 
--- | @- setProfileSpecificDataHandler:@
+-- | An optional block called when a device sends profile-specific data to the session.
+--
+-- ObjC selector: @- setProfileSpecificDataHandler:@
 setProfileSpecificDataHandler :: IsMIDICISession midiciSession => midiciSession -> Ptr () -> IO ()
 setProfileSpecificDataHandler midiciSession value =
   sendMessage midiciSession setProfileSpecificDataHandlerSelector value

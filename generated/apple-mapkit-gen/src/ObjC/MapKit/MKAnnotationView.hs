@@ -262,17 +262,17 @@ setDragState mkAnnotationView value =
   sendMessage mkAnnotationView setDragStateSelector value
 
 -- | @- clusteringIdentifier@
-clusteringIdentifier :: IsMKAnnotationView mkAnnotationView => mkAnnotationView -> IO (Id NSString)
+clusteringIdentifier :: IsMKAnnotationView mkAnnotationView => mkAnnotationView -> IO RawId
 clusteringIdentifier mkAnnotationView =
   sendMessage mkAnnotationView clusteringIdentifierSelector
 
 -- | @- setClusteringIdentifier:@
-setClusteringIdentifier :: (IsMKAnnotationView mkAnnotationView, IsNSString value) => mkAnnotationView -> value -> IO ()
+setClusteringIdentifier :: IsMKAnnotationView mkAnnotationView => mkAnnotationView -> RawId -> IO ()
 setClusteringIdentifier mkAnnotationView value =
-  sendMessage mkAnnotationView setClusteringIdentifierSelector (toNSString value)
+  sendMessage mkAnnotationView setClusteringIdentifierSelector value
 
 -- | @- clusterAnnotationView@
-clusterAnnotationView :: IsMKAnnotationView mkAnnotationView => mkAnnotationView -> IO (Id MKAnnotationView)
+clusterAnnotationView :: IsMKAnnotationView mkAnnotationView => mkAnnotationView -> IO RawId
 clusterAnnotationView mkAnnotationView =
   sendMessage mkAnnotationView clusterAnnotationViewSelector
 
@@ -437,15 +437,15 @@ setDragStateSelector :: Selector '[MKAnnotationViewDragState] ()
 setDragStateSelector = mkSelector "setDragState:"
 
 -- | @Selector@ for @clusteringIdentifier@
-clusteringIdentifierSelector :: Selector '[] (Id NSString)
+clusteringIdentifierSelector :: Selector '[] RawId
 clusteringIdentifierSelector = mkSelector "clusteringIdentifier"
 
 -- | @Selector@ for @setClusteringIdentifier:@
-setClusteringIdentifierSelector :: Selector '[Id NSString] ()
+setClusteringIdentifierSelector :: Selector '[RawId] ()
 setClusteringIdentifierSelector = mkSelector "setClusteringIdentifier:"
 
 -- | @Selector@ for @clusterAnnotationView@
-clusterAnnotationViewSelector :: Selector '[] (Id MKAnnotationView)
+clusterAnnotationViewSelector :: Selector '[] RawId
 clusterAnnotationViewSelector = mkSelector "clusterAnnotationView"
 
 -- | @Selector@ for @displayPriority@

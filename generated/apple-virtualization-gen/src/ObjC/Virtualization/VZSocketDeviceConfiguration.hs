@@ -5,7 +5,7 @@
 
 -- | Base class for a socket device configuration.
 --
--- VZSocketDeviceConfiguration should not be instantiated directly.    One of its subclasses like VZVirtioSocketDeviceConfiguration should be used instead.
+-- VZNetworkDeviceConfiguration should not be instantiated directly.    One of its subclasses like VZVirtioSocketDeviceConfiguration should be used instead.
 --
 -- See: VZVirtioSocketDeviceConfiguration
 --

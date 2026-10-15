@@ -96,8 +96,6 @@ setTag vzVirtioFileSystemDeviceConfiguration value =
 --
 -- See: VZMultipleDirectoryShare
 --
--- See: VZLinuxRosettaDirectoryShare
---
 -- ObjC selector: @- share@
 share :: IsVZVirtioFileSystemDeviceConfiguration vzVirtioFileSystemDeviceConfiguration => vzVirtioFileSystemDeviceConfiguration -> IO (Id VZDirectoryShare)
 share vzVirtioFileSystemDeviceConfiguration =
@@ -109,8 +107,6 @@ share vzVirtioFileSystemDeviceConfiguration =
 --
 -- See: VZMultipleDirectoryShare
 --
--- See: VZLinuxRosettaDirectoryShare
---
 -- ObjC selector: @- setShare:@
 setShare :: (IsVZVirtioFileSystemDeviceConfiguration vzVirtioFileSystemDeviceConfiguration, IsVZDirectoryShare value) => vzVirtioFileSystemDeviceConfiguration -> value -> IO ()
 setShare vzVirtioFileSystemDeviceConfiguration value =
@@ -121,7 +117,7 @@ setShare vzVirtioFileSystemDeviceConfiguration value =
 -- A device configured with this tag will be automatically mounted in a macOS guest.
 --
 -- ObjC selector: @+ macOSGuestAutomountTag@
-macOSGuestAutomountTag :: IO (Id NSString)
+macOSGuestAutomountTag :: IO RawId
 macOSGuestAutomountTag  =
   do
     cls' <- getRequiredClass "VZVirtioFileSystemDeviceConfiguration"
@@ -156,6 +152,6 @@ setShareSelector :: Selector '[Id VZDirectoryShare] ()
 setShareSelector = mkSelector "setShare:"
 
 -- | @Selector@ for @macOSGuestAutomountTag@
-macOSGuestAutomountTagSelector :: Selector '[] (Id NSString)
+macOSGuestAutomountTagSelector :: Selector '[] RawId
 macOSGuestAutomountTagSelector = mkSelector "macOSGuestAutomountTag"
 

@@ -16,13 +16,9 @@ module ObjC.Metal.MTLCommandBufferDescriptor
   , setRetainedReferences
   , errorOptions
   , setErrorOptions
-  , logState
-  , setLogState
   , errorOptionsSelector
-  , logStateSelector
   , retainedReferencesSelector
   , setErrorOptionsSelector
-  , setLogStateSelector
   , setRetainedReferencesSelector
 
   -- * Enum types
@@ -80,24 +76,6 @@ setErrorOptions :: IsMTLCommandBufferDescriptor mtlCommandBufferDescriptor => mt
 setErrorOptions mtlCommandBufferDescriptor value =
   sendMessage mtlCommandBufferDescriptor setErrorOptionsSelector value
 
--- | logState
---
--- Contains information related to shader logging.
---
--- ObjC selector: @- logState@
-logState :: IsMTLCommandBufferDescriptor mtlCommandBufferDescriptor => mtlCommandBufferDescriptor -> IO RawId
-logState mtlCommandBufferDescriptor =
-  sendMessage mtlCommandBufferDescriptor logStateSelector
-
--- | logState
---
--- Contains information related to shader logging.
---
--- ObjC selector: @- setLogState:@
-setLogState :: IsMTLCommandBufferDescriptor mtlCommandBufferDescriptor => mtlCommandBufferDescriptor -> RawId -> IO ()
-setLogState mtlCommandBufferDescriptor value =
-  sendMessage mtlCommandBufferDescriptor setLogStateSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -117,12 +95,4 @@ errorOptionsSelector = mkSelector "errorOptions"
 -- | @Selector@ for @setErrorOptions:@
 setErrorOptionsSelector :: Selector '[MTLCommandBufferErrorOption] ()
 setErrorOptionsSelector = mkSelector "setErrorOptions:"
-
--- | @Selector@ for @logState@
-logStateSelector :: Selector '[] RawId
-logStateSelector = mkSelector "logState"
-
--- | @Selector@ for @setLogState:@
-setLogStateSelector :: Selector '[RawId] ()
-setLogStateSelector = mkSelector "setLogState:"
 

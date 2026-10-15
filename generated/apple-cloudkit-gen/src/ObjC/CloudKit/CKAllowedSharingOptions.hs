@@ -13,20 +13,12 @@ module ObjC.CloudKit.CKAllowedSharingOptions
   , setAllowedParticipantPermissionOptions
   , allowedParticipantAccessOptions
   , setAllowedParticipantAccessOptions
-  , allowsParticipantsToInviteOthers
-  , setAllowsParticipantsToInviteOthers
   , standardOptions
-  , allowsAccessRequests
-  , setAllowsAccessRequests
   , allowedParticipantAccessOptionsSelector
   , allowedParticipantPermissionOptionsSelector
-  , allowsAccessRequestsSelector
-  , allowsParticipantsToInviteOthersSelector
   , initWithAllowedParticipantPermissionOptions_allowedParticipantAccessOptionsSelector
   , setAllowedParticipantAccessOptionsSelector
   , setAllowedParticipantPermissionOptionsSelector
-  , setAllowsAccessRequestsSelector
-  , setAllowsParticipantsToInviteOthersSelector
   , standardOptionsSelector
 
   -- * Enum types
@@ -78,20 +70,6 @@ setAllowedParticipantAccessOptions :: IsCKAllowedSharingOptions ckAllowedSharing
 setAllowedParticipantAccessOptions ckAllowedSharingOptions value =
   sendMessage ckAllowedSharingOptions setAllowedParticipantAccessOptionsSelector value
 
--- | Default value is @NO@. If set, the system sharing UI will allow the user to choose whether added participants can invite others to the share. Shares with ``CloudKit/CKShareParticipantRole/CKShareParticipantRoleAdministrator`` participants will be returned as read-only to devices running OS versions prior to this role being introduced. Administrator participants on these read-only shares will be returned as ``CloudKit/CKShareParticipantRole/CKShareParticipantRolePrivateUser``.
---
--- ObjC selector: @- allowsParticipantsToInviteOthers@
-allowsParticipantsToInviteOthers :: IsCKAllowedSharingOptions ckAllowedSharingOptions => ckAllowedSharingOptions -> IO Bool
-allowsParticipantsToInviteOthers ckAllowedSharingOptions =
-  sendMessage ckAllowedSharingOptions allowsParticipantsToInviteOthersSelector
-
--- | Default value is @NO@. If set, the system sharing UI will allow the user to choose whether added participants can invite others to the share. Shares with ``CloudKit/CKShareParticipantRole/CKShareParticipantRoleAdministrator`` participants will be returned as read-only to devices running OS versions prior to this role being introduced. Administrator participants on these read-only shares will be returned as ``CloudKit/CKShareParticipantRole/CKShareParticipantRolePrivateUser``.
---
--- ObjC selector: @- setAllowsParticipantsToInviteOthers:@
-setAllowsParticipantsToInviteOthers :: IsCKAllowedSharingOptions ckAllowedSharingOptions => ckAllowedSharingOptions -> Bool -> IO ()
-setAllowsParticipantsToInviteOthers ckAllowedSharingOptions value =
-  sendMessage ckAllowedSharingOptions setAllowsParticipantsToInviteOthersSelector value
-
 -- | Standard allowed options are most permissive i.e. @allowedParticipantPermissionOptions@ = @CKSharingParticipantPermissionOptionAny@ and @allowedParticipantAccessOptions@ = @CKSharingParticipantAccessOptionAny@
 --
 -- ObjC selector: @+ standardOptions@
@@ -100,20 +78,6 @@ standardOptions  =
   do
     cls' <- getRequiredClass "CKAllowedSharingOptions"
     sendClassMessage cls' standardOptionsSelector
-
--- | Default value is @NO@. If set, the system sharing UI will allow the user to configure whether access requests are enabled on the share.
---
--- ObjC selector: @- allowsAccessRequests@
-allowsAccessRequests :: IsCKAllowedSharingOptions ckAllowedSharingOptions => ckAllowedSharingOptions -> IO Bool
-allowsAccessRequests ckAllowedSharingOptions =
-  sendMessage ckAllowedSharingOptions allowsAccessRequestsSelector
-
--- | Default value is @NO@. If set, the system sharing UI will allow the user to configure whether access requests are enabled on the share.
---
--- ObjC selector: @- setAllowsAccessRequests:@
-setAllowsAccessRequests :: IsCKAllowedSharingOptions ckAllowedSharingOptions => ckAllowedSharingOptions -> Bool -> IO ()
-setAllowsAccessRequests ckAllowedSharingOptions value =
-  sendMessage ckAllowedSharingOptions setAllowsAccessRequestsSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -139,23 +103,7 @@ allowedParticipantAccessOptionsSelector = mkSelector "allowedParticipantAccessOp
 setAllowedParticipantAccessOptionsSelector :: Selector '[CKSharingParticipantAccessOption] ()
 setAllowedParticipantAccessOptionsSelector = mkSelector "setAllowedParticipantAccessOptions:"
 
--- | @Selector@ for @allowsParticipantsToInviteOthers@
-allowsParticipantsToInviteOthersSelector :: Selector '[] Bool
-allowsParticipantsToInviteOthersSelector = mkSelector "allowsParticipantsToInviteOthers"
-
--- | @Selector@ for @setAllowsParticipantsToInviteOthers:@
-setAllowsParticipantsToInviteOthersSelector :: Selector '[Bool] ()
-setAllowsParticipantsToInviteOthersSelector = mkSelector "setAllowsParticipantsToInviteOthers:"
-
 -- | @Selector@ for @standardOptions@
 standardOptionsSelector :: Selector '[] (Id CKAllowedSharingOptions)
 standardOptionsSelector = mkSelector "standardOptions"
-
--- | @Selector@ for @allowsAccessRequests@
-allowsAccessRequestsSelector :: Selector '[] Bool
-allowsAccessRequestsSelector = mkSelector "allowsAccessRequests"
-
--- | @Selector@ for @setAllowsAccessRequests:@
-setAllowsAccessRequestsSelector :: Selector '[Bool] ()
-setAllowsAccessRequestsSelector = mkSelector "setAllowsAccessRequests:"
 

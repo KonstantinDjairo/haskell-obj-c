@@ -7,12 +7,16 @@
 module ObjC.Matter.MTRApplicationLauncherClusterApplicationEP
   ( MTRApplicationLauncherClusterApplicationEP
   , IsMTRApplicationLauncherClusterApplicationEP(..)
+  , init_
+  , copyWithZone
   , application
   , setApplication
   , endpoint
   , setEndpoint
   , applicationSelector
+  , copyWithZoneSelector
   , endpointSelector
+  , initSelector
   , setApplicationSelector
   , setEndpointSelector
 
@@ -30,15 +34,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRApplicationLauncherClusterApplicationEP mtrApplicationLauncherClusterApplicationEP => mtrApplicationLauncherClusterApplicationEP -> IO (Id MTRApplicationLauncherClusterApplicationEP)
+init_ mtrApplicationLauncherClusterApplicationEP =
+  sendOwnedMessage mtrApplicationLauncherClusterApplicationEP initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRApplicationLauncherClusterApplicationEP mtrApplicationLauncherClusterApplicationEP => mtrApplicationLauncherClusterApplicationEP -> Ptr () -> IO RawId
+copyWithZone mtrApplicationLauncherClusterApplicationEP zone =
+  sendOwnedMessage mtrApplicationLauncherClusterApplicationEP copyWithZoneSelector zone
+
 -- | @- application@
-application :: IsMTRApplicationLauncherClusterApplicationEP mtrApplicationLauncherClusterApplicationEP => mtrApplicationLauncherClusterApplicationEP -> IO (Id MTRApplicationLauncherClusterApplicationStruct)
+application :: IsMTRApplicationLauncherClusterApplicationEP mtrApplicationLauncherClusterApplicationEP => mtrApplicationLauncherClusterApplicationEP -> IO (Id MTRApplicationLauncherClusterApplication)
 application mtrApplicationLauncherClusterApplicationEP =
   sendMessage mtrApplicationLauncherClusterApplicationEP applicationSelector
 
 -- | @- setApplication:@
-setApplication :: (IsMTRApplicationLauncherClusterApplicationEP mtrApplicationLauncherClusterApplicationEP, IsMTRApplicationLauncherClusterApplicationStruct value) => mtrApplicationLauncherClusterApplicationEP -> value -> IO ()
+setApplication :: (IsMTRApplicationLauncherClusterApplicationEP mtrApplicationLauncherClusterApplicationEP, IsMTRApplicationLauncherClusterApplication value) => mtrApplicationLauncherClusterApplicationEP -> value -> IO ()
 setApplication mtrApplicationLauncherClusterApplicationEP value =
-  sendMessage mtrApplicationLauncherClusterApplicationEP setApplicationSelector (toMTRApplicationLauncherClusterApplicationStruct value)
+  sendMessage mtrApplicationLauncherClusterApplicationEP setApplicationSelector (toMTRApplicationLauncherClusterApplication value)
 
 -- | @- endpoint@
 endpoint :: IsMTRApplicationLauncherClusterApplicationEP mtrApplicationLauncherClusterApplicationEP => mtrApplicationLauncherClusterApplicationEP -> IO (Id NSNumber)
@@ -54,12 +68,20 @@ setEndpoint mtrApplicationLauncherClusterApplicationEP value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRApplicationLauncherClusterApplicationEP)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
 -- | @Selector@ for @application@
-applicationSelector :: Selector '[] (Id MTRApplicationLauncherClusterApplicationStruct)
+applicationSelector :: Selector '[] (Id MTRApplicationLauncherClusterApplication)
 applicationSelector = mkSelector "application"
 
 -- | @Selector@ for @setApplication:@
-setApplicationSelector :: Selector '[Id MTRApplicationLauncherClusterApplicationStruct] ()
+setApplicationSelector :: Selector '[Id MTRApplicationLauncherClusterApplication] ()
 setApplicationSelector = mkSelector "setApplication:"
 
 -- | @Selector@ for @endpoint@

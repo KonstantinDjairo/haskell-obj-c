@@ -1,0 +1,29 @@
+name:                apple-javanativefoundation-gen
+version:             0.1.0.0
+synopsis:            Generated Haskell bindings for the JavaNativeFoundation framework
+license:             BSD-3-Clause
+
+dependencies:
+- base >= 4.7 && < 5
+- haskell-obj-c
+- libffi
+- apple-foundation-gen
+
+ghc-options:
+- -Wall
+- -Wno-orphans
+- -Wno-unused-imports
+
+library:
+  source-dirs: src
+  exposed-modules:
+  - ObjC.JavaNativeFoundation.Internal.Classes
+  - ObjC.JavaNativeFoundation.Internal.Structs
+  - ObjC.JavaNativeFoundation.JNFDefaultCoercions
+  - ObjC.JavaNativeFoundation.JNFException
+  - ObjC.JavaNativeFoundation.JNFJObjectWrapper
+  - ObjC.JavaNativeFoundation.JNFRunLoop
+  - ObjC.JavaNativeFoundation.JNFRunnable
+  - ObjC.JavaNativeFoundation.JNFTypeCoercer
+  - ObjC.JavaNativeFoundation.JNFWeakJObjectWrapper
+  - ObjC.JavaNativeFoundation.Structs

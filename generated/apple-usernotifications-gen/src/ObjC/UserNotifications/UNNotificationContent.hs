@@ -138,7 +138,7 @@ summaryArgumentCount unNotificationContent =
   sendMessage unNotificationContent summaryArgumentCountSelector
 
 -- | @- targetContentIdentifier@
-targetContentIdentifier :: IsUNNotificationContent unNotificationContent => unNotificationContent -> IO (Id NSString)
+targetContentIdentifier :: IsUNNotificationContent unNotificationContent => unNotificationContent -> IO RawId
 targetContentIdentifier unNotificationContent =
   sendMessage unNotificationContent targetContentIdentifierSelector
 
@@ -214,7 +214,7 @@ summaryArgumentCountSelector :: Selector '[] CULong
 summaryArgumentCountSelector = mkSelector "summaryArgumentCount"
 
 -- | @Selector@ for @targetContentIdentifier@
-targetContentIdentifierSelector :: Selector '[] (Id NSString)
+targetContentIdentifierSelector :: Selector '[] RawId
 targetContentIdentifierSelector = mkSelector "targetContentIdentifier"
 
 -- | @Selector@ for @interruptionLevel@

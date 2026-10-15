@@ -9,7 +9,6 @@ module ObjC.BackgroundAssets.BADownloadManager
   , IsBADownloadManager(..)
   , init_
   , new
-  , fetchCurrentDownloads
   , scheduleDownload_error
   , performWithExclusiveControl
   , performWithExclusiveControlBeforeDate_performHandler
@@ -20,7 +19,6 @@ module ObjC.BackgroundAssets.BADownloadManager
   , setDelegate
   , cancelDownload_errorSelector
   , delegateSelector
-  , fetchCurrentDownloadsSelector
   , initSelector
   , newSelector
   , performWithExclusiveControlBeforeDate_performHandlerSelector
@@ -55,23 +53,6 @@ new  =
   do
     cls' <- getRequiredClass "BADownloadManager"
     sendOwnedClassMessage cls' newSelector
-
--- | Fetches current downloads.
---
--- Fetches the current list of scheduled or in-flight downloads queued by your application or extension.
---
--- @error@ — An error representing why the downloads could not be fetched.
---
--- Returns: On success, returns a list of scheduled or in-flight downloads. On failure, returns nil and sets @error.@
---
--- Warning: This method can block and should not be called from the main thread.
---
--- BADownloadManager:fetchCurrentDownloadsWithCompletionHandler
---
--- ObjC selector: @- fetchCurrentDownloads:@
-fetchCurrentDownloads :: (IsBADownloadManager baDownloadManager, IsNSError error_) => baDownloadManager -> error_ -> IO (Id NSArray)
-fetchCurrentDownloads baDownloadManager error_ =
-  sendMessage baDownloadManager fetchCurrentDownloadsSelector (toNSError error_)
 
 -- | Schedules a background download.
 --
@@ -166,10 +147,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id BADownloadManager)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @fetchCurrentDownloads:@
-fetchCurrentDownloadsSelector :: Selector '[Id NSError] (Id NSArray)
-fetchCurrentDownloadsSelector = mkSelector "fetchCurrentDownloads:"
 
 -- | @Selector@ for @scheduleDownload:error:@
 scheduleDownload_errorSelector :: Selector '[Id BADownload, Id NSError] Bool

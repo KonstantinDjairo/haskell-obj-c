@@ -35,7 +35,7 @@ import ObjC.GameKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | @- sender@
-sender :: IsGKInvite gkInvite => gkInvite -> IO (Id GKPlayer)
+sender :: IsGKInvite gkInvite => gkInvite -> IO RawId
 sender gkInvite =
   sendMessage gkInvite senderSelector
 
@@ -61,7 +61,7 @@ playerAttributes gkInvite =
 -- | * This property is obsolete. **
 --
 -- ObjC selector: @- inviter@
-inviter :: IsGKInvite gkInvite => gkInvite -> IO (Id NSString)
+inviter :: IsGKInvite gkInvite => gkInvite -> IO RawId
 inviter gkInvite =
   sendMessage gkInvite inviterSelector
 
@@ -70,7 +70,7 @@ inviter gkInvite =
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @sender@
-senderSelector :: Selector '[] (Id GKPlayer)
+senderSelector :: Selector '[] RawId
 senderSelector = mkSelector "sender"
 
 -- | @Selector@ for @hosted@
@@ -86,6 +86,6 @@ playerAttributesSelector :: Selector '[] CUInt
 playerAttributesSelector = mkSelector "playerAttributes"
 
 -- | @Selector@ for @inviter@
-inviterSelector :: Selector '[] (Id NSString)
+inviterSelector :: Selector '[] RawId
 inviterSelector = mkSelector "inviter"
 

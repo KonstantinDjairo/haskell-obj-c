@@ -110,7 +110,7 @@ setRootRecordDesiredKeys ckFetchShareMetadataOperation value =
 
 -- | Called once for each share URL that the server processed
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perShareMetadataBlock@
 perShareMetadataBlock :: IsCKFetchShareMetadataOperation ckFetchShareMetadataOperation => ckFetchShareMetadataOperation -> IO (Ptr ())
@@ -119,7 +119,7 @@ perShareMetadataBlock ckFetchShareMetadataOperation =
 
 -- | Called once for each share URL that the server processed
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerShareMetadataBlock:@
 setPerShareMetadataBlock :: IsCKFetchShareMetadataOperation ckFetchShareMetadataOperation => ckFetchShareMetadataOperation -> Ptr () -> IO ()
@@ -132,7 +132,7 @@ setPerShareMetadataBlock ckFetchShareMetadataOperation value =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareMetadataBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareMetadataBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- fetchShareMetadataCompletionBlock@
 fetchShareMetadataCompletionBlock :: IsCKFetchShareMetadataOperation ckFetchShareMetadataOperation => ckFetchShareMetadataOperation -> IO (Ptr ())
@@ -145,7 +145,7 @@ fetchShareMetadataCompletionBlock ckFetchShareMetadataOperation =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareMetadataBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of shareURLs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @perShareMetadataBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setFetchShareMetadataCompletionBlock:@
 setFetchShareMetadataCompletionBlock :: IsCKFetchShareMetadataOperation ckFetchShareMetadataOperation => ckFetchShareMetadataOperation -> Ptr () -> IO ()

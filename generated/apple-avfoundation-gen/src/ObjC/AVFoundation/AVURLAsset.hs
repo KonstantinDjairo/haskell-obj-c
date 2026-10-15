@@ -3,17 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVURLAsset provides access to the AVAsset model for timed audiovisual media referenced by URL.
---
--- Note that although instances of AVURLAsset are immutable, values for its keys may not be immediately available without blocking. See the discussion of the class AVAsset above regarding the availability of values for keys and the use of AVAsynchronousKeyValueLoading.
---
--- Once an AVURLAsset's value for a key is available, it will not change. AVPlayerItem provides access to information that can change dynamically during playback; see AVPlayerItem.duration and AVPlayerItem.tracks.
---
--- AVURLAssets can be initialized with NSURLs that refer to audiovisual media resources, such as streams (including HTTP live streams), QuickTime movie files, MP3 files, and files of other types.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVURLAsset@.
+-- | Generated bindings for @AVURLAsset@.
 module ObjC.AVFoundation.AVURLAsset
   ( AVURLAsset
   , IsAVURLAsset(..)
@@ -26,17 +16,13 @@ module ObjC.AVFoundation.AVURLAsset
   , initWithURL_options
   , compatibleTrackForCompositionTrack
   , findCompatibleTrackForCompositionTrack_completionHandler
-  , audiovisualContentTypes
   , url
   , httpSessionIdentifier
   , mayRequireContentKeysForMediaDataProcessing
-  , mediaExtensionProperties
-  , sidecarURL
   , variants
   , assetCache
   , resourceLoader
   , assetCacheSelector
-  , audiovisualContentTypesSelector
   , audiovisualMIMETypesSelector
   , audiovisualTypesSelector
   , compatibleTrackForCompositionTrackSelector
@@ -46,10 +32,8 @@ module ObjC.AVFoundation.AVURLAsset
   , initWithURL_optionsSelector
   , isPlayableExtendedMIMETypeSelector
   , mayRequireContentKeysForMediaDataProcessingSelector
-  , mediaExtensionPropertiesSelector
   , newSelector
   , resourceLoaderSelector
-  , sidecarURLSelector
   , urlAssetWithURL_optionsSelector
   , urlSelector
   , variantsSelector
@@ -67,7 +51,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- | @- init@
 init_ :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id AVURLAsset)
@@ -81,9 +64,11 @@ new  =
     cls' <- getRequiredClass "AVURLAsset"
     sendOwnedClassMessage cls' newSelector
 
--- | Provides the file types the AVURLAsset class understands.
+-- | audiovisualTypes
 --
--- - Returns: An NSArray of UTIs identifying the file types the AVURLAsset class understands.
+-- Provides the file types the AVURLAsset class understands.
+--
+-- Returns: An NSArray of UTIs identifying the file types the AVURLAsset class understands.
 --
 -- ObjC selector: @+ audiovisualTypes@
 audiovisualTypes :: IO (Id NSArray)
@@ -92,9 +77,11 @@ audiovisualTypes  =
     cls' <- getRequiredClass "AVURLAsset"
     sendClassMessage cls' audiovisualTypesSelector
 
--- | Provides the MIME types the AVURLAsset class understands.
+-- | audiovisualMIMETypes
 --
--- - Returns: An NSArray of NSStrings containing MIME types the AVURLAsset class understands.
+-- Provides the MIME types the AVURLAsset class understands.
+--
+-- Returns: An NSArray of NSStrings containing MIME types the AVURLAsset class understands.
 --
 -- ObjC selector: @+ audiovisualMIMETypes@
 audiovisualMIMETypes :: IO (Id NSArray)
@@ -103,13 +90,13 @@ audiovisualMIMETypes  =
     cls' <- getRequiredClass "AVURLAsset"
     sendClassMessage cls' audiovisualMIMETypesSelector
 
--- | Returns YES if asset is playable with the codec(s) and container type specified in extendedMIMEType. Returns NO otherwise.
+-- | isPlayableExtendedMIMEType:
 --
--- On releases prior to macOS 14, iOS 17, tvOS 17, and watchOS 10, regardless of the specified MIME type this method interprets all codecs parameters according to the ISO family syntax defined by RFC 6381 and evaluates playability according to whether the indicated codecs are supported when carried in container formats that conform to the ISO BMFF specification, such as the MPEG-4 file format. On releases starting with macOS 14, iOS 17, tvOS 17, and watchOS 10, this method interprets codecs parameters according to the syntax and namespace determined by the specified MIME type and evaluates playability according to whether the indicated codecs are supported when carried in the container format indicated by that MIME type. Codecs parameters for each of the following MIME types are supported: video/mp4 (per RFC 6381, ISO/IEC 14496-15 Annex E, et al), video/quicktime (RFC 6381 et al), video/mp2t (ISO/IEC 13818-1), audio/vnd.wave (RFC 2361), audio/aiff (using the CoreAudio AudioFormatID namespace), audio/x-caf (also using the CoreAudio AudioFormatID namespace), and audio/mpeg (e.g. codecs="mp3"). MIME types supported as alternatives for the same container formats, e.g audio/mp4, are equivalently treated. If the indicated MIME type defines no supported syntax and namespace for codecs parameters, when any codecs parameter is present this method returns NO.
+-- Returns YES if asset is playable with the codec(s) and container type specified in extendedMIMEType. Returns NO otherwise.
 --
--- - Parameter extendedMIMEType:
+-- @extendedMIMEType@ —
 --
--- - Returns: YES or NO.
+-- Returns: YES or NO.
 --
 -- ObjC selector: @+ isPlayableExtendedMIMEType:@
 isPlayableExtendedMIMEType :: IsNSString extendedMIMEType => extendedMIMEType -> IO Bool
@@ -118,11 +105,15 @@ isPlayableExtendedMIMEType extendedMIMEType =
     cls' <- getRequiredClass "AVURLAsset"
     sendClassMessage cls' isPlayableExtendedMIMETypeSelector (toNSString extendedMIMEType)
 
--- | Returns an instance of AVURLAsset for inspection of a media resource.
+-- | URLAssetWithURL:options:
 --
--- - Parameter URL: An instance of NSURL that references a media resource. - Parameter options: An instance of NSDictionary that contains keys for specifying options for the initialization of the AVURLAsset. See AVURLAssetPreferPreciseDurationAndTimingKey and AVURLAssetReferenceRestrictionsKey above.
+-- Returns an instance of AVURLAsset for inspection of a media resource.
 --
--- - Returns: An instance of AVURLAsset.
+-- @URL@ — An instance of NSURL that references a media resource.
+--
+-- @options@ — An instance of NSDictionary that contains keys for specifying options for the initialization of the AVURLAsset. See AVURLAssetPreferPreciseDurationAndTimingKey and AVURLAssetReferenceRestrictionsKey above.
+--
+-- Returns: An instance of AVURLAsset.
 --
 -- ObjC selector: @+ URLAssetWithURL:options:@
 urlAssetWithURL_options :: (IsNSURL url, IsNSDictionary options) => url -> options -> IO (Id AVURLAsset)
@@ -131,94 +122,83 @@ urlAssetWithURL_options url options =
     cls' <- getRequiredClass "AVURLAsset"
     sendClassMessage cls' urlAssetWithURL_optionsSelector (toNSURL url) (toNSDictionary options)
 
--- | Initializes an instance of AVURLAsset for inspection of a media resource.
+-- | initWithURL:options:
 --
--- - Parameter URL: An instance of NSURL that references a media resource. - Parameter options: An instance of NSDictionary that contains keys for specifying options for the initialization of the AVURLAsset. See AVURLAssetPreferPreciseDurationAndTimingKey and AVURLAssetReferenceRestrictionsKey above.
+-- Initializes an instance of AVURLAsset for inspection of a media resource.
 --
--- - Returns: An instance of AVURLAsset.
+-- @URL@ — An instance of NSURL that references a media resource.
+--
+-- @options@ — An instance of NSDictionary that contains keys for specifying options for the initialization of the AVURLAsset. See AVURLAssetPreferPreciseDurationAndTimingKey and AVURLAssetReferenceRestrictionsKey above.
+--
+-- Returns: An instance of AVURLAsset.
 --
 -- ObjC selector: @- initWithURL:options:@
 initWithURL_options :: (IsAVURLAsset avurlAsset, IsNSURL url, IsNSDictionary options) => avurlAsset -> url -> options -> IO (Id AVURLAsset)
 initWithURL_options avurlAsset url options =
   sendOwnedMessage avurlAsset initWithURL_optionsSelector (toNSURL url) (toNSDictionary options)
 
--- | Provides a reference to an AVAssetTrack of the target from which any timeRange can be inserted into a mutable composition track (via -[AVMutableCompositionTrack insertTimeRange:ofTrack:atTime:error:]).
+-- | compatibleTrackForCompositionTrack:
 --
--- Finds a track of the target with content that can be accommodated by the specified composition track. The logical complement of -[AVMutableComposition mutableTrackCompatibleWithTrack:].
+-- Provides a reference to an AVAssetTrack of the target from which any timeRange				can be inserted into a mutable composition track (via -[AVMutableCompositionTrack insertTimeRange:ofTrack:atTime:error:]).
 --
--- - Parameter compositionTrack: The composition track for which a compatible AVAssetTrack is requested.
+-- @compositionTrack@ — The composition track for which a compatible AVAssetTrack is requested.
 --
--- - Returns: an instance of AVAssetTrack
+-- Returns: an instance of AVAssetTrack
+--
+-- Finds a track of the target with content that can be accommodated by the specified composition track.	The logical complement of -[AVMutableComposition mutableTrackCompatibleWithTrack:].
 --
 -- ObjC selector: @- compatibleTrackForCompositionTrack:@
 compatibleTrackForCompositionTrack :: (IsAVURLAsset avurlAsset, IsAVCompositionTrack compositionTrack) => avurlAsset -> compositionTrack -> IO (Id AVAssetTrack)
 compatibleTrackForCompositionTrack avurlAsset compositionTrack =
   sendMessage avurlAsset compatibleTrackForCompositionTrackSelector (toAVCompositionTrack compositionTrack)
 
--- | Loads a reference to an AVAssetTrack of the target from which any timeRange can be inserted into a mutable composition track (via -[AVMutableCompositionTrack insertTimeRange:ofTrack:atTime:error:]).
+-- | findCompatibleTrackForCompositionTrack:completionHandler:
 --
--- Finds a track of the target with content that can be accommodated by the specified composition track. The logical complement of -[AVMutableComposition mutableTrackCompatibleWithTrack:].
+-- Loads a reference to an AVAssetTrack of the target from which any timeRange				can be inserted into a mutable composition track (via -[AVMutableCompositionTrack insertTimeRange:ofTrack:atTime:error:]).
 --
--- - Parameter compositionTrack: The composition track for which a compatible AVAssetTrack is requested. - Parameter completionHandler: A block that is invoked when loading is complete, vending an instance of AVAssetTrack or an error.
+-- @compositionTrack@ — The composition track for which a compatible AVAssetTrack is requested.
+--
+-- @completionHandler@ — A block that is invoked when loading is complete, vending an instance of AVAssetTrack or an error.
+--
+-- Finds a track of the target with content that can be accommodated by the specified composition track.	The logical complement of -[AVMutableComposition mutableTrackCompatibleWithTrack:].
 --
 -- ObjC selector: @- findCompatibleTrackForCompositionTrack:completionHandler:@
 findCompatibleTrackForCompositionTrack_completionHandler :: (IsAVURLAsset avurlAsset, IsAVCompositionTrack compositionTrack) => avurlAsset -> compositionTrack -> Ptr () -> IO ()
 findCompatibleTrackForCompositionTrack_completionHandler avurlAsset compositionTrack completionHandler =
   sendMessage avurlAsset findCompatibleTrackForCompositionTrack_completionHandlerSelector (toAVCompositionTrack compositionTrack) completionHandler
 
--- | Provides the content types the AVURLAsset class understands.
+-- | URL
 --
--- - Returns: An NSArray of UTTypes identifying the content types the AVURLAsset class understands.
---
--- ObjC selector: @+ audiovisualContentTypes@
-audiovisualContentTypes :: IO (Id NSArray)
-audiovisualContentTypes  =
-  do
-    cls' <- getRequiredClass "AVURLAsset"
-    sendClassMessage cls' audiovisualContentTypesSelector
-
--- | Indicates the URL with which the instance of AVURLAsset was initialized.
+-- Indicates the URL with which the instance of AVURLAsset was initialized.
 --
 -- ObjC selector: @- URL@
 url :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id NSURL)
 url avurlAsset =
   sendMessage avurlAsset urlSelector
 
--- | Provides the identifier that's automatically included in any HTTP request issued on behalf of this asset in the HTTP header field "X-Playback-Session-Id".
+-- | httpSessionIdentifier
 --
--- The value is an NSUUID from which the UUID string can be obtained. Note that copies of an AVURLAsset vend an equivalent httpSessionIdentifier.
+-- Provides the identifier that's automatically included in any HTTP request issued on behalf of this asset in the HTTP header field "X-Playback-Session-Id".
+--
+-- The value is an NSUUID from which the UUID string can be obtained.    Note that copies of an AVURLAsset vend an equivalent httpSessionIdentifier.
 --
 -- ObjC selector: @- httpSessionIdentifier@
 httpSessionIdentifier :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id NSUUID)
 httpSessionIdentifier avurlAsset =
   sendMessage avurlAsset httpSessionIdentifierSelector
 
--- | Allows AVURLAsset to be added as a content key recipient to an AVContentKeySession.
+-- | mayRequireContentKeysForMediaDataProcessing
+--
+-- Allows AVURLAsset to be added as a content key recipient to an AVContentKeySession.
 --
 -- ObjC selector: @- mayRequireContentKeysForMediaDataProcessing@
 mayRequireContentKeysForMediaDataProcessing :: IsAVURLAsset avurlAsset => avurlAsset -> IO Bool
 mayRequireContentKeysForMediaDataProcessing avurlAsset =
   sendMessage avurlAsset mayRequireContentKeysForMediaDataProcessingSelector
 
--- | The properties of the MediaExtension format reader for the asset.
+-- | variants
 --
--- If the asset is being decoded using a MediaExtension format reader, this property will return a AVMediaExtensionProperties object describing the extension. If the asset is not being decoded with a MediaExtension format reader, this property will return nil.
---
--- ObjC selector: @- mediaExtensionProperties@
-mediaExtensionProperties :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id AVMediaExtensionProperties)
-mediaExtensionProperties avurlAsset =
-  sendMessage avurlAsset mediaExtensionPropertiesSelector
-
--- | The sidecar URL used by the MediaExtension.
---
--- The sidecar URL is returned only if the MediaExtension format reader supports sidecar files, and implements this property [MEFileInfo setSidecarFilename:]. Will return nil otherwise.
---
--- ObjC selector: @- sidecarURL@
-sidecarURL :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id NSURL)
-sidecarURL avurlAsset =
-  sendMessage avurlAsset sidecarURLSelector
-
--- | Provides an array of AVAssetVariants contained in the asset
+-- Provides an array of AVAssetVariants contained in the asset
 --
 -- Some variants may not be playable according to the current device configuration.
 --
@@ -227,18 +207,18 @@ variants :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id NSArray)
 variants avurlAsset =
   sendMessage avurlAsset variantsSelector
 
--- | Provides access to an instance of AVAssetCache to use for inspection of locally cached media data. Will be nil if an asset has not been configured to store or access media data from disk.
+-- | assetCache
+--
+-- Provides access to an instance of AVAssetCache to use for inspection of locally cached media data. Will be nil if an asset has not been configured to store or access media data from disk.
 --
 -- ObjC selector: @- assetCache@
 assetCache :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id AVAssetCache)
 assetCache avurlAsset =
   sendMessage avurlAsset assetCacheSelector
 
--- | Provides access to an instance of AVAssetResourceLoader, which offers limited control over the handling of URLs that may be loaded in the course of performing operations on the asset, such as playback.
+-- | resourceLoader
 --
--- The loading of file URLs cannot be mediated via use of AVAssetResourceLoader.
---
--- Note that copies of an AVAsset will vend the same instance of AVAssetResourceLoader.
+-- Provides access to an instance of AVAssetResourceLoader, which offers limited control over the handling of URLs that may be loaded in the course of performing operations on the asset, such as playback.    The loading of file URLs cannot be mediated via use of AVAssetResourceLoader.    Note that copies of an AVAsset will vend the same instance of AVAssetResourceLoader.
 --
 -- ObjC selector: @- resourceLoader@
 resourceLoader :: IsAVURLAsset avurlAsset => avurlAsset -> IO (Id AVAssetResourceLoader)
@@ -285,10 +265,6 @@ compatibleTrackForCompositionTrackSelector = mkSelector "compatibleTrackForCompo
 findCompatibleTrackForCompositionTrack_completionHandlerSelector :: Selector '[Id AVCompositionTrack, Ptr ()] ()
 findCompatibleTrackForCompositionTrack_completionHandlerSelector = mkSelector "findCompatibleTrackForCompositionTrack:completionHandler:"
 
--- | @Selector@ for @audiovisualContentTypes@
-audiovisualContentTypesSelector :: Selector '[] (Id NSArray)
-audiovisualContentTypesSelector = mkSelector "audiovisualContentTypes"
-
 -- | @Selector@ for @URL@
 urlSelector :: Selector '[] (Id NSURL)
 urlSelector = mkSelector "URL"
@@ -300,14 +276,6 @@ httpSessionIdentifierSelector = mkSelector "httpSessionIdentifier"
 -- | @Selector@ for @mayRequireContentKeysForMediaDataProcessing@
 mayRequireContentKeysForMediaDataProcessingSelector :: Selector '[] Bool
 mayRequireContentKeysForMediaDataProcessingSelector = mkSelector "mayRequireContentKeysForMediaDataProcessing"
-
--- | @Selector@ for @mediaExtensionProperties@
-mediaExtensionPropertiesSelector :: Selector '[] (Id AVMediaExtensionProperties)
-mediaExtensionPropertiesSelector = mkSelector "mediaExtensionProperties"
-
--- | @Selector@ for @sidecarURL@
-sidecarURLSelector :: Selector '[] (Id NSURL)
-sidecarURLSelector = mkSelector "sidecarURL"
 
 -- | @Selector@ for @variants@
 variantsSelector :: Selector '[] (Id NSArray)

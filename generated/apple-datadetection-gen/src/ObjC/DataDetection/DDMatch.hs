@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A base class for common types of data that the data detection system matches.
---
--- The DataDetection framework returns results in objects that are subclasses of @DDMatch@, which are specific to the type of matching data. Each object contains the matched string.
---
--- Generated bindings for @DDMatch@.
+-- | Generated bindings for @DDMatch@.
 module ObjC.DataDetection.DDMatch
   ( DDMatch
   , IsDDMatch(..)
@@ -35,11 +31,7 @@ init_ :: IsDDMatch ddMatch => ddMatch -> IO (Id DDMatch)
 init_ ddMatch =
   sendOwnedMessage ddMatch initSelector
 
--- | A substring that the data detection system identifies from an original string as a common type of data.
---
--- Use @DDMatch@ subclasses that the data detection system provides for a semantic interpretation of this string.
---
--- ObjC selector: @- matchedString@
+-- | @- matchedString@
 matchedString :: IsDDMatch ddMatch => ddMatch -> IO (Id NSString)
 matchedString ddMatch =
   sendMessage ddMatch matchedStringSelector

@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterSetWeekDayScheduleParams
   ( MTRDoorLockClusterSetWeekDayScheduleParams
   , IsMTRDoorLockClusterSetWeekDayScheduleParams(..)
+  , init_
+  , copyWithZone
   , weekDayIndex
   , setWeekDayIndex
   , userIndex
@@ -23,16 +25,14 @@ module ObjC.Matter.MTRDoorLockClusterSetWeekDayScheduleParams
   , setEndMinute
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , daysMaskSelector
   , endHourSelector
   , endMinuteSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setDaysMaskSelector
   , setEndHourSelector
   , setEndMinuteSelector
-  , setServerSideProcessingTimeoutSelector
   , setStartHourSelector
   , setStartMinuteSelector
   , setTimedInvokeTimeoutMsSelector
@@ -57,6 +57,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRDoorLockClusterSetWeekDayScheduleParams mtrDoorLockClusterSetWeekDayScheduleParams => mtrDoorLockClusterSetWeekDayScheduleParams -> IO (Id MTRDoorLockClusterSetWeekDayScheduleParams)
+init_ mtrDoorLockClusterSetWeekDayScheduleParams =
+  sendOwnedMessage mtrDoorLockClusterSetWeekDayScheduleParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterSetWeekDayScheduleParams mtrDoorLockClusterSetWeekDayScheduleParams => mtrDoorLockClusterSetWeekDayScheduleParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterSetWeekDayScheduleParams zone =
+  sendOwnedMessage mtrDoorLockClusterSetWeekDayScheduleParams copyWithZoneSelector zone
 
 -- | @- weekDayIndex@
 weekDayIndex :: IsMTRDoorLockClusterSetWeekDayScheduleParams mtrDoorLockClusterSetWeekDayScheduleParams => mtrDoorLockClusterSetWeekDayScheduleParams -> IO (Id NSNumber)
@@ -150,31 +160,17 @@ setTimedInvokeTimeoutMs :: (IsMTRDoorLockClusterSetWeekDayScheduleParams mtrDoor
 setTimedInvokeTimeoutMs mtrDoorLockClusterSetWeekDayScheduleParams value =
   sendMessage mtrDoorLockClusterSetWeekDayScheduleParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRDoorLockClusterSetWeekDayScheduleParams mtrDoorLockClusterSetWeekDayScheduleParams => mtrDoorLockClusterSetWeekDayScheduleParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrDoorLockClusterSetWeekDayScheduleParams =
-  sendMessage mtrDoorLockClusterSetWeekDayScheduleParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRDoorLockClusterSetWeekDayScheduleParams mtrDoorLockClusterSetWeekDayScheduleParams, IsNSNumber value) => mtrDoorLockClusterSetWeekDayScheduleParams -> value -> IO ()
-setServerSideProcessingTimeout mtrDoorLockClusterSetWeekDayScheduleParams value =
-  sendMessage mtrDoorLockClusterSetWeekDayScheduleParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterSetWeekDayScheduleParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @weekDayIndex@
 weekDayIndexSelector :: Selector '[] (Id NSNumber)
@@ -239,12 +235,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

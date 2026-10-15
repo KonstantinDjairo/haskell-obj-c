@@ -54,7 +54,7 @@ initWithTunnelRemoteAddress_ethernetAddress_mtu neEthernetTunnelNetworkSettings 
 -- An NSString object containing the ethernet address of the tunnel interface.
 --
 -- ObjC selector: @- ethernetAddress@
-ethernetAddress :: IsNEEthernetTunnelNetworkSettings neEthernetTunnelNetworkSettings => neEthernetTunnelNetworkSettings -> IO (Id NSString)
+ethernetAddress :: IsNEEthernetTunnelNetworkSettings neEthernetTunnelNetworkSettings => neEthernetTunnelNetworkSettings -> IO RawId
 ethernetAddress neEthernetTunnelNetworkSettings =
   sendMessage neEthernetTunnelNetworkSettings ethernetAddressSelector
 
@@ -67,6 +67,6 @@ initWithTunnelRemoteAddress_ethernetAddress_mtuSelector :: Selector '[Id NSStrin
 initWithTunnelRemoteAddress_ethernetAddress_mtuSelector = mkSelector "initWithTunnelRemoteAddress:ethernetAddress:mtu:"
 
 -- | @Selector@ for @ethernetAddress@
-ethernetAddressSelector :: Selector '[] (Id NSString)
+ethernetAddressSelector :: Selector '[] RawId
 ethernetAddressSelector = mkSelector "ethernetAddress"
 

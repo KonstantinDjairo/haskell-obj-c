@@ -9,8 +9,6 @@
 --
 -- This class can be used to inform clients of the current set of AVMetadataGroups on an AVPlayerItem, and when new AVMetadataGroups become available - e.g. in a Live HLS stream.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVPlayerItemMetadataCollector@.
 module ObjC.AVFoundation.AVPlayerItemMetadataCollector
   ( AVPlayerItemMetadataCollector

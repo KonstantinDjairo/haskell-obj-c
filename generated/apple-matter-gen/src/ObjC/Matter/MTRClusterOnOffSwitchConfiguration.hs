@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterOnOffSwitchConfiguration
   ( MTRClusterOnOffSwitchConfiguration
   , IsMTRClusterOnOffSwitchConfiguration(..)
+  , initWithDevice_endpoint_queue
   , readAttributeSwitchTypeWithParams
   , readAttributeSwitchActionsWithParams
   , writeAttributeSwitchActionsWithValue_expectedValueInterval
@@ -20,10 +21,7 @@ module ObjC.Matter.MTRClusterOnOffSwitchConfiguration
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -49,6 +47,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterOnOffSwitchConfiguration mtrClusterOnOffSwitchConfiguration, IsMTRDevice device, IsNSObject queue) => mtrClusterOnOffSwitchConfiguration -> device -> CUShort -> queue -> IO (Id MTRClusterOnOffSwitchConfiguration)
+initWithDevice_endpoint_queue mtrClusterOnOffSwitchConfiguration device endpoint queue =
+  sendOwnedMessage mtrClusterOnOffSwitchConfiguration initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeSwitchTypeWithParams:@
 readAttributeSwitchTypeWithParams :: (IsMTRClusterOnOffSwitchConfiguration mtrClusterOnOffSwitchConfiguration, IsMTRReadParams params) => mtrClusterOnOffSwitchConfiguration -> params -> IO (Id NSDictionary)
@@ -107,21 +110,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterOnOffSwitchConfiguration"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterOnOffSwitchConfiguration mtrClusterOnOffSwitchConfiguration, IsMTRDevice device, IsNSObject queue) => mtrClusterOnOffSwitchConfiguration -> device -> CUShort -> queue -> IO (Id MTRClusterOnOffSwitchConfiguration)
-initWithDevice_endpoint_queue mtrClusterOnOffSwitchConfiguration device endpoint queue =
-  sendOwnedMessage mtrClusterOnOffSwitchConfiguration initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterOnOffSwitchConfiguration mtrClusterOnOffSwitchConfiguration, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterOnOffSwitchConfiguration -> device -> endpointID -> queue -> IO (Id MTRClusterOnOffSwitchConfiguration)
-initWithDevice_endpointID_queue mtrClusterOnOffSwitchConfiguration device endpointID queue =
-  sendOwnedMessage mtrClusterOnOffSwitchConfiguration initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterOnOffSwitchConfiguration)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeSwitchTypeWithParams:@
 readAttributeSwitchTypeWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -166,12 +161,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterOnOffSwitchConfiguration)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterOnOffSwitchConfiguration)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterOnOffSwitchConfiguration)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

@@ -5,7 +5,7 @@
 
 -- | VNRectangleObservation
 --
--- VNDetectedObjectObservation
+-- VNObservation
 --
 -- VNRectangleObservation is the result of a rectangle detector
 --

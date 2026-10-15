@@ -3,93 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Ballast Configuration
---
--- Attributes and commands for configuring a lighting ballast.
+-- | Cluster Ballast Configuration    Attributes and commands for configuring a lighting ballast.
 --
 -- Generated bindings for @MTRBaseClusterBallastConfiguration@.
 module ObjC.Matter.MTRBaseClusterBallastConfiguration
   ( MTRBaseClusterBallastConfiguration
   , IsMTRBaseClusterBallastConfiguration(..)
-  , readAttributePhysicalMinLevelWithCompletion
-  , subscribeAttributePhysicalMinLevelWithParams_subscriptionEstablished_reportHandler
-  , readAttributePhysicalMinLevelWithClusterStateCache_endpoint_queue_completion
-  , readAttributePhysicalMaxLevelWithCompletion
-  , subscribeAttributePhysicalMaxLevelWithParams_subscriptionEstablished_reportHandler
-  , readAttributePhysicalMaxLevelWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBallastStatusWithCompletion
-  , subscribeAttributeBallastStatusWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBallastStatusWithClusterStateCache_endpoint_queue_completion
-  , readAttributeMinLevelWithCompletion
-  , writeAttributeMinLevelWithValue_completion
-  , writeAttributeMinLevelWithValue_params_completion
-  , subscribeAttributeMinLevelWithParams_subscriptionEstablished_reportHandler
-  , readAttributeMinLevelWithClusterStateCache_endpoint_queue_completion
-  , readAttributeMaxLevelWithCompletion
-  , writeAttributeMaxLevelWithValue_completion
-  , writeAttributeMaxLevelWithValue_params_completion
-  , subscribeAttributeMaxLevelWithParams_subscriptionEstablished_reportHandler
-  , readAttributeMaxLevelWithClusterStateCache_endpoint_queue_completion
-  , readAttributeIntrinsicBallastFactorWithCompletion
-  , writeAttributeIntrinsicBallastFactorWithValue_completion
-  , writeAttributeIntrinsicBallastFactorWithValue_params_completion
-  , subscribeAttributeIntrinsicBallastFactorWithParams_subscriptionEstablished_reportHandler
-  , readAttributeIntrinsicBallastFactorWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBallastFactorAdjustmentWithCompletion
-  , writeAttributeBallastFactorAdjustmentWithValue_completion
-  , writeAttributeBallastFactorAdjustmentWithValue_params_completion
-  , subscribeAttributeBallastFactorAdjustmentWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBallastFactorAdjustmentWithClusterStateCache_endpoint_queue_completion
-  , readAttributeLampQuantityWithCompletion
-  , subscribeAttributeLampQuantityWithParams_subscriptionEstablished_reportHandler
-  , readAttributeLampQuantityWithClusterStateCache_endpoint_queue_completion
-  , readAttributeLampTypeWithCompletion
-  , writeAttributeLampTypeWithValue_completion
-  , writeAttributeLampTypeWithValue_params_completion
-  , subscribeAttributeLampTypeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeLampTypeWithClusterStateCache_endpoint_queue_completion
-  , readAttributeLampManufacturerWithCompletion
-  , writeAttributeLampManufacturerWithValue_completion
-  , writeAttributeLampManufacturerWithValue_params_completion
-  , subscribeAttributeLampManufacturerWithParams_subscriptionEstablished_reportHandler
-  , readAttributeLampManufacturerWithClusterStateCache_endpoint_queue_completion
-  , readAttributeLampRatedHoursWithCompletion
-  , writeAttributeLampRatedHoursWithValue_completion
-  , writeAttributeLampRatedHoursWithValue_params_completion
-  , subscribeAttributeLampRatedHoursWithParams_subscriptionEstablished_reportHandler
-  , readAttributeLampRatedHoursWithClusterStateCache_endpoint_queue_completion
-  , readAttributeLampBurnHoursWithCompletion
-  , writeAttributeLampBurnHoursWithValue_completion
-  , writeAttributeLampBurnHoursWithValue_params_completion
-  , subscribeAttributeLampBurnHoursWithParams_subscriptionEstablished_reportHandler
-  , readAttributeLampBurnHoursWithClusterStateCache_endpoint_queue_completion
-  , readAttributeLampAlarmModeWithCompletion
-  , writeAttributeLampAlarmModeWithValue_completion
-  , writeAttributeLampAlarmModeWithValue_params_completion
-  , subscribeAttributeLampAlarmModeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeLampAlarmModeWithClusterStateCache_endpoint_queue_completion
-  , readAttributeLampBurnHoursTripPointWithCompletion
-  , writeAttributeLampBurnHoursTripPointWithValue_completion
-  , writeAttributeLampBurnHoursTripPointWithValue_params_completion
-  , subscribeAttributeLampBurnHoursTripPointWithParams_subscriptionEstablished_reportHandler
-  , readAttributeLampBurnHoursTripPointWithClusterStateCache_endpoint_queue_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
-  , init_
-  , new
   , initWithDevice_endpoint_queue
   , readAttributePhysicalMinLevelWithCompletionHandler
   , subscribeAttributePhysicalMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
@@ -168,165 +87,88 @@ module ObjC.Matter.MTRBaseClusterBallastConfiguration
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
-  , initWithDevice_endpointID_queue
+  , init_
+  , new
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAttributeListWithCompletionHandlerSelector
-  , readAttributeAttributeListWithCompletionSelector
   , readAttributeBallastFactorAdjustmentWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBallastFactorAdjustmentWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBallastFactorAdjustmentWithCompletionHandlerSelector
-  , readAttributeBallastFactorAdjustmentWithCompletionSelector
   , readAttributeBallastStatusWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeBallastStatusWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeBallastStatusWithCompletionHandlerSelector
-  , readAttributeBallastStatusWithCompletionSelector
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeClusterRevisionWithCompletionHandlerSelector
-  , readAttributeClusterRevisionWithCompletionSelector
   , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeFeatureMapWithCompletionHandlerSelector
-  , readAttributeFeatureMapWithCompletionSelector
   , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeGeneratedCommandListWithCompletionHandlerSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
   , readAttributeIntrinsicBalanceFactorWithAttributeCache_endpoint_queue_completionHandlerSelector
   , readAttributeIntrinsicBalanceFactorWithCompletionHandlerSelector
-  , readAttributeIntrinsicBallastFactorWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeIntrinsicBallastFactorWithCompletionSelector
   , readAttributeLampAlarmModeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeLampAlarmModeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeLampAlarmModeWithCompletionHandlerSelector
-  , readAttributeLampAlarmModeWithCompletionSelector
   , readAttributeLampBurnHoursTripPointWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeLampBurnHoursTripPointWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeLampBurnHoursTripPointWithCompletionHandlerSelector
-  , readAttributeLampBurnHoursTripPointWithCompletionSelector
   , readAttributeLampBurnHoursWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeLampBurnHoursWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeLampBurnHoursWithCompletionHandlerSelector
-  , readAttributeLampBurnHoursWithCompletionSelector
   , readAttributeLampManufacturerWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeLampManufacturerWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeLampManufacturerWithCompletionHandlerSelector
-  , readAttributeLampManufacturerWithCompletionSelector
   , readAttributeLampQuantityWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeLampQuantityWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeLampQuantityWithCompletionHandlerSelector
-  , readAttributeLampQuantityWithCompletionSelector
   , readAttributeLampRatedHoursWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeLampRatedHoursWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeLampRatedHoursWithCompletionHandlerSelector
-  , readAttributeLampRatedHoursWithCompletionSelector
   , readAttributeLampTypeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeLampTypeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeLampTypeWithCompletionHandlerSelector
-  , readAttributeLampTypeWithCompletionSelector
   , readAttributeMaxLevelWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeMaxLevelWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeMaxLevelWithCompletionHandlerSelector
-  , readAttributeMaxLevelWithCompletionSelector
   , readAttributeMinLevelWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeMinLevelWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeMinLevelWithCompletionHandlerSelector
-  , readAttributeMinLevelWithCompletionSelector
   , readAttributePhysicalMaxLevelWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePhysicalMaxLevelWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePhysicalMaxLevelWithCompletionHandlerSelector
-  , readAttributePhysicalMaxLevelWithCompletionSelector
   , readAttributePhysicalMinLevelWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePhysicalMinLevelWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePhysicalMinLevelWithCompletionHandlerSelector
-  , readAttributePhysicalMinLevelWithCompletionSelector
   , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBallastFactorAdjustmentWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBallastFactorAdjustmentWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBallastStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBallastStatusWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeIntrinsicBalanceFactorWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeIntrinsicBallastFactorWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeLampAlarmModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeLampAlarmModeWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeLampBurnHoursTripPointWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeLampBurnHoursTripPointWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeLampBurnHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeLampBurnHoursWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeLampManufacturerWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeLampManufacturerWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeLampQuantityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeLampQuantityWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeLampRatedHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeLampRatedHoursWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeLampTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeLampTypeWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeMinLevelWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePhysicalMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePhysicalMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePhysicalMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePhysicalMinLevelWithParams_subscriptionEstablished_reportHandlerSelector
   , writeAttributeBallastFactorAdjustmentWithValue_completionHandlerSelector
-  , writeAttributeBallastFactorAdjustmentWithValue_completionSelector
   , writeAttributeBallastFactorAdjustmentWithValue_params_completionHandlerSelector
-  , writeAttributeBallastFactorAdjustmentWithValue_params_completionSelector
   , writeAttributeIntrinsicBalanceFactorWithValue_completionHandlerSelector
   , writeAttributeIntrinsicBalanceFactorWithValue_params_completionHandlerSelector
-  , writeAttributeIntrinsicBallastFactorWithValue_completionSelector
-  , writeAttributeIntrinsicBallastFactorWithValue_params_completionSelector
   , writeAttributeLampAlarmModeWithValue_completionHandlerSelector
-  , writeAttributeLampAlarmModeWithValue_completionSelector
   , writeAttributeLampAlarmModeWithValue_params_completionHandlerSelector
-  , writeAttributeLampAlarmModeWithValue_params_completionSelector
   , writeAttributeLampBurnHoursTripPointWithValue_completionHandlerSelector
-  , writeAttributeLampBurnHoursTripPointWithValue_completionSelector
   , writeAttributeLampBurnHoursTripPointWithValue_params_completionHandlerSelector
-  , writeAttributeLampBurnHoursTripPointWithValue_params_completionSelector
   , writeAttributeLampBurnHoursWithValue_completionHandlerSelector
-  , writeAttributeLampBurnHoursWithValue_completionSelector
   , writeAttributeLampBurnHoursWithValue_params_completionHandlerSelector
-  , writeAttributeLampBurnHoursWithValue_params_completionSelector
   , writeAttributeLampManufacturerWithValue_completionHandlerSelector
-  , writeAttributeLampManufacturerWithValue_completionSelector
   , writeAttributeLampManufacturerWithValue_params_completionHandlerSelector
-  , writeAttributeLampManufacturerWithValue_params_completionSelector
   , writeAttributeLampRatedHoursWithValue_completionHandlerSelector
-  , writeAttributeLampRatedHoursWithValue_completionSelector
   , writeAttributeLampRatedHoursWithValue_params_completionHandlerSelector
-  , writeAttributeLampRatedHoursWithValue_params_completionSelector
   , writeAttributeLampTypeWithValue_completionHandlerSelector
-  , writeAttributeLampTypeWithValue_completionSelector
   , writeAttributeLampTypeWithValue_params_completionHandlerSelector
-  , writeAttributeLampTypeWithValue_params_completionSelector
   , writeAttributeMaxLevelWithValue_completionHandlerSelector
-  , writeAttributeMaxLevelWithValue_completionSelector
   , writeAttributeMaxLevelWithValue_params_completionHandlerSelector
-  , writeAttributeMaxLevelWithValue_params_completionSelector
   , writeAttributeMinLevelWithValue_completionHandlerSelector
-  , writeAttributeMinLevelWithValue_completionSelector
   , writeAttributeMinLevelWithValue_params_completionHandlerSelector
-  , writeAttributeMinLevelWithValue_params_completionSelector
 
 
   ) where
@@ -342,441 +184,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- readAttributePhysicalMinLevelWithCompletion:@
-readAttributePhysicalMinLevelWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributePhysicalMinLevelWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributePhysicalMinLevelWithCompletionSelector completion
-
--- | @- subscribeAttributePhysicalMinLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalMinLevelWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePhysicalMinLevelWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributePhysicalMinLevelWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePhysicalMinLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalMinLevelWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePhysicalMinLevelWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributePhysicalMinLevelWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributePhysicalMaxLevelWithCompletion:@
-readAttributePhysicalMaxLevelWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributePhysicalMaxLevelWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributePhysicalMaxLevelWithCompletionSelector completion
-
--- | @- subscribeAttributePhysicalMaxLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalMaxLevelWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePhysicalMaxLevelWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributePhysicalMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePhysicalMaxLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalMaxLevelWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePhysicalMaxLevelWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributePhysicalMaxLevelWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBallastStatusWithCompletion:@
-readAttributeBallastStatusWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeBallastStatusWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeBallastStatusWithCompletionSelector completion
-
--- | @- subscribeAttributeBallastStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBallastStatusWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBallastStatusWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeBallastStatusWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBallastStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBallastStatusWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBallastStatusWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeBallastStatusWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeMinLevelWithCompletion:@
-readAttributeMinLevelWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeMinLevelWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeMinLevelWithCompletionSelector completion
-
--- | @- writeAttributeMinLevelWithValue:completion:@
-writeAttributeMinLevelWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeMinLevelWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeMinLevelWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeMinLevelWithValue:params:completion:@
-writeAttributeMinLevelWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeMinLevelWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeMinLevelWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeMinLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeMinLevelWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeMinLevelWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeMinLevelWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeMinLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributeMinLevelWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeMinLevelWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeMinLevelWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeMaxLevelWithCompletion:@
-readAttributeMaxLevelWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeMaxLevelWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeMaxLevelWithCompletionSelector completion
-
--- | @- writeAttributeMaxLevelWithValue:completion:@
-writeAttributeMaxLevelWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeMaxLevelWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeMaxLevelWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeMaxLevelWithValue:params:completion:@
-writeAttributeMaxLevelWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeMaxLevelWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeMaxLevelWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeMaxLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeMaxLevelWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeMaxLevelWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeMaxLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributeMaxLevelWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeMaxLevelWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeMaxLevelWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeIntrinsicBallastFactorWithCompletion:@
-readAttributeIntrinsicBallastFactorWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeIntrinsicBallastFactorWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeIntrinsicBallastFactorWithCompletionSelector completion
-
--- | @- writeAttributeIntrinsicBallastFactorWithValue:completion:@
-writeAttributeIntrinsicBallastFactorWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeIntrinsicBallastFactorWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeIntrinsicBallastFactorWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeIntrinsicBallastFactorWithValue:params:completion:@
-writeAttributeIntrinsicBallastFactorWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeIntrinsicBallastFactorWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeIntrinsicBallastFactorWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeIntrinsicBallastFactorWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeIntrinsicBallastFactorWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeIntrinsicBallastFactorWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeIntrinsicBallastFactorWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeIntrinsicBallastFactorWithClusterStateCache:endpoint:queue:completion:@
-readAttributeIntrinsicBallastFactorWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeIntrinsicBallastFactorWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeIntrinsicBallastFactorWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBallastFactorAdjustmentWithCompletion:@
-readAttributeBallastFactorAdjustmentWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeBallastFactorAdjustmentWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeBallastFactorAdjustmentWithCompletionSelector completion
-
--- | @- writeAttributeBallastFactorAdjustmentWithValue:completion:@
-writeAttributeBallastFactorAdjustmentWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeBallastFactorAdjustmentWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeBallastFactorAdjustmentWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeBallastFactorAdjustmentWithValue:params:completion:@
-writeAttributeBallastFactorAdjustmentWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeBallastFactorAdjustmentWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeBallastFactorAdjustmentWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeBallastFactorAdjustmentWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBallastFactorAdjustmentWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBallastFactorAdjustmentWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeBallastFactorAdjustmentWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBallastFactorAdjustmentWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBallastFactorAdjustmentWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBallastFactorAdjustmentWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeBallastFactorAdjustmentWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeLampQuantityWithCompletion:@
-readAttributeLampQuantityWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeLampQuantityWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeLampQuantityWithCompletionSelector completion
-
--- | @- subscribeAttributeLampQuantityWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampQuantityWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeLampQuantityWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampQuantityWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeLampQuantityWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampQuantityWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeLampQuantityWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeLampQuantityWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeLampTypeWithCompletion:@
-readAttributeLampTypeWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeLampTypeWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeLampTypeWithCompletionSelector completion
-
--- | @- writeAttributeLampTypeWithValue:completion:@
-writeAttributeLampTypeWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSString value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeLampTypeWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampTypeWithValue_completionSelector (toNSString value) completion
-
--- | @- writeAttributeLampTypeWithValue:params:completion:@
-writeAttributeLampTypeWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSString value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeLampTypeWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampTypeWithValue_params_completionSelector (toNSString value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeLampTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampTypeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeLampTypeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampTypeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeLampTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampTypeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeLampTypeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeLampTypeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeLampManufacturerWithCompletion:@
-readAttributeLampManufacturerWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeLampManufacturerWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeLampManufacturerWithCompletionSelector completion
-
--- | @- writeAttributeLampManufacturerWithValue:completion:@
-writeAttributeLampManufacturerWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSString value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeLampManufacturerWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampManufacturerWithValue_completionSelector (toNSString value) completion
-
--- | @- writeAttributeLampManufacturerWithValue:params:completion:@
-writeAttributeLampManufacturerWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSString value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeLampManufacturerWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampManufacturerWithValue_params_completionSelector (toNSString value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeLampManufacturerWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampManufacturerWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeLampManufacturerWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampManufacturerWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeLampManufacturerWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampManufacturerWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeLampManufacturerWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeLampManufacturerWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeLampRatedHoursWithCompletion:@
-readAttributeLampRatedHoursWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeLampRatedHoursWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeLampRatedHoursWithCompletionSelector completion
-
--- | @- writeAttributeLampRatedHoursWithValue:completion:@
-writeAttributeLampRatedHoursWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeLampRatedHoursWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampRatedHoursWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeLampRatedHoursWithValue:params:completion:@
-writeAttributeLampRatedHoursWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeLampRatedHoursWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampRatedHoursWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeLampRatedHoursWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampRatedHoursWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeLampRatedHoursWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampRatedHoursWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeLampRatedHoursWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampRatedHoursWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeLampRatedHoursWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeLampRatedHoursWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeLampBurnHoursWithCompletion:@
-readAttributeLampBurnHoursWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeLampBurnHoursWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeLampBurnHoursWithCompletionSelector completion
-
--- | @- writeAttributeLampBurnHoursWithValue:completion:@
-writeAttributeLampBurnHoursWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeLampBurnHoursWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampBurnHoursWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeLampBurnHoursWithValue:params:completion:@
-writeAttributeLampBurnHoursWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeLampBurnHoursWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampBurnHoursWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeLampBurnHoursWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampBurnHoursWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeLampBurnHoursWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampBurnHoursWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeLampBurnHoursWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampBurnHoursWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeLampBurnHoursWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeLampBurnHoursWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeLampAlarmModeWithCompletion:@
-readAttributeLampAlarmModeWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeLampAlarmModeWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeLampAlarmModeWithCompletionSelector completion
-
--- | @- writeAttributeLampAlarmModeWithValue:completion:@
-writeAttributeLampAlarmModeWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeLampAlarmModeWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampAlarmModeWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeLampAlarmModeWithValue:params:completion:@
-writeAttributeLampAlarmModeWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeLampAlarmModeWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampAlarmModeWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeLampAlarmModeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampAlarmModeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeLampAlarmModeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampAlarmModeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeLampAlarmModeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampAlarmModeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeLampAlarmModeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeLampAlarmModeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeLampBurnHoursTripPointWithCompletion:@
-readAttributeLampBurnHoursTripPointWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeLampBurnHoursTripPointWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeLampBurnHoursTripPointWithCompletionSelector completion
-
--- | @- writeAttributeLampBurnHoursTripPointWithValue:completion:@
-writeAttributeLampBurnHoursTripPointWithValue_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value) => mtrBaseClusterBallastConfiguration -> value -> Ptr () -> IO ()
-writeAttributeLampBurnHoursTripPointWithValue_completion mtrBaseClusterBallastConfiguration value completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampBurnHoursTripPointWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeLampBurnHoursTripPointWithValue:params:completion:@
-writeAttributeLampBurnHoursTripPointWithValue_params_completion :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterBallastConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeLampBurnHoursTripPointWithValue_params_completion mtrBaseClusterBallastConfiguration value params completion =
-  sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampBurnHoursTripPointWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeLampBurnHoursTripPointWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampBurnHoursTripPointWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeLampBurnHoursTripPointWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampBurnHoursTripPointWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeLampBurnHoursTripPointWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampBurnHoursTripPointWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeLampBurnHoursTripPointWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeLampBurnHoursTripPointWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeAcceptedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeAttributeListWithCompletionSelector completion
-
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeFeatureMapWithCompletionSelector completion
-
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterBallastConfiguration completion =
-  sendMessage mtrBaseClusterBallastConfiguration readAttributeClusterRevisionWithCompletionSelector completion
-
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- init@
-init_ :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> IO (Id MTRBaseClusterBallastConfiguration)
-init_ mtrBaseClusterBallastConfiguration =
-  sendOwnedMessage mtrBaseClusterBallastConfiguration initSelector
-
--- | @+ new@
-new :: IO (Id MTRBaseClusterBallastConfiguration)
-new  =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
-    sendOwnedClassMessage cls' newSelector
-
 -- | @- initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queue :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterBallastConfiguration -> device -> CUShort -> queue -> IO (Id MTRBaseClusterBallastConfiguration)
 initWithDevice_endpoint_queue mtrBaseClusterBallastConfiguration device endpoint queue =
@@ -787,7 +194,9 @@ readAttributePhysicalMinLevelWithCompletionHandler :: IsMTRBaseClusterBallastCon
 readAttributePhysicalMinLevelWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributePhysicalMinLevelWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePhysicalMinLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePhysicalMinLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePhysicalMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePhysicalMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributePhysicalMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -804,7 +213,9 @@ readAttributePhysicalMaxLevelWithCompletionHandler :: IsMTRBaseClusterBallastCon
 readAttributePhysicalMaxLevelWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributePhysicalMaxLevelWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePhysicalMaxLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePhysicalMaxLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePhysicalMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePhysicalMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributePhysicalMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -821,7 +232,9 @@ readAttributeBallastStatusWithCompletionHandler :: IsMTRBaseClusterBallastConfig
 readAttributeBallastStatusWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributeBallastStatusWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBallastStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBallastStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBallastStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBallastStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeBallastStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -848,7 +261,9 @@ writeAttributeMinLevelWithValue_params_completionHandler :: (IsMTRBaseClusterBal
 writeAttributeMinLevelWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeMinLevelWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeMinLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeMinLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeMinLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -875,7 +290,9 @@ writeAttributeMaxLevelWithValue_params_completionHandler :: (IsMTRBaseClusterBal
 writeAttributeMaxLevelWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeMaxLevelWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeMaxLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeMaxLevelWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeMaxLevelWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -902,7 +319,9 @@ writeAttributeIntrinsicBalanceFactorWithValue_params_completionHandler :: (IsMTR
 writeAttributeIntrinsicBalanceFactorWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeIntrinsicBalanceFactorWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeIntrinsicBalanceFactorWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeIntrinsicBalanceFactorWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeIntrinsicBalanceFactorWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeIntrinsicBalanceFactorWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeIntrinsicBalanceFactorWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -929,7 +348,9 @@ writeAttributeBallastFactorAdjustmentWithValue_params_completionHandler :: (IsMT
 writeAttributeBallastFactorAdjustmentWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeBallastFactorAdjustmentWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeBallastFactorAdjustmentWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBallastFactorAdjustmentWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBallastFactorAdjustmentWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBallastFactorAdjustmentWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeBallastFactorAdjustmentWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -946,7 +367,9 @@ readAttributeLampQuantityWithCompletionHandler :: IsMTRBaseClusterBallastConfigu
 readAttributeLampQuantityWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributeLampQuantityWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeLampQuantityWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLampQuantityWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLampQuantityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLampQuantityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampQuantityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -973,7 +396,9 @@ writeAttributeLampTypeWithValue_params_completionHandler :: (IsMTRBaseClusterBal
 writeAttributeLampTypeWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampTypeWithValue_params_completionHandlerSelector (toNSString value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLampTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLampTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLampTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLampTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1000,7 +425,9 @@ writeAttributeLampManufacturerWithValue_params_completionHandler :: (IsMTRBaseCl
 writeAttributeLampManufacturerWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampManufacturerWithValue_params_completionHandlerSelector (toNSString value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLampManufacturerWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLampManufacturerWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLampManufacturerWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLampManufacturerWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampManufacturerWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1027,7 +454,9 @@ writeAttributeLampRatedHoursWithValue_params_completionHandler :: (IsMTRBaseClus
 writeAttributeLampRatedHoursWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampRatedHoursWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLampRatedHoursWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLampRatedHoursWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLampRatedHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLampRatedHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampRatedHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1054,7 +483,9 @@ writeAttributeLampBurnHoursWithValue_params_completionHandler :: (IsMTRBaseClust
 writeAttributeLampBurnHoursWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampBurnHoursWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLampBurnHoursWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLampBurnHoursWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLampBurnHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLampBurnHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampBurnHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1081,7 +512,9 @@ writeAttributeLampAlarmModeWithValue_params_completionHandler :: (IsMTRBaseClust
 writeAttributeLampAlarmModeWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampAlarmModeWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLampAlarmModeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLampAlarmModeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLampAlarmModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLampAlarmModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampAlarmModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1108,7 +541,9 @@ writeAttributeLampBurnHoursTripPointWithValue_params_completionHandler :: (IsMTR
 writeAttributeLampBurnHoursTripPointWithValue_params_completionHandler mtrBaseClusterBallastConfiguration value params completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration writeAttributeLampBurnHoursTripPointWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeLampBurnHoursTripPointWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeLampBurnHoursTripPointWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeLampBurnHoursTripPointWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeLampBurnHoursTripPointWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeLampBurnHoursTripPointWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1125,7 +560,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterBallas
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1142,7 +579,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterBallast
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1159,7 +598,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterBallastConfig
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1176,7 +617,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterBallastConfigura
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1193,7 +636,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterBallastConf
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterBallastConfiguration completionHandler =
   sendMessage mtrBaseClusterBallastConfiguration readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterBallastConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterBallastConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterBallastConfiguration subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1205,332 +650,21 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
     cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterBallastConfiguration -> device -> endpointID -> queue -> IO (Id MTRBaseClusterBallastConfiguration)
-initWithDevice_endpointID_queue mtrBaseClusterBallastConfiguration device endpointID queue =
-  sendOwnedMessage mtrBaseClusterBallastConfiguration initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
+-- | @- init@
+init_ :: IsMTRBaseClusterBallastConfiguration mtrBaseClusterBallastConfiguration => mtrBaseClusterBallastConfiguration -> IO (Id MTRBaseClusterBallastConfiguration)
+init_ mtrBaseClusterBallastConfiguration =
+  sendOwnedMessage mtrBaseClusterBallastConfiguration initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterBallastConfiguration)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterBallastConfiguration"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @readAttributePhysicalMinLevelWithCompletion:@
-readAttributePhysicalMinLevelWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePhysicalMinLevelWithCompletionSelector = mkSelector "readAttributePhysicalMinLevelWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePhysicalMinLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalMinLevelWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePhysicalMinLevelWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePhysicalMinLevelWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePhysicalMinLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalMinLevelWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePhysicalMinLevelWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePhysicalMinLevelWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributePhysicalMaxLevelWithCompletion:@
-readAttributePhysicalMaxLevelWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePhysicalMaxLevelWithCompletionSelector = mkSelector "readAttributePhysicalMaxLevelWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePhysicalMaxLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePhysicalMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePhysicalMaxLevelWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePhysicalMaxLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalMaxLevelWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePhysicalMaxLevelWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePhysicalMaxLevelWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBallastStatusWithCompletion:@
-readAttributeBallastStatusWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBallastStatusWithCompletionSelector = mkSelector "readAttributeBallastStatusWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBallastStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBallastStatusWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBallastStatusWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBallastStatusWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBallastStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBallastStatusWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBallastStatusWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBallastStatusWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeMinLevelWithCompletion:@
-readAttributeMinLevelWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeMinLevelWithCompletionSelector = mkSelector "readAttributeMinLevelWithCompletion:"
-
--- | @Selector@ for @writeAttributeMinLevelWithValue:completion:@
-writeAttributeMinLevelWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeMinLevelWithValue_completionSelector = mkSelector "writeAttributeMinLevelWithValue:completion:"
-
--- | @Selector@ for @writeAttributeMinLevelWithValue:params:completion:@
-writeAttributeMinLevelWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeMinLevelWithValue_params_completionSelector = mkSelector "writeAttributeMinLevelWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeMinLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeMinLevelWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeMinLevelWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeMinLevelWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeMinLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributeMinLevelWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeMinLevelWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeMinLevelWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeMaxLevelWithCompletion:@
-readAttributeMaxLevelWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeMaxLevelWithCompletionSelector = mkSelector "readAttributeMaxLevelWithCompletion:"
-
--- | @Selector@ for @writeAttributeMaxLevelWithValue:completion:@
-writeAttributeMaxLevelWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeMaxLevelWithValue_completionSelector = mkSelector "writeAttributeMaxLevelWithValue:completion:"
-
--- | @Selector@ for @writeAttributeMaxLevelWithValue:params:completion:@
-writeAttributeMaxLevelWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeMaxLevelWithValue_params_completionSelector = mkSelector "writeAttributeMaxLevelWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeMaxLevelWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeMaxLevelWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeMaxLevelWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeMaxLevelWithClusterStateCache:endpoint:queue:completion:@
-readAttributeMaxLevelWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeMaxLevelWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeMaxLevelWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeIntrinsicBallastFactorWithCompletion:@
-readAttributeIntrinsicBallastFactorWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeIntrinsicBallastFactorWithCompletionSelector = mkSelector "readAttributeIntrinsicBallastFactorWithCompletion:"
-
--- | @Selector@ for @writeAttributeIntrinsicBallastFactorWithValue:completion:@
-writeAttributeIntrinsicBallastFactorWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeIntrinsicBallastFactorWithValue_completionSelector = mkSelector "writeAttributeIntrinsicBallastFactorWithValue:completion:"
-
--- | @Selector@ for @writeAttributeIntrinsicBallastFactorWithValue:params:completion:@
-writeAttributeIntrinsicBallastFactorWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeIntrinsicBallastFactorWithValue_params_completionSelector = mkSelector "writeAttributeIntrinsicBallastFactorWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeIntrinsicBallastFactorWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeIntrinsicBallastFactorWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeIntrinsicBallastFactorWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeIntrinsicBallastFactorWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeIntrinsicBallastFactorWithClusterStateCache:endpoint:queue:completion:@
-readAttributeIntrinsicBallastFactorWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeIntrinsicBallastFactorWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeIntrinsicBallastFactorWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBallastFactorAdjustmentWithCompletion:@
-readAttributeBallastFactorAdjustmentWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBallastFactorAdjustmentWithCompletionSelector = mkSelector "readAttributeBallastFactorAdjustmentWithCompletion:"
-
--- | @Selector@ for @writeAttributeBallastFactorAdjustmentWithValue:completion:@
-writeAttributeBallastFactorAdjustmentWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeBallastFactorAdjustmentWithValue_completionSelector = mkSelector "writeAttributeBallastFactorAdjustmentWithValue:completion:"
-
--- | @Selector@ for @writeAttributeBallastFactorAdjustmentWithValue:params:completion:@
-writeAttributeBallastFactorAdjustmentWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeBallastFactorAdjustmentWithValue_params_completionSelector = mkSelector "writeAttributeBallastFactorAdjustmentWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeBallastFactorAdjustmentWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBallastFactorAdjustmentWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBallastFactorAdjustmentWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBallastFactorAdjustmentWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBallastFactorAdjustmentWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBallastFactorAdjustmentWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBallastFactorAdjustmentWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBallastFactorAdjustmentWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeLampQuantityWithCompletion:@
-readAttributeLampQuantityWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeLampQuantityWithCompletionSelector = mkSelector "readAttributeLampQuantityWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeLampQuantityWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampQuantityWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeLampQuantityWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeLampQuantityWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeLampQuantityWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampQuantityWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeLampQuantityWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeLampQuantityWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeLampTypeWithCompletion:@
-readAttributeLampTypeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeLampTypeWithCompletionSelector = mkSelector "readAttributeLampTypeWithCompletion:"
-
--- | @Selector@ for @writeAttributeLampTypeWithValue:completion:@
-writeAttributeLampTypeWithValue_completionSelector :: Selector '[Id NSString, Ptr ()] ()
-writeAttributeLampTypeWithValue_completionSelector = mkSelector "writeAttributeLampTypeWithValue:completion:"
-
--- | @Selector@ for @writeAttributeLampTypeWithValue:params:completion:@
-writeAttributeLampTypeWithValue_params_completionSelector :: Selector '[Id NSString, Id MTRWriteParams, Ptr ()] ()
-writeAttributeLampTypeWithValue_params_completionSelector = mkSelector "writeAttributeLampTypeWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeLampTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampTypeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeLampTypeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeLampTypeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeLampTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampTypeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeLampTypeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeLampTypeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeLampManufacturerWithCompletion:@
-readAttributeLampManufacturerWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeLampManufacturerWithCompletionSelector = mkSelector "readAttributeLampManufacturerWithCompletion:"
-
--- | @Selector@ for @writeAttributeLampManufacturerWithValue:completion:@
-writeAttributeLampManufacturerWithValue_completionSelector :: Selector '[Id NSString, Ptr ()] ()
-writeAttributeLampManufacturerWithValue_completionSelector = mkSelector "writeAttributeLampManufacturerWithValue:completion:"
-
--- | @Selector@ for @writeAttributeLampManufacturerWithValue:params:completion:@
-writeAttributeLampManufacturerWithValue_params_completionSelector :: Selector '[Id NSString, Id MTRWriteParams, Ptr ()] ()
-writeAttributeLampManufacturerWithValue_params_completionSelector = mkSelector "writeAttributeLampManufacturerWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeLampManufacturerWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampManufacturerWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeLampManufacturerWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeLampManufacturerWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeLampManufacturerWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampManufacturerWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeLampManufacturerWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeLampManufacturerWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeLampRatedHoursWithCompletion:@
-readAttributeLampRatedHoursWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeLampRatedHoursWithCompletionSelector = mkSelector "readAttributeLampRatedHoursWithCompletion:"
-
--- | @Selector@ for @writeAttributeLampRatedHoursWithValue:completion:@
-writeAttributeLampRatedHoursWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeLampRatedHoursWithValue_completionSelector = mkSelector "writeAttributeLampRatedHoursWithValue:completion:"
-
--- | @Selector@ for @writeAttributeLampRatedHoursWithValue:params:completion:@
-writeAttributeLampRatedHoursWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeLampRatedHoursWithValue_params_completionSelector = mkSelector "writeAttributeLampRatedHoursWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeLampRatedHoursWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampRatedHoursWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeLampRatedHoursWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeLampRatedHoursWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeLampRatedHoursWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampRatedHoursWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeLampRatedHoursWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeLampRatedHoursWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeLampBurnHoursWithCompletion:@
-readAttributeLampBurnHoursWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeLampBurnHoursWithCompletionSelector = mkSelector "readAttributeLampBurnHoursWithCompletion:"
-
--- | @Selector@ for @writeAttributeLampBurnHoursWithValue:completion:@
-writeAttributeLampBurnHoursWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeLampBurnHoursWithValue_completionSelector = mkSelector "writeAttributeLampBurnHoursWithValue:completion:"
-
--- | @Selector@ for @writeAttributeLampBurnHoursWithValue:params:completion:@
-writeAttributeLampBurnHoursWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeLampBurnHoursWithValue_params_completionSelector = mkSelector "writeAttributeLampBurnHoursWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeLampBurnHoursWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampBurnHoursWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeLampBurnHoursWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeLampBurnHoursWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeLampBurnHoursWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampBurnHoursWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeLampBurnHoursWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeLampBurnHoursWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeLampAlarmModeWithCompletion:@
-readAttributeLampAlarmModeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeLampAlarmModeWithCompletionSelector = mkSelector "readAttributeLampAlarmModeWithCompletion:"
-
--- | @Selector@ for @writeAttributeLampAlarmModeWithValue:completion:@
-writeAttributeLampAlarmModeWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeLampAlarmModeWithValue_completionSelector = mkSelector "writeAttributeLampAlarmModeWithValue:completion:"
-
--- | @Selector@ for @writeAttributeLampAlarmModeWithValue:params:completion:@
-writeAttributeLampAlarmModeWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeLampAlarmModeWithValue_params_completionSelector = mkSelector "writeAttributeLampAlarmModeWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeLampAlarmModeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampAlarmModeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeLampAlarmModeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeLampAlarmModeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeLampAlarmModeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampAlarmModeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeLampAlarmModeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeLampAlarmModeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeLampBurnHoursTripPointWithCompletion:@
-readAttributeLampBurnHoursTripPointWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeLampBurnHoursTripPointWithCompletionSelector = mkSelector "readAttributeLampBurnHoursTripPointWithCompletion:"
-
--- | @Selector@ for @writeAttributeLampBurnHoursTripPointWithValue:completion:@
-writeAttributeLampBurnHoursTripPointWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeLampBurnHoursTripPointWithValue_completionSelector = mkSelector "writeAttributeLampBurnHoursTripPointWithValue:completion:"
-
--- | @Selector@ for @writeAttributeLampBurnHoursTripPointWithValue:params:completion:@
-writeAttributeLampBurnHoursTripPointWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeLampBurnHoursTripPointWithValue_params_completionSelector = mkSelector "writeAttributeLampBurnHoursTripPointWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeLampBurnHoursTripPointWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeLampBurnHoursTripPointWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeLampBurnHoursTripPointWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeLampBurnHoursTripPointWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeLampBurnHoursTripPointWithClusterStateCache:endpoint:queue:completion:@
-readAttributeLampBurnHoursTripPointWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeLampBurnHoursTripPointWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeLampBurnHoursTripPointWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterBallastConfiguration)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterBallastConfiguration)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterBallastConfiguration)
@@ -1844,7 +978,11 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterBallastConfiguration)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterBallastConfiguration)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterBallastConfiguration)
+newSelector = mkSelector "new"
 

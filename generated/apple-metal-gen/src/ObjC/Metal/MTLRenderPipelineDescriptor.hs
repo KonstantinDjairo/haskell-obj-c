@@ -72,8 +72,6 @@ module ObjC.Metal.MTLRenderPipelineDescriptor
   , setMaxVertexCallStackDepth
   , maxFragmentCallStackDepth
   , setMaxFragmentCallStackDepth
-  , shaderValidation
-  , setShaderValidation
   , alphaToCoverageEnabledSelector
   , alphaToOneEnabledSelector
   , binaryArchivesSelector
@@ -109,7 +107,6 @@ module ObjC.Metal.MTLRenderPipelineDescriptor
   , setRasterSampleCountSelector
   , setRasterizationEnabledSelector
   , setSampleCountSelector
-  , setShaderValidationSelector
   , setStencilAttachmentPixelFormatSelector
   , setSupportAddingFragmentBinaryFunctionsSelector
   , setSupportAddingVertexBinaryFunctionsSelector
@@ -124,7 +121,6 @@ module ObjC.Metal.MTLRenderPipelineDescriptor
   , setVertexFunctionSelector
   , setVertexLinkedFunctionsSelector
   , setVertexPreloadedLibrariesSelector
-  , shaderValidationSelector
   , stencilAttachmentPixelFormatSelector
   , supportAddingFragmentBinaryFunctionsSelector
   , supportAddingVertexBinaryFunctionsSelector
@@ -282,16 +278,11 @@ module ObjC.Metal.MTLRenderPipelineDescriptor
   , pattern MTLPixelFormatDepth32Float_Stencil8
   , pattern MTLPixelFormatX32_Stencil8
   , pattern MTLPixelFormatX24_Stencil8
-  , pattern MTLPixelFormatUnspecialized
   , MTLPrimitiveTopologyClass(MTLPrimitiveTopologyClass)
   , pattern MTLPrimitiveTopologyClassUnspecified
   , pattern MTLPrimitiveTopologyClassPoint
   , pattern MTLPrimitiveTopologyClassLine
   , pattern MTLPrimitiveTopologyClassTriangle
-  , MTLShaderValidation(MTLShaderValidation)
-  , pattern MTLShaderValidationDefault
-  , pattern MTLShaderValidationEnabled
-  , pattern MTLShaderValidationDisabled
   , MTLTessellationControlPointIndexType(MTLTessellationControlPointIndexType)
   , pattern MTLTessellationControlPointIndexTypeNone
   , pattern MTLTessellationControlPointIndexTypeUInt16
@@ -754,28 +745,6 @@ setMaxFragmentCallStackDepth :: IsMTLRenderPipelineDescriptor mtlRenderPipelineD
 setMaxFragmentCallStackDepth mtlRenderPipelineDescriptor value =
   sendMessage mtlRenderPipelineDescriptor setMaxFragmentCallStackDepthSelector value
 
--- | shaderValidation
---
--- Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
---
--- The value can be overridden using @MTL_SHADER_VALIDATION_ENABLE_PIPELINES@ or @MTL_SHADER_VALIDATION_DISABLE_PIPELINES@ Environment Variables.
---
--- ObjC selector: @- shaderValidation@
-shaderValidation :: IsMTLRenderPipelineDescriptor mtlRenderPipelineDescriptor => mtlRenderPipelineDescriptor -> IO MTLShaderValidation
-shaderValidation mtlRenderPipelineDescriptor =
-  sendMessage mtlRenderPipelineDescriptor shaderValidationSelector
-
--- | shaderValidation
---
--- Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
---
--- The value can be overridden using @MTL_SHADER_VALIDATION_ENABLE_PIPELINES@ or @MTL_SHADER_VALIDATION_DISABLE_PIPELINES@ Environment Variables.
---
--- ObjC selector: @- setShaderValidation:@
-setShaderValidation :: IsMTLRenderPipelineDescriptor mtlRenderPipelineDescriptor => mtlRenderPipelineDescriptor -> MTLShaderValidation -> IO ()
-setShaderValidation mtlRenderPipelineDescriptor value =
-  sendMessage mtlRenderPipelineDescriptor setShaderValidationSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -1035,12 +1004,4 @@ maxFragmentCallStackDepthSelector = mkSelector "maxFragmentCallStackDepth"
 -- | @Selector@ for @setMaxFragmentCallStackDepth:@
 setMaxFragmentCallStackDepthSelector :: Selector '[CULong] ()
 setMaxFragmentCallStackDepthSelector = mkSelector "setMaxFragmentCallStackDepth:"
-
--- | @Selector@ for @shaderValidation@
-shaderValidationSelector :: Selector '[] MTLShaderValidation
-shaderValidationSelector = mkSelector "shaderValidation"
-
--- | @Selector@ for @setShaderValidation:@
-setShaderValidationSelector :: Selector '[MTLShaderValidation] ()
-setShaderValidationSelector = mkSelector "setShaderValidation:"
 

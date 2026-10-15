@@ -11,11 +11,7 @@ module ObjC.SensorKit.SRWristDetection
   , onWrist
   , wristLocation
   , crownOrientation
-  , onWristDate
-  , offWristDate
   , crownOrientationSelector
-  , offWristDateSelector
-  , onWristDateSelector
   , onWristSelector
   , wristLocationSelector
 
@@ -56,28 +52,6 @@ crownOrientation :: IsSRWristDetection srWristDetection => srWristDetection -> I
 crownOrientation srWristDetection =
   sendMessage srWristDetection crownOrientationSelector
 
--- | onWristDate
---
--- Start date of the recent on-wrist state.
---
--- - When the state changes from off-wrist to on-wrist, onWristDate would be updated to the current date, and offWristDate would remain the same. - When the state changes from on-wrist to off-wrist, offWristDate would be updated to the current date, and onWristDate would remain the same.
---
--- ObjC selector: @- onWristDate@
-onWristDate :: IsSRWristDetection srWristDetection => srWristDetection -> IO (Id NSDate)
-onWristDate srWristDetection =
-  sendMessage srWristDetection onWristDateSelector
-
--- | offWristDate
---
--- Start date of the recent off-wrist state.
---
--- - When the state changes from off-wrist to on-wrist, onWristDate would be updated to the current date, and offWristDate would remain the same. - When the state changes from on-wrist to off-wrist, offWristDate would be updated to the current date, and onWristDate would remain the same.
---
--- ObjC selector: @- offWristDate@
-offWristDate :: IsSRWristDetection srWristDetection => srWristDetection -> IO (Id NSDate)
-offWristDate srWristDetection =
-  sendMessage srWristDetection offWristDateSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -93,12 +67,4 @@ wristLocationSelector = mkSelector "wristLocation"
 -- | @Selector@ for @crownOrientation@
 crownOrientationSelector :: Selector '[] SRCrownOrientation
 crownOrientationSelector = mkSelector "crownOrientation"
-
--- | @Selector@ for @onWristDate@
-onWristDateSelector :: Selector '[] (Id NSDate)
-onWristDateSelector = mkSelector "onWristDate"
-
--- | @Selector@ for @offWristDate@
-offWristDateSelector :: Selector '[] (Id NSDate)
-offWristDateSelector = mkSelector "offWristDate"
 

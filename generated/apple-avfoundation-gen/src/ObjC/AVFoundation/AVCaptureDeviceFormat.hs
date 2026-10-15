@@ -17,7 +17,6 @@ module ObjC.AVFoundation.AVCaptureDeviceFormat
   , init_
   , new
   , isVideoStabilizationModeSupported
-  , videoFieldOfViewForAspectRatio_geometricDistortionCorrected
   , mediaType
   , formatDescription
   , videoSupportedFrameRateRanges
@@ -26,8 +25,6 @@ module ObjC.AVFoundation.AVCaptureDeviceFormat
   , videoStabilizationSupported
   , videoMaxZoomFactor
   , videoZoomFactorUpscaleThreshold
-  , systemRecommendedVideoZoomRange
-  , systemRecommendedExposureBiasRange
   , minISO
   , maxISO
   , globalToneMappingSupported
@@ -39,28 +36,10 @@ module ObjC.AVFoundation.AVCaptureDeviceFormat
   , videoMinZoomFactorForDepthDataDelivery
   , videoMaxZoomFactorForDepthDataDelivery
   , supportedVideoZoomFactorsForDepthDataDelivery
-  , supportedVideoZoomRangesForDepthDataDelivery
-  , zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupported
   , supportedDepthDataFormats
   , unsupportedCaptureOutputClasses
   , supportedMaxPhotoDimensions
   , secondaryNativeResolutionZoomFactors
-  , autoVideoFrameRateSupported
-  , cameraLensSmudgeDetectionSupported
-  , smartFramingSupported
-  , supportedDynamicAspectRatios
-  , cinematicVideoCaptureSupported
-  , defaultSimulatedAperture
-  , minSimulatedAperture
-  , maxSimulatedAperture
-  , videoMinZoomFactorForCinematicVideo
-  , videoMaxZoomFactorForCinematicVideo
-  , videoFrameRateRangeForCinematicVideo
-  , edgeLightSupported
-  , backgroundReplacementSupported
-  , videoFrameRateRangeForBackgroundReplacement
-  , reactionEffectsSupported
-  , videoFrameRateRangeForReactionEffectsInProgress
   , studioLightSupported
   , videoFrameRateRangeForStudioLight
   , portraitEffectSupported
@@ -70,17 +49,10 @@ module ObjC.AVFoundation.AVCaptureDeviceFormat
   , videoMaxZoomFactorForCenterStage
   , videoFrameRateRangeForCenterStage
   , geometricDistortionCorrectedVideoFieldOfView
-  , spatialVideoCaptureSupported
   , multiCamSupported
   , portraitEffectsMatteStillImageDeliverySupported
   , autoFocusSystemSelector
-  , autoVideoFrameRateSupportedSelector
-  , backgroundReplacementSupportedSelector
-  , cameraLensSmudgeDetectionSupportedSelector
   , centerStageSupportedSelector
-  , cinematicVideoCaptureSupportedSelector
-  , defaultSimulatedApertureSelector
-  , edgeLightSupportedSelector
   , formatDescriptionSelector
   , geometricDistortionCorrectedVideoFieldOfViewSelector
   , globalToneMappingSupportedSelector
@@ -89,49 +61,33 @@ module ObjC.AVFoundation.AVCaptureDeviceFormat
   , initSelector
   , isVideoStabilizationModeSupportedSelector
   , maxISOSelector
-  , maxSimulatedApertureSelector
   , mediaTypeSelector
   , minISOSelector
-  , minSimulatedApertureSelector
   , multiCamSupportedSelector
   , newSelector
   , portraitEffectSupportedSelector
   , portraitEffectsMatteStillImageDeliverySupportedSelector
-  , reactionEffectsSupportedSelector
   , secondaryNativeResolutionZoomFactorsSelector
-  , smartFramingSupportedSelector
-  , spatialVideoCaptureSupportedSelector
   , studioLightSupportedSelector
   , supportedColorSpacesSelector
   , supportedDepthDataFormatsSelector
-  , supportedDynamicAspectRatiosSelector
   , supportedMaxPhotoDimensionsSelector
   , supportedVideoZoomFactorsForDepthDataDeliverySelector
-  , supportedVideoZoomRangesForDepthDataDeliverySelector
-  , systemRecommendedExposureBiasRangeSelector
-  , systemRecommendedVideoZoomRangeSelector
   , unsupportedCaptureOutputClassesSelector
   , videoBinnedSelector
-  , videoFieldOfViewForAspectRatio_geometricDistortionCorrectedSelector
   , videoFieldOfViewSelector
-  , videoFrameRateRangeForBackgroundReplacementSelector
   , videoFrameRateRangeForCenterStageSelector
-  , videoFrameRateRangeForCinematicVideoSelector
   , videoFrameRateRangeForPortraitEffectSelector
-  , videoFrameRateRangeForReactionEffectsInProgressSelector
   , videoFrameRateRangeForStudioLightSelector
   , videoHDRSupportedSelector
   , videoMaxZoomFactorForCenterStageSelector
-  , videoMaxZoomFactorForCinematicVideoSelector
   , videoMaxZoomFactorForDepthDataDeliverySelector
   , videoMaxZoomFactorSelector
   , videoMinZoomFactorForCenterStageSelector
-  , videoMinZoomFactorForCinematicVideoSelector
   , videoMinZoomFactorForDepthDataDeliverySelector
   , videoStabilizationSupportedSelector
   , videoSupportedFrameRateRangesSelector
   , videoZoomFactorUpscaleThresholdSelector
-  , zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupportedSelector
 
   -- * Enum types
   , AVCaptureAutoFocusSystem(AVCaptureAutoFocusSystem)
@@ -143,9 +99,6 @@ module ObjC.AVFoundation.AVCaptureDeviceFormat
   , pattern AVCaptureVideoStabilizationModeStandard
   , pattern AVCaptureVideoStabilizationModeCinematic
   , pattern AVCaptureVideoStabilizationModeCinematicExtended
-  , pattern AVCaptureVideoStabilizationModePreviewOptimized
-  , pattern AVCaptureVideoStabilizationModeCinematicExtendedEnhanced
-  , pattern AVCaptureVideoStabilizationModeLowLatency
   , pattern AVCaptureVideoStabilizationModeAuto
 
   ) where
@@ -180,21 +133,12 @@ new  =
 --
 -- @videoStabilizationMode@ — An AVCaptureVideoStabilizationMode to be checked.
 --
--- isVideoStabilizationModeSupported: returns a boolean value indicating whether the format can be stabilized using the given mode with -[AVCaptureConnection setPreferredVideoStabilizationMode:]. In the case of ProRes RAW formats, video stabilization metadata is attached to the unstabilized video buffers instead.
+-- isVideoStabilizationModeSupported: returns a boolean value indicating whether the format can be stabilized using the given mode with -[AVCaptureConnection setPreferredVideoStabilizationMode:].
 --
 -- ObjC selector: @- isVideoStabilizationModeSupported:@
 isVideoStabilizationModeSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> AVCaptureVideoStabilizationMode -> IO Bool
 isVideoStabilizationModeSupported avCaptureDeviceFormat videoStabilizationMode =
   sendMessage avCaptureDeviceFormat isVideoStabilizationModeSupportedSelector videoStabilizationMode
-
--- | Indicates the horizontal field of view for an aspect ratio, either uncorrected or corrected for geometric distortion.
---
--- A float indicating the field of view for the corresponding ``AVCaptureAspectRatio``. Set ``AVCaptureDevice/geometricDistortionCorrected`` to @true@ to receive the field of view corrected for geometric distortion. If this device format does not support dynamic aspect ratio, this function returns @0@.
---
--- ObjC selector: @- videoFieldOfViewForAspectRatio:geometricDistortionCorrected:@
-videoFieldOfViewForAspectRatio_geometricDistortionCorrected :: (IsAVCaptureDeviceFormat avCaptureDeviceFormat, IsNSString aspectRatio) => avCaptureDeviceFormat -> aspectRatio -> Bool -> IO CFloat
-videoFieldOfViewForAspectRatio_geometricDistortionCorrected avCaptureDeviceFormat aspectRatio geometricDistortionCorrected =
-  sendMessage avCaptureDeviceFormat videoFieldOfViewForAspectRatio_geometricDistortionCorrectedSelector (toNSString aspectRatio) geometricDistortionCorrected
 
 -- | mediaType
 --
@@ -283,32 +227,6 @@ videoMaxZoomFactor avCaptureDeviceFormat =
 videoZoomFactorUpscaleThreshold :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO CDouble
 videoZoomFactorUpscaleThreshold avCaptureDeviceFormat =
   sendMessage avCaptureDeviceFormat videoZoomFactorUpscaleThresholdSelector
-
--- | systemRecommendedVideoZoomRange
---
--- Indicates the system's recommended zoom range for this device format.
---
--- This property can be used to create a slider in your app's user interface to control the device's zoom with a system-recommended video zoom range. When a recommendation is not available, this property returns nil. Clients can key value observe AVCaptureDevice's minAvailableVideoZoomFactor and maxAvailableVideoZoomFactor properties to know when a device's supported zoom is restricted within the recommended zoom range.
---
--- The value of this property is also used for the AVCaptureSystemZoomSlider's range.
---
--- ObjC selector: @- systemRecommendedVideoZoomRange@
-systemRecommendedVideoZoomRange :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id AVZoomRange)
-systemRecommendedVideoZoomRange avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat systemRecommendedVideoZoomRangeSelector
-
--- | systemRecommendedExposureBiasRange
---
--- Indicates the system's recommended exposure bias range for this device format.
---
--- This property can be used to create a slider in your app's user interface to control the device's exposure bias with a system-recommended exposure bias range. When a recommendation is not available, this property returns nil.
---
--- The value of this property is also used for the AVCaptureSystemExposureBiasSlider's range.
---
--- ObjC selector: @- systemRecommendedExposureBiasRange@
-systemRecommendedExposureBiasRange :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id AVExposureBiasRange)
-systemRecommendedExposureBiasRange avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat systemRecommendedExposureBiasRangeSelector
 
 -- | minISO
 --
@@ -418,36 +336,14 @@ videoMaxZoomFactorForDepthDataDelivery avCaptureDeviceFormat =
 
 -- | supportedVideoZoomFactorsForDepthDataDelivery
 --
--- A deprecated property. Please use supportedVideoZoomRangesForDepthDataDelivery
+-- Indicates the sorted zoom factors available for the AVCaptureDevice's videoZoomFactor property when delivering depth data to one or more outputs.
+--
+-- Virtual devices support limited zoom factors when delivering depth data to any output. If this device format has no -supportedDepthDataFormats, this property returns an empty array.
 --
 -- ObjC selector: @- supportedVideoZoomFactorsForDepthDataDelivery@
 supportedVideoZoomFactorsForDepthDataDelivery :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id NSArray)
 supportedVideoZoomFactorsForDepthDataDelivery avCaptureDeviceFormat =
   sendMessage avCaptureDeviceFormat supportedVideoZoomFactorsForDepthDataDeliverySelector
-
--- | supportedVideoZoomRangesForDepthDataDelivery
---
--- This property returns the zoom ranges within which depth data can be delivered.
---
--- Virtual devices support limited zoom ranges when delivering depth data to any output. If this device format has no -supportedDepthDataFormats, this property returns an empty array.    The presence of one or more ranges where the min and max zoom factors are not equal means that "continuous zoom" with depth is supported.    For example:    a) ranges: \@[ [2..2], [4..4] ]        only zoom factors 2 and 4 are allowed to be set when depthDataDelivery is enabled. Any other zoom factor results in an exception.    b) ranges: \@[ [2..5] ]        depthDataDelivery is supported with zoom factors [2..5]. Zoom factors outside of this range may be set, but will result in loss of depthDataDeliery. Whenever zoom is set back to a value within the range of [2..5], depthDataDelivery will resume.
---
--- When depth data delivery is enabled, the effective videoZoomFactorUpscaleThreshold will be 1.0, meaning that all zoom factors that are not native zoom factors (see AVCaptureDevice.virtualDeviceSwitchOverVideoZoomFactors and AVCaptureDevice.secondaryNativeResolutionZoomFactors) result in digital upscaling.
---
--- ObjC selector: @- supportedVideoZoomRangesForDepthDataDelivery@
-supportedVideoZoomRangesForDepthDataDelivery :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id NSArray)
-supportedVideoZoomRangesForDepthDataDelivery avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat supportedVideoZoomRangesForDepthDataDeliverySelector
-
--- | zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupported
---
--- This property returns whether the format supports zoom factors outside of the supportedVideoZoomFactorRangesForDepthDataDelivery.
---
--- When a zoom factor outside of the supportedVideoZoomFactorRangesForDepthDataDelivery is set, depth data delivery will be suspended until a zoom factor within the supportedVideoZoomFactorRangesForDepthDataDelivery is set.
---
--- ObjC selector: @- zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupported@
-zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupportedSelector
 
 -- | supportedDepthDataFormats
 --
@@ -492,160 +388,6 @@ supportedMaxPhotoDimensions avCaptureDeviceFormat =
 secondaryNativeResolutionZoomFactors :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id NSArray)
 secondaryNativeResolutionZoomFactors avCaptureDeviceFormat =
   sendMessage avCaptureDeviceFormat secondaryNativeResolutionZoomFactorsSelector
-
--- | autoVideoFrameRateSupported
---
--- Indicates whether the device format supports auto video frame rate.
---
--- See -[AVCaptureDevice autoVideoFrameRateEnabled] (above) for a detailed description of the feature.
---
--- ObjC selector: @- autoVideoFrameRateSupported@
-autoVideoFrameRateSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-autoVideoFrameRateSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat autoVideoFrameRateSupportedSelector
-
--- | Whether camera lens smudge detection is supported.
---
--- This property returns @true@ if the session's current configuration supports lens smudge detection. When switching cameras or formats, this property may change. When this property changes from @true@ to @false@, ``AVCaptureDevice/cameraLensSmudgeDetectionEnabled`` also reverts to @false@. If you opt in for lens smudge detection and then change configurations, you should set ``AVCaptureDevice/cameraLensSmudgeDetectionEnabled`` to @true@ again.
---
--- ObjC selector: @- cameraLensSmudgeDetectionSupported@
-cameraLensSmudgeDetectionSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-cameraLensSmudgeDetectionSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat cameraLensSmudgeDetectionSupportedSelector
-
--- | Returns @true@ if smart framing is supported by the current format.
---
--- An ultra wide camera device that supports dynamic aspect ratio configuration may also support "smart framing monitoring" on particular formats.
---
--- ObjC selector: @- smartFramingSupported@
-smartFramingSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-smartFramingSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat smartFramingSupportedSelector
-
--- | Indicates the supported aspect ratios for the device format.
---
--- An array that describes the aspect ratios that are supported for this format. If this device format does not support dynamic aspect ratio, this property returns an empty array.
---
--- ObjC selector: @- supportedDynamicAspectRatios@
-supportedDynamicAspectRatios :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id NSArray)
-supportedDynamicAspectRatios avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat supportedDynamicAspectRatiosSelector
-
--- | Indicates whether the format supports Cinematic Video capture.
---
--- This property returns @true@ if the format supports Cinematic Video that produces a controllable, simulated depth of field and adds beautiful focus transitions for a cinema-grade look.
---
--- ObjC selector: @- cinematicVideoCaptureSupported@
-cinematicVideoCaptureSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-cinematicVideoCaptureSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat cinematicVideoCaptureSupportedSelector
-
--- | Default shallow depth of field simulated aperture.
---
--- This property return a non-zero value on devices that support the shallow depth of field effect.
---
--- ObjC selector: @- defaultSimulatedAperture@
-defaultSimulatedAperture :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO CFloat
-defaultSimulatedAperture avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat defaultSimulatedApertureSelector
-
--- | Minimum supported shallow depth of field simulated aperture.
---
--- On devices that do not support changing the simulated aperture value, this returns a value of @0@.
---
--- ObjC selector: @- minSimulatedAperture@
-minSimulatedAperture :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO CFloat
-minSimulatedAperture avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat minSimulatedApertureSelector
-
--- | Maximum supported shallow depth of field simulated aperture.
---
--- On devices that do not support changing the simulated aperture value, this returns a value of @0@.
---
--- ObjC selector: @- maxSimulatedAperture@
-maxSimulatedAperture :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO CFloat
-maxSimulatedAperture avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat maxSimulatedApertureSelector
-
--- | Indicates the minimum zoom factor available for the ``AVCaptureDevice/videoZoomFactor`` property when Cinematic Video capture is enabled on the device input.
---
--- Devices support a limited zoom range when Cinematic Video capture is active. If this device format does not support Cinematic Video capture, this property returns @1.0@.
---
--- ObjC selector: @- videoMinZoomFactorForCinematicVideo@
-videoMinZoomFactorForCinematicVideo :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO CDouble
-videoMinZoomFactorForCinematicVideo avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat videoMinZoomFactorForCinematicVideoSelector
-
--- | Indicates the maximum zoom factor available for the ``AVCaptureDevice/videoZoomFactor`` property when Cinematic Video capture is enabled on the device input.
---
--- Devices support a limited zoom range when Cinematic Video capture is active. If this device format does not support Cinematic Video capture, this property returns @1.0@.
---
--- ObjC selector: @- videoMaxZoomFactorForCinematicVideo@
-videoMaxZoomFactorForCinematicVideo :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO CDouble
-videoMaxZoomFactorForCinematicVideo avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat videoMaxZoomFactorForCinematicVideoSelector
-
--- | Indicates the minimum / maximum frame rates available when Cinematic Video capture is enabled on the device input.
---
--- Devices may support a limited frame rate range when Cinematic Video capture is active. If this device format does not support Cinematic Video capture, this property returns @nil@.
---
--- ObjC selector: @- videoFrameRateRangeForCinematicVideo@
-videoFrameRateRangeForCinematicVideo :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id AVFrameRateRange)
-videoFrameRateRangeForCinematicVideo avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat videoFrameRateRangeForCinematicVideoSelector
-
--- | Indicates whether the format supports the Edge Light feature.
---
--- This property returns YES if the device supports the Edge Light feature. See +AVCaptureDevice.edgeLightEnabled.
---
--- ObjC selector: @- edgeLightSupported@
-edgeLightSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-edgeLightSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat edgeLightSupportedSelector
-
--- | backgroundReplacementSupported
---
--- Indicates whether the format supports the Background Replacement feature.
---
--- This property returns YES if the format supports Background Replacement background replacement. See +AVCaptureDevice.backgroundReplacementEnabled.
---
--- ObjC selector: @- backgroundReplacementSupported@
-backgroundReplacementSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-backgroundReplacementSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat backgroundReplacementSupportedSelector
-
--- | videoFrameRateRangeForBackgroundReplacement
---
--- Indicates the minimum / maximum frame rates available when background replacement is active.
---
--- Devices may support a limited frame rate range when Background Replacement is active. If this device format does not support Background Replacement, this property returns nil.
---
--- ObjC selector: @- videoFrameRateRangeForBackgroundReplacement@
-videoFrameRateRangeForBackgroundReplacement :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id AVFrameRateRange)
-videoFrameRateRangeForBackgroundReplacement avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat videoFrameRateRangeForBackgroundReplacementSelector
-
--- | reactionEffectsSupported
---
--- Indicates whether the format supports the Reaction Effects feature.
---
--- This property returns YES if the format supports Reaction Effects. See +AVCaptureDevice.reactionEffectsEnabled.
---
--- ObjC selector: @- reactionEffectsSupported@
-reactionEffectsSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-reactionEffectsSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat reactionEffectsSupportedSelector
-
--- | videoFrameRateRangeForReactionEffectsInProgress
---
--- Indicates the minimum / maximum frame rates available when a reaction effect is running.
---
--- Unlike the other video effects, enabling reaction effects does not limit the stream's frame rate because most of the time no rendering is being performed. The frame rate will only ramp down when a reaction is actually being rendered on the stream (see AVCaptureDevice.reactionEffectsInProgress)
---
--- ObjC selector: @- videoFrameRateRangeForReactionEffectsInProgress@
-videoFrameRateRangeForReactionEffectsInProgress :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO (Id AVFrameRateRange)
-videoFrameRateRangeForReactionEffectsInProgress avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat videoFrameRateRangeForReactionEffectsInProgressSelector
 
 -- | studioLightSupported
 --
@@ -746,15 +488,6 @@ geometricDistortionCorrectedVideoFieldOfView :: IsAVCaptureDeviceFormat avCaptur
 geometricDistortionCorrectedVideoFieldOfView avCaptureDeviceFormat =
   sendMessage avCaptureDeviceFormat geometricDistortionCorrectedVideoFieldOfViewSelector
 
--- | spatialVideoCaptureSupported
---
--- Returns whether or not the format supports capturing spatial video to a file.
---
--- ObjC selector: @- spatialVideoCaptureSupported@
-spatialVideoCaptureSupported :: IsAVCaptureDeviceFormat avCaptureDeviceFormat => avCaptureDeviceFormat -> IO Bool
-spatialVideoCaptureSupported avCaptureDeviceFormat =
-  sendMessage avCaptureDeviceFormat spatialVideoCaptureSupportedSelector
-
 -- | multiCamSupported
 --
 -- A property indicating whether this format is supported in an AVCaptureMultiCamSession.
@@ -787,10 +520,6 @@ newSelector = mkSelector "new"
 isVideoStabilizationModeSupportedSelector :: Selector '[AVCaptureVideoStabilizationMode] Bool
 isVideoStabilizationModeSupportedSelector = mkSelector "isVideoStabilizationModeSupported:"
 
--- | @Selector@ for @videoFieldOfViewForAspectRatio:geometricDistortionCorrected:@
-videoFieldOfViewForAspectRatio_geometricDistortionCorrectedSelector :: Selector '[Id NSString, Bool] CFloat
-videoFieldOfViewForAspectRatio_geometricDistortionCorrectedSelector = mkSelector "videoFieldOfViewForAspectRatio:geometricDistortionCorrected:"
-
 -- | @Selector@ for @mediaType@
 mediaTypeSelector :: Selector '[] (Id NSString)
 mediaTypeSelector = mkSelector "mediaType"
@@ -822,14 +551,6 @@ videoMaxZoomFactorSelector = mkSelector "videoMaxZoomFactor"
 -- | @Selector@ for @videoZoomFactorUpscaleThreshold@
 videoZoomFactorUpscaleThresholdSelector :: Selector '[] CDouble
 videoZoomFactorUpscaleThresholdSelector = mkSelector "videoZoomFactorUpscaleThreshold"
-
--- | @Selector@ for @systemRecommendedVideoZoomRange@
-systemRecommendedVideoZoomRangeSelector :: Selector '[] (Id AVZoomRange)
-systemRecommendedVideoZoomRangeSelector = mkSelector "systemRecommendedVideoZoomRange"
-
--- | @Selector@ for @systemRecommendedExposureBiasRange@
-systemRecommendedExposureBiasRangeSelector :: Selector '[] (Id AVExposureBiasRange)
-systemRecommendedExposureBiasRangeSelector = mkSelector "systemRecommendedExposureBiasRange"
 
 -- | @Selector@ for @minISO@
 minISOSelector :: Selector '[] CFloat
@@ -875,14 +596,6 @@ videoMaxZoomFactorForDepthDataDeliverySelector = mkSelector "videoMaxZoomFactorF
 supportedVideoZoomFactorsForDepthDataDeliverySelector :: Selector '[] (Id NSArray)
 supportedVideoZoomFactorsForDepthDataDeliverySelector = mkSelector "supportedVideoZoomFactorsForDepthDataDelivery"
 
--- | @Selector@ for @supportedVideoZoomRangesForDepthDataDelivery@
-supportedVideoZoomRangesForDepthDataDeliverySelector :: Selector '[] (Id NSArray)
-supportedVideoZoomRangesForDepthDataDeliverySelector = mkSelector "supportedVideoZoomRangesForDepthDataDelivery"
-
--- | @Selector@ for @zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupported@
-zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupportedSelector :: Selector '[] Bool
-zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupportedSelector = mkSelector "zoomFactorsOutsideOfVideoZoomRangesForDepthDeliverySupported"
-
 -- | @Selector@ for @supportedDepthDataFormats@
 supportedDepthDataFormatsSelector :: Selector '[] (Id NSArray)
 supportedDepthDataFormatsSelector = mkSelector "supportedDepthDataFormats"
@@ -898,70 +611,6 @@ supportedMaxPhotoDimensionsSelector = mkSelector "supportedMaxPhotoDimensions"
 -- | @Selector@ for @secondaryNativeResolutionZoomFactors@
 secondaryNativeResolutionZoomFactorsSelector :: Selector '[] (Id NSArray)
 secondaryNativeResolutionZoomFactorsSelector = mkSelector "secondaryNativeResolutionZoomFactors"
-
--- | @Selector@ for @autoVideoFrameRateSupported@
-autoVideoFrameRateSupportedSelector :: Selector '[] Bool
-autoVideoFrameRateSupportedSelector = mkSelector "autoVideoFrameRateSupported"
-
--- | @Selector@ for @cameraLensSmudgeDetectionSupported@
-cameraLensSmudgeDetectionSupportedSelector :: Selector '[] Bool
-cameraLensSmudgeDetectionSupportedSelector = mkSelector "cameraLensSmudgeDetectionSupported"
-
--- | @Selector@ for @smartFramingSupported@
-smartFramingSupportedSelector :: Selector '[] Bool
-smartFramingSupportedSelector = mkSelector "smartFramingSupported"
-
--- | @Selector@ for @supportedDynamicAspectRatios@
-supportedDynamicAspectRatiosSelector :: Selector '[] (Id NSArray)
-supportedDynamicAspectRatiosSelector = mkSelector "supportedDynamicAspectRatios"
-
--- | @Selector@ for @cinematicVideoCaptureSupported@
-cinematicVideoCaptureSupportedSelector :: Selector '[] Bool
-cinematicVideoCaptureSupportedSelector = mkSelector "cinematicVideoCaptureSupported"
-
--- | @Selector@ for @defaultSimulatedAperture@
-defaultSimulatedApertureSelector :: Selector '[] CFloat
-defaultSimulatedApertureSelector = mkSelector "defaultSimulatedAperture"
-
--- | @Selector@ for @minSimulatedAperture@
-minSimulatedApertureSelector :: Selector '[] CFloat
-minSimulatedApertureSelector = mkSelector "minSimulatedAperture"
-
--- | @Selector@ for @maxSimulatedAperture@
-maxSimulatedApertureSelector :: Selector '[] CFloat
-maxSimulatedApertureSelector = mkSelector "maxSimulatedAperture"
-
--- | @Selector@ for @videoMinZoomFactorForCinematicVideo@
-videoMinZoomFactorForCinematicVideoSelector :: Selector '[] CDouble
-videoMinZoomFactorForCinematicVideoSelector = mkSelector "videoMinZoomFactorForCinematicVideo"
-
--- | @Selector@ for @videoMaxZoomFactorForCinematicVideo@
-videoMaxZoomFactorForCinematicVideoSelector :: Selector '[] CDouble
-videoMaxZoomFactorForCinematicVideoSelector = mkSelector "videoMaxZoomFactorForCinematicVideo"
-
--- | @Selector@ for @videoFrameRateRangeForCinematicVideo@
-videoFrameRateRangeForCinematicVideoSelector :: Selector '[] (Id AVFrameRateRange)
-videoFrameRateRangeForCinematicVideoSelector = mkSelector "videoFrameRateRangeForCinematicVideo"
-
--- | @Selector@ for @edgeLightSupported@
-edgeLightSupportedSelector :: Selector '[] Bool
-edgeLightSupportedSelector = mkSelector "edgeLightSupported"
-
--- | @Selector@ for @backgroundReplacementSupported@
-backgroundReplacementSupportedSelector :: Selector '[] Bool
-backgroundReplacementSupportedSelector = mkSelector "backgroundReplacementSupported"
-
--- | @Selector@ for @videoFrameRateRangeForBackgroundReplacement@
-videoFrameRateRangeForBackgroundReplacementSelector :: Selector '[] (Id AVFrameRateRange)
-videoFrameRateRangeForBackgroundReplacementSelector = mkSelector "videoFrameRateRangeForBackgroundReplacement"
-
--- | @Selector@ for @reactionEffectsSupported@
-reactionEffectsSupportedSelector :: Selector '[] Bool
-reactionEffectsSupportedSelector = mkSelector "reactionEffectsSupported"
-
--- | @Selector@ for @videoFrameRateRangeForReactionEffectsInProgress@
-videoFrameRateRangeForReactionEffectsInProgressSelector :: Selector '[] (Id AVFrameRateRange)
-videoFrameRateRangeForReactionEffectsInProgressSelector = mkSelector "videoFrameRateRangeForReactionEffectsInProgress"
 
 -- | @Selector@ for @studioLightSupported@
 studioLightSupportedSelector :: Selector '[] Bool
@@ -998,10 +647,6 @@ videoFrameRateRangeForCenterStageSelector = mkSelector "videoFrameRateRangeForCe
 -- | @Selector@ for @geometricDistortionCorrectedVideoFieldOfView@
 geometricDistortionCorrectedVideoFieldOfViewSelector :: Selector '[] CFloat
 geometricDistortionCorrectedVideoFieldOfViewSelector = mkSelector "geometricDistortionCorrectedVideoFieldOfView"
-
--- | @Selector@ for @spatialVideoCaptureSupported@
-spatialVideoCaptureSupportedSelector :: Selector '[] Bool
-spatialVideoCaptureSupportedSelector = mkSelector "spatialVideoCaptureSupported"
 
 -- | @Selector@ for @multiCamSupported@
 multiCamSupportedSelector :: Selector '[] Bool

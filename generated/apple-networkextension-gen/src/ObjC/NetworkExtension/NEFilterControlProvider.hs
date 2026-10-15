@@ -14,17 +14,9 @@ module ObjC.NetworkExtension.NEFilterControlProvider
   , handleRemediationForFlow_completionHandler
   , handleNewFlow_completionHandler
   , notifyRulesChanged
-  , remediationMap
-  , setRemediationMap
-  , urlAppendStringMap
-  , setURLAppendStringMap
   , handleNewFlow_completionHandlerSelector
   , handleRemediationForFlow_completionHandlerSelector
   , notifyRulesChangedSelector
-  , remediationMapSelector
-  , setRemediationMapSelector
-  , setURLAppendStringMapSelector
-  , urlAppendStringMapSelector
 
 
   ) where
@@ -75,50 +67,6 @@ notifyRulesChanged :: IsNEFilterControlProvider neFilterControlProvider => neFil
 notifyRulesChanged neFilterControlProvider =
   sendMessage neFilterControlProvider notifyRulesChangedSelector
 
--- | remediationMap
---
--- A dictionary containing custom strings to be inserted into the "content blocked" page displayed in WebKit. Each key in this dictionary corresponds to a string in the "content blocked" page. The value of each key is a dictionary that maps keys to the custom strings to be inserted into the "content blocked" page. The keys for the sub-dictionaries are defined by the control provider. When the data provider creates a "remediate" verdict using [NEFilterDataVerdict remediateVerdictWithRemediationURLMapKey:remediationButtonTextMapKey:], it passes the key corresponding to the custom string to be inserted into the "content blocked" page.
---
--- Here is a sample remediationMap dictionary:
---
--- remediationMap = \@{ NEFilterProviderRemediationMapRemediationURLs :							\@{								"RemediateKey1" : \@"http://www.remediation_url_1.com",								"RemediateKey2" : \@"http://www.remediation_url_2.com"							 },						NEFilterProviderRemediationMapRemediationButtonTexts :							\@{								"RemediationButtonText1" : \@"Remediate URL"							 }					  };
---
--- ObjC selector: @- remediationMap@
-remediationMap :: IsNEFilterControlProvider neFilterControlProvider => neFilterControlProvider -> IO (Id NSDictionary)
-remediationMap neFilterControlProvider =
-  sendMessage neFilterControlProvider remediationMapSelector
-
--- | remediationMap
---
--- A dictionary containing custom strings to be inserted into the "content blocked" page displayed in WebKit. Each key in this dictionary corresponds to a string in the "content blocked" page. The value of each key is a dictionary that maps keys to the custom strings to be inserted into the "content blocked" page. The keys for the sub-dictionaries are defined by the control provider. When the data provider creates a "remediate" verdict using [NEFilterDataVerdict remediateVerdictWithRemediationURLMapKey:remediationButtonTextMapKey:], it passes the key corresponding to the custom string to be inserted into the "content blocked" page.
---
--- Here is a sample remediationMap dictionary:
---
--- remediationMap = \@{ NEFilterProviderRemediationMapRemediationURLs :							\@{								"RemediateKey1" : \@"http://www.remediation_url_1.com",								"RemediateKey2" : \@"http://www.remediation_url_2.com"							 },						NEFilterProviderRemediationMapRemediationButtonTexts :							\@{								"RemediationButtonText1" : \@"Remediate URL"							 }					  };
---
--- ObjC selector: @- setRemediationMap:@
-setRemediationMap :: (IsNEFilterControlProvider neFilterControlProvider, IsNSDictionary value) => neFilterControlProvider -> value -> IO ()
-setRemediationMap neFilterControlProvider value =
-  sendMessage neFilterControlProvider setRemediationMapSelector (toNSDictionary value)
-
--- | URLAppendStringMap
---
--- A dictionary containing strings to be appended to URLs.
---
--- ObjC selector: @- URLAppendStringMap@
-urlAppendStringMap :: IsNEFilterControlProvider neFilterControlProvider => neFilterControlProvider -> IO (Id NSDictionary)
-urlAppendStringMap neFilterControlProvider =
-  sendMessage neFilterControlProvider urlAppendStringMapSelector
-
--- | URLAppendStringMap
---
--- A dictionary containing strings to be appended to URLs.
---
--- ObjC selector: @- setURLAppendStringMap:@
-setURLAppendStringMap :: (IsNEFilterControlProvider neFilterControlProvider, IsNSDictionary value) => neFilterControlProvider -> value -> IO ()
-setURLAppendStringMap neFilterControlProvider value =
-  sendMessage neFilterControlProvider setURLAppendStringMapSelector (toNSDictionary value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -134,20 +82,4 @@ handleNewFlow_completionHandlerSelector = mkSelector "handleNewFlow:completionHa
 -- | @Selector@ for @notifyRulesChanged@
 notifyRulesChangedSelector :: Selector '[] ()
 notifyRulesChangedSelector = mkSelector "notifyRulesChanged"
-
--- | @Selector@ for @remediationMap@
-remediationMapSelector :: Selector '[] (Id NSDictionary)
-remediationMapSelector = mkSelector "remediationMap"
-
--- | @Selector@ for @setRemediationMap:@
-setRemediationMapSelector :: Selector '[Id NSDictionary] ()
-setRemediationMapSelector = mkSelector "setRemediationMap:"
-
--- | @Selector@ for @URLAppendStringMap@
-urlAppendStringMapSelector :: Selector '[] (Id NSDictionary)
-urlAppendStringMapSelector = mkSelector "URLAppendStringMap"
-
--- | @Selector@ for @setURLAppendStringMap:@
-setURLAppendStringMapSelector :: Selector '[Id NSDictionary] ()
-setURLAppendStringMapSelector = mkSelector "setURLAppendStringMap:"
 

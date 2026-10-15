@@ -1136,48 +1136,6 @@ instance IsNSJSONSerialization (Id NSJSONSerialization) where
 instance IsNSObject (Id NSJSONSerialization) where
   toNSObject = unsafeCastId
 
--- ---------- NSKeyValueSharedObservers ----------
-
--- | A collection of key-value observations which may be registered with multiple observable objects
--- 
--- Phantom type for @NSKeyValueSharedObservers@.
-data NSKeyValueSharedObservers
-
-instance IsObjCObject (Id NSKeyValueSharedObservers) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSKeyValueSharedObservers"
-
-class IsNSObject a => IsNSKeyValueSharedObservers a where
-  toNSKeyValueSharedObservers :: a -> Id NSKeyValueSharedObservers
-
-instance IsNSKeyValueSharedObservers (Id NSKeyValueSharedObservers) where
-  toNSKeyValueSharedObservers = unsafeCastId
-
-instance IsNSObject (Id NSKeyValueSharedObservers) where
-  toNSObject = unsafeCastId
-
--- ---------- NSKeyValueSharedObserversSnapshot ----------
-
--- | A collection of key-value observations which may be registered with multiple observable objects. Create using ``-[NSKeyValueSharedObservers snapshot]``
--- 
--- Phantom type for @NSKeyValueSharedObserversSnapshot@.
-data NSKeyValueSharedObserversSnapshot
-
-instance IsObjCObject (Id NSKeyValueSharedObserversSnapshot) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSKeyValueSharedObserversSnapshot"
-
-class IsNSObject a => IsNSKeyValueSharedObserversSnapshot a where
-  toNSKeyValueSharedObserversSnapshot :: a -> Id NSKeyValueSharedObserversSnapshot
-
-instance IsNSKeyValueSharedObserversSnapshot (Id NSKeyValueSharedObserversSnapshot) where
-  toNSKeyValueSharedObserversSnapshot = unsafeCastId
-
-instance IsNSObject (Id NSKeyValueSharedObserversSnapshot) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSLinguisticTagger ----------
 
 -- | Phantom type for @NSLinguisticTagger@.
@@ -1214,25 +1172,6 @@ instance IsNSLocale (Id NSLocale) where
   toNSLocale = unsafeCastId
 
 instance IsNSObject (Id NSLocale) where
-  toNSObject = unsafeCastId
-
--- ---------- NSLocalizedNumberFormatRule ----------
-
--- | Phantom type for @NSLocalizedNumberFormatRule@.
-data NSLocalizedNumberFormatRule
-
-instance IsObjCObject (Id NSLocalizedNumberFormatRule) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSLocalizedNumberFormatRule"
-
-class IsNSObject a => IsNSLocalizedNumberFormatRule a where
-  toNSLocalizedNumberFormatRule :: a -> Id NSLocalizedNumberFormatRule
-
-instance IsNSLocalizedNumberFormatRule (Id NSLocalizedNumberFormatRule) where
-  toNSLocalizedNumberFormatRule = unsafeCastId
-
-instance IsNSObject (Id NSLocalizedNumberFormatRule) where
   toNSObject = unsafeCastId
 
 -- ---------- NSLock ----------
@@ -1423,25 +1362,6 @@ instance IsNSMorphologyCustomPronoun (Id NSMorphologyCustomPronoun) where
   toNSMorphologyCustomPronoun = unsafeCastId
 
 instance IsNSObject (Id NSMorphologyCustomPronoun) where
-  toNSObject = unsafeCastId
-
--- ---------- NSMorphologyPronoun ----------
-
--- | Phantom type for @NSMorphologyPronoun@.
-data NSMorphologyPronoun
-
-instance IsObjCObject (Id NSMorphologyPronoun) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSMorphologyPronoun"
-
-class IsNSObject a => IsNSMorphologyPronoun a where
-  toNSMorphologyPronoun :: a -> Id NSMorphologyPronoun
-
-instance IsNSMorphologyPronoun (Id NSMorphologyPronoun) where
-  toNSMorphologyPronoun = unsafeCastId
-
-instance IsNSObject (Id NSMorphologyPronoun) where
   toNSObject = unsafeCastId
 
 -- ---------- NSNetService ----------
@@ -2248,25 +2168,6 @@ instance IsNSTask (Id NSTask) where
   toNSTask = unsafeCastId
 
 instance IsNSObject (Id NSTask) where
-  toNSObject = unsafeCastId
-
--- ---------- NSTermOfAddress ----------
-
--- | Phantom type for @NSTermOfAddress@.
-data NSTermOfAddress
-
-instance IsObjCObject (Id NSTermOfAddress) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSTermOfAddress"
-
-class IsNSObject a => IsNSTermOfAddress a where
-  toNSTermOfAddress :: a -> Id NSTermOfAddress
-
-instance IsNSTermOfAddress (Id NSTermOfAddress) where
-  toNSTermOfAddress = unsafeCastId
-
-instance IsNSObject (Id NSTermOfAddress) where
   toNSObject = unsafeCastId
 
 -- ---------- NSTextCheckingResult ----------
@@ -4207,6 +4108,28 @@ instance IsNSObject (Id NSCloseCommand) where
 instance IsNSScriptCommand (Id NSCloseCommand) where
   toNSScriptCommand = unsafeCastId
 
+-- ---------- NSCountCommand ----------
+
+-- | Phantom type for @NSCountCommand@.
+data NSCountCommand
+
+instance IsObjCObject (Id NSCountCommand) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "NSCountCommand"
+
+class IsNSScriptCommand a => IsNSCountCommand a where
+  toNSCountCommand :: a -> Id NSCountCommand
+
+instance IsNSCountCommand (Id NSCountCommand) where
+  toNSCountCommand = unsafeCastId
+
+instance IsNSObject (Id NSCountCommand) where
+  toNSObject = unsafeCastId
+
+instance IsNSScriptCommand (Id NSCountCommand) where
+  toNSScriptCommand = unsafeCastId
+
 -- ---------- NSCreateCommand ----------
 
 -- | Phantom type for @NSCreateCommand@.
@@ -4249,6 +4172,50 @@ instance IsNSObject (Id NSDeleteCommand) where
   toNSObject = unsafeCastId
 
 instance IsNSScriptCommand (Id NSDeleteCommand) where
+  toNSScriptCommand = unsafeCastId
+
+-- ---------- NSExistsCommand ----------
+
+-- | Phantom type for @NSExistsCommand@.
+data NSExistsCommand
+
+instance IsObjCObject (Id NSExistsCommand) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "NSExistsCommand"
+
+class IsNSScriptCommand a => IsNSExistsCommand a where
+  toNSExistsCommand :: a -> Id NSExistsCommand
+
+instance IsNSExistsCommand (Id NSExistsCommand) where
+  toNSExistsCommand = unsafeCastId
+
+instance IsNSObject (Id NSExistsCommand) where
+  toNSObject = unsafeCastId
+
+instance IsNSScriptCommand (Id NSExistsCommand) where
+  toNSScriptCommand = unsafeCastId
+
+-- ---------- NSGetCommand ----------
+
+-- | Phantom type for @NSGetCommand@.
+data NSGetCommand
+
+instance IsObjCObject (Id NSGetCommand) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "NSGetCommand"
+
+class IsNSScriptCommand a => IsNSGetCommand a where
+  toNSGetCommand :: a -> Id NSGetCommand
+
+instance IsNSGetCommand (Id NSGetCommand) where
+  toNSGetCommand = unsafeCastId
+
+instance IsNSObject (Id NSGetCommand) where
+  toNSObject = unsafeCastId
+
+instance IsNSScriptCommand (Id NSGetCommand) where
   toNSScriptCommand = unsafeCastId
 
 -- ---------- NSMoveCommand ----------
@@ -4339,6 +4306,28 @@ instance IsNSObject (Id NSIndexSpecifier) where
 instance IsNSScriptObjectSpecifier (Id NSIndexSpecifier) where
   toNSScriptObjectSpecifier = unsafeCastId
 
+-- ---------- NSMiddleSpecifier ----------
+
+-- | Phantom type for @NSMiddleSpecifier@.
+data NSMiddleSpecifier
+
+instance IsObjCObject (Id NSMiddleSpecifier) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "NSMiddleSpecifier"
+
+class IsNSScriptObjectSpecifier a => IsNSMiddleSpecifier a where
+  toNSMiddleSpecifier :: a -> Id NSMiddleSpecifier
+
+instance IsNSMiddleSpecifier (Id NSMiddleSpecifier) where
+  toNSMiddleSpecifier = unsafeCastId
+
+instance IsNSObject (Id NSMiddleSpecifier) where
+  toNSObject = unsafeCastId
+
+instance IsNSScriptObjectSpecifier (Id NSMiddleSpecifier) where
+  toNSScriptObjectSpecifier = unsafeCastId
+
 -- ---------- NSNameSpecifier ----------
 
 -- | Phantom type for @NSNameSpecifier@.
@@ -4359,6 +4348,50 @@ instance IsNSObject (Id NSNameSpecifier) where
   toNSObject = unsafeCastId
 
 instance IsNSScriptObjectSpecifier (Id NSNameSpecifier) where
+  toNSScriptObjectSpecifier = unsafeCastId
+
+-- ---------- NSPropertySpecifier ----------
+
+-- | Phantom type for @NSPropertySpecifier@.
+data NSPropertySpecifier
+
+instance IsObjCObject (Id NSPropertySpecifier) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "NSPropertySpecifier"
+
+class IsNSScriptObjectSpecifier a => IsNSPropertySpecifier a where
+  toNSPropertySpecifier :: a -> Id NSPropertySpecifier
+
+instance IsNSPropertySpecifier (Id NSPropertySpecifier) where
+  toNSPropertySpecifier = unsafeCastId
+
+instance IsNSObject (Id NSPropertySpecifier) where
+  toNSObject = unsafeCastId
+
+instance IsNSScriptObjectSpecifier (Id NSPropertySpecifier) where
+  toNSScriptObjectSpecifier = unsafeCastId
+
+-- ---------- NSRandomSpecifier ----------
+
+-- | Phantom type for @NSRandomSpecifier@.
+data NSRandomSpecifier
+
+instance IsObjCObject (Id NSRandomSpecifier) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "NSRandomSpecifier"
+
+class IsNSScriptObjectSpecifier a => IsNSRandomSpecifier a where
+  toNSRandomSpecifier :: a -> Id NSRandomSpecifier
+
+instance IsNSRandomSpecifier (Id NSRandomSpecifier) where
+  toNSRandomSpecifier = unsafeCastId
+
+instance IsNSObject (Id NSRandomSpecifier) where
+  toNSObject = unsafeCastId
+
+instance IsNSScriptObjectSpecifier (Id NSRandomSpecifier) where
   toNSScriptObjectSpecifier = unsafeCastId
 
 -- ---------- NSRangeSpecifier ----------
@@ -4935,7 +4968,7 @@ instance IsNSXMLNode (Id NSXMLDTD) where
 --
 -- The nodes that are exclusive to a DTD
 --
--- Every DTD node has a name. Object value is defined as follows:		Entity declaration - the string that that entity resolves to eg "&lt;"		Attribute declaration - the default value, if any		Element declaration - the validation string		Notation declaration - no objectValue
+-- Every DTD node has a name. Object value is defined as follows:		Entity declaration - the string that that entity resolves to eg "<"		Attribute declaration - the default value, if any		Element declaration - the validation string		Notation declaration - no objectValue
 -- 
 -- Phantom type for @NSXMLDTDNode@.
 data NSXMLDTDNode
@@ -5015,13 +5048,7 @@ instance IsNSXMLNode (Id NSXMLElement) where
 
 -- ---------- OS_os_workgroup ----------
 
--- | os_workgroup_t
---
--- A reference counted os object representing a workload that needs to be distinctly recognized and tracked by the system.  The workgroup tracks a collection of threads all working cooperatively. An os_workgroup object - when not an instance of a specific os_workgroup_t subclass - represents a generic workload and makes no assumptions about the kind of work done.
---
--- Threads can explicitly join an os_workgroup_t to mark themselves as participants in the workload.
--- 
--- Phantom type for @OS_os_workgroup@.
+-- | Phantom type for @OS_os_workgroup@.
 data OS_os_workgroup
 
 instance IsObjCObject (Id OS_os_workgroup) where

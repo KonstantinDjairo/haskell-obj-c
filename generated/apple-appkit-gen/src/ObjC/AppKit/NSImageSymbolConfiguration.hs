@@ -18,14 +18,11 @@ module ObjC.AppKit.NSImageSymbolConfiguration
   , configurationWithHierarchicalColor
   , configurationWithPaletteColors
   , configurationPreferringMulticolor
-  , configurationWithVariableValueMode
-  , configurationWithColorRenderingMode
   , configurationByApplyingConfiguration
   , configurationByApplyingConfigurationSelector
   , configurationPreferringHierarchicalSelector
   , configurationPreferringMonochromeSelector
   , configurationPreferringMulticolorSelector
-  , configurationWithColorRenderingModeSelector
   , configurationWithHierarchicalColorSelector
   , configurationWithPaletteColorsSelector
   , configurationWithPointSize_weightSelector
@@ -33,21 +30,12 @@ module ObjC.AppKit.NSImageSymbolConfiguration
   , configurationWithScaleSelector
   , configurationWithTextStyleSelector
   , configurationWithTextStyle_scaleSelector
-  , configurationWithVariableValueModeSelector
 
   -- * Enum types
-  , NSImageSymbolColorRenderingMode(NSImageSymbolColorRenderingMode)
-  , pattern NSImageSymbolColorRenderingModeAutomatic
-  , pattern NSImageSymbolColorRenderingModeFlat
-  , pattern NSImageSymbolColorRenderingModeGradient
   , NSImageSymbolScale(NSImageSymbolScale)
   , pattern NSImageSymbolScaleSmall
   , pattern NSImageSymbolScaleMedium
   , pattern NSImageSymbolScaleLarge
-  , NSImageSymbolVariableValueMode(NSImageSymbolVariableValueMode)
-  , pattern NSImageSymbolVariableValueModeAutomatic
-  , pattern NSImageSymbolVariableValueModeColor
-  , pattern NSImageSymbolVariableValueModeDraw
 
   ) where
 
@@ -159,24 +147,6 @@ configurationPreferringMulticolor  =
     cls' <- getRequiredClass "NSImageSymbolConfiguration"
     sendClassMessage cls' configurationPreferringMulticolorSelector
 
--- | Create a configuration with a specified variable value mode.
---
--- ObjC selector: @+ configurationWithVariableValueMode:@
-configurationWithVariableValueMode :: NSImageSymbolVariableValueMode -> IO (Id NSImageSymbolConfiguration)
-configurationWithVariableValueMode variableValueMode =
-  do
-    cls' <- getRequiredClass "NSImageSymbolConfiguration"
-    sendClassMessage cls' configurationWithVariableValueModeSelector variableValueMode
-
--- | Create a configuration with a specific color rendering mode.
---
--- ObjC selector: @+ configurationWithColorRenderingMode:@
-configurationWithColorRenderingMode :: NSImageSymbolColorRenderingMode -> IO (Id NSImageSymbolConfiguration)
-configurationWithColorRenderingMode mode =
-  do
-    cls' <- getRequiredClass "NSImageSymbolConfiguration"
-    sendClassMessage cls' configurationWithColorRenderingModeSelector mode
-
 -- | Returns a new configuration object whose values are defined by applying values from the provided configuration and the receiver.
 --
 -- Values defined by both configurations will use the provided configuration’s values.
@@ -229,14 +199,6 @@ configurationWithPaletteColorsSelector = mkSelector "configurationWithPaletteCol
 -- | @Selector@ for @configurationPreferringMulticolor@
 configurationPreferringMulticolorSelector :: Selector '[] (Id NSImageSymbolConfiguration)
 configurationPreferringMulticolorSelector = mkSelector "configurationPreferringMulticolor"
-
--- | @Selector@ for @configurationWithVariableValueMode:@
-configurationWithVariableValueModeSelector :: Selector '[NSImageSymbolVariableValueMode] (Id NSImageSymbolConfiguration)
-configurationWithVariableValueModeSelector = mkSelector "configurationWithVariableValueMode:"
-
--- | @Selector@ for @configurationWithColorRenderingMode:@
-configurationWithColorRenderingModeSelector :: Selector '[NSImageSymbolColorRenderingMode] (Id NSImageSymbolConfiguration)
-configurationWithColorRenderingModeSelector = mkSelector "configurationWithColorRenderingMode:"
 
 -- | @Selector@ for @configurationByApplyingConfiguration:@
 configurationByApplyingConfigurationSelector :: Selector '[Id NSImageSymbolConfiguration] (Id NSImageSymbolConfiguration)

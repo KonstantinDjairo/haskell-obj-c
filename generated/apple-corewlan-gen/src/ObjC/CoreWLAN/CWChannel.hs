@@ -26,7 +26,6 @@ module ObjC.CoreWLAN.CWChannel
   , pattern KCWChannelBandUnknown
   , pattern KCWChannelBand2GHz
   , pattern KCWChannelBand5GHz
-  , pattern KCWChannelBand6GHz
   , CWChannelWidth(CWChannelWidth)
   , pattern KCWChannelWidthUnknown
   , pattern KCWChannelWidth20MHz

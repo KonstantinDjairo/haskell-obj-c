@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterGetHolidayScheduleResponseParams
   ( MTRDoorLockClusterGetHolidayScheduleResponseParams
   , IsMTRDoorLockClusterGetHolidayScheduleResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , holidayIndex
   , setHolidayIndex
   , status
@@ -20,8 +21,9 @@ module ObjC.Matter.MTRDoorLockClusterGetHolidayScheduleResponseParams
   , setOperatingMode
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , holidayIndexSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , localEndTimeSelector
   , localStartTimeSelector
   , operatingModeSelector
@@ -48,16 +50,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRDoorLockClusterGetHolidayScheduleResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRDoorLockClusterGetHolidayScheduleResponseParams mtrDoorLockClusterGetHolidayScheduleResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrDoorLockClusterGetHolidayScheduleResponseParams -> responseValue -> error_ -> IO (Id MTRDoorLockClusterGetHolidayScheduleResponseParams)
-initWithResponseValue_error mtrDoorLockClusterGetHolidayScheduleResponseParams responseValue error_ =
-  sendOwnedMessage mtrDoorLockClusterGetHolidayScheduleResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRDoorLockClusterGetHolidayScheduleResponseParams mtrDoorLockClusterGetHolidayScheduleResponseParams => mtrDoorLockClusterGetHolidayScheduleResponseParams -> IO (Id MTRDoorLockClusterGetHolidayScheduleResponseParams)
+init_ mtrDoorLockClusterGetHolidayScheduleResponseParams =
+  sendOwnedMessage mtrDoorLockClusterGetHolidayScheduleResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterGetHolidayScheduleResponseParams mtrDoorLockClusterGetHolidayScheduleResponseParams => mtrDoorLockClusterGetHolidayScheduleResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterGetHolidayScheduleResponseParams zone =
+  sendOwnedMessage mtrDoorLockClusterGetHolidayScheduleResponseParams copyWithZoneSelector zone
 
 -- | @- holidayIndex@
 holidayIndex :: IsMTRDoorLockClusterGetHolidayScheduleResponseParams mtrDoorLockClusterGetHolidayScheduleResponseParams => mtrDoorLockClusterGetHolidayScheduleResponseParams -> IO (Id NSNumber)
@@ -135,9 +136,13 @@ setTimedInvokeTimeoutMs mtrDoorLockClusterGetHolidayScheduleResponseParams value
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRDoorLockClusterGetHolidayScheduleResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterGetHolidayScheduleResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @holidayIndex@
 holidayIndexSelector :: Selector '[] (Id NSNumber)

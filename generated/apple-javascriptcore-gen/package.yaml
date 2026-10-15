@@ -12,13 +12,12 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
-  - ObjC.JavaScriptCore.Enums
   - ObjC.JavaScriptCore.Internal.Classes
-  - ObjC.JavaScriptCore.Internal.Enums
   - ObjC.JavaScriptCore.JSContext
   - ObjC.JavaScriptCore.JSManagedValue
   - ObjC.JavaScriptCore.JSValue

@@ -3,7 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A lasso tool for selecting parts of a drawing.
+-- | A lasso tool for selection parts of a drawing.
 --
 -- Generated bindings for @PKLassoTool@.
 module ObjC.PencilKit.PKLassoTool

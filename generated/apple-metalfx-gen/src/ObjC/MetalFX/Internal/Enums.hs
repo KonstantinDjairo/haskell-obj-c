@@ -14,7 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | The color space modes for the input and output textures you use with a spatial scaling effect instance.
 -- | @MTLFXSpatialScalerColorProcessingMode@
 newtype MTLFXSpatialScalerColorProcessingMode = MTLFXSpatialScalerColorProcessingMode CLong
   deriving stock (Eq, Ord, Show)

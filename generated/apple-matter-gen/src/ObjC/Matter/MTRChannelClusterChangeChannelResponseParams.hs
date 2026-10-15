@@ -7,15 +7,17 @@
 module ObjC.Matter.MTRChannelClusterChangeChannelResponseParams
   ( MTRChannelClusterChangeChannelResponseParams
   , IsMTRChannelClusterChangeChannelResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , status
   , setStatus
   , data_
   , setData
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , dataSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , setDataSelector
   , setStatusSelector
   , setTimedInvokeTimeoutMsSelector
@@ -36,16 +38,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRChannelClusterChangeChannelResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRChannelClusterChangeChannelResponseParams mtrChannelClusterChangeChannelResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrChannelClusterChangeChannelResponseParams -> responseValue -> error_ -> IO (Id MTRChannelClusterChangeChannelResponseParams)
-initWithResponseValue_error mtrChannelClusterChangeChannelResponseParams responseValue error_ =
-  sendOwnedMessage mtrChannelClusterChangeChannelResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRChannelClusterChangeChannelResponseParams mtrChannelClusterChangeChannelResponseParams => mtrChannelClusterChangeChannelResponseParams -> IO (Id MTRChannelClusterChangeChannelResponseParams)
+init_ mtrChannelClusterChangeChannelResponseParams =
+  sendOwnedMessage mtrChannelClusterChangeChannelResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRChannelClusterChangeChannelResponseParams mtrChannelClusterChangeChannelResponseParams => mtrChannelClusterChangeChannelResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrChannelClusterChangeChannelResponseParams zone =
+  sendOwnedMessage mtrChannelClusterChangeChannelResponseParams copyWithZoneSelector zone
 
 -- | @- status@
 status :: IsMTRChannelClusterChangeChannelResponseParams mtrChannelClusterChangeChannelResponseParams => mtrChannelClusterChangeChannelResponseParams -> IO (Id NSNumber)
@@ -93,9 +94,13 @@ setTimedInvokeTimeoutMs mtrChannelClusterChangeChannelResponseParams value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRChannelClusterChangeChannelResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRChannelClusterChangeChannelResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] (Id NSNumber)

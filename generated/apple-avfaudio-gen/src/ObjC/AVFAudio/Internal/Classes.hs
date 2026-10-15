@@ -18,27 +18,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AudioToolbox.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- ---------- AVAudioApplication ----------
-
--- | Class containing methods that relate to an application bundle's audio (i.e. a collection of one or more AVAudioSession instances)
--- 
--- Phantom type for @AVAudioApplication@.
-data AVAudioApplication
-
-instance IsObjCObject (Id AVAudioApplication) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVAudioApplication"
-
-class IsNSObject a => IsAVAudioApplication a where
-  toAVAudioApplication :: a -> Id AVAudioApplication
-
-instance IsAVAudioApplication (Id AVAudioApplication) where
-  toAVAudioApplication = unsafeCastId
-
-instance IsNSObject (Id AVAudioApplication) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVAudioBuffer ----------
 
 -- | AVAudioBuffer
@@ -353,11 +332,7 @@ instance IsNSObject (Id AVAudioPlayer) where
 
 -- ---------- AVAudioRecorder ----------
 
--- | AVAudioRecorder
---
--- An object that records audio data to a file.
--- 
--- Phantom type for @AVAudioRecorder@.
+-- | Phantom type for @AVAudioRecorder@.
 data AVAudioRecorder
 
 instance IsObjCObject (Id AVAudioRecorder) where
@@ -439,27 +414,6 @@ instance IsAVAudioSession (Id AVAudioSession) where
 instance IsNSObject (Id AVAudioSession) where
   toNSObject = unsafeCastId
 
--- ---------- AVAudioSessionCapability ----------
-
--- | Describes whether a specific capability is supported and if that capability is currently enabled
--- 
--- Phantom type for @AVAudioSessionCapability@.
-data AVAudioSessionCapability
-
-instance IsObjCObject (Id AVAudioSessionCapability) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVAudioSessionCapability"
-
-class IsNSObject a => IsAVAudioSessionCapability a where
-  toAVAudioSessionCapability :: a -> Id AVAudioSessionCapability
-
-instance IsAVAudioSessionCapability (Id AVAudioSessionCapability) where
-  toAVAudioSessionCapability = unsafeCastId
-
-instance IsNSObject (Id AVAudioSessionCapability) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVAudioSessionChannelDescription ----------
 
 -- | AVAudioSessionChannelDescription
@@ -525,27 +479,6 @@ instance IsAVAudioSessionPortDescription (Id AVAudioSessionPortDescription) wher
   toAVAudioSessionPortDescription = unsafeCastId
 
 instance IsNSObject (Id AVAudioSessionPortDescription) where
-  toNSObject = unsafeCastId
-
--- ---------- AVAudioSessionPortExtensionBluetoothMicrophone ----------
-
--- | An object that describes capabilities of Bluetooth microphone ports.
--- 
--- Phantom type for @AVAudioSessionPortExtensionBluetoothMicrophone@.
-data AVAudioSessionPortExtensionBluetoothMicrophone
-
-instance IsObjCObject (Id AVAudioSessionPortExtensionBluetoothMicrophone) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVAudioSessionPortExtensionBluetoothMicrophone"
-
-class IsNSObject a => IsAVAudioSessionPortExtensionBluetoothMicrophone a where
-  toAVAudioSessionPortExtensionBluetoothMicrophone :: a -> Id AVAudioSessionPortExtensionBluetoothMicrophone
-
-instance IsAVAudioSessionPortExtensionBluetoothMicrophone (Id AVAudioSessionPortExtensionBluetoothMicrophone) where
-  toAVAudioSessionPortExtensionBluetoothMicrophone = unsafeCastId
-
-instance IsNSObject (Id AVAudioSessionPortExtensionBluetoothMicrophone) where
   toNSObject = unsafeCastId
 
 -- ---------- AVAudioSessionRouteDescription ----------
@@ -1618,7 +1551,11 @@ instance IsNSObject (Id AVAudioUnitGenerator) where
 
 -- ---------- AVAudioUnitMIDIInstrument ----------
 
--- | Base class for MIDI instruments.
+-- | AVAudioUnitMIDIInstrument
+--
+-- Base class for sample synthesizers.
+--
+-- This base class represents audio units of type kAudioUnitType_MusicDevice or kAudioUnitType_RemoteInstrument. This can be used in a chain    that processes realtime input (live) and has general concept of music events i.e. notes.
 -- 
 -- Phantom type for @AVAudioUnitMIDIInstrument@.
 data AVAudioUnitMIDIInstrument

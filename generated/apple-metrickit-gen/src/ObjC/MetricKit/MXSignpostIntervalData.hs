@@ -21,10 +21,8 @@ module ObjC.MetricKit.MXSignpostIntervalData
   , cumulativeCPUTime
   , averageMemory
   , cumulativeLogicalWrites
-  , cumulativeHitchTimeRatio
   , averageMemorySelector
   , cumulativeCPUTimeSelector
-  , cumulativeHitchTimeRatioSelector
   , cumulativeLogicalWritesSelector
   , histogrammedSignpostDurationSelector
 
@@ -84,17 +82,6 @@ cumulativeLogicalWrites :: IsMXSignpostIntervalData mxSignpostIntervalData => mx
 cumulativeLogicalWrites mxSignpostIntervalData =
   sendMessage mxSignpostIntervalData cumulativeLogicalWritesSelector
 
--- | cumulativeHitchTimeRatio
---
--- Cumulative hitch time ratio aggregated over the MXSignpostAnimation intervals.
---
--- This property is null when signposts with the associated signpostName and signpostCategory contain no interval metric data.
---
--- ObjC selector: @- cumulativeHitchTimeRatio@
-cumulativeHitchTimeRatio :: IsMXSignpostIntervalData mxSignpostIntervalData => mxSignpostIntervalData -> IO (Id NSMeasurement)
-cumulativeHitchTimeRatio mxSignpostIntervalData =
-  sendMessage mxSignpostIntervalData cumulativeHitchTimeRatioSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -114,8 +101,4 @@ averageMemorySelector = mkSelector "averageMemory"
 -- | @Selector@ for @cumulativeLogicalWrites@
 cumulativeLogicalWritesSelector :: Selector '[] (Id NSMeasurement)
 cumulativeLogicalWritesSelector = mkSelector "cumulativeLogicalWrites"
-
--- | @Selector@ for @cumulativeHitchTimeRatio@
-cumulativeHitchTimeRatioSelector :: Selector '[] (Id NSMeasurement)
-cumulativeHitchTimeRatioSelector = mkSelector "cumulativeHitchTimeRatio"
 

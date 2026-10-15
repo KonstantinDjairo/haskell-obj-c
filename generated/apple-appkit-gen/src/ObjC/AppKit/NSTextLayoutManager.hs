@@ -31,8 +31,6 @@ module ObjC.AppKit.NSTextLayoutManager
   , setLimitsLayoutForSuspiciousContents
   , usesHyphenation
   , setUsesHyphenation
-  , resolvesNaturalAlignmentWithBaseWritingDirection
-  , setResolvesNaturalAlignmentWithBaseWritingDirection
   , textContentManager
   , textContainer
   , setTextContainer
@@ -64,13 +62,11 @@ module ObjC.AppKit.NSTextLayoutManager
   , replaceContentsInRange_withAttributedStringSelector
   , replaceContentsInRange_withTextElementsSelector
   , replaceTextContentManagerSelector
-  , resolvesNaturalAlignmentWithBaseWritingDirectionSelector
   , setDelegateSelector
   , setLayoutQueueSelector
   , setLimitsLayoutForSuspiciousContentsSelector
   , setRenderingAttributesValidatorSelector
   , setRenderingAttributes_forTextRangeSelector
-  , setResolvesNaturalAlignmentWithBaseWritingDirectionSelector
   , setTextContainerSelector
   , setTextSelectionNavigationSelector
   , setTextSelectionsSelector
@@ -232,24 +228,6 @@ usesHyphenation nsTextLayoutManager =
 setUsesHyphenation :: IsNSTextLayoutManager nsTextLayoutManager => nsTextLayoutManager -> Bool -> IO ()
 setUsesHyphenation nsTextLayoutManager value =
   sendMessage nsTextLayoutManager setUsesHyphenationSelector value
-
--- | Specifies the behavior for resolving ``NSTextAlignment.natural`` to the visual alignment.
---
--- When set to ``true``, the resolved visual alignment is determined by the resolved base writing direction; otherwise, it is using the user’s preferred language. The default value is ``true``.
---
--- ObjC selector: @- resolvesNaturalAlignmentWithBaseWritingDirection@
-resolvesNaturalAlignmentWithBaseWritingDirection :: IsNSTextLayoutManager nsTextLayoutManager => nsTextLayoutManager -> IO Bool
-resolvesNaturalAlignmentWithBaseWritingDirection nsTextLayoutManager =
-  sendMessage nsTextLayoutManager resolvesNaturalAlignmentWithBaseWritingDirectionSelector
-
--- | Specifies the behavior for resolving ``NSTextAlignment.natural`` to the visual alignment.
---
--- When set to ``true``, the resolved visual alignment is determined by the resolved base writing direction; otherwise, it is using the user’s preferred language. The default value is ``true``.
---
--- ObjC selector: @- setResolvesNaturalAlignmentWithBaseWritingDirection:@
-setResolvesNaturalAlignmentWithBaseWritingDirection :: IsNSTextLayoutManager nsTextLayoutManager => nsTextLayoutManager -> Bool -> IO ()
-setResolvesNaturalAlignmentWithBaseWritingDirection nsTextLayoutManager value =
-  sendMessage nsTextLayoutManager setResolvesNaturalAlignmentWithBaseWritingDirectionSelector value
 
 -- | @- textContentManager@
 textContentManager :: IsNSTextLayoutManager nsTextLayoutManager => nsTextLayoutManager -> IO (Id NSTextContentManager)
@@ -413,14 +391,6 @@ usesHyphenationSelector = mkSelector "usesHyphenation"
 -- | @Selector@ for @setUsesHyphenation:@
 setUsesHyphenationSelector :: Selector '[Bool] ()
 setUsesHyphenationSelector = mkSelector "setUsesHyphenation:"
-
--- | @Selector@ for @resolvesNaturalAlignmentWithBaseWritingDirection@
-resolvesNaturalAlignmentWithBaseWritingDirectionSelector :: Selector '[] Bool
-resolvesNaturalAlignmentWithBaseWritingDirectionSelector = mkSelector "resolvesNaturalAlignmentWithBaseWritingDirection"
-
--- | @Selector@ for @setResolvesNaturalAlignmentWithBaseWritingDirection:@
-setResolvesNaturalAlignmentWithBaseWritingDirectionSelector :: Selector '[Bool] ()
-setResolvesNaturalAlignmentWithBaseWritingDirectionSelector = mkSelector "setResolvesNaturalAlignmentWithBaseWritingDirection:"
 
 -- | @Selector@ for @textContentManager@
 textContentManagerSelector :: Selector '[] (Id NSTextContentManager)

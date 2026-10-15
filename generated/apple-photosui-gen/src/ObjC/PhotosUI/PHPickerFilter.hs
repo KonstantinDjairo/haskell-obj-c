@@ -27,7 +27,6 @@ module ObjC.PhotosUI.PHPickerFilter
   , cinematicVideosFilter
   , slomoVideosFilter
   , timelapseVideosFilter
-  , spatialMediaFilter
   , allFilterMatchingSubfiltersSelector
   , anyFilterMatchingSubfiltersSelector
   , burstsFilterSelector
@@ -43,7 +42,6 @@ module ObjC.PhotosUI.PHPickerFilter
   , screenRecordingsFilterSelector
   , screenshotsFilterSelector
   , slomoVideosFilterSelector
-  , spatialMediaFilterSelector
   , timelapseVideosFilterSelector
   , videosFilterSelector
 
@@ -148,7 +146,7 @@ livePhotosFilter  =
 -- | The filter for Depth Effect photos.
 --
 -- ObjC selector: @+ depthEffectPhotosFilter@
-depthEffectPhotosFilter :: IO (Id PHPickerFilter)
+depthEffectPhotosFilter :: IO RawId
 depthEffectPhotosFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
@@ -157,7 +155,7 @@ depthEffectPhotosFilter  =
 -- | The filter for bursts.
 --
 -- ObjC selector: @+ burstsFilter@
-burstsFilter :: IO (Id PHPickerFilter)
+burstsFilter :: IO RawId
 burstsFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
@@ -166,7 +164,7 @@ burstsFilter  =
 -- | The filter for panorama photos.
 --
 -- ObjC selector: @+ panoramasFilter@
-panoramasFilter :: IO (Id PHPickerFilter)
+panoramasFilter :: IO RawId
 panoramasFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
@@ -175,7 +173,7 @@ panoramasFilter  =
 -- | The filter for screenshots.
 --
 -- ObjC selector: @+ screenshotsFilter@
-screenshotsFilter :: IO (Id PHPickerFilter)
+screenshotsFilter :: IO RawId
 screenshotsFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
@@ -184,7 +182,7 @@ screenshotsFilter  =
 -- | The filter for screen recordings.
 --
 -- ObjC selector: @+ screenRecordingsFilter@
-screenRecordingsFilter :: IO (Id PHPickerFilter)
+screenRecordingsFilter :: IO RawId
 screenRecordingsFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
@@ -193,7 +191,7 @@ screenRecordingsFilter  =
 -- | The filter for Cinematic videos.
 --
 -- ObjC selector: @+ cinematicVideosFilter@
-cinematicVideosFilter :: IO (Id PHPickerFilter)
+cinematicVideosFilter :: IO RawId
 cinematicVideosFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
@@ -202,7 +200,7 @@ cinematicVideosFilter  =
 -- | The filter for Slow-Mo videos.
 --
 -- ObjC selector: @+ slomoVideosFilter@
-slomoVideosFilter :: IO (Id PHPickerFilter)
+slomoVideosFilter :: IO RawId
 slomoVideosFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
@@ -211,20 +209,11 @@ slomoVideosFilter  =
 -- | The filter for time-lapse videos.
 --
 -- ObjC selector: @+ timelapseVideosFilter@
-timelapseVideosFilter :: IO (Id PHPickerFilter)
+timelapseVideosFilter :: IO RawId
 timelapseVideosFilter  =
   do
     cls' <- getRequiredClass "PHPickerFilter"
     sendClassMessage cls' timelapseVideosFilterSelector
-
--- | The filter for spatial media.
---
--- ObjC selector: @+ spatialMediaFilter@
-spatialMediaFilter :: IO (Id PHPickerFilter)
-spatialMediaFilter  =
-  do
-    cls' <- getRequiredClass "PHPickerFilter"
-    sendClassMessage cls' spatialMediaFilterSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -267,38 +256,34 @@ livePhotosFilterSelector :: Selector '[] (Id PHPickerFilter)
 livePhotosFilterSelector = mkSelector "livePhotosFilter"
 
 -- | @Selector@ for @depthEffectPhotosFilter@
-depthEffectPhotosFilterSelector :: Selector '[] (Id PHPickerFilter)
+depthEffectPhotosFilterSelector :: Selector '[] RawId
 depthEffectPhotosFilterSelector = mkSelector "depthEffectPhotosFilter"
 
 -- | @Selector@ for @burstsFilter@
-burstsFilterSelector :: Selector '[] (Id PHPickerFilter)
+burstsFilterSelector :: Selector '[] RawId
 burstsFilterSelector = mkSelector "burstsFilter"
 
 -- | @Selector@ for @panoramasFilter@
-panoramasFilterSelector :: Selector '[] (Id PHPickerFilter)
+panoramasFilterSelector :: Selector '[] RawId
 panoramasFilterSelector = mkSelector "panoramasFilter"
 
 -- | @Selector@ for @screenshotsFilter@
-screenshotsFilterSelector :: Selector '[] (Id PHPickerFilter)
+screenshotsFilterSelector :: Selector '[] RawId
 screenshotsFilterSelector = mkSelector "screenshotsFilter"
 
 -- | @Selector@ for @screenRecordingsFilter@
-screenRecordingsFilterSelector :: Selector '[] (Id PHPickerFilter)
+screenRecordingsFilterSelector :: Selector '[] RawId
 screenRecordingsFilterSelector = mkSelector "screenRecordingsFilter"
 
 -- | @Selector@ for @cinematicVideosFilter@
-cinematicVideosFilterSelector :: Selector '[] (Id PHPickerFilter)
+cinematicVideosFilterSelector :: Selector '[] RawId
 cinematicVideosFilterSelector = mkSelector "cinematicVideosFilter"
 
 -- | @Selector@ for @slomoVideosFilter@
-slomoVideosFilterSelector :: Selector '[] (Id PHPickerFilter)
+slomoVideosFilterSelector :: Selector '[] RawId
 slomoVideosFilterSelector = mkSelector "slomoVideosFilter"
 
 -- | @Selector@ for @timelapseVideosFilter@
-timelapseVideosFilterSelector :: Selector '[] (Id PHPickerFilter)
+timelapseVideosFilterSelector :: Selector '[] RawId
 timelapseVideosFilterSelector = mkSelector "timelapseVideosFilter"
-
--- | @Selector@ for @spatialMediaFilter@
-spatialMediaFilterSelector :: Selector '[] (Id PHPickerFilter)
-spatialMediaFilterSelector = mkSelector "spatialMediaFilter"
 

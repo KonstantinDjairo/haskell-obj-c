@@ -26,6 +26,8 @@ module ObjC.WebKit.DOMElement
   , blur
   , scrollIntoView
   , scrollIntoViewIfNeeded
+  , scrollByLines
+  , scrollByPages
   , getElementsByClassName
   , webkitRequestFullScreen
   , querySelector
@@ -38,8 +40,6 @@ module ObjC.WebKit.DOMElement
   , getElementsByTagNameNS
   , getAttributeNodeNS
   , hasAttributeNS
-  , scrollByLines
-  , scrollByPages
   , tagName
   , style
   , offsetLeft
@@ -242,6 +242,16 @@ scrollIntoViewIfNeeded :: IsDOMElement domElement => domElement -> Bool -> IO ()
 scrollIntoViewIfNeeded domElement centerIfNeeded =
   sendMessage domElement scrollIntoViewIfNeededSelector centerIfNeeded
 
+-- | @- scrollByLines:@
+scrollByLines :: IsDOMElement domElement => domElement -> CInt -> IO ()
+scrollByLines domElement lines_ =
+  sendMessage domElement scrollByLinesSelector lines_
+
+-- | @- scrollByPages:@
+scrollByPages :: IsDOMElement domElement => domElement -> CInt -> IO ()
+scrollByPages domElement pages =
+  sendMessage domElement scrollByPagesSelector pages
+
 -- | @- getElementsByClassName:@
 getElementsByClassName :: (IsDOMElement domElement, IsNSString name) => domElement -> name -> IO (Id DOMNodeList)
 getElementsByClassName domElement name =
@@ -301,16 +311,6 @@ getAttributeNodeNS domElement namespaceURI localName =
 hasAttributeNS :: (IsDOMElement domElement, IsNSString namespaceURI, IsNSString localName) => domElement -> namespaceURI -> localName -> IO Bool
 hasAttributeNS domElement namespaceURI localName =
   sendMessage domElement hasAttributeNSSelector (toNSString namespaceURI) (toNSString localName)
-
--- | @- scrollByLines:@
-scrollByLines :: IsDOMElement domElement => domElement -> CInt -> IO ()
-scrollByLines domElement lines_ =
-  sendMessage domElement scrollByLinesSelector lines_
-
--- | @- scrollByPages:@
-scrollByPages :: IsDOMElement domElement => domElement -> CInt -> IO ()
-scrollByPages domElement pages =
-  sendMessage domElement scrollByPagesSelector pages
 
 -- | @- tagName@
 tagName :: IsDOMElement domElement => domElement -> IO (Id NSString)
@@ -537,6 +537,14 @@ scrollIntoViewSelector = mkSelector "scrollIntoView:"
 scrollIntoViewIfNeededSelector :: Selector '[Bool] ()
 scrollIntoViewIfNeededSelector = mkSelector "scrollIntoViewIfNeeded:"
 
+-- | @Selector@ for @scrollByLines:@
+scrollByLinesSelector :: Selector '[CInt] ()
+scrollByLinesSelector = mkSelector "scrollByLines:"
+
+-- | @Selector@ for @scrollByPages:@
+scrollByPagesSelector :: Selector '[CInt] ()
+scrollByPagesSelector = mkSelector "scrollByPages:"
+
 -- | @Selector@ for @getElementsByClassName:@
 getElementsByClassNameSelector :: Selector '[Id NSString] (Id DOMNodeList)
 getElementsByClassNameSelector = mkSelector "getElementsByClassName:"
@@ -584,14 +592,6 @@ getAttributeNodeNSSelector = mkSelector "getAttributeNodeNS::"
 -- | @Selector@ for @hasAttributeNS::@
 hasAttributeNSSelector :: Selector '[Id NSString, Id NSString] Bool
 hasAttributeNSSelector = mkSelector "hasAttributeNS::"
-
--- | @Selector@ for @scrollByLines:@
-scrollByLinesSelector :: Selector '[CInt] ()
-scrollByLinesSelector = mkSelector "scrollByLines:"
-
--- | @Selector@ for @scrollByPages:@
-scrollByPagesSelector :: Selector '[CInt] ()
-scrollByPagesSelector = mkSelector "scrollByPages:"
 
 -- | @Selector@ for @tagName@
 tagNameSelector :: Selector '[] (Id NSString)

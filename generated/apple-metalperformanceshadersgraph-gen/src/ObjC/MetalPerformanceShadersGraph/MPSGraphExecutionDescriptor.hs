@@ -4,7 +4,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A class that consists of all the levers  to synchronize and schedule graph execution.
+-- | MPSGraphExecutionDescriptor
+--
+-- A structure which consists of all the levers users can use to synchronize and schedule their graph execution
 --
 -- Generated bindings for @MPSGraphExecutionDescriptor@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphExecutionDescriptor
@@ -51,88 +53,94 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Executable waits on these shared events before scheduling execution on the HW, this does not include encoding which can still continue.
 --
--- - Parameters:   - event: shared event graph waits on.   - value: value of shared event graph waits on.
+-- @event@ — shared event to wait on
+--
+-- @value@ — value for shared event to wait on
 --
 -- ObjC selector: @- waitForEvent:value:@
 waitForEvent_value :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> RawId -> CULong -> IO ()
 waitForEvent_value mpsGraphExecutionDescriptor event value =
   sendMessage mpsGraphExecutionDescriptor waitForEvent_valueSelector event value
 
--- | Executable signals these shared events at execution stage and immediately proceeds.
+-- | Executable signals these shared events at execution stage and immediately proceeds
 --
--- - Parameters:   - event: shared event to signal.   - executionStage: execution stage to signal event at.   - value: value for shared event to wait on.
+-- @event@ — shared event to signal
+--
+-- @executionStage@ — execution stage to signal event at
+--
+-- @value@ — value for shared event to wait on
 --
 -- ObjC selector: @- signalEvent:atExecutionEvent:value:@
 signalEvent_atExecutionEvent_value :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> RawId -> MPSGraphExecutionStage -> CULong -> IO ()
 signalEvent_atExecutionEvent_value mpsGraphExecutionDescriptor event executionStage value =
   sendMessage mpsGraphExecutionDescriptor signalEvent_atExecutionEvent_valueSelector event executionStage value
 
--- | The handler that graph calls when it schedules the execution.
+-- | scheduledHandler
 --
--- Default value is nil.
+-- scheduledHandler for the graph, default value is nil
 --
 -- ObjC selector: @- scheduledHandler@
 scheduledHandler :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> IO (Ptr ())
 scheduledHandler mpsGraphExecutionDescriptor =
   sendMessage mpsGraphExecutionDescriptor scheduledHandlerSelector
 
--- | The handler that graph calls when it schedules the execution.
+-- | scheduledHandler
 --
--- Default value is nil.
+-- scheduledHandler for the graph, default value is nil
 --
 -- ObjC selector: @- setScheduledHandler:@
 setScheduledHandler :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> Ptr () -> IO ()
 setScheduledHandler mpsGraphExecutionDescriptor value =
   sendMessage mpsGraphExecutionDescriptor setScheduledHandlerSelector value
 
--- | The handler that graph calls at the completion of the execution.
+-- | completionHandler
 --
--- Default value is nil.
+-- completionHandler for the graph, default value is nil
 --
 -- ObjC selector: @- completionHandler@
 completionHandler :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> IO (Ptr ())
 completionHandler mpsGraphExecutionDescriptor =
   sendMessage mpsGraphExecutionDescriptor completionHandlerSelector
 
--- | The handler that graph calls at the completion of the execution.
+-- | completionHandler
 --
--- Default value is nil.
+-- completionHandler for the graph, default value is nil
 --
 -- ObjC selector: @- setCompletionHandler:@
 setCompletionHandler :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> Ptr () -> IO ()
 setCompletionHandler mpsGraphExecutionDescriptor value =
   sendMessage mpsGraphExecutionDescriptor setCompletionHandlerSelector value
 
--- | The flag that blocks the execution call until the entire execution is complete.
+-- | waitUntilCompleted
 --
--- Defaults to NO.
+-- waitUntilCompleted for the graph, default value is false
 --
 -- ObjC selector: @- waitUntilCompleted@
 waitUntilCompleted :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> IO Bool
 waitUntilCompleted mpsGraphExecutionDescriptor =
   sendMessage mpsGraphExecutionDescriptor waitUntilCompletedSelector
 
--- | The flag that blocks the execution call until the entire execution is complete.
+-- | waitUntilCompleted
 --
--- Defaults to NO.
+-- waitUntilCompleted for the graph, default value is false
 --
 -- ObjC selector: @- setWaitUntilCompleted:@
 setWaitUntilCompleted :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> Bool -> IO ()
 setWaitUntilCompleted mpsGraphExecutionDescriptor value =
   sendMessage mpsGraphExecutionDescriptor setWaitUntilCompletedSelector value
 
--- | The compilation descriptor for the graph.
+-- | compilationDescriptor
 --
--- Default value is nil.
+-- compilationDescriptor for the graph, default value is nil
 --
 -- ObjC selector: @- compilationDescriptor@
 compilationDescriptor :: IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor => mpsGraphExecutionDescriptor -> IO (Id MPSGraphCompilationDescriptor)
 compilationDescriptor mpsGraphExecutionDescriptor =
   sendMessage mpsGraphExecutionDescriptor compilationDescriptorSelector
 
--- | The compilation descriptor for the graph.
+-- | compilationDescriptor
 --
--- Default value is nil.
+-- compilationDescriptor for the graph, default value is nil
 --
 -- ObjC selector: @- setCompilationDescriptor:@
 setCompilationDescriptor :: (IsMPSGraphExecutionDescriptor mpsGraphExecutionDescriptor, IsMPSGraphCompilationDescriptor value) => mpsGraphExecutionDescriptor -> value -> IO ()

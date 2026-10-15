@@ -149,7 +149,7 @@ setDesiredKeys ckQueryOperation value =
 
 -- | This block will be called once for every record that is returned as a result of the query.
 --
--- The callbacks will happen in the order that the results were sorted in.  If the replacement callback @recordMatchedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- The callbacks will happen in the order that the results were sorted in.  If the replacement callback @recordMatchedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordFetchedBlock@
 recordFetchedBlock :: IsCKQueryOperation ckQueryOperation => ckQueryOperation -> IO (Ptr ())
@@ -158,7 +158,7 @@ recordFetchedBlock ckQueryOperation =
 
 -- | This block will be called once for every record that is returned as a result of the query.
 --
--- The callbacks will happen in the order that the results were sorted in.  If the replacement callback @recordMatchedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- The callbacks will happen in the order that the results were sorted in.  If the replacement callback @recordMatchedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordFetchedBlock:@
 setRecordFetchedBlock :: IsCKQueryOperation ckQueryOperation => ckQueryOperation -> Ptr () -> IO ()
@@ -167,7 +167,7 @@ setRecordFetchedBlock ckQueryOperation value =
 
 -- | This block will be called once for every record that is returned as a result of the query.
 --
--- The callbacks will happen in the order that the results were sorted in.  If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- The callbacks will happen in the order that the results were sorted in.  If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordMatchedBlock@
 recordMatchedBlock :: IsCKQueryOperation ckQueryOperation => ckQueryOperation -> IO (Ptr ())
@@ -176,7 +176,7 @@ recordMatchedBlock ckQueryOperation =
 
 -- | This block will be called once for every record that is returned as a result of the query.
 --
--- The callbacks will happen in the order that the results were sorted in.  If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- The callbacks will happen in the order that the results were sorted in.  If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordMatchedBlock:@
 setRecordMatchedBlock :: IsCKQueryOperation ckQueryOperation => ckQueryOperation -> Ptr () -> IO ()
@@ -189,7 +189,7 @@ setRecordMatchedBlock ckQueryOperation value =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @recordMatchedBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @recordMatchedBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- queryCompletionBlock@
 queryCompletionBlock :: IsCKQueryOperation ckQueryOperation => ckQueryOperation -> IO (Ptr ())
@@ -202,7 +202,7 @@ queryCompletionBlock ckQueryOperation =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @recordMatchedBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  These errors are repeats of those sent back in previous @recordMatchedBlock@ invocations  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setQueryCompletionBlock:@
 setQueryCompletionBlock :: IsCKQueryOperation ckQueryOperation => ckQueryOperation -> Ptr () -> IO ()

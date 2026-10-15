@@ -18,7 +18,6 @@ module ObjC.AuthenticationServices.ASAuthorizationAppleIDCredential
   , email
   , fullName
   , realUserStatus
-  , userAgeRange
   , authorizationCodeSelector
   , authorizedScopesSelector
   , emailSelector
@@ -28,14 +27,9 @@ module ObjC.AuthenticationServices.ASAuthorizationAppleIDCredential
   , newSelector
   , realUserStatusSelector
   , stateSelector
-  , userAgeRangeSelector
   , userSelector
 
   -- * Enum types
-  , ASUserAgeRange(ASUserAgeRange)
-  , pattern ASUserAgeRangeUnknown
-  , pattern ASUserAgeRangeChild
-  , pattern ASUserAgeRangeNotChild
   , ASUserDetectionStatus(ASUserDetectionStatus)
   , pattern ASUserDetectionStatusUnsupported
   , pattern ASUserDetectionStatusUnknown
@@ -131,15 +125,6 @@ realUserStatus :: IsASAuthorizationAppleIDCredential asAuthorizationAppleIDCrede
 realUserStatus asAuthorizationAppleIDCredential =
   sendMessage asAuthorizationAppleIDCredential realUserStatusSelector
 
--- | Check this property to determine whether the current user is a child.
---
--- See: ASUserAgeRange for guidelines on handling each status.
---
--- ObjC selector: @- userAgeRange@
-userAgeRange :: IsASAuthorizationAppleIDCredential asAuthorizationAppleIDCredential => asAuthorizationAppleIDCredential -> IO ASUserAgeRange
-userAgeRange asAuthorizationAppleIDCredential =
-  sendMessage asAuthorizationAppleIDCredential userAgeRangeSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -183,8 +168,4 @@ fullNameSelector = mkSelector "fullName"
 -- | @Selector@ for @realUserStatus@
 realUserStatusSelector :: Selector '[] ASUserDetectionStatus
 realUserStatusSelector = mkSelector "realUserStatus"
-
--- | @Selector@ for @userAgeRange@
-userAgeRangeSelector :: Selector '[] ASUserAgeRange
-userAgeRangeSelector = mkSelector "userAgeRange"
 

@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRGroupKeyManagementClusterKeySetRemoveParams
   ( MTRGroupKeyManagementClusterKeySetRemoveParams
   , IsMTRGroupKeyManagementClusterKeySetRemoveParams(..)
+  , init_
+  , copyWithZone
   , groupKeySetID
   , setGroupKeySetID
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , groupKeySetIDSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setGroupKeySetIDSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGroupKeyManagementClusterKeySetRemoveParams mtrGroupKeyManagementClusterKeySetRemoveParams => mtrGroupKeyManagementClusterKeySetRemoveParams -> IO (Id MTRGroupKeyManagementClusterKeySetRemoveParams)
+init_ mtrGroupKeyManagementClusterKeySetRemoveParams =
+  sendOwnedMessage mtrGroupKeyManagementClusterKeySetRemoveParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGroupKeyManagementClusterKeySetRemoveParams mtrGroupKeyManagementClusterKeySetRemoveParams => mtrGroupKeyManagementClusterKeySetRemoveParams -> Ptr () -> IO RawId
+copyWithZone mtrGroupKeyManagementClusterKeySetRemoveParams zone =
+  sendOwnedMessage mtrGroupKeyManagementClusterKeySetRemoveParams copyWithZoneSelector zone
 
 -- | @- groupKeySetID@
 groupKeySetID :: IsMTRGroupKeyManagementClusterKeySetRemoveParams mtrGroupKeyManagementClusterKeySetRemoveParams => mtrGroupKeyManagementClusterKeySetRemoveParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRGroupKeyManagementClusterKeySetRemoveParams mtr
 setTimedInvokeTimeoutMs mtrGroupKeyManagementClusterKeySetRemoveParams value =
   sendMessage mtrGroupKeyManagementClusterKeySetRemoveParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRGroupKeyManagementClusterKeySetRemoveParams mtrGroupKeyManagementClusterKeySetRemoveParams => mtrGroupKeyManagementClusterKeySetRemoveParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrGroupKeyManagementClusterKeySetRemoveParams =
-  sendMessage mtrGroupKeyManagementClusterKeySetRemoveParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRGroupKeyManagementClusterKeySetRemoveParams mtrGroupKeyManagementClusterKeySetRemoveParams, IsNSNumber value) => mtrGroupKeyManagementClusterKeySetRemoveParams -> value -> IO ()
-setServerSideProcessingTimeout mtrGroupKeyManagementClusterKeySetRemoveParams value =
-  sendMessage mtrGroupKeyManagementClusterKeySetRemoveParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGroupKeyManagementClusterKeySetRemoveParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @groupKeySetID@
 groupKeySetIDSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

@@ -15,11 +15,9 @@ module ObjC.WebKit.WKNavigationAction
   , navigationType
   , request
   , shouldPerformDownload
-  , isContentRuleListRedirect
   , modifierFlags
   , buttonNumber
   , buttonNumberSelector
-  , isContentRuleListRedirectSelector
   , modifierFlagsSelector
   , navigationTypeSelector
   , requestSelector
@@ -98,13 +96,6 @@ shouldPerformDownload :: IsWKNavigationAction wkNavigationAction => wkNavigation
 shouldPerformDownload wkNavigationAction =
   sendMessage wkNavigationAction shouldPerformDownloadSelector
 
--- | Whether or not the navigation is a redirect from a content rule list.
---
--- ObjC selector: @- isContentRuleListRedirect@
-isContentRuleListRedirect :: IsWKNavigationAction wkNavigationAction => wkNavigationAction -> IO Bool
-isContentRuleListRedirect wkNavigationAction =
-  sendMessage wkNavigationAction isContentRuleListRedirectSelector
-
 -- | The modifier keys that were in effect when the navigation was requested.
 --
 -- ObjC selector: @- modifierFlags@
@@ -142,10 +133,6 @@ requestSelector = mkSelector "request"
 -- | @Selector@ for @shouldPerformDownload@
 shouldPerformDownloadSelector :: Selector '[] Bool
 shouldPerformDownloadSelector = mkSelector "shouldPerformDownload"
-
--- | @Selector@ for @isContentRuleListRedirect@
-isContentRuleListRedirectSelector :: Selector '[] Bool
-isContentRuleListRedirectSelector = mkSelector "isContentRuleListRedirect"
 
 -- | @Selector@ for @modifierFlags@
 modifierFlagsSelector :: Selector '[] NSEventModifierFlags

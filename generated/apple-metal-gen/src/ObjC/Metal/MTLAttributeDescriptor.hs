@@ -75,8 +75,6 @@ module ObjC.Metal.MTLAttributeDescriptor
   , pattern MTLAttributeFormatUShortNormalized
   , pattern MTLAttributeFormatShortNormalized
   , pattern MTLAttributeFormatHalf
-  , pattern MTLAttributeFormatFloatRG11B10
-  , pattern MTLAttributeFormatFloatRGB9E5
 
   ) where
 

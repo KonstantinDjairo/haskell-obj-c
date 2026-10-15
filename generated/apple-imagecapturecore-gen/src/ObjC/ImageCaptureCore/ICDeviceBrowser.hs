@@ -12,10 +12,13 @@
 module ObjC.ImageCaptureCore.ICDeviceBrowser
   ( ICDeviceBrowser
   , IsICDeviceBrowser(..)
+  , preferredDevice
   , init_
   , start
   , stop
+  , contentsAuthorizationStatus
   , requestContentsAuthorizationWithCompletion
+  , controlAuthorizationStatus
   , requestControlAuthorizationWithCompletion
   , resetContentsAuthorizationWithCompletion
   , resetControlAuthorizationWithCompletion
@@ -26,9 +29,6 @@ module ObjC.ImageCaptureCore.ICDeviceBrowser
   , browsedDeviceTypeMask
   , setBrowsedDeviceTypeMask
   , devices
-  , preferredDevice
-  , contentsAuthorizationStatus
-  , controlAuthorizationStatus
   , browsedDeviceTypeMaskSelector
   , browsingSelector
   , contentsAuthorizationStatusSelector
@@ -66,12 +66,23 @@ import ObjC.ImageCaptureCore.Internal.Classes
 import ObjC.ImageCaptureCore.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
+-- | preferredDevice
+--
+-- This method returns a device object that should be selected by the client application when it is launched.
+--
+-- If the client application that calls this method is the auto-launch application associated with a device and that device is the last device attached (through USB, FireWire or network), then that device will be the preferred device. The best place to call this method is in the implmentation of the ICDeviceBrowser delegate method "deviceBrowser:didAddDevice:moreComing:", if the "moreComing" parameter passed to the delegate is "NO"; or in the delegate method "deviceBrowserDidEnumerateLocalDevices:".
+--
+-- ObjC selector: @- preferredDevice@
+preferredDevice :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO (Id ICDevice)
+preferredDevice icDeviceBrowser =
+  sendMessage icDeviceBrowser preferredDeviceSelector
+
 -- | init
 --
 -- This is the designated initializer.
 --
 -- ObjC selector: @- init@
-init_ :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO (Id ICDeviceBrowser)
+init_ :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO RawId
 init_ icDeviceBrowser =
   sendOwnedMessage icDeviceBrowser initSelector
 
@@ -97,6 +108,17 @@ stop :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO ()
 stop icDeviceBrowser =
   sendMessage icDeviceBrowser stopSelector
 
+-- | contentsAuthorizationStatus
+--
+-- This method returns a constant indicating whether the app has permission to acces the contents of an attached media device.
+--
+-- A constant indicating authorization status.
+--
+-- ObjC selector: @- contentsAuthorizationStatus@
+contentsAuthorizationStatus :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO (Id NSString)
+contentsAuthorizationStatus icDeviceBrowser =
+  sendMessage icDeviceBrowser contentsAuthorizationStatusSelector
+
 -- | requestContentsAuthorizationWithCompletion:
 --
 -- This method requests the user’s permission, if needed, for accessing the conents of an external media device.
@@ -105,6 +127,15 @@ stop icDeviceBrowser =
 requestContentsAuthorizationWithCompletion :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> Ptr () -> IO ()
 requestContentsAuthorizationWithCompletion icDeviceBrowser completion =
   sendMessage icDeviceBrowser requestContentsAuthorizationWithCompletionSelector completion
+
+-- | controlAuthorizationStatus
+--
+-- This method returns a constant indicating whether the app has permission to control the attached camera device.
+--
+-- ObjC selector: @- controlAuthorizationStatus@
+controlAuthorizationStatus :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO (Id NSString)
+controlAuthorizationStatus icDeviceBrowser =
+  sendMessage icDeviceBrowser controlAuthorizationStatusSelector
 
 -- | requestControlAuthorizationWithCompletion:
 --
@@ -198,43 +229,16 @@ devices :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO (Id NSArra
 devices icDeviceBrowser =
   sendMessage icDeviceBrowser devicesSelector
 
--- | preferredDevice
---
--- This property returns a device object that should be selected by the client application when it is launched.
---
--- If the client application that calls this method is the auto-launch application associated with a device and that device is the last device attached (through USB, FireWire or network), then that device will be the preferred device. The best place to call this method is in the implmentation of the ICDeviceBrowser delegate method "deviceBrowser:didAddDevice:moreComing:", if the "moreComing" parameter passed to the delegate is "NO"; or in the delegate method "deviceBrowserDidEnumerateLocalDevices:".
---
--- ObjC selector: @- preferredDevice@
-preferredDevice :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO RawId
-preferredDevice icDeviceBrowser =
-  sendMessage icDeviceBrowser preferredDeviceSelector
-
--- | contentsAuthorizationStatus
---
--- This property returns a constant indicating whether the app has permission to acces the contents of an attached media device.
---
--- A constant indicating authorization status.
---
--- ObjC selector: @- contentsAuthorizationStatus@
-contentsAuthorizationStatus :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO (Id NSString)
-contentsAuthorizationStatus icDeviceBrowser =
-  sendMessage icDeviceBrowser contentsAuthorizationStatusSelector
-
--- | controlAuthorizationStatus
---
--- This property returns a constant indicating whether the app has permission to control the attached camera device.
---
--- ObjC selector: @- controlAuthorizationStatus@
-controlAuthorizationStatus :: IsICDeviceBrowser icDeviceBrowser => icDeviceBrowser -> IO (Id NSString)
-controlAuthorizationStatus icDeviceBrowser =
-  sendMessage icDeviceBrowser controlAuthorizationStatusSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @preferredDevice@
+preferredDeviceSelector :: Selector '[] (Id ICDevice)
+preferredDeviceSelector = mkSelector "preferredDevice"
+
 -- | @Selector@ for @init@
-initSelector :: Selector '[] (Id ICDeviceBrowser)
+initSelector :: Selector '[] RawId
 initSelector = mkSelector "init"
 
 -- | @Selector@ for @start@
@@ -245,9 +249,17 @@ startSelector = mkSelector "start"
 stopSelector :: Selector '[] ()
 stopSelector = mkSelector "stop"
 
+-- | @Selector@ for @contentsAuthorizationStatus@
+contentsAuthorizationStatusSelector :: Selector '[] (Id NSString)
+contentsAuthorizationStatusSelector = mkSelector "contentsAuthorizationStatus"
+
 -- | @Selector@ for @requestContentsAuthorizationWithCompletion:@
 requestContentsAuthorizationWithCompletionSelector :: Selector '[Ptr ()] ()
 requestContentsAuthorizationWithCompletionSelector = mkSelector "requestContentsAuthorizationWithCompletion:"
+
+-- | @Selector@ for @controlAuthorizationStatus@
+controlAuthorizationStatusSelector :: Selector '[] (Id NSString)
+controlAuthorizationStatusSelector = mkSelector "controlAuthorizationStatus"
 
 -- | @Selector@ for @requestControlAuthorizationWithCompletion:@
 requestControlAuthorizationWithCompletionSelector :: Selector '[Ptr ()] ()
@@ -288,16 +300,4 @@ setBrowsedDeviceTypeMaskSelector = mkSelector "setBrowsedDeviceTypeMask:"
 -- | @Selector@ for @devices@
 devicesSelector :: Selector '[] (Id NSArray)
 devicesSelector = mkSelector "devices"
-
--- | @Selector@ for @preferredDevice@
-preferredDeviceSelector :: Selector '[] RawId
-preferredDeviceSelector = mkSelector "preferredDevice"
-
--- | @Selector@ for @contentsAuthorizationStatus@
-contentsAuthorizationStatusSelector :: Selector '[] (Id NSString)
-contentsAuthorizationStatusSelector = mkSelector "contentsAuthorizationStatus"
-
--- | @Selector@ for @controlAuthorizationStatus@
-controlAuthorizationStatusSelector :: Selector '[] (Id NSString)
-controlAuthorizationStatusSelector = mkSelector "controlAuthorizationStatus"
 

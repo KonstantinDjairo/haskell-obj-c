@@ -42,7 +42,6 @@ module ObjC.NetworkExtension.NEFilterProvider
   , pattern NEProviderStopReasonConnectionFailed
   , pattern NEProviderStopReasonSleep
   , pattern NEProviderStopReasonAppUpdate
-  , pattern NEProviderStopReasonInternalError
 
   ) where
 

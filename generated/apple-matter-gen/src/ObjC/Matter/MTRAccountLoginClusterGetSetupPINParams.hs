@@ -7,14 +7,14 @@
 module ObjC.Matter.MTRAccountLoginClusterGetSetupPINParams
   ( MTRAccountLoginClusterGetSetupPINParams
   , IsMTRAccountLoginClusterGetSetupPINParams(..)
+  , init_
+  , copyWithZone
   , tempAccountIdentifier
   , setTempAccountIdentifier
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , serverSideProcessingTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTempAccountIdentifierSelector
   , setTimedInvokeTimeoutMsSelector
   , tempAccountIdentifierSelector
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRAccountLoginClusterGetSetupPINParams mtrAccountLoginClusterGetSetupPINParams => mtrAccountLoginClusterGetSetupPINParams -> IO (Id MTRAccountLoginClusterGetSetupPINParams)
+init_ mtrAccountLoginClusterGetSetupPINParams =
+  sendOwnedMessage mtrAccountLoginClusterGetSetupPINParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAccountLoginClusterGetSetupPINParams mtrAccountLoginClusterGetSetupPINParams => mtrAccountLoginClusterGetSetupPINParams -> Ptr () -> IO RawId
+copyWithZone mtrAccountLoginClusterGetSetupPINParams zone =
+  sendOwnedMessage mtrAccountLoginClusterGetSetupPINParams copyWithZoneSelector zone
 
 -- | @- tempAccountIdentifier@
 tempAccountIdentifier :: IsMTRAccountLoginClusterGetSetupPINParams mtrAccountLoginClusterGetSetupPINParams => mtrAccountLoginClusterGetSetupPINParams -> IO (Id NSString)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRAccountLoginClusterGetSetupPINParams mtrAccount
 setTimedInvokeTimeoutMs mtrAccountLoginClusterGetSetupPINParams value =
   sendMessage mtrAccountLoginClusterGetSetupPINParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRAccountLoginClusterGetSetupPINParams mtrAccountLoginClusterGetSetupPINParams => mtrAccountLoginClusterGetSetupPINParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrAccountLoginClusterGetSetupPINParams =
-  sendMessage mtrAccountLoginClusterGetSetupPINParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRAccountLoginClusterGetSetupPINParams mtrAccountLoginClusterGetSetupPINParams, IsNSNumber value) => mtrAccountLoginClusterGetSetupPINParams -> value -> IO ()
-setServerSideProcessingTimeout mtrAccountLoginClusterGetSetupPINParams value =
-  sendMessage mtrAccountLoginClusterGetSetupPINParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAccountLoginClusterGetSetupPINParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @tempAccountIdentifier@
 tempAccountIdentifierSelector :: Selector '[] (Id NSString)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

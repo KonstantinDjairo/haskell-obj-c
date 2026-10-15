@@ -7,12 +7,16 @@
 module ObjC.Matter.MTRTimeSynchronizationClusterTimeZoneType
   ( MTRTimeSynchronizationClusterTimeZoneType
   , IsMTRTimeSynchronizationClusterTimeZoneType(..)
+  , init_
+  , copyWithZone
   , offset
   , setOffset
   , validAt
   , setValidAt
   , name
   , setName
+  , copyWithZoneSelector
+  , initSelector
   , nameSelector
   , offsetSelector
   , setNameSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTimeSynchronizationClusterTimeZoneType mtrTimeSynchronizationClusterTimeZoneType => mtrTimeSynchronizationClusterTimeZoneType -> IO (Id MTRTimeSynchronizationClusterTimeZoneType)
+init_ mtrTimeSynchronizationClusterTimeZoneType =
+  sendOwnedMessage mtrTimeSynchronizationClusterTimeZoneType initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTimeSynchronizationClusterTimeZoneType mtrTimeSynchronizationClusterTimeZoneType => mtrTimeSynchronizationClusterTimeZoneType -> Ptr () -> IO RawId
+copyWithZone mtrTimeSynchronizationClusterTimeZoneType zone =
+  sendOwnedMessage mtrTimeSynchronizationClusterTimeZoneType copyWithZoneSelector zone
 
 -- | @- offset@
 offset :: IsMTRTimeSynchronizationClusterTimeZoneType mtrTimeSynchronizationClusterTimeZoneType => mtrTimeSynchronizationClusterTimeZoneType -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setName mtrTimeSynchronizationClusterTimeZoneType value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTimeSynchronizationClusterTimeZoneType)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @offset@
 offsetSelector :: Selector '[] (Id NSNumber)

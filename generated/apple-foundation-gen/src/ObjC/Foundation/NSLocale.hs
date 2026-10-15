@@ -42,9 +42,7 @@ module ObjC.Foundation.NSLocale
   , systemLocale
   , localeIdentifier
   , languageCode
-  , languageIdentifier
   , countryCode
-  , regionCode
   , scriptCode
   , variantCode
   , exemplarCharacterSet
@@ -87,7 +85,6 @@ module ObjC.Foundation.NSLocale
   , isoCurrencyCodesSelector
   , isoLanguageCodesSelector
   , languageCodeSelector
-  , languageIdentifierSelector
   , lineDirectionForLanguageSelector
   , localeIdentifierFromComponentsSelector
   , localeIdentifierFromWindowsLocaleCodeSelector
@@ -106,7 +103,6 @@ module ObjC.Foundation.NSLocale
   , preferredLanguagesSelector
   , quotationBeginDelimiterSelector
   , quotationEndDelimiterSelector
-  , regionCodeSelector
   , scriptCodeSelector
   , systemLocaleSelector
   , usesMetricSystemSelector
@@ -340,24 +336,10 @@ languageCode :: IsNSLocale nsLocale => nsLocale -> IO (Id NSString)
 languageCode nsLocale =
   sendMessage nsLocale languageCodeSelector
 
--- | Returns the identifier for the language part of the locale. For example, returns "en-US" for "en_US\@rg=gbzzzz"  locale.
---
--- ObjC selector: @- languageIdentifier@
-languageIdentifier :: IsNSLocale nsLocale => nsLocale -> IO (Id NSString)
-languageIdentifier nsLocale =
-  sendMessage nsLocale languageIdentifierSelector
-
 -- | @- countryCode@
 countryCode :: IsNSLocale nsLocale => nsLocale -> IO (Id NSString)
 countryCode nsLocale =
   sendMessage nsLocale countryCodeSelector
-
--- | Returns the region code of the locale. If the @rg@ subtag is present, the value of the subtag will be used. For example,  returns "GB" for "en_US\@rg=gbzzzz" locale. If the @localeIdentifier@ doesn’t contain a region, returns @nil@.
---
--- ObjC selector: @- regionCode@
-regionCode :: IsNSLocale nsLocale => nsLocale -> IO (Id NSString)
-regionCode nsLocale =
-  sendMessage nsLocale regionCodeSelector
 
 -- | @- scriptCode@
 scriptCode :: IsNSLocale nsLocale => nsLocale -> IO (Id NSString)
@@ -574,17 +556,9 @@ localeIdentifierSelector = mkSelector "localeIdentifier"
 languageCodeSelector :: Selector '[] (Id NSString)
 languageCodeSelector = mkSelector "languageCode"
 
--- | @Selector@ for @languageIdentifier@
-languageIdentifierSelector :: Selector '[] (Id NSString)
-languageIdentifierSelector = mkSelector "languageIdentifier"
-
 -- | @Selector@ for @countryCode@
 countryCodeSelector :: Selector '[] (Id NSString)
 countryCodeSelector = mkSelector "countryCode"
-
--- | @Selector@ for @regionCode@
-regionCodeSelector :: Selector '[] (Id NSString)
-regionCodeSelector = mkSelector "regionCode"
 
 -- | @Selector@ for @scriptCode@
 scriptCodeSelector :: Selector '[] (Id NSString)

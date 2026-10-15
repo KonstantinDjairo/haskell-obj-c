@@ -12,14 +12,12 @@ module ObjC.GameKit.GKMatchmaker
   , sharedMatchmaker
   , matchForInvite_completionHandler
   , findMatchForRequest_withCompletionHandler
-  , findMatchedPlayers_withCompletionHandler
   , addPlayersToMatch_matchRequest_completionHandler
   , cancel
   , cancelPendingInviteToPlayer
   , finishMatchmakingForMatch
   , queryPlayerGroupActivity_withCompletionHandler
   , queryActivityWithCompletionHandler
-  , queryQueueActivity_withCompletionHandler
   , startBrowsingForNearbyPlayersWithHandler
   , stopBrowsingForNearbyPlayers
   , startGroupActivityWithPlayerHandler
@@ -33,13 +31,11 @@ module ObjC.GameKit.GKMatchmaker
   , cancelPendingInviteToPlayerSelector
   , cancelSelector
   , findMatchForRequest_withCompletionHandlerSelector
-  , findMatchedPlayers_withCompletionHandlerSelector
   , finishMatchmakingForMatchSelector
   , inviteHandlerSelector
   , matchForInvite_completionHandlerSelector
   , queryActivityWithCompletionHandlerSelector
   , queryPlayerGroupActivity_withCompletionHandlerSelector
-  , queryQueueActivity_withCompletionHandlerSelector
   , setInviteHandlerSelector
   , sharedMatchmakerSelector
   , startBrowsingForNearbyPlayersWithHandlerSelector
@@ -85,13 +81,6 @@ findMatchForRequest_withCompletionHandler :: (IsGKMatchmaker gkMatchmaker, IsGKM
 findMatchForRequest_withCompletionHandler gkMatchmaker request completionHandler =
   sendMessage gkMatchmaker findMatchForRequest_withCompletionHandlerSelector (toGKMatchRequest request) completionHandler
 
--- | Automatching or invites for host-client rule-based match request.
---
--- ObjC selector: @- findMatchedPlayers:withCompletionHandler:@
-findMatchedPlayers_withCompletionHandler :: (IsGKMatchmaker gkMatchmaker, IsGKMatchRequest request) => gkMatchmaker -> request -> Ptr () -> IO ()
-findMatchedPlayers_withCompletionHandler gkMatchmaker request completionHandler =
-  sendMessage gkMatchmaker findMatchedPlayers_withCompletionHandlerSelector (toGKMatchRequest request) completionHandler
-
 -- | Automatching or invites to add additional players to a peer-to-peer match for the specified request. Error will be nil on success: Possible reasons for error: 1. Communications failure 2. Timeout
 --
 -- ObjC selector: @- addPlayersToMatch:matchRequest:completionHandler:@
@@ -133,13 +122,6 @@ queryPlayerGroupActivity_withCompletionHandler gkMatchmaker playerGroup completi
 queryActivityWithCompletionHandler :: IsGKMatchmaker gkMatchmaker => gkMatchmaker -> Ptr () -> IO ()
 queryActivityWithCompletionHandler gkMatchmaker completionHandler =
   sendMessage gkMatchmaker queryActivityWithCompletionHandlerSelector completionHandler
-
--- | Query the server for recent activity for the specified queue.
---
--- ObjC selector: @- queryQueueActivity:withCompletionHandler:@
-queryQueueActivity_withCompletionHandler :: (IsGKMatchmaker gkMatchmaker, IsNSString queueName) => gkMatchmaker -> queueName -> Ptr () -> IO ()
-queryQueueActivity_withCompletionHandler gkMatchmaker queueName completionHandler =
-  sendMessage gkMatchmaker queryQueueActivity_withCompletionHandlerSelector (toNSString queueName) completionHandler
 
 -- | Start browsing for nearby players that can be invited to a match. The reachableHandler will be called for each player found with a compatible game. It may be called more than once for the same player if that player ever becomes unreachable (e.g. moves out of range). You should call stopBrowsingForNearbyPlayers when finished browsing.
 --
@@ -209,10 +191,6 @@ matchForInvite_completionHandlerSelector = mkSelector "matchForInvite:completion
 findMatchForRequest_withCompletionHandlerSelector :: Selector '[Id GKMatchRequest, Ptr ()] ()
 findMatchForRequest_withCompletionHandlerSelector = mkSelector "findMatchForRequest:withCompletionHandler:"
 
--- | @Selector@ for @findMatchedPlayers:withCompletionHandler:@
-findMatchedPlayers_withCompletionHandlerSelector :: Selector '[Id GKMatchRequest, Ptr ()] ()
-findMatchedPlayers_withCompletionHandlerSelector = mkSelector "findMatchedPlayers:withCompletionHandler:"
-
 -- | @Selector@ for @addPlayersToMatch:matchRequest:completionHandler:@
 addPlayersToMatch_matchRequest_completionHandlerSelector :: Selector '[Id GKMatch, Id GKMatchRequest, Ptr ()] ()
 addPlayersToMatch_matchRequest_completionHandlerSelector = mkSelector "addPlayersToMatch:matchRequest:completionHandler:"
@@ -236,10 +214,6 @@ queryPlayerGroupActivity_withCompletionHandlerSelector = mkSelector "queryPlayer
 -- | @Selector@ for @queryActivityWithCompletionHandler:@
 queryActivityWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 queryActivityWithCompletionHandlerSelector = mkSelector "queryActivityWithCompletionHandler:"
-
--- | @Selector@ for @queryQueueActivity:withCompletionHandler:@
-queryQueueActivity_withCompletionHandlerSelector :: Selector '[Id NSString, Ptr ()] ()
-queryQueueActivity_withCompletionHandlerSelector = mkSelector "queryQueueActivity:withCompletionHandler:"
 
 -- | @Selector@ for @startBrowsingForNearbyPlayersWithHandler:@
 startBrowsingForNearbyPlayersWithHandlerSelector :: Selector '[Ptr ()] ()

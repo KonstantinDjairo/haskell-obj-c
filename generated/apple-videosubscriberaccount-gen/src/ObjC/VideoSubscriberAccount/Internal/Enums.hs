@@ -42,31 +42,6 @@ instance ObjCReturn VSAccountAccessStatus where
   fromRetained x = pure (VSAccountAccessStatus x)
   fromOwned x = pure (VSAccountAccessStatus x)
 
--- | Auto sign in authorization state.
--- | @VSAutoSignInAuthorization@
-newtype VSAutoSignInAuthorization = VSAutoSignInAuthorization CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern VSAutoSignInAuthorizationNotDetermined :: VSAutoSignInAuthorization
-pattern VSAutoSignInAuthorizationNotDetermined = VSAutoSignInAuthorization 0
-
-pattern VSAutoSignInAuthorizationGranted :: VSAutoSignInAuthorization
-pattern VSAutoSignInAuthorizationGranted = VSAutoSignInAuthorization 1
-
-pattern VSAutoSignInAuthorizationDenied :: VSAutoSignInAuthorization
-pattern VSAutoSignInAuthorizationDenied = VSAutoSignInAuthorization 2
-
-instance ObjCArgument VSAutoSignInAuthorization where
-  withObjCArg (VSAutoSignInAuthorization x) k = k (argCLong x)
-
-instance ObjCReturn VSAutoSignInAuthorization where
-  type RawReturn VSAutoSignInAuthorization = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (VSAutoSignInAuthorization x)
-  fromOwned x = pure (VSAutoSignInAuthorization x)
-
 -- | @VSErrorCode@
 newtype VSErrorCode = VSErrorCode CLong
   deriving stock (Eq, Ord, Show)

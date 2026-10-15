@@ -7,20 +7,20 @@
 module ObjC.Matter.MTROperationalCredentialsClusterCSRRequestParams
   ( MTROperationalCredentialsClusterCSRRequestParams
   , IsMTROperationalCredentialsClusterCSRRequestParams(..)
+  , init_
+  , copyWithZone
   , csrNonce
   , setCsrNonce
   , isForUpdateNOC
   , setIsForUpdateNOC
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , csrNonceSelector
+  , initSelector
   , isForUpdateNOCSelector
-  , serverSideProcessingTimeoutSelector
   , setCsrNonceSelector
   , setIsForUpdateNOCSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTROperationalCredentialsClusterCSRRequestParams mtrOperationalCredentialsClusterCSRRequestParams => mtrOperationalCredentialsClusterCSRRequestParams -> IO (Id MTROperationalCredentialsClusterCSRRequestParams)
+init_ mtrOperationalCredentialsClusterCSRRequestParams =
+  sendOwnedMessage mtrOperationalCredentialsClusterCSRRequestParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROperationalCredentialsClusterCSRRequestParams mtrOperationalCredentialsClusterCSRRequestParams => mtrOperationalCredentialsClusterCSRRequestParams -> Ptr () -> IO RawId
+copyWithZone mtrOperationalCredentialsClusterCSRRequestParams zone =
+  sendOwnedMessage mtrOperationalCredentialsClusterCSRRequestParams copyWithZoneSelector zone
 
 -- | @- csrNonce@
 csrNonce :: IsMTROperationalCredentialsClusterCSRRequestParams mtrOperationalCredentialsClusterCSRRequestParams => mtrOperationalCredentialsClusterCSRRequestParams -> IO (Id NSData)
@@ -80,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTROperationalCredentialsClusterCSRRequestParams m
 setTimedInvokeTimeoutMs mtrOperationalCredentialsClusterCSRRequestParams value =
   sendMessage mtrOperationalCredentialsClusterCSRRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTROperationalCredentialsClusterCSRRequestParams mtrOperationalCredentialsClusterCSRRequestParams => mtrOperationalCredentialsClusterCSRRequestParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrOperationalCredentialsClusterCSRRequestParams =
-  sendMessage mtrOperationalCredentialsClusterCSRRequestParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTROperationalCredentialsClusterCSRRequestParams mtrOperationalCredentialsClusterCSRRequestParams, IsNSNumber value) => mtrOperationalCredentialsClusterCSRRequestParams -> value -> IO ()
-setServerSideProcessingTimeout mtrOperationalCredentialsClusterCSRRequestParams value =
-  sendMessage mtrOperationalCredentialsClusterCSRRequestParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROperationalCredentialsClusterCSRRequestParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @csrNonce@
 csrNonceSelector :: Selector '[] (Id NSData)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

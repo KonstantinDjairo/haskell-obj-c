@@ -58,11 +58,6 @@ module ObjC.CoreImage.CIImage
   , imageBySamplingLinear
   , imageBySamplingNearest
   , imageByInsertingIntermediate
-  , imageByInsertingTiledIntermediate
-  , imageByApplyingGainMap
-  , imageByApplyingGainMap_headroom
-  , imageBySettingContentHeadroom
-  , imageBySettingContentAverageLightLevel
   , imageWithImageProvider_size__format_colorSpace_options
   , initWithImageProvider_size__format_colorSpace_options
   , initWithSemanticSegmentationMatte_options
@@ -91,12 +86,9 @@ module ObjC.CoreImage.CIImage
   , magentaImage
   , yellowImage
   , clearImage
-  , opaque
   , definition
   , url
   , colorSpace
-  , contentHeadroom
-  , contentAverageLightLevel
   , pixelBuffer
   , cgImage
   , semanticSegmentationMatte
@@ -109,8 +101,6 @@ module ObjC.CoreImage.CIImage
   , cgImageSelector
   , clearImageSelector
   , colorSpaceSelector
-  , contentAverageLightLevelSelector
-  , contentHeadroomSelector
   , cyanImageSelector
   , definitionSelector
   , depthDataSelector
@@ -120,8 +110,6 @@ module ObjC.CoreImage.CIImage
   , imageByApplyingCGOrientationSelector
   , imageByApplyingFilterSelector
   , imageByApplyingFilter_withInputParametersSelector
-  , imageByApplyingGainMapSelector
-  , imageByApplyingGainMap_headroomSelector
   , imageByApplyingGaussianBlurWithSigmaSelector
   , imageByApplyingOrientationSelector
   , imageByClampingToExtentSelector
@@ -131,12 +119,9 @@ module ObjC.CoreImage.CIImage
   , imageByConvertingLabToWorkingSpaceSelector
   , imageByConvertingWorkingSpaceToLabSelector
   , imageByInsertingIntermediateSelector
-  , imageByInsertingTiledIntermediateSelector
   , imageByPremultiplyingAlphaSelector
   , imageBySamplingLinearSelector
   , imageBySamplingNearestSelector
-  , imageBySettingContentAverageLightLevelSelector
-  , imageBySettingContentHeadroomSelector
   , imageBySettingPropertiesSelector
   , imageByUnpremultiplyingAlphaSelector
   , imageWithCGImageSelector
@@ -189,7 +174,6 @@ module ObjC.CoreImage.CIImage
   , initWithSemanticSegmentationMatteSelector
   , initWithSemanticSegmentationMatte_optionsSelector
   , magentaImageSelector
-  , opaqueSelector
   , pixelBufferSelector
   , portraitEffectsMatteSelector
   , redImageSelector
@@ -478,123 +462,42 @@ imageByUnpremultiplyingAlpha :: IsCIImage ciImage => ciImage -> IO (Id CIImage)
 imageByUnpremultiplyingAlpha ciImage =
   sendMessage ciImage imageByUnpremultiplyingAlphaSelector
 
--- | Create an image by applying a gaussian blur to the receiver. - Parameters:    - sigma: The sigma of the gaussian blur to apply to the receiver.             If the sigma is very small (less than @0.16@) then the receiver is returned. - Returns:     An autoreleased ``CIImage`` instance or the received image.
---
--- ObjC selector: @- imageByApplyingGaussianBlurWithSigma:@
+-- | @- imageByApplyingGaussianBlurWithSigma:@
 imageByApplyingGaussianBlurWithSigma :: IsCIImage ciImage => ciImage -> CDouble -> IO (Id CIImage)
 imageByApplyingGaussianBlurWithSigma ciImage sigma =
   sendMessage ciImage imageByApplyingGaussianBlurWithSigmaSelector sigma
 
--- | Return a new image by changing the receiver's metadata properties.
---
--- When you create an image, Core Image sets an image’s properties to a metadata  dictionary as described here: ``properties``. Use this method to override an image’s metadata properties with new values.
---
--- - Parameters:    - properties: A dictionary of metadata properties akin to the @CGImageSourceCopyPropertiesAtIndex()@ function. - Returns:     An autoreleased ``CIImage`` instance with a copy of the new properties.
---
--- ObjC selector: @- imageBySettingProperties:@
+-- | @- imageBySettingProperties:@
 imageBySettingProperties :: (IsCIImage ciImage, IsNSDictionary properties) => ciImage -> properties -> IO (Id CIImage)
 imageBySettingProperties ciImage properties =
   sendMessage ciImage imageBySettingPropertiesSelector (toNSDictionary properties)
 
--- | Create an image by changing the receiver's sample mode to bilinear interpolation. - Returns:     An autoreleased ``CIImage`` instance with a bilinear sampling.
---
--- ObjC selector: @- imageBySamplingLinear@
+-- | @- imageBySamplingLinear@
 imageBySamplingLinear :: IsCIImage ciImage => ciImage -> IO (Id CIImage)
 imageBySamplingLinear ciImage =
   sendMessage ciImage imageBySamplingLinearSelector
 
--- | Create an image by changing the receiver's sample mode to nearest neighbor. - Returns:     An autoreleased ``CIImage`` instance with a nearest sampling.
---
--- ObjC selector: @- imageBySamplingNearest@
+-- | @- imageBySamplingNearest@
 imageBySamplingNearest :: IsCIImage ciImage => ciImage -> IO (Id CIImage)
 imageBySamplingNearest ciImage =
   sendMessage ciImage imageBySamplingNearestSelector
 
--- | Create an image that inserts a intermediate that is cacheable
---
--- This intermediate will be not be cached if ``kCIContextCacheIntermediates`` is false. - Returns:     An autoreleased ``CIImage``.
---
--- ObjC selector: @- imageByInsertingIntermediate@
+-- | @- imageByInsertingIntermediate@
 imageByInsertingIntermediate :: IsCIImage ciImage => ciImage -> IO (Id CIImage)
 imageByInsertingIntermediate ciImage =
   sendMessage ciImage imageByInsertingIntermediateSelector
 
--- | Create an image that inserts a intermediate that is cached in tiles
---
--- This intermediate will be cacheable even if ``kCIContextCacheIntermediates`` is false. - Returns:     An autoreleased ``CIImage``.
---
--- ObjC selector: @- imageByInsertingTiledIntermediate@
-imageByInsertingTiledIntermediate :: IsCIImage ciImage => ciImage -> IO (Id CIImage)
-imageByInsertingTiledIntermediate ciImage =
-  sendMessage ciImage imageByInsertingTiledIntermediateSelector
-
--- | Create an image that applies a gain map Core Image image to the received Core Image image.
---
--- The gain map image can be obtained by creating a ``CIImage`` instance from @NSURL@/@NSData@  and setting the ``kCIImageAuxiliaryHDRGainMap`` option set to ``.
---
--- If the gain map ``CIImage`` instance doesn't have the needed ``properties`` metadata,  the received image will be returned as-is.
---
--- - Returns:     An autoreleased ``CIImage`` instance or the received image.
---
--- ObjC selector: @- imageByApplyingGainMap:@
-imageByApplyingGainMap :: (IsCIImage ciImage, IsCIImage gainmap) => ciImage -> gainmap -> IO (Id CIImage)
-imageByApplyingGainMap ciImage gainmap =
-  sendMessage ciImage imageByApplyingGainMapSelector (toCIImage gainmap)
-
--- | Create an image that applies a gain map Core Image image with a specified headroom to the received Core Image image.
---
--- - Parameters:    - gainmap: The gain map ``CIImage`` instance to apply to the receiver.    - headroom: a float value that specify how much headroom the resulting image should have.                The headroom value will be limited to between 1.0 (i.e. SDR) and                 the full headroom allowed by the gain map. - Returns:     An autoreleased ``CIImage`` instance or the received image.
---
--- ObjC selector: @- imageByApplyingGainMap:headroom:@
-imageByApplyingGainMap_headroom :: (IsCIImage ciImage, IsCIImage gainmap) => ciImage -> gainmap -> CFloat -> IO (Id CIImage)
-imageByApplyingGainMap_headroom ciImage gainmap headroom =
-  sendMessage ciImage imageByApplyingGainMap_headroomSelector (toCIImage gainmap) headroom
-
--- | Create an image by changing the receiver's contentHeadroom property.
---
--- Changing this value will alter the behavior of the @CIToneMapHeadroom@ and @CISystemToneMap@ filters. * If the value is set to 0.0 then the returned image's headroom is unknown. * If the value is set to 1.0 then the returned image is SDR. * If the value is set to greater 1.0 then the returned image is HDR. * Otherwise the returned image's headroom is unknown.
---
--- - Returns:     An autoreleased ``CIImage``.
---
--- ObjC selector: @- imageBySettingContentHeadroom:@
-imageBySettingContentHeadroom :: IsCIImage ciImage => ciImage -> CFloat -> IO (Id CIImage)
-imageBySettingContentHeadroom ciImage headroom =
-  sendMessage ciImage imageBySettingContentHeadroomSelector headroom
-
--- | Create an image by changing the receiver's contentAverageLightLevel property.
---
--- Changing this value will alter the behavior of the @CIToneMapHeadroom@ and @CISystemToneMap@ filters. * If the value is set to 0.0 or less then the returned image's ``contentAverageLightLevel`` is unknown.
---
--- - Returns:     An autoreleased ``CIImage``.
---
--- ObjC selector: @- imageBySettingContentAverageLightLevel:@
-imageBySettingContentAverageLightLevel :: IsCIImage ciImage => ciImage -> CFloat -> IO (Id CIImage)
-imageBySettingContentAverageLightLevel ciImage average =
-  sendMessage ciImage imageBySettingContentAverageLightLevelSelector average
-
--- | Create an image object based on pixels from an image provider object.
---
--- Core Image retains the provider object until the image is deallocated. The image provider object will not be called until the image is rendered.
---
--- - Parameters:    - provider: An object that implements the @CIImageProvider@ protocol.     - width: The width of the image.    - height: The height of the image.    - format: The ``CIFormat`` of the provided pixels.    - colorSpace: The color space that the image is defined in.           If @nil@, then the pixels will not be is not color matched to the Core Image working color space.     - options: A dictionary that contains various ``CIImageOption`` keys that affect the resulting ``CIImage``.            The option ``kCIImageProviderTileSize`` controls if and how the provider object is called in tiles.           The option ``kCIImageProviderUserInfo`` allows additional state to be passed to the provider object. - Returns:    An autoreleased ``CIImage`` object based on the data provider.
---
--- ObjC selector: @+ imageWithImageProvider:size::format:colorSpace:options:@
+-- | @+ imageWithImageProvider:size::format:colorSpace:options:@
 imageWithImageProvider_size__format_colorSpace_options :: IsNSDictionary options => RawId -> CULong -> CULong -> CInt -> Ptr () -> options -> IO (Id CIImage)
-imageWithImageProvider_size__format_colorSpace_options provider width height format colorSpace options =
+imageWithImageProvider_size__format_colorSpace_options p width height f cs options =
   do
     cls' <- getRequiredClass "CIImage"
-    sendClassMessage cls' imageWithImageProvider_size__format_colorSpace_optionsSelector provider width height format colorSpace (toNSDictionary options)
+    sendClassMessage cls' imageWithImageProvider_size__format_colorSpace_optionsSelector p width height f cs (toNSDictionary options)
 
--- | Initializes an image object based on pixels from an image provider object.
---
--- Core Image retains the provider object until the image is deallocated. The image provider object will not be called until the image is rendered.
---
--- - Parameters:    - provider: An object that implements the @CIImageProvider@ protocol.     - width: The width of the image.    - height: The height of the image.    - format: The ``CIFormat`` of the provided pixels.    - colorSpace: The color space that the image is defined in.           If @nil@, then the pixels will not be is not color matched to the Core Image working color space.     - options: A dictionary that contains various ``CIImageOption`` keys that affect the resulting ``CIImage``.            The option ``kCIImageProviderTileSize`` controls if and how the provider object is called in tiles.           The option ``kCIImageProviderUserInfo`` allows additional state to be passed to the provider object. - Returns:    An initialized ``CIImage`` object based on the data provider.
---
--- ObjC selector: @- initWithImageProvider:size::format:colorSpace:options:@
+-- | @- initWithImageProvider:size::format:colorSpace:options:@
 initWithImageProvider_size__format_colorSpace_options :: (IsCIImage ciImage, IsNSDictionary options) => ciImage -> RawId -> CULong -> CULong -> CInt -> Ptr () -> options -> IO (Id CIImage)
-initWithImageProvider_size__format_colorSpace_options ciImage provider width height format colorSpace options =
-  sendOwnedMessage ciImage initWithImageProvider_size__format_colorSpace_optionsSelector provider width height format colorSpace (toNSDictionary options)
+initWithImageProvider_size__format_colorSpace_options ciImage p width height f cs options =
+  sendOwnedMessage ciImage initWithImageProvider_size__format_colorSpace_optionsSelector p width height f cs (toNSDictionary options)
 
 -- | @- initWithSemanticSegmentationMatte:options:@
 initWithSemanticSegmentationMatte_options :: (IsCIImage ciImage, IsNSDictionary options) => ciImage -> RawId -> options -> IO (Id CIImage)
@@ -758,13 +661,6 @@ clearImage  =
     cls' <- getRequiredClass "CIImage"
     sendClassMessage cls' clearImageSelector
 
--- | Returns YES if the image is known to have and alpha value of @1.0@ over the entire image extent.
---
--- ObjC selector: @- opaque@
-opaque :: IsCIImage ciImage => ciImage -> IO Bool
-opaque ciImage =
-  sendMessage ciImage opaqueSelector
-
 -- | @- definition@
 definition :: IsCIImage ciImage => ciImage -> IO RawId
 definition ciImage =
@@ -779,40 +675,6 @@ url ciImage =
 colorSpace :: IsCIImage ciImage => ciImage -> IO (Ptr ())
 colorSpace ciImage =
   sendMessage ciImage colorSpaceSelector
-
--- | Returns the content headroom of the image.
---
--- If the image headroom is unknown, then the value 0.0 will be returned.
---
--- If the image headroom is known, then a value greater than or equal to 1.0 will be returned. A value of 1.0 will be returned if the image is SDR. A value greater than 1.0 will be returned if the image is HDR.
---
--- The image headroom may known when a CIImage is first initialized. If the a CIImage is initialized using: * @NSURL@ or @NSData@ : the headroom may be determined by associated metadata                          or deduced from pixel format or colorSpace information. * @CGImage@ : headroom may be determined by @CGImageGetHeadroomInfo()@                or deduced from pixel format or colorSpace information. * @IOSurface@ : then the headroom will be determined by @kIOSurfaceContentHeadroom@.               or deduced from pixel format or colorSpace information. * @CVPixelBuffer@ : then the headroom will be determined by @kCVImageBufferContentLightLevelInfoKey@.               or deduced from pixel format or colorSpace information. * @BitmapData@ : headroom may be deduced from pixel format or colorSpace information.
---
--- If the image is the result of applying a ``CIFilter-class`` or ``CIKernel``, this method will return @0.0@.
---
--- There are exceptions to this.  Applying a @CIWarpKernel@@ or certain @@CIFilter-class@`  (e.g. @CIGaussianBlur@, @CILanczosScaleTransform@, @CIAreaAverage@ and some others)  to an image will result in a ``CIImage`` instance with the same @contentHeadroom@ property value.
---
--- ObjC selector: @- contentHeadroom@
-contentHeadroom :: IsCIImage ciImage => ciImage -> IO CFloat
-contentHeadroom ciImage =
-  sendMessage ciImage contentHeadroomSelector
-
--- | Returns the content average light level of the image.
---
--- If the image average light level is unknown, then the value 0.0 will be returned.
---
--- If the image headroom is known, then a value greater than or equal to 0.0 will be returned.
---
--- The image average light level may known when a CIImage is first initialized. If the a CIImage is initialized with a:  * @CGImage@ : then the headroom will be determined by @CGImageGetContentAverageLightLevel()@.  * @CVPixelBuffer@ : then the headroom will be determined by @kCVImageBufferContentLightLevelInfoKey@.
---
--- If the image is the result of applying a ``CIFilter-class`` or ``CIKernel``, this property will return @0.0@.
---
--- There are exceptions to this.  Applying a ``CIWarpKernel`` or certain ``CIFilter-class``  (e.g. @CIGaussianBlur@, @CILanczosScaleTransform@, @CIAreaAverage@ and some others)  to an image will result in a ``CIImage`` instance with the same @contentAverageLightLevel@ property value.
---
--- ObjC selector: @- contentAverageLightLevel@
-contentAverageLightLevel :: IsCIImage ciImage => ciImage -> IO CFloat
-contentAverageLightLevel ciImage =
-  sendMessage ciImage contentAverageLightLevelSelector
 
 -- | @- pixelBuffer@
 pixelBuffer :: IsCIImage ciImage => ciImage -> IO (Ptr ())
@@ -1047,26 +909,6 @@ imageBySamplingNearestSelector = mkSelector "imageBySamplingNearest"
 imageByInsertingIntermediateSelector :: Selector '[] (Id CIImage)
 imageByInsertingIntermediateSelector = mkSelector "imageByInsertingIntermediate"
 
--- | @Selector@ for @imageByInsertingTiledIntermediate@
-imageByInsertingTiledIntermediateSelector :: Selector '[] (Id CIImage)
-imageByInsertingTiledIntermediateSelector = mkSelector "imageByInsertingTiledIntermediate"
-
--- | @Selector@ for @imageByApplyingGainMap:@
-imageByApplyingGainMapSelector :: Selector '[Id CIImage] (Id CIImage)
-imageByApplyingGainMapSelector = mkSelector "imageByApplyingGainMap:"
-
--- | @Selector@ for @imageByApplyingGainMap:headroom:@
-imageByApplyingGainMap_headroomSelector :: Selector '[Id CIImage, CFloat] (Id CIImage)
-imageByApplyingGainMap_headroomSelector = mkSelector "imageByApplyingGainMap:headroom:"
-
--- | @Selector@ for @imageBySettingContentHeadroom:@
-imageBySettingContentHeadroomSelector :: Selector '[CFloat] (Id CIImage)
-imageBySettingContentHeadroomSelector = mkSelector "imageBySettingContentHeadroom:"
-
--- | @Selector@ for @imageBySettingContentAverageLightLevel:@
-imageBySettingContentAverageLightLevelSelector :: Selector '[CFloat] (Id CIImage)
-imageBySettingContentAverageLightLevelSelector = mkSelector "imageBySettingContentAverageLightLevel:"
-
 -- | @Selector@ for @imageWithImageProvider:size::format:colorSpace:options:@
 imageWithImageProvider_size__format_colorSpace_optionsSelector :: Selector '[RawId, CULong, CULong, CInt, Ptr (), Id NSDictionary] (Id CIImage)
 imageWithImageProvider_size__format_colorSpace_optionsSelector = mkSelector "imageWithImageProvider:size::format:colorSpace:options:"
@@ -1179,10 +1021,6 @@ yellowImageSelector = mkSelector "yellowImage"
 clearImageSelector :: Selector '[] RawId
 clearImageSelector = mkSelector "clearImage"
 
--- | @Selector@ for @opaque@
-opaqueSelector :: Selector '[] Bool
-opaqueSelector = mkSelector "opaque"
-
 -- | @Selector@ for @definition@
 definitionSelector :: Selector '[] RawId
 definitionSelector = mkSelector "definition"
@@ -1194,14 +1032,6 @@ urlSelector = mkSelector "url"
 -- | @Selector@ for @colorSpace@
 colorSpaceSelector :: Selector '[] (Ptr ())
 colorSpaceSelector = mkSelector "colorSpace"
-
--- | @Selector@ for @contentHeadroom@
-contentHeadroomSelector :: Selector '[] CFloat
-contentHeadroomSelector = mkSelector "contentHeadroom"
-
--- | @Selector@ for @contentAverageLightLevel@
-contentAverageLightLevelSelector :: Selector '[] CFloat
-contentAverageLightLevelSelector = mkSelector "contentAverageLightLevel"
 
 -- | @Selector@ for @pixelBuffer@
 pixelBufferSelector :: Selector '[] (Ptr ())

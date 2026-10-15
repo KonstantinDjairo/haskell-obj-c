@@ -38,11 +38,9 @@ import ObjC.Runtime.StableIvar
 data AVAssetDownloadDelegateOverrides = AVAssetDownloadDelegateOverrides
   { _urlSession_assetDownloadTask_didFinishDownloadingToURL :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _urlSession_assetDownloadTask_didResolveMediaSelection :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
-  , _urlSession_assetDownloadTask_willDownloadToURL :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _urlSession_aggregateAssetDownloadTask_willDownloadToURL :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _urlSession_aggregateAssetDownloadTask_didCompleteForMediaSelection :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _urlSession_assetDownloadTask_willDownloadVariants :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
-  , _urlSession_assetDownloadTask_didReceiveMetricEvent :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -50,11 +48,9 @@ defaultAVAssetDownloadDelegateOverrides :: AVAssetDownloadDelegateOverrides
 defaultAVAssetDownloadDelegateOverrides = AVAssetDownloadDelegateOverrides
   { _urlSession_assetDownloadTask_didFinishDownloadingToURL = Nothing
   , _urlSession_assetDownloadTask_didResolveMediaSelection = Nothing
-  , _urlSession_assetDownloadTask_willDownloadToURL = Nothing
   , _urlSession_aggregateAssetDownloadTask_willDownloadToURL = Nothing
   , _urlSession_aggregateAssetDownloadTask_didCompleteForMediaSelection = Nothing
   , _urlSession_assetDownloadTask_willDownloadVariants = Nothing
-  , _urlSession_assetDownloadTask_didReceiveMetricEvent = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -78,11 +74,9 @@ avAssetDownloadDelegateDelegateClass = unsafePerformIO $ do
   addHsDataIvar cls
   let sel_urlSession_assetDownloadTask_didFinishDownloadingToURL = unSelector (mkSelector "URLSession:assetDownloadTask:didFinishDownloadingToURL:")
       sel_urlSession_assetDownloadTask_didResolveMediaSelection = unSelector (mkSelector "URLSession:assetDownloadTask:didResolveMediaSelection:")
-      sel_urlSession_assetDownloadTask_willDownloadToURL = unSelector (mkSelector "URLSession:assetDownloadTask:willDownloadToURL:")
       sel_urlSession_aggregateAssetDownloadTask_willDownloadToURL = unSelector (mkSelector "URLSession:aggregateAssetDownloadTask:willDownloadToURL:")
       sel_urlSession_aggregateAssetDownloadTask_didCompleteForMediaSelection = unSelector (mkSelector "URLSession:aggregateAssetDownloadTask:didCompleteForMediaSelection:")
       sel_urlSession_assetDownloadTask_willDownloadVariants = unSelector (mkSelector "URLSession:assetDownloadTask:willDownloadVariants:")
-      sel_urlSession_assetDownloadTask_didReceiveMetricEvent = unSelector (mkSelector "URLSession:assetDownloadTask:didReceiveMetricEvent:")
   -- URLSession:assetDownloadTask:didFinishDownloadingToURL:
   stub_0 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
@@ -101,50 +95,32 @@ avAssetDownloadDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
   addObjCMethod cls "URLSession:assetDownloadTask:didResolveMediaSelection:" "v@:@@@" stub_1
 
-  -- URLSession:assetDownloadTask:willDownloadToURL:
-  stub_2 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO AVAssetDownloadDelegateOverrides
-    case _urlSession_assetDownloadTask_willDownloadToURL rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:assetDownloadTask:willDownloadToURL:" "v@:@@@" stub_2
-
   -- URLSession:aggregateAssetDownloadTask:willDownloadToURL:
-  stub_3 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_2 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO AVAssetDownloadDelegateOverrides
     case _urlSession_aggregateAssetDownloadTask_willDownloadToURL rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:aggregateAssetDownloadTask:willDownloadToURL:" "v@:@@@" stub_3
+  addObjCMethod cls "URLSession:aggregateAssetDownloadTask:willDownloadToURL:" "v@:@@@" stub_2
 
   -- URLSession:aggregateAssetDownloadTask:didCompleteForMediaSelection:
-  stub_4 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_3 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO AVAssetDownloadDelegateOverrides
     case _urlSession_aggregateAssetDownloadTask_didCompleteForMediaSelection rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:aggregateAssetDownloadTask:didCompleteForMediaSelection:" "v@:@@@" stub_4
+  addObjCMethod cls "URLSession:aggregateAssetDownloadTask:didCompleteForMediaSelection:" "v@:@@@" stub_3
 
   -- URLSession:assetDownloadTask:willDownloadVariants:
-  stub_5 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_4 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO AVAssetDownloadDelegateOverrides
     case _urlSession_assetDownloadTask_willDownloadVariants rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:assetDownloadTask:willDownloadVariants:" "v@:@@@" stub_5
-
-  -- URLSession:assetDownloadTask:didReceiveMetricEvent:
-  stub_6 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO AVAssetDownloadDelegateOverrides
-    case _urlSession_assetDownloadTask_didReceiveMetricEvent rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:assetDownloadTask:didReceiveMetricEvent:" "v@:@@@" stub_6
+  addObjCMethod cls "URLSession:assetDownloadTask:willDownloadVariants:" "v@:@@@" stub_4
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -152,11 +128,9 @@ avAssetDownloadDelegateDelegateClass = unsafePerformIO $ do
     rec_ <- deRefStablePtr sp :: IO AVAssetDownloadDelegateOverrides
     if queriedSel == sel_urlSession_assetDownloadTask_didFinishDownloadingToURL then pure (maybe 0 (const 1) (_urlSession_assetDownloadTask_didFinishDownloadingToURL rec_))
     else if queriedSel == sel_urlSession_assetDownloadTask_didResolveMediaSelection then pure (maybe 0 (const 1) (_urlSession_assetDownloadTask_didResolveMediaSelection rec_))
-    else if queriedSel == sel_urlSession_assetDownloadTask_willDownloadToURL then pure (maybe 0 (const 1) (_urlSession_assetDownloadTask_willDownloadToURL rec_))
     else if queriedSel == sel_urlSession_aggregateAssetDownloadTask_willDownloadToURL then pure (maybe 0 (const 1) (_urlSession_aggregateAssetDownloadTask_willDownloadToURL rec_))
     else if queriedSel == sel_urlSession_aggregateAssetDownloadTask_didCompleteForMediaSelection then pure (maybe 0 (const 1) (_urlSession_aggregateAssetDownloadTask_didCompleteForMediaSelection rec_))
     else if queriedSel == sel_urlSession_assetDownloadTask_willDownloadVariants then pure (maybe 0 (const 1) (_urlSession_assetDownloadTask_willDownloadVariants rec_))
-    else if queriedSel == sel_urlSession_assetDownloadTask_didReceiveMetricEvent then pure (maybe 0 (const 1) (_urlSession_assetDownloadTask_didReceiveMetricEvent rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

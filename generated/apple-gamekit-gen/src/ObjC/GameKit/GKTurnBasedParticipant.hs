@@ -63,7 +63,7 @@ import ObjC.GameKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | @- player@
-player :: IsGKTurnBasedParticipant gkTurnBasedParticipant => gkTurnBasedParticipant -> IO (Id GKPlayer)
+player :: IsGKTurnBasedParticipant gkTurnBasedParticipant => gkTurnBasedParticipant -> IO RawId
 player gkTurnBasedParticipant =
   sendMessage gkTurnBasedParticipant playerSelector
 
@@ -88,14 +88,14 @@ setMatchOutcome gkTurnBasedParticipant value =
   sendMessage gkTurnBasedParticipant setMatchOutcomeSelector value
 
 -- | @- timeoutDate@
-timeoutDate :: IsGKTurnBasedParticipant gkTurnBasedParticipant => gkTurnBasedParticipant -> IO (Id NSDate)
+timeoutDate :: IsGKTurnBasedParticipant gkTurnBasedParticipant => gkTurnBasedParticipant -> IO RawId
 timeoutDate gkTurnBasedParticipant =
   sendMessage gkTurnBasedParticipant timeoutDateSelector
 
 -- | * This property is obsolete. **
 --
 -- ObjC selector: @- playerID@
-playerID :: IsGKTurnBasedParticipant gkTurnBasedParticipant => gkTurnBasedParticipant -> IO (Id NSString)
+playerID :: IsGKTurnBasedParticipant gkTurnBasedParticipant => gkTurnBasedParticipant -> IO RawId
 playerID gkTurnBasedParticipant =
   sendMessage gkTurnBasedParticipant playerIDSelector
 
@@ -104,7 +104,7 @@ playerID gkTurnBasedParticipant =
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @player@
-playerSelector :: Selector '[] (Id GKPlayer)
+playerSelector :: Selector '[] RawId
 playerSelector = mkSelector "player"
 
 -- | @Selector@ for @lastTurnDate@
@@ -124,10 +124,10 @@ setMatchOutcomeSelector :: Selector '[GKTurnBasedMatchOutcome] ()
 setMatchOutcomeSelector = mkSelector "setMatchOutcome:"
 
 -- | @Selector@ for @timeoutDate@
-timeoutDateSelector :: Selector '[] (Id NSDate)
+timeoutDateSelector :: Selector '[] RawId
 timeoutDateSelector = mkSelector "timeoutDate"
 
 -- | @Selector@ for @playerID@
-playerIDSelector :: Selector '[] (Id NSString)
+playerIDSelector :: Selector '[] RawId
 playerIDSelector = mkSelector "playerID"
 

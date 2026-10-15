@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -14,47 +13,38 @@ module ObjC.AppKit.NSCursor
   , unhide
   , setHiddenUntilMouseMoves
   , nsCursorPop
-  , pop
   , push
+  , pop
   , set
-  , columnResizeCursorInDirections
-  , rowResizeCursorInDirections
-  , frameResizeCursorFromPosition_inDirections
   , initWithImage_foregroundColorHint_backgroundColorHint_hotSpot
   , setOnMouseExited
   , setOnMouseEntered
   , mouseEntered
   , mouseExited
-  , image
-  , hotSpot
   , currentCursor
+  , currentSystemCursor
   , arrowCursor
-  , crosshairCursor
-  , disappearingItemCursor
-  , operationNotAllowedCursor
-  , dragLinkCursor
-  , dragCopyCursor
-  , contextualMenuCursor
+  , iBeamCursor
   , pointingHandCursor
   , closedHandCursor
   , openHandCursor
-  , iBeamCursor
-  , iBeamCursorForVerticalLayout
-  , zoomInCursor
-  , zoomOutCursor
-  , columnResizeCursor
-  , rowResizeCursor
-  , currentSystemCursor
   , resizeLeftCursor
   , resizeRightCursor
   , resizeLeftRightCursor
   , resizeUpCursor
   , resizeDownCursor
   , resizeUpDownCursor
+  , crosshairCursor
+  , disappearingItemCursor
+  , operationNotAllowedCursor
+  , dragLinkCursor
+  , dragCopyCursor
+  , contextualMenuCursor
+  , iBeamCursorForVerticalLayout
+  , image
+  , hotSpot
   , arrowCursorSelector
   , closedHandCursorSelector
-  , columnResizeCursorInDirectionsSelector
-  , columnResizeCursorSelector
   , contextualMenuCursorSelector
   , crosshairCursorSelector
   , currentCursorSelector
@@ -62,7 +52,6 @@ module ObjC.AppKit.NSCursor
   , disappearingItemCursorSelector
   , dragCopyCursorSelector
   , dragLinkCursorSelector
-  , frameResizeCursorFromPosition_inDirectionsSelector
   , hideSelector
   , hotSpotSelector
   , iBeamCursorForVerticalLayoutSelector
@@ -85,38 +74,12 @@ module ObjC.AppKit.NSCursor
   , resizeRightCursorSelector
   , resizeUpCursorSelector
   , resizeUpDownCursorSelector
-  , rowResizeCursorInDirectionsSelector
-  , rowResizeCursorSelector
   , setHiddenUntilMouseMovesSelector
   , setOnMouseEnteredSelector
   , setOnMouseExitedSelector
   , setSelector
   , unhideSelector
-  , zoomInCursorSelector
-  , zoomOutCursorSelector
 
-  -- * Enum types
-  , NSCursorFrameResizeDirections(NSCursorFrameResizeDirections)
-  , pattern NSCursorFrameResizeDirectionsInward
-  , pattern NSCursorFrameResizeDirectionsOutward
-  , pattern NSCursorFrameResizeDirectionsAll
-  , NSCursorFrameResizePosition(NSCursorFrameResizePosition)
-  , pattern NSCursorFrameResizePositionTop
-  , pattern NSCursorFrameResizePositionLeft
-  , pattern NSCursorFrameResizePositionBottom
-  , pattern NSCursorFrameResizePositionRight
-  , pattern NSCursorFrameResizePositionTopLeft
-  , pattern NSCursorFrameResizePositionTopRight
-  , pattern NSCursorFrameResizePositionBottomLeft
-  , pattern NSCursorFrameResizePositionBottomRight
-  , NSHorizontalDirections(NSHorizontalDirections)
-  , pattern NSHorizontalDirectionsLeft
-  , pattern NSHorizontalDirectionsRight
-  , pattern NSHorizontalDirectionsAll
-  , NSVerticalDirections(NSVerticalDirections)
-  , pattern NSVerticalDirectionsUp
-  , pattern NSVerticalDirectionsDown
-  , pattern NSVerticalDirectionsAll
 
   ) where
 
@@ -130,7 +93,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Structs
-import ObjC.AppKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | @- initWithImage:hotSpot:@
@@ -171,47 +133,20 @@ nsCursorPop  =
     cls' <- getRequiredClass "NSCursor"
     sendClassMessage cls' nsCursorPopSelector
 
--- | @- pop@
-pop :: IsNSCursor nsCursor => nsCursor -> IO ()
-pop nsCursor =
-  sendMessage nsCursor popSelector
-
 -- | @- push@
 push :: IsNSCursor nsCursor => nsCursor -> IO ()
 push nsCursor =
   sendMessage nsCursor pushSelector
 
+-- | @- pop@
+pop :: IsNSCursor nsCursor => nsCursor -> IO ()
+pop nsCursor =
+  sendMessage nsCursor popSelector
+
 -- | @- set@
 set :: IsNSCursor nsCursor => nsCursor -> IO ()
 set nsCursor =
   sendMessage nsCursor setSelector
-
--- | Returns the cursor for resizing a column (vertical divider) in the specified directions. - Parameter directions: The direction in which a column can be resized.
---
--- ObjC selector: @+ columnResizeCursorInDirections:@
-columnResizeCursorInDirections :: NSHorizontalDirections -> IO (Id NSCursor)
-columnResizeCursorInDirections directions =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' columnResizeCursorInDirectionsSelector directions
-
--- | Returns the cursor for resizing a row (horizontal divider) in the specified directions. - Parameter directions: The direction in which a row can be resized.
---
--- ObjC selector: @+ rowResizeCursorInDirections:@
-rowResizeCursorInDirections :: NSVerticalDirections -> IO (Id NSCursor)
-rowResizeCursorInDirections directions =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' rowResizeCursorInDirectionsSelector directions
-
--- | Returns the cursor for resizing a rectangular frame from the specified edge or corner. - Parameters:   - position: The position along the perimeter of a rectangular frame (its edges and corners) from which it’s resized.   - directions: The directions in which a rectangular frame can be resized.
---
--- ObjC selector: @+ frameResizeCursorFromPosition:inDirections:@
-frameResizeCursorFromPosition_inDirections :: NSCursorFrameResizePosition -> NSCursorFrameResizeDirections -> IO (Id NSCursor)
-frameResizeCursorFromPosition_inDirections position directions =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' frameResizeCursorFromPosition_inDirectionsSelector position directions
 
 -- | @- initWithImage:foregroundColorHint:backgroundColorHint:hotSpot:@
 initWithImage_foregroundColorHint_backgroundColorHint_hotSpot :: (IsNSCursor nsCursor, IsNSImage newImage, IsNSColor fg, IsNSColor bg) => nsCursor -> newImage -> fg -> bg -> NSPoint -> IO (Id NSCursor)
@@ -238,17 +173,7 @@ mouseExited :: (IsNSCursor nsCursor, IsNSEvent event) => nsCursor -> event -> IO
 mouseExited nsCursor event =
   sendMessage nsCursor mouseExitedSelector (toNSEvent event)
 
--- | @- image@
-image :: IsNSCursor nsCursor => nsCursor -> IO (Id NSImage)
-image nsCursor =
-  sendMessage nsCursor imageSelector
-
--- | @- hotSpot@
-hotSpot :: IsNSCursor nsCursor => nsCursor -> IO NSPoint
-hotSpot nsCursor =
-  sendMessage nsCursor hotSpotSelector
-
--- | Returns the application’s current cursor. - Note: This isn’t necessarily the cursor that is currently being displayed, as the system may be showing the cursor for another running application.
+-- | Returns the application’s current cursor. This is not necessarily the cursor that is currently being displayed on the system. If you need the currently displayed cursor, use @NSCursor.currentSystemCursor@.
 --
 -- ObjC selector: @+ currentCursor@
 currentCursor :: IO (Id NSCursor)
@@ -257,56 +182,36 @@ currentCursor  =
     cls' <- getRequiredClass "NSCursor"
     sendClassMessage cls' currentCursorSelector
 
--- | Returns the default cursor, the arrow cursor. - Discussion: The default cursor, a slanted arrow with its hot spot at the tip. The arrow cursor is the one you’re used to seeing over buttons, scrollers, and many other objects in the window system.
+-- | Returns an @NSCursor@ whose image and hot spot match those of the cursor that is currently being displayed on the system, regardless of which application set that cursor.
 --
--- ObjC selector: @+ arrowCursor@
+-- For example, this allows an inactive application to examine the image and hot spot of a cursor set by the active application.
+--
+-- In the case that the current system cursor is hidden, this property is an @NSCursor@ whose image matches the cursor you would see if it were visible.
+--
+-- Only the cursor image and hot spot are replicated in the returned @NSCursor@. Other properties (such as @isSetOnMouseExited@ and @isSetOnMouseEntered@) will not necessarily be accurate. The returned instance **cannot** be used for pointer (@==@) or object (@-isEqual:@) equality operations, since a new instance is created lazily on each access of this property.
+--
+-- This property is @nil@ if the currently displayed cursor couldn’t be fetched.
+--
+-- ObjC selector: @+ currentSystemCursor@
+currentSystemCursor :: IO RawId
+currentSystemCursor  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' currentSystemCursorSelector
+
+-- | @+ arrowCursor@
 arrowCursor :: IO (Id NSCursor)
 arrowCursor  =
   do
     cls' <- getRequiredClass "NSCursor"
     sendClassMessage cls' arrowCursorSelector
 
--- | @+ crosshairCursor@
-crosshairCursor :: IO (Id NSCursor)
-crosshairCursor  =
+-- | @+ IBeamCursor@
+iBeamCursor :: IO (Id NSCursor)
+iBeamCursor  =
   do
     cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' crosshairCursorSelector
-
--- | @+ disappearingItemCursor@
-disappearingItemCursor :: IO (Id NSCursor)
-disappearingItemCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' disappearingItemCursorSelector
-
--- | @+ operationNotAllowedCursor@
-operationNotAllowedCursor :: IO (Id NSCursor)
-operationNotAllowedCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' operationNotAllowedCursorSelector
-
--- | @+ dragLinkCursor@
-dragLinkCursor :: IO (Id NSCursor)
-dragLinkCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' dragLinkCursorSelector
-
--- | @+ dragCopyCursor@
-dragCopyCursor :: IO (Id NSCursor)
-dragCopyCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' dragCopyCursorSelector
-
--- | @+ contextualMenuCursor@
-contextualMenuCursor :: IO (Id NSCursor)
-contextualMenuCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' contextualMenuCursorSelector
+    sendClassMessage cls' iBeamCursorSelector
 
 -- | @+ pointingHandCursor@
 pointingHandCursor :: IO (Id NSCursor)
@@ -328,65 +233,6 @@ openHandCursor  =
   do
     cls' <- getRequiredClass "NSCursor"
     sendClassMessage cls' openHandCursorSelector
-
--- | @+ IBeamCursor@
-iBeamCursor :: IO (Id NSCursor)
-iBeamCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' iBeamCursorSelector
-
--- | @+ IBeamCursorForVerticalLayout@
-iBeamCursorForVerticalLayout :: IO (Id NSCursor)
-iBeamCursorForVerticalLayout  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' iBeamCursorForVerticalLayoutSelector
-
--- | Returns the zoom-in cursor. - Note: This cursor is used to indicate zooming in on (magnifying) a canvas or object.
---
--- ObjC selector: @+ zoomInCursor@
-zoomInCursor :: IO (Id NSCursor)
-zoomInCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' zoomInCursorSelector
-
--- | Returns the zoom-out cursor. - Note: This cursor is used to indicate zooming out of a canvas or object.
---
--- ObjC selector: @+ zoomOutCursor@
-zoomOutCursor :: IO (Id NSCursor)
-zoomOutCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' zoomOutCursorSelector
-
--- | Returns the cursor for resizing a column (vertical divider) in either direction.
---
--- ObjC selector: @+ columnResizeCursor@
-columnResizeCursor :: IO (Id NSCursor)
-columnResizeCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' columnResizeCursorSelector
-
--- | Returns the cursor for resizing a row (horizontal divider) in either direction.
---
--- ObjC selector: @+ rowResizeCursor@
-rowResizeCursor :: IO (Id NSCursor)
-rowResizeCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' rowResizeCursorSelector
-
--- | This property will always be @nil@ in a future version of macOS.
---
--- ObjC selector: @+ currentSystemCursor@
-currentSystemCursor :: IO (Id NSCursor)
-currentSystemCursor  =
-  do
-    cls' <- getRequiredClass "NSCursor"
-    sendClassMessage cls' currentSystemCursorSelector
 
 -- | @+ resizeLeftCursor@
 resizeLeftCursor :: IO (Id NSCursor)
@@ -430,6 +276,65 @@ resizeUpDownCursor  =
     cls' <- getRequiredClass "NSCursor"
     sendClassMessage cls' resizeUpDownCursorSelector
 
+-- | @+ crosshairCursor@
+crosshairCursor :: IO (Id NSCursor)
+crosshairCursor  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' crosshairCursorSelector
+
+-- | @+ disappearingItemCursor@
+disappearingItemCursor :: IO (Id NSCursor)
+disappearingItemCursor  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' disappearingItemCursorSelector
+
+-- | @+ operationNotAllowedCursor@
+operationNotAllowedCursor :: IO RawId
+operationNotAllowedCursor  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' operationNotAllowedCursorSelector
+
+-- | @+ dragLinkCursor@
+dragLinkCursor :: IO RawId
+dragLinkCursor  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' dragLinkCursorSelector
+
+-- | @+ dragCopyCursor@
+dragCopyCursor :: IO RawId
+dragCopyCursor  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' dragCopyCursorSelector
+
+-- | @+ contextualMenuCursor@
+contextualMenuCursor :: IO RawId
+contextualMenuCursor  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' contextualMenuCursorSelector
+
+-- | @+ IBeamCursorForVerticalLayout@
+iBeamCursorForVerticalLayout :: IO RawId
+iBeamCursorForVerticalLayout  =
+  do
+    cls' <- getRequiredClass "NSCursor"
+    sendClassMessage cls' iBeamCursorForVerticalLayoutSelector
+
+-- | @- image@
+image :: IsNSCursor nsCursor => nsCursor -> IO (Id NSImage)
+image nsCursor =
+  sendMessage nsCursor imageSelector
+
+-- | @- hotSpot@
+hotSpot :: IsNSCursor nsCursor => nsCursor -> IO NSPoint
+hotSpot nsCursor =
+  sendMessage nsCursor hotSpotSelector
+
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -458,29 +363,17 @@ setHiddenUntilMouseMovesSelector = mkSelector "setHiddenUntilMouseMoves:"
 nsCursorPopSelector :: Selector '[] ()
 nsCursorPopSelector = mkSelector "pop"
 
--- | @Selector@ for @pop@
-popSelector :: Selector '[] ()
-popSelector = mkSelector "pop"
-
 -- | @Selector@ for @push@
 pushSelector :: Selector '[] ()
 pushSelector = mkSelector "push"
 
+-- | @Selector@ for @pop@
+popSelector :: Selector '[] ()
+popSelector = mkSelector "pop"
+
 -- | @Selector@ for @set@
 setSelector :: Selector '[] ()
 setSelector = mkSelector "set"
-
--- | @Selector@ for @columnResizeCursorInDirections:@
-columnResizeCursorInDirectionsSelector :: Selector '[NSHorizontalDirections] (Id NSCursor)
-columnResizeCursorInDirectionsSelector = mkSelector "columnResizeCursorInDirections:"
-
--- | @Selector@ for @rowResizeCursorInDirections:@
-rowResizeCursorInDirectionsSelector :: Selector '[NSVerticalDirections] (Id NSCursor)
-rowResizeCursorInDirectionsSelector = mkSelector "rowResizeCursorInDirections:"
-
--- | @Selector@ for @frameResizeCursorFromPosition:inDirections:@
-frameResizeCursorFromPosition_inDirectionsSelector :: Selector '[NSCursorFrameResizePosition, NSCursorFrameResizeDirections] (Id NSCursor)
-frameResizeCursorFromPosition_inDirectionsSelector = mkSelector "frameResizeCursorFromPosition:inDirections:"
 
 -- | @Selector@ for @initWithImage:foregroundColorHint:backgroundColorHint:hotSpot:@
 initWithImage_foregroundColorHint_backgroundColorHint_hotSpotSelector :: Selector '[Id NSImage, Id NSColor, Id NSColor, NSPoint] (Id NSCursor)
@@ -502,45 +395,21 @@ mouseEnteredSelector = mkSelector "mouseEntered:"
 mouseExitedSelector :: Selector '[Id NSEvent] ()
 mouseExitedSelector = mkSelector "mouseExited:"
 
--- | @Selector@ for @image@
-imageSelector :: Selector '[] (Id NSImage)
-imageSelector = mkSelector "image"
-
--- | @Selector@ for @hotSpot@
-hotSpotSelector :: Selector '[] NSPoint
-hotSpotSelector = mkSelector "hotSpot"
-
 -- | @Selector@ for @currentCursor@
 currentCursorSelector :: Selector '[] (Id NSCursor)
 currentCursorSelector = mkSelector "currentCursor"
+
+-- | @Selector@ for @currentSystemCursor@
+currentSystemCursorSelector :: Selector '[] RawId
+currentSystemCursorSelector = mkSelector "currentSystemCursor"
 
 -- | @Selector@ for @arrowCursor@
 arrowCursorSelector :: Selector '[] (Id NSCursor)
 arrowCursorSelector = mkSelector "arrowCursor"
 
--- | @Selector@ for @crosshairCursor@
-crosshairCursorSelector :: Selector '[] (Id NSCursor)
-crosshairCursorSelector = mkSelector "crosshairCursor"
-
--- | @Selector@ for @disappearingItemCursor@
-disappearingItemCursorSelector :: Selector '[] (Id NSCursor)
-disappearingItemCursorSelector = mkSelector "disappearingItemCursor"
-
--- | @Selector@ for @operationNotAllowedCursor@
-operationNotAllowedCursorSelector :: Selector '[] (Id NSCursor)
-operationNotAllowedCursorSelector = mkSelector "operationNotAllowedCursor"
-
--- | @Selector@ for @dragLinkCursor@
-dragLinkCursorSelector :: Selector '[] (Id NSCursor)
-dragLinkCursorSelector = mkSelector "dragLinkCursor"
-
--- | @Selector@ for @dragCopyCursor@
-dragCopyCursorSelector :: Selector '[] (Id NSCursor)
-dragCopyCursorSelector = mkSelector "dragCopyCursor"
-
--- | @Selector@ for @contextualMenuCursor@
-contextualMenuCursorSelector :: Selector '[] (Id NSCursor)
-contextualMenuCursorSelector = mkSelector "contextualMenuCursor"
+-- | @Selector@ for @IBeamCursor@
+iBeamCursorSelector :: Selector '[] (Id NSCursor)
+iBeamCursorSelector = mkSelector "IBeamCursor"
 
 -- | @Selector@ for @pointingHandCursor@
 pointingHandCursorSelector :: Selector '[] (Id NSCursor)
@@ -553,34 +422,6 @@ closedHandCursorSelector = mkSelector "closedHandCursor"
 -- | @Selector@ for @openHandCursor@
 openHandCursorSelector :: Selector '[] (Id NSCursor)
 openHandCursorSelector = mkSelector "openHandCursor"
-
--- | @Selector@ for @IBeamCursor@
-iBeamCursorSelector :: Selector '[] (Id NSCursor)
-iBeamCursorSelector = mkSelector "IBeamCursor"
-
--- | @Selector@ for @IBeamCursorForVerticalLayout@
-iBeamCursorForVerticalLayoutSelector :: Selector '[] (Id NSCursor)
-iBeamCursorForVerticalLayoutSelector = mkSelector "IBeamCursorForVerticalLayout"
-
--- | @Selector@ for @zoomInCursor@
-zoomInCursorSelector :: Selector '[] (Id NSCursor)
-zoomInCursorSelector = mkSelector "zoomInCursor"
-
--- | @Selector@ for @zoomOutCursor@
-zoomOutCursorSelector :: Selector '[] (Id NSCursor)
-zoomOutCursorSelector = mkSelector "zoomOutCursor"
-
--- | @Selector@ for @columnResizeCursor@
-columnResizeCursorSelector :: Selector '[] (Id NSCursor)
-columnResizeCursorSelector = mkSelector "columnResizeCursor"
-
--- | @Selector@ for @rowResizeCursor@
-rowResizeCursorSelector :: Selector '[] (Id NSCursor)
-rowResizeCursorSelector = mkSelector "rowResizeCursor"
-
--- | @Selector@ for @currentSystemCursor@
-currentSystemCursorSelector :: Selector '[] (Id NSCursor)
-currentSystemCursorSelector = mkSelector "currentSystemCursor"
 
 -- | @Selector@ for @resizeLeftCursor@
 resizeLeftCursorSelector :: Selector '[] (Id NSCursor)
@@ -605,4 +446,40 @@ resizeDownCursorSelector = mkSelector "resizeDownCursor"
 -- | @Selector@ for @resizeUpDownCursor@
 resizeUpDownCursorSelector :: Selector '[] (Id NSCursor)
 resizeUpDownCursorSelector = mkSelector "resizeUpDownCursor"
+
+-- | @Selector@ for @crosshairCursor@
+crosshairCursorSelector :: Selector '[] (Id NSCursor)
+crosshairCursorSelector = mkSelector "crosshairCursor"
+
+-- | @Selector@ for @disappearingItemCursor@
+disappearingItemCursorSelector :: Selector '[] (Id NSCursor)
+disappearingItemCursorSelector = mkSelector "disappearingItemCursor"
+
+-- | @Selector@ for @operationNotAllowedCursor@
+operationNotAllowedCursorSelector :: Selector '[] RawId
+operationNotAllowedCursorSelector = mkSelector "operationNotAllowedCursor"
+
+-- | @Selector@ for @dragLinkCursor@
+dragLinkCursorSelector :: Selector '[] RawId
+dragLinkCursorSelector = mkSelector "dragLinkCursor"
+
+-- | @Selector@ for @dragCopyCursor@
+dragCopyCursorSelector :: Selector '[] RawId
+dragCopyCursorSelector = mkSelector "dragCopyCursor"
+
+-- | @Selector@ for @contextualMenuCursor@
+contextualMenuCursorSelector :: Selector '[] RawId
+contextualMenuCursorSelector = mkSelector "contextualMenuCursor"
+
+-- | @Selector@ for @IBeamCursorForVerticalLayout@
+iBeamCursorForVerticalLayoutSelector :: Selector '[] RawId
+iBeamCursorForVerticalLayoutSelector = mkSelector "IBeamCursorForVerticalLayout"
+
+-- | @Selector@ for @image@
+imageSelector :: Selector '[] (Id NSImage)
+imageSelector = mkSelector "image"
+
+-- | @Selector@ for @hotSpot@
+hotSpotSelector :: Selector '[] NSPoint
+hotSpotSelector = mkSelector "hotSpot"
 

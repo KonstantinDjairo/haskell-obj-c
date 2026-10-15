@@ -211,18 +211,6 @@ pattern NSFileProviderErrorExcludedFromSync = NSFileProviderErrorCode (-2010)
 pattern NSFileProviderErrorDomainDisabled :: NSFileProviderErrorCode
 pattern NSFileProviderErrorDomainDisabled = NSFileProviderErrorCode (-2011)
 
-pattern NSFileProviderErrorProviderDomainTemporarilyUnavailable :: NSFileProviderErrorCode
-pattern NSFileProviderErrorProviderDomainTemporarilyUnavailable = NSFileProviderErrorCode (-2012)
-
-pattern NSFileProviderErrorProviderDomainNotFound :: NSFileProviderErrorCode
-pattern NSFileProviderErrorProviderDomainNotFound = NSFileProviderErrorCode (-2013)
-
-pattern NSFileProviderErrorApplicationExtensionNotFound :: NSFileProviderErrorCode
-pattern NSFileProviderErrorApplicationExtensionNotFound = NSFileProviderErrorCode (-2014)
-
-pattern NSFileProviderErrorLocalVersionConflictingWithServer :: NSFileProviderErrorCode
-pattern NSFileProviderErrorLocalVersionConflictingWithServer = NSFileProviderErrorCode (-2015)
-
 instance ObjCArgument NSFileProviderErrorCode where
   withObjCArg (NSFileProviderErrorCode x) k = k (argCLong x)
 
@@ -405,34 +393,6 @@ instance ObjCReturn NSFileProviderItemFields where
   fromRetained x = pure (NSFileProviderItemFields x)
   fromOwned x = pure (NSFileProviderItemFields x)
 
--- | Specifying a list of known folders.
--- | @NSFileProviderKnownFolders@ (bitmask)
-newtype NSFileProviderKnownFolders = NSFileProviderKnownFolders CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSFileProviderKnownFolders where
-  (<>) = (.|.)
-
-instance Monoid NSFileProviderKnownFolders where
-  mempty = NSFileProviderKnownFolders 0
-
-pattern NSFileProviderDesktop :: NSFileProviderKnownFolders
-pattern NSFileProviderDesktop = NSFileProviderKnownFolders 1
-
-pattern NSFileProviderDocuments :: NSFileProviderKnownFolders
-pattern NSFileProviderDocuments = NSFileProviderKnownFolders 2
-
-instance ObjCArgument NSFileProviderKnownFolders where
-  withObjCArg (NSFileProviderKnownFolders x) k = k (argCULong x)
-
-instance ObjCReturn NSFileProviderKnownFolders where
-  type RawReturn NSFileProviderKnownFolders = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSFileProviderKnownFolders x)
-  fromOwned x = pure (NSFileProviderKnownFolders x)
-
 -- | @NSFileProviderManagerDisconnectionOptions@ (bitmask)
 newtype NSFileProviderManagerDisconnectionOptions = NSFileProviderManagerDisconnectionOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -482,7 +442,6 @@ instance ObjCReturn NSFileProviderMaterializationFlags where
   fromRetained x = pure (NSFileProviderMaterializationFlags x)
   fromOwned x = pure (NSFileProviderMaterializationFlags x)
 
--- | Options for modifying items.
 -- | @NSFileProviderModifyItemOptions@ (bitmask)
 newtype NSFileProviderModifyItemOptions = NSFileProviderModifyItemOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -496,12 +455,6 @@ instance Monoid NSFileProviderModifyItemOptions where
 
 pattern NSFileProviderModifyItemMayAlreadyExist :: NSFileProviderModifyItemOptions
 pattern NSFileProviderModifyItemMayAlreadyExist = NSFileProviderModifyItemOptions 1
-
-pattern NSFileProviderModifyItemFailOnConflict :: NSFileProviderModifyItemOptions
-pattern NSFileProviderModifyItemFailOnConflict = NSFileProviderModifyItemOptions 2
-
-pattern NSFileProviderModifyItemIsImmediateUploadRequestByPresentingApplication :: NSFileProviderModifyItemOptions
-pattern NSFileProviderModifyItemIsImmediateUploadRequestByPresentingApplication = NSFileProviderModifyItemOptions 4
 
 instance ObjCArgument NSFileProviderModifyItemOptions where
   withObjCArg (NSFileProviderModifyItemOptions x) k = k (argCULong x)
@@ -574,45 +527,3 @@ instance ObjCReturn NSFileProviderTestingOperationType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSFileProviderTestingOperationType x)
   fromOwned x = pure (NSFileProviderTestingOperationType x)
-
--- | @NSFileProviderVolumeUnsupportedReason@ (bitmask)
-newtype NSFileProviderVolumeUnsupportedReason = NSFileProviderVolumeUnsupportedReason CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSFileProviderVolumeUnsupportedReason where
-  (<>) = (.|.)
-
-instance Monoid NSFileProviderVolumeUnsupportedReason where
-  mempty = NSFileProviderVolumeUnsupportedReason 0
-
-pattern NSFileProviderVolumeUnsupportedReasonNone :: NSFileProviderVolumeUnsupportedReason
-pattern NSFileProviderVolumeUnsupportedReasonNone = NSFileProviderVolumeUnsupportedReason 0
-
-pattern NSFileProviderVolumeUnsupportedReasonUnknown :: NSFileProviderVolumeUnsupportedReason
-pattern NSFileProviderVolumeUnsupportedReasonUnknown = NSFileProviderVolumeUnsupportedReason 1
-
-pattern NSFileProviderVolumeUnsupportedReasonNonAPFS :: NSFileProviderVolumeUnsupportedReason
-pattern NSFileProviderVolumeUnsupportedReasonNonAPFS = NSFileProviderVolumeUnsupportedReason 2
-
-pattern NSFileProviderVolumeUnsupportedReasonNonEncrypted :: NSFileProviderVolumeUnsupportedReason
-pattern NSFileProviderVolumeUnsupportedReasonNonEncrypted = NSFileProviderVolumeUnsupportedReason 4
-
-pattern NSFileProviderVolumeUnsupportedReasonReadOnly :: NSFileProviderVolumeUnsupportedReason
-pattern NSFileProviderVolumeUnsupportedReasonReadOnly = NSFileProviderVolumeUnsupportedReason 8
-
-pattern NSFileProviderVolumeUnsupportedReasonNetwork :: NSFileProviderVolumeUnsupportedReason
-pattern NSFileProviderVolumeUnsupportedReasonNetwork = NSFileProviderVolumeUnsupportedReason 16
-
-pattern NSFileProviderVolumeUnsupportedReasonQuarantined :: NSFileProviderVolumeUnsupportedReason
-pattern NSFileProviderVolumeUnsupportedReasonQuarantined = NSFileProviderVolumeUnsupportedReason 32
-
-instance ObjCArgument NSFileProviderVolumeUnsupportedReason where
-  withObjCArg (NSFileProviderVolumeUnsupportedReason x) k = k (argCULong x)
-
-instance ObjCReturn NSFileProviderVolumeUnsupportedReason where
-  type RawReturn NSFileProviderVolumeUnsupportedReason = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSFileProviderVolumeUnsupportedReason x)
-  fromOwned x = pure (NSFileProviderVolumeUnsupportedReason x)

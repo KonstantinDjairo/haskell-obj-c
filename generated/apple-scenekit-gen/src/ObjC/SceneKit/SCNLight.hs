@@ -858,7 +858,7 @@ setDoubleSided scnLight value =
 -- Gobos are only supported by spot lights.
 --
 -- ObjC selector: @- gobo@
-gobo :: IsSCNLight scnLight => scnLight -> IO (Id SCNMaterialProperty)
+gobo :: IsSCNLight scnLight => scnLight -> IO RawId
 gobo scnLight =
   sendMessage scnLight goboSelector
 
@@ -1169,7 +1169,7 @@ setDoubleSidedSelector :: Selector '[Bool] ()
 setDoubleSidedSelector = mkSelector "setDoubleSided:"
 
 -- | @Selector@ for @gobo@
-goboSelector :: Selector '[] (Id SCNMaterialProperty)
+goboSelector :: Selector '[] RawId
 goboSelector = mkSelector "gobo"
 
 -- | @Selector@ for @categoryBitMask@

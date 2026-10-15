@@ -3,11 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVPlayerItemErrorLog provides methods to retrieve the error log in a format suitable for serialization.
+-- | AVPlayerItemErrorLog
+--
+-- An AVPlayerItemErrorLog provides methods to retrieve the error log in a format suitable for serialization.
 --
 -- An AVPlayerItemErrorLog provides data to identify if, and when, network resource playback failures occured.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 --
 -- Generated bindings for @AVPlayerItemErrorLog@.
 module ObjC.AVFoundation.AVPlayerItemErrorLog
@@ -50,29 +50,35 @@ new  =
     cls' <- getRequiredClass "AVPlayerItemErrorLog"
     sendOwnedClassMessage cls' newSelector
 
--- | Serializes an AVPlayerItemErrorLog in the Extended Log File Format.
+-- | extendedLogData
 --
--- This method converts the webserver error log into a textual format that conforms to the W3C Extended Log File Format for web server log files. For more information see: http://www.w3.org/pub/WWW/TR/WD-logfile.html
+-- Serializes an AVPlayerItemErrorLog in the Extended Log File Format.
 --
--- - Returns: An autoreleased NSData instance.
+-- This method converts the webserver error log into a textual format that conforms to the				W3C Extended Log File Format for web server log files.				For more information see: http://www.w3.org/pub/WWW/TR/WD-logfile.html
+--
+-- Returns: An autoreleased NSData instance.
 --
 -- ObjC selector: @- extendedLogData@
 extendedLogData :: IsAVPlayerItemErrorLog avPlayerItemErrorLog => avPlayerItemErrorLog -> IO (Id NSData)
 extendedLogData avPlayerItemErrorLog =
   sendMessage avPlayerItemErrorLog extendedLogDataSelector
 
--- | Returns the NSStringEncoding for extendedLogData, see above.
+-- | extendedLogDataStringEncoding
 --
--- A string suitable for console output is obtainable by:  [[NSString alloc] initWithData:[myLog extendedLogData] encoding:[myLog extendedLogDataStringEncoding]]
+-- Returns the NSStringEncoding for extendedLogData, see above.
+--
+-- A string suitable for console output is obtainable by:  				[[NSString alloc] initWithData:[myLog extendedLogData] encoding:[myLog extendedLogDataStringEncoding]]
 --
 -- ObjC selector: @- extendedLogDataStringEncoding@
 extendedLogDataStringEncoding :: IsAVPlayerItemErrorLog avPlayerItemErrorLog => avPlayerItemErrorLog -> IO CULong
 extendedLogDataStringEncoding avPlayerItemErrorLog =
   sendMessage avPlayerItemErrorLog extendedLogDataStringEncodingSelector
 
--- | An ordered collection of AVPlayerItemErrorLogEvent instances.
+-- | events
 --
--- An ordered collection of AVPlayerItemErrorLogEvent instances that represent the chronological sequence of events contained in the error log. This property is not observable.
+-- An ordered collection of AVPlayerItemErrorLogEvent instances.
+--
+-- An ordered collection of AVPlayerItemErrorLogEvent instances that represent the chronological 				sequence of events contained in the error log. 				This property is not observable.
 --
 -- ObjC selector: @- events@
 events :: IsAVPlayerItemErrorLog avPlayerItemErrorLog => avPlayerItemErrorLog -> IO (Id NSArray)

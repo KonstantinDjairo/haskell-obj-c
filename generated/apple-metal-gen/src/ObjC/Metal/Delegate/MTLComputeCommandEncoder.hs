@@ -39,8 +39,6 @@ data MTLComputeCommandEncoderOverrides = MTLComputeCommandEncoderOverrides
   { _setComputePipelineState :: !(Maybe (RawId -> IO ()))
   , _setBuffer_offset_atIndex :: !(Maybe (RawId -> Int -> Int -> IO ()))
   , _setBufferOffset_atIndex :: !(Maybe (Int -> Int -> IO ()))
-  , _setBuffer_offset_attributeStride_atIndex :: !(Maybe (RawId -> Int -> Int -> Int -> IO ()))
-  , _setBufferOffset_attributeStride_atIndex :: !(Maybe (Int -> Int -> Int -> IO ()))
   , _setVisibleFunctionTable_atBufferIndex :: !(Maybe (RawId -> Int -> IO ()))
   , _setIntersectionFunctionTable_atBufferIndex :: !(Maybe (RawId -> Int -> IO ()))
   , _setAccelerationStructure_atBufferIndex :: !(Maybe (RawId -> Int -> IO ()))
@@ -65,8 +63,6 @@ defaultMTLComputeCommandEncoderOverrides = MTLComputeCommandEncoderOverrides
   { _setComputePipelineState = Nothing
   , _setBuffer_offset_atIndex = Nothing
   , _setBufferOffset_atIndex = Nothing
-  , _setBuffer_offset_attributeStride_atIndex = Nothing
-  , _setBufferOffset_attributeStride_atIndex = Nothing
   , _setVisibleFunctionTable_atBufferIndex = Nothing
   , _setIntersectionFunctionTable_atBufferIndex = Nothing
   , _setAccelerationStructure_atBufferIndex = Nothing
@@ -106,16 +102,6 @@ foreign import ccall "wrapper"
     -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> CULong -> IO ()))
 
 foreign import ccall "wrapper"
-  wrap_Q_Q_Q_v
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> CULong -> CULong -> CULong -> IO ())
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> CULong -> CULong -> CULong -> IO ()))
-
-foreign import ccall "wrapper"
-  wrap_at_Q_Q_Q_v
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> CULong -> CULong -> CULong -> IO ())
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> CULong -> CULong -> CULong -> IO ()))
-
-foreign import ccall "wrapper"
   wrap_Q_Q_v
     :: (Ptr ObjCObject -> Ptr ObjCSel -> CULong -> CULong -> IO ())
     -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> CULong -> CULong -> IO ()))
@@ -147,8 +133,6 @@ mtlComputeCommandEncoderDelegateClass = unsafePerformIO $ do
   let sel_setComputePipelineState = unSelector (mkSelector "setComputePipelineState:")
       sel_setBuffer_offset_atIndex = unSelector (mkSelector "setBuffer:offset:atIndex:")
       sel_setBufferOffset_atIndex = unSelector (mkSelector "setBufferOffset:atIndex:")
-      sel_setBuffer_offset_attributeStride_atIndex = unSelector (mkSelector "setBuffer:offset:attributeStride:atIndex:")
-      sel_setBufferOffset_attributeStride_atIndex = unSelector (mkSelector "setBufferOffset:attributeStride:atIndex:")
       sel_setVisibleFunctionTable_atBufferIndex = unSelector (mkSelector "setVisibleFunctionTable:atBufferIndex:")
       sel_setIntersectionFunctionTable_atBufferIndex = unSelector (mkSelector "setIntersectionFunctionTable:atBufferIndex:")
       sel_setAccelerationStructure_atBufferIndex = unSelector (mkSelector "setAccelerationStructure:atBufferIndex:")
@@ -192,167 +176,149 @@ mtlComputeCommandEncoderDelegateClass = unsafePerformIO $ do
       Just f -> f (fromIntegral arg0) (fromIntegral arg1)
   addObjCMethod cls "setBufferOffset:atIndex:" "v@:QQ" stub_2
 
-  -- setBuffer:offset:attributeStride:atIndex:
-  stub_3 <- wrap_at_Q_Q_Q_v $ \self _cmd arg0 arg1 arg2 arg3 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
-    case _setBuffer_offset_attributeStride_atIndex rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (fromIntegral arg1) (fromIntegral arg2) (fromIntegral arg3)
-  addObjCMethod cls "setBuffer:offset:attributeStride:atIndex:" "v@:@QQQ" stub_3
-
-  -- setBufferOffset:attributeStride:atIndex:
-  stub_4 <- wrap_Q_Q_Q_v $ \self _cmd arg0 arg1 arg2 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
-    case _setBufferOffset_attributeStride_atIndex rec_ of
-      Nothing -> pure ()
-      Just f -> f (fromIntegral arg0) (fromIntegral arg1) (fromIntegral arg2)
-  addObjCMethod cls "setBufferOffset:attributeStride:atIndex:" "v@:QQQ" stub_4
-
   -- setVisibleFunctionTable:atBufferIndex:
-  stub_5 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_3 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setVisibleFunctionTable_atBufferIndex rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "setVisibleFunctionTable:atBufferIndex:" "v@:@Q" stub_5
+  addObjCMethod cls "setVisibleFunctionTable:atBufferIndex:" "v@:@Q" stub_3
 
   -- setIntersectionFunctionTable:atBufferIndex:
-  stub_6 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_4 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setIntersectionFunctionTable_atBufferIndex rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "setIntersectionFunctionTable:atBufferIndex:" "v@:@Q" stub_6
+  addObjCMethod cls "setIntersectionFunctionTable:atBufferIndex:" "v@:@Q" stub_4
 
   -- setAccelerationStructure:atBufferIndex:
-  stub_7 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_5 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setAccelerationStructure_atBufferIndex rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "setAccelerationStructure:atBufferIndex:" "v@:@Q" stub_7
+  addObjCMethod cls "setAccelerationStructure:atBufferIndex:" "v@:@Q" stub_5
 
   -- setTexture:atIndex:
-  stub_8 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_6 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setTexture_atIndex rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "setTexture:atIndex:" "v@:@Q" stub_8
+  addObjCMethod cls "setTexture:atIndex:" "v@:@Q" stub_6
 
   -- setSamplerState:atIndex:
-  stub_9 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_7 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setSamplerState_atIndex rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "setSamplerState:atIndex:" "v@:@Q" stub_9
+  addObjCMethod cls "setSamplerState:atIndex:" "v@:@Q" stub_7
 
   -- setSamplerState:lodMinClamp:lodMaxClamp:atIndex:
-  stub_10 <- wrap_at_f_f_Q_v $ \self _cmd arg0 arg1 arg2 arg3 -> do
+  stub_8 <- wrap_at_f_f_Q_v $ \self _cmd arg0 arg1 arg2 arg3 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setSamplerState_lodMinClamp_lodMaxClamp_atIndex rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (realToFrac arg1) (realToFrac arg2) (fromIntegral arg3)
-  addObjCMethod cls "setSamplerState:lodMinClamp:lodMaxClamp:atIndex:" "v@:@ffQ" stub_10
+  addObjCMethod cls "setSamplerState:lodMinClamp:lodMaxClamp:atIndex:" "v@:@ffQ" stub_8
 
   -- setThreadgroupMemoryLength:atIndex:
-  stub_11 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_9 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setThreadgroupMemoryLength_atIndex rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0) (fromIntegral arg1)
-  addObjCMethod cls "setThreadgroupMemoryLength:atIndex:" "v@:QQ" stub_11
+  addObjCMethod cls "setThreadgroupMemoryLength:atIndex:" "v@:QQ" stub_9
 
   -- setImageblockWidth:height:
-  stub_12 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_10 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setImageblockWidth_height rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0) (fromIntegral arg1)
-  addObjCMethod cls "setImageblockWidth:height:" "v@:QQ" stub_12
+  addObjCMethod cls "setImageblockWidth:height:" "v@:QQ" stub_10
 
   -- setStageInRegionWithIndirectBuffer:indirectBufferOffset:
-  stub_13 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_11 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _setStageInRegionWithIndirectBuffer_indirectBufferOffset rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "setStageInRegionWithIndirectBuffer:indirectBufferOffset:" "v@:@Q" stub_13
+  addObjCMethod cls "setStageInRegionWithIndirectBuffer:indirectBufferOffset:" "v@:@Q" stub_11
 
   -- updateFence:
-  stub_14 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_12 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _updateFence rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "updateFence:" "v@:@" stub_14
+  addObjCMethod cls "updateFence:" "v@:@" stub_12
 
   -- waitForFence:
-  stub_15 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_13 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _waitForFence rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "waitForFence:" "v@:@" stub_15
+  addObjCMethod cls "waitForFence:" "v@:@" stub_13
 
   -- useHeap:
-  stub_16 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_14 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _useHeap rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "useHeap:" "v@:@" stub_16
+  addObjCMethod cls "useHeap:" "v@:@" stub_14
 
   -- useHeaps:count:
-  stub_17 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_15 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _useHeaps_count rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "useHeaps:count:" "v@:@Q" stub_17
+  addObjCMethod cls "useHeaps:count:" "v@:@Q" stub_15
 
   -- executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:
-  stub_18 <- wrap_at_at_Q_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_16 <- wrap_at_at_Q_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _executeCommandsInBuffer_indirectBuffer_indirectBufferOffset rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (fromIntegral arg2)
-  addObjCMethod cls "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:" "v@:@@Q" stub_18
+  addObjCMethod cls "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:" "v@:@@Q" stub_16
 
   -- memoryBarrierWithResources:count:
-  stub_19 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_17 <- wrap_at_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _memoryBarrierWithResources_count rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1)
-  addObjCMethod cls "memoryBarrierWithResources:count:" "v@:@Q" stub_19
+  addObjCMethod cls "memoryBarrierWithResources:count:" "v@:@Q" stub_17
 
   -- sampleCountersInBuffer:atSampleIndex:withBarrier:
-  stub_20 <- wrap_at_Q_B_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_18 <- wrap_at_Q_B_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLComputeCommandEncoderOverrides
     case _sampleCountersInBuffer_atSampleIndex_withBarrier rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (fromIntegral arg1) (arg2 /= 0)
-  addObjCMethod cls "sampleCountersInBuffer:atSampleIndex:withBarrier:" "v@:@QB" stub_20
+  addObjCMethod cls "sampleCountersInBuffer:atSampleIndex:withBarrier:" "v@:@QB" stub_18
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -361,8 +327,6 @@ mtlComputeCommandEncoderDelegateClass = unsafePerformIO $ do
     if queriedSel == sel_setComputePipelineState then pure (maybe 0 (const 1) (_setComputePipelineState rec_))
     else if queriedSel == sel_setBuffer_offset_atIndex then pure (maybe 0 (const 1) (_setBuffer_offset_atIndex rec_))
     else if queriedSel == sel_setBufferOffset_atIndex then pure (maybe 0 (const 1) (_setBufferOffset_atIndex rec_))
-    else if queriedSel == sel_setBuffer_offset_attributeStride_atIndex then pure (maybe 0 (const 1) (_setBuffer_offset_attributeStride_atIndex rec_))
-    else if queriedSel == sel_setBufferOffset_attributeStride_atIndex then pure (maybe 0 (const 1) (_setBufferOffset_attributeStride_atIndex rec_))
     else if queriedSel == sel_setVisibleFunctionTable_atBufferIndex then pure (maybe 0 (const 1) (_setVisibleFunctionTable_atBufferIndex rec_))
     else if queriedSel == sel_setIntersectionFunctionTable_atBufferIndex then pure (maybe 0 (const 1) (_setIntersectionFunctionTable_atBufferIndex rec_))
     else if queriedSel == sel_setAccelerationStructure_atBufferIndex then pure (maybe 0 (const 1) (_setAccelerationStructure_atBufferIndex rec_))

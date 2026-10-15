@@ -28,12 +28,9 @@ module ObjC.Foundation.NSURLRequest
   , allowsCellularAccess
   , allowsExpensiveNetworkAccess
   , allowsConstrainedNetworkAccess
-  , allowsUltraConstrainedNetworkAccess
   , assumesHTTP3Capable
   , attribution
   , requiresDNSSECValidation
-  , allowsPersistentDNS
-  , cookiePartitionIdentifier
   , httpMethod
   , allHTTPHeaderFields
   , httpBody
@@ -44,12 +41,9 @@ module ObjC.Foundation.NSURLRequest
   , allowsCellularAccessSelector
   , allowsConstrainedNetworkAccessSelector
   , allowsExpensiveNetworkAccessSelector
-  , allowsPersistentDNSSelector
-  , allowsUltraConstrainedNetworkAccessSelector
   , assumesHTTP3CapableSelector
   , attributionSelector
   , cachePolicySelector
-  , cookiePartitionIdentifierSelector
   , httpBodySelector
   , httpBodyStreamSelector
   , httpMethodSelector
@@ -105,9 +99,9 @@ import ObjC.Foundation.Internal.Enums
 
 -- | requestWithURL:
 --
--- Allocates and initializes an NSURLRequest with the given URL.
+-- Allocates and initializes an NSURLRequest with the given    URL.
 --
--- Default values are used for cache policy (NSURLRequestUseProtocolCachePolicy) and timeout interval (60 seconds).
+-- Default values are used for cache policy    (NSURLRequestUseProtocolCachePolicy) and timeout interval (60    seconds).
 --
 -- @URL@ — The URL for the request.
 --
@@ -122,13 +116,13 @@ requestWithURL url =
 
 -- | requestWithURL:cachePolicy:timeoutInterval:
 --
--- Allocates and initializes a NSURLRequest with the given URL and cache policy.
+-- Allocates and initializes a NSURLRequest with the given    URL and cache policy.
 --
 -- @URL@ — The URL for the request.
 --
 -- @cachePolicy@ — The cache policy for the request.
 --
--- @timeoutInterval@ — The timeout interval for the request. See the commentary for the timeoutInterval for more information on timeout intervals.
+-- @timeoutInterval@ — The timeout interval for the request. See the    commentary for the timeoutInterval for more information on    timeout intervals.
 --
 -- Returns: A newly-created and autoreleased NSURLRequest instance.
 --
@@ -143,7 +137,7 @@ requestWithURL_cachePolicy_timeoutInterval url cachePolicy timeoutInterval =
 --
 -- Initializes an NSURLRequest with the given URL.
 --
--- Default values are used for cache policy (NSURLRequestUseProtocolCachePolicy) and timeout interval (60 seconds).
+-- Default values are used for cache policy    (NSURLRequestUseProtocolCachePolicy) and timeout interval (60    seconds).
 --
 -- @URL@ — The URL for the request.
 --
@@ -156,15 +150,15 @@ initWithURL nsurlRequest url =
 
 -- | initWithURL:
 --
--- Initializes an NSURLRequest with the given URL and cache policy.
+-- Initializes an NSURLRequest with the given URL and    cache policy.
 --
--- This is the designated initializer for the NSURLRequest class.
+-- This is the designated initializer for the     NSURLRequest class.
 --
 -- @URL@ — The URL for the request.
 --
 -- @cachePolicy@ — The cache policy for the request.
 --
--- @timeoutInterval@ — The timeout interval for the request. See the commentary for the timeoutInterval for more information on timeout intervals.
+-- @timeoutInterval@ — The timeout interval for the request. See the    commentary for the timeoutInterval for more information on    timeout intervals.
 --
 -- Returns: An initialized NSURLRequest.
 --
@@ -219,7 +213,7 @@ cachePolicy nsurlRequest =
 
 -- | Returns the timeout interval of the receiver.
 --
--- The timeout interval specifies the limit on the idle interval allotted to a request in the process of loading. The "idle interval" is defined as the period of time that has passed since the last instance of load activity occurred for a request that is in the process of loading. Hence, when an instance of load activity occurs (e.g. bytes are received from the network for a request), the idle interval for a request is reset to 0. If the idle interval ever becomes greater than or equal to the timeout interval, the request is considered to have timed out. This timeout interval is measured in seconds.
+-- The timeout interval specifies the limit on the idle    interval allotted to a request in the process of loading. The "idle    interval" is defined as the period of time that has passed since the    last instance of load activity occurred for a request that is in the    process of loading. Hence, when an instance of load activity occurs    (e.g. bytes are received from the network for a request), the idle    interval for a request is reset to 0. If the idle interval ever    becomes greater than or equal to the timeout interval, the request    is considered to have timed out. This timeout interval is measured    in seconds.
 --
 -- Returns: The timeout interval of the receiver.
 --
@@ -230,7 +224,7 @@ timeoutInterval nsurlRequest =
 
 -- | The main document URL associated with this load.
 --
--- This URL is used for the cookie "same domain as main document" policy, and attributing the request as a sub-resource of a user-specified URL. There may also be other future uses. See setMainDocumentURL:
+-- This URL is used for the cookie "same domain as main    document" policy, and attributing the request as a sub-resource    of a user-specified URL. There may also be other future uses.    See setMainDocumentURL:
 --
 -- Returns: The main document URL.
 --
@@ -277,15 +271,6 @@ allowsConstrainedNetworkAccess :: IsNSURLRequest nsurlRequest => nsurlRequest ->
 allowsConstrainedNetworkAccess nsurlRequest =
   sendMessage nsurlRequest allowsConstrainedNetworkAccessSelector
 
--- | returns whether a connection created with this request is allowed to use network interfaces which have been marked as ultra constrained.
---
--- Returns: YES if the receiver is allowed to use an interface marked as ultra constrained to satisfy the request, NO otherwise.
---
--- ObjC selector: @- allowsUltraConstrainedNetworkAccess@
-allowsUltraConstrainedNetworkAccess :: IsNSURLRequest nsurlRequest => nsurlRequest -> IO Bool
-allowsUltraConstrainedNetworkAccess nsurlRequest =
-  sendMessage nsurlRequest allowsUltraConstrainedNetworkAccessSelector
-
 -- | returns whether we assume that server supports HTTP/3. Enables QUIC racing without HTTP/3 service discovery.
 --
 -- Returns: YES if server endpoint is known to support HTTP/3. Defaults to NO. The default may be YES in a future OS update.
@@ -314,20 +299,6 @@ attribution nsurlRequest =
 requiresDNSSECValidation :: IsNSURLRequest nsurlRequest => nsurlRequest -> IO Bool
 requiresDNSSECValidation nsurlRequest =
   sendMessage nsurlRequest requiresDNSSECValidationSelector
-
--- | Allows storing and usage of DNS answers, potentially beyond TTL expiry, in a persistent per-process cache. This should only be set for hostnames whose resolutions are not expected to change across networks.
---
--- YES, if the DNS lookup for this request is allowed to use a persistent per-process cache, NO otherwise. Defaults to NO.
---
--- ObjC selector: @- allowsPersistentDNS@
-allowsPersistentDNS :: IsNSURLRequest nsurlRequest => nsurlRequest -> IO Bool
-allowsPersistentDNS nsurlRequest =
-  sendMessage nsurlRequest allowsPersistentDNSSelector
-
--- | @- cookiePartitionIdentifier@
-cookiePartitionIdentifier :: IsNSURLRequest nsurlRequest => nsurlRequest -> IO (Id NSString)
-cookiePartitionIdentifier nsurlRequest =
-  sendMessage nsurlRequest cookiePartitionIdentifierSelector
 
 -- | Returns the HTTP request method of the receiver.
 --
@@ -449,10 +420,6 @@ allowsExpensiveNetworkAccessSelector = mkSelector "allowsExpensiveNetworkAccess"
 allowsConstrainedNetworkAccessSelector :: Selector '[] Bool
 allowsConstrainedNetworkAccessSelector = mkSelector "allowsConstrainedNetworkAccess"
 
--- | @Selector@ for @allowsUltraConstrainedNetworkAccess@
-allowsUltraConstrainedNetworkAccessSelector :: Selector '[] Bool
-allowsUltraConstrainedNetworkAccessSelector = mkSelector "allowsUltraConstrainedNetworkAccess"
-
 -- | @Selector@ for @assumesHTTP3Capable@
 assumesHTTP3CapableSelector :: Selector '[] Bool
 assumesHTTP3CapableSelector = mkSelector "assumesHTTP3Capable"
@@ -464,14 +431,6 @@ attributionSelector = mkSelector "attribution"
 -- | @Selector@ for @requiresDNSSECValidation@
 requiresDNSSECValidationSelector :: Selector '[] Bool
 requiresDNSSECValidationSelector = mkSelector "requiresDNSSECValidation"
-
--- | @Selector@ for @allowsPersistentDNS@
-allowsPersistentDNSSelector :: Selector '[] Bool
-allowsPersistentDNSSelector = mkSelector "allowsPersistentDNS"
-
--- | @Selector@ for @cookiePartitionIdentifier@
-cookiePartitionIdentifierSelector :: Selector '[] (Id NSString)
-cookiePartitionIdentifierSelector = mkSelector "cookiePartitionIdentifier"
 
 -- | @Selector@ for @HTTPMethod@
 httpMethodSelector :: Selector '[] (Id NSString)

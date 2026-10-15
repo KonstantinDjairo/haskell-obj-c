@@ -106,7 +106,7 @@ instance IsNSObject (Id QLPreviewReplyAttachment) where
 
 -- ---------- QLPreviewView ----------
 
--- | A Quick Look preview of an item that you can embed into your view hierarchy.
+-- | A QLPreviewView shows a preview of an item.
 -- 
 -- Phantom type for @QLPreviewView@.
 data QLPreviewView
@@ -133,11 +133,11 @@ instance IsNSView (Id QLPreviewView) where
 
 -- ---------- QLPreviewPanel ----------
 
--- | A class that implements the Quick Look preview panel to display a preview of a list of items.
+-- | The QLPreviewPanel class implements the Preview Panel - a user interface object that displays the preview of a list of items.
 --
--- Every application has a single shared instance of ``QuickLookUI/QLPreviewPanel`` accessible through ``QuickLookUI/QLPreviewPanel/sharedPreviewPanel``. The preview panel follows the responder chain and adapts to the first responder willing to control it. A preview panel controller provides the content through methods defined in the ``QuickLookUI/QLPreviewPanelDataSource`` protocol.
+-- Each application has only one instance of QLPreviewPanel. You can not subclass QLPreviewPanel.
 --
--- You can’t subclass ``QuickLookUI/QLPreviewPanel``; you can, however, customize its behavior using a ``QuickLookUI/QLPreviewPanel/delegate``. See the ``QuickLookUI/QLPreviewPanelDelegate`` protocol for the methods to customize a preview panel’s behavior.
+-- QLPreviewPanel follows the responder chain and adapts to the first responder willing to control it. It uses a data source to      gets its content. QLPreviewPanel can also have a delegate.
 -- 
 -- Phantom type for @QLPreviewPanel@.
 data QLPreviewPanel

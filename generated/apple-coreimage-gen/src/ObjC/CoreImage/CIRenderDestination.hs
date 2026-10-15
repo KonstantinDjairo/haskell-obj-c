@@ -30,12 +30,9 @@ module ObjC.CoreImage.CIRenderDestination
   , setBlendKernel
   , blendsInDestinationColorSpace
   , setBlendsInDestinationColorSpace
-  , captureTraceURL
-  , setCaptureTraceURL
   , alphaModeSelector
   , blendKernelSelector
   , blendsInDestinationColorSpaceSelector
-  , captureTraceURLSelector
   , clampedSelector
   , colorSpaceSelector
   , ditheredSelector
@@ -50,7 +47,6 @@ module ObjC.CoreImage.CIRenderDestination
   , setAlphaModeSelector
   , setBlendKernelSelector
   , setBlendsInDestinationColorSpaceSelector
-  , setCaptureTraceURLSelector
   , setClampedSelector
   , setColorSpaceSelector
   , setDitheredSelector
@@ -188,24 +184,6 @@ setBlendsInDestinationColorSpace :: IsCIRenderDestination ciRenderDestination =>
 setBlendsInDestinationColorSpace ciRenderDestination value =
   sendMessage ciRenderDestination setBlendsInDestinationColorSpaceSelector value
 
--- | Tell the next render using this destination to capture a Metal trace.
---
--- If this property is set to a file-based URL, then the next render using this  destination will capture a Metal trace, deleting any existing file if present. This property is nil by default.
---
--- ObjC selector: @- captureTraceURL@
-captureTraceURL :: IsCIRenderDestination ciRenderDestination => ciRenderDestination -> IO RawId
-captureTraceURL ciRenderDestination =
-  sendMessage ciRenderDestination captureTraceURLSelector
-
--- | Tell the next render using this destination to capture a Metal trace.
---
--- If this property is set to a file-based URL, then the next render using this  destination will capture a Metal trace, deleting any existing file if present. This property is nil by default.
---
--- ObjC selector: @- setCaptureTraceURL:@
-setCaptureTraceURL :: IsCIRenderDestination ciRenderDestination => ciRenderDestination -> RawId -> IO ()
-setCaptureTraceURL ciRenderDestination value =
-  sendMessage ciRenderDestination setCaptureTraceURLSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -297,12 +275,4 @@ blendsInDestinationColorSpaceSelector = mkSelector "blendsInDestinationColorSpac
 -- | @Selector@ for @setBlendsInDestinationColorSpace:@
 setBlendsInDestinationColorSpaceSelector :: Selector '[Bool] ()
 setBlendsInDestinationColorSpaceSelector = mkSelector "setBlendsInDestinationColorSpace:"
-
--- | @Selector@ for @captureTraceURL@
-captureTraceURLSelector :: Selector '[] RawId
-captureTraceURLSelector = mkSelector "captureTraceURL"
-
--- | @Selector@ for @setCaptureTraceURL:@
-setCaptureTraceURLSelector :: Selector '[RawId] ()
-setCaptureTraceURLSelector = mkSelector "setCaptureTraceURL:"
 

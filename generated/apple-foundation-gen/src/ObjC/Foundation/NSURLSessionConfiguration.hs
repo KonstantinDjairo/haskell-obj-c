@@ -29,8 +29,6 @@ module ObjC.Foundation.NSURLSessionConfiguration
   , setAllowsExpensiveNetworkAccess
   , allowsConstrainedNetworkAccess
   , setAllowsConstrainedNetworkAccess
-  , allowsUltraConstrainedNetworkAccess
-  , setAllowsUltraConstrainedNetworkAccess
   , requiresDNSSECValidation
   , setRequiresDNSSECValidation
   , waitsForConnectivity
@@ -73,20 +71,14 @@ module ObjC.Foundation.NSURLSessionConfiguration
   , setProtocolClasses
   , multipathServiceType
   , setMultipathServiceType
-  , usesClassicLoadingMode
-  , setUsesClassicLoadingMode
-  , enablesEarlyData
-  , setEnablesEarlyData
   , allowsCellularAccessSelector
   , allowsConstrainedNetworkAccessSelector
   , allowsExpensiveNetworkAccessSelector
-  , allowsUltraConstrainedNetworkAccessSelector
   , backgroundSessionConfigurationSelector
   , backgroundSessionConfigurationWithIdentifierSelector
   , connectionProxyDictionarySelector
   , defaultSessionConfigurationSelector
   , discretionarySelector
-  , enablesEarlyDataSelector
   , ephemeralSessionConfigurationSelector
   , httpAdditionalHeadersSelector
   , httpCookieAcceptPolicySelector
@@ -106,10 +98,8 @@ module ObjC.Foundation.NSURLSessionConfiguration
   , setAllowsCellularAccessSelector
   , setAllowsConstrainedNetworkAccessSelector
   , setAllowsExpensiveNetworkAccessSelector
-  , setAllowsUltraConstrainedNetworkAccessSelector
   , setConnectionProxyDictionarySelector
   , setDiscretionarySelector
-  , setEnablesEarlyDataSelector
   , setHTTPAdditionalHeadersSelector
   , setHTTPCookieAcceptPolicySelector
   , setHTTPCookieStorageSelector
@@ -132,7 +122,6 @@ module ObjC.Foundation.NSURLSessionConfiguration
   , setTimeoutIntervalForResourceSelector
   , setURLCacheSelector
   , setURLCredentialStorageSelector
-  , setUsesClassicLoadingModeSelector
   , setWaitsForConnectivitySelector
   , sharedContainerIdentifierSelector
   , shouldUseExtendedBackgroundIdleModeSelector
@@ -144,7 +133,6 @@ module ObjC.Foundation.NSURLSessionConfiguration
   , tlsMinimumSupportedProtocolVersionSelector
   , urlCacheSelector
   , urlCredentialStorageSelector
-  , usesClassicLoadingModeSelector
   , waitsForConnectivitySelector
 
   -- * Enum types
@@ -303,16 +291,6 @@ allowsConstrainedNetworkAccess nsurlSessionConfiguration =
 setAllowsConstrainedNetworkAccess :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> Bool -> IO ()
 setAllowsConstrainedNetworkAccess nsurlSessionConfiguration value =
   sendMessage nsurlSessionConfiguration setAllowsConstrainedNetworkAccessSelector value
-
--- | @- allowsUltraConstrainedNetworkAccess@
-allowsUltraConstrainedNetworkAccess :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> IO Bool
-allowsUltraConstrainedNetworkAccess nsurlSessionConfiguration =
-  sendMessage nsurlSessionConfiguration allowsUltraConstrainedNetworkAccessSelector
-
--- | @- setAllowsUltraConstrainedNetworkAccess:@
-setAllowsUltraConstrainedNetworkAccess :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> Bool -> IO ()
-setAllowsUltraConstrainedNetworkAccess nsurlSessionConfiguration value =
-  sendMessage nsurlSessionConfiguration setAllowsUltraConstrainedNetworkAccessSelector value
 
 -- | @- requiresDNSSECValidation@
 requiresDNSSECValidation :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> IO Bool
@@ -524,26 +502,6 @@ setMultipathServiceType :: IsNSURLSessionConfiguration nsurlSessionConfiguration
 setMultipathServiceType nsurlSessionConfiguration value =
   sendMessage nsurlSessionConfiguration setMultipathServiceTypeSelector value
 
--- | @- usesClassicLoadingMode@
-usesClassicLoadingMode :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> IO Bool
-usesClassicLoadingMode nsurlSessionConfiguration =
-  sendMessage nsurlSessionConfiguration usesClassicLoadingModeSelector
-
--- | @- setUsesClassicLoadingMode:@
-setUsesClassicLoadingMode :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> Bool -> IO ()
-setUsesClassicLoadingMode nsurlSessionConfiguration value =
-  sendMessage nsurlSessionConfiguration setUsesClassicLoadingModeSelector value
-
--- | @- enablesEarlyData@
-enablesEarlyData :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> IO Bool
-enablesEarlyData nsurlSessionConfiguration =
-  sendMessage nsurlSessionConfiguration enablesEarlyDataSelector
-
--- | @- setEnablesEarlyData:@
-setEnablesEarlyData :: IsNSURLSessionConfiguration nsurlSessionConfiguration => nsurlSessionConfiguration -> Bool -> IO ()
-setEnablesEarlyData nsurlSessionConfiguration value =
-  sendMessage nsurlSessionConfiguration setEnablesEarlyDataSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -631,14 +589,6 @@ allowsConstrainedNetworkAccessSelector = mkSelector "allowsConstrainedNetworkAcc
 -- | @Selector@ for @setAllowsConstrainedNetworkAccess:@
 setAllowsConstrainedNetworkAccessSelector :: Selector '[Bool] ()
 setAllowsConstrainedNetworkAccessSelector = mkSelector "setAllowsConstrainedNetworkAccess:"
-
--- | @Selector@ for @allowsUltraConstrainedNetworkAccess@
-allowsUltraConstrainedNetworkAccessSelector :: Selector '[] Bool
-allowsUltraConstrainedNetworkAccessSelector = mkSelector "allowsUltraConstrainedNetworkAccess"
-
--- | @Selector@ for @setAllowsUltraConstrainedNetworkAccess:@
-setAllowsUltraConstrainedNetworkAccessSelector :: Selector '[Bool] ()
-setAllowsUltraConstrainedNetworkAccessSelector = mkSelector "setAllowsUltraConstrainedNetworkAccess:"
 
 -- | @Selector@ for @requiresDNSSECValidation@
 requiresDNSSECValidationSelector :: Selector '[] Bool
@@ -807,20 +757,4 @@ multipathServiceTypeSelector = mkSelector "multipathServiceType"
 -- | @Selector@ for @setMultipathServiceType:@
 setMultipathServiceTypeSelector :: Selector '[NSURLSessionMultipathServiceType] ()
 setMultipathServiceTypeSelector = mkSelector "setMultipathServiceType:"
-
--- | @Selector@ for @usesClassicLoadingMode@
-usesClassicLoadingModeSelector :: Selector '[] Bool
-usesClassicLoadingModeSelector = mkSelector "usesClassicLoadingMode"
-
--- | @Selector@ for @setUsesClassicLoadingMode:@
-setUsesClassicLoadingModeSelector :: Selector '[Bool] ()
-setUsesClassicLoadingModeSelector = mkSelector "setUsesClassicLoadingMode:"
-
--- | @Selector@ for @enablesEarlyData@
-enablesEarlyDataSelector :: Selector '[] Bool
-enablesEarlyDataSelector = mkSelector "enablesEarlyData"
-
--- | @Selector@ for @setEnablesEarlyData:@
-setEnablesEarlyDataSelector :: Selector '[Bool] ()
-setEnablesEarlyDataSelector = mkSelector "setEnablesEarlyData:"
 

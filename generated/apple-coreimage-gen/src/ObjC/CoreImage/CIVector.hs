@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The Core Image class that defines a vector object.
---
--- A @CIVector@ can store one or more @CGFloat@ in one object. They can store a group of float values for a variety of different uses such as coordinate points, direction vectors, geometric rectangles,  transform matrices, convolution weights, or just a list a parameter values.
---
--- You use @CIVector@ objects in conjunction with other Core Image classes, such as ``CIFilter-class``  and ``CIKernel``.  Many of the built-in Core Image filters have one or more @CIVector@ inputs that  you can set to affect the filter's behavior.
---
--- Generated bindings for @CIVector@.
+-- | Generated bindings for @CIVector@.
 module ObjC.CoreImage.CIVector
   ( CIVector
   , IsCIVector(..)
@@ -66,155 +60,109 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.CoreImage.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Create a Core Image vector object that is initialized with the specified values. - Parameters:   - values: The pointer @CGFloat@ values to initialize the vector with.   - count: The number of @CGFloats@ specified by the @values@ parameter. - Returns:    An autoreleased ``CIVector`` object of length @count@.
---
--- ObjC selector: @+ vectorWithValues:count:@
+-- | @+ vectorWithValues:count:@
 vectorWithValues_count :: Const (Ptr CDouble) -> CULong -> IO (Id CIVector)
 vectorWithValues_count values count =
   do
     cls' <- getRequiredClass "CIVector"
     sendClassMessage cls' vectorWithValues_countSelector values count
 
--- | Create a Core Image vector object that is initialized with one value. - Parameters:   - x: The value for the first position in the vector. - Returns:    An autoreleased ``CIVector`` object of length 1.
---
--- ObjC selector: @+ vectorWithX:@
+-- | @+ vectorWithX:@
 vectorWithX :: CDouble -> IO (Id CIVector)
 vectorWithX x =
   do
     cls' <- getRequiredClass "CIVector"
     sendClassMessage cls' vectorWithXSelector x
 
--- | Create a Core Image vector object that is initialized with two values. - Parameters:   - x: The value for the first position in the vector.   - y: The value for the second position in the vector. - Returns:    An autoreleased ``CIVector`` object of length 2.
---
--- ObjC selector: @+ vectorWithX:Y:@
+-- | @+ vectorWithX:Y:@
 vectorWithX_Y :: CDouble -> CDouble -> IO (Id CIVector)
 vectorWithX_Y x y =
   do
     cls' <- getRequiredClass "CIVector"
     sendClassMessage cls' vectorWithX_YSelector x y
 
--- | Create a Core Image vector object that is initialized with three values. - Parameters:   - x: The value for the first position in the vector.   - y: The value for the second position in the vector.   - z: The value for the third position in the vector. - Returns:    An autoreleased ``CIVector`` object of length 3.
---
--- ObjC selector: @+ vectorWithX:Y:Z:@
+-- | @+ vectorWithX:Y:Z:@
 vectorWithX_Y_Z :: CDouble -> CDouble -> CDouble -> IO (Id CIVector)
 vectorWithX_Y_Z x y z =
   do
     cls' <- getRequiredClass "CIVector"
     sendClassMessage cls' vectorWithX_Y_ZSelector x y z
 
--- | Create a Core Image vector object that is initialized with four values. - Parameters:   - x: The value for the first position in the vector.   - y: The value for the second position in the vector.   - z: The value for the third position in the vector.   - w: The value for the forth position in the vector. - Returns:    An autoreleased ``CIVector`` object of length 4.
---
--- ObjC selector: @+ vectorWithX:Y:Z:W:@
+-- | @+ vectorWithX:Y:Z:W:@
 vectorWithX_Y_Z_W :: CDouble -> CDouble -> CDouble -> CDouble -> IO (Id CIVector)
 vectorWithX_Y_Z_W x y z w =
   do
     cls' <- getRequiredClass "CIVector"
     sendClassMessage cls' vectorWithX_Y_Z_WSelector x y z w
 
--- | Create a Core Image vector object with values provided in a string representation. - Parameters:   - representation: A string that is in one of the formats returned by the @stringRepresentation@ method. - Returns:    An autoreleased ``CIVector`` object.
---
--- ObjC selector: @+ vectorWithString:@
+-- | @+ vectorWithString:@
 vectorWithString :: IsNSString representation => representation -> IO (Id CIVector)
 vectorWithString representation =
   do
     cls' <- getRequiredClass "CIVector"
     sendClassMessage cls' vectorWithStringSelector (toNSString representation)
 
--- | Initialize a Core Image vector object with the specified the values. - Parameters:   - values: A pointer @CGFloat@ values for vector.   - count: The number of @CGFloats@ specified by the @values@ parameter. - Returns:    An initialized ``CIVector`` object of length @count@.
---
--- ObjC selector: @- initWithValues:count:@
+-- | @- initWithValues:count:@
 initWithValues_count :: IsCIVector ciVector => ciVector -> Const (Ptr CDouble) -> CULong -> IO (Id CIVector)
 initWithValues_count ciVector values count =
   sendOwnedMessage ciVector initWithValues_countSelector values count
 
--- | Initialize a Core Image vector object with one value. - Parameters:   - x: The value for the first position in the vector. - Returns:    An initialized ``CIVector`` object of length 1.
---
--- ObjC selector: @- initWithX:@
+-- | @- initWithX:@
 initWithX :: IsCIVector ciVector => ciVector -> CDouble -> IO (Id CIVector)
 initWithX ciVector x =
   sendOwnedMessage ciVector initWithXSelector x
 
--- | Initialize a Core Image vector object with two values. - Parameters:   - x: The value for the first position in the vector.   - y: The value for the second position in the vector. - Returns:    An initialized ``CIVector`` object of length 2.
---
--- ObjC selector: @- initWithX:Y:@
+-- | @- initWithX:Y:@
 initWithX_Y :: IsCIVector ciVector => ciVector -> CDouble -> CDouble -> IO (Id CIVector)
 initWithX_Y ciVector x y =
   sendOwnedMessage ciVector initWithX_YSelector x y
 
--- | Initialize a Core Image vector object with three values. - Parameters:   - x: The value for the first position in the vector.   - y: The value for the second position in the vector.   - z: The value for the third position in the vector. - Returns:    An initialized ``CIVector`` object of length 3.
---
--- ObjC selector: @- initWithX:Y:Z:@
+-- | @- initWithX:Y:Z:@
 initWithX_Y_Z :: IsCIVector ciVector => ciVector -> CDouble -> CDouble -> CDouble -> IO (Id CIVector)
 initWithX_Y_Z ciVector x y z =
   sendOwnedMessage ciVector initWithX_Y_ZSelector x y z
 
--- | Initialize a Core Image vector object with four values. - Parameters:   - x: The value for the first position in the vector.   - y: The value for the second position in the vector.   - z: The value for the third position in the vector.   - w: The value for the forth position in the vector. - Returns:    An initialized ``CIVector`` object of length 4.
---
--- ObjC selector: @- initWithX:Y:Z:W:@
+-- | @- initWithX:Y:Z:W:@
 initWithX_Y_Z_W :: IsCIVector ciVector => ciVector -> CDouble -> CDouble -> CDouble -> CDouble -> IO (Id CIVector)
 initWithX_Y_Z_W ciVector x y z w =
   sendOwnedMessage ciVector initWithX_Y_Z_WSelector x y z w
 
--- | Initialize a Core Image vector object with values provided in a string representation. - Parameters:   - representation: A string that is in one of the formats returned by the @stringRepresentation@ method. - Returns:    An initialized ``CIVector`` object.
---
--- ObjC selector: @- initWithString:@
+-- | @- initWithString:@
 initWithString :: (IsCIVector ciVector, IsNSString representation) => ciVector -> representation -> IO (Id CIVector)
 initWithString ciVector representation =
   sendOwnedMessage ciVector initWithStringSelector (toNSString representation)
 
--- | Returns a value from a specific position in the vector.
---
--- The numbering of elements in a vector begins with zero. - Parameters:   - index: The position in the vector of the value that you want to retrieve. - Returns:    The value retrieved from the vector or @0@ if the position is undefined.
---
--- ObjC selector: @- valueAtIndex:@
+-- | @- valueAtIndex:@
 valueAtIndex :: IsCIVector ciVector => ciVector -> CULong -> IO CDouble
 valueAtIndex ciVector index =
   sendMessage ciVector valueAtIndexSelector index
 
--- | The number of items in the vector.
---
--- ObjC selector: @- count@
+-- | @- count@
 count :: IsCIVector ciVector => ciVector -> IO CULong
 count ciVector =
   sendMessage ciVector countSelector
 
--- | The value located in the first position in the vector.
---
--- ObjC selector: @- X@
+-- | @- X@
 x :: IsCIVector ciVector => ciVector -> IO CDouble
 x ciVector =
   sendMessage ciVector xSelector
 
--- | The value located in the second position in the vector.
---
--- ObjC selector: @- Y@
+-- | @- Y@
 y :: IsCIVector ciVector => ciVector -> IO CDouble
 y ciVector =
   sendMessage ciVector ySelector
 
--- | The value located in the third position in the vector.
---
--- ObjC selector: @- Z@
+-- | @- Z@
 z :: IsCIVector ciVector => ciVector -> IO CDouble
 z ciVector =
   sendMessage ciVector zSelector
 
--- | The value located in the forth position in the vector.
---
--- ObjC selector: @- W@
+-- | @- W@
 w :: IsCIVector ciVector => ciVector -> IO CDouble
 w ciVector =
   sendMessage ciVector wSelector
 
--- | Returns a formatted string with all the values of a @CIVector@.
---
--- Some example string representations of vectors:
---
--- @CIVector@                               | @stringRepresentation@ ---------------------------------------- | -------------- @[CIVector vectorWithX:1.0 Y:0.5 Z:0.3]@ | @"[1.0 0.5 0.3]"@ @[CIVector vectorWithX:10.0 Y:23.0]@     | @"[10.0 23.0]"@
---
--- To create a ``CIVector`` object from a string representation, use the ``vectorWithString:`` method.
---
--- ObjC selector: @- stringRepresentation@
+-- | @- stringRepresentation@
 stringRepresentation :: IsCIVector ciVector => ciVector -> IO (Id NSString)
 stringRepresentation ciVector =
   sendMessage ciVector stringRepresentationSelector

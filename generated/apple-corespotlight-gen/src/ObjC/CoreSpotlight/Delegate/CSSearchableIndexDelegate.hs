@@ -40,8 +40,6 @@ data CSSearchableIndexDelegateOverrides = CSSearchableIndexDelegateOverrides
   , _searchableIndexDidFinishThrottle :: !(Maybe (RawId -> IO ()))
   , _dataForSearchableIndex_itemIdentifier_typeIdentifier_error :: !(Maybe (RawId -> RawId -> RawId -> RawId -> IO RawId))
   , _fileURLForSearchableIndex_itemIdentifier_typeIdentifier_inPlace_error :: !(Maybe (RawId -> RawId -> RawId -> Bool -> RawId -> IO RawId))
-  , _searchableItemsForIdentifiers_searchableItemsHandler :: !(Maybe (RawId -> RawId -> IO ()))
-  , _searchableItemsDidUpdate :: !(Maybe (RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -51,14 +49,7 @@ defaultCSSearchableIndexDelegateOverrides = CSSearchableIndexDelegateOverrides
   , _searchableIndexDidFinishThrottle = Nothing
   , _dataForSearchableIndex_itemIdentifier_typeIdentifier_error = Nothing
   , _fileURLForSearchableIndex_itemIdentifier_typeIdentifier_inPlace_error = Nothing
-  , _searchableItemsForIdentifiers_searchableItemsHandler = Nothing
-  , _searchableItemsDidUpdate = Nothing
   }
-
-foreign import ccall "wrapper"
-  wrap_at_at_v
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> IO ())
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> IO ()))
 
 foreign import ccall "wrapper"
   wrap_at_at_at_B_at_at
@@ -93,8 +84,6 @@ csSearchableIndexDelegateDelegateClass = unsafePerformIO $ do
       sel_searchableIndexDidFinishThrottle = unSelector (mkSelector "searchableIndexDidFinishThrottle:")
       sel_dataForSearchableIndex_itemIdentifier_typeIdentifier_error = unSelector (mkSelector "dataForSearchableIndex:itemIdentifier:typeIdentifier:error:")
       sel_fileURLForSearchableIndex_itemIdentifier_typeIdentifier_inPlace_error = unSelector (mkSelector "fileURLForSearchableIndex:itemIdentifier:typeIdentifier:inPlace:error:")
-      sel_searchableItemsForIdentifiers_searchableItemsHandler = unSelector (mkSelector "searchableItemsForIdentifiers:searchableItemsHandler:")
-      sel_searchableItemsDidUpdate = unSelector (mkSelector "searchableItemsDidUpdate:")
   -- searchableIndexDidThrottle:
   stub_0 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
@@ -135,24 +124,6 @@ csSearchableIndexDelegateDelegateClass = unsafePerformIO $ do
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
   addObjCMethod cls "fileURLForSearchableIndex:itemIdentifier:typeIdentifier:inPlace:error:" "@@:@@@B@" stub_3
 
-  -- searchableItemsForIdentifiers:searchableItemsHandler:
-  stub_4 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO CSSearchableIndexDelegateOverrides
-    case _searchableItemsForIdentifiers_searchableItemsHandler rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "searchableItemsForIdentifiers:searchableItemsHandler:" "v@:@@" stub_4
-
-  -- searchableItemsDidUpdate:
-  stub_5 <- wrap_at_v $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO CSSearchableIndexDelegateOverrides
-    case _searchableItemsDidUpdate rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0)
-  addObjCMethod cls "searchableItemsDidUpdate:" "v@:@" stub_5
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -161,8 +132,6 @@ csSearchableIndexDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_searchableIndexDidFinishThrottle then pure (maybe 0 (const 1) (_searchableIndexDidFinishThrottle rec_))
     else if queriedSel == sel_dataForSearchableIndex_itemIdentifier_typeIdentifier_error then pure (maybe 0 (const 1) (_dataForSearchableIndex_itemIdentifier_typeIdentifier_error rec_))
     else if queriedSel == sel_fileURLForSearchableIndex_itemIdentifier_typeIdentifier_inPlace_error then pure (maybe 0 (const 1) (_fileURLForSearchableIndex_itemIdentifier_typeIdentifier_inPlace_error rec_))
-    else if queriedSel == sel_searchableItemsForIdentifiers_searchableItemsHandler then pure (maybe 0 (const 1) (_searchableItemsForIdentifiers_searchableItemsHandler rec_))
-    else if queriedSel == sel_searchableItemsDidUpdate then pure (maybe 0 (const 1) (_searchableItemsDidUpdate rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

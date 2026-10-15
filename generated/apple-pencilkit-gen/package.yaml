@@ -13,6 +13,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -30,6 +31,3 @@ library:
   - ObjC.PencilKit.PKStrokePath
   - ObjC.PencilKit.PKStrokePoint
   - ObjC.PencilKit.PKTool
-  - ObjC.PencilKit.PKToolPickerEraserItem
-  - ObjC.PencilKit.PKToolPickerInkingItem
-  - ObjC.PencilKit.PKToolPickerItem

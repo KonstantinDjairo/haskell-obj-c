@@ -52,12 +52,12 @@ new  =
     sendOwnedClassMessage cls' newSelector
 
 -- | @- modelIdentifier@
-modelIdentifier :: IsMLModelCollectionEntry mlModelCollectionEntry => mlModelCollectionEntry -> IO RawId
+modelIdentifier :: IsMLModelCollectionEntry mlModelCollectionEntry => mlModelCollectionEntry -> IO (Id NSString)
 modelIdentifier mlModelCollectionEntry =
   sendMessage mlModelCollectionEntry modelIdentifierSelector
 
 -- | @- modelURL@
-modelURL :: IsMLModelCollectionEntry mlModelCollectionEntry => mlModelCollectionEntry -> IO RawId
+modelURL :: IsMLModelCollectionEntry mlModelCollectionEntry => mlModelCollectionEntry -> IO (Id NSURL)
 modelURL mlModelCollectionEntry =
   sendMessage mlModelCollectionEntry modelURLSelector
 
@@ -78,10 +78,10 @@ newSelector :: Selector '[] RawId
 newSelector = mkSelector "new"
 
 -- | @Selector@ for @modelIdentifier@
-modelIdentifierSelector :: Selector '[] RawId
+modelIdentifierSelector :: Selector '[] (Id NSString)
 modelIdentifierSelector = mkSelector "modelIdentifier"
 
 -- | @Selector@ for @modelURL@
-modelURLSelector :: Selector '[] RawId
+modelURLSelector :: Selector '[] (Id NSURL)
 modelURLSelector = mkSelector "modelURL"
 

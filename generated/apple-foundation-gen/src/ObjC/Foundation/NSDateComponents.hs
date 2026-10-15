@@ -45,17 +45,12 @@ module ObjC.Foundation.NSDateComponents
   , setWeekOfYear
   , yearForWeekOfYear
   , setYearForWeekOfYear
-  , dayOfYear
-  , setDayOfYear
   , leapMonth
   , setLeapMonth
-  , repeatedDay
-  , setRepeatedDay
   , date
   , validDate
   , calendarSelector
   , dateSelector
-  , dayOfYearSelector
   , daySelector
   , eraSelector
   , hourSelector
@@ -65,10 +60,8 @@ module ObjC.Foundation.NSDateComponents
   , monthSelector
   , nanosecondSelector
   , quarterSelector
-  , repeatedDaySelector
   , secondSelector
   , setCalendarSelector
-  , setDayOfYearSelector
   , setDaySelector
   , setEraSelector
   , setHourSelector
@@ -77,7 +70,6 @@ module ObjC.Foundation.NSDateComponents
   , setMonthSelector
   , setNanosecondSelector
   , setQuarterSelector
-  , setRepeatedDaySelector
   , setSecondSelector
   , setTimeZoneSelector
   , setValue_forComponentSelector
@@ -115,11 +107,8 @@ module ObjC.Foundation.NSDateComponents
   , pattern NSCalendarUnitWeekOfYear
   , pattern NSCalendarUnitYearForWeekOfYear
   , pattern NSCalendarUnitNanosecond
-  , pattern NSCalendarUnitDayOfYear
   , pattern NSCalendarUnitCalendar
   , pattern NSCalendarUnitTimeZone
-  , pattern NSCalendarUnitIsLeapMonth
-  , pattern NSCalendarUnitIsRepeatedDay
   , pattern NSEraCalendarUnit
   , pattern NSYearCalendarUnit
   , pattern NSMonthCalendarUnit
@@ -335,16 +324,6 @@ setYearForWeekOfYear :: IsNSDateComponents nsDateComponents => nsDateComponents 
 setYearForWeekOfYear nsDateComponents value =
   sendMessage nsDateComponents setYearForWeekOfYearSelector value
 
--- | @- dayOfYear@
-dayOfYear :: IsNSDateComponents nsDateComponents => nsDateComponents -> IO CLong
-dayOfYear nsDateComponents =
-  sendMessage nsDateComponents dayOfYearSelector
-
--- | @- setDayOfYear:@
-setDayOfYear :: IsNSDateComponents nsDateComponents => nsDateComponents -> CLong -> IO ()
-setDayOfYear nsDateComponents value =
-  sendMessage nsDateComponents setDayOfYearSelector value
-
 -- | @- leapMonth@
 leapMonth :: IsNSDateComponents nsDateComponents => nsDateComponents -> IO Bool
 leapMonth nsDateComponents =
@@ -354,16 +333,6 @@ leapMonth nsDateComponents =
 setLeapMonth :: IsNSDateComponents nsDateComponents => nsDateComponents -> Bool -> IO ()
 setLeapMonth nsDateComponents value =
   sendMessage nsDateComponents setLeapMonthSelector value
-
--- | @- repeatedDay@
-repeatedDay :: IsNSDateComponents nsDateComponents => nsDateComponents -> IO Bool
-repeatedDay nsDateComponents =
-  sendMessage nsDateComponents repeatedDaySelector
-
--- | @- setRepeatedDay:@
-setRepeatedDay :: IsNSDateComponents nsDateComponents => nsDateComponents -> Bool -> IO ()
-setRepeatedDay nsDateComponents value =
-  sendMessage nsDateComponents setRepeatedDaySelector value
 
 -- | @- date@
 date :: IsNSDateComponents nsDateComponents => nsDateComponents -> IO (Id NSDate)
@@ -527,14 +496,6 @@ yearForWeekOfYearSelector = mkSelector "yearForWeekOfYear"
 setYearForWeekOfYearSelector :: Selector '[CLong] ()
 setYearForWeekOfYearSelector = mkSelector "setYearForWeekOfYear:"
 
--- | @Selector@ for @dayOfYear@
-dayOfYearSelector :: Selector '[] CLong
-dayOfYearSelector = mkSelector "dayOfYear"
-
--- | @Selector@ for @setDayOfYear:@
-setDayOfYearSelector :: Selector '[CLong] ()
-setDayOfYearSelector = mkSelector "setDayOfYear:"
-
 -- | @Selector@ for @leapMonth@
 leapMonthSelector :: Selector '[] Bool
 leapMonthSelector = mkSelector "leapMonth"
@@ -542,14 +503,6 @@ leapMonthSelector = mkSelector "leapMonth"
 -- | @Selector@ for @setLeapMonth:@
 setLeapMonthSelector :: Selector '[Bool] ()
 setLeapMonthSelector = mkSelector "setLeapMonth:"
-
--- | @Selector@ for @repeatedDay@
-repeatedDaySelector :: Selector '[] Bool
-repeatedDaySelector = mkSelector "repeatedDay"
-
--- | @Selector@ for @setRepeatedDay:@
-setRepeatedDaySelector :: Selector '[Bool] ()
-setRepeatedDaySelector = mkSelector "setRepeatedDay:"
 
 -- | @Selector@ for @date@
 dateSelector :: Selector '[] (Id NSDate)

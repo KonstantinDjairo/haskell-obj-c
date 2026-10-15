@@ -14,6 +14,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -107,8 +108,6 @@ library:
   - ObjC.Intents.INDeleteTasksTaskListResolutionResult
   - ObjC.Intents.INDeleteTasksTaskResolutionResult
   - ObjC.Intents.INDoubleResolutionResult
-  - ObjC.Intents.INEditMessageIntent
-  - ObjC.Intents.INEditMessageIntentResponse
   - ObjC.Intents.INEndWorkoutIntent
   - ObjC.Intents.INEndWorkoutIntentResponse
   - ObjC.Intents.INEnergyResolutionResult
@@ -167,8 +166,6 @@ library:
   - ObjC.Intents.INMessage
   - ObjC.Intents.INMessageAttributeOptionsResolutionResult
   - ObjC.Intents.INMessageAttributeResolutionResult
-  - ObjC.Intents.INMessageLinkMetadata
-  - ObjC.Intents.INMessageReaction
   - ObjC.Intents.INNote
   - ObjC.Intents.INNoteContent
   - ObjC.Intents.INNoteContentResolutionResult
@@ -312,7 +309,6 @@ library:
   - ObjC.Intents.INStartVideoCallIntentResponse
   - ObjC.Intents.INStartWorkoutIntent
   - ObjC.Intents.INStartWorkoutIntentResponse
-  - ObjC.Intents.INSticker
   - ObjC.Intents.INStringResolutionResult
   - ObjC.Intents.INTask
   - ObjC.Intents.INTaskList
@@ -334,8 +330,6 @@ library:
   - ObjC.Intents.INTransferMoneyIntent
   - ObjC.Intents.INTransferMoneyIntentResponse
   - ObjC.Intents.INURLResolutionResult
-  - ObjC.Intents.INUnsendMessagesIntent
-  - ObjC.Intents.INUnsendMessagesIntentResponse
   - ObjC.Intents.INUpcomingMediaManager
   - ObjC.Intents.INUpdateMediaAffinityIntent
   - ObjC.Intents.INUpdateMediaAffinityIntentResponse

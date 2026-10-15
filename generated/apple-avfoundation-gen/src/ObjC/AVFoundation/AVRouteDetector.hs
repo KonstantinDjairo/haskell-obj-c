@@ -9,8 +9,6 @@
 --
 -- If route detection is enabled (it is disabled by default), AVRouteDetector reports whether or not multiple playback routes have been detected. If this is the case, AVKit's AVRoutePickerView can be used to allow users to pick from the set of available routes.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVRouteDetector@.
 module ObjC.AVFoundation.AVRouteDetector
   ( AVRouteDetector

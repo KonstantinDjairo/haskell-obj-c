@@ -14,6 +14,7 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
+-- | Constants used by NSError to indicate errors in the LinkPresentation domain.
 -- | @LPErrorCode@
 newtype LPErrorCode = LPErrorCode CLong
   deriving stock (Eq, Ord, Show)
@@ -30,9 +31,6 @@ pattern LPErrorMetadataFetchCancelled = LPErrorCode 3
 
 pattern LPErrorMetadataFetchTimedOut :: LPErrorCode
 pattern LPErrorMetadataFetchTimedOut = LPErrorCode 4
-
-pattern LPErrorMetadataFetchNotAllowed :: LPErrorCode
-pattern LPErrorMetadataFetchNotAllowed = LPErrorCode 5
 
 instance ObjCArgument LPErrorCode where
   withObjCArg (LPErrorCode x) k = k (argCLong x)

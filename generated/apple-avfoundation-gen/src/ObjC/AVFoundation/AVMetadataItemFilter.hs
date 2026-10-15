@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVMetadataItemFilter
---
--- Filters selected information from a metadata item.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVMetadataItemFilter@.
+-- | Generated bindings for @AVMetadataItemFilter@.
 module ObjC.AVFoundation.AVMetadataItemFilter
   ( AVMetadataItemFilter
   , IsAVMetadataItemFilter(..)

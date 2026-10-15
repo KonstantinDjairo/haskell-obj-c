@@ -26,6 +26,7 @@ module ObjC.LocalAuthentication.LAContext
   , setMaxBiometryFailures
   , localizedCancelTitle
   , setLocalizedCancelTitle
+  , evaluatedPolicyDomainState
   , touchIDAuthenticationAllowableReuseDuration
   , setTouchIDAuthenticationAllowableReuseDuration
   , localizedReason
@@ -33,11 +34,8 @@ module ObjC.LocalAuthentication.LAContext
   , interactionNotAllowed
   , setInteractionNotAllowed
   , biometryType
-  , evaluatedPolicyDomainState
-  , domainState
   , biometryTypeSelector
   , canEvaluatePolicy_errorSelector
-  , domainStateSelector
   , evaluateAccessControl_operation_localizedReason_replySelector
   , evaluatePolicy_localizedReason_replySelector
   , evaluatedPolicyDomainStateSelector
@@ -70,18 +68,15 @@ module ObjC.LocalAuthentication.LAContext
   , pattern LABiometryNone
   , pattern LABiometryTypeTouchID
   , pattern LABiometryTypeFaceID
-  , pattern LABiometryTypeOpticID
   , LACredentialType(LACredentialType)
   , pattern LACredentialTypeApplicationPassword
   , pattern LACredentialTypeSmartCardPIN
   , LAPolicy(LAPolicy)
   , pattern LAPolicyDeviceOwnerAuthenticationWithBiometrics
   , pattern LAPolicyDeviceOwnerAuthentication
-  , pattern LAPolicyDeviceOwnerAuthenticationWithCompanion
-  , pattern LAPolicyDeviceOwnerAuthenticationWithBiometricsOrCompanion
-  , pattern LAPolicyDeviceOwnerAuthenticationWithWristDetection
   , pattern LAPolicyDeviceOwnerAuthenticationWithWatch
   , pattern LAPolicyDeviceOwnerAuthenticationWithBiometricsOrWatch
+  , pattern LAPolicyDeviceOwnerAuthenticationWithWristDetection
 
   ) where
 
@@ -269,6 +264,17 @@ setLocalizedCancelTitle :: (IsLAContext laContext, IsNSString value) => laContex
 setLocalizedCancelTitle laContext value =
   sendMessage laContext setLocalizedCancelTitleSelector (toNSString value)
 
+-- | Contains policy domain state.
+--
+-- This property is set only when evaluatePolicy is called and succesful Touch ID or Face ID authentication              was performed, or when canEvaluatePolicy succeeds for a biometric policy.              It stays nil for all other cases.              If biometric database was modified (fingers or faces were removed or added), evaluatedPolicyDomainState              data will change. Nature of such database changes cannot be determined              but comparing data of evaluatedPolicyDomainState after different evaluatePolicy              will reveal the fact database was changed between calls.
+--
+-- Warning: Please note that the value returned by this property can change exceptionally between major OS versions even if          the state of biometry has not changed.
+--
+-- ObjC selector: @- evaluatedPolicyDomainState@
+evaluatedPolicyDomainState :: IsLAContext laContext => laContext -> IO (Id NSData)
+evaluatedPolicyDomainState laContext =
+  sendMessage laContext evaluatedPolicyDomainStateSelector
+
 -- | Time interval for accepting a successful Touch ID or Face ID device unlock (on the lock screen) from the past.
 --
 -- This property can be set with a time interval in seconds. If the device was successfully unlocked by             biometry within this time interval, then biometric authentication on this context will succeed             automatically and the reply block will be called without prompting user for Touch ID or Face ID.
@@ -345,28 +351,12 @@ setInteractionNotAllowed laContext value =
 
 -- | Indicates the type of the biometry supported by the device.
 --
+-- This property is set when canEvaluatePolicy has been called for a biometric policy.              The default value is LABiometryTypeNone.
+--
 -- ObjC selector: @- biometryType@
 biometryType :: IsLAContext laContext => laContext -> IO LABiometryType
 biometryType laContext =
   sendMessage laContext biometryTypeSelector
-
--- | Contains policy domain state.
---
--- This property is set only when evaluatePolicy is called and succesful Touch ID or Face ID authentication              was performed, or when canEvaluatePolicy succeeds for a biometric policy.              It stays nil for all other cases.              If biometric database was modified (fingers or faces were removed or added), evaluatedPolicyDomainState              data will change. Nature of such database changes cannot be determined              but comparing data of evaluatedPolicyDomainState after different evaluatePolicy              will reveal the fact database was changed between calls.
---
--- Warning: Please note that the value returned by this property can change exceptionally between major OS versions even if          the state of biometry has not changed.
---
--- ObjC selector: @- evaluatedPolicyDomainState@
-evaluatedPolicyDomainState :: IsLAContext laContext => laContext -> IO (Id NSData)
-evaluatedPolicyDomainState laContext =
-  sendMessage laContext evaluatedPolicyDomainStateSelector
-
--- | Contains authentication domain state.
---
--- ObjC selector: @- domainState@
-domainState :: IsLAContext laContext => laContext -> IO (Id LADomainState)
-domainState laContext =
-  sendMessage laContext domainStateSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -420,6 +410,10 @@ localizedCancelTitleSelector = mkSelector "localizedCancelTitle"
 setLocalizedCancelTitleSelector :: Selector '[Id NSString] ()
 setLocalizedCancelTitleSelector = mkSelector "setLocalizedCancelTitle:"
 
+-- | @Selector@ for @evaluatedPolicyDomainState@
+evaluatedPolicyDomainStateSelector :: Selector '[] (Id NSData)
+evaluatedPolicyDomainStateSelector = mkSelector "evaluatedPolicyDomainState"
+
 -- | @Selector@ for @touchIDAuthenticationAllowableReuseDuration@
 touchIDAuthenticationAllowableReuseDurationSelector :: Selector '[] CDouble
 touchIDAuthenticationAllowableReuseDurationSelector = mkSelector "touchIDAuthenticationAllowableReuseDuration"
@@ -447,12 +441,4 @@ setInteractionNotAllowedSelector = mkSelector "setInteractionNotAllowed:"
 -- | @Selector@ for @biometryType@
 biometryTypeSelector :: Selector '[] LABiometryType
 biometryTypeSelector = mkSelector "biometryType"
-
--- | @Selector@ for @evaluatedPolicyDomainState@
-evaluatedPolicyDomainStateSelector :: Selector '[] (Id NSData)
-evaluatedPolicyDomainStateSelector = mkSelector "evaluatedPolicyDomainState"
-
--- | @Selector@ for @domainState@
-domainStateSelector :: Selector '[] (Id LADomainState)
-domainStateSelector = mkSelector "domainState"
 

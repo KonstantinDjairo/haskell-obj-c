@@ -186,3 +186,21 @@ instance ObjCReturn IOHIDTransactionDirectionType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (IOHIDTransactionDirectionType x)
   fromOwned x = pure (IOHIDTransactionDirectionType x)
+
+-- | @USBClassSpecificDesc@
+newtype USBClassSpecificDesc = USBClassSpecificDesc CInt
+  deriving stock (Eq, Ord, Show)
+  deriving newtype (Storable)
+
+pattern KUSBClassSpecificDescriptor :: USBClassSpecificDesc
+pattern KUSBClassSpecificDescriptor = USBClassSpecificDesc 36
+
+instance ObjCArgument USBClassSpecificDesc where
+  withObjCArg (USBClassSpecificDesc x) k = k (argCInt x)
+
+instance ObjCReturn USBClassSpecificDesc where
+  type RawReturn USBClassSpecificDesc = CInt
+  objcRetType = retCInt
+  msgSendVariant = MsgSendNormal
+  fromRetained x = pure (USBClassSpecificDesc x)
+  fromOwned x = pure (USBClassSpecificDesc x)

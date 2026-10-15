@@ -10,7 +10,6 @@ module ObjC.UserNotifications.Internal.Classes (
     module ObjC.UserNotifications.Internal.Classes,
     module ObjC.CoreLocation.Internal.Classes,
     module ObjC.Foundation.Internal.Classes,
-    module ObjC.Intents.Internal.Classes,
   ) where
 
 import Data.Proxy (Proxy(..))
@@ -18,7 +17,6 @@ import ObjC.Runtime.Types
 import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.CoreLocation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-import ObjC.Intents.Internal.Classes
 
 -- ---------- UNNotification ----------
 
@@ -94,25 +92,6 @@ instance IsUNNotificationAttachment (Id UNNotificationAttachment) where
   toUNNotificationAttachment = unsafeCastId
 
 instance IsNSObject (Id UNNotificationAttachment) where
-  toNSObject = unsafeCastId
-
--- ---------- UNNotificationAttributedMessageContext ----------
-
--- | Phantom type for @UNNotificationAttributedMessageContext@.
-data UNNotificationAttributedMessageContext
-
-instance IsObjCObject (Id UNNotificationAttributedMessageContext) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "UNNotificationAttributedMessageContext"
-
-class IsNSObject a => IsUNNotificationAttributedMessageContext a where
-  toUNNotificationAttributedMessageContext :: a -> Id UNNotificationAttributedMessageContext
-
-instance IsUNNotificationAttributedMessageContext (Id UNNotificationAttributedMessageContext) where
-  toUNNotificationAttributedMessageContext = unsafeCastId
-
-instance IsNSObject (Id UNNotificationAttributedMessageContext) where
   toNSObject = unsafeCastId
 
 -- ---------- UNNotificationCategory ----------

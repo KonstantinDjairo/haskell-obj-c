@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterNullablesAndOptionalsStruct
   ( MTRTestClusterClusterNullablesAndOptionalsStruct
   , IsMTRTestClusterClusterNullablesAndOptionalsStruct(..)
+  , init_
+  , copyWithZone
   , nullableInt
   , setNullableInt
   , optionalInt
@@ -31,6 +33,8 @@ module ObjC.Matter.MTRTestClusterClusterNullablesAndOptionalsStruct
   , setOptionalList
   , nullableOptionalList
   , setNullableOptionalList
+  , copyWithZoneSelector
+  , initSelector
   , nullableIntSelector
   , nullableListSelector
   , nullableOptionalIntSelector
@@ -69,6 +73,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterNullablesAndOptionalsStruct mtrTestClusterClusterNullablesAndOptionalsStruct => mtrTestClusterClusterNullablesAndOptionalsStruct -> IO (Id MTRTestClusterClusterNullablesAndOptionalsStruct)
+init_ mtrTestClusterClusterNullablesAndOptionalsStruct =
+  sendOwnedMessage mtrTestClusterClusterNullablesAndOptionalsStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterNullablesAndOptionalsStruct mtrTestClusterClusterNullablesAndOptionalsStruct => mtrTestClusterClusterNullablesAndOptionalsStruct -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterNullablesAndOptionalsStruct zone =
+  sendOwnedMessage mtrTestClusterClusterNullablesAndOptionalsStruct copyWithZoneSelector zone
 
 -- | @- nullableInt@
 nullableInt :: IsMTRTestClusterClusterNullablesAndOptionalsStruct mtrTestClusterClusterNullablesAndOptionalsStruct => mtrTestClusterClusterNullablesAndOptionalsStruct -> IO (Id NSNumber)
@@ -193,6 +207,14 @@ setNullableOptionalList mtrTestClusterClusterNullablesAndOptionalsStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterNullablesAndOptionalsStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @nullableInt@
 nullableIntSelector :: Selector '[] (Id NSNumber)

@@ -8,13 +8,7 @@
 --
 -- This storage device attachment uses a disk image on the host file system as the drive of the storage device.
 --
--- Only RAW data disk images are supported.
---
--- An empty RAW disk image can be created with @FileDescriptor.resize(to:retryOnInterrupt:)@ method in Swift,    the @ftruncate()@ function in Swift or Objective-C, or the @truncate@ command on the command line.    The size of the file must be a multiple of 512 bytes, the block size.
---
--- See: VZNVMExpressControllerDeviceConfiguration
---
--- See: VZUSBMassStorageDeviceConfiguration
+-- Only raw data disk images are supported.
 --
 -- See: VZVirtioBlockDeviceConfiguration
 --

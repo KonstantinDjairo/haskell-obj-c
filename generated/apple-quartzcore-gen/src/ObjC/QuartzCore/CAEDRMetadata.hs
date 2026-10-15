@@ -7,20 +7,16 @@
 module ObjC.QuartzCore.CAEDRMetadata
   ( CAEDRMetadata
   , IsCAEDRMetadata(..)
-  , new
   , init_
   , hdR10MetadataWithDisplayInfo_contentInfo_opticalOutputScale
   , hdR10MetadataWithMinLuminance_maxLuminance_opticalOutputScale
-  , hlgMetadataWithAmbientViewingEnvironment
   , hlgMetadata
   , available
   , availableSelector
   , hdR10MetadataWithDisplayInfo_contentInfo_opticalOutputScaleSelector
   , hdR10MetadataWithMinLuminance_maxLuminance_opticalOutputScaleSelector
   , hlgMetadataSelector
-  , hlgMetadataWithAmbientViewingEnvironmentSelector
   , initSelector
-  , newSelector
 
 
   ) where
@@ -35,13 +31,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.QuartzCore.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | @+ new@
-new :: IO (Id CAEDRMetadata)
-new  =
-  do
-    cls' <- getRequiredClass "CAEDRMetadata"
-    sendOwnedClassMessage cls' newSelector
 
 -- | @- init@
 init_ :: IsCAEDRMetadata caedrMetadata => caedrMetadata -> IO (Id CAEDRMetadata)
@@ -62,13 +51,6 @@ hdR10MetadataWithMinLuminance_maxLuminance_opticalOutputScale minNits maxNits sc
     cls' <- getRequiredClass "CAEDRMetadata"
     sendClassMessage cls' hdR10MetadataWithMinLuminance_maxLuminance_opticalOutputScaleSelector minNits maxNits scale
 
--- | @+ HLGMetadataWithAmbientViewingEnvironment:@
-hlgMetadataWithAmbientViewingEnvironment :: IsNSData data_ => data_ -> IO (Id CAEDRMetadata)
-hlgMetadataWithAmbientViewingEnvironment data_ =
-  do
-    cls' <- getRequiredClass "CAEDRMetadata"
-    sendClassMessage cls' hlgMetadataWithAmbientViewingEnvironmentSelector (toNSData data_)
-
 -- | @+ HLGMetadata@
 hlgMetadata :: IO (Id CAEDRMetadata)
 hlgMetadata  =
@@ -87,10 +69,6 @@ available  =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id CAEDRMetadata)
-newSelector = mkSelector "new"
-
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id CAEDRMetadata)
 initSelector = mkSelector "init"
@@ -102,10 +80,6 @@ hdR10MetadataWithDisplayInfo_contentInfo_opticalOutputScaleSelector = mkSelector
 -- | @Selector@ for @HDR10MetadataWithMinLuminance:maxLuminance:opticalOutputScale:@
 hdR10MetadataWithMinLuminance_maxLuminance_opticalOutputScaleSelector :: Selector '[CFloat, CFloat, CFloat] (Id CAEDRMetadata)
 hdR10MetadataWithMinLuminance_maxLuminance_opticalOutputScaleSelector = mkSelector "HDR10MetadataWithMinLuminance:maxLuminance:opticalOutputScale:"
-
--- | @Selector@ for @HLGMetadataWithAmbientViewingEnvironment:@
-hlgMetadataWithAmbientViewingEnvironmentSelector :: Selector '[Id NSData] (Id CAEDRMetadata)
-hlgMetadataWithAmbientViewingEnvironmentSelector = mkSelector "HLGMetadataWithAmbientViewingEnvironment:"
 
 -- | @Selector@ for @HLGMetadata@
 hlgMetadataSelector :: Selector '[] (Id CAEDRMetadata)

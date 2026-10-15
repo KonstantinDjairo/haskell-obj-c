@@ -4,9 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | View controller to manage turn-based matches, invite friends and perform automatching. Present modally from the top view controller.
---
--- Generated bindings for @GKTurnBasedMatchmakerViewController@.
+-- | Generated bindings for @GKTurnBasedMatchmakerViewController@.
 module ObjC.GameKit.GKTurnBasedMatchmakerViewController
   ( GKTurnBasedMatchmakerViewController
   , IsGKTurnBasedMatchmakerViewController(..)

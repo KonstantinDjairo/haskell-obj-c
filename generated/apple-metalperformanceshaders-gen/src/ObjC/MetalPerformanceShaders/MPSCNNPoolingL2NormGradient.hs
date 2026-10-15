@@ -11,13 +11,17 @@
 --
 -- L2-Norm pooling forward pass is defined as:
 --
--- out(x) = sqrt( sum_{dx  Window(x)} in(s*x+dx) * in(s*x+dx) ), where
+-- out(x) = sqrt( sum_{dx
+--
+-- Window(x)} in(s*x+dx) * in(s*x+dx) ), where
 --
 -- the pooling window definition 'Window(x)' follows MPSCNNPooling specification and              's' is the pixel stride and in() is the source input image.
 --
 -- Hence the partial derivative of the output value wrt. to the input value needed in the              gradient backpropagation in MPSCNNPoolingGradient is:
 --
--- d out(x)/d in(y) = sum_{dx  Window(x)} delta_{s*x+dx, y} in(s*x+dx) / out(x), where
+-- d out(x)/d in(y) = sum_{dx
+--
+-- Window(x)} delta_{s*x+dx, y} in(s*x+dx) / out(x), where
 --
 -- delta_{x,y} is the Kronecker delta symbol for which
 --

@@ -37,7 +37,7 @@ uuid :: IsVNObservation vnObservation => vnObservation -> IO (Id NSUUID)
 uuid vnObservation =
   sendMessage vnObservation uuidSelector
 
--- | The level of confidence normalized to [0, 1] where 1 is most confident. The only exception is results coming from VNCoreMLRequest, where confidence values are forwarded as is from relevant CoreML models
+-- | The level of confidence normalized to [0, 1] where 1 is most confident
 --
 -- Confidence can always be returned as 1.0 if confidence is not supported or has no meaning
 --

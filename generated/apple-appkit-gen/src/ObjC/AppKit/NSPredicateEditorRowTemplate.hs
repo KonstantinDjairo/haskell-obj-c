@@ -58,7 +58,6 @@ module ObjC.AppKit.NSPredicateEditorRowTemplate
   , pattern NSURIAttributeType
   , pattern NSTransformableAttributeType
   , pattern NSObjectIDAttributeType
-  , pattern NSCompositeAttributeType
   , NSComparisonPredicateModifier(NSComparisonPredicateModifier)
   , pattern NSDirectPredicateModifier
   , pattern NSAllPredicateModifier

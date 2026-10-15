@@ -5,7 +5,7 @@
 
 -- | VNRecognizedTextObservation
 --
--- VNRectangleObservation
+-- VNDetectedObjectObservation
 --
 -- VNRecognizedTextObservation Describes a text area detected and recognized by the VNRecognizeTextRequest request.
 --

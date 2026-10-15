@@ -7,24 +7,20 @@
 module ObjC.Matter.MTROnOffClusterOffWithEffectParams
   ( MTROnOffClusterOffWithEffectParams
   , IsMTROnOffClusterOffWithEffectParams(..)
-  , effectIdentifier
-  , setEffectIdentifier
+  , init_
+  , copyWithZone
+  , effectId
+  , setEffectId
   , effectVariant
   , setEffectVariant
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , effectId
-  , setEffectId
+  , copyWithZoneSelector
   , effectIdSelector
-  , effectIdentifierSelector
   , effectVariantSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setEffectIdSelector
-  , setEffectIdentifierSelector
   , setEffectVariantSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -42,15 +38,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- effectIdentifier@
-effectIdentifier :: IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams => mtrOnOffClusterOffWithEffectParams -> IO (Id NSNumber)
-effectIdentifier mtrOnOffClusterOffWithEffectParams =
-  sendMessage mtrOnOffClusterOffWithEffectParams effectIdentifierSelector
+-- | @- init@
+init_ :: IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams => mtrOnOffClusterOffWithEffectParams -> IO (Id MTROnOffClusterOffWithEffectParams)
+init_ mtrOnOffClusterOffWithEffectParams =
+  sendOwnedMessage mtrOnOffClusterOffWithEffectParams initSelector
 
--- | @- setEffectIdentifier:@
-setEffectIdentifier :: (IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams, IsNSNumber value) => mtrOnOffClusterOffWithEffectParams -> value -> IO ()
-setEffectIdentifier mtrOnOffClusterOffWithEffectParams value =
-  sendMessage mtrOnOffClusterOffWithEffectParams setEffectIdentifierSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams => mtrOnOffClusterOffWithEffectParams -> Ptr () -> IO RawId
+copyWithZone mtrOnOffClusterOffWithEffectParams zone =
+  sendOwnedMessage mtrOnOffClusterOffWithEffectParams copyWithZoneSelector zone
+
+-- | @- effectId@
+effectId :: IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams => mtrOnOffClusterOffWithEffectParams -> IO (Id NSNumber)
+effectId mtrOnOffClusterOffWithEffectParams =
+  sendMessage mtrOnOffClusterOffWithEffectParams effectIdSelector
+
+-- | @- setEffectId:@
+setEffectId :: (IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams, IsNSNumber value) => mtrOnOffClusterOffWithEffectParams -> value -> IO ()
+setEffectId mtrOnOffClusterOffWithEffectParams value =
+  sendMessage mtrOnOffClusterOffWithEffectParams setEffectIdSelector (toNSNumber value)
 
 -- | @- effectVariant@
 effectVariant :: IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams => mtrOnOffClusterOffWithEffectParams -> IO (Id NSNumber)
@@ -84,49 +90,25 @@ setTimedInvokeTimeoutMs :: (IsMTROnOffClusterOffWithEffectParams mtrOnOffCluster
 setTimedInvokeTimeoutMs mtrOnOffClusterOffWithEffectParams value =
   sendMessage mtrOnOffClusterOffWithEffectParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams => mtrOnOffClusterOffWithEffectParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrOnOffClusterOffWithEffectParams =
-  sendMessage mtrOnOffClusterOffWithEffectParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams, IsNSNumber value) => mtrOnOffClusterOffWithEffectParams -> value -> IO ()
-setServerSideProcessingTimeout mtrOnOffClusterOffWithEffectParams value =
-  sendMessage mtrOnOffClusterOffWithEffectParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
--- | @- effectId@
-effectId :: IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams => mtrOnOffClusterOffWithEffectParams -> IO (Id NSNumber)
-effectId mtrOnOffClusterOffWithEffectParams =
-  sendMessage mtrOnOffClusterOffWithEffectParams effectIdSelector
-
--- | @- setEffectId:@
-setEffectId :: (IsMTROnOffClusterOffWithEffectParams mtrOnOffClusterOffWithEffectParams, IsNSNumber value) => mtrOnOffClusterOffWithEffectParams -> value -> IO ()
-setEffectId mtrOnOffClusterOffWithEffectParams value =
-  sendMessage mtrOnOffClusterOffWithEffectParams setEffectIdSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @effectIdentifier@
-effectIdentifierSelector :: Selector '[] (Id NSNumber)
-effectIdentifierSelector = mkSelector "effectIdentifier"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROnOffClusterOffWithEffectParams)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setEffectIdentifier:@
-setEffectIdentifierSelector :: Selector '[Id NSNumber] ()
-setEffectIdentifierSelector = mkSelector "setEffectIdentifier:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
+-- | @Selector@ for @effectId@
+effectIdSelector :: Selector '[] (Id NSNumber)
+effectIdSelector = mkSelector "effectId"
+
+-- | @Selector@ for @setEffectId:@
+setEffectIdSelector :: Selector '[Id NSNumber] ()
+setEffectIdSelector = mkSelector "setEffectId:"
 
 -- | @Selector@ for @effectVariant@
 effectVariantSelector :: Selector '[] (Id NSNumber)
@@ -143,20 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
-
--- | @Selector@ for @effectId@
-effectIdSelector :: Selector '[] (Id NSNumber)
-effectIdSelector = mkSelector "effectId"
-
--- | @Selector@ for @setEffectId:@
-setEffectIdSelector :: Selector '[Id NSNumber] ()
-setEffectIdSelector = mkSelector "setEffectId:"
 

@@ -171,24 +171,24 @@ setScriptErrorNumber nsScriptCommand value =
   sendMessage nsScriptCommand setScriptErrorNumberSelector value
 
 -- | @- scriptErrorOffendingObjectDescriptor@
-scriptErrorOffendingObjectDescriptor :: IsNSScriptCommand nsScriptCommand => nsScriptCommand -> IO (Id NSAppleEventDescriptor)
+scriptErrorOffendingObjectDescriptor :: IsNSScriptCommand nsScriptCommand => nsScriptCommand -> IO RawId
 scriptErrorOffendingObjectDescriptor nsScriptCommand =
   sendMessage nsScriptCommand scriptErrorOffendingObjectDescriptorSelector
 
 -- | @- setScriptErrorOffendingObjectDescriptor:@
-setScriptErrorOffendingObjectDescriptor :: (IsNSScriptCommand nsScriptCommand, IsNSAppleEventDescriptor value) => nsScriptCommand -> value -> IO ()
+setScriptErrorOffendingObjectDescriptor :: IsNSScriptCommand nsScriptCommand => nsScriptCommand -> RawId -> IO ()
 setScriptErrorOffendingObjectDescriptor nsScriptCommand value =
-  sendMessage nsScriptCommand setScriptErrorOffendingObjectDescriptorSelector (toNSAppleEventDescriptor value)
+  sendMessage nsScriptCommand setScriptErrorOffendingObjectDescriptorSelector value
 
 -- | @- scriptErrorExpectedTypeDescriptor@
-scriptErrorExpectedTypeDescriptor :: IsNSScriptCommand nsScriptCommand => nsScriptCommand -> IO (Id NSAppleEventDescriptor)
+scriptErrorExpectedTypeDescriptor :: IsNSScriptCommand nsScriptCommand => nsScriptCommand -> IO RawId
 scriptErrorExpectedTypeDescriptor nsScriptCommand =
   sendMessage nsScriptCommand scriptErrorExpectedTypeDescriptorSelector
 
 -- | @- setScriptErrorExpectedTypeDescriptor:@
-setScriptErrorExpectedTypeDescriptor :: (IsNSScriptCommand nsScriptCommand, IsNSAppleEventDescriptor value) => nsScriptCommand -> value -> IO ()
+setScriptErrorExpectedTypeDescriptor :: IsNSScriptCommand nsScriptCommand => nsScriptCommand -> RawId -> IO ()
 setScriptErrorExpectedTypeDescriptor nsScriptCommand value =
-  sendMessage nsScriptCommand setScriptErrorExpectedTypeDescriptorSelector (toNSAppleEventDescriptor value)
+  sendMessage nsScriptCommand setScriptErrorExpectedTypeDescriptorSelector value
 
 -- | @- scriptErrorString@
 scriptErrorString :: IsNSScriptCommand nsScriptCommand => nsScriptCommand -> IO (Id NSString)
@@ -286,19 +286,19 @@ setScriptErrorNumberSelector :: Selector '[CLong] ()
 setScriptErrorNumberSelector = mkSelector "setScriptErrorNumber:"
 
 -- | @Selector@ for @scriptErrorOffendingObjectDescriptor@
-scriptErrorOffendingObjectDescriptorSelector :: Selector '[] (Id NSAppleEventDescriptor)
+scriptErrorOffendingObjectDescriptorSelector :: Selector '[] RawId
 scriptErrorOffendingObjectDescriptorSelector = mkSelector "scriptErrorOffendingObjectDescriptor"
 
 -- | @Selector@ for @setScriptErrorOffendingObjectDescriptor:@
-setScriptErrorOffendingObjectDescriptorSelector :: Selector '[Id NSAppleEventDescriptor] ()
+setScriptErrorOffendingObjectDescriptorSelector :: Selector '[RawId] ()
 setScriptErrorOffendingObjectDescriptorSelector = mkSelector "setScriptErrorOffendingObjectDescriptor:"
 
 -- | @Selector@ for @scriptErrorExpectedTypeDescriptor@
-scriptErrorExpectedTypeDescriptorSelector :: Selector '[] (Id NSAppleEventDescriptor)
+scriptErrorExpectedTypeDescriptorSelector :: Selector '[] RawId
 scriptErrorExpectedTypeDescriptorSelector = mkSelector "scriptErrorExpectedTypeDescriptor"
 
 -- | @Selector@ for @setScriptErrorExpectedTypeDescriptor:@
-setScriptErrorExpectedTypeDescriptorSelector :: Selector '[Id NSAppleEventDescriptor] ()
+setScriptErrorExpectedTypeDescriptorSelector :: Selector '[RawId] ()
 setScriptErrorExpectedTypeDescriptorSelector = mkSelector "setScriptErrorExpectedTypeDescriptor:"
 
 -- | @Selector@ for @scriptErrorString@

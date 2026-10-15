@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -18,6 +18,7 @@ library
       ObjC.AVFoundation.AVAssetDownloadConfiguration
       ObjC.AVFoundation.AVAssetDownloadContentConfiguration
       ObjC.AVFoundation.AVAssetDownloadStorageManagementPolicy
+      ObjC.AVFoundation.AVAssetDownloadStorageManagementPolicyInternal
       ObjC.AVFoundation.AVAssetDownloadStorageManager
       ObjC.AVFoundation.AVAssetDownloadTask
       ObjC.AVFoundation.AVAssetDownloadURLSession
@@ -52,7 +53,6 @@ library
       ObjC.AVFoundation.AVAssetVariantAudioRenditionSpecificAttributes
       ObjC.AVFoundation.AVAssetVariantQualifier
       ObjC.AVFoundation.AVAssetVariantVideoAttributes
-      ObjC.AVFoundation.AVAssetVariantVideoLayoutAttributes
       ObjC.AVFoundation.AVAssetWriter
       ObjC.AVFoundation.AVAssetWriterInput
       ObjC.AVFoundation.AVAssetWriterInputCaptionAdaptor
@@ -60,9 +60,10 @@ library
       ObjC.AVFoundation.AVAssetWriterInputMetadataAdaptor
       ObjC.AVFoundation.AVAssetWriterInputPassDescription
       ObjC.AVFoundation.AVAssetWriterInputPixelBufferAdaptor
-      ObjC.AVFoundation.AVAssetWriterInputTaggedPixelBufferGroupAdaptor
       ObjC.AVFoundation.AVAsynchronousCIImageFilteringRequest
+      ObjC.AVFoundation.AVAsynchronousCIImageFilteringRequestInternal
       ObjC.AVFoundation.AVAsynchronousVideoCompositionRequest
+      ObjC.AVFoundation.AVAsynchronousVideoCompositionRequestInternal
       ObjC.AVFoundation.AVAudioMix
       ObjC.AVFoundation.AVAudioMixInputParameters
       ObjC.AVFoundation.AVAudioMixInputParametersInternal
@@ -87,9 +88,7 @@ library
       ObjC.AVFoundation.AVCaptureAutoExposureBracketedStillImageSettings
       ObjC.AVFoundation.AVCaptureBracketedStillImageSettings
       ObjC.AVFoundation.AVCaptureConnection
-      ObjC.AVFoundation.AVCaptureControl
       ObjC.AVFoundation.AVCaptureDataOutputSynchronizer
-      ObjC.AVFoundation.AVCaptureDeferredPhotoProxy
       ObjC.AVFoundation.AVCaptureDepthDataOutput
       ObjC.AVFoundation.AVCaptureDeskViewApplication
       ObjC.AVFoundation.AVCaptureDeskViewApplicationLaunchConfiguration
@@ -98,12 +97,7 @@ library
       ObjC.AVFoundation.AVCaptureDeviceFormat
       ObjC.AVFoundation.AVCaptureDeviceInput
       ObjC.AVFoundation.AVCaptureDeviceInputSource
-      ObjC.AVFoundation.AVCaptureDeviceRotationCoordinator
-      ObjC.AVFoundation.AVCaptureExternalDisplayConfiguration
-      ObjC.AVFoundation.AVCaptureExternalDisplayConfigurator
       ObjC.AVFoundation.AVCaptureFileOutput
-      ObjC.AVFoundation.AVCaptureFraming
-      ObjC.AVFoundation.AVCaptureIndexPicker
       ObjC.AVFoundation.AVCaptureInput
       ObjC.AVFoundation.AVCaptureInputPort
       ObjC.AVFoundation.AVCaptureManualExposureBracketedStillImageSettings
@@ -115,26 +109,17 @@ library
       ObjC.AVFoundation.AVCapturePhoto
       ObjC.AVFoundation.AVCapturePhotoBracketSettings
       ObjC.AVFoundation.AVCapturePhotoOutput
-      ObjC.AVFoundation.AVCapturePhotoOutputReadinessCoordinator
       ObjC.AVFoundation.AVCapturePhotoSettings
-      ObjC.AVFoundation.AVCaptureReactionEffectState
       ObjC.AVFoundation.AVCaptureResolvedPhotoSettings
       ObjC.AVFoundation.AVCaptureScreenInput
       ObjC.AVFoundation.AVCaptureSession
-      ObjC.AVFoundation.AVCaptureSlider
-      ObjC.AVFoundation.AVCaptureSmartFramingMonitor
-      ObjC.AVFoundation.AVCaptureSpatialAudioMetadataSampleGenerator
       ObjC.AVFoundation.AVCaptureStillImageOutput
       ObjC.AVFoundation.AVCaptureSynchronizedData
       ObjC.AVFoundation.AVCaptureSynchronizedDataCollection
       ObjC.AVFoundation.AVCaptureSynchronizedDepthData
       ObjC.AVFoundation.AVCaptureSynchronizedMetadataObjectData
       ObjC.AVFoundation.AVCaptureSynchronizedSampleBufferData
-      ObjC.AVFoundation.AVCaptureSystemExposureBiasSlider
       ObjC.AVFoundation.AVCaptureSystemPressureState
-      ObjC.AVFoundation.AVCaptureSystemZoomSlider
-      ObjC.AVFoundation.AVCaptureTimecodeGenerator
-      ObjC.AVFoundation.AVCaptureTimecodeSource
       ObjC.AVFoundation.AVCaptureVideoDataOutput
       ObjC.AVFoundation.AVCaptureVideoPreviewLayer
       ObjC.AVFoundation.AVComposition
@@ -142,16 +127,14 @@ library
       ObjC.AVFoundation.AVCompositionTrackFormatDescriptionReplacement
       ObjC.AVFoundation.AVCompositionTrackInternal
       ObjC.AVFoundation.AVCompositionTrackSegment
-      ObjC.AVFoundation.AVCompositionTrackSegmentInternal
       ObjC.AVFoundation.AVContentKey
       ObjC.AVFoundation.AVContentKeyRequest
       ObjC.AVFoundation.AVContentKeyResponse
       ObjC.AVFoundation.AVContentKeySession
+      ObjC.AVFoundation.AVContentKeySessionInternal
       ObjC.AVFoundation.AVContentKeySpecifier
-      ObjC.AVFoundation.AVContinuityDevice
       ObjC.AVFoundation.AVCoordinatedPlaybackParticipant
       ObjC.AVFoundation.AVCoordinatedPlaybackSuspension
-      ObjC.AVFoundation.AVCustomMediaSelectionScheme
       ObjC.AVFoundation.AVDateRangeMetadataGroup
       ObjC.AVFoundation.AVDelegatingPlaybackCoordinator
       ObjC.AVFoundation.AVDelegatingPlaybackCoordinatorBufferingCommand
@@ -160,34 +143,26 @@ library
       ObjC.AVFoundation.AVDelegatingPlaybackCoordinatorPlaybackControlCommand
       ObjC.AVFoundation.AVDelegatingPlaybackCoordinatorSeekCommand
       ObjC.AVFoundation.AVDepthData
-      ObjC.AVFoundation.AVExposureBiasRange
-      ObjC.AVFoundation.AVExternalStorageDevice
-      ObjC.AVFoundation.AVExternalStorageDeviceDiscoverySession
-      ObjC.AVFoundation.AVExternalSyncDevice
-      ObjC.AVFoundation.AVExternalSyncDeviceDiscoverySession
       ObjC.AVFoundation.AVFragmentedAsset
       ObjC.AVFoundation.AVFragmentedAssetMinder
+      ObjC.AVFoundation.AVFragmentedAssetMinderInternal
       ObjC.AVFoundation.AVFragmentedAssetTrack
+      ObjC.AVFoundation.AVFragmentedAssetTrackInternal
       ObjC.AVFoundation.AVFragmentedMovie
       ObjC.AVFoundation.AVFragmentedMovieMinder
       ObjC.AVFoundation.AVFragmentedMovieTrack
       ObjC.AVFoundation.AVFrameRateRange
       ObjC.AVFoundation.AVMediaDataStorage
-      ObjC.AVFoundation.AVMediaExtensionProperties
-      ObjC.AVFoundation.AVMediaPresentationSelector
-      ObjC.AVFoundation.AVMediaPresentationSetting
       ObjC.AVFoundation.AVMediaSelection
       ObjC.AVFoundation.AVMediaSelectionGroup
       ObjC.AVFoundation.AVMediaSelectionOption
+      ObjC.AVFoundation.AVMediaSelectionOptionInternal
       ObjC.AVFoundation.AVMetadataBodyObject
       ObjC.AVFoundation.AVMetadataCatBodyObject
-      ObjC.AVFoundation.AVMetadataCatHeadObject
       ObjC.AVFoundation.AVMetadataDogBodyObject
-      ObjC.AVFoundation.AVMetadataDogHeadObject
       ObjC.AVFoundation.AVMetadataFaceObject
       ObjC.AVFoundation.AVMetadataGroup
       ObjC.AVFoundation.AVMetadataHumanBodyObject
-      ObjC.AVFoundation.AVMetadataHumanFullBodyObject
       ObjC.AVFoundation.AVMetadataItem
       ObjC.AVFoundation.AVMetadataItemFilter
       ObjC.AVFoundation.AVMetadataItemFilterInternal
@@ -196,24 +171,6 @@ library
       ObjC.AVFoundation.AVMetadataMachineReadableCodeObject
       ObjC.AVFoundation.AVMetadataObject
       ObjC.AVFoundation.AVMetadataSalientObject
-      ObjC.AVFoundation.AVMetricContentKeyRequestEvent
-      ObjC.AVFoundation.AVMetricDownloadSummaryEvent
-      ObjC.AVFoundation.AVMetricErrorEvent
-      ObjC.AVFoundation.AVMetricEvent
-      ObjC.AVFoundation.AVMetricEventStream
-      ObjC.AVFoundation.AVMetricHLSMediaSegmentRequestEvent
-      ObjC.AVFoundation.AVMetricHLSPlaylistRequestEvent
-      ObjC.AVFoundation.AVMetricMediaRendition
-      ObjC.AVFoundation.AVMetricMediaResourceRequestEvent
-      ObjC.AVFoundation.AVMetricPlayerItemInitialLikelyToKeepUpEvent
-      ObjC.AVFoundation.AVMetricPlayerItemLikelyToKeepUpEvent
-      ObjC.AVFoundation.AVMetricPlayerItemPlaybackSummaryEvent
-      ObjC.AVFoundation.AVMetricPlayerItemRateChangeEvent
-      ObjC.AVFoundation.AVMetricPlayerItemSeekDidCompleteEvent
-      ObjC.AVFoundation.AVMetricPlayerItemSeekEvent
-      ObjC.AVFoundation.AVMetricPlayerItemStallEvent
-      ObjC.AVFoundation.AVMetricPlayerItemVariantSwitchEvent
-      ObjC.AVFoundation.AVMetricPlayerItemVariantSwitchStartEvent
       ObjC.AVFoundation.AVMovie
       ObjC.AVFoundation.AVMovieTrack
       ObjC.AVFoundation.AVMovieTrackInternal
@@ -235,10 +192,12 @@ library
       ObjC.AVFoundation.AVMutableTimedMetadataGroup
       ObjC.AVFoundation.AVMutableVideoComposition
       ObjC.AVFoundation.AVMutableVideoCompositionInstruction
+      ObjC.AVFoundation.AVMutableVideoCompositionInstructionInternal
+      ObjC.AVFoundation.AVMutableVideoCompositionInternal
       ObjC.AVFoundation.AVMutableVideoCompositionLayerInstruction
+      ObjC.AVFoundation.AVMutableVideoCompositionLayerInstructionInternal
       ObjC.AVFoundation.AVOutputSettingsAssistant
       ObjC.AVFoundation.AVPersistableContentKeyRequest
-      ObjC.AVFoundation.AVPlaybackCoordinationMedium
       ObjC.AVFoundation.AVPlaybackCoordinator
       ObjC.AVFoundation.AVPlayer
       ObjC.AVFoundation.AVPlayerInterstitialEvent
@@ -249,27 +208,21 @@ library
       ObjC.AVFoundation.AVPlayerItemAccessLogEvent
       ObjC.AVFoundation.AVPlayerItemErrorLog
       ObjC.AVFoundation.AVPlayerItemErrorLogEvent
-      ObjC.AVFoundation.AVPlayerItemIntegratedTimeline
-      ObjC.AVFoundation.AVPlayerItemIntegratedTimelineSnapshot
       ObjC.AVFoundation.AVPlayerItemLegibleOutput
       ObjC.AVFoundation.AVPlayerItemMediaDataCollector
       ObjC.AVFoundation.AVPlayerItemMetadataCollector
       ObjC.AVFoundation.AVPlayerItemMetadataOutput
       ObjC.AVFoundation.AVPlayerItemOutput
       ObjC.AVFoundation.AVPlayerItemOutputInternal
-      ObjC.AVFoundation.AVPlayerItemRenderedLegibleOutput
-      ObjC.AVFoundation.AVPlayerItemSegment
       ObjC.AVFoundation.AVPlayerItemTrack
       ObjC.AVFoundation.AVPlayerItemVideoOutput
       ObjC.AVFoundation.AVPlayerLayer
       ObjC.AVFoundation.AVPlayerLooper
       ObjC.AVFoundation.AVPlayerMediaSelectionCriteria
       ObjC.AVFoundation.AVPlayerPlaybackCoordinator
-      ObjC.AVFoundation.AVPlayerVideoOutput
-      ObjC.AVFoundation.AVPlayerVideoOutputConfiguration
       ObjC.AVFoundation.AVPortraitEffectsMatte
       ObjC.AVFoundation.AVQueuePlayer
-      ObjC.AVFoundation.AVRenderedCaptionImage
+      ObjC.AVFoundation.AVQueuePlayerInternal
       ObjC.AVFoundation.AVRouteDetector
       ObjC.AVFoundation.AVSampleBufferAudioRenderer
       ObjC.AVFoundation.AVSampleBufferDisplayLayer
@@ -277,25 +230,24 @@ library
       ObjC.AVFoundation.AVSampleBufferGeneratorBatch
       ObjC.AVFoundation.AVSampleBufferRenderSynchronizer
       ObjC.AVFoundation.AVSampleBufferRequest
-      ObjC.AVFoundation.AVSampleBufferVideoRenderer
       ObjC.AVFoundation.AVSampleCursor
       ObjC.AVFoundation.AVSampleCursorInternal
       ObjC.AVFoundation.AVSemanticSegmentationMatte
-      ObjC.AVFoundation.AVSpatialVideoConfiguration
       ObjC.AVFoundation.AVSynchronizedLayer
       ObjC.AVFoundation.AVTextStyleRule
       ObjC.AVFoundation.AVTextStyleRuleInternal
       ObjC.AVFoundation.AVTimedMetadataGroup
       ObjC.AVFoundation.AVURLAsset
+      ObjC.AVFoundation.AVURLAssetInternal
       ObjC.AVFoundation.AVVideoComposition
       ObjC.AVFoundation.AVVideoCompositionCoreAnimationTool
       ObjC.AVFoundation.AVVideoCompositionInstruction
+      ObjC.AVFoundation.AVVideoCompositionInstructionInternal
       ObjC.AVFoundation.AVVideoCompositionLayerInstruction
+      ObjC.AVFoundation.AVVideoCompositionLayerInstructionInternal
       ObjC.AVFoundation.AVVideoCompositionRenderContext
       ObjC.AVFoundation.AVVideoCompositionRenderHint
-      ObjC.AVFoundation.AVVideoOutputSpecification
-      ObjC.AVFoundation.AVVideoPerformanceMetrics
-      ObjC.AVFoundation.AVZoomRange
+      ObjC.AVFoundation.AVVideoCompositionRenderHintInternal
       ObjC.AVFoundation.Delegate.AVAssetDownloadDelegate
       ObjC.AVFoundation.Delegate.AVAssetReaderCaptionValidationHandling
       ObjC.AVFoundation.Delegate.AVAssetResourceLoaderDelegate
@@ -305,17 +257,13 @@ library
       ObjC.AVFoundation.Delegate.AVCaptureMetadataOutputObjectsDelegate
       ObjC.AVFoundation.Delegate.AVCapturePhotoCaptureDelegate
       ObjC.AVFoundation.Delegate.AVCapturePhotoFileDataRepresentationCustomizer
-      ObjC.AVFoundation.Delegate.AVCaptureSessionControlsDelegate
-      ObjC.AVFoundation.Delegate.AVCaptureSessionDeferredStartDelegate
-      ObjC.AVFoundation.Delegate.AVCaptureTimecodeGeneratorDelegate
       ObjC.AVFoundation.Delegate.AVContentKeyRecipient
       ObjC.AVFoundation.Delegate.AVContentKeySessionDelegate
-      ObjC.AVFoundation.Delegate.AVExternalSyncDeviceDelegate
       ObjC.AVFoundation.Delegate.AVFragmentMinding
-      ObjC.AVFoundation.Delegate.AVMetricEventStreamSubscriber
       ObjC.AVFoundation.Delegate.AVPlayerItemMetadataCollectorPushDelegate
       ObjC.AVFoundation.Delegate.AVPlayerItemMetadataOutputPushDelegate
       ObjC.AVFoundation.Delegate.AVPlayerItemOutputPullDelegate
+      ObjC.AVFoundation.Delegate.AVPlayerItemOutputPushDelegate
       ObjC.AVFoundation.Delegate.AVPlayerPlaybackCoordinatorDelegate
       ObjC.AVFoundation.Delegate.AVVideoCompositionInstruction
       ObjC.AVFoundation.Delegate.AVVideoCompositionValidationHandling
@@ -330,7 +278,7 @@ library
       Paths_apple_avfoundation_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-coreimage-gen
     , apple-foundation-gen

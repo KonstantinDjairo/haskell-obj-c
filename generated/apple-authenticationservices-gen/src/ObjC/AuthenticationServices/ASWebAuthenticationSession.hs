@@ -20,7 +20,6 @@ module ObjC.AuthenticationServices.ASWebAuthenticationSession
   ( ASWebAuthenticationSession
   , IsASWebAuthenticationSession(..)
   , initWithURL_callbackURLScheme_completionHandler
-  , initWithURL_callback_completionHandler
   , start
   , cancel
   , new
@@ -29,19 +28,14 @@ module ObjC.AuthenticationServices.ASWebAuthenticationSession
   , setPresentationContextProvider
   , prefersEphemeralWebBrowserSession
   , setPrefersEphemeralWebBrowserSession
-  , additionalHeaderFields
-  , setAdditionalHeaderFields
   , canStart
-  , additionalHeaderFieldsSelector
   , canStartSelector
   , cancelSelector
   , initSelector
   , initWithURL_callbackURLScheme_completionHandlerSelector
-  , initWithURL_callback_completionHandlerSelector
   , newSelector
   , prefersEphemeralWebBrowserSessionSelector
   , presentationContextProviderSelector
-  , setAdditionalHeaderFieldsSelector
   , setPrefersEphemeralWebBrowserSessionSelector
   , setPresentationContextProviderSelector
   , startSelector
@@ -72,11 +66,6 @@ import ObjC.Foundation.Internal.Classes
 initWithURL_callbackURLScheme_completionHandler :: (IsASWebAuthenticationSession asWebAuthenticationSession, IsNSURL url, IsNSString callbackURLScheme) => asWebAuthenticationSession -> url -> callbackURLScheme -> Ptr () -> IO (Id ASWebAuthenticationSession)
 initWithURL_callbackURLScheme_completionHandler asWebAuthenticationSession url callbackURLScheme completionHandler =
   sendOwnedMessage asWebAuthenticationSession initWithURL_callbackURLScheme_completionHandlerSelector (toNSURL url) (toNSString callbackURLScheme) completionHandler
-
--- | @- initWithURL:callback:completionHandler:@
-initWithURL_callback_completionHandler :: (IsASWebAuthenticationSession asWebAuthenticationSession, IsNSURL url, IsASWebAuthenticationSessionCallback callback) => asWebAuthenticationSession -> url -> callback -> Ptr () -> IO (Id ASWebAuthenticationSession)
-initWithURL_callback_completionHandler asWebAuthenticationSession url callback completionHandler =
-  sendOwnedMessage asWebAuthenticationSession initWithURL_callback_completionHandlerSelector (toNSURL url) (toASWebAuthenticationSessionCallback callback) completionHandler
 
 -- | Starts the ASWebAuthenticationSession instance after it is instantiated.
 --
@@ -140,20 +129,6 @@ setPrefersEphemeralWebBrowserSession :: IsASWebAuthenticationSession asWebAuthen
 setPrefersEphemeralWebBrowserSession asWebAuthenticationSession value =
   sendMessage asWebAuthenticationSession setPrefersEphemeralWebBrowserSessionSelector value
 
--- | Any additional header fields to be set when loading the initial URL. All header field names must start with the "X-" prefix.
---
--- ObjC selector: @- additionalHeaderFields@
-additionalHeaderFields :: IsASWebAuthenticationSession asWebAuthenticationSession => asWebAuthenticationSession -> IO (Id NSDictionary)
-additionalHeaderFields asWebAuthenticationSession =
-  sendMessage asWebAuthenticationSession additionalHeaderFieldsSelector
-
--- | Any additional header fields to be set when loading the initial URL. All header field names must start with the "X-" prefix.
---
--- ObjC selector: @- setAdditionalHeaderFields:@
-setAdditionalHeaderFields :: (IsASWebAuthenticationSession asWebAuthenticationSession, IsNSDictionary value) => asWebAuthenticationSession -> value -> IO ()
-setAdditionalHeaderFields asWebAuthenticationSession value =
-  sendMessage asWebAuthenticationSession setAdditionalHeaderFieldsSelector (toNSDictionary value)
-
 -- | Returns whether the session can be successfully started. This property returns the same value as calling -start, but without the side effect of actually starting the session.
 --
 -- ObjC selector: @- canStart@
@@ -168,10 +143,6 @@ canStart asWebAuthenticationSession =
 -- | @Selector@ for @initWithURL:callbackURLScheme:completionHandler:@
 initWithURL_callbackURLScheme_completionHandlerSelector :: Selector '[Id NSURL, Id NSString, Ptr ()] (Id ASWebAuthenticationSession)
 initWithURL_callbackURLScheme_completionHandlerSelector = mkSelector "initWithURL:callbackURLScheme:completionHandler:"
-
--- | @Selector@ for @initWithURL:callback:completionHandler:@
-initWithURL_callback_completionHandlerSelector :: Selector '[Id NSURL, Id ASWebAuthenticationSessionCallback, Ptr ()] (Id ASWebAuthenticationSession)
-initWithURL_callback_completionHandlerSelector = mkSelector "initWithURL:callback:completionHandler:"
 
 -- | @Selector@ for @start@
 startSelector :: Selector '[] Bool
@@ -204,14 +175,6 @@ prefersEphemeralWebBrowserSessionSelector = mkSelector "prefersEphemeralWebBrows
 -- | @Selector@ for @setPrefersEphemeralWebBrowserSession:@
 setPrefersEphemeralWebBrowserSessionSelector :: Selector '[Bool] ()
 setPrefersEphemeralWebBrowserSessionSelector = mkSelector "setPrefersEphemeralWebBrowserSession:"
-
--- | @Selector@ for @additionalHeaderFields@
-additionalHeaderFieldsSelector :: Selector '[] (Id NSDictionary)
-additionalHeaderFieldsSelector = mkSelector "additionalHeaderFields"
-
--- | @Selector@ for @setAdditionalHeaderFields:@
-setAdditionalHeaderFieldsSelector :: Selector '[Id NSDictionary] ()
-setAdditionalHeaderFieldsSelector = mkSelector "setAdditionalHeaderFields:"
 
 -- | @Selector@ for @canStart@
 canStartSelector :: Selector '[] Bool

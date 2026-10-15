@@ -125,23 +125,14 @@ module ObjC.AppKit.NSButtonCell
 
   -- * Enum types
   , NSBezelStyle(NSBezelStyle)
-  , pattern NSBezelStyleAutomatic
-  , pattern NSBezelStylePush
-  , pattern NSBezelStyleFlexiblePush
-  , pattern NSBezelStyleDisclosure
-  , pattern NSBezelStyleCircular
-  , pattern NSBezelStyleHelpButton
-  , pattern NSBezelStyleSmallSquare
-  , pattern NSBezelStyleToolbar
-  , pattern NSBezelStyleAccessoryBarAction
-  , pattern NSBezelStyleAccessoryBar
-  , pattern NSBezelStylePushDisclosure
-  , pattern NSBezelStyleBadge
-  , pattern NSBezelStyleGlass
-  , pattern NSBezelStyleShadowlessSquare
-  , pattern NSBezelStyleTexturedSquare
   , pattern NSBezelStyleRounded
   , pattern NSBezelStyleRegularSquare
+  , pattern NSBezelStyleDisclosure
+  , pattern NSBezelStyleShadowlessSquare
+  , pattern NSBezelStyleCircular
+  , pattern NSBezelStyleTexturedSquare
+  , pattern NSBezelStyleHelpButton
+  , pattern NSBezelStyleSmallSquare
   , pattern NSBezelStyleTexturedRounded
   , pattern NSBezelStyleRoundRect
   , pattern NSBezelStyleRecessed
@@ -490,14 +481,14 @@ setGradientType nsButtonCell value =
   sendMessage nsButtonCell setGradientTypeSelector value
 
 -- | @- keyEquivalentFont@
-keyEquivalentFont :: IsNSButtonCell nsButtonCell => nsButtonCell -> IO (Id NSFont)
+keyEquivalentFont :: IsNSButtonCell nsButtonCell => nsButtonCell -> IO RawId
 keyEquivalentFont nsButtonCell =
   sendMessage nsButtonCell keyEquivalentFontSelector
 
 -- | @- setKeyEquivalentFont:@
-setKeyEquivalentFont :: (IsNSButtonCell nsButtonCell, IsNSFont value) => nsButtonCell -> value -> IO ()
+setKeyEquivalentFont :: IsNSButtonCell nsButtonCell => nsButtonCell -> RawId -> IO ()
 setKeyEquivalentFont nsButtonCell value =
-  sendMessage nsButtonCell setKeyEquivalentFontSelector (toNSFont value)
+  sendMessage nsButtonCell setKeyEquivalentFontSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -724,10 +715,10 @@ setGradientTypeSelector :: Selector '[NSGradientType] ()
 setGradientTypeSelector = mkSelector "setGradientType:"
 
 -- | @Selector@ for @keyEquivalentFont@
-keyEquivalentFontSelector :: Selector '[] (Id NSFont)
+keyEquivalentFontSelector :: Selector '[] RawId
 keyEquivalentFontSelector = mkSelector "keyEquivalentFont"
 
 -- | @Selector@ for @setKeyEquivalentFont:@
-setKeyEquivalentFontSelector :: Selector '[Id NSFont] ()
+setKeyEquivalentFontSelector :: Selector '[RawId] ()
 setKeyEquivalentFontSelector = mkSelector "setKeyEquivalentFont:"
 

@@ -68,7 +68,7 @@ import ObjC.Foundation.Internal.Classes
 -- Truncates to 13 characters.  Defaults to "Apple Virtual".  Value provided here may be made visible via guest UI.
 --
 -- ObjC selector: @- name@
-name :: IsPGDisplayDescriptor pgDisplayDescriptor => pgDisplayDescriptor -> IO (Id NSString)
+name :: IsPGDisplayDescriptor pgDisplayDescriptor => pgDisplayDescriptor -> IO RawId
 name pgDisplayDescriptor =
   sendMessage pgDisplayDescriptor nameSelector
 
@@ -79,9 +79,9 @@ name pgDisplayDescriptor =
 -- Truncates to 13 characters.  Defaults to "Apple Virtual".  Value provided here may be made visible via guest UI.
 --
 -- ObjC selector: @- setName:@
-setName :: (IsPGDisplayDescriptor pgDisplayDescriptor, IsNSString value) => pgDisplayDescriptor -> value -> IO ()
+setName :: IsPGDisplayDescriptor pgDisplayDescriptor => pgDisplayDescriptor -> RawId -> IO ()
 setName pgDisplayDescriptor value =
-  sendMessage pgDisplayDescriptor setNameSelector (toNSString value)
+  sendMessage pgDisplayDescriptor setNameSelector value
 
 -- | sizeInMillimeters
 --
@@ -242,11 +242,11 @@ setCursorMoveHandler pgDisplayDescriptor value =
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @name@
-nameSelector :: Selector '[] (Id NSString)
+nameSelector :: Selector '[] RawId
 nameSelector = mkSelector "name"
 
 -- | @Selector@ for @setName:@
-setNameSelector :: Selector '[Id NSString] ()
+setNameSelector :: Selector '[RawId] ()
 setNameSelector = mkSelector "setName:"
 
 -- | @Selector@ for @sizeInMillimeters@

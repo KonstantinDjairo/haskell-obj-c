@@ -46,7 +46,7 @@ init_ :: IsCLSActivityItem clsActivityItem => clsActivityItem -> IO (Id CLSActiv
 init_ clsActivityItem =
   sendOwnedMessage clsActivityItem initSelector
 
--- | Title of what this ActivityItem represents.
+-- | Title of what this ActivityItem respresents.
 --
 -- This will be the title associated with the activity item in the generated progress report.
 --
@@ -55,7 +55,7 @@ title :: IsCLSActivityItem clsActivityItem => clsActivityItem -> IO (Id NSString
 title clsActivityItem =
   sendMessage clsActivityItem titleSelector
 
--- | Title of what this ActivityItem represents.
+-- | Title of what this ActivityItem respresents.
 --
 -- This will be the title associated with the activity item in the generated progress report.
 --

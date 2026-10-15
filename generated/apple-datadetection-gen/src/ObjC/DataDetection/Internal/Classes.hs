@@ -18,11 +18,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- DDMatch ----------
 
--- | A base class for common types of data that the data detection system matches.
---
--- The DataDetection framework returns results in objects that are subclasses of @DDMatch@, which are specific to the type of matching data. Each object contains the matched string.
--- 
--- Phantom type for @DDMatch@.
+-- | Phantom type for @DDMatch@.
 data DDMatch
 
 instance IsObjCObject (Id DDMatch) where
@@ -41,11 +37,7 @@ instance IsNSObject (Id DDMatch) where
 
 -- ---------- DDMatchCalendarEvent ----------
 
--- | An object that represents a calendar date or date range that the data detection system matches.
---
--- The DataDetection framework returns a calendar event match in a @DDMatchCalendarEvent@ object, which has only a beginning date, only an end date, or both a beginning date and an end date.
--- 
--- Phantom type for @DDMatchCalendarEvent@.
+-- | Phantom type for @DDMatchCalendarEvent@.
 data DDMatchCalendarEvent
 
 instance IsObjCObject (Id DDMatchCalendarEvent) where
@@ -67,11 +59,7 @@ instance IsNSObject (Id DDMatchCalendarEvent) where
 
 -- ---------- DDMatchEmailAddress ----------
 
--- | An object that contains an email address that the data detection system matches.
---
--- The DataDetection framework returns an email match in a @DDMatchEmailAddress@ object, which includes an email address, and optionally a label that categorizes the email address.
--- 
--- Phantom type for @DDMatchEmailAddress@.
+-- | Phantom type for @DDMatchEmailAddress@.
 data DDMatchEmailAddress
 
 instance IsObjCObject (Id DDMatchEmailAddress) where
@@ -93,11 +81,7 @@ instance IsNSObject (Id DDMatchEmailAddress) where
 
 -- ---------- DDMatchFlightNumber ----------
 
--- | An object that contains a flight number that the data detection system matches.
---
--- The DataDetection framework returns a flight number match in a @DDMatchFlightNumber@ object, which contains an airline name and flight number.
--- 
--- Phantom type for @DDMatchFlightNumber@.
+-- | Phantom type for @DDMatchFlightNumber@.
 data DDMatchFlightNumber
 
 instance IsObjCObject (Id DDMatchFlightNumber) where
@@ -119,11 +103,7 @@ instance IsNSObject (Id DDMatchFlightNumber) where
 
 -- ---------- DDMatchLink ----------
 
--- | An object that contains a web link that the data detection system matches.
---
--- The DataDetection framework returns a link match in a @DDMatchLink@ object, which contains a <doc://com.apple.documentation/documentation/foundation/url> (Swift) or <doc://com.apple.documentation/documentation/foundation/nsurl> (Objective-C).
--- 
--- Phantom type for @DDMatchLink@.
+-- | Phantom type for @DDMatchLink@.
 data DDMatchLink
 
 instance IsObjCObject (Id DDMatchLink) where
@@ -145,11 +125,7 @@ instance IsNSObject (Id DDMatchLink) where
 
 -- ---------- DDMatchMoneyAmount ----------
 
--- | An object that contains an amount of money that the data detection system matches.
---
--- The DataDetection framework returns a match for an amount of money in a @DDMatchMoneyAmount@ object, which contains an amount of money and an ISO currency code.
--- 
--- Phantom type for @DDMatchMoneyAmount@.
+-- | Phantom type for @DDMatchMoneyAmount@.
 data DDMatchMoneyAmount
 
 instance IsObjCObject (Id DDMatchMoneyAmount) where
@@ -171,11 +147,7 @@ instance IsNSObject (Id DDMatchMoneyAmount) where
 
 -- ---------- DDMatchPhoneNumber ----------
 
--- | An object that contains a phone number that the data detection system matches.
---
--- The DataDetection framework returns a phone number match in a @DDMatchPhoneNumber@ object, which contains a phone number, and optionally a label that categorizes the phone number.
--- 
--- Phantom type for @DDMatchPhoneNumber@.
+-- | Phantom type for @DDMatchPhoneNumber@.
 data DDMatchPhoneNumber
 
 instance IsObjCObject (Id DDMatchPhoneNumber) where
@@ -197,11 +169,7 @@ instance IsNSObject (Id DDMatchPhoneNumber) where
 
 -- ---------- DDMatchPostalAddress ----------
 
--- | An object that contains a postal address that the data detection system matches.
---
--- The DataDetection framework returns a postal address match in a @DDMatchPostalAddress@ object, which optionally contains the matching parts of a postal address: street, city, state, postal code, and country.
--- 
--- Phantom type for @DDMatchPostalAddress@.
+-- | Phantom type for @DDMatchPostalAddress@.
 data DDMatchPostalAddress
 
 instance IsObjCObject (Id DDMatchPostalAddress) where
@@ -223,11 +191,7 @@ instance IsNSObject (Id DDMatchPostalAddress) where
 
 -- ---------- DDMatchShipmentTrackingNumber ----------
 
--- | An object that contains parcel tracking information that the data detection system matches.
---
--- The DataDetection framework returns a shipment tracking number match in a @DDMatchShipmentTrackingNumber@ object, which contains a carrier name and tracking identifier.
--- 
--- Phantom type for @DDMatchShipmentTrackingNumber@.
+-- | Phantom type for @DDMatchShipmentTrackingNumber@.
 data DDMatchShipmentTrackingNumber
 
 instance IsObjCObject (Id DDMatchShipmentTrackingNumber) where

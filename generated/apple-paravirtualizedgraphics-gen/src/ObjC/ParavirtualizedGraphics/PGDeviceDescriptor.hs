@@ -7,8 +7,6 @@
 module ObjC.ParavirtualizedGraphics.PGDeviceDescriptor
   ( PGDeviceDescriptor
   , IsPGDeviceDescriptor(..)
-  , device
-  , setDevice
   , mmioLength
   , setMmioLength
   , createTask
@@ -32,7 +30,6 @@ module ObjC.ParavirtualizedGraphics.PGDeviceDescriptor
   , addTraceRangeSelector
   , createTaskSelector
   , destroyTaskSelector
-  , deviceSelector
   , displayPortCountSelector
   , mapMemorySelector
   , mmioLengthSelector
@@ -42,7 +39,6 @@ module ObjC.ParavirtualizedGraphics.PGDeviceDescriptor
   , setAddTraceRangeSelector
   , setCreateTaskSelector
   , setDestroyTaskSelector
-  , setDeviceSelector
   , setDisplayPortCountSelector
   , setMapMemorySelector
   , setMmioLengthSelector
@@ -65,24 +61,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.ParavirtualizedGraphics.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | device
---
--- The metal device to use to back the PGDevice
---
--- ObjC selector: @- device@
-device :: IsPGDeviceDescriptor pgDeviceDescriptor => pgDeviceDescriptor -> IO RawId
-device pgDeviceDescriptor =
-  sendMessage pgDeviceDescriptor deviceSelector
-
--- | device
---
--- The metal device to use to back the PGDevice
---
--- ObjC selector: @- setDevice:@
-setDevice :: IsPGDeviceDescriptor pgDeviceDescriptor => pgDeviceDescriptor -> RawId -> IO ()
-setDevice pgDeviceDescriptor value =
-  sendMessage pgDeviceDescriptor setDeviceSelector value
 
 -- | mmioLength
 --
@@ -283,14 +261,6 @@ setDisplayPortCount pgDeviceDescriptor value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @device@
-deviceSelector :: Selector '[] RawId
-deviceSelector = mkSelector "device"
-
--- | @Selector@ for @setDevice:@
-setDeviceSelector :: Selector '[RawId] ()
-setDeviceSelector = mkSelector "setDevice:"
 
 -- | @Selector@ for @mmioLength@
 mmioLengthSelector :: Selector '[] CULong

@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterTestStructArrayArgumentResponseParams
   ( MTRTestClusterClusterTestStructArrayArgumentResponseParams
   , IsMTRTestClusterClusterTestStructArrayArgumentResponseParams(..)
+  , init_
+  , copyWithZone
   , arg1
   , setArg1
   , arg2
@@ -27,6 +29,8 @@ module ObjC.Matter.MTRTestClusterClusterTestStructArrayArgumentResponseParams
   , arg4Selector
   , arg5Selector
   , arg6Selector
+  , copyWithZoneSelector
+  , initSelector
   , setArg1Selector
   , setArg2Selector
   , setArg3Selector
@@ -49,6 +53,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestStructArrayArgumentResponseParams mtrTestClusterClusterTestStructArrayArgumentResponseParams => mtrTestClusterClusterTestStructArrayArgumentResponseParams -> IO (Id MTRTestClusterClusterTestStructArrayArgumentResponseParams)
+init_ mtrTestClusterClusterTestStructArrayArgumentResponseParams =
+  sendOwnedMessage mtrTestClusterClusterTestStructArrayArgumentResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestStructArrayArgumentResponseParams mtrTestClusterClusterTestStructArrayArgumentResponseParams => mtrTestClusterClusterTestStructArrayArgumentResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestStructArrayArgumentResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestStructArrayArgumentResponseParams copyWithZoneSelector zone
 
 -- | @- arg1@
 arg1 :: IsMTRTestClusterClusterTestStructArrayArgumentResponseParams mtrTestClusterClusterTestStructArrayArgumentResponseParams => mtrTestClusterClusterTestStructArrayArgumentResponseParams -> IO (Id NSArray)
@@ -135,6 +149,14 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterTestStructArrayArgumentResponsePara
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestStructArrayArgumentResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @arg1@
 arg1Selector :: Selector '[] (Id NSArray)

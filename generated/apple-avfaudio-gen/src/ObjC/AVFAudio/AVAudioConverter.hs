@@ -34,12 +34,6 @@ module ObjC.AVFAudio.AVAudioConverter
   , setPrimeMethod
   , primeInfo
   , setPrimeInfo
-  , audioSyncPacketFrequency
-  , setAudioSyncPacketFrequency
-  , contentSource
-  , setContentSource
-  , dynamicRangeControlConfiguration
-  , setDynamicRangeControlConfiguration
   , bitRate
   , setBitRate
   , bitRateStrategy
@@ -52,19 +46,16 @@ module ObjC.AVFAudio.AVAudioConverter
   , availableEncodeChannelLayoutTags
   , applicableEncodeBitRatesSelector
   , applicableEncodeSampleRatesSelector
-  , audioSyncPacketFrequencySelector
   , availableEncodeBitRatesSelector
   , availableEncodeChannelLayoutTagsSelector
   , availableEncodeSampleRatesSelector
   , bitRateSelector
   , bitRateStrategySelector
   , channelMapSelector
-  , contentSourceSelector
   , convertToBuffer_error_withInputFromBlockSelector
   , convertToBuffer_fromBuffer_errorSelector
   , ditherSelector
   , downmixSelector
-  , dynamicRangeControlConfigurationSelector
   , initFromFormat_toFormatSelector
   , inputFormatSelector
   , magicCookieSelector
@@ -75,14 +66,11 @@ module ObjC.AVFAudio.AVAudioConverter
   , resetSelector
   , sampleRateConverterAlgorithmSelector
   , sampleRateConverterQualitySelector
-  , setAudioSyncPacketFrequencySelector
   , setBitRateSelector
   , setBitRateStrategySelector
   , setChannelMapSelector
-  , setContentSourceSelector
   , setDitherSelector
   , setDownmixSelector
-  , setDynamicRangeControlConfigurationSelector
   , setMagicCookieSelector
   , setPrimeInfoSelector
   , setPrimeMethodSelector
@@ -90,29 +78,6 @@ module ObjC.AVFAudio.AVAudioConverter
   , setSampleRateConverterQualitySelector
 
   -- * Enum types
-  , AVAudioContentSource(AVAudioContentSource)
-  , pattern AVAudioContentSource_Unspecified
-  , pattern AVAudioContentSource_Reserved
-  , pattern AVAudioContentSource_AppleCapture_Traditional
-  , pattern AVAudioContentSource_AppleCapture_Spatial
-  , pattern AVAudioContentSource_AppleCapture_Spatial_Enhanced
-  , pattern AVAudioContentSource_AppleMusic_Traditional
-  , pattern AVAudioContentSource_AppleMusic_Spatial
-  , pattern AVAudioContentSource_AppleAV_Traditional_Offline
-  , pattern AVAudioContentSource_AppleAV_Spatial_Offline
-  , pattern AVAudioContentSource_AppleAV_Traditional_Live
-  , pattern AVAudioContentSource_AppleAV_Spatial_Live
-  , pattern AVAudioContentSource_ApplePassthrough
-  , pattern AVAudioContentSource_Capture_Traditional
-  , pattern AVAudioContentSource_Capture_Spatial
-  , pattern AVAudioContentSource_Capture_Spatial_Enhanced
-  , pattern AVAudioContentSource_Music_Traditional
-  , pattern AVAudioContentSource_Music_Spatial
-  , pattern AVAudioContentSource_AV_Traditional_Offline
-  , pattern AVAudioContentSource_AV_Spatial_Offline
-  , pattern AVAudioContentSource_AV_Traditional_Live
-  , pattern AVAudioContentSource_AV_Spatial_Live
-  , pattern AVAudioContentSource_Passthrough
   , AVAudioConverterOutputStatus(AVAudioConverterOutputStatus)
   , pattern AVAudioConverterOutputStatus_HaveData
   , pattern AVAudioConverterOutputStatus_InputRanDry
@@ -122,12 +87,6 @@ module ObjC.AVFAudio.AVAudioConverter
   , pattern AVAudioConverterPrimeMethod_Pre
   , pattern AVAudioConverterPrimeMethod_Normal
   , pattern AVAudioConverterPrimeMethod_None
-  , AVAudioDynamicRangeControlConfiguration(AVAudioDynamicRangeControlConfiguration)
-  , pattern AVAudioDynamicRangeControlConfiguration_None
-  , pattern AVAudioDynamicRangeControlConfiguration_Music
-  , pattern AVAudioDynamicRangeControlConfiguration_Speech
-  , pattern AVAudioDynamicRangeControlConfiguration_Movie
-  , pattern AVAudioDynamicRangeControlConfiguration_Capture
 
   ) where
 
@@ -372,68 +331,6 @@ setPrimeInfo :: IsAVAudioConverter avAudioConverter => avAudioConverter -> AVAud
 setPrimeInfo avAudioConverter value =
   sendMessage avAudioConverter setPrimeInfoSelector value
 
--- | audioSyncPacketFrequency
---
--- Number of packets between consecutive sync packets.
---
--- A sync packet is an independently-decodable packet that completely refreshes the decoder without		needing to decode other packets.  When compressing to a format which supports it (such as APAC),		the audio sync packet frequency indicates the distance in packets between two sync packets, with		non-sync packets between.  This is useful to set when saving compressed packets to a file and		efficient random access is desired.  Note: Separating sync packets by at least one second of		encoded audio (e.g. 75 packets) is recommended.
---
--- ObjC selector: @- audioSyncPacketFrequency@
-audioSyncPacketFrequency :: IsAVAudioConverter avAudioConverter => avAudioConverter -> IO CLong
-audioSyncPacketFrequency avAudioConverter =
-  sendMessage avAudioConverter audioSyncPacketFrequencySelector
-
--- | audioSyncPacketFrequency
---
--- Number of packets between consecutive sync packets.
---
--- A sync packet is an independently-decodable packet that completely refreshes the decoder without		needing to decode other packets.  When compressing to a format which supports it (such as APAC),		the audio sync packet frequency indicates the distance in packets between two sync packets, with		non-sync packets between.  This is useful to set when saving compressed packets to a file and		efficient random access is desired.  Note: Separating sync packets by at least one second of		encoded audio (e.g. 75 packets) is recommended.
---
--- ObjC selector: @- setAudioSyncPacketFrequency:@
-setAudioSyncPacketFrequency :: IsAVAudioConverter avAudioConverter => avAudioConverter -> CLong -> IO ()
-setAudioSyncPacketFrequency avAudioConverter value =
-  sendMessage avAudioConverter setAudioSyncPacketFrequencySelector value
-
--- | contentSource
---
--- Index to select a pre-defined content source type that describes the content type and    			how it was generated.  Note: This is only supported when compressing audio to formats    			which support it.
---
--- ObjC selector: @- contentSource@
-contentSource :: IsAVAudioConverter avAudioConverter => avAudioConverter -> IO AVAudioContentSource
-contentSource avAudioConverter =
-  sendMessage avAudioConverter contentSourceSelector
-
--- | contentSource
---
--- Index to select a pre-defined content source type that describes the content type and    			how it was generated.  Note: This is only supported when compressing audio to formats    			which support it.
---
--- ObjC selector: @- setContentSource:@
-setContentSource :: IsAVAudioConverter avAudioConverter => avAudioConverter -> AVAudioContentSource -> IO ()
-setContentSource avAudioConverter value =
-  sendMessage avAudioConverter setContentSourceSelector value
-
--- | dynamicRangeControlConfiguration
---
--- Encoder Dynamic Range Control (DRC) configuration.
---
--- When supported by the encoder, this property controls which configuration is applied when a		bitstream is generated.  Note: This is only supported when compressing audio to formats		which support it.
---
--- ObjC selector: @- dynamicRangeControlConfiguration@
-dynamicRangeControlConfiguration :: IsAVAudioConverter avAudioConverter => avAudioConverter -> IO AVAudioDynamicRangeControlConfiguration
-dynamicRangeControlConfiguration avAudioConverter =
-  sendMessage avAudioConverter dynamicRangeControlConfigurationSelector
-
--- | dynamicRangeControlConfiguration
---
--- Encoder Dynamic Range Control (DRC) configuration.
---
--- When supported by the encoder, this property controls which configuration is applied when a		bitstream is generated.  Note: This is only supported when compressing audio to formats		which support it.
---
--- ObjC selector: @- setDynamicRangeControlConfiguration:@
-setDynamicRangeControlConfiguration :: IsAVAudioConverter avAudioConverter => avAudioConverter -> AVAudioDynamicRangeControlConfiguration -> IO ()
-setDynamicRangeControlConfiguration avAudioConverter value =
-  sendMessage avAudioConverter setDynamicRangeControlConfigurationSelector value
-
 -- | bitRate
 --
 -- bitRate in bits per second. Only applies when encoding.
@@ -617,30 +514,6 @@ primeInfoSelector = mkSelector "primeInfo"
 -- | @Selector@ for @setPrimeInfo:@
 setPrimeInfoSelector :: Selector '[AVAudioConverterPrimeInfo] ()
 setPrimeInfoSelector = mkSelector "setPrimeInfo:"
-
--- | @Selector@ for @audioSyncPacketFrequency@
-audioSyncPacketFrequencySelector :: Selector '[] CLong
-audioSyncPacketFrequencySelector = mkSelector "audioSyncPacketFrequency"
-
--- | @Selector@ for @setAudioSyncPacketFrequency:@
-setAudioSyncPacketFrequencySelector :: Selector '[CLong] ()
-setAudioSyncPacketFrequencySelector = mkSelector "setAudioSyncPacketFrequency:"
-
--- | @Selector@ for @contentSource@
-contentSourceSelector :: Selector '[] AVAudioContentSource
-contentSourceSelector = mkSelector "contentSource"
-
--- | @Selector@ for @setContentSource:@
-setContentSourceSelector :: Selector '[AVAudioContentSource] ()
-setContentSourceSelector = mkSelector "setContentSource:"
-
--- | @Selector@ for @dynamicRangeControlConfiguration@
-dynamicRangeControlConfigurationSelector :: Selector '[] AVAudioDynamicRangeControlConfiguration
-dynamicRangeControlConfigurationSelector = mkSelector "dynamicRangeControlConfiguration"
-
--- | @Selector@ for @setDynamicRangeControlConfiguration:@
-setDynamicRangeControlConfigurationSelector :: Selector '[AVAudioDynamicRangeControlConfiguration] ()
-setDynamicRangeControlConfigurationSelector = mkSelector "setDynamicRangeControlConfiguration:"
 
 -- | @Selector@ for @bitRate@
 bitRateSelector :: Selector '[] CLong

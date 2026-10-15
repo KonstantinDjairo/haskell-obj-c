@@ -4,9 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The shaped type class for types on tensors with a shape and data type.
---
--- Generated bindings for @MPSGraphShapedType@.
+-- | Generated bindings for @MPSGraphShapedType@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphShapedType
   ( MPSGraphShapedType
   , IsMPSGraphShapedType(..)
@@ -34,21 +32,16 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraphShapedType
   , pattern MPSDataTypeComplexFloat16
   , pattern MPSDataTypeSignedBit
   , pattern MPSDataTypeIntBit
-  , pattern MPSDataTypeInt2
-  , pattern MPSDataTypeInt4
   , pattern MPSDataTypeInt8
   , pattern MPSDataTypeInt16
   , pattern MPSDataTypeInt32
   , pattern MPSDataTypeInt64
-  , pattern MPSDataTypeUInt2
-  , pattern MPSDataTypeUInt4
   , pattern MPSDataTypeUInt8
   , pattern MPSDataTypeUInt16
   , pattern MPSDataTypeUInt32
   , pattern MPSDataTypeUInt64
   , pattern MPSDataTypeAlternateEncodingBit
   , pattern MPSDataTypeBool
-  , pattern MPSDataTypeBFloat16
   , pattern MPSDataTypeNormalizedBit
   , pattern MPSDataTypeUnorm1
   , pattern MPSDataTypeUnorm8
@@ -67,46 +60,54 @@ import ObjC.MetalPerformanceShadersGraph.Internal.Classes
 import ObjC.MetalPerformanceShaders.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | Initializes a shaped type.
+-- | Initialize an MPSGraphShapedType
 --
--- - Parameters:   - shape: The shape of the shaped type.   - dataType: The dataType of the shaped type. - Returns: A valid MPSGraphShapedType, or nil if allocation failure.
+-- @shape@ — The MPSShape
+--
+-- @dataType@ — The dataType of the shaped type
+--
+-- Returns: A valid MPSGraphShapedType, or nil if allocation failure.
 --
 -- ObjC selector: @- initWithShape:dataType:@
 initWithShape_dataType :: IsMPSGraphShapedType mpsGraphShapedType => mpsGraphShapedType -> RawId -> MPSDataType -> IO (Id MPSGraphShapedType)
 initWithShape_dataType mpsGraphShapedType shape dataType =
   sendOwnedMessage mpsGraphShapedType initWithShape_dataTypeSelector shape dataType
 
--- | Checks if shapes and element data type are the same as the input shaped type.
---
--- - Parameters:   - object: shapedType to compare to - Returns: true if equal, false if unequal
---
--- ObjC selector: @- isEqualTo:@
+-- | @- isEqualTo:@
 isEqualTo :: (IsMPSGraphShapedType mpsGraphShapedType, IsMPSGraphShapedType object) => mpsGraphShapedType -> object -> IO Bool
 isEqualTo mpsGraphShapedType object =
   sendMessage mpsGraphShapedType isEqualToSelector (toMPSGraphShapedType object)
 
--- | The Shape of the shaped type.
+-- | shape
+--
+-- shape of the shapedType
 --
 -- ObjC selector: @- shape@
 shape :: IsMPSGraphShapedType mpsGraphShapedType => mpsGraphShapedType -> IO RawId
 shape mpsGraphShapedType =
   sendMessage mpsGraphShapedType shapeSelector
 
--- | The Shape of the shaped type.
+-- | shape
+--
+-- shape of the shapedType
 --
 -- ObjC selector: @- setShape:@
 setShape :: IsMPSGraphShapedType mpsGraphShapedType => mpsGraphShapedType -> RawId -> IO ()
 setShape mpsGraphShapedType value =
   sendMessage mpsGraphShapedType setShapeSelector value
 
--- | The data type of the shaped type.
+-- | dataType
+--
+-- dataType of the shapedType
 --
 -- ObjC selector: @- dataType@
 dataType :: IsMPSGraphShapedType mpsGraphShapedType => mpsGraphShapedType -> IO MPSDataType
 dataType mpsGraphShapedType =
   sendMessage mpsGraphShapedType dataTypeSelector
 
--- | The data type of the shaped type.
+-- | dataType
+--
+-- dataType of the shapedType
 --
 -- ObjC selector: @- setDataType:@
 setDataType :: IsMPSGraphShapedType mpsGraphShapedType => mpsGraphShapedType -> MPSDataType -> IO ()

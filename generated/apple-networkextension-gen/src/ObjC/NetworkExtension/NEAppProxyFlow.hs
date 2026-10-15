@@ -15,7 +15,6 @@
 module ObjC.NetworkExtension.NEAppProxyFlow
   ( NEAppProxyFlow
   , IsNEAppProxyFlow(..)
-  , openWithLocalFlowEndpoint_completionHandler
   , openWithLocalEndpoint_completionHandler
   , closeReadWithError
   , closeWriteWithError
@@ -23,7 +22,6 @@ module ObjC.NetworkExtension.NEAppProxyFlow
   , metaData
   , networkInterface
   , setNetworkInterface
-  , remoteHostname
   , isBound
   , closeReadWithErrorSelector
   , closeWriteWithErrorSelector
@@ -31,8 +29,6 @@ module ObjC.NetworkExtension.NEAppProxyFlow
   , metaDataSelector
   , networkInterfaceSelector
   , openWithLocalEndpoint_completionHandlerSelector
-  , openWithLocalFlowEndpoint_completionHandlerSelector
-  , remoteHostnameSelector
   , setMetadataSelector
   , setNetworkInterfaceSelector
 
@@ -50,24 +46,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.NetworkExtension.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | openWithLocalFlowEndpoint:completionHandler:
---
--- This function is used by an NEProvider implementation to indicate that it is ready to handle flow data.
---
--- @localEndpoint@ — The address and port that should be used as the local endpoint of the socket associated with this flow. If the source application already specified a local endpoint by binding the socket then this parameter is ignored.
---
--- @completionHandler@ — A block that is called when the process of opening flow is complete. A nil value passed to this block indicates that the flow was opened successfully. A non-nil NSError value indicates that the flow failed to open successfully.
---
--- ObjC selector: @- openWithLocalFlowEndpoint:completionHandler:@
-openWithLocalFlowEndpoint_completionHandler :: (IsNEAppProxyFlow neAppProxyFlow, IsNSObject localEndpoint) => neAppProxyFlow -> localEndpoint -> Ptr () -> IO ()
-openWithLocalFlowEndpoint_completionHandler neAppProxyFlow localEndpoint completionHandler =
-  sendMessage neAppProxyFlow openWithLocalFlowEndpoint_completionHandlerSelector (toNSObject localEndpoint) completionHandler
-
 -- | openWithLocalEndpoint:completionHandler:
 --
 -- This function is used by an NEProvider implementation to indicate that it is ready to handle flow data.
 --
--- @localEndpoint@ — The address and port that should be used as the local endpoint of the socket associated with this flow. If the source application already specified a local endpoint by binding the socket then this parameter is ignored.
+-- @localEndpoint@ — The address and port that should be used as the local endpoint of the socket associated with this flow. If the source application already specifed a local endpoint by binding the socket then this parameter is ignored.
 --
 -- @completionHandler@ — A block that is called when the process of opening flow is complete. A nil value passed to this block indicates that the flow was opened successfully. A non-nil NSError value indicates that the flow failed to open successfully.
 --
@@ -136,15 +119,6 @@ setNetworkInterface :: (IsNEAppProxyFlow neAppProxyFlow, IsNSObject value) => ne
 setNetworkInterface neAppProxyFlow value =
   sendMessage neAppProxyFlow setNetworkInterfaceSelector (toNSObject value)
 
--- | remoteHostname
---
--- If the flow was created by passing a hostname to a "connect by name" API such as NSURLSession or Network.framework, this property is set to the     remote hostname.
---
--- ObjC selector: @- remoteHostname@
-remoteHostname :: IsNEAppProxyFlow neAppProxyFlow => neAppProxyFlow -> IO (Id NSString)
-remoteHostname neAppProxyFlow =
-  sendMessage neAppProxyFlow remoteHostnameSelector
-
 -- | isBound
 --
 -- YES if the flow was bound by the application to a specific interface (contained in the networkInterface property), NO otherwise.
@@ -157,10 +131,6 @@ isBound neAppProxyFlow =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @openWithLocalFlowEndpoint:completionHandler:@
-openWithLocalFlowEndpoint_completionHandlerSelector :: Selector '[Id NSObject, Ptr ()] ()
-openWithLocalFlowEndpoint_completionHandlerSelector = mkSelector "openWithLocalFlowEndpoint:completionHandler:"
 
 -- | @Selector@ for @openWithLocalEndpoint:completionHandler:@
 openWithLocalEndpoint_completionHandlerSelector :: Selector '[Id NWHostEndpoint, Ptr ()] ()
@@ -189,10 +159,6 @@ networkInterfaceSelector = mkSelector "networkInterface"
 -- | @Selector@ for @setNetworkInterface:@
 setNetworkInterfaceSelector :: Selector '[Id NSObject] ()
 setNetworkInterfaceSelector = mkSelector "setNetworkInterface:"
-
--- | @Selector@ for @remoteHostname@
-remoteHostnameSelector :: Selector '[] (Id NSString)
-remoteHostnameSelector = mkSelector "remoteHostname"
 
 -- | @Selector@ for @isBound@
 isBoundSelector :: Selector '[] Bool

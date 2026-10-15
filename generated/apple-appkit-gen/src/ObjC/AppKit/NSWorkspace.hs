@@ -75,11 +75,8 @@ module ObjC.AppKit.NSWorkspace
   , desktopImageOptionsForScreen
   , sharedWorkspace
   , notificationCenter
-  , fileLabels
-  , fileLabelColors
   , frontmostApplication
   , menuBarOwningApplication
-  , runningApplications
   , voiceOverEnabled
   , switchControlEnabled
   , accessibilityDisplayShouldIncreaseContrast
@@ -99,8 +96,6 @@ module ObjC.AppKit.NSWorkspace
   , desktopImageOptionsForScreenSelector
   , desktopImageURLForScreenSelector
   , extendPowerOffBySelector
-  , fileLabelColorsSelector
-  , fileLabelsSelector
   , fileSystemChangedSelector
   , filenameExtension_isValidForTypeSelector
   , findApplicationsSelector
@@ -142,7 +137,6 @@ module ObjC.AppKit.NSWorkspace
   , performFileOperation_source_destination_files_tagSelector
   , preferredFilenameExtensionForTypeSelector
   , requestAuthorizationOfType_completionHandlerSelector
-  , runningApplicationsSelector
   , selectFile_inFileViewerRootedAtPathSelector
   , setDefaultApplicationAtURL_toOpenContentTypeOfFileAtURL_completionHandlerSelector
   , setDefaultApplicationAtURL_toOpenContentType_completionHandlerSelector
@@ -542,32 +536,15 @@ notificationCenter :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO (Id NSNotif
 notificationCenter nsWorkspace =
   sendMessage nsWorkspace notificationCenterSelector
 
--- | @- fileLabels@
-fileLabels :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO (Id NSArray)
-fileLabels nsWorkspace =
-  sendMessage nsWorkspace fileLabelsSelector
-
--- | @- fileLabelColors@
-fileLabelColors :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO (Id NSArray)
-fileLabelColors nsWorkspace =
-  sendMessage nsWorkspace fileLabelColorsSelector
-
 -- | @- frontmostApplication@
-frontmostApplication :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO (Id NSRunningApplication)
+frontmostApplication :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO RawId
 frontmostApplication nsWorkspace =
   sendMessage nsWorkspace frontmostApplicationSelector
 
 -- | @- menuBarOwningApplication@
-menuBarOwningApplication :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO (Id NSRunningApplication)
+menuBarOwningApplication :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO RawId
 menuBarOwningApplication nsWorkspace =
   sendMessage nsWorkspace menuBarOwningApplicationSelector
-
--- | Returns: An array of @NSRunningApplication@s representing currently running applications. The order of the array is unspecified, but it is stable, meaning that the relative order of particular applications will not change across multiple calls to @runningApplications@. Similar to @NSRunningApplication@'s properties, this property will only change when the main run loop is run in a common mode.  Instead of polling, use key-value observing to be notified of changes to this array property.This property is thread safe, in that it may be called from background threads and the result is returned atomically.  This property is observable through KVO.
---
--- ObjC selector: @- runningApplications@
-runningApplications :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO (Id NSArray)
-runningApplications nsWorkspace =
-  sendMessage nsWorkspace runningApplicationsSelector
 
 -- | @- voiceOverEnabled@
 voiceOverEnabled :: IsNSWorkspace nsWorkspace => nsWorkspace -> IO Bool
@@ -876,25 +853,13 @@ sharedWorkspaceSelector = mkSelector "sharedWorkspace"
 notificationCenterSelector :: Selector '[] (Id NSNotificationCenter)
 notificationCenterSelector = mkSelector "notificationCenter"
 
--- | @Selector@ for @fileLabels@
-fileLabelsSelector :: Selector '[] (Id NSArray)
-fileLabelsSelector = mkSelector "fileLabels"
-
--- | @Selector@ for @fileLabelColors@
-fileLabelColorsSelector :: Selector '[] (Id NSArray)
-fileLabelColorsSelector = mkSelector "fileLabelColors"
-
 -- | @Selector@ for @frontmostApplication@
-frontmostApplicationSelector :: Selector '[] (Id NSRunningApplication)
+frontmostApplicationSelector :: Selector '[] RawId
 frontmostApplicationSelector = mkSelector "frontmostApplication"
 
 -- | @Selector@ for @menuBarOwningApplication@
-menuBarOwningApplicationSelector :: Selector '[] (Id NSRunningApplication)
+menuBarOwningApplicationSelector :: Selector '[] RawId
 menuBarOwningApplicationSelector = mkSelector "menuBarOwningApplication"
-
--- | @Selector@ for @runningApplications@
-runningApplicationsSelector :: Selector '[] (Id NSArray)
-runningApplicationsSelector = mkSelector "runningApplications"
 
 -- | @Selector@ for @voiceOverEnabled@
 voiceOverEnabledSelector :: Selector '[] Bool

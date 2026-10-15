@@ -44,7 +44,6 @@ data NSTextInputClientOverrides = NSTextInputClientOverrides
   , _baselineDeltaForCharacterAtIndex :: !(Maybe (Int -> IO Double))
   , _windowLevel :: !(Maybe (IO Int))
   , _drawsVerticallyForCharacterAtIndex :: !(Maybe (Int -> IO Bool))
-  , _supportsAdaptiveImageGlyph :: !(Maybe (IO Bool))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -58,7 +57,6 @@ defaultNSTextInputClientOverrides = NSTextInputClientOverrides
   , _baselineDeltaForCharacterAtIndex = Nothing
   , _windowLevel = Nothing
   , _drawsVerticallyForCharacterAtIndex = Nothing
-  , _supportsAdaptiveImageGlyph = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -118,7 +116,6 @@ nsTextInputClientDelegateClass = unsafePerformIO $ do
       sel_baselineDeltaForCharacterAtIndex = unSelector (mkSelector "baselineDeltaForCharacterAtIndex:")
       sel_windowLevel = unSelector (mkSelector "windowLevel")
       sel_drawsVerticallyForCharacterAtIndex = unSelector (mkSelector "drawsVerticallyForCharacterAtIndex:")
-      sel_supportsAdaptiveImageGlyph = unSelector (mkSelector "supportsAdaptiveImageGlyph")
   -- doCommandBySelector:
   stub_0 <- wrap_sel_v $ \self _cmd arg0 -> do
     sp <- readHsData self
@@ -203,17 +200,6 @@ nsTextInputClientDelegateClass = unsafePerformIO $ do
         pure (if r then 1 else 0)
   addObjCMethod cls "drawsVerticallyForCharacterAtIndex:" "B@:Q" stub_7
 
-  -- supportsAdaptiveImageGlyph
-  stub_8 <- wrap_B $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSTextInputClientOverrides
-    case _supportsAdaptiveImageGlyph rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f 
-        pure (if r then 1 else 0)
-  addObjCMethod cls "supportsAdaptiveImageGlyph" "B@:" stub_8
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -226,7 +212,6 @@ nsTextInputClientDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_baselineDeltaForCharacterAtIndex then pure (maybe 0 (const 1) (_baselineDeltaForCharacterAtIndex rec_))
     else if queriedSel == sel_windowLevel then pure (maybe 0 (const 1) (_windowLevel rec_))
     else if queriedSel == sel_drawsVerticallyForCharacterAtIndex then pure (maybe 0 (const 1) (_drawsVerticallyForCharacterAtIndex rec_))
-    else if queriedSel == sel_supportsAdaptiveImageGlyph then pure (maybe 0 (const 1) (_supportsAdaptiveImageGlyph rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

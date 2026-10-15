@@ -11,7 +11,9 @@ module ObjC.QuickLookThumbnailing.QLThumbnailRepresentation
   , type_
   , cgImage
   , uiImage
+  , nsImage
   , cgImageSelector
+  , nsImageSelector
   , typeSelector
   , uiImageSelector
 
@@ -54,6 +56,13 @@ uiImage :: IsQLThumbnailRepresentation qlThumbnailRepresentation => qlThumbnailR
 uiImage qlThumbnailRepresentation =
   sendMessage qlThumbnailRepresentation uiImageSelector
 
+-- | Returns the NSImage representation of the thumbnail. You need to explicitly link against AppKit to use this property.
+--
+-- ObjC selector: @- NSImage@
+nsImage :: IsQLThumbnailRepresentation qlThumbnailRepresentation => qlThumbnailRepresentation -> IO RawId
+nsImage qlThumbnailRepresentation =
+  sendMessage qlThumbnailRepresentation nsImageSelector
+
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -69,4 +78,8 @@ cgImageSelector = mkSelector "CGImage"
 -- | @Selector@ for @UIImage@
 uiImageSelector :: Selector '[] RawId
 uiImageSelector = mkSelector "UIImage"
+
+-- | @Selector@ for @NSImage@
+nsImageSelector :: Selector '[] RawId
+nsImageSelector = mkSelector "NSImage"
 

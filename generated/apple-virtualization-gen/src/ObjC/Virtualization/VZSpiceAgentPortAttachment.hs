@@ -61,7 +61,7 @@ setSharesClipboard vzSpiceAgentPortAttachment value =
 --
 -- A console port configured with this name will spawn a Spice guest agent if supported by the guest.
 --
--- VZConsolePortConfiguration.attachment must be set to VZSpiceAgentPortAttachment.    VZVirtioConsolePortConfiguration.isConsole must remain false on a Spice agent port.
+-- VZConsolePortConfiguration.attachment must be set to VZSpiceAgentPortAttachment.     VZVirtioConsolePortConfiguration.isConsole must remain false on a Spice agent port.
 --
 -- ObjC selector: @+ spiceAgentPortName@
 spiceAgentPortName :: IO (Id NSString)

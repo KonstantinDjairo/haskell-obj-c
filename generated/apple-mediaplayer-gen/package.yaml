@@ -14,6 +14,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -41,7 +42,6 @@ library:
   - ObjC.MediaPlayer.MPFeedbackCommandEvent
   - ObjC.MediaPlayer.MPMediaEntity
   - ObjC.MediaPlayer.MPMediaItem
-  - ObjC.MediaPlayer.MPMediaItemAnimatedArtwork
   - ObjC.MediaPlayer.MPMediaItemArtwork
   - ObjC.MediaPlayer.MPMediaItemCollection
   - ObjC.MediaPlayer.MPMediaLibrary

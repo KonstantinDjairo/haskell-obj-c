@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRDoorLockClusterClearCredentialParams
   ( MTRDoorLockClusterClearCredentialParams
   , IsMTRDoorLockClusterClearCredentialParams(..)
+  , init_
+  , copyWithZone
   , credential
   , setCredential
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , credentialSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setCredentialSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -34,15 +34,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams => mtrDoorLockClusterClearCredentialParams -> IO (Id MTRDoorLockClusterClearCredentialParams)
+init_ mtrDoorLockClusterClearCredentialParams =
+  sendOwnedMessage mtrDoorLockClusterClearCredentialParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams => mtrDoorLockClusterClearCredentialParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterClearCredentialParams zone =
+  sendOwnedMessage mtrDoorLockClusterClearCredentialParams copyWithZoneSelector zone
+
 -- | @- credential@
-credential :: IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams => mtrDoorLockClusterClearCredentialParams -> IO (Id MTRDoorLockClusterCredentialStruct)
+credential :: IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams => mtrDoorLockClusterClearCredentialParams -> IO (Id MTRDoorLockClusterDlCredential)
 credential mtrDoorLockClusterClearCredentialParams =
   sendMessage mtrDoorLockClusterClearCredentialParams credentialSelector
 
 -- | @- setCredential:@
-setCredential :: (IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams, IsMTRDoorLockClusterCredentialStruct value) => mtrDoorLockClusterClearCredentialParams -> value -> IO ()
+setCredential :: (IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams, IsMTRDoorLockClusterDlCredential value) => mtrDoorLockClusterClearCredentialParams -> value -> IO ()
 setCredential mtrDoorLockClusterClearCredentialParams value =
-  sendMessage mtrDoorLockClusterClearCredentialParams setCredentialSelector (toMTRDoorLockClusterCredentialStruct value)
+  sendMessage mtrDoorLockClusterClearCredentialParams setCredentialSelector (toMTRDoorLockClusterDlCredential value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -66,38 +76,24 @@ setTimedInvokeTimeoutMs :: (IsMTRDoorLockClusterClearCredentialParams mtrDoorLoc
 setTimedInvokeTimeoutMs mtrDoorLockClusterClearCredentialParams value =
   sendMessage mtrDoorLockClusterClearCredentialParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams => mtrDoorLockClusterClearCredentialParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrDoorLockClusterClearCredentialParams =
-  sendMessage mtrDoorLockClusterClearCredentialParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRDoorLockClusterClearCredentialParams mtrDoorLockClusterClearCredentialParams, IsNSNumber value) => mtrDoorLockClusterClearCredentialParams -> value -> IO ()
-setServerSideProcessingTimeout mtrDoorLockClusterClearCredentialParams value =
-  sendMessage mtrDoorLockClusterClearCredentialParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterClearCredentialParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
 -- | @Selector@ for @credential@
-credentialSelector :: Selector '[] (Id MTRDoorLockClusterCredentialStruct)
+credentialSelector :: Selector '[] (Id MTRDoorLockClusterDlCredential)
 credentialSelector = mkSelector "credential"
 
 -- | @Selector@ for @setCredential:@
-setCredentialSelector :: Selector '[Id MTRDoorLockClusterCredentialStruct] ()
+setCredentialSelector :: Selector '[Id MTRDoorLockClusterDlCredential] ()
 setCredentialSelector = mkSelector "setCredential:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

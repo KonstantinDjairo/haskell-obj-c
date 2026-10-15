@@ -41,8 +41,6 @@ module ObjC.Metal.MTLTextureDescriptor
   , setAllowGPUOptimizedContents
   , compressionType
   , setCompressionType
-  , placementSparsePageSize
-  , setPlacementSparsePageSize
   , allowGPUOptimizedContentsSelector
   , arrayLengthSelector
   , compressionTypeSelector
@@ -52,7 +50,6 @@ module ObjC.Metal.MTLTextureDescriptor
   , heightSelector
   , mipmapLevelCountSelector
   , pixelFormatSelector
-  , placementSparsePageSizeSelector
   , resourceOptionsSelector
   , sampleCountSelector
   , setAllowGPUOptimizedContentsSelector
@@ -64,7 +61,6 @@ module ObjC.Metal.MTLTextureDescriptor
   , setHeightSelector
   , setMipmapLevelCountSelector
   , setPixelFormatSelector
-  , setPlacementSparsePageSizeSelector
   , setResourceOptionsSelector
   , setSampleCountSelector
   , setStorageModeSelector
@@ -227,7 +223,6 @@ module ObjC.Metal.MTLTextureDescriptor
   , pattern MTLPixelFormatDepth32Float_Stencil8
   , pattern MTLPixelFormatX32_Stencil8
   , pattern MTLPixelFormatX24_Stencil8
-  , pattern MTLPixelFormatUnspecialized
   , MTLResourceOptions(MTLResourceOptions)
   , pattern MTLResourceCPUCacheModeDefaultCache
   , pattern MTLResourceCPUCacheModeWriteCombined
@@ -240,10 +235,6 @@ module ObjC.Metal.MTLTextureDescriptor
   , pattern MTLResourceHazardTrackingModeTracked
   , pattern MTLResourceOptionCPUCacheModeDefault
   , pattern MTLResourceOptionCPUCacheModeWriteCombined
-  , MTLSparsePageSize(MTLSparsePageSize)
-  , pattern MTLSparsePageSize16
-  , pattern MTLSparsePageSize64
-  , pattern MTLSparsePageSize256
   , MTLStorageMode(MTLStorageMode)
   , pattern MTLStorageModeShared
   , pattern MTLStorageModeManaged
@@ -269,7 +260,6 @@ module ObjC.Metal.MTLTextureDescriptor
   , pattern MTLTextureUsageShaderWrite
   , pattern MTLTextureUsageRenderTarget
   , pattern MTLTextureUsagePixelFormatView
-  , pattern MTLTextureUsageShaderAtomic
 
   ) where
 
@@ -606,7 +596,7 @@ setAllowGPUOptimizedContents mtlTextureDescriptor value =
 --
 -- Controls how the texture contents will be compressed when written to by the GPU. Compression can be used to reduce the bandwidth usage and storage requirements of a texture.
 --
--- The default compression type is lossless, meaning that no loss of precision will occur when the texture content is modified. Losslessly compressed textures may benefit from reduced bandwidth usage when regions of correlated color values are written, but do not benefit from reduced storage requirements. Enabling lossy compression for textures that can tolerate some precision loss will guarantee both reduced bandwidth usage and reduced storage requirements. The amount of precision loss depends on the color values stored; regions with correlated color values can be represented with limited to no precision loss, whereas regions with unrelated color values suffer more precision loss. Enabling lossy compression requires both storageMode == MTLStorageModePrivate, allowGPUOptimizedContents == YES, and cannot be combined with either MTLTextureUsagePixelFormatView, MTLTextureUsageShaderWrite, MTLTextureUsageShaderAtomic, MTLTextureType1D(Array) or MTLTextureTypeTextureBuffer. Moreover, not all MTLPixelFormat are supported with lossy compression, verify that the MTLDevice's GPU family supports the lossy compression feature for the pixelFormat requested. Set allowGPUOptimizedContents to NO to opt out of both lossless and lossy compression; such textures do not benefit from either reduced bandwidth usage or reduced storage requirements, but have predictable CPU readback performance.
+-- The default compression type is lossless, meaning that no loss of precision will occur when the texture content is modified. Losslessly compressed textures may benefit from reduced bandwidth usage when regions of correlated color values are written, but do not benefit from reduced storage requirements. Enabling lossy compression for textures that can tolerate some precision loss will guarantee both reduced bandwidth usage and reduced storage requirements. The amount of precision loss depends on the color values stored; regions with correlated color values can be represented with limited to no precision loss, whereas regions with unrelated color values suffer more precision loss. Enabling lossy compression requires both storageMode == MTLStorageModePrivate, allowGPUOptimizedContents == YES, and cannot be combined with either MTLTextureUsagePixelFormatView, MTLTextureUsageShaderWrite, MTLTextureType1D(Array) or MTLTextureTypeTextureBuffer. Moreover, not all MTLPixelFormat are supported with lossy compression, verify that the MTLDevice's GPU family supports the lossy compression feature for the pixelFormat requested. Set allowGPUOptimizedContents to NO to opt out of both lossless and lossy compression; such textures do not benefit from either reduced bandwidth usage or reduced storage requirements, but have predictable CPU readback performance.
 --
 -- ObjC selector: @- compressionType@
 compressionType :: IsMTLTextureDescriptor mtlTextureDescriptor => mtlTextureDescriptor -> IO MTLTextureCompressionType
@@ -617,38 +607,12 @@ compressionType mtlTextureDescriptor =
 --
 -- Controls how the texture contents will be compressed when written to by the GPU. Compression can be used to reduce the bandwidth usage and storage requirements of a texture.
 --
--- The default compression type is lossless, meaning that no loss of precision will occur when the texture content is modified. Losslessly compressed textures may benefit from reduced bandwidth usage when regions of correlated color values are written, but do not benefit from reduced storage requirements. Enabling lossy compression for textures that can tolerate some precision loss will guarantee both reduced bandwidth usage and reduced storage requirements. The amount of precision loss depends on the color values stored; regions with correlated color values can be represented with limited to no precision loss, whereas regions with unrelated color values suffer more precision loss. Enabling lossy compression requires both storageMode == MTLStorageModePrivate, allowGPUOptimizedContents == YES, and cannot be combined with either MTLTextureUsagePixelFormatView, MTLTextureUsageShaderWrite, MTLTextureUsageShaderAtomic, MTLTextureType1D(Array) or MTLTextureTypeTextureBuffer. Moreover, not all MTLPixelFormat are supported with lossy compression, verify that the MTLDevice's GPU family supports the lossy compression feature for the pixelFormat requested. Set allowGPUOptimizedContents to NO to opt out of both lossless and lossy compression; such textures do not benefit from either reduced bandwidth usage or reduced storage requirements, but have predictable CPU readback performance.
+-- The default compression type is lossless, meaning that no loss of precision will occur when the texture content is modified. Losslessly compressed textures may benefit from reduced bandwidth usage when regions of correlated color values are written, but do not benefit from reduced storage requirements. Enabling lossy compression for textures that can tolerate some precision loss will guarantee both reduced bandwidth usage and reduced storage requirements. The amount of precision loss depends on the color values stored; regions with correlated color values can be represented with limited to no precision loss, whereas regions with unrelated color values suffer more precision loss. Enabling lossy compression requires both storageMode == MTLStorageModePrivate, allowGPUOptimizedContents == YES, and cannot be combined with either MTLTextureUsagePixelFormatView, MTLTextureUsageShaderWrite, MTLTextureType1D(Array) or MTLTextureTypeTextureBuffer. Moreover, not all MTLPixelFormat are supported with lossy compression, verify that the MTLDevice's GPU family supports the lossy compression feature for the pixelFormat requested. Set allowGPUOptimizedContents to NO to opt out of both lossless and lossy compression; such textures do not benefit from either reduced bandwidth usage or reduced storage requirements, but have predictable CPU readback performance.
 --
 -- ObjC selector: @- setCompressionType:@
 setCompressionType :: IsMTLTextureDescriptor mtlTextureDescriptor => mtlTextureDescriptor -> MTLTextureCompressionType -> IO ()
 setCompressionType mtlTextureDescriptor value =
   sendMessage mtlTextureDescriptor setCompressionTypeSelector value
-
--- | Determines the page size for a placement sparse texture.
---
--- Set this property to a non-zero value to create a *placement sparse texture*.
---
--- Placement sparse textures are instances of ``MTLTexture`` that you assign memory to using a ``MTLHeap`` instance of type ``MTLHeapType/MTLHeapTypePlacement`` and a ``MTLHeapDescriptor/maxCompatiblePlacementSparsePageSize`` at least as large as the ``MTLSparsePageSize`` value you assign to this property.
---
--- This value is 0 by default.
---
--- ObjC selector: @- placementSparsePageSize@
-placementSparsePageSize :: IsMTLTextureDescriptor mtlTextureDescriptor => mtlTextureDescriptor -> IO MTLSparsePageSize
-placementSparsePageSize mtlTextureDescriptor =
-  sendMessage mtlTextureDescriptor placementSparsePageSizeSelector
-
--- | Determines the page size for a placement sparse texture.
---
--- Set this property to a non-zero value to create a *placement sparse texture*.
---
--- Placement sparse textures are instances of ``MTLTexture`` that you assign memory to using a ``MTLHeap`` instance of type ``MTLHeapType/MTLHeapTypePlacement`` and a ``MTLHeapDescriptor/maxCompatiblePlacementSparsePageSize`` at least as large as the ``MTLSparsePageSize`` value you assign to this property.
---
--- This value is 0 by default.
---
--- ObjC selector: @- setPlacementSparsePageSize:@
-setPlacementSparsePageSize :: IsMTLTextureDescriptor mtlTextureDescriptor => mtlTextureDescriptor -> MTLSparsePageSize -> IO ()
-setPlacementSparsePageSize mtlTextureDescriptor value =
-  sendMessage mtlTextureDescriptor setPlacementSparsePageSizeSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -785,12 +749,4 @@ compressionTypeSelector = mkSelector "compressionType"
 -- | @Selector@ for @setCompressionType:@
 setCompressionTypeSelector :: Selector '[MTLTextureCompressionType] ()
 setCompressionTypeSelector = mkSelector "setCompressionType:"
-
--- | @Selector@ for @placementSparsePageSize@
-placementSparsePageSizeSelector :: Selector '[] MTLSparsePageSize
-placementSparsePageSizeSelector = mkSelector "placementSparsePageSize"
-
--- | @Selector@ for @setPlacementSparsePageSize:@
-setPlacementSparsePageSizeSelector :: Selector '[MTLSparsePageSize] ()
-setPlacementSparsePageSizeSelector = mkSelector "setPlacementSparsePageSize:"
 

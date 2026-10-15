@@ -21,12 +21,10 @@ module ObjC.Photos.PHAsset
   , playbackStyle
   , mediaType
   , mediaSubtypes
-  , contentType
   , pixelWidth
   , pixelHeight
   , creationDate
   , modificationDate
-  , addedDate
   , duration
   , hidden
   , favorite
@@ -37,13 +35,11 @@ module ObjC.Photos.PHAsset
   , sourceType
   , hasAdjustments
   , adjustmentFormatIdentifier
-  , addedDateSelector
   , adjustmentFormatIdentifierSelector
   , burstIdentifierSelector
   , burstSelectionTypesSelector
   , canPerformEditOperationSelector
   , cancelContentEditingInputRequestSelector
-  , contentTypeSelector
   , creationDateSelector
   , durationSelector
   , favoriteSelector
@@ -83,11 +79,9 @@ module ObjC.Photos.PHAsset
   , pattern PHAssetMediaSubtypePhotoScreenshot
   , pattern PHAssetMediaSubtypePhotoLive
   , pattern PHAssetMediaSubtypePhotoDepthEffect
-  , pattern PHAssetMediaSubtypeSpatialMedia
   , pattern PHAssetMediaSubtypeVideoStreamed
   , pattern PHAssetMediaSubtypeVideoHighFrameRate
   , pattern PHAssetMediaSubtypeVideoTimelapse
-  , pattern PHAssetMediaSubtypeVideoScreenRecording
   , pattern PHAssetMediaSubtypeVideoCinematic
   , PHAssetMediaType(PHAssetMediaType)
   , pattern PHAssetMediaTypeUnknown
@@ -120,7 +114,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Photos.Internal.Classes
 import ObjC.Photos.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- | @- canPerformEditOperation:@
 canPerformEditOperation :: IsPHAsset phAsset => phAsset -> PHAssetEditOperation -> IO Bool
@@ -201,13 +194,6 @@ mediaSubtypes :: IsPHAsset phAsset => phAsset -> IO PHAssetMediaSubtype
 mediaSubtypes phAsset =
   sendMessage phAsset mediaSubtypesSelector
 
--- | The type of image or video data that is presented for the asset
---
--- ObjC selector: @- contentType@
-contentType :: IsPHAsset phAsset => phAsset -> IO (Id UTType)
-contentType phAsset =
-  sendMessage phAsset contentTypeSelector
-
 -- | @- pixelWidth@
 pixelWidth :: IsPHAsset phAsset => phAsset -> IO CULong
 pixelWidth phAsset =
@@ -218,26 +204,15 @@ pixelHeight :: IsPHAsset phAsset => phAsset -> IO CULong
 pixelHeight phAsset =
   sendMessage phAsset pixelHeightSelector
 
--- | The date and time of this asset's creation (can be updated by the user)
---
--- ObjC selector: @- creationDate@
+-- | @- creationDate@
 creationDate :: IsPHAsset phAsset => phAsset -> IO (Id NSDate)
 creationDate phAsset =
   sendMessage phAsset creationDateSelector
 
--- | The date and time of the last modification to this asset or one of its properties
---
--- ObjC selector: @- modificationDate@
+-- | @- modificationDate@
 modificationDate :: IsPHAsset phAsset => phAsset -> IO (Id NSDate)
 modificationDate phAsset =
   sendMessage phAsset modificationDateSelector
-
--- | The date and time this asset was added to the photo library (from the device that was used to add this asset)
---
--- ObjC selector: @- addedDate@
-addedDate :: IsPHAsset phAsset => phAsset -> IO (Id NSDate)
-addedDate phAsset =
-  sendMessage phAsset addedDateSelector
 
 -- | @- duration@
 duration :: IsPHAsset phAsset => phAsset -> IO CDouble
@@ -260,7 +235,7 @@ syncFailureHidden phAsset =
   sendMessage phAsset syncFailureHiddenSelector
 
 -- | @- burstIdentifier@
-burstIdentifier :: IsPHAsset phAsset => phAsset -> IO (Id NSString)
+burstIdentifier :: IsPHAsset phAsset => phAsset -> IO RawId
 burstIdentifier phAsset =
   sendMessage phAsset burstIdentifierSelector
 
@@ -345,10 +320,6 @@ mediaTypeSelector = mkSelector "mediaType"
 mediaSubtypesSelector :: Selector '[] PHAssetMediaSubtype
 mediaSubtypesSelector = mkSelector "mediaSubtypes"
 
--- | @Selector@ for @contentType@
-contentTypeSelector :: Selector '[] (Id UTType)
-contentTypeSelector = mkSelector "contentType"
-
 -- | @Selector@ for @pixelWidth@
 pixelWidthSelector :: Selector '[] CULong
 pixelWidthSelector = mkSelector "pixelWidth"
@@ -364,10 +335,6 @@ creationDateSelector = mkSelector "creationDate"
 -- | @Selector@ for @modificationDate@
 modificationDateSelector :: Selector '[] (Id NSDate)
 modificationDateSelector = mkSelector "modificationDate"
-
--- | @Selector@ for @addedDate@
-addedDateSelector :: Selector '[] (Id NSDate)
-addedDateSelector = mkSelector "addedDate"
 
 -- | @Selector@ for @duration@
 durationSelector :: Selector '[] CDouble
@@ -386,7 +353,7 @@ syncFailureHiddenSelector :: Selector '[] Bool
 syncFailureHiddenSelector = mkSelector "syncFailureHidden"
 
 -- | @Selector@ for @burstIdentifier@
-burstIdentifierSelector :: Selector '[] (Id NSString)
+burstIdentifierSelector :: Selector '[] RawId
 burstIdentifierSelector = mkSelector "burstIdentifier"
 
 -- | @Selector@ for @burstSelectionTypes@

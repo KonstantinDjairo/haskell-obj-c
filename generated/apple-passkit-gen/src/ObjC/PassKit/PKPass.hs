@@ -21,7 +21,6 @@ module ObjC.PassKit.PKPass
   , localizedDescription
   , organizationName
   , relevantDate
-  , relevantDates
   , userInfo
   , passURL
   , remotePass
@@ -38,7 +37,6 @@ module ObjC.PassKit.PKPass
   , passURLSelector
   , paymentPassSelector
   , relevantDateSelector
-  , relevantDatesSelector
   , remotePassSelector
   , secureElementPassSelector
   , serialNumberSelector
@@ -131,11 +129,6 @@ relevantDate :: IsPKPass pkPass => pkPass -> IO (Id NSDate)
 relevantDate pkPass =
   sendMessage pkPass relevantDateSelector
 
--- | @- relevantDates@
-relevantDates :: IsPKPass pkPass => pkPass -> IO (Id NSArray)
-relevantDates pkPass =
-  sendMessage pkPass relevantDatesSelector
-
 -- | @- userInfo@
 userInfo :: IsPKPass pkPass => pkPass -> IO (Id NSDictionary)
 userInfo pkPass =
@@ -211,10 +204,6 @@ organizationNameSelector = mkSelector "organizationName"
 -- | @Selector@ for @relevantDate@
 relevantDateSelector :: Selector '[] (Id NSDate)
 relevantDateSelector = mkSelector "relevantDate"
-
--- | @Selector@ for @relevantDates@
-relevantDatesSelector :: Selector '[] (Id NSArray)
-relevantDatesSelector = mkSelector "relevantDates"
 
 -- | @Selector@ for @userInfo@
 userInfoSelector :: Selector '[] (Id NSDictionary)

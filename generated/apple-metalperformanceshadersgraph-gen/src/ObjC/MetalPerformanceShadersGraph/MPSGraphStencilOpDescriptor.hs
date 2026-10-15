@@ -4,11 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The class that defines the parameters for a stencil operation.
---
--- Use this descriptor with the following ``MPSGraph`` method: - ``MPSGraph/stencilWithSourceTensor:weightsTensor:descriptor:name:``
---
--- Generated bindings for @MPSGraphStencilOpDescriptor@.
+-- | Generated bindings for @MPSGraphStencilOpDescriptor@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphStencilOpDescriptor
   ( MPSGraphStencilOpDescriptor
   , IsMPSGraphStencilOpDescriptor(..)
@@ -90,9 +86,25 @@ import ObjC.MetalPerformanceShadersGraph.Internal.Classes
 import ObjC.MetalPerformanceShadersGraph.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a stencil operation descriptor with given values.
+-- | stencil operation descriptor
 --
--- - Parameters:   - reductionMode: See @reductionMode@ property.   - offsets: See @offsets@ property.   - strides: See @strides@ property.   - dilationRates: See @dilationRates@ property.   - explicitPadding: See @explicitPadding@ property.   - boundaryMode: See @boundaryMode@ property.   - paddingStyle: See @paddingStyle@ property.   - paddingConstant: See @paddingConstant@ property. - Returns: A valid MPSGraphStencilOpDescriptor object
+-- @reductionMode@ — Reduction operation used to combine the source with weights. Defaults to Sum.
+--
+-- @offsets@ — Array of length 4 that determines where to start reading the @input@ from.                                  Only used when paddingStyle is MPSGraphPaddingStylExplicitOffset. Defaults to 0.
+--
+-- @strides@ — Array of length 4 that determines strides for the window of the weights Tensor. Defaults to 1.
+--
+-- @dilationRates@ — Array of length 4 that determines dilation rates for the weights Tensor. Defaults to 1.
+--
+-- @explicitPadding@ — Array of length 8 that determines paddings for the input Tensor's last 4 dimensions.                                  explicitPadding[2*i] and explicitPadding[2*i + 1] for dimension i of the input.                                  Only used when paddingSTyle is MPSGraphPaddingStyleExplicit or ExplicitOffset.
+--
+-- @boundaryMode@ — Determines what values to pad the input Tensor with. Defaults to MPSGraphPaddingModeZero.
+--
+-- @paddingStyle@ — Determines how many values to pad the inpur Tensor with.
+--
+-- @paddingConstant@ — Specifies the value to pad the inputTensor with when using boundaryMode = constant. Defaults to 0.
+--
+-- Returns: A valid MPSGraphStencilOpDescriptor object
 --
 -- ObjC selector: @+ descriptorWithReductionMode:offsets:strides:dilationRates:explicitPadding:boundaryMode:paddingStyle:paddingConstant:@
 descriptorWithReductionMode_offsets_strides_dilationRates_explicitPadding_boundaryMode_paddingStyle_paddingConstant :: MPSGraphReductionMode -> RawId -> RawId -> RawId -> RawId -> MPSGraphPaddingMode -> MPSGraphPaddingStyle -> CFloat -> IO (Id MPSGraphStencilOpDescriptor)
@@ -101,9 +113,15 @@ descriptorWithReductionMode_offsets_strides_dilationRates_explicitPadding_bounda
     cls' <- getRequiredClass "MPSGraphStencilOpDescriptor"
     sendClassMessage cls' descriptorWithReductionMode_offsets_strides_dilationRates_explicitPadding_boundaryMode_paddingStyle_paddingConstantSelector reductionMode offsets strides dilationRates explicitPadding boundaryMode paddingStyle paddingConstant
 
--- | Creates a stencil operation descriptor with default values.
+-- | stencil operation descriptor
 --
--- - Parameters:   - offsets: See @offsets@ property.   - explicitPadding: See @explicitPadding@ property. - Returns: A valid MPSGraphStencilOpDescriptor object
+-- Stencil operation descriptor for paddingStyle MPSGraphPaddingStyleExplicitOffset.              Default values for everything else.
+--
+-- @offsets@ — Array of length 4 that determines where to start reading the @input@ from.
+--
+-- @explicitPadding@ — Array of length 8 that determines paddings for the input Tensor's last 4 dimensions.                                  explicitPadding[2*i] and explicitPadding[2*i + 1] for dimension i of the input.
+--
+-- Returns: A valid MPSGraphStencilOpDescriptor object
 --
 -- ObjC selector: @+ descriptorWithOffsets:explicitPadding:@
 descriptorWithOffsets_explicitPadding :: RawId -> RawId -> IO (Id MPSGraphStencilOpDescriptor)
@@ -112,9 +130,13 @@ descriptorWithOffsets_explicitPadding offsets explicitPadding =
     cls' <- getRequiredClass "MPSGraphStencilOpDescriptor"
     sendClassMessage cls' descriptorWithOffsets_explicitPaddingSelector offsets explicitPadding
 
--- | Creates a stencil operation descriptor with default values.
+-- | stencil operation descriptor
 --
--- - Parameters:   - explicitPadding: See @explicitPadding@ property. - Returns: A valid MPSGraphStencilOpDescriptor object
+-- Stencil operation descriptor for paddingStyle MPSGraphPaddingStyleExplicit              Default values for everything else.
+--
+-- @explicitPadding@ — Array of length 8 that determines paddings for the input Tensor's last 4 dimensions.                                  explicitPadding[2*i] and explicitPadding[2*i + 1] for dimension i of the input.
+--
+-- Returns: A valid MPSGraphStencilOpDescriptor object
 --
 -- ObjC selector: @+ descriptorWithExplicitPadding:@
 descriptorWithExplicitPadding :: RawId -> IO (Id MPSGraphStencilOpDescriptor)
@@ -123,9 +145,13 @@ descriptorWithExplicitPadding explicitPadding =
     cls' <- getRequiredClass "MPSGraphStencilOpDescriptor"
     sendClassMessage cls' descriptorWithExplicitPaddingSelector explicitPadding
 
--- | Creates a stencil operation descriptor with default values.
+-- | stencil operation descriptor
 --
--- - Parameters:   - paddingStyle: See @paddingStyle@ property. - Returns: A valid MPSGraphStencilOpDescriptor object
+-- Stencil operation descriptor with a user specified paddingStyle.              Default values for everything else.
+--
+-- @paddingStyle@ — Determines how many values to pad the inpur Tensor with.
+--
+-- Returns: A valid MPSGraphStencilOpDescriptor object
 --
 -- ObjC selector: @+ descriptorWithPaddingStyle:@
 descriptorWithPaddingStyle :: MPSGraphPaddingStyle -> IO (Id MPSGraphStencilOpDescriptor)
@@ -134,146 +160,82 @@ descriptorWithPaddingStyle paddingStyle =
     cls' <- getRequiredClass "MPSGraphStencilOpDescriptor"
     sendClassMessage cls' descriptorWithPaddingStyleSelector paddingStyle
 
--- | The reduction mode to use within the stencil window.
---
--- Default value: @MPSGraphReductionModeSum@.
---
--- ObjC selector: @- reductionMode@
+-- | @- reductionMode@
 reductionMode :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO MPSGraphReductionMode
 reductionMode mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor reductionModeSelector
 
--- | The reduction mode to use within the stencil window.
---
--- Default value: @MPSGraphReductionModeSum@.
---
--- ObjC selector: @- setReductionMode:@
+-- | @- setReductionMode:@
 setReductionMode :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> MPSGraphReductionMode -> IO ()
 setReductionMode mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setReductionModeSelector value
 
--- | An array of length four that determines from which offset to start reading the input tensor.
---
--- Only used when @paddingStyle@ is @MPSGraphPaddingStyleExplicitOffset@. For example zero offset means that the first stencil window will align its top-left corner (in 4 dimensions) to the top-left corner of the input tensor. Default value: `\@[ \@0, \@0, \@0, \@0 ]`
---
--- ObjC selector: @- offsets@
+-- | @- offsets@
 offsets :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO RawId
 offsets mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor offsetsSelector
 
--- | An array of length four that determines from which offset to start reading the input tensor.
---
--- Only used when @paddingStyle@ is @MPSGraphPaddingStyleExplicitOffset@. For example zero offset means that the first stencil window will align its top-left corner (in 4 dimensions) to the top-left corner of the input tensor. Default value: `\@[ \@0, \@0, \@0, \@0 ]`
---
--- ObjC selector: @- setOffsets:@
+-- | @- setOffsets:@
 setOffsets :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> RawId -> IO ()
 setOffsets mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setOffsetsSelector value
 
--- | The property that defines strides for spatial dimensions.
---
--- Must be four numbers, one for each spatial dimension, fastest running index last. Default value: `\@[ \@1, \@1, \@1, \@1 ]`
---
--- ObjC selector: @- strides@
+-- | @- strides@
 strides :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO RawId
 strides mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor stridesSelector
 
--- | The property that defines strides for spatial dimensions.
---
--- Must be four numbers, one for each spatial dimension, fastest running index last. Default value: `\@[ \@1, \@1, \@1, \@1 ]`
---
--- ObjC selector: @- setStrides:@
+-- | @- setStrides:@
 setStrides :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> RawId -> IO ()
 setStrides mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setStridesSelector value
 
--- | The property that defines dilation rates for spatial dimensions.
---
--- Must be four numbers, one for each spatial dimension, fastest running index last. Default value: `\@[ \@1, \@1, \@1, \@1 ]`
---
--- ObjC selector: @- dilationRates@
+-- | @- dilationRates@
 dilationRates :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO RawId
 dilationRates mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor dilationRatesSelector
 
--- | The property that defines dilation rates for spatial dimensions.
---
--- Must be four numbers, one for each spatial dimension, fastest running index last. Default value: `\@[ \@1, \@1, \@1, \@1 ]`
---
--- ObjC selector: @- setDilationRates:@
+-- | @- setDilationRates:@
 setDilationRates :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> RawId -> IO ()
 setDilationRates mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setDilationRatesSelector value
 
--- | The property that defines padding values for spatial dimensions.
---
--- Must be eight numbers, two for each spatial dimension. For example @paddingValues[0]@ defines the explicit padding amount before the first spatial dimension (slowest running index of spatial dimensions), @paddingValues[1]@ defines the padding amount after the first spatial dimension etc. Used only when @paddingStyle = MPSGraphPaddingStyleExplicit@. Default value: `\@[ \@0, \@0, \@0, \@0, \@0, \@0, \@0, \@0 ]`
---
--- ObjC selector: @- explicitPadding@
+-- | @- explicitPadding@
 explicitPadding :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO RawId
 explicitPadding mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor explicitPaddingSelector
 
--- | The property that defines padding values for spatial dimensions.
---
--- Must be eight numbers, two for each spatial dimension. For example @paddingValues[0]@ defines the explicit padding amount before the first spatial dimension (slowest running index of spatial dimensions), @paddingValues[1]@ defines the padding amount after the first spatial dimension etc. Used only when @paddingStyle = MPSGraphPaddingStyleExplicit@. Default value: `\@[ \@0, \@0, \@0, \@0, \@0, \@0, \@0, \@0 ]`
---
--- ObjC selector: @- setExplicitPadding:@
+-- | @- setExplicitPadding:@
 setExplicitPadding :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> RawId -> IO ()
 setExplicitPadding mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setExplicitPaddingSelector value
 
--- | The property that determines which values to use for padding the input tensor.
---
--- Default value: @MPSGraphPaddingModeZero@.
---
--- ObjC selector: @- boundaryMode@
+-- | @- boundaryMode@
 boundaryMode :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO MPSGraphPaddingMode
 boundaryMode mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor boundaryModeSelector
 
--- | The property that determines which values to use for padding the input tensor.
---
--- Default value: @MPSGraphPaddingModeZero@.
---
--- ObjC selector: @- setBoundaryMode:@
+-- | @- setBoundaryMode:@
 setBoundaryMode :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> MPSGraphPaddingMode -> IO ()
 setBoundaryMode mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setBoundaryModeSelector value
 
--- | The property that defines what kind of padding to apply to the stencil operation.
---
--- Default value: @MPSGraphPaddingStyleExplicit@.
---
--- ObjC selector: @- paddingStyle@
+-- | @- paddingStyle@
 paddingStyle :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO MPSGraphPaddingStyle
 paddingStyle mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor paddingStyleSelector
 
--- | The property that defines what kind of padding to apply to the stencil operation.
---
--- Default value: @MPSGraphPaddingStyleExplicit@.
---
--- ObjC selector: @- setPaddingStyle:@
+-- | @- setPaddingStyle:@
 setPaddingStyle :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> MPSGraphPaddingStyle -> IO ()
 setPaddingStyle mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setPaddingStyleSelector value
 
--- | The padding value for @boundaryMode = MPSGraphPaddingModeConstant@.
---
--- Default value: 0.
---
--- ObjC selector: @- paddingConstant@
+-- | @- paddingConstant@
 paddingConstant :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> IO CFloat
 paddingConstant mpsGraphStencilOpDescriptor =
   sendMessage mpsGraphStencilOpDescriptor paddingConstantSelector
 
--- | The padding value for @boundaryMode = MPSGraphPaddingModeConstant@.
---
--- Default value: 0.
---
--- ObjC selector: @- setPaddingConstant:@
+-- | @- setPaddingConstant:@
 setPaddingConstant :: IsMPSGraphStencilOpDescriptor mpsGraphStencilOpDescriptor => mpsGraphStencilOpDescriptor -> CFloat -> IO ()
 setPaddingConstant mpsGraphStencilOpDescriptor value =
   sendMessage mpsGraphStencilOpDescriptor setPaddingConstantSelector value

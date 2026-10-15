@@ -18,9 +18,9 @@ import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..
 --
 -- This enumerated type is used to represent the activity mode for the user's move ring.
 --
--- HKActivityMoveModeActiveEnergy      User's move ring is updated from Active Energy Burned
+-- HKActivityMoveModeActiveEnergy     User's move ring is updated from Active Energy Burned
 --
--- HKActivityMoveModeAppleMoveTime     User's move ring is updated from Apple Move Time
+-- HKActivityMoveModeAppleMoveTime    User's move ring is updated from Apple Move Time
 -- | @HKActivityMoveMode@
 newtype HKActivityMoveMode = HKActivityMoveMode CLong
   deriving stock (Eq, Ord, Show)
@@ -46,9 +46,7 @@ instance ObjCReturn HKActivityMoveMode where
 --
 -- Indicates which algorithm version number was used by the ECG app on Apple Watch.
 --
--- HKAppleECGAlgorithmVersion1     Apple Watch used a version 1 algorithm to generate this ECG.
---
--- HKAppleECGAlgorithmVersion2     Apple Watch used a version 2 algorithm to generate this ECG.
+-- HKAppleECGAlgorithmVersion1   Apple Watch used a version 1 algorithm to generate this ECG.
 -- | @HKAppleECGAlgorithmVersion@
 newtype HKAppleECGAlgorithmVersion = HKAppleECGAlgorithmVersion CLong
   deriving stock (Eq, Ord, Show)
@@ -69,34 +67,6 @@ instance ObjCReturn HKAppleECGAlgorithmVersion where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKAppleECGAlgorithmVersion x)
   fromOwned x = pure (HKAppleECGAlgorithmVersion x)
-
--- | HKAppleSleepingBreathingDisturbancesClassification
---
--- This enumerated type is used to represent a classification of the user's breathing disturbances
---
--- HKAppleSleepingBreathingDisturbancesClassificationNotElevated          BD level is not elevated
---
--- HKAppleSleepingBreathingDisturbancesClassificationElevated                BD level is elevated
--- | @HKAppleSleepingBreathingDisturbancesClassification@
-newtype HKAppleSleepingBreathingDisturbancesClassification = HKAppleSleepingBreathingDisturbancesClassification CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKAppleSleepingBreathingDisturbancesClassificationNotElevated :: HKAppleSleepingBreathingDisturbancesClassification
-pattern HKAppleSleepingBreathingDisturbancesClassificationNotElevated = HKAppleSleepingBreathingDisturbancesClassification 0
-
-pattern HKAppleSleepingBreathingDisturbancesClassificationElevated :: HKAppleSleepingBreathingDisturbancesClassification
-pattern HKAppleSleepingBreathingDisturbancesClassificationElevated = HKAppleSleepingBreathingDisturbancesClassification 1
-
-instance ObjCArgument HKAppleSleepingBreathingDisturbancesClassification where
-  withObjCArg (HKAppleSleepingBreathingDisturbancesClassification x) k = k (argCLong x)
-
-instance ObjCReturn HKAppleSleepingBreathingDisturbancesClassification where
-  type RawReturn HKAppleSleepingBreathingDisturbancesClassification = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKAppleSleepingBreathingDisturbancesClassification x)
-  fromOwned x = pure (HKAppleSleepingBreathingDisturbancesClassification x)
 
 -- | HKAppleWalkingSteadinessClassification
 --
@@ -130,57 +100,6 @@ instance ObjCReturn HKAppleWalkingSteadinessClassification where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKAppleWalkingSteadinessClassification x)
   fromOwned x = pure (HKAppleWalkingSteadinessClassification x)
-
--- | HKAudiogramConductionType
---
--- Represents the conduction type used for an HKAudiogramSensitivityTest
---
--- HKAudiogramConductionTypeAir
--- | @HKAudiogramConductionType@
-newtype HKAudiogramConductionType = HKAudiogramConductionType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKAudiogramConductionTypeAir :: HKAudiogramConductionType
-pattern HKAudiogramConductionTypeAir = HKAudiogramConductionType 0
-
-instance ObjCArgument HKAudiogramConductionType where
-  withObjCArg (HKAudiogramConductionType x) k = k (argCLong x)
-
-instance ObjCReturn HKAudiogramConductionType where
-  type RawReturn HKAudiogramConductionType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKAudiogramConductionType x)
-  fromOwned x = pure (HKAudiogramConductionType x)
-
--- | HKAudiogramSensitivityTestSide
---
--- Represents the test side used for an HKAudiogramSensitivityTest
---
--- HKAudiogramSensitivityTestSideLeft
---
--- HKAudiogramSensitivityTestSideRight
--- | @HKAudiogramSensitivityTestSide@
-newtype HKAudiogramSensitivityTestSide = HKAudiogramSensitivityTestSide CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKAudiogramSensitivityTestSideLeft :: HKAudiogramSensitivityTestSide
-pattern HKAudiogramSensitivityTestSideLeft = HKAudiogramSensitivityTestSide 0
-
-pattern HKAudiogramSensitivityTestSideRight :: HKAudiogramSensitivityTestSide
-pattern HKAudiogramSensitivityTestSideRight = HKAudiogramSensitivityTestSide 1
-
-instance ObjCArgument HKAudiogramSensitivityTestSide where
-  withObjCArg (HKAudiogramSensitivityTestSide x) k = k (argCLong x)
-
-instance ObjCReturn HKAudiogramSensitivityTestSide where
-  type RawReturn HKAudiogramSensitivityTestSide = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKAudiogramSensitivityTestSide x)
-  fromOwned x = pure (HKAudiogramSensitivityTestSide x)
 
 -- | HKAuthorizationRequestStatus
 --
@@ -459,7 +378,7 @@ instance ObjCReturn HKCategoryValueAppetiteChanges where
 
 -- | HKCategoryValueAppleStandHour
 --
--- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierAppleStandHour                type.
+-- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierAppleStandHour type.
 --
 -- HKCategoryValueAppleStandHourStood  The user stood up and moved a little for at least one minute during
 --
@@ -491,23 +410,15 @@ instance ObjCReturn HKCategoryValueAppleStandHour where
 
 -- | HKCategoryValueAppleWalkingSteadinessEvent
 --
--- Set of values that may be used for HKCategorySamples with the                HKCategoryTypeIdentifierAppleWalkingSteadinessEvent type.
+-- Specifies the kind of Apple Walking Steadiness event associated with the sample.
 --
--- HKCategoryValueAppleWalkingSteadinessEventInitialLow        This constant defines Apple Walking
+-- HKCategoryValueAppleWalkingSteadinessEventInitialLow           This constant defines Apple Walking Steadiness events associated with the user's walking steadiness being low.
 --
--- Steadiness events associated with the user's                                                                            walking steadiness being low.
+-- HKCategoryValueAppleWalkingSteadinessEventInitialVeryLow       This constant defines Apple Walking Steadiness events associated with the user's walking steadiness being very low.
 --
--- HKCategoryValueAppleWalkingSteadinessEventInitialVeryLow    This constant defines Apple Walking
+-- HKCategoryValueAppleWalkingSteadinessEventRepeatLow            This constant defines Apple Walking Steadiness events associated with the user's walking steadiness remaining low over a significant time period.
 --
--- Steadiness events associated with the user's                                                                            walking steadiness being very low.
---
--- HKCategoryValueAppleWalkingSteadinessEventRepeatLow         This constant defines Apple Walking
---
--- Steadiness events associated with the user's                                                                            walking steadiness remaining low over a                                                                            significant time period.
---
--- HKCategoryValueAppleWalkingSteadinessEventRepeatVeryLow     This constant defines Apple Walking
---
--- Steadiness events associated with the user's                                                                            walking steadiness remaining very low over a                                                                            significant time period.
+-- HKCategoryValueAppleWalkingSteadinessEventRepeatVeryLow        This constant defines Apple Walking Steadiness events associated with the user's walking steadiness remaining very low over a significant time period.
 -- | @HKCategoryValueAppleWalkingSteadinessEvent@
 newtype HKCategoryValueAppleWalkingSteadinessEvent = HKCategoryValueAppleWalkingSteadinessEvent CLong
   deriving stock (Eq, Ord, Show)
@@ -558,7 +469,7 @@ instance ObjCReturn HKCategoryValueAudioExposureEvent where
 
 -- | HKCategoryValueCervicalMucusQuality
 --
--- Set of values that may be used for HKCategorySamples with the                HKCategoryTypeIdentifierCervicalMucusQuality type.
+-- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierCervicalMucusQuality type.
 --
 -- These cervical mucus quality values are ordered from least-fertile (Dry) to most-fertile (EggWhite).
 -- | @HKCategoryValueCervicalMucusQuality@
@@ -634,9 +545,9 @@ instance ObjCReturn HKCategoryValueContraceptive where
 --
 -- Specifies the kind of environmental audio exposure event associated with the sample.
 --
--- HKCategoryValueEnvironmentalAudioExposureEventMomentaryLimit    This constant defines environmental
+-- HKCategoryValueEnvironmentalAudioExposureEventMomentaryLimit          This constant defines environmental events associated
 --
--- events associated with the user being                                                                                exposed to a loud environment during a                                                                                short timespan.
+-- with the user being exposed to a loud environment during a short timespan.
 -- | @HKCategoryValueEnvironmentalAudioExposureEvent@
 newtype HKCategoryValueEnvironmentalAudioExposureEvent = HKCategoryValueEnvironmentalAudioExposureEvent CLong
   deriving stock (Eq, Ord, Show)
@@ -657,11 +568,9 @@ instance ObjCReturn HKCategoryValueEnvironmentalAudioExposureEvent where
 
 -- | HKCategoryValueHeadphoneAudioExposureEvent
 --
--- Specifies the kind of headphone audio exposure event associated with the sample.
+-- Specifies the kind of headphone exposure event associated with the sample.
 --
--- HKCategoryValueHeadphoneAudioExposureEventSevenDayLimit     This constant defines headphone events
---
--- associated with the user being exposed to                                                                            significant audio levels throught a                                                                            seven-day period.
+-- HKCategoryValueHeadphoneAudioExposureEventSevenDayLimit     This constant defines headphone events associated with the user being exposed to significant audio levels throught a seven-day period.
 -- | @HKCategoryValueHeadphoneAudioExposureEvent@
 newtype HKCategoryValueHeadphoneAudioExposureEvent = HKCategoryValueHeadphoneAudioExposureEvent CLong
   deriving stock (Eq, Ord, Show)
@@ -684,9 +593,7 @@ instance ObjCReturn HKCategoryValueHeadphoneAudioExposureEvent where
 --
 -- Specifies the type of cardio fitness event.
 --
--- HKCategoryValueLowCardioFitnessEventLowFitness  This constant defines an event where a VO2Max
---
--- measurement was recorded that falls into the "Low"                                                                fitness classification
+-- HKCategoryValueLowCardioFitnessEventLowFitness       This constant defines an event where a VO2Max measurement was recorded that falls into the "Low" fitness classification
 -- | @HKCategoryValueLowCardioFitnessEvent@
 newtype HKCategoryValueLowCardioFitnessEvent = HKCategoryValueLowCardioFitnessEvent CLong
   deriving stock (Eq, Ord, Show)
@@ -740,7 +647,7 @@ instance ObjCReturn HKCategoryValueMenstrualFlow where
 
 -- | HKCategoryValueOvulationTestResult
 --
--- Set of values that may be used for HKCategorySamples with the                HKCategoryTypeIdentifierOvulationTestResult type.
+-- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierOvulationTestResult type.
 --
 -- This category value tracks the result of a home ovulation test that use surges in hormone levels to                indicate fertility.
 -- | @HKCategoryValueOvulationTestResult@
@@ -775,9 +682,9 @@ instance ObjCReturn HKCategoryValueOvulationTestResult where
 
 -- | HKCategoryValuePregnancyTestResult
 --
--- Set of values that may be used for HKCategorySamples with the                HKCategoryTypeIdentifierPregnancyTestResult type.
+-- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierPregnancyTestResult type.
 --
--- This category value tracks the result of a home pregnancy test that checks for presence of the human                chorionic gonadotrophin (hCG) hormone in urine to confirm pregnancy.
+-- This category value tracks the result of a home pregnancy test that checks for presence of the human chorionic                gonadotrophin (hCG) hormone in urine to confirm pregnancy.
 -- | @HKCategoryValuePregnancyTestResult@
 newtype HKCategoryValuePregnancyTestResult = HKCategoryValuePregnancyTestResult CLong
   deriving stock (Eq, Ord, Show)
@@ -828,9 +735,9 @@ instance ObjCReturn HKCategoryValuePresence where
 
 -- | HKCategoryValueProgesteroneTestResult
 --
--- Set of values that may be used for HKCategorySamples with the                HKCategoryTypeIdentifierProgesteroneTestResult type.
+-- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierProgesteroneTestResult type.
 --
--- This category value tracks the result of a home ovulation confirmation test that use surges in hormone                levels to confirm if ovulation has occurred.
+-- This category value tracks the result of a home ovulation confirmation test that use surges in hormone levels to                confirm if ovulation has occurred.
 -- | @HKCategoryValueProgesteroneTestResult@
 newtype HKCategoryValueProgesteroneTestResult = HKCategoryValueProgesteroneTestResult CLong
   deriving stock (Eq, Ord, Show)
@@ -890,21 +797,21 @@ instance ObjCReturn HKCategoryValueSeverity where
 
 -- | HKCategoryValueSleepAnalysis
 --
--- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierSleepAnalysis                type.
+-- Set of values that may be used for HKCategorySamples with the HKCategoryTypeIdentifierSleepAnalysis type.
 --
--- To represent the user being both in bed and asleep, use two or more samples with overlapping times. By                comparing the start and end times of these samples, it is possible to calculate a number of secondary                statistics:                1) The amount of time it took for the user to fall asleep                2) The percentage of time in bed that the user actually spent sleeping,                3) The number of times the user woke while in bed                4) The total amount of time spent both in bed and asleep.
+-- To represent the user being both in bed and asleep, use two or more samples with overlapping times. By comparing the                start and end times of these samples, it is possible to calculate a number of secondary statistics:                1) The amount of time it took for the user to fall asleep                2) The percentage of time in bed that the user actually spent sleeping,                3) The number of times the user woke while in bed                4) The total amount of time spent both in bed and asleep.
 --
--- HKCategoryValueSleepAnalysisInBed               The user is in bed.
+-- HKCategoryValueSleepAnalysisInBed The user is in bed.
 --
--- HKCategoryValueSleepAnalysisAsleepUnspecified   The user is asleep and no specific stage is specified.
+-- HKCategoryValueSleepAnalysisAwake The user is awake.
 --
--- HKCategoryValueSleepAnalysisAwake               The user is awake.
+-- HKCategoryValueSleepAnalysisAsleepUnspecified The user is asleep and no specific stage is specified.
 --
--- HKCategoryValueSleepAnalysisAsleepCore          Corresponds to Stages 1 and 2 of AASM scoring model.
+-- HKCategoryValueSleepAnalysisAsleepCore Corresponds to Stages 1 and 2 of AASM scoring model.
 --
--- HKCategoryValueSleepAnalysisAsleepDeep          Corresponds to Stage 3 of AASM scoring model.
+-- HKCategoryValueSleepAnalysisAsleepDeep  Corresponds to Stage 3 of AASM scoring model.
 --
--- HKCategoryValueSleepAnalysisAsleepREM           Corresponds to REM stage of AASM scoring model.
+-- HKCategoryValueSleepAnalysisAsleepREM Corresponds to REM stage of AASM scoring model.
 -- | @HKCategoryValueSleepAnalysis@
 newtype HKCategoryValueSleepAnalysis = HKCategoryValueSleepAnalysis CLong
   deriving stock (Eq, Ord, Show)
@@ -941,96 +848,17 @@ instance ObjCReturn HKCategoryValueSleepAnalysis where
   fromRetained x = pure (HKCategoryValueSleepAnalysis x)
   fromOwned x = pure (HKCategoryValueSleepAnalysis x)
 
--- | HKCategoryValueVaginalBleeding
---
--- Set of values to indicate the type of bleeding.
--- | @HKCategoryValueVaginalBleeding@
-newtype HKCategoryValueVaginalBleeding = HKCategoryValueVaginalBleeding CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKCategoryValueVaginalBleedingUnspecified :: HKCategoryValueVaginalBleeding
-pattern HKCategoryValueVaginalBleedingUnspecified = HKCategoryValueVaginalBleeding 1
-
-pattern HKCategoryValueVaginalBleedingLight :: HKCategoryValueVaginalBleeding
-pattern HKCategoryValueVaginalBleedingLight = HKCategoryValueVaginalBleeding 2
-
-pattern HKCategoryValueVaginalBleedingMedium :: HKCategoryValueVaginalBleeding
-pattern HKCategoryValueVaginalBleedingMedium = HKCategoryValueVaginalBleeding 3
-
-pattern HKCategoryValueVaginalBleedingHeavy :: HKCategoryValueVaginalBleeding
-pattern HKCategoryValueVaginalBleedingHeavy = HKCategoryValueVaginalBleeding 4
-
-pattern HKCategoryValueVaginalBleedingNone :: HKCategoryValueVaginalBleeding
-pattern HKCategoryValueVaginalBleedingNone = HKCategoryValueVaginalBleeding 5
-
-instance ObjCArgument HKCategoryValueVaginalBleeding where
-  withObjCArg (HKCategoryValueVaginalBleeding x) k = k (argCLong x)
-
-instance ObjCReturn HKCategoryValueVaginalBleeding where
-  type RawReturn HKCategoryValueVaginalBleeding = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKCategoryValueVaginalBleeding x)
-  fromOwned x = pure (HKCategoryValueVaginalBleeding x)
-
--- | HKCyclingFunctionalThresholdPowerTestType
---
--- Represents the test used to determine a Cycling Functional Threshold Power value.
---
--- HKCyclingFunctionalThresholdPowerTestTypeMaxExercise60Minute    The user was exerted to their physical
---
--- limit for a sustained period of 60                                                                                minutes.
---
--- HKCyclingFunctionalThresholdPowerTestTypeMaxExercise20Minute    The user was exerted to their physical
---
--- limit for a sustained period of 20                                                                                minutes.
---
--- HKCyclingFunctionalThresholdPowerTestTypeRampTest               Test with gradual intensity increase
---
--- until exhaustion.
---
--- HKCyclingFunctionalThresholdPowerTestTypePredictionExercise     An equation was used based on data from
---
--- the user’s cycling workouts to calculate                                                                                a predicted Cycling Functional Threshold                                                                                Power.
--- | @HKCyclingFunctionalThresholdPowerTestType@
-newtype HKCyclingFunctionalThresholdPowerTestType = HKCyclingFunctionalThresholdPowerTestType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKCyclingFunctionalThresholdPowerTestTypeMaxExercise60Minute :: HKCyclingFunctionalThresholdPowerTestType
-pattern HKCyclingFunctionalThresholdPowerTestTypeMaxExercise60Minute = HKCyclingFunctionalThresholdPowerTestType 1
-
-pattern HKCyclingFunctionalThresholdPowerTestTypeMaxExercise20Minute :: HKCyclingFunctionalThresholdPowerTestType
-pattern HKCyclingFunctionalThresholdPowerTestTypeMaxExercise20Minute = HKCyclingFunctionalThresholdPowerTestType 2
-
-pattern HKCyclingFunctionalThresholdPowerTestTypeRampTest :: HKCyclingFunctionalThresholdPowerTestType
-pattern HKCyclingFunctionalThresholdPowerTestTypeRampTest = HKCyclingFunctionalThresholdPowerTestType 3
-
-pattern HKCyclingFunctionalThresholdPowerTestTypePredictionExercise :: HKCyclingFunctionalThresholdPowerTestType
-pattern HKCyclingFunctionalThresholdPowerTestTypePredictionExercise = HKCyclingFunctionalThresholdPowerTestType 4
-
-instance ObjCArgument HKCyclingFunctionalThresholdPowerTestType where
-  withObjCArg (HKCyclingFunctionalThresholdPowerTestType x) k = k (argCLong x)
-
-instance ObjCReturn HKCyclingFunctionalThresholdPowerTestType where
-  type RawReturn HKCyclingFunctionalThresholdPowerTestType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKCyclingFunctionalThresholdPowerTestType x)
-  fromOwned x = pure (HKCyclingFunctionalThresholdPowerTestType x)
-
 -- | HKDevicePlacementSide
 --
 -- The detected placement of the device during the bout of walking
 --
--- HKDevicePlacementSideUnknown    Unable to determine the placement of the device
+-- HKDevicePlacementSideUnknown                     Unable to determine the placement of the device
 --
--- HKDevicePlacementSideLeft       Device predominantly worn on left side
+-- HKDevicePlacementSideLeft                        Device predominantly worn on left side
 --
--- HKDevicePlacementSideRight      Device predominantly worn on right side
+-- HKDevicePlacementSideRight                       Device predominantly worn on right side
 --
--- HKDevicePlacementSideCentral    Device predominantly worn on the middle of the body
+-- HKDevicePlacementSideCentral                     Device predominantly worn on the middle of the body
 -- | @HKDevicePlacementSide@
 newtype HKDevicePlacementSide = HKDevicePlacementSide CLong
   deriving stock (Eq, Ord, Show)
@@ -1176,7 +1004,7 @@ instance ObjCReturn HKElectrocardiogramSymptomsStatus where
 
 -- | HKErrorCode
 --
--- HKUnknownError                      Unknown error.
+-- HKNoError                           No error.
 --
 -- HKErrorHealthDataUnavailable        HealthKit is not available on this device.
 --
@@ -1194,7 +1022,7 @@ instance ObjCReturn HKElectrocardiogramSymptomsStatus where
 --
 -- HKErrorUserCanceled                 The user canceled the operation.
 --
--- HKErrorAnotherWorkoutSessionStarted Another primary workout session has started or is already ongoing by this or another application.
+-- HKErrorAnotherWorkoutSessionStarted Another workout session was started by this or another application.
 --
 -- HKErrorUserExitedWorkoutSession     User exited the application while a workout session was running.
 --
@@ -1205,21 +1033,10 @@ instance ObjCReturn HKElectrocardiogramSymptomsStatus where
 -- HKErrorNoData                       No data is available for the requested query and predicate, and so the
 --
 -- query's result could not be meaningfully computed.
---
--- HKErrorWorkoutActivityNotAllowed    A workout session is not allowed to be created for the activity type.
---
--- HKErrorDataSizeExceeded             The provided data's size exceeds the maximum allowed.
---
--- HKErrorBackgroundWorkoutSessionNotAllowed   A workout session is not allowed to start or prepare when this app is in the background.
---
--- HKErrorNotPermissibleForGuestUserMode   Protected Health data changes are not allowed in Guest User mode on visionOS.
 -- | @HKErrorCode@
 newtype HKErrorCode = HKErrorCode CLong
   deriving stock (Eq, Ord, Show)
   deriving newtype (Storable)
-
-pattern HKUnknownError :: HKErrorCode
-pattern HKUnknownError = HKErrorCode 0
 
 pattern HKNoError :: HKErrorCode
 pattern HKNoError = HKErrorCode 0
@@ -1256,18 +1073,6 @@ pattern HKErrorRequiredAuthorizationDenied = HKErrorCode 10
 
 pattern HKErrorNoData :: HKErrorCode
 pattern HKErrorNoData = HKErrorCode 11
-
-pattern HKErrorWorkoutActivityNotAllowed :: HKErrorCode
-pattern HKErrorWorkoutActivityNotAllowed = HKErrorCode 12
-
-pattern HKErrorDataSizeExceeded :: HKErrorCode
-pattern HKErrorDataSizeExceeded = HKErrorCode 13
-
-pattern HKErrorBackgroundWorkoutSessionNotAllowed :: HKErrorCode
-pattern HKErrorBackgroundWorkoutSessionNotAllowed = HKErrorCode 14
-
-pattern HKErrorNotPermissibleForGuestUserMode :: HKErrorCode
-pattern HKErrorNotPermissibleForGuestUserMode = HKErrorCode 15
 
 instance ObjCArgument HKErrorCode where
   withObjCArg (HKErrorCode x) k = k (argCLong x)
@@ -1332,66 +1137,6 @@ instance ObjCReturn HKFitzpatrickSkinType where
   fromRetained x = pure (HKFitzpatrickSkinType x)
   fromOwned x = pure (HKFitzpatrickSkinType x)
 
--- | HKGAD7AssessmentAnswer
---
--- Answer to question on GAD-7 assessment.
--- | @HKGAD7AssessmentAnswer@
-newtype HKGAD7AssessmentAnswer = HKGAD7AssessmentAnswer CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKGAD7AssessmentAnswerNotAtAll :: HKGAD7AssessmentAnswer
-pattern HKGAD7AssessmentAnswerNotAtAll = HKGAD7AssessmentAnswer 0
-
-pattern HKGAD7AssessmentAnswerSeveralDays :: HKGAD7AssessmentAnswer
-pattern HKGAD7AssessmentAnswerSeveralDays = HKGAD7AssessmentAnswer 1
-
-pattern HKGAD7AssessmentAnswerMoreThanHalfTheDays :: HKGAD7AssessmentAnswer
-pattern HKGAD7AssessmentAnswerMoreThanHalfTheDays = HKGAD7AssessmentAnswer 2
-
-pattern HKGAD7AssessmentAnswerNearlyEveryDay :: HKGAD7AssessmentAnswer
-pattern HKGAD7AssessmentAnswerNearlyEveryDay = HKGAD7AssessmentAnswer 3
-
-instance ObjCArgument HKGAD7AssessmentAnswer where
-  withObjCArg (HKGAD7AssessmentAnswer x) k = k (argCLong x)
-
-instance ObjCReturn HKGAD7AssessmentAnswer where
-  type RawReturn HKGAD7AssessmentAnswer = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKGAD7AssessmentAnswer x)
-  fromOwned x = pure (HKGAD7AssessmentAnswer x)
-
--- | HKGAD7AssessmentRisk
---
--- Anxiety risk level determined by GAD-7 assessment.
--- | @HKGAD7AssessmentRisk@
-newtype HKGAD7AssessmentRisk = HKGAD7AssessmentRisk CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKGAD7AssessmentRiskNoneToMinimal :: HKGAD7AssessmentRisk
-pattern HKGAD7AssessmentRiskNoneToMinimal = HKGAD7AssessmentRisk 1
-
-pattern HKGAD7AssessmentRiskMild :: HKGAD7AssessmentRisk
-pattern HKGAD7AssessmentRiskMild = HKGAD7AssessmentRisk 2
-
-pattern HKGAD7AssessmentRiskModerate :: HKGAD7AssessmentRisk
-pattern HKGAD7AssessmentRiskModerate = HKGAD7AssessmentRisk 3
-
-pattern HKGAD7AssessmentRiskSevere :: HKGAD7AssessmentRisk
-pattern HKGAD7AssessmentRiskSevere = HKGAD7AssessmentRisk 4
-
-instance ObjCArgument HKGAD7AssessmentRisk where
-  withObjCArg (HKGAD7AssessmentRisk x) k = k (argCLong x)
-
-instance ObjCReturn HKGAD7AssessmentRisk where
-  type RawReturn HKGAD7AssessmentRisk = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKGAD7AssessmentRisk x)
-  fromOwned x = pure (HKGAD7AssessmentRisk x)
-
 -- | @HKHeartRateMotionContext@
 newtype HKHeartRateMotionContext = HKHeartRateMotionContext CLong
   deriving stock (Eq, Ord, Show)
@@ -1420,17 +1165,11 @@ instance ObjCReturn HKHeartRateMotionContext where
 --
 -- Represents the test used to determine a Heart Rate Recovery value
 --
--- HKHeartRateRecoveryTestTypeMaxExercise                  The user was exerted to their physical limit to
+-- HKHeartRateRecoveryTestTypeMaxExercise                  The user was exerted to their physical limit to evaluate actual Heart Rate Recovery.
 --
--- evaluate actual Heart Rate Recovery.
+-- HKHeartRateRecoveryTestTypePredictionSubMaxExercise     A specific test protocol was used to calculate and correlate a predicted Heart Rate Recovery.
 --
--- HKHeartRateRecoveryTestTypePredictionSubMaxExercise     A specific test protocol was used to calculate
---
--- and correlate a predicted Heart Rate Recovery.
---
--- HKHeartRateRecoveryTestTypePredictionNonExercise        A non-exercise equation was used based on user
---
--- metrics to calculate a predicted Heart Rate                                                                        Recovery.
+-- HKHeartRateRecoveryTestTypePredictionNonExercise        A non-exercise equation was used based on user metrics to calculate a predicted Heart Rate Recovery.
 -- | @HKHeartRateRecoveryTestType@
 newtype HKHeartRateRecoveryTestType = HKHeartRateRecoveryTestType CLong
   deriving stock (Eq, Ord, Show)
@@ -1495,11 +1234,11 @@ instance ObjCReturn HKHeartRateSensorLocation where
 --
 -- Represents a medical reason for the delivery of insulin
 --
--- HKInsulinDeliveryReasonBasal    Delivery for the base metabolic needs of the individual, often
+-- HKInsulinDeliveryReasonBasal  Delivery for the base metabolic needs of the individual, often
 --
--- administered as a continuous rate from an insulin pump, or a periodic                                                injection of slow-acting insulin.
+-- administered as a continuous rate from an insulin pump, or a periodic                                              injection of slow-acting insulin.
 --
--- HKInsulinDeliveryReasonBolus    Delivery for the episodic needs of the individual, such as a meal or
+-- HKInsulinDeliveryReasonBolus  Delivery for the episodic needs of the individual, such as a meal or
 --
 -- glucose level correction.
 -- | @HKInsulinDeliveryReason@
@@ -1522,64 +1261,6 @@ instance ObjCReturn HKInsulinDeliveryReason where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKInsulinDeliveryReason x)
   fromOwned x = pure (HKInsulinDeliveryReason x)
-
--- | The statuses the system assigns to a logged medication dose event.
--- | @HKMedicationDoseEventLogStatus@
-newtype HKMedicationDoseEventLogStatus = HKMedicationDoseEventLogStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKMedicationDoseEventLogStatusNotInteracted :: HKMedicationDoseEventLogStatus
-pattern HKMedicationDoseEventLogStatusNotInteracted = HKMedicationDoseEventLogStatus 1
-
-pattern HKMedicationDoseEventLogStatusNotificationNotSent :: HKMedicationDoseEventLogStatus
-pattern HKMedicationDoseEventLogStatusNotificationNotSent = HKMedicationDoseEventLogStatus 2
-
-pattern HKMedicationDoseEventLogStatusSnoozed :: HKMedicationDoseEventLogStatus
-pattern HKMedicationDoseEventLogStatusSnoozed = HKMedicationDoseEventLogStatus 3
-
-pattern HKMedicationDoseEventLogStatusTaken :: HKMedicationDoseEventLogStatus
-pattern HKMedicationDoseEventLogStatusTaken = HKMedicationDoseEventLogStatus 4
-
-pattern HKMedicationDoseEventLogStatusSkipped :: HKMedicationDoseEventLogStatus
-pattern HKMedicationDoseEventLogStatusSkipped = HKMedicationDoseEventLogStatus 5
-
-pattern HKMedicationDoseEventLogStatusNotLogged :: HKMedicationDoseEventLogStatus
-pattern HKMedicationDoseEventLogStatusNotLogged = HKMedicationDoseEventLogStatus 6
-
-instance ObjCArgument HKMedicationDoseEventLogStatus where
-  withObjCArg (HKMedicationDoseEventLogStatus x) k = k (argCLong x)
-
-instance ObjCReturn HKMedicationDoseEventLogStatus where
-  type RawReturn HKMedicationDoseEventLogStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKMedicationDoseEventLogStatus x)
-  fromOwned x = pure (HKMedicationDoseEventLogStatus x)
-
--- | The kind of schedule the system associates with a logged medication dose event.
---
--- Each value tells you whether the person logged the dose ad-hoc or in response to a scheduled medication reminder.
--- | @HKMedicationDoseEventScheduleType@
-newtype HKMedicationDoseEventScheduleType = HKMedicationDoseEventScheduleType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKMedicationDoseEventScheduleTypeAsNeeded :: HKMedicationDoseEventScheduleType
-pattern HKMedicationDoseEventScheduleTypeAsNeeded = HKMedicationDoseEventScheduleType 1
-
-pattern HKMedicationDoseEventScheduleTypeSchedule :: HKMedicationDoseEventScheduleType
-pattern HKMedicationDoseEventScheduleTypeSchedule = HKMedicationDoseEventScheduleType 2
-
-instance ObjCArgument HKMedicationDoseEventScheduleType where
-  withObjCArg (HKMedicationDoseEventScheduleType x) k = k (argCLong x)
-
-instance ObjCReturn HKMedicationDoseEventScheduleType where
-  type RawReturn HKMedicationDoseEventScheduleType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKMedicationDoseEventScheduleType x)
-  fromOwned x = pure (HKMedicationDoseEventScheduleType x)
 
 -- | @HKMetricPrefix@
 newtype HKMetricPrefix = HKMetricPrefix CLong
@@ -1637,104 +1318,6 @@ instance ObjCReturn HKMetricPrefix where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKMetricPrefix x)
   fromOwned x = pure (HKMetricPrefix x)
-
--- | HKPHQ9AssessmentAnswer
---
--- Answer to question on PHQ-9 assessment.
--- | @HKPHQ9AssessmentAnswer@
-newtype HKPHQ9AssessmentAnswer = HKPHQ9AssessmentAnswer CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKPHQ9AssessmentAnswerNotAtAll :: HKPHQ9AssessmentAnswer
-pattern HKPHQ9AssessmentAnswerNotAtAll = HKPHQ9AssessmentAnswer 0
-
-pattern HKPHQ9AssessmentAnswerSeveralDays :: HKPHQ9AssessmentAnswer
-pattern HKPHQ9AssessmentAnswerSeveralDays = HKPHQ9AssessmentAnswer 1
-
-pattern HKPHQ9AssessmentAnswerMoreThanHalfTheDays :: HKPHQ9AssessmentAnswer
-pattern HKPHQ9AssessmentAnswerMoreThanHalfTheDays = HKPHQ9AssessmentAnswer 2
-
-pattern HKPHQ9AssessmentAnswerNearlyEveryDay :: HKPHQ9AssessmentAnswer
-pattern HKPHQ9AssessmentAnswerNearlyEveryDay = HKPHQ9AssessmentAnswer 3
-
-pattern HKPHQ9AssessmentAnswerPreferNotToAnswer :: HKPHQ9AssessmentAnswer
-pattern HKPHQ9AssessmentAnswerPreferNotToAnswer = HKPHQ9AssessmentAnswer 4
-
-instance ObjCArgument HKPHQ9AssessmentAnswer where
-  withObjCArg (HKPHQ9AssessmentAnswer x) k = k (argCLong x)
-
-instance ObjCReturn HKPHQ9AssessmentAnswer where
-  type RawReturn HKPHQ9AssessmentAnswer = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKPHQ9AssessmentAnswer x)
-  fromOwned x = pure (HKPHQ9AssessmentAnswer x)
-
--- | HKPHQ9AssessmentRisk
---
--- Depression risk level determined by PHQ-9 assessment.
--- | @HKPHQ9AssessmentRisk@
-newtype HKPHQ9AssessmentRisk = HKPHQ9AssessmentRisk CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKPHQ9AssessmentRiskNoneToMinimal :: HKPHQ9AssessmentRisk
-pattern HKPHQ9AssessmentRiskNoneToMinimal = HKPHQ9AssessmentRisk 1
-
-pattern HKPHQ9AssessmentRiskMild :: HKPHQ9AssessmentRisk
-pattern HKPHQ9AssessmentRiskMild = HKPHQ9AssessmentRisk 2
-
-pattern HKPHQ9AssessmentRiskModerate :: HKPHQ9AssessmentRisk
-pattern HKPHQ9AssessmentRiskModerate = HKPHQ9AssessmentRisk 3
-
-pattern HKPHQ9AssessmentRiskModeratelySevere :: HKPHQ9AssessmentRisk
-pattern HKPHQ9AssessmentRiskModeratelySevere = HKPHQ9AssessmentRisk 4
-
-pattern HKPHQ9AssessmentRiskSevere :: HKPHQ9AssessmentRisk
-pattern HKPHQ9AssessmentRiskSevere = HKPHQ9AssessmentRisk 5
-
-instance ObjCArgument HKPHQ9AssessmentRisk where
-  withObjCArg (HKPHQ9AssessmentRisk x) k = k (argCLong x)
-
-instance ObjCReturn HKPHQ9AssessmentRisk where
-  type RawReturn HKPHQ9AssessmentRisk = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKPHQ9AssessmentRisk x)
-  fromOwned x = pure (HKPHQ9AssessmentRisk x)
-
--- | HKPhysicalEffortEstimationType
---
--- Represents the estimation used to create a Physical Effort Sample.
---
--- HKPhysicalEffortEstimationTypeActivityLookup    Indicates the value was calculated based on external
---
--- standard such as a stationary bike
---
--- HKPhysicalEffortEstimationTypeDeviceSensed      Indicates the value was calculated based on movement
---
--- signals (walking, running etc.)
--- | @HKPhysicalEffortEstimationType@
-newtype HKPhysicalEffortEstimationType = HKPhysicalEffortEstimationType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKPhysicalEffortEstimationTypeActivityLookup :: HKPhysicalEffortEstimationType
-pattern HKPhysicalEffortEstimationTypeActivityLookup = HKPhysicalEffortEstimationType 1
-
-pattern HKPhysicalEffortEstimationTypeDeviceSensed :: HKPhysicalEffortEstimationType
-pattern HKPhysicalEffortEstimationTypeDeviceSensed = HKPhysicalEffortEstimationType 2
-
-instance ObjCArgument HKPhysicalEffortEstimationType where
-  withObjCArg (HKPhysicalEffortEstimationType x) k = k (argCLong x)
-
-instance ObjCReturn HKPhysicalEffortEstimationType where
-  type RawReturn HKPhysicalEffortEstimationType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKPhysicalEffortEstimationType x)
-  fromOwned x = pure (HKPhysicalEffortEstimationType x)
 
 -- | HKPrismBase
 --
@@ -1848,273 +1431,6 @@ instance ObjCReturn HKQueryOptions where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKQueryOptions x)
   fromOwned x = pure (HKQueryOptions x)
-
--- | HKStateOfMindAssociation
---
--- A general facet of life with which a felt experience may be associated.
--- | @HKStateOfMindAssociation@
-newtype HKStateOfMindAssociation = HKStateOfMindAssociation CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKStateOfMindAssociationCommunity :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationCommunity = HKStateOfMindAssociation 1
-
-pattern HKStateOfMindAssociationCurrentEvents :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationCurrentEvents = HKStateOfMindAssociation 2
-
-pattern HKStateOfMindAssociationDating :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationDating = HKStateOfMindAssociation 3
-
-pattern HKStateOfMindAssociationEducation :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationEducation = HKStateOfMindAssociation 4
-
-pattern HKStateOfMindAssociationFamily :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationFamily = HKStateOfMindAssociation 5
-
-pattern HKStateOfMindAssociationFitness :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationFitness = HKStateOfMindAssociation 6
-
-pattern HKStateOfMindAssociationFriends :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationFriends = HKStateOfMindAssociation 7
-
-pattern HKStateOfMindAssociationHealth :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationHealth = HKStateOfMindAssociation 8
-
-pattern HKStateOfMindAssociationHobbies :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationHobbies = HKStateOfMindAssociation 9
-
-pattern HKStateOfMindAssociationIdentity :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationIdentity = HKStateOfMindAssociation 10
-
-pattern HKStateOfMindAssociationMoney :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationMoney = HKStateOfMindAssociation 11
-
-pattern HKStateOfMindAssociationPartner :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationPartner = HKStateOfMindAssociation 12
-
-pattern HKStateOfMindAssociationSelfCare :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationSelfCare = HKStateOfMindAssociation 13
-
-pattern HKStateOfMindAssociationSpirituality :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationSpirituality = HKStateOfMindAssociation 14
-
-pattern HKStateOfMindAssociationTasks :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationTasks = HKStateOfMindAssociation 15
-
-pattern HKStateOfMindAssociationTravel :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationTravel = HKStateOfMindAssociation 16
-
-pattern HKStateOfMindAssociationWork :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationWork = HKStateOfMindAssociation 17
-
-pattern HKStateOfMindAssociationWeather :: HKStateOfMindAssociation
-pattern HKStateOfMindAssociationWeather = HKStateOfMindAssociation 18
-
-instance ObjCArgument HKStateOfMindAssociation where
-  withObjCArg (HKStateOfMindAssociation x) k = k (argCLong x)
-
-instance ObjCReturn HKStateOfMindAssociation where
-  type RawReturn HKStateOfMindAssociation = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKStateOfMindAssociation x)
-  fromOwned x = pure (HKStateOfMindAssociation x)
-
--- | HKStateOfMindKind
---
--- The kind of feeling type captured by a state of mind log, considering the period of time the reflection concerns.
--- | @HKStateOfMindKind@
-newtype HKStateOfMindKind = HKStateOfMindKind CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKStateOfMindKindMomentaryEmotion :: HKStateOfMindKind
-pattern HKStateOfMindKindMomentaryEmotion = HKStateOfMindKind 1
-
-pattern HKStateOfMindKindDailyMood :: HKStateOfMindKind
-pattern HKStateOfMindKindDailyMood = HKStateOfMindKind 2
-
-instance ObjCArgument HKStateOfMindKind where
-  withObjCArg (HKStateOfMindKind x) k = k (argCLong x)
-
-instance ObjCReturn HKStateOfMindKind where
-  type RawReturn HKStateOfMindKind = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKStateOfMindKind x)
-  fromOwned x = pure (HKStateOfMindKind x)
-
--- | HKStateOfMindLabel
---
--- A specific word describing a felt experience.
--- | @HKStateOfMindLabel@
-newtype HKStateOfMindLabel = HKStateOfMindLabel CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKStateOfMindLabelAmazed :: HKStateOfMindLabel
-pattern HKStateOfMindLabelAmazed = HKStateOfMindLabel 1
-
-pattern HKStateOfMindLabelAmused :: HKStateOfMindLabel
-pattern HKStateOfMindLabelAmused = HKStateOfMindLabel 2
-
-pattern HKStateOfMindLabelAngry :: HKStateOfMindLabel
-pattern HKStateOfMindLabelAngry = HKStateOfMindLabel 3
-
-pattern HKStateOfMindLabelAnxious :: HKStateOfMindLabel
-pattern HKStateOfMindLabelAnxious = HKStateOfMindLabel 4
-
-pattern HKStateOfMindLabelAshamed :: HKStateOfMindLabel
-pattern HKStateOfMindLabelAshamed = HKStateOfMindLabel 5
-
-pattern HKStateOfMindLabelBrave :: HKStateOfMindLabel
-pattern HKStateOfMindLabelBrave = HKStateOfMindLabel 6
-
-pattern HKStateOfMindLabelCalm :: HKStateOfMindLabel
-pattern HKStateOfMindLabelCalm = HKStateOfMindLabel 7
-
-pattern HKStateOfMindLabelContent :: HKStateOfMindLabel
-pattern HKStateOfMindLabelContent = HKStateOfMindLabel 8
-
-pattern HKStateOfMindLabelDisappointed :: HKStateOfMindLabel
-pattern HKStateOfMindLabelDisappointed = HKStateOfMindLabel 9
-
-pattern HKStateOfMindLabelDiscouraged :: HKStateOfMindLabel
-pattern HKStateOfMindLabelDiscouraged = HKStateOfMindLabel 10
-
-pattern HKStateOfMindLabelDisgusted :: HKStateOfMindLabel
-pattern HKStateOfMindLabelDisgusted = HKStateOfMindLabel 11
-
-pattern HKStateOfMindLabelEmbarrassed :: HKStateOfMindLabel
-pattern HKStateOfMindLabelEmbarrassed = HKStateOfMindLabel 12
-
-pattern HKStateOfMindLabelExcited :: HKStateOfMindLabel
-pattern HKStateOfMindLabelExcited = HKStateOfMindLabel 13
-
-pattern HKStateOfMindLabelFrustrated :: HKStateOfMindLabel
-pattern HKStateOfMindLabelFrustrated = HKStateOfMindLabel 14
-
-pattern HKStateOfMindLabelGrateful :: HKStateOfMindLabel
-pattern HKStateOfMindLabelGrateful = HKStateOfMindLabel 15
-
-pattern HKStateOfMindLabelGuilty :: HKStateOfMindLabel
-pattern HKStateOfMindLabelGuilty = HKStateOfMindLabel 16
-
-pattern HKStateOfMindLabelHappy :: HKStateOfMindLabel
-pattern HKStateOfMindLabelHappy = HKStateOfMindLabel 17
-
-pattern HKStateOfMindLabelHopeless :: HKStateOfMindLabel
-pattern HKStateOfMindLabelHopeless = HKStateOfMindLabel 18
-
-pattern HKStateOfMindLabelIrritated :: HKStateOfMindLabel
-pattern HKStateOfMindLabelIrritated = HKStateOfMindLabel 19
-
-pattern HKStateOfMindLabelJealous :: HKStateOfMindLabel
-pattern HKStateOfMindLabelJealous = HKStateOfMindLabel 20
-
-pattern HKStateOfMindLabelJoyful :: HKStateOfMindLabel
-pattern HKStateOfMindLabelJoyful = HKStateOfMindLabel 21
-
-pattern HKStateOfMindLabelLonely :: HKStateOfMindLabel
-pattern HKStateOfMindLabelLonely = HKStateOfMindLabel 22
-
-pattern HKStateOfMindLabelPassionate :: HKStateOfMindLabel
-pattern HKStateOfMindLabelPassionate = HKStateOfMindLabel 23
-
-pattern HKStateOfMindLabelPeaceful :: HKStateOfMindLabel
-pattern HKStateOfMindLabelPeaceful = HKStateOfMindLabel 24
-
-pattern HKStateOfMindLabelProud :: HKStateOfMindLabel
-pattern HKStateOfMindLabelProud = HKStateOfMindLabel 25
-
-pattern HKStateOfMindLabelRelieved :: HKStateOfMindLabel
-pattern HKStateOfMindLabelRelieved = HKStateOfMindLabel 26
-
-pattern HKStateOfMindLabelSad :: HKStateOfMindLabel
-pattern HKStateOfMindLabelSad = HKStateOfMindLabel 27
-
-pattern HKStateOfMindLabelScared :: HKStateOfMindLabel
-pattern HKStateOfMindLabelScared = HKStateOfMindLabel 28
-
-pattern HKStateOfMindLabelStressed :: HKStateOfMindLabel
-pattern HKStateOfMindLabelStressed = HKStateOfMindLabel 29
-
-pattern HKStateOfMindLabelSurprised :: HKStateOfMindLabel
-pattern HKStateOfMindLabelSurprised = HKStateOfMindLabel 30
-
-pattern HKStateOfMindLabelWorried :: HKStateOfMindLabel
-pattern HKStateOfMindLabelWorried = HKStateOfMindLabel 31
-
-pattern HKStateOfMindLabelAnnoyed :: HKStateOfMindLabel
-pattern HKStateOfMindLabelAnnoyed = HKStateOfMindLabel 32
-
-pattern HKStateOfMindLabelConfident :: HKStateOfMindLabel
-pattern HKStateOfMindLabelConfident = HKStateOfMindLabel 33
-
-pattern HKStateOfMindLabelDrained :: HKStateOfMindLabel
-pattern HKStateOfMindLabelDrained = HKStateOfMindLabel 34
-
-pattern HKStateOfMindLabelHopeful :: HKStateOfMindLabel
-pattern HKStateOfMindLabelHopeful = HKStateOfMindLabel 35
-
-pattern HKStateOfMindLabelIndifferent :: HKStateOfMindLabel
-pattern HKStateOfMindLabelIndifferent = HKStateOfMindLabel 36
-
-pattern HKStateOfMindLabelOverwhelmed :: HKStateOfMindLabel
-pattern HKStateOfMindLabelOverwhelmed = HKStateOfMindLabel 37
-
-pattern HKStateOfMindLabelSatisfied :: HKStateOfMindLabel
-pattern HKStateOfMindLabelSatisfied = HKStateOfMindLabel 38
-
-instance ObjCArgument HKStateOfMindLabel where
-  withObjCArg (HKStateOfMindLabel x) k = k (argCLong x)
-
-instance ObjCReturn HKStateOfMindLabel where
-  type RawReturn HKStateOfMindLabel = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKStateOfMindLabel x)
-  fromOwned x = pure (HKStateOfMindLabel x)
-
--- | HKStateOfMindValenceClassification
---
--- A general region of pleasantness derived from valence logged on a state of mind sample.
--- | @HKStateOfMindValenceClassification@
-newtype HKStateOfMindValenceClassification = HKStateOfMindValenceClassification CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKStateOfMindValenceClassificationVeryUnpleasant :: HKStateOfMindValenceClassification
-pattern HKStateOfMindValenceClassificationVeryUnpleasant = HKStateOfMindValenceClassification 1
-
-pattern HKStateOfMindValenceClassificationUnpleasant :: HKStateOfMindValenceClassification
-pattern HKStateOfMindValenceClassificationUnpleasant = HKStateOfMindValenceClassification 2
-
-pattern HKStateOfMindValenceClassificationSlightlyUnpleasant :: HKStateOfMindValenceClassification
-pattern HKStateOfMindValenceClassificationSlightlyUnpleasant = HKStateOfMindValenceClassification 3
-
-pattern HKStateOfMindValenceClassificationNeutral :: HKStateOfMindValenceClassification
-pattern HKStateOfMindValenceClassificationNeutral = HKStateOfMindValenceClassification 4
-
-pattern HKStateOfMindValenceClassificationSlightlyPleasant :: HKStateOfMindValenceClassification
-pattern HKStateOfMindValenceClassificationSlightlyPleasant = HKStateOfMindValenceClassification 5
-
-pattern HKStateOfMindValenceClassificationPleasant :: HKStateOfMindValenceClassification
-pattern HKStateOfMindValenceClassificationPleasant = HKStateOfMindValenceClassification 6
-
-pattern HKStateOfMindValenceClassificationVeryPleasant :: HKStateOfMindValenceClassification
-pattern HKStateOfMindValenceClassificationVeryPleasant = HKStateOfMindValenceClassification 7
-
-instance ObjCArgument HKStateOfMindValenceClassification where
-  withObjCArg (HKStateOfMindValenceClassification x) k = k (argCLong x)
-
-instance ObjCReturn HKStateOfMindValenceClassification where
-  type RawReturn HKStateOfMindValenceClassification = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKStateOfMindValenceClassification x)
-  fromOwned x = pure (HKStateOfMindValenceClassification x)
 
 -- | HKStatisticsOptions
 --
@@ -2282,21 +1598,11 @@ instance ObjCReturn HKUserMotionContext where
 --
 -- Represents the test used to create a VO2 Max Sample.
 --
--- HKVO2MaxTestTypeMaxExercise                 The user was exerted to their physical limit to evaluate and
+-- HKVO2MaxTestTypeMaxExercise                      The user was exerted to their physical limit to evaluate and measure actual VO2Max.
 --
--- measure actual VO2Max.
+-- HKVO2MaxTestTypePredictionSubMaxExercise         A specific test protocol was used to calculate and correlate a predicted VO2Max.
 --
--- HKVO2MaxTestTypePredictionSubMaxExercise    A specific test protocol was used to calculate and correlate
---
--- a predicted VO2Max.
---
--- HKVO2MaxTestTypePredictionNonExercise       A non-exercise equation was used based on user metrics to
---
--- calculate a predicted VO2Max.
---
--- HKVO2MaxTestTypePredictionStepTest          The step test protocol was used to calculate and correlate a
---
--- predicted VO2Max.
+-- HKVO2MaxTestTypePredictionNonExercise            A non-exercise equation was used based on user metrics to calculate a predicted VO2Max.
 -- | @HKVO2MaxTestType@
 newtype HKVO2MaxTestType = HKVO2MaxTestType CLong
   deriving stock (Eq, Ord, Show)
@@ -2310,9 +1616,6 @@ pattern HKVO2MaxTestTypePredictionSubMaxExercise = HKVO2MaxTestType 2
 
 pattern HKVO2MaxTestTypePredictionNonExercise :: HKVO2MaxTestType
 pattern HKVO2MaxTestTypePredictionNonExercise = HKVO2MaxTestType 3
-
-pattern HKVO2MaxTestTypePredictionStepTest :: HKVO2MaxTestType
-pattern HKVO2MaxTestTypePredictionStepTest = HKVO2MaxTestType 4
 
 instance ObjCArgument HKVO2MaxTestType where
   withObjCArg (HKVO2MaxTestType x) k = k (argCLong x)
@@ -2371,32 +1674,6 @@ instance ObjCReturn HKVisionPrescriptionType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKVisionPrescriptionType x)
   fromOwned x = pure (HKVisionPrescriptionType x)
-
--- | HKWaterSalinity
---
--- Represents the water salinity for an underwater depth or water temperature sample.
---
--- This value indicates the water salinity
--- | @HKWaterSalinity@
-newtype HKWaterSalinity = HKWaterSalinity CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKWaterSalinityFreshWater :: HKWaterSalinity
-pattern HKWaterSalinityFreshWater = HKWaterSalinity 1
-
-pattern HKWaterSalinitySaltWater :: HKWaterSalinity
-pattern HKWaterSalinitySaltWater = HKWaterSalinity 2
-
-instance ObjCArgument HKWaterSalinity where
-  withObjCArg (HKWaterSalinity x) k = k (argCLong x)
-
-instance ObjCReturn HKWaterSalinity where
-  type RawReturn HKWaterSalinity = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKWaterSalinity x)
-  fromOwned x = pure (HKWaterSalinity x)
 
 -- | @HKWeatherCondition@
 newtype HKWeatherCondition = HKWeatherCondition CLong
@@ -2501,9 +1778,9 @@ instance ObjCReturn HKWeatherCondition where
 --
 -- This enumerated type is used to represent whether the user uses a wheelchair.
 --
--- HKWheelchairUseNo   The user does not use a wheelchair.
+-- HKWheelchairUseNo      The user does not use a wheelchair.
 --
--- HKWheelchairUseYes  The user does use a wheelchair.
+-- HKWheelchairUseYes     The user does use a wheelchair.
 -- | @HKWheelchairUse@
 newtype HKWheelchairUse = HKWheelchairUse CLong
   deriving stock (Eq, Ord, Show)
@@ -2782,9 +2059,6 @@ pattern HKWorkoutActivityTypeSwimBikeRun = HKWorkoutActivityType 82
 pattern HKWorkoutActivityTypeTransition :: HKWorkoutActivityType
 pattern HKWorkoutActivityTypeTransition = HKWorkoutActivityType 83
 
-pattern HKWorkoutActivityTypeUnderwaterDiving :: HKWorkoutActivityType
-pattern HKWorkoutActivityTypeUnderwaterDiving = HKWorkoutActivityType 84
-
 pattern HKWorkoutActivityTypeOther :: HKWorkoutActivityType
 pattern HKWorkoutActivityTypeOther = HKWorkoutActivityType 3000
 
@@ -2797,34 +2071,6 @@ instance ObjCReturn HKWorkoutActivityType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKWorkoutActivityType x)
   fromOwned x = pure (HKWorkoutActivityType x)
-
--- | HKWorkoutEffortRelationshipQueryOptions
---
--- Option for specifying which workout effort relationship sample(s) to retrieve
---
--- HKWorkoutEffortRelationshipQueryOptionsDefault
---
--- HKWorkoutEffortRelationshipQueryOptionsMostRelevant The most relevant sample will be returned
--- | @HKWorkoutEffortRelationshipQueryOptions@
-newtype HKWorkoutEffortRelationshipQueryOptions = HKWorkoutEffortRelationshipQueryOptions CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKWorkoutEffortRelationshipQueryOptionsDefault :: HKWorkoutEffortRelationshipQueryOptions
-pattern HKWorkoutEffortRelationshipQueryOptionsDefault = HKWorkoutEffortRelationshipQueryOptions 0
-
-pattern HKWorkoutEffortRelationshipQueryOptionsMostRelevant :: HKWorkoutEffortRelationshipQueryOptions
-pattern HKWorkoutEffortRelationshipQueryOptionsMostRelevant = HKWorkoutEffortRelationshipQueryOptions 1
-
-instance ObjCArgument HKWorkoutEffortRelationshipQueryOptions where
-  withObjCArg (HKWorkoutEffortRelationshipQueryOptions x) k = k (argCLong x)
-
-instance ObjCReturn HKWorkoutEffortRelationshipQueryOptions where
-  type RawReturn HKWorkoutEffortRelationshipQueryOptions = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKWorkoutEffortRelationshipQueryOptions x)
-  fromOwned x = pure (HKWorkoutEffortRelationshipQueryOptions x)
 
 -- | @HKWorkoutEventType@
 newtype HKWorkoutEventType = HKWorkoutEventType CLong
@@ -2929,34 +2175,6 @@ instance ObjCReturn HKWorkoutSessionState where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (HKWorkoutSessionState x)
   fromOwned x = pure (HKWorkoutSessionState x)
-
--- | HKWorkoutSessionType
---
--- This enumerated type is used to represent the type of a workout session.
---
--- HKWorkoutSessionTypePrimary      Represents a workout session running locally on the current device.
---
--- HKWorkoutSessionTypeMirrored     Represents a workout session being mirrored from a different device.
--- | @HKWorkoutSessionType@
-newtype HKWorkoutSessionType = HKWorkoutSessionType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern HKWorkoutSessionTypePrimary :: HKWorkoutSessionType
-pattern HKWorkoutSessionTypePrimary = HKWorkoutSessionType 0
-
-pattern HKWorkoutSessionTypeMirrored :: HKWorkoutSessionType
-pattern HKWorkoutSessionTypeMirrored = HKWorkoutSessionType 1
-
-instance ObjCArgument HKWorkoutSessionType where
-  withObjCArg (HKWorkoutSessionType x) k = k (argCLong x)
-
-instance ObjCReturn HKWorkoutSessionType where
-  type RawReturn HKWorkoutSessionType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (HKWorkoutSessionType x)
-  fromOwned x = pure (HKWorkoutSessionType x)
 
 -- | HKWorkoutSwimmingLocationType
 --

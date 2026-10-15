@@ -3,56 +3,54 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster OTA Software Update Provider
+-- | Cluster OTA Software Update Provider    Provides an interface for providing OTA software updates
 --
--- Provides an interface for providing OTA software updates
---
--- Generated bindings for @MTRBaseClusterOTASoftwareUpdateProvider@.
-module ObjC.Matter.MTRBaseClusterOTASoftwareUpdateProvider
-  ( MTRBaseClusterOTASoftwareUpdateProvider
-  , IsMTRBaseClusterOTASoftwareUpdateProvider(..)
-  , queryImageWithParams_completion
-  , applyUpdateRequestWithParams_completion
-  , notifyUpdateAppliedWithParams_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
+-- Generated bindings for @MTRBaseClusterOtaSoftwareUpdateProvider@.
+module ObjC.Matter.MTRBaseClusterOtaSoftwareUpdateProvider
+  ( MTRBaseClusterOtaSoftwareUpdateProvider
+  , IsMTRBaseClusterOtaSoftwareUpdateProvider(..)
+  , initWithDevice_endpoint_queue
+  , queryImageWithParams_completionHandler
+  , applyUpdateRequestWithParams_completionHandler
+  , notifyUpdateAppliedWithParams_completionHandler
+  , readAttributeGeneratedCommandListWithCompletionHandler
+  , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
+  , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandler
+  , readAttributeAcceptedCommandListWithCompletionHandler
+  , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
+  , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandler
+  , readAttributeAttributeListWithCompletionHandler
+  , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
+  , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandler
+  , readAttributeFeatureMapWithCompletionHandler
+  , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
+  , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandler
+  , readAttributeClusterRevisionWithCompletionHandler
+  , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
+  , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
   , init_
   , new
-  , initWithDevice_endpointID_queue
-  , applyUpdateRequestWithParams_completionSelector
+  , applyUpdateRequestWithParams_completionHandlerSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
+  , initWithDevice_endpoint_queueSelector
   , newSelector
-  , notifyUpdateAppliedWithParams_completionSelector
-  , queryImageWithParams_completionSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeAttributeListWithCompletionSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeClusterRevisionWithCompletionSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeFeatureMapWithCompletionSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
+  , notifyUpdateAppliedWithParams_completionHandlerSelector
+  , queryImageWithParams_completionHandlerSelector
+  , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
+  , readAttributeAcceptedCommandListWithCompletionHandlerSelector
+  , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
+  , readAttributeAttributeListWithCompletionHandlerSelector
+  , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
+  , readAttributeClusterRevisionWithCompletionHandlerSelector
+  , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
+  , readAttributeFeatureMapWithCompletionHandlerSelector
+  , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
+  , readAttributeGeneratedCommandListWithCompletionHandlerSelector
+  , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
+  , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
+  , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
+  , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
+  , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
 
 
   ) where
@@ -68,222 +66,218 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Command QueryImage
---
--- Determine availability of a new Software Image
---
--- ObjC selector: @- queryImageWithParams:completion:@
-queryImageWithParams_completion :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTROTASoftwareUpdateProviderClusterQueryImageParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> IO ()
-queryImageWithParams_completion mtrBaseClusterOTASoftwareUpdateProvider params completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider queryImageWithParams_completionSelector (toMTROTASoftwareUpdateProviderClusterQueryImageParams params) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterOtaSoftwareUpdateProvider -> device -> CUShort -> queue -> IO (Id MTRBaseClusterOtaSoftwareUpdateProvider)
+initWithDevice_endpoint_queue mtrBaseClusterOtaSoftwareUpdateProvider device endpoint queue =
+  sendOwnedMessage mtrBaseClusterOtaSoftwareUpdateProvider initWithDevice_endpoint_queueSelector (toMTRBaseDevice device) endpoint (toNSObject queue)
 
--- | Command ApplyUpdateRequest
---
--- Determine next action to take for a downloaded Software Image
---
--- ObjC selector: @- applyUpdateRequestWithParams:completion:@
-applyUpdateRequestWithParams_completion :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> IO ()
-applyUpdateRequestWithParams_completion mtrBaseClusterOTASoftwareUpdateProvider params completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider applyUpdateRequestWithParams_completionSelector (toMTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams params) completion
+-- | @- queryImageWithParams:completionHandler:@
+queryImageWithParams_completionHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsMTROtaSoftwareUpdateProviderClusterQueryImageParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> params -> Ptr () -> IO ()
+queryImageWithParams_completionHandler mtrBaseClusterOtaSoftwareUpdateProvider params completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider queryImageWithParams_completionHandlerSelector (toMTROtaSoftwareUpdateProviderClusterQueryImageParams params) completionHandler
 
--- | Command NotifyUpdateApplied
+-- | @- applyUpdateRequestWithParams:completionHandler:@
+applyUpdateRequestWithParams_completionHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> params -> Ptr () -> IO ()
+applyUpdateRequestWithParams_completionHandler mtrBaseClusterOtaSoftwareUpdateProvider params completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider applyUpdateRequestWithParams_completionHandlerSelector (toMTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams params) completionHandler
+
+-- | @- notifyUpdateAppliedWithParams:completionHandler:@
+notifyUpdateAppliedWithParams_completionHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsMTROtaSoftwareUpdateProviderClusterNotifyUpdateAppliedParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> params -> Ptr () -> IO ()
+notifyUpdateAppliedWithParams_completionHandler mtrBaseClusterOtaSoftwareUpdateProvider params completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider notifyUpdateAppliedWithParams_completionHandlerSelector (toMTROtaSoftwareUpdateProviderClusterNotifyUpdateAppliedParams params) completionHandler
+
+-- | @- readAttributeGeneratedCommandListWithCompletionHandler:@
+readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider => mtrBaseClusterOtaSoftwareUpdateProvider -> Ptr () -> IO ()
+readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterOtaSoftwareUpdateProvider completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
+
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
 --
--- Notify OTA Provider that an update was applied
---
--- ObjC selector: @- notifyUpdateAppliedWithParams:completion:@
-notifyUpdateAppliedWithParams_completion :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTROTASoftwareUpdateProviderClusterNotifyUpdateAppliedParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> IO ()
-notifyUpdateAppliedWithParams_completion mtrBaseClusterOTASoftwareUpdateProvider params completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider notifyUpdateAppliedWithParams_completionSelector (toMTROTASoftwareUpdateProviderClusterNotifyUpdateAppliedParams params) completion
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
+subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterOtaSoftwareUpdateProvider minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
 
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider => mtrBaseClusterOTASoftwareUpdateProvider -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterOTASoftwareUpdateProvider completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTRSubscribeParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterOTASoftwareUpdateProvider params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
+-- | @+ readAttributeGeneratedCommandListWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandler :: (IsMTRAttributeCacheContainer attributeCacheContainer, IsNSNumber endpoint, IsNSObject queue) => attributeCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
+readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandler attributeCacheContainer endpoint queue completionHandler =
   do
-    cls' <- getRequiredClass "MTRBaseClusterOTASoftwareUpdateProvider"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
+    cls' <- getRequiredClass "MTRBaseClusterOtaSoftwareUpdateProvider"
+    sendClassMessage cls' readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider => mtrBaseClusterOTASoftwareUpdateProvider -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterOTASoftwareUpdateProvider completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider readAttributeAcceptedCommandListWithCompletionSelector completion
+-- | @- readAttributeAcceptedCommandListWithCompletionHandler:@
+readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider => mtrBaseClusterOtaSoftwareUpdateProvider -> Ptr () -> IO ()
+readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterOtaSoftwareUpdateProvider completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTRSubscribeParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterOTASoftwareUpdateProvider params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
+subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterOtaSoftwareUpdateProvider minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
 
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
+-- | @+ readAttributeAcceptedCommandListWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandler :: (IsMTRAttributeCacheContainer attributeCacheContainer, IsNSNumber endpoint, IsNSObject queue) => attributeCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
+readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandler attributeCacheContainer endpoint queue completionHandler =
   do
-    cls' <- getRequiredClass "MTRBaseClusterOTASoftwareUpdateProvider"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
+    cls' <- getRequiredClass "MTRBaseClusterOtaSoftwareUpdateProvider"
+    sendClassMessage cls' readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider => mtrBaseClusterOTASoftwareUpdateProvider -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterOTASoftwareUpdateProvider completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider readAttributeAttributeListWithCompletionSelector completion
+-- | @- readAttributeAttributeListWithCompletionHandler:@
+readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider => mtrBaseClusterOtaSoftwareUpdateProvider -> Ptr () -> IO ()
+readAttributeAttributeListWithCompletionHandler mtrBaseClusterOtaSoftwareUpdateProvider completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTRSubscribeParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterOTASoftwareUpdateProvider params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
+subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterOtaSoftwareUpdateProvider minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
 
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
+-- | @+ readAttributeAttributeListWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandler :: (IsMTRAttributeCacheContainer attributeCacheContainer, IsNSNumber endpoint, IsNSObject queue) => attributeCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
+readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandler attributeCacheContainer endpoint queue completionHandler =
   do
-    cls' <- getRequiredClass "MTRBaseClusterOTASoftwareUpdateProvider"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
+    cls' <- getRequiredClass "MTRBaseClusterOtaSoftwareUpdateProvider"
+    sendClassMessage cls' readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider => mtrBaseClusterOTASoftwareUpdateProvider -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterOTASoftwareUpdateProvider completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider readAttributeFeatureMapWithCompletionSelector completion
+-- | @- readAttributeFeatureMapWithCompletionHandler:@
+readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider => mtrBaseClusterOtaSoftwareUpdateProvider -> Ptr () -> IO ()
+readAttributeFeatureMapWithCompletionHandler mtrBaseClusterOtaSoftwareUpdateProvider completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTRSubscribeParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterOTASoftwareUpdateProvider params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
+subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterOtaSoftwareUpdateProvider minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
 
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
+-- | @+ readAttributeFeatureMapWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandler :: (IsMTRAttributeCacheContainer attributeCacheContainer, IsNSNumber endpoint, IsNSObject queue) => attributeCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
+readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandler attributeCacheContainer endpoint queue completionHandler =
   do
-    cls' <- getRequiredClass "MTRBaseClusterOTASoftwareUpdateProvider"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
+    cls' <- getRequiredClass "MTRBaseClusterOtaSoftwareUpdateProvider"
+    sendClassMessage cls' readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider => mtrBaseClusterOTASoftwareUpdateProvider -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterOTASoftwareUpdateProvider completion =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider readAttributeClusterRevisionWithCompletionSelector completion
+-- | @- readAttributeClusterRevisionWithCompletionHandler:@
+readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider => mtrBaseClusterOtaSoftwareUpdateProvider -> Ptr () -> IO ()
+readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterOtaSoftwareUpdateProvider completionHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTRSubscribeParams params) => mtrBaseClusterOTASoftwareUpdateProvider -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterOTASoftwareUpdateProvider params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterOTASoftwareUpdateProvider subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterOtaSoftwareUpdateProvider -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
+subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterOtaSoftwareUpdateProvider minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
+  sendMessage mtrBaseClusterOtaSoftwareUpdateProvider subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
 
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
+-- | @+ readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler :: (IsMTRAttributeCacheContainer attributeCacheContainer, IsNSNumber endpoint, IsNSObject queue) => attributeCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
+readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler attributeCacheContainer endpoint queue completionHandler =
   do
-    cls' <- getRequiredClass "MTRBaseClusterOTASoftwareUpdateProvider"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
+    cls' <- getRequiredClass "MTRBaseClusterOtaSoftwareUpdateProvider"
+    sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
 -- | @- init@
-init_ :: IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider => mtrBaseClusterOTASoftwareUpdateProvider -> IO (Id MTRBaseClusterOTASoftwareUpdateProvider)
-init_ mtrBaseClusterOTASoftwareUpdateProvider =
-  sendOwnedMessage mtrBaseClusterOTASoftwareUpdateProvider initSelector
+init_ :: IsMTRBaseClusterOtaSoftwareUpdateProvider mtrBaseClusterOtaSoftwareUpdateProvider => mtrBaseClusterOtaSoftwareUpdateProvider -> IO (Id MTRBaseClusterOtaSoftwareUpdateProvider)
+init_ mtrBaseClusterOtaSoftwareUpdateProvider =
+  sendOwnedMessage mtrBaseClusterOtaSoftwareUpdateProvider initSelector
 
 -- | @+ new@
-new :: IO (Id MTRBaseClusterOTASoftwareUpdateProvider)
+new :: IO (Id MTRBaseClusterOtaSoftwareUpdateProvider)
 new  =
   do
-    cls' <- getRequiredClass "MTRBaseClusterOTASoftwareUpdateProvider"
+    cls' <- getRequiredClass "MTRBaseClusterOtaSoftwareUpdateProvider"
     sendOwnedClassMessage cls' newSelector
-
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterOTASoftwareUpdateProvider mtrBaseClusterOTASoftwareUpdateProvider, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterOTASoftwareUpdateProvider -> device -> endpointID -> queue -> IO (Id MTRBaseClusterOTASoftwareUpdateProvider)
-initWithDevice_endpointID_queue mtrBaseClusterOTASoftwareUpdateProvider device endpointID queue =
-  sendOwnedMessage mtrBaseClusterOTASoftwareUpdateProvider initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @queryImageWithParams:completion:@
-queryImageWithParams_completionSelector :: Selector '[Id MTROTASoftwareUpdateProviderClusterQueryImageParams, Ptr ()] ()
-queryImageWithParams_completionSelector = mkSelector "queryImageWithParams:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterOtaSoftwareUpdateProvider)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @applyUpdateRequestWithParams:completion:@
-applyUpdateRequestWithParams_completionSelector :: Selector '[Id MTROTASoftwareUpdateProviderClusterApplyUpdateRequestParams, Ptr ()] ()
-applyUpdateRequestWithParams_completionSelector = mkSelector "applyUpdateRequestWithParams:completion:"
+-- | @Selector@ for @queryImageWithParams:completionHandler:@
+queryImageWithParams_completionHandlerSelector :: Selector '[Id MTROtaSoftwareUpdateProviderClusterQueryImageParams, Ptr ()] ()
+queryImageWithParams_completionHandlerSelector = mkSelector "queryImageWithParams:completionHandler:"
 
--- | @Selector@ for @notifyUpdateAppliedWithParams:completion:@
-notifyUpdateAppliedWithParams_completionSelector :: Selector '[Id MTROTASoftwareUpdateProviderClusterNotifyUpdateAppliedParams, Ptr ()] ()
-notifyUpdateAppliedWithParams_completionSelector = mkSelector "notifyUpdateAppliedWithParams:completion:"
+-- | @Selector@ for @applyUpdateRequestWithParams:completionHandler:@
+applyUpdateRequestWithParams_completionHandlerSelector :: Selector '[Id MTROtaSoftwareUpdateProviderClusterApplyUpdateRequestParams, Ptr ()] ()
+applyUpdateRequestWithParams_completionHandlerSelector = mkSelector "applyUpdateRequestWithParams:completionHandler:"
 
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
+-- | @Selector@ for @notifyUpdateAppliedWithParams:completionHandler:@
+notifyUpdateAppliedWithParams_completionHandlerSelector :: Selector '[Id MTROtaSoftwareUpdateProviderClusterNotifyUpdateAppliedParams, Ptr ()] ()
+notifyUpdateAppliedWithParams_completionHandlerSelector = mkSelector "notifyUpdateAppliedWithParams:completionHandler:"
 
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
+-- | @Selector@ for @readAttributeGeneratedCommandListWithCompletionHandler:@
+readAttributeGeneratedCommandListWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
+readAttributeGeneratedCommandListWithCompletionHandlerSelector = mkSelector "readAttributeGeneratedCommandListWithCompletionHandler:"
 
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
+-- | @Selector@ for @subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector :: Selector '[Id NSNumber, Id NSNumber, Id MTRSubscribeParams, Ptr (), Ptr ()] ()
+subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:"
 
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
+-- | @Selector@ for @readAttributeGeneratedCommandListWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
+readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeGeneratedCommandListWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
+-- | @Selector@ for @readAttributeAcceptedCommandListWithCompletionHandler:@
+readAttributeAcceptedCommandListWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
+readAttributeAcceptedCommandListWithCompletionHandlerSelector = mkSelector "readAttributeAcceptedCommandListWithCompletionHandler:"
 
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
+-- | @Selector@ for @subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector :: Selector '[Id NSNumber, Id NSNumber, Id MTRSubscribeParams, Ptr (), Ptr ()] ()
+subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:"
 
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
+-- | @Selector@ for @readAttributeAcceptedCommandListWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
+readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeAcceptedCommandListWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
+-- | @Selector@ for @readAttributeAttributeListWithCompletionHandler:@
+readAttributeAttributeListWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
+readAttributeAttributeListWithCompletionHandlerSelector = mkSelector "readAttributeAttributeListWithCompletionHandler:"
 
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
+-- | @Selector@ for @subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector :: Selector '[Id NSNumber, Id NSNumber, Id MTRSubscribeParams, Ptr (), Ptr ()] ()
+subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:"
 
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
+-- | @Selector@ for @readAttributeAttributeListWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
+readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeAttributeListWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
+-- | @Selector@ for @readAttributeFeatureMapWithCompletionHandler:@
+readAttributeFeatureMapWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
+readAttributeFeatureMapWithCompletionHandlerSelector = mkSelector "readAttributeFeatureMapWithCompletionHandler:"
 
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
+-- | @Selector@ for @subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector :: Selector '[Id NSNumber, Id NSNumber, Id MTRSubscribeParams, Ptr (), Ptr ()] ()
+subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:"
 
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
+-- | @Selector@ for @readAttributeFeatureMapWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
+readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeFeatureMapWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
+-- | @Selector@ for @readAttributeClusterRevisionWithCompletionHandler:@
+readAttributeClusterRevisionWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
+readAttributeClusterRevisionWithCompletionHandlerSelector = mkSelector "readAttributeClusterRevisionWithCompletionHandler:"
 
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
+-- | @Selector@ for @subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector :: Selector '[Id NSNumber, Id NSNumber, Id MTRSubscribeParams, Ptr (), Ptr ()] ()
+subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:"
+
+-- | @Selector@ for @readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:@
+readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
+readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
 -- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterOTASoftwareUpdateProvider)
+initSelector :: Selector '[] (Id MTRBaseClusterOtaSoftwareUpdateProvider)
 initSelector = mkSelector "init"
 
 -- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterOTASoftwareUpdateProvider)
+newSelector :: Selector '[] (Id MTRBaseClusterOtaSoftwareUpdateProvider)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterOTASoftwareUpdateProvider)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

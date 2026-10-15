@@ -4,11 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The class that defines the parameters for a single gate RNN operation.
---
--- Use this descriptor with the following ``MPSGraph`` methods: - ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:initState:descriptor:name:`` - ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:descriptor:name:`` - ``MPSGraph/singleGateRNNWithSourceTensor:recurrentWeight:inputWeight:bias:initState:mask:descriptor:name:`` - ``MPSGraph/singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:initState:descriptor:name:`` - ``MPSGraph/singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:inputWeight:bias:initState:descriptor:name:`` - ``MPSGraph/singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:inputWeight:bias:initState:mask:descriptor:name:`` - ``MPSGraph/singleGateRNNGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:stateGradient:inputWeight:bias:initState:mask:descriptor:name:``
---
--- Generated bindings for @MPSGraphSingleGateRNNDescriptor@.
+-- | Generated bindings for @MPSGraphSingleGateRNNDescriptor@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphSingleGateRNNDescriptor
   ( MPSGraphSingleGateRNNDescriptor
   , IsMPSGraphSingleGateRNNDescriptor(..)
@@ -53,81 +49,103 @@ import ObjC.MetalPerformanceShadersGraph.Internal.Classes
 import ObjC.MetalPerformanceShadersGraph.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a single gate RNN descriptor with default values.
---
--- ObjC selector: @+ descriptor@
+-- | @+ descriptor@
 descriptor :: IO (Id MPSGraphSingleGateRNNDescriptor)
 descriptor  =
   do
     cls' <- getRequiredClass "MPSGraphSingleGateRNNDescriptor"
     sendClassMessage cls' descriptorSelector
 
--- | A parameter that defines time direction of the input sequence.
+-- | reverse
 --
--- If set to @YES@ then the input sequence is passed in reverse time order to the layer. Note: Ignored when @bidirectional = YES@. Default value: @NO@.
+-- If set then the input sequence is passed in reverse time order to the layer.              Note: Ignored when
+--
+-- bidirectional = YES
+--
+-- .              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- reverse@
 reverse_ :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> IO Bool
 reverse_ mpsGraphSingleGateRNNDescriptor =
   sendMessage mpsGraphSingleGateRNNDescriptor reverseSelector
 
--- | A parameter that defines time direction of the input sequence.
+-- | reverse
 --
--- If set to @YES@ then the input sequence is passed in reverse time order to the layer. Note: Ignored when @bidirectional = YES@. Default value: @NO@.
+-- If set then the input sequence is passed in reverse time order to the layer.              Note: Ignored when
+--
+-- bidirectional = YES
+--
+-- .              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setReverse:@
 setReverse :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> Bool -> IO ()
 setReverse mpsGraphSingleGateRNNDescriptor value =
   sendMessage mpsGraphSingleGateRNNDescriptor setReverseSelector value
 
--- | A parameter that defines a bidirectional RNN layer.
+-- | bidirectional
 --
--- If set to @YES@ then the input sequence is traversed in both directions and the two results are concatenated together on the channel-axis. Default value: @NO@.
+-- If set then the input sequence is traversed in both directions and the two results              are concatenated together on the channel-axis.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- bidirectional@
 bidirectional :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> IO Bool
 bidirectional mpsGraphSingleGateRNNDescriptor =
   sendMessage mpsGraphSingleGateRNNDescriptor bidirectionalSelector
 
--- | A parameter that defines a bidirectional RNN layer.
+-- | bidirectional
 --
--- If set to @YES@ then the input sequence is traversed in both directions and the two results are concatenated together on the channel-axis. Default value: @NO@.
+-- If set then the input sequence is traversed in both directions and the two results              are concatenated together on the channel-axis.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setBidirectional:@
 setBidirectional :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> Bool -> IO ()
 setBidirectional mpsGraphSingleGateRNNDescriptor value =
   sendMessage mpsGraphSingleGateRNNDescriptor setBidirectionalSelector value
 
--- | A parameter that makes the RNN layer support training.
+-- | training
 --
--- If set to @YES@ then the layer will produce training state tensor as a secondary output. Default value: @NO@.
+-- If set then the layer will produce training state tensor as a secondary output.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- training@
 training :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> IO Bool
 training mpsGraphSingleGateRNNDescriptor =
   sendMessage mpsGraphSingleGateRNNDescriptor trainingSelector
 
--- | A parameter that makes the RNN layer support training.
+-- | training
 --
--- If set to @YES@ then the layer will produce training state tensor as a secondary output. Default value: @NO@.
+-- If set then the layer will produce training state tensor as a secondary output.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setTraining:@
 setTraining :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> Bool -> IO ()
 setTraining mpsGraphSingleGateRNNDescriptor value =
   sendMessage mpsGraphSingleGateRNNDescriptor setTrainingSelector value
 
--- | A parameter that defines the activation function to use with the RNN operation.
+-- | activation
 --
--- Default value: @MPSGraphRNNActivationRelu@.
+-- Activation function to use with the RNN op.              Default value:
+--
+-- MPSGraphRNNActivationRelu
 --
 -- ObjC selector: @- activation@
 activation :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> IO MPSGraphRNNActivation
 activation mpsGraphSingleGateRNNDescriptor =
   sendMessage mpsGraphSingleGateRNNDescriptor activationSelector
 
--- | A parameter that defines the activation function to use with the RNN operation.
+-- | activation
 --
--- Default value: @MPSGraphRNNActivationRelu@.
+-- Activation function to use with the RNN op.              Default value:
+--
+-- MPSGraphRNNActivationRelu
 --
 -- ObjC selector: @- setActivation:@
 setActivation :: IsMPSGraphSingleGateRNNDescriptor mpsGraphSingleGateRNNDescriptor => mpsGraphSingleGateRNNDescriptor -> MPSGraphRNNActivation -> IO ()

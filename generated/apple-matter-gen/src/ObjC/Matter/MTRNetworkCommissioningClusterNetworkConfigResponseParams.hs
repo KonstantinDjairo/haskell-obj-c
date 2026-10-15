@@ -7,30 +7,24 @@
 module ObjC.Matter.MTRNetworkCommissioningClusterNetworkConfigResponseParams
   ( MTRNetworkCommissioningClusterNetworkConfigResponseParams
   , IsMTRNetworkCommissioningClusterNetworkConfigResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , networkingStatus
   , setNetworkingStatus
   , debugText
   , setDebugText
   , networkIndex
   , setNetworkIndex
-  , clientIdentity
-  , setClientIdentity
-  , possessionSignature
-  , setPossessionSignature
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , clientIdentitySelector
+  , copyWithZoneSelector
   , debugTextSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , networkIndexSelector
   , networkingStatusSelector
-  , possessionSignatureSelector
-  , setClientIdentitySelector
   , setDebugTextSelector
   , setNetworkIndexSelector
   , setNetworkingStatusSelector
-  , setPossessionSignatureSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -48,16 +42,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRNetworkCommissioningClusterNetworkConfigResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> responseValue -> error_ -> IO (Id MTRNetworkCommissioningClusterNetworkConfigResponseParams)
-initWithResponseValue_error mtrNetworkCommissioningClusterNetworkConfigResponseParams responseValue error_ =
-  sendOwnedMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> IO (Id MTRNetworkCommissioningClusterNetworkConfigResponseParams)
+init_ mtrNetworkCommissioningClusterNetworkConfigResponseParams =
+  sendOwnedMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrNetworkCommissioningClusterNetworkConfigResponseParams zone =
+  sendOwnedMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams copyWithZoneSelector zone
 
 -- | @- networkingStatus@
 networkingStatus :: IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> IO (Id NSNumber)
@@ -89,26 +82,6 @@ setNetworkIndex :: (IsMTRNetworkCommissioningClusterNetworkConfigResponseParams 
 setNetworkIndex mtrNetworkCommissioningClusterNetworkConfigResponseParams value =
   sendMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams setNetworkIndexSelector (toNSNumber value)
 
--- | @- clientIdentity@
-clientIdentity :: IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> IO (Id NSData)
-clientIdentity mtrNetworkCommissioningClusterNetworkConfigResponseParams =
-  sendMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams clientIdentitySelector
-
--- | @- setClientIdentity:@
-setClientIdentity :: (IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams, IsNSData value) => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> value -> IO ()
-setClientIdentity mtrNetworkCommissioningClusterNetworkConfigResponseParams value =
-  sendMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams setClientIdentitySelector (toNSData value)
-
--- | @- possessionSignature@
-possessionSignature :: IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> IO (Id NSData)
-possessionSignature mtrNetworkCommissioningClusterNetworkConfigResponseParams =
-  sendMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams possessionSignatureSelector
-
--- | @- setPossessionSignature:@
-setPossessionSignature :: (IsMTRNetworkCommissioningClusterNetworkConfigResponseParams mtrNetworkCommissioningClusterNetworkConfigResponseParams, IsNSData value) => mtrNetworkCommissioningClusterNetworkConfigResponseParams -> value -> IO ()
-setPossessionSignature mtrNetworkCommissioningClusterNetworkConfigResponseParams value =
-  sendMessage mtrNetworkCommissioningClusterNetworkConfigResponseParams setPossessionSignatureSelector (toNSData value)
-
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
 -- If nil (the default value), a regular invoke is done for commands that do not require a timed invoke and a timed invoke with some default timed request timeout is done for commands that require a timed invoke.
@@ -135,9 +108,13 @@ setTimedInvokeTimeoutMs mtrNetworkCommissioningClusterNetworkConfigResponseParam
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRNetworkCommissioningClusterNetworkConfigResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRNetworkCommissioningClusterNetworkConfigResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @networkingStatus@
 networkingStatusSelector :: Selector '[] (Id NSNumber)
@@ -162,22 +139,6 @@ networkIndexSelector = mkSelector "networkIndex"
 -- | @Selector@ for @setNetworkIndex:@
 setNetworkIndexSelector :: Selector '[Id NSNumber] ()
 setNetworkIndexSelector = mkSelector "setNetworkIndex:"
-
--- | @Selector@ for @clientIdentity@
-clientIdentitySelector :: Selector '[] (Id NSData)
-clientIdentitySelector = mkSelector "clientIdentity"
-
--- | @Selector@ for @setClientIdentity:@
-setClientIdentitySelector :: Selector '[Id NSData] ()
-setClientIdentitySelector = mkSelector "setClientIdentity:"
-
--- | @Selector@ for @possessionSignature@
-possessionSignatureSelector :: Selector '[] (Id NSData)
-possessionSignatureSelector = mkSelector "possessionSignature"
-
--- | @Selector@ for @setPossessionSignature:@
-setPossessionSignatureSelector :: Selector '[Id NSData] ()
-setPossessionSignatureSelector = mkSelector "setPossessionSignature:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)

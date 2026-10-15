@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRModeSelectClusterSemanticTag
   ( MTRModeSelectClusterSemanticTag
   , IsMTRModeSelectClusterSemanticTag(..)
+  , init_
+  , copyWithZone
   , mfgCode
   , setMfgCode
   , value
   , setValue
+  , copyWithZoneSelector
+  , initSelector
   , mfgCodeSelector
   , setMfgCodeSelector
   , setValueSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRModeSelectClusterSemanticTag mtrModeSelectClusterSemanticTag => mtrModeSelectClusterSemanticTag -> IO (Id MTRModeSelectClusterSemanticTag)
+init_ mtrModeSelectClusterSemanticTag =
+  sendOwnedMessage mtrModeSelectClusterSemanticTag initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRModeSelectClusterSemanticTag mtrModeSelectClusterSemanticTag => mtrModeSelectClusterSemanticTag -> Ptr () -> IO RawId
+copyWithZone mtrModeSelectClusterSemanticTag zone =
+  sendOwnedMessage mtrModeSelectClusterSemanticTag copyWithZoneSelector zone
 
 -- | @- mfgCode@
 mfgCode :: IsMTRModeSelectClusterSemanticTag mtrModeSelectClusterSemanticTag => mtrModeSelectClusterSemanticTag -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setValue mtrModeSelectClusterSemanticTag value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRModeSelectClusterSemanticTag)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @mfgCode@
 mfgCodeSelector :: Selector '[] (Id NSNumber)

@@ -21,7 +21,6 @@ module ObjC.AppKit.NSResponder
   , otherMouseUp
   , mouseMoved
   , mouseDragged
-  , mouseCancelled
   , scrollWheel
   , rightMouseDragged
   , otherMouseDragged
@@ -46,7 +45,6 @@ module ObjC.AppKit.NSResponder
   , touchesCancelledWithEvent
   , quickLookWithEvent
   , pressureChangeWithEvent
-  , contextMenuKeyDown
   , noResponderFor
   , becomeFirstResponder
   , resignFirstResponder
@@ -68,7 +66,6 @@ module ObjC.AppKit.NSResponder
   , makeTouchBar
   , updateUserActivityState
   , performMnemonic
-  , showWritingTools
   , newWindowForTab
   , performTextFinderAction
   , presentError_modalForWindow_delegate_didPresentSelector_contextInfo
@@ -80,7 +77,6 @@ module ObjC.AppKit.NSResponder
   , acceptsFirstResponder
   , menu
   , setMenu
-  , restorableStateKeyPaths
   , touchBar
   , setTouchBar
   , userActivity
@@ -91,7 +87,6 @@ module ObjC.AppKit.NSResponder
   , becomeFirstResponderSelector
   , beginGestureWithEventSelector
   , changeModeWithEventSelector
-  , contextMenuKeyDownSelector
   , cursorUpdateSelector
   , encodeRestorableStateWithCoderSelector
   , encodeRestorableStateWithCoder_backgroundQueueSelector
@@ -109,7 +104,6 @@ module ObjC.AppKit.NSResponder
   , magnifyWithEventSelector
   , makeTouchBarSelector
   , menuSelector
-  , mouseCancelledSelector
   , mouseDownSelector
   , mouseDraggedSelector
   , mouseEnteredSelector
@@ -130,7 +124,6 @@ module ObjC.AppKit.NSResponder
   , pressureChangeWithEventSelector
   , quickLookWithEventSelector
   , resignFirstResponderSelector
-  , restorableStateKeyPathsSelector
   , restoreStateWithCoderSelector
   , rightMouseDownSelector
   , rightMouseDraggedSelector
@@ -144,7 +137,6 @@ module ObjC.AppKit.NSResponder
   , setUserActivitySelector
   , shouldBeTreatedAsInkEventSelector
   , showContextHelpSelector
-  , showWritingToolsSelector
   , smartMagnifyWithEventSelector
   , supplementalTargetForAction_senderSelector
   , swipeWithEventSelector
@@ -249,11 +241,6 @@ mouseMoved nsResponder event =
 mouseDragged :: (IsNSResponder nsResponder, IsNSEvent event) => nsResponder -> event -> IO ()
 mouseDragged nsResponder event =
   sendMessage nsResponder mouseDraggedSelector (toNSEvent event)
-
--- | @- mouseCancelled:@
-mouseCancelled :: (IsNSResponder nsResponder, IsNSEvent event) => nsResponder -> event -> IO ()
-mouseCancelled nsResponder event =
-  sendMessage nsResponder mouseCancelledSelector (toNSEvent event)
 
 -- | @- scrollWheel:@
 scrollWheel :: (IsNSResponder nsResponder, IsNSEvent event) => nsResponder -> event -> IO ()
@@ -375,27 +362,6 @@ pressureChangeWithEvent :: (IsNSResponder nsResponder, IsNSEvent event) => nsRes
 pressureChangeWithEvent nsResponder event =
   sendMessage nsResponder pressureChangeWithEventSelector (toNSEvent event)
 
--- | `contextMenuKeyDown`
---
--- Handle a key event that should present a context menu at the user focus.
---
--- Most applications should not override this method. Instead, you should customize the context menu displayed from a keyboard event by implementing @menuForEvent:@ and @selectionAnchorRect@, or @showContextMenuForSelection:@, rather than this method.
---
--- You should only override this method when you do not want the system-provided default behavior for the context menu hotkey, either for a specific key combination, or for the hotkey in general. For example, if your application already provides a different behavior for control-Return (the default context menu hotkey definition), and you want to preserve that behavior, you should override this method to handle that specific key combination, and then return without calling @super@. Note that the user may customize the hotkey to a different key combination, so in this example, if any other key combination is passed to your method, you would call @super@.
---
--- An implementation of this method should call @[super contextMenuKeyDown:event]@ to pass the request up the responder chain. If the message reaches the application object, NSApplication's implementation of this method will send @showContextMenuForSelection:@ to the responder chain. If you do not call @super@, then no further handling of the key event will be performed.
---
--- Note: In some cases, @showContextMenuForSelection:@ will be called without a prior call to @contextMenuKeyDown:@. This occurs when a view receives an Accessibility ShowMenu action, or when the user has created a Cocoa Text key binding to map a different key combination to the @showContextMenuForSelection:@ action.
---
--- @event@ — The key down event that matches the system-wide context menu hotkey combination.
---
--- @showContextMenuForSelection:@
---
--- ObjC selector: @- contextMenuKeyDown:@
-contextMenuKeyDown :: (IsNSResponder nsResponder, IsNSEvent event) => nsResponder -> event -> IO ()
-contextMenuKeyDown nsResponder event =
-  sendMessage nsResponder contextMenuKeyDownSelector (toNSEvent event)
-
 -- | @- noResponderFor:@
 noResponderFor :: IsNSResponder nsResponder => nsResponder -> Sel -> IO ()
 noResponderFor nsResponder eventSelector =
@@ -505,11 +471,6 @@ performMnemonic :: (IsNSResponder nsResponder, IsNSString string) => nsResponder
 performMnemonic nsResponder string =
   sendMessage nsResponder performMnemonicSelector (toNSString string)
 
--- | @- showWritingTools:@
-showWritingTools :: IsNSResponder nsResponder => nsResponder -> RawId -> IO ()
-showWritingTools nsResponder sender =
-  sendMessage nsResponder showWritingToolsSelector sender
-
 -- | @- newWindowForTab:@
 newWindowForTab :: IsNSResponder nsResponder => nsResponder -> RawId -> IO ()
 newWindowForTab nsResponder sender =
@@ -565,32 +526,25 @@ setMenu :: (IsNSResponder nsResponder, IsNSMenu value) => nsResponder -> value -
 setMenu nsResponder value =
   sendMessage nsResponder setMenuSelector (toNSMenu value)
 
--- | @+ restorableStateKeyPaths@
-restorableStateKeyPaths :: IO (Id NSArray)
-restorableStateKeyPaths  =
-  do
-    cls' <- getRequiredClass "NSResponder"
-    sendClassMessage cls' restorableStateKeyPathsSelector
-
 -- | @- touchBar@
-touchBar :: IsNSResponder nsResponder => nsResponder -> IO (Id NSTouchBar)
+touchBar :: IsNSResponder nsResponder => nsResponder -> IO RawId
 touchBar nsResponder =
   sendMessage nsResponder touchBarSelector
 
 -- | @- setTouchBar:@
-setTouchBar :: (IsNSResponder nsResponder, IsNSTouchBar value) => nsResponder -> value -> IO ()
+setTouchBar :: IsNSResponder nsResponder => nsResponder -> RawId -> IO ()
 setTouchBar nsResponder value =
-  sendMessage nsResponder setTouchBarSelector (toNSTouchBar value)
+  sendMessage nsResponder setTouchBarSelector value
 
 -- | @- userActivity@
-userActivity :: IsNSResponder nsResponder => nsResponder -> IO (Id NSUserActivity)
+userActivity :: IsNSResponder nsResponder => nsResponder -> IO RawId
 userActivity nsResponder =
   sendMessage nsResponder userActivitySelector
 
 -- | @- setUserActivity:@
-setUserActivity :: (IsNSResponder nsResponder, IsNSUserActivity value) => nsResponder -> value -> IO ()
+setUserActivity :: IsNSResponder nsResponder => nsResponder -> RawId -> IO ()
 setUserActivity nsResponder value =
-  sendMessage nsResponder setUserActivitySelector (toNSUserActivity value)
+  sendMessage nsResponder setUserActivitySelector value
 
 -- | @- undoManager@
 undoManager :: IsNSResponder nsResponder => nsResponder -> IO (Id NSUndoManager)
@@ -652,10 +606,6 @@ mouseMovedSelector = mkSelector "mouseMoved:"
 -- | @Selector@ for @mouseDragged:@
 mouseDraggedSelector :: Selector '[Id NSEvent] ()
 mouseDraggedSelector = mkSelector "mouseDragged:"
-
--- | @Selector@ for @mouseCancelled:@
-mouseCancelledSelector :: Selector '[Id NSEvent] ()
-mouseCancelledSelector = mkSelector "mouseCancelled:"
 
 -- | @Selector@ for @scrollWheel:@
 scrollWheelSelector :: Selector '[Id NSEvent] ()
@@ -753,10 +703,6 @@ quickLookWithEventSelector = mkSelector "quickLookWithEvent:"
 pressureChangeWithEventSelector :: Selector '[Id NSEvent] ()
 pressureChangeWithEventSelector = mkSelector "pressureChangeWithEvent:"
 
--- | @Selector@ for @contextMenuKeyDown:@
-contextMenuKeyDownSelector :: Selector '[Id NSEvent] ()
-contextMenuKeyDownSelector = mkSelector "contextMenuKeyDown:"
-
 -- | @Selector@ for @noResponderFor:@
 noResponderForSelector :: Selector '[Sel] ()
 noResponderForSelector = mkSelector "noResponderFor:"
@@ -841,10 +787,6 @@ updateUserActivityStateSelector = mkSelector "updateUserActivityState:"
 performMnemonicSelector :: Selector '[Id NSString] Bool
 performMnemonicSelector = mkSelector "performMnemonic:"
 
--- | @Selector@ for @showWritingTools:@
-showWritingToolsSelector :: Selector '[RawId] ()
-showWritingToolsSelector = mkSelector "showWritingTools:"
-
 -- | @Selector@ for @newWindowForTab:@
 newWindowForTabSelector :: Selector '[RawId] ()
 newWindowForTabSelector = mkSelector "newWindowForTab:"
@@ -889,24 +831,20 @@ menuSelector = mkSelector "menu"
 setMenuSelector :: Selector '[Id NSMenu] ()
 setMenuSelector = mkSelector "setMenu:"
 
--- | @Selector@ for @restorableStateKeyPaths@
-restorableStateKeyPathsSelector :: Selector '[] (Id NSArray)
-restorableStateKeyPathsSelector = mkSelector "restorableStateKeyPaths"
-
 -- | @Selector@ for @touchBar@
-touchBarSelector :: Selector '[] (Id NSTouchBar)
+touchBarSelector :: Selector '[] RawId
 touchBarSelector = mkSelector "touchBar"
 
 -- | @Selector@ for @setTouchBar:@
-setTouchBarSelector :: Selector '[Id NSTouchBar] ()
+setTouchBarSelector :: Selector '[RawId] ()
 setTouchBarSelector = mkSelector "setTouchBar:"
 
 -- | @Selector@ for @userActivity@
-userActivitySelector :: Selector '[] (Id NSUserActivity)
+userActivitySelector :: Selector '[] RawId
 userActivitySelector = mkSelector "userActivity"
 
 -- | @Selector@ for @setUserActivity:@
-setUserActivitySelector :: Selector '[Id NSUserActivity] ()
+setUserActivitySelector :: Selector '[RawId] ()
 setUserActivitySelector = mkSelector "setUserActivity:"
 
 -- | @Selector@ for @undoManager@

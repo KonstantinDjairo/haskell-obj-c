@@ -7,18 +7,18 @@
 module ObjC.Matter.MTRNetworkCommissioningClusterScanNetworksParams
   ( MTRNetworkCommissioningClusterScanNetworksParams
   , IsMTRNetworkCommissioningClusterScanNetworksParams(..)
+  , init_
+  , copyWithZone
   , ssid
   , setSsid
   , breadcrumb
   , setBreadcrumb
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , breadcrumbSelector
-  , serverSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setBreadcrumbSelector
-  , setServerSideProcessingTimeoutSelector
   , setSsidSelector
   , setTimedInvokeTimeoutMsSelector
   , ssidSelector
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRNetworkCommissioningClusterScanNetworksParams mtrNetworkCommissioningClusterScanNetworksParams => mtrNetworkCommissioningClusterScanNetworksParams -> IO (Id MTRNetworkCommissioningClusterScanNetworksParams)
+init_ mtrNetworkCommissioningClusterScanNetworksParams =
+  sendOwnedMessage mtrNetworkCommissioningClusterScanNetworksParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRNetworkCommissioningClusterScanNetworksParams mtrNetworkCommissioningClusterScanNetworksParams => mtrNetworkCommissioningClusterScanNetworksParams -> Ptr () -> IO RawId
+copyWithZone mtrNetworkCommissioningClusterScanNetworksParams zone =
+  sendOwnedMessage mtrNetworkCommissioningClusterScanNetworksParams copyWithZoneSelector zone
 
 -- | @- ssid@
 ssid :: IsMTRNetworkCommissioningClusterScanNetworksParams mtrNetworkCommissioningClusterScanNetworksParams => mtrNetworkCommissioningClusterScanNetworksParams -> IO (Id NSData)
@@ -80,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRNetworkCommissioningClusterScanNetworksParams m
 setTimedInvokeTimeoutMs mtrNetworkCommissioningClusterScanNetworksParams value =
   sendMessage mtrNetworkCommissioningClusterScanNetworksParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRNetworkCommissioningClusterScanNetworksParams mtrNetworkCommissioningClusterScanNetworksParams => mtrNetworkCommissioningClusterScanNetworksParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrNetworkCommissioningClusterScanNetworksParams =
-  sendMessage mtrNetworkCommissioningClusterScanNetworksParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRNetworkCommissioningClusterScanNetworksParams mtrNetworkCommissioningClusterScanNetworksParams, IsNSNumber value) => mtrNetworkCommissioningClusterScanNetworksParams -> value -> IO ()
-setServerSideProcessingTimeout mtrNetworkCommissioningClusterScanNetworksParams value =
-  sendMessage mtrNetworkCommissioningClusterScanNetworksParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRNetworkCommissioningClusterScanNetworksParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @ssid@
 ssidSelector :: Selector '[] (Id NSData)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

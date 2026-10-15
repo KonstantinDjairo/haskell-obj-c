@@ -28,8 +28,6 @@ module ObjC.Metal.MTLSamplerDescriptor
   , setRAddressMode
   , borderColor
   , setBorderColor
-  , reductionMode
-  , setReductionMode
   , normalizedCoordinates
   , setNormalizedCoordinates
   , lodMinClamp
@@ -38,8 +36,6 @@ module ObjC.Metal.MTLSamplerDescriptor
   , setLodMaxClamp
   , lodAverage
   , setLodAverage
-  , lodBias
-  , setLodBias
   , compareFunction
   , setCompareFunction
   , supportArgumentBuffers
@@ -50,7 +46,6 @@ module ObjC.Metal.MTLSamplerDescriptor
   , compareFunctionSelector
   , labelSelector
   , lodAverageSelector
-  , lodBiasSelector
   , lodMaxClampSelector
   , lodMinClampSelector
   , magFilterSelector
@@ -59,13 +54,11 @@ module ObjC.Metal.MTLSamplerDescriptor
   , mipFilterSelector
   , normalizedCoordinatesSelector
   , rAddressModeSelector
-  , reductionModeSelector
   , sAddressModeSelector
   , setBorderColorSelector
   , setCompareFunctionSelector
   , setLabelSelector
   , setLodAverageSelector
-  , setLodBiasSelector
   , setLodMaxClampSelector
   , setLodMinClampSelector
   , setMagFilterSelector
@@ -74,7 +67,6 @@ module ObjC.Metal.MTLSamplerDescriptor
   , setMipFilterSelector
   , setNormalizedCoordinatesSelector
   , setRAddressModeSelector
-  , setReductionModeSelector
   , setSAddressModeSelector
   , setSupportArgumentBuffersSelector
   , setTAddressModeSelector
@@ -109,10 +101,6 @@ module ObjC.Metal.MTLSamplerDescriptor
   , pattern MTLSamplerMipFilterNotMipmapped
   , pattern MTLSamplerMipFilterNearest
   , pattern MTLSamplerMipFilterLinear
-  , MTLSamplerReductionMode(MTLSamplerReductionMode)
-  , pattern MTLSamplerReductionModeWeightedAverage
-  , pattern MTLSamplerReductionModeMinimum
-  , pattern MTLSamplerReductionModeMaximum
 
   ) where
 
@@ -288,24 +276,6 @@ setBorderColor :: IsMTLSamplerDescriptor mtlSamplerDescriptor => mtlSamplerDescr
 setBorderColor mtlSamplerDescriptor value =
   sendMessage mtlSamplerDescriptor setBorderColorSelector value
 
--- | Sets the reduction mode for filtering contributing samples.
---
--- The property's default value is ``MTLSamplerReductionModeWeightedAverage``. The sampler ignores this property if any of the following property values are equal to a specific value:  - The sampler's ``mipFilter`` property is equal to ``MTLSamplerMipFilterNotMipmapped``.  - The sampler's ``mipFilter`` property is equal to ``MTLSamplerMipFilterNearest``.  - The sampler's ``minFilter`` property is equal to ``MTLSamplerMinMagFilterNearest``.  - The sampler's ``magFilter`` property is equal to ``MTLSamplerMinMagFilterNearest``.
---
--- ObjC selector: @- reductionMode@
-reductionMode :: IsMTLSamplerDescriptor mtlSamplerDescriptor => mtlSamplerDescriptor -> IO MTLSamplerReductionMode
-reductionMode mtlSamplerDescriptor =
-  sendMessage mtlSamplerDescriptor reductionModeSelector
-
--- | Sets the reduction mode for filtering contributing samples.
---
--- The property's default value is ``MTLSamplerReductionModeWeightedAverage``. The sampler ignores this property if any of the following property values are equal to a specific value:  - The sampler's ``mipFilter`` property is equal to ``MTLSamplerMipFilterNotMipmapped``.  - The sampler's ``mipFilter`` property is equal to ``MTLSamplerMipFilterNearest``.  - The sampler's ``minFilter`` property is equal to ``MTLSamplerMinMagFilterNearest``.  - The sampler's ``magFilter`` property is equal to ``MTLSamplerMinMagFilterNearest``.
---
--- ObjC selector: @- setReductionMode:@
-setReductionMode :: IsMTLSamplerDescriptor mtlSamplerDescriptor => mtlSamplerDescriptor -> MTLSamplerReductionMode -> IO ()
-setReductionMode mtlSamplerDescriptor value =
-  sendMessage mtlSamplerDescriptor setReductionModeSelector value
-
 -- | normalizedCoordinates.
 --
 -- If YES, texture coordates are from 0 to 1.  If NO, texture coordinates are 0..width, 0..height.
@@ -393,24 +363,6 @@ lodAverage mtlSamplerDescriptor =
 setLodAverage :: IsMTLSamplerDescriptor mtlSamplerDescriptor => mtlSamplerDescriptor -> Bool -> IO ()
 setLodAverage mtlSamplerDescriptor value =
   sendMessage mtlSamplerDescriptor setLodAverageSelector value
-
--- | Sets the level-of-detail (lod) bias when sampling from a texture.
---
--- The property's default value is @0.0f@. The precision format is @S4.6@, and the range is @[-16.0, 15.999]@.
---
--- ObjC selector: @- lodBias@
-lodBias :: IsMTLSamplerDescriptor mtlSamplerDescriptor => mtlSamplerDescriptor -> IO CFloat
-lodBias mtlSamplerDescriptor =
-  sendMessage mtlSamplerDescriptor lodBiasSelector
-
--- | Sets the level-of-detail (lod) bias when sampling from a texture.
---
--- The property's default value is @0.0f@. The precision format is @S4.6@, and the range is @[-16.0, 15.999]@.
---
--- ObjC selector: @- setLodBias:@
-setLodBias :: IsMTLSamplerDescriptor mtlSamplerDescriptor => mtlSamplerDescriptor -> CFloat -> IO ()
-setLodBias mtlSamplerDescriptor value =
-  sendMessage mtlSamplerDescriptor setLodBiasSelector value
 
 -- | compareFunction
 --
@@ -534,14 +486,6 @@ borderColorSelector = mkSelector "borderColor"
 setBorderColorSelector :: Selector '[MTLSamplerBorderColor] ()
 setBorderColorSelector = mkSelector "setBorderColor:"
 
--- | @Selector@ for @reductionMode@
-reductionModeSelector :: Selector '[] MTLSamplerReductionMode
-reductionModeSelector = mkSelector "reductionMode"
-
--- | @Selector@ for @setReductionMode:@
-setReductionModeSelector :: Selector '[MTLSamplerReductionMode] ()
-setReductionModeSelector = mkSelector "setReductionMode:"
-
 -- | @Selector@ for @normalizedCoordinates@
 normalizedCoordinatesSelector :: Selector '[] Bool
 normalizedCoordinatesSelector = mkSelector "normalizedCoordinates"
@@ -573,14 +517,6 @@ lodAverageSelector = mkSelector "lodAverage"
 -- | @Selector@ for @setLodAverage:@
 setLodAverageSelector :: Selector '[Bool] ()
 setLodAverageSelector = mkSelector "setLodAverage:"
-
--- | @Selector@ for @lodBias@
-lodBiasSelector :: Selector '[] CFloat
-lodBiasSelector = mkSelector "lodBias"
-
--- | @Selector@ for @setLodBias:@
-setLodBiasSelector :: Selector '[CFloat] ()
-setLodBiasSelector = mkSelector "setLodBias:"
 
 -- | @Selector@ for @compareFunction@
 compareFunctionSelector :: Selector '[] MTLCompareFunction

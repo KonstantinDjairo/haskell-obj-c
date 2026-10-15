@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A class that contains credentials for a Thread network.
---
--- A Thread network defines parameters that all connected devices use. ``THCredentials`` provides these parameters.
---
--- Generated bindings for @THCredentials@.
+-- | Generated bindings for @THCredentials@.
 module ObjC.ThreadNetwork.THCredentials
   ( THCredentials
   , IsTHCredentials(..)
@@ -64,83 +60,77 @@ new  =
     cls' <- getRequiredClass "THCredentials"
     sendOwnedClassMessage cls' newSelector
 
--- | The Thread network name.
+-- | networkName : Thread Network name
 --
 -- ObjC selector: @- networkName@
 networkName :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSString)
 networkName thCredentials =
   sendMessage thCredentials networkNameSelector
 
--- | The Thread network extended PAN identifier.
+-- | extendedPANID : Thread Network extended PAN ID
 --
 -- ObjC selector: @- extendedPANID@
 extendedPANID :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSData)
 extendedPANID thCredentials =
   sendMessage thCredentials extendedPANIDSelector
 
--- | The identifer of an active Thread network Border Agent.
---
--- This property’s value is the MAC Extended Address, a random identifier that the active Thread network border router generates.
+-- | extendedPANID : Active Thread Network Border Agent Identifier
 --
 -- ObjC selector: @- borderAgentID@
 borderAgentID :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSData)
 borderAgentID thCredentials =
   sendMessage thCredentials borderAgentIDSelector
 
--- | The essential operational parameters for the Thread network.
---
--- The framework parses this property, then extracts and sets ``THCredentials/channel``, ``THCredentials/extendedPANID``, ``THCredentials/networkKey``, ``THCredentials/networkName``, ``THCredentials/panID``, and ``THCredentials/PSKC`` when you call ``THClient/storeCredentialsForBorderAgent:activeOperationalDataSet:completion:``.
+-- | Active Operational Data Set in Bytes.
 --
 -- ObjC selector: @- activeOperationalDataSet@
 activeOperationalDataSet :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSData)
 activeOperationalDataSet thCredentials =
   sendMessage thCredentials activeOperationalDataSetSelector
 
--- | The sixteen byte Thread network key.
+-- | networkKey : A 16 byte value. e.g. 7dd5b9bffe1285f27e78898658aa88f4
 --
 -- ObjC selector: @- networkKey@
 networkKey :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSData)
 networkKey thCredentials =
   sendMessage thCredentials networkKeySelector
 
--- | The sixteen byte Thread network pre-shared key for the Commissioner.
+-- | PSKc : A 16 byte value. e.g. 0eec92e950c4cbc6966d32613f08efe0
 --
 -- ObjC selector: @- PSKC@
 pskc :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSData)
 pskc thCredentials =
   sendMessage thCredentials pskcSelector
 
--- | The Thread network radio channel.
+-- | channel : Thread network channel
 --
 -- ObjC selector: @- channel@
 channel :: IsTHCredentials thCredentials => thCredentials -> IO CUChar
 channel thCredentials =
   sendMessage thCredentials channelSelector
 
--- | The Thread network radio channel.
+-- | channel : Thread network channel
 --
 -- ObjC selector: @- setChannel:@
 setChannel :: IsTHCredentials thCredentials => thCredentials -> CUChar -> IO ()
 setChannel thCredentials value =
   sendMessage thCredentials setChannelSelector value
 
--- | The two byte Thead network PAN identifier.
+-- | PANID : A 2 byte value. e.g. 308f
 --
 -- ObjC selector: @- panID@
 panID :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSData)
 panID thCredentials =
   sendMessage thCredentials panIDSelector
 
--- | The date and time that the framework stored the credential in the database.
+-- | Metadata
 --
 -- ObjC selector: @- creationDate@
 creationDate :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSDate)
 creationDate thCredentials =
   sendMessage thCredentials creationDateSelector
 
--- | The date and time that the framework updated the credential in the database.
---
--- ObjC selector: @- lastModificationDate@
+-- | @- lastModificationDate@
 lastModificationDate :: IsTHCredentials thCredentials => thCredentials -> IO (Id NSDate)
 lastModificationDate thCredentials =
   sendMessage thCredentials lastModificationDateSelector

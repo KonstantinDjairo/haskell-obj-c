@@ -12,7 +12,6 @@ module ObjC.Metal.MTLArrayType
   , elementArrayType
   , elementTextureReferenceType
   , elementPointerType
-  , elementTensorReferenceType
   , elementType
   , arrayLength
   , stride
@@ -22,7 +21,6 @@ module ObjC.Metal.MTLArrayType
   , elementArrayTypeSelector
   , elementPointerTypeSelector
   , elementStructTypeSelector
-  , elementTensorReferenceTypeSelector
   , elementTextureReferenceTypeSelector
   , elementTypeSelector
   , strideSelector
@@ -120,12 +118,6 @@ module ObjC.Metal.MTLArrayType
   , pattern MTLDataTypeIntersectionFunctionTable
   , pattern MTLDataTypePrimitiveAccelerationStructure
   , pattern MTLDataTypeInstanceAccelerationStructure
-  , pattern MTLDataTypeBFloat
-  , pattern MTLDataTypeBFloat2
-  , pattern MTLDataTypeBFloat3
-  , pattern MTLDataTypeBFloat4
-  , pattern MTLDataTypeDepthStencilState
-  , pattern MTLDataTypeTensor
 
   ) where
 
@@ -160,15 +152,6 @@ elementTextureReferenceType mtlArrayType =
 elementPointerType :: IsMTLArrayType mtlArrayType => mtlArrayType -> IO (Id MTLPointerType)
 elementPointerType mtlArrayType =
   sendMessage mtlArrayType elementPointerTypeSelector
-
--- | Provides a description of the underlying tensor type when this array holds tensors as its elements.
---
--- - Returns: A description of the tensor type that this array holds, or @nil@ if this struct member doesn't hold a tensor.
---
--- ObjC selector: @- elementTensorReferenceType@
-elementTensorReferenceType :: IsMTLArrayType mtlArrayType => mtlArrayType -> IO (Id MTLTensorReferenceType)
-elementTensorReferenceType mtlArrayType =
-  sendMessage mtlArrayType elementTensorReferenceTypeSelector
 
 -- | @- elementType@
 elementType :: IsMTLArrayType mtlArrayType => mtlArrayType -> IO MTLDataType
@@ -209,10 +192,6 @@ elementTextureReferenceTypeSelector = mkSelector "elementTextureReferenceType"
 -- | @Selector@ for @elementPointerType@
 elementPointerTypeSelector :: Selector '[] (Id MTLPointerType)
 elementPointerTypeSelector = mkSelector "elementPointerType"
-
--- | @Selector@ for @elementTensorReferenceType@
-elementTensorReferenceTypeSelector :: Selector '[] (Id MTLTensorReferenceType)
-elementTensorReferenceTypeSelector = mkSelector "elementTensorReferenceType"
 
 -- | @Selector@ for @elementType@
 elementTypeSelector :: Selector '[] MTLDataType

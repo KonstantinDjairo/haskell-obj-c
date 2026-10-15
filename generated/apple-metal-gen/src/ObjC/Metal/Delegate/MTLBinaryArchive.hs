@@ -39,8 +39,6 @@ data MTLBinaryArchiveOverrides = MTLBinaryArchiveOverrides
   { _addComputePipelineFunctionsWithDescriptor_error :: !(Maybe (RawId -> RawId -> IO Bool))
   , _addRenderPipelineFunctionsWithDescriptor_error :: !(Maybe (RawId -> RawId -> IO Bool))
   , _addTileRenderPipelineFunctionsWithDescriptor_error :: !(Maybe (RawId -> RawId -> IO Bool))
-  , _addMeshRenderPipelineFunctionsWithDescriptor_error :: !(Maybe (RawId -> RawId -> IO Bool))
-  , _addLibraryWithDescriptor_error :: !(Maybe (RawId -> RawId -> IO Bool))
   , _serializeToURL_error :: !(Maybe (RawId -> RawId -> IO Bool))
   , _addFunctionWithDescriptor_library_error :: !(Maybe (RawId -> RawId -> RawId -> IO Bool))
   , _label :: !(Maybe (IO RawId))
@@ -54,8 +52,6 @@ defaultMTLBinaryArchiveOverrides = MTLBinaryArchiveOverrides
   { _addComputePipelineFunctionsWithDescriptor_error = Nothing
   , _addRenderPipelineFunctionsWithDescriptor_error = Nothing
   , _addTileRenderPipelineFunctionsWithDescriptor_error = Nothing
-  , _addMeshRenderPipelineFunctionsWithDescriptor_error = Nothing
-  , _addLibraryWithDescriptor_error = Nothing
   , _serializeToURL_error = Nothing
   , _addFunctionWithDescriptor_library_error = Nothing
   , _label = Nothing
@@ -100,8 +96,6 @@ mtlBinaryArchiveDelegateClass = unsafePerformIO $ do
   let sel_addComputePipelineFunctionsWithDescriptor_error = unSelector (mkSelector "addComputePipelineFunctionsWithDescriptor:error:")
       sel_addRenderPipelineFunctionsWithDescriptor_error = unSelector (mkSelector "addRenderPipelineFunctionsWithDescriptor:error:")
       sel_addTileRenderPipelineFunctionsWithDescriptor_error = unSelector (mkSelector "addTileRenderPipelineFunctionsWithDescriptor:error:")
-      sel_addMeshRenderPipelineFunctionsWithDescriptor_error = unSelector (mkSelector "addMeshRenderPipelineFunctionsWithDescriptor:error:")
-      sel_addLibraryWithDescriptor_error = unSelector (mkSelector "addLibraryWithDescriptor:error:")
       sel_serializeToURL_error = unSelector (mkSelector "serializeToURL:error:")
       sel_addFunctionWithDescriptor_library_error = unSelector (mkSelector "addFunctionWithDescriptor:library:error:")
       sel_label = unSelector (mkSelector "label")
@@ -140,30 +134,8 @@ mtlBinaryArchiveDelegateClass = unsafePerformIO $ do
         pure (if r then 1 else 0)
   addObjCMethod cls "addTileRenderPipelineFunctionsWithDescriptor:error:" "B@:@@" stub_2
 
-  -- addMeshRenderPipelineFunctionsWithDescriptor:error:
-  stub_3 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTLBinaryArchiveOverrides
-    case _addMeshRenderPipelineFunctionsWithDescriptor_error rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f (RawId arg0) (RawId arg1)
-        pure (if r then 1 else 0)
-  addObjCMethod cls "addMeshRenderPipelineFunctionsWithDescriptor:error:" "B@:@@" stub_3
-
-  -- addLibraryWithDescriptor:error:
-  stub_4 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTLBinaryArchiveOverrides
-    case _addLibraryWithDescriptor_error rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f (RawId arg0) (RawId arg1)
-        pure (if r then 1 else 0)
-  addObjCMethod cls "addLibraryWithDescriptor:error:" "B@:@@" stub_4
-
   -- serializeToURL:error:
-  stub_5 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
+  stub_3 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLBinaryArchiveOverrides
     case _serializeToURL_error rec_ of
@@ -171,10 +143,10 @@ mtlBinaryArchiveDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f (RawId arg0) (RawId arg1)
         pure (if r then 1 else 0)
-  addObjCMethod cls "serializeToURL:error:" "B@:@@" stub_5
+  addObjCMethod cls "serializeToURL:error:" "B@:@@" stub_3
 
   -- addFunctionWithDescriptor:library:error:
-  stub_6 <- wrap_at_at_at_B $ \self _cmd arg0 arg1 arg2 -> do
+  stub_4 <- wrap_at_at_at_B $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLBinaryArchiveOverrides
     case _addFunctionWithDescriptor_library_error rec_ of
@@ -182,10 +154,10 @@ mtlBinaryArchiveDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f (RawId arg0) (RawId arg1) (RawId arg2)
         pure (if r then 1 else 0)
-  addObjCMethod cls "addFunctionWithDescriptor:library:error:" "B@:@@@" stub_6
+  addObjCMethod cls "addFunctionWithDescriptor:library:error:" "B@:@@@" stub_4
 
   -- label
-  stub_7 <- wrap_at $ \self _cmd -> do
+  stub_5 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLBinaryArchiveOverrides
     case _label rec_ of
@@ -193,19 +165,19 @@ mtlBinaryArchiveDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "label" "@@:" stub_7
+  addObjCMethod cls "label" "@@:" stub_5
 
   -- setLabel:
-  stub_8 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_6 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLBinaryArchiveOverrides
     case _setLabel rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "setLabel:" "v@:@" stub_8
+  addObjCMethod cls "setLabel:" "v@:@" stub_6
 
   -- device
-  stub_9 <- wrap_at $ \self _cmd -> do
+  stub_7 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLBinaryArchiveOverrides
     case _device rec_ of
@@ -213,7 +185,7 @@ mtlBinaryArchiveDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "device" "@@:" stub_9
+  addObjCMethod cls "device" "@@:" stub_7
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -222,8 +194,6 @@ mtlBinaryArchiveDelegateClass = unsafePerformIO $ do
     if queriedSel == sel_addComputePipelineFunctionsWithDescriptor_error then pure (maybe 0 (const 1) (_addComputePipelineFunctionsWithDescriptor_error rec_))
     else if queriedSel == sel_addRenderPipelineFunctionsWithDescriptor_error then pure (maybe 0 (const 1) (_addRenderPipelineFunctionsWithDescriptor_error rec_))
     else if queriedSel == sel_addTileRenderPipelineFunctionsWithDescriptor_error then pure (maybe 0 (const 1) (_addTileRenderPipelineFunctionsWithDescriptor_error rec_))
-    else if queriedSel == sel_addMeshRenderPipelineFunctionsWithDescriptor_error then pure (maybe 0 (const 1) (_addMeshRenderPipelineFunctionsWithDescriptor_error rec_))
-    else if queriedSel == sel_addLibraryWithDescriptor_error then pure (maybe 0 (const 1) (_addLibraryWithDescriptor_error rec_))
     else if queriedSel == sel_serializeToURL_error then pure (maybe 0 (const 1) (_serializeToURL_error rec_))
     else if queriedSel == sel_addFunctionWithDescriptor_library_error then pure (maybe 0 (const 1) (_addFunctionWithDescriptor_library_error rec_))
     else if queriedSel == sel_label then pure (maybe 0 (const 1) (_label rec_))

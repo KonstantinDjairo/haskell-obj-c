@@ -38,7 +38,6 @@ import ObjC.Runtime.StableIvar
 data GCButtonElementOverrides = GCButtonElementOverrides
   { _pressedInput :: !(Maybe (IO RawId))
   , _touchedInput :: !(Maybe (IO RawId))
-  , _forceInput :: !(Maybe (IO RawId))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -46,7 +45,6 @@ defaultGCButtonElementOverrides :: GCButtonElementOverrides
 defaultGCButtonElementOverrides = GCButtonElementOverrides
   { _pressedInput = Nothing
   , _touchedInput = Nothing
-  , _forceInput = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -70,7 +68,6 @@ gcButtonElementDelegateClass = unsafePerformIO $ do
   addHsDataIvar cls
   let sel_pressedInput = unSelector (mkSelector "pressedInput")
       sel_touchedInput = unSelector (mkSelector "touchedInput")
-      sel_forceInput = unSelector (mkSelector "forceInput")
   -- pressedInput
   stub_0 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
@@ -93,24 +90,12 @@ gcButtonElementDelegateClass = unsafePerformIO $ do
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
   addObjCMethod cls "touchedInput" "@@:" stub_1
 
-  -- forceInput
-  stub_2 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO GCButtonElementOverrides
-    case _forceInput rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "forceInput" "@@:" stub_2
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO GCButtonElementOverrides
     if queriedSel == sel_pressedInput then pure (maybe 0 (const 1) (_pressedInput rec_))
     else if queriedSel == sel_touchedInput then pure (maybe 0 (const 1) (_touchedInput rec_))
-    else if queriedSel == sel_forceInput then pure (maybe 0 (const 1) (_forceInput rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

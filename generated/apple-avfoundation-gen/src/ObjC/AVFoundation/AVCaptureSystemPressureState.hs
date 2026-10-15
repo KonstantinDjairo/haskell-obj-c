@@ -29,7 +29,6 @@ module ObjC.AVFoundation.AVCaptureSystemPressureState
   , pattern AVCaptureSystemPressureFactorSystemTemperature
   , pattern AVCaptureSystemPressureFactorPeakPower
   , pattern AVCaptureSystemPressureFactorDepthModuleTemperature
-  , pattern AVCaptureSystemPressureFactorCameraTemperature
 
   ) where
 

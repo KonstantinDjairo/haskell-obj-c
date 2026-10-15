@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRBindingClusterTargetStruct
   ( MTRBindingClusterTargetStruct
   , IsMTRBindingClusterTargetStruct(..)
+  , init_
+  , copyWithZone
   , node
   , setNode
   , group
@@ -18,9 +20,11 @@ module ObjC.Matter.MTRBindingClusterTargetStruct
   , fabricIndex
   , setFabricIndex
   , clusterSelector
+  , copyWithZoneSelector
   , endpointSelector
   , fabricIndexSelector
   , groupSelector
+  , initSelector
   , nodeSelector
   , setClusterSelector
   , setEndpointSelector
@@ -41,6 +45,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRBindingClusterTargetStruct mtrBindingClusterTargetStruct => mtrBindingClusterTargetStruct -> IO (Id MTRBindingClusterTargetStruct)
+init_ mtrBindingClusterTargetStruct =
+  sendOwnedMessage mtrBindingClusterTargetStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBindingClusterTargetStruct mtrBindingClusterTargetStruct => mtrBindingClusterTargetStruct -> Ptr () -> IO RawId
+copyWithZone mtrBindingClusterTargetStruct zone =
+  sendOwnedMessage mtrBindingClusterTargetStruct copyWithZoneSelector zone
 
 -- | @- node@
 node :: IsMTRBindingClusterTargetStruct mtrBindingClusterTargetStruct => mtrBindingClusterTargetStruct -> IO (Id NSNumber)
@@ -95,6 +109,14 @@ setFabricIndex mtrBindingClusterTargetStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBindingClusterTargetStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @node@
 nodeSelector :: Selector '[] (Id NSNumber)

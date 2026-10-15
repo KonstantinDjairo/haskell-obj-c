@@ -118,10 +118,6 @@ supportsPHYMode cwNetwork phyMode =
 --
 -- Returns nil if the SSID can not be encoded as a valid UTF-8 or WinLatin1 string.
 --
--- Note: SSID information is not available unless Location Services is enabled and the user has authorized the calling app to use location services.
---
--- CLLocationManager
---
 -- ObjC selector: @- ssid@
 ssid :: IsCWNetwork cwNetwork => cwNetwork -> IO RawId
 ssid cwNetwork =
@@ -130,10 +126,6 @@ ssid cwNetwork =
 -- | Returns the service set identifier (SSID) for the Wi-Fi network device, encapsulated in an NSData object.
 --
 -- The SSID is defined as 1-32 octets.
---
--- Note: SSID information is not available unless Location Services is enabled and the user has authorized the calling app to use location services.
---
--- CLLocationManager
 --
 -- ObjC selector: @- ssidData@
 ssidData :: IsCWNetwork cwNetwork => cwNetwork -> IO RawId
@@ -182,10 +174,6 @@ informationElementData cwNetwork =
   sendMessage cwNetwork informationElementDataSelector
 
 -- | Returns the advertised country code (ISO/IEC 3166-1:1997) for the Wi-Fi device.
---
--- Note: Country code information is not available unless Location Services is enabled and the user has authorized the calling app to use location services.
---
--- CLLocationManager
 --
 -- ObjC selector: @- countryCode@
 countryCode :: IsCWNetwork cwNetwork => cwNetwork -> IO RawId

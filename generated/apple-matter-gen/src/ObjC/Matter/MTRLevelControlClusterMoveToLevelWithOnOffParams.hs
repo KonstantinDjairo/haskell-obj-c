@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRLevelControlClusterMoveToLevelWithOnOffParams
   ( MTRLevelControlClusterMoveToLevelWithOnOffParams
   , IsMTRLevelControlClusterMoveToLevelWithOnOffParams(..)
+  , init_
+  , copyWithZone
   , level
   , setLevel
   , transitionTime
@@ -17,16 +19,14 @@ module ObjC.Matter.MTRLevelControlClusterMoveToLevelWithOnOffParams
   , setOptionsOverride
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , levelSelector
   , optionsMaskSelector
   , optionsOverrideSelector
-  , serverSideProcessingTimeoutSelector
   , setLevelSelector
   , setOptionsMaskSelector
   , setOptionsOverrideSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , setTransitionTimeSelector
   , timedInvokeTimeoutMsSelector
@@ -45,6 +45,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRLevelControlClusterMoveToLevelWithOnOffParams mtrLevelControlClusterMoveToLevelWithOnOffParams => mtrLevelControlClusterMoveToLevelWithOnOffParams -> IO (Id MTRLevelControlClusterMoveToLevelWithOnOffParams)
+init_ mtrLevelControlClusterMoveToLevelWithOnOffParams =
+  sendOwnedMessage mtrLevelControlClusterMoveToLevelWithOnOffParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRLevelControlClusterMoveToLevelWithOnOffParams mtrLevelControlClusterMoveToLevelWithOnOffParams => mtrLevelControlClusterMoveToLevelWithOnOffParams -> Ptr () -> IO RawId
+copyWithZone mtrLevelControlClusterMoveToLevelWithOnOffParams zone =
+  sendOwnedMessage mtrLevelControlClusterMoveToLevelWithOnOffParams copyWithZoneSelector zone
 
 -- | @- level@
 level :: IsMTRLevelControlClusterMoveToLevelWithOnOffParams mtrLevelControlClusterMoveToLevelWithOnOffParams => mtrLevelControlClusterMoveToLevelWithOnOffParams -> IO (Id NSNumber)
@@ -108,31 +118,17 @@ setTimedInvokeTimeoutMs :: (IsMTRLevelControlClusterMoveToLevelWithOnOffParams m
 setTimedInvokeTimeoutMs mtrLevelControlClusterMoveToLevelWithOnOffParams value =
   sendMessage mtrLevelControlClusterMoveToLevelWithOnOffParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRLevelControlClusterMoveToLevelWithOnOffParams mtrLevelControlClusterMoveToLevelWithOnOffParams => mtrLevelControlClusterMoveToLevelWithOnOffParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrLevelControlClusterMoveToLevelWithOnOffParams =
-  sendMessage mtrLevelControlClusterMoveToLevelWithOnOffParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRLevelControlClusterMoveToLevelWithOnOffParams mtrLevelControlClusterMoveToLevelWithOnOffParams, IsNSNumber value) => mtrLevelControlClusterMoveToLevelWithOnOffParams -> value -> IO ()
-setServerSideProcessingTimeout mtrLevelControlClusterMoveToLevelWithOnOffParams value =
-  sendMessage mtrLevelControlClusterMoveToLevelWithOnOffParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRLevelControlClusterMoveToLevelWithOnOffParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @level@
 levelSelector :: Selector '[] (Id NSNumber)
@@ -173,12 +169,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

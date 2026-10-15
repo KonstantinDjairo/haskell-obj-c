@@ -11,36 +11,28 @@ module ObjC.MapKit.MKLocalSearchCompleter
   , cancel
   , queryFragment
   , setQueryFragment
-  , regionPriority
-  , setRegionPriority
   , filterType
   , setFilterType
   , resultTypes
   , setResultTypes
   , pointOfInterestFilter
   , setPointOfInterestFilter
-  , addressFilter
-  , setAddressFilter
   , delegate
   , setDelegate
   , results
   , searching
-  , addressFilterSelector
   , cancelSelector
   , delegateSelector
   , filterTypeSelector
   , pointOfInterestFilterSelector
   , queryFragmentSelector
-  , regionPrioritySelector
   , resultTypesSelector
   , resultsSelector
   , searchingSelector
-  , setAddressFilterSelector
   , setDelegateSelector
   , setFilterTypeSelector
   , setPointOfInterestFilterSelector
   , setQueryFragmentSelector
-  , setRegionPrioritySelector
   , setResultTypesSelector
 
   -- * Enum types
@@ -48,10 +40,6 @@ module ObjC.MapKit.MKLocalSearchCompleter
   , pattern MKLocalSearchCompleterResultTypeAddress
   , pattern MKLocalSearchCompleterResultTypePointOfInterest
   , pattern MKLocalSearchCompleterResultTypeQuery
-  , pattern MKLocalSearchCompleterResultTypePhysicalFeature
-  , MKLocalSearchRegionPriority(MKLocalSearchRegionPriority)
-  , pattern MKLocalSearchRegionPriorityDefault
-  , pattern MKLocalSearchRegionPriorityRequired
   , MKSearchCompletionFilterType(MKSearchCompletionFilterType)
   , pattern MKSearchCompletionFilterTypeLocationsAndQueries
   , pattern MKSearchCompletionFilterTypeLocationsOnly
@@ -85,16 +73,6 @@ setQueryFragment :: (IsMKLocalSearchCompleter mkLocalSearchCompleter, IsNSString
 setQueryFragment mkLocalSearchCompleter value =
   sendMessage mkLocalSearchCompleter setQueryFragmentSelector (toNSString value)
 
--- | @- regionPriority@
-regionPriority :: IsMKLocalSearchCompleter mkLocalSearchCompleter => mkLocalSearchCompleter -> IO MKLocalSearchRegionPriority
-regionPriority mkLocalSearchCompleter =
-  sendMessage mkLocalSearchCompleter regionPrioritySelector
-
--- | @- setRegionPriority:@
-setRegionPriority :: IsMKLocalSearchCompleter mkLocalSearchCompleter => mkLocalSearchCompleter -> MKLocalSearchRegionPriority -> IO ()
-setRegionPriority mkLocalSearchCompleter value =
-  sendMessage mkLocalSearchCompleter setRegionPrioritySelector value
-
 -- | @- filterType@
 filterType :: IsMKLocalSearchCompleter mkLocalSearchCompleter => mkLocalSearchCompleter -> IO MKSearchCompletionFilterType
 filterType mkLocalSearchCompleter =
@@ -124,16 +102,6 @@ pointOfInterestFilter mkLocalSearchCompleter =
 setPointOfInterestFilter :: (IsMKLocalSearchCompleter mkLocalSearchCompleter, IsMKPointOfInterestFilter value) => mkLocalSearchCompleter -> value -> IO ()
 setPointOfInterestFilter mkLocalSearchCompleter value =
   sendMessage mkLocalSearchCompleter setPointOfInterestFilterSelector (toMKPointOfInterestFilter value)
-
--- | @- addressFilter@
-addressFilter :: IsMKLocalSearchCompleter mkLocalSearchCompleter => mkLocalSearchCompleter -> IO (Id MKAddressFilter)
-addressFilter mkLocalSearchCompleter =
-  sendMessage mkLocalSearchCompleter addressFilterSelector
-
--- | @- setAddressFilter:@
-setAddressFilter :: (IsMKLocalSearchCompleter mkLocalSearchCompleter, IsMKAddressFilter value) => mkLocalSearchCompleter -> value -> IO ()
-setAddressFilter mkLocalSearchCompleter value =
-  sendMessage mkLocalSearchCompleter setAddressFilterSelector (toMKAddressFilter value)
 
 -- | @- delegate@
 delegate :: IsMKLocalSearchCompleter mkLocalSearchCompleter => mkLocalSearchCompleter -> IO RawId
@@ -171,14 +139,6 @@ queryFragmentSelector = mkSelector "queryFragment"
 setQueryFragmentSelector :: Selector '[Id NSString] ()
 setQueryFragmentSelector = mkSelector "setQueryFragment:"
 
--- | @Selector@ for @regionPriority@
-regionPrioritySelector :: Selector '[] MKLocalSearchRegionPriority
-regionPrioritySelector = mkSelector "regionPriority"
-
--- | @Selector@ for @setRegionPriority:@
-setRegionPrioritySelector :: Selector '[MKLocalSearchRegionPriority] ()
-setRegionPrioritySelector = mkSelector "setRegionPriority:"
-
 -- | @Selector@ for @filterType@
 filterTypeSelector :: Selector '[] MKSearchCompletionFilterType
 filterTypeSelector = mkSelector "filterType"
@@ -202,14 +162,6 @@ pointOfInterestFilterSelector = mkSelector "pointOfInterestFilter"
 -- | @Selector@ for @setPointOfInterestFilter:@
 setPointOfInterestFilterSelector :: Selector '[Id MKPointOfInterestFilter] ()
 setPointOfInterestFilterSelector = mkSelector "setPointOfInterestFilter:"
-
--- | @Selector@ for @addressFilter@
-addressFilterSelector :: Selector '[] (Id MKAddressFilter)
-addressFilterSelector = mkSelector "addressFilter"
-
--- | @Selector@ for @setAddressFilter:@
-setAddressFilterSelector :: Selector '[Id MKAddressFilter] ()
-setAddressFilterSelector = mkSelector "setAddressFilter:"
 
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId

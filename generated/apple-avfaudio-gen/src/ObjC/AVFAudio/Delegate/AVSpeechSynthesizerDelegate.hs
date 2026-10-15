@@ -41,7 +41,6 @@ data AVSpeechSynthesizerDelegateOverrides = AVSpeechSynthesizerDelegateOverrides
   , _speechSynthesizer_didPauseSpeechUtterance :: !(Maybe (RawId -> RawId -> IO ()))
   , _speechSynthesizer_didContinueSpeechUtterance :: !(Maybe (RawId -> RawId -> IO ()))
   , _speechSynthesizer_didCancelSpeechUtterance :: !(Maybe (RawId -> RawId -> IO ()))
-  , _speechSynthesizer_willSpeakMarker_utterance :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -52,13 +51,7 @@ defaultAVSpeechSynthesizerDelegateOverrides = AVSpeechSynthesizerDelegateOverrid
   , _speechSynthesizer_didPauseSpeechUtterance = Nothing
   , _speechSynthesizer_didContinueSpeechUtterance = Nothing
   , _speechSynthesizer_didCancelSpeechUtterance = Nothing
-  , _speechSynthesizer_willSpeakMarker_utterance = Nothing
   }
-
-foreign import ccall "wrapper"
-  wrap_at_at_at_v
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> IO ())
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> IO ()))
 
 foreign import ccall "wrapper"
   wrap_at_at_v
@@ -84,7 +77,6 @@ avSpeechSynthesizerDelegateDelegateClass = unsafePerformIO $ do
       sel_speechSynthesizer_didPauseSpeechUtterance = unSelector (mkSelector "speechSynthesizer:didPauseSpeechUtterance:")
       sel_speechSynthesizer_didContinueSpeechUtterance = unSelector (mkSelector "speechSynthesizer:didContinueSpeechUtterance:")
       sel_speechSynthesizer_didCancelSpeechUtterance = unSelector (mkSelector "speechSynthesizer:didCancelSpeechUtterance:")
-      sel_speechSynthesizer_willSpeakMarker_utterance = unSelector (mkSelector "speechSynthesizer:willSpeakMarker:utterance:")
   -- speechSynthesizer:didStartSpeechUtterance:
   stub_0 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
@@ -130,15 +122,6 @@ avSpeechSynthesizerDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1)
   addObjCMethod cls "speechSynthesizer:didCancelSpeechUtterance:" "v@:@@" stub_4
 
-  -- speechSynthesizer:willSpeakMarker:utterance:
-  stub_5 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO AVSpeechSynthesizerDelegateOverrides
-    case _speechSynthesizer_willSpeakMarker_utterance rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "speechSynthesizer:willSpeakMarker:utterance:" "v@:@@@" stub_5
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -148,7 +131,6 @@ avSpeechSynthesizerDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_speechSynthesizer_didPauseSpeechUtterance then pure (maybe 0 (const 1) (_speechSynthesizer_didPauseSpeechUtterance rec_))
     else if queriedSel == sel_speechSynthesizer_didContinueSpeechUtterance then pure (maybe 0 (const 1) (_speechSynthesizer_didContinueSpeechUtterance rec_))
     else if queriedSel == sel_speechSynthesizer_didCancelSpeechUtterance then pure (maybe 0 (const 1) (_speechSynthesizer_didCancelSpeechUtterance rec_))
-    else if queriedSel == sel_speechSynthesizer_willSpeakMarker_utterance then pure (maybe 0 (const 1) (_speechSynthesizer_willSpeakMarker_utterance rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

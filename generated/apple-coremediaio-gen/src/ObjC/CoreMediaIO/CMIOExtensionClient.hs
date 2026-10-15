@@ -58,7 +58,7 @@ clientID cmioExtensionClient =
 -- The client's signing identifier.
 --
 -- ObjC selector: @- signingID@
-signingID :: IsCMIOExtensionClient cmioExtensionClient => cmioExtensionClient -> IO (Id NSString)
+signingID :: IsCMIOExtensionClient cmioExtensionClient => cmioExtensionClient -> IO RawId
 signingID cmioExtensionClient =
   sendMessage cmioExtensionClient signingIDSelector
 
@@ -88,7 +88,7 @@ clientIDSelector :: Selector '[] (Id NSUUID)
 clientIDSelector = mkSelector "clientID"
 
 -- | @Selector@ for @signingID@
-signingIDSelector :: Selector '[] (Id NSString)
+signingIDSelector :: Selector '[] RawId
 signingIDSelector = mkSelector "signingID"
 
 -- | @Selector@ for @pid@

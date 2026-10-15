@@ -131,42 +131,42 @@ localizedName nsColorSpace =
   sendMessage nsColorSpace localizedNameSelector
 
 -- | @+ sRGBColorSpace@
-sRGBColorSpace :: IO (Id NSColorSpace)
+sRGBColorSpace :: IO RawId
 sRGBColorSpace  =
   do
     cls' <- getRequiredClass "NSColorSpace"
     sendClassMessage cls' sRGBColorSpaceSelector
 
 -- | @+ genericGamma22GrayColorSpace@
-genericGamma22GrayColorSpace :: IO (Id NSColorSpace)
+genericGamma22GrayColorSpace :: IO RawId
 genericGamma22GrayColorSpace  =
   do
     cls' <- getRequiredClass "NSColorSpace"
     sendClassMessage cls' genericGamma22GrayColorSpaceSelector
 
 -- | @+ extendedSRGBColorSpace@
-extendedSRGBColorSpace :: IO (Id NSColorSpace)
+extendedSRGBColorSpace :: IO RawId
 extendedSRGBColorSpace  =
   do
     cls' <- getRequiredClass "NSColorSpace"
     sendClassMessage cls' extendedSRGBColorSpaceSelector
 
 -- | @+ extendedGenericGamma22GrayColorSpace@
-extendedGenericGamma22GrayColorSpace :: IO (Id NSColorSpace)
+extendedGenericGamma22GrayColorSpace :: IO RawId
 extendedGenericGamma22GrayColorSpace  =
   do
     cls' <- getRequiredClass "NSColorSpace"
     sendClassMessage cls' extendedGenericGamma22GrayColorSpaceSelector
 
 -- | @+ displayP3ColorSpace@
-displayP3ColorSpace :: IO (Id NSColorSpace)
+displayP3ColorSpace :: IO RawId
 displayP3ColorSpace  =
   do
     cls' <- getRequiredClass "NSColorSpace"
     sendClassMessage cls' displayP3ColorSpaceSelector
 
 -- | @+ adobeRGB1998ColorSpace@
-adobeRGB1998ColorSpace :: IO (Id NSColorSpace)
+adobeRGB1998ColorSpace :: IO RawId
 adobeRGB1998ColorSpace  =
   do
     cls' <- getRequiredClass "NSColorSpace"
@@ -259,27 +259,27 @@ localizedNameSelector :: Selector '[] (Id NSString)
 localizedNameSelector = mkSelector "localizedName"
 
 -- | @Selector@ for @sRGBColorSpace@
-sRGBColorSpaceSelector :: Selector '[] (Id NSColorSpace)
+sRGBColorSpaceSelector :: Selector '[] RawId
 sRGBColorSpaceSelector = mkSelector "sRGBColorSpace"
 
 -- | @Selector@ for @genericGamma22GrayColorSpace@
-genericGamma22GrayColorSpaceSelector :: Selector '[] (Id NSColorSpace)
+genericGamma22GrayColorSpaceSelector :: Selector '[] RawId
 genericGamma22GrayColorSpaceSelector = mkSelector "genericGamma22GrayColorSpace"
 
 -- | @Selector@ for @extendedSRGBColorSpace@
-extendedSRGBColorSpaceSelector :: Selector '[] (Id NSColorSpace)
+extendedSRGBColorSpaceSelector :: Selector '[] RawId
 extendedSRGBColorSpaceSelector = mkSelector "extendedSRGBColorSpace"
 
 -- | @Selector@ for @extendedGenericGamma22GrayColorSpace@
-extendedGenericGamma22GrayColorSpaceSelector :: Selector '[] (Id NSColorSpace)
+extendedGenericGamma22GrayColorSpaceSelector :: Selector '[] RawId
 extendedGenericGamma22GrayColorSpaceSelector = mkSelector "extendedGenericGamma22GrayColorSpace"
 
 -- | @Selector@ for @displayP3ColorSpace@
-displayP3ColorSpaceSelector :: Selector '[] (Id NSColorSpace)
+displayP3ColorSpaceSelector :: Selector '[] RawId
 displayP3ColorSpaceSelector = mkSelector "displayP3ColorSpace"
 
 -- | @Selector@ for @adobeRGB1998ColorSpace@
-adobeRGB1998ColorSpaceSelector :: Selector '[] (Id NSColorSpace)
+adobeRGB1998ColorSpaceSelector :: Selector '[] RawId
 adobeRGB1998ColorSpaceSelector = mkSelector "adobeRGB1998ColorSpace"
 
 -- | @Selector@ for @genericRGBColorSpace@

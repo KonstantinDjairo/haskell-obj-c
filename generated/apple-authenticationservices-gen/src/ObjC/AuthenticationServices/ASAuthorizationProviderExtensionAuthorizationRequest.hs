@@ -26,11 +26,9 @@ module ObjC.AuthenticationServices.ASAuthorizationProviderExtensionAuthorization
   , callerManaged
   , callerTeamIdentifier
   , localizedCallerDisplayName
-  , callerAuditToken
   , userInterfaceEnabled
   , loginManager
   , authorizationOptionsSelector
-  , callerAuditTokenSelector
   , callerBundleIdentifierSelector
   , callerManagedSelector
   , callerTeamIdentifierSelector
@@ -201,13 +199,6 @@ localizedCallerDisplayName :: IsASAuthorizationProviderExtensionAuthorizationReq
 localizedCallerDisplayName asAuthorizationProviderExtensionAuthorizationRequest =
   sendMessage asAuthorizationProviderExtensionAuthorizationRequest localizedCallerDisplayNameSelector
 
--- | Audit token of the calling application.
---
--- ObjC selector: @- callerAuditToken@
-callerAuditToken :: IsASAuthorizationProviderExtensionAuthorizationRequest asAuthorizationProviderExtensionAuthorizationRequest => asAuthorizationProviderExtensionAuthorizationRequest -> IO (Id NSData)
-callerAuditToken asAuthorizationProviderExtensionAuthorizationRequest =
-  sendMessage asAuthorizationProviderExtensionAuthorizationRequest callerAuditTokenSelector
-
 -- | Indicates whether the authorization user interface is enabled.
 --
 -- If user interface is not enabled, then the authorization will fail with
@@ -224,7 +215,7 @@ userInterfaceEnabled asAuthorizationProviderExtensionAuthorizationRequest =
 -- | The login manager to interface with the Platform SSO configuration.
 --
 -- ObjC selector: @- loginManager@
-loginManager :: IsASAuthorizationProviderExtensionAuthorizationRequest asAuthorizationProviderExtensionAuthorizationRequest => asAuthorizationProviderExtensionAuthorizationRequest -> IO (Id ASAuthorizationProviderExtensionLoginManager)
+loginManager :: IsASAuthorizationProviderExtensionAuthorizationRequest asAuthorizationProviderExtensionAuthorizationRequest => asAuthorizationProviderExtensionAuthorizationRequest -> IO RawId
 loginManager asAuthorizationProviderExtensionAuthorizationRequest =
   sendMessage asAuthorizationProviderExtensionAuthorizationRequest loginManagerSelector
 
@@ -308,15 +299,11 @@ callerTeamIdentifierSelector = mkSelector "callerTeamIdentifier"
 localizedCallerDisplayNameSelector :: Selector '[] (Id NSString)
 localizedCallerDisplayNameSelector = mkSelector "localizedCallerDisplayName"
 
--- | @Selector@ for @callerAuditToken@
-callerAuditTokenSelector :: Selector '[] (Id NSData)
-callerAuditTokenSelector = mkSelector "callerAuditToken"
-
 -- | @Selector@ for @userInterfaceEnabled@
 userInterfaceEnabledSelector :: Selector '[] Bool
 userInterfaceEnabledSelector = mkSelector "userInterfaceEnabled"
 
 -- | @Selector@ for @loginManager@
-loginManagerSelector :: Selector '[] (Id ASAuthorizationProviderExtensionLoginManager)
+loginManagerSelector :: Selector '[] RawId
 loginManagerSelector = mkSelector "loginManager"
 

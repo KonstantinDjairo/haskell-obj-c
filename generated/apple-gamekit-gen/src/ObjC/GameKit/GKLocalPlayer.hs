@@ -7,18 +7,17 @@
 module ObjC.GameKit.GKLocalPlayer
   ( GKLocalPlayer
   , IsGKLocalPlayer(..)
+  , setDefaultLeaderboardIdentifier_completionHandler
+  , loadDefaultLeaderboardIdentifierWithCompletionHandler
   , fetchItemsForIdentityVerificationSignature
   , saveGameData_withName_completionHandler
   , deleteSavedGamesWithName_completionHandler
-  , presentFriendRequestCreatorFromViewController_error
   , presentFriendRequestCreatorFromWindow_error
   , loadFriendsAuthorizationStatus
   , setDefaultLeaderboardCategoryID_completionHandler
   , loadDefaultLeaderboardCategoryIDWithCompletionHandler
   , authenticateWithCompletionHandler
   , generateIdentityVerificationSignatureWithCompletionHandler
-  , loadDefaultLeaderboardIdentifierWithCompletionHandler
-  , setDefaultLeaderboardIdentifier_completionHandler
   , registerListener
   , unregisterListener
   , unregisterAllListeners
@@ -31,13 +30,11 @@ module ObjC.GameKit.GKLocalPlayer
   , authenticateHandler
   , setAuthenticateHandler
   , isPresentingFriendRequestViewController
-  , friends
   , authenticateHandlerSelector
   , authenticateWithCompletionHandlerSelector
   , authenticatedSelector
   , deleteSavedGamesWithName_completionHandlerSelector
   , fetchItemsForIdentityVerificationSignatureSelector
-  , friendsSelector
   , generateIdentityVerificationSignatureWithCompletionHandlerSelector
   , isPresentingFriendRequestViewControllerSelector
   , loadDefaultLeaderboardCategoryIDWithCompletionHandlerSelector
@@ -47,7 +44,6 @@ module ObjC.GameKit.GKLocalPlayer
   , localSelector
   , multiplayerGamingRestrictedSelector
   , personalizedCommunicationRestrictedSelector
-  , presentFriendRequestCreatorFromViewController_errorSelector
   , presentFriendRequestCreatorFromWindow_errorSelector
   , registerListenerSelector
   , saveGameData_withName_completionHandlerSelector
@@ -73,6 +69,20 @@ import ObjC.GameKit.Internal.Classes
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | Set the default leaderboard for the current game    Possible reasons for error:    1. Communications problem    2. Unauthenticated player    3. Leaderboard not present
+--
+-- ObjC selector: @- setDefaultLeaderboardIdentifier:completionHandler:@
+setDefaultLeaderboardIdentifier_completionHandler :: (IsGKLocalPlayer gkLocalPlayer, IsNSString leaderboardIdentifier) => gkLocalPlayer -> leaderboardIdentifier -> Ptr () -> IO ()
+setDefaultLeaderboardIdentifier_completionHandler gkLocalPlayer leaderboardIdentifier completionHandler =
+  sendMessage gkLocalPlayer setDefaultLeaderboardIdentifier_completionHandlerSelector (toNSString leaderboardIdentifier) completionHandler
+
+-- | Load the default leaderboard identifier for the local player    Possible reasons for error:    1. Communications problem    2. Unauthenticated player    3. Leaderboard not present
+--
+-- ObjC selector: @- loadDefaultLeaderboardIdentifierWithCompletionHandler:@
+loadDefaultLeaderboardIdentifierWithCompletionHandler :: IsGKLocalPlayer gkLocalPlayer => gkLocalPlayer -> Ptr () -> IO ()
+loadDefaultLeaderboardIdentifierWithCompletionHandler gkLocalPlayer completionHandler =
+  sendMessage gkLocalPlayer loadDefaultLeaderboardIdentifierWithCompletionHandlerSelector completionHandler
+
 -- | Generates a signature allowing 3rd party server to authenticate the GKLocalPlayer    Possible reasons for error:    1. Communications problem    2. Unauthenticated player
 --
 -- ObjC selector: @- fetchItemsForIdentityVerificationSignature:@
@@ -93,17 +103,6 @@ saveGameData_withName_completionHandler gkLocalPlayer data_ name handler =
 deleteSavedGamesWithName_completionHandler :: (IsGKLocalPlayer gkLocalPlayer, IsNSString name) => gkLocalPlayer -> name -> Ptr () -> IO ()
 deleteSavedGamesWithName_completionHandler gkLocalPlayer name handler =
   sendMessage gkLocalPlayer deleteSavedGamesWithName_completionHandlerSelector (toNSString name) handler
-
--- | presentFriendRequestCreatorFromViewController:
---
--- Discussion:      iOS only. When invoked, a Messages sheet will be presented on the viewController passed in, using the existing flow of presentation on behalf of an application.      If an error is returned, control are returned directly to the application, without presentation.
---
--- Possible reasons for error:          - The local player user account is not allowed to add friends            - The device is not allowing outgoing traffic at the time of the operation
---
--- ObjC selector: @- presentFriendRequestCreatorFromViewController:error:@
-presentFriendRequestCreatorFromViewController_error :: (IsGKLocalPlayer gkLocalPlayer, IsNSViewController viewController, IsNSError error_) => gkLocalPlayer -> viewController -> error_ -> IO Bool
-presentFriendRequestCreatorFromViewController_error gkLocalPlayer viewController error_ =
-  sendMessage gkLocalPlayer presentFriendRequestCreatorFromViewController_errorSelector (toNSViewController viewController) (toNSError error_)
 
 -- | presentFriendRequestCreatorFromWindow:
 --
@@ -142,20 +141,6 @@ authenticateWithCompletionHandler gkLocalPlayer completionHandler =
 generateIdentityVerificationSignatureWithCompletionHandler :: IsGKLocalPlayer gkLocalPlayer => gkLocalPlayer -> Ptr () -> IO ()
 generateIdentityVerificationSignatureWithCompletionHandler gkLocalPlayer completionHandler =
   sendMessage gkLocalPlayer generateIdentityVerificationSignatureWithCompletionHandlerSelector completionHandler
-
--- | Load the default leaderboard identifier for the local player    Possible reasons for error:    1. Communications problem    2. Unauthenticated player    3. Leaderboard not present
---
--- ObjC selector: @- loadDefaultLeaderboardIdentifierWithCompletionHandler:@
-loadDefaultLeaderboardIdentifierWithCompletionHandler :: IsGKLocalPlayer gkLocalPlayer => gkLocalPlayer -> Ptr () -> IO ()
-loadDefaultLeaderboardIdentifierWithCompletionHandler gkLocalPlayer completionHandler =
-  sendMessage gkLocalPlayer loadDefaultLeaderboardIdentifierWithCompletionHandlerSelector completionHandler
-
--- | Set the default leaderboard for the current game    Possible reasons for error:    1. Communications problem    2. Unauthenticated player    3. Leaderboard not present
---
--- ObjC selector: @- setDefaultLeaderboardIdentifier:completionHandler:@
-setDefaultLeaderboardIdentifier_completionHandler :: (IsGKLocalPlayer gkLocalPlayer, IsNSString leaderboardIdentifier) => gkLocalPlayer -> leaderboardIdentifier -> Ptr () -> IO ()
-setDefaultLeaderboardIdentifier_completionHandler gkLocalPlayer leaderboardIdentifier completionHandler =
-  sendMessage gkLocalPlayer setDefaultLeaderboardIdentifier_completionHandlerSelector (toNSString leaderboardIdentifier) completionHandler
 
 -- | A single listener may be registered once. Registering multiple times results in undefined behavior. The registered listener will receive callbacks for any selector it responds to.
 --
@@ -235,16 +220,17 @@ isPresentingFriendRequestViewController :: IsGKLocalPlayer gkLocalPlayer => gkLo
 isPresentingFriendRequestViewController gkLocalPlayer =
   sendMessage gkLocalPlayer isPresentingFriendRequestViewControllerSelector
 
--- | This property is obsolete. **
---
--- ObjC selector: @- friends@
-friends :: IsGKLocalPlayer gkLocalPlayer => gkLocalPlayer -> IO (Id NSArray)
-friends gkLocalPlayer =
-  sendMessage gkLocalPlayer friendsSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @setDefaultLeaderboardIdentifier:completionHandler:@
+setDefaultLeaderboardIdentifier_completionHandlerSelector :: Selector '[Id NSString, Ptr ()] ()
+setDefaultLeaderboardIdentifier_completionHandlerSelector = mkSelector "setDefaultLeaderboardIdentifier:completionHandler:"
+
+-- | @Selector@ for @loadDefaultLeaderboardIdentifierWithCompletionHandler:@
+loadDefaultLeaderboardIdentifierWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
+loadDefaultLeaderboardIdentifierWithCompletionHandlerSelector = mkSelector "loadDefaultLeaderboardIdentifierWithCompletionHandler:"
 
 -- | @Selector@ for @fetchItemsForIdentityVerificationSignature:@
 fetchItemsForIdentityVerificationSignatureSelector :: Selector '[Ptr ()] ()
@@ -257,10 +243,6 @@ saveGameData_withName_completionHandlerSelector = mkSelector "saveGameData:withN
 -- | @Selector@ for @deleteSavedGamesWithName:completionHandler:@
 deleteSavedGamesWithName_completionHandlerSelector :: Selector '[Id NSString, Ptr ()] ()
 deleteSavedGamesWithName_completionHandlerSelector = mkSelector "deleteSavedGamesWithName:completionHandler:"
-
--- | @Selector@ for @presentFriendRequestCreatorFromViewController:error:@
-presentFriendRequestCreatorFromViewController_errorSelector :: Selector '[Id NSViewController, Id NSError] Bool
-presentFriendRequestCreatorFromViewController_errorSelector = mkSelector "presentFriendRequestCreatorFromViewController:error:"
 
 -- | @Selector@ for @presentFriendRequestCreatorFromWindow:error:@
 presentFriendRequestCreatorFromWindow_errorSelector :: Selector '[Id NSWindow, Id NSError] Bool
@@ -285,14 +267,6 @@ authenticateWithCompletionHandlerSelector = mkSelector "authenticateWithCompleti
 -- | @Selector@ for @generateIdentityVerificationSignatureWithCompletionHandler:@
 generateIdentityVerificationSignatureWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 generateIdentityVerificationSignatureWithCompletionHandlerSelector = mkSelector "generateIdentityVerificationSignatureWithCompletionHandler:"
-
--- | @Selector@ for @loadDefaultLeaderboardIdentifierWithCompletionHandler:@
-loadDefaultLeaderboardIdentifierWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
-loadDefaultLeaderboardIdentifierWithCompletionHandlerSelector = mkSelector "loadDefaultLeaderboardIdentifierWithCompletionHandler:"
-
--- | @Selector@ for @setDefaultLeaderboardIdentifier:completionHandler:@
-setDefaultLeaderboardIdentifier_completionHandlerSelector :: Selector '[Id NSString, Ptr ()] ()
-setDefaultLeaderboardIdentifier_completionHandlerSelector = mkSelector "setDefaultLeaderboardIdentifier:completionHandler:"
 
 -- | @Selector@ for @registerListener:@
 registerListenerSelector :: Selector '[RawId] ()
@@ -341,8 +315,4 @@ setAuthenticateHandlerSelector = mkSelector "setAuthenticateHandler:"
 -- | @Selector@ for @isPresentingFriendRequestViewController@
 isPresentingFriendRequestViewControllerSelector :: Selector '[] Bool
 isPresentingFriendRequestViewControllerSelector = mkSelector "isPresentingFriendRequestViewController"
-
--- | @Selector@ for @friends@
-friendsSelector :: Selector '[] (Id NSArray)
-friendsSelector = mkSelector "friends"
 

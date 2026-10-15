@@ -22,7 +22,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.GameplayKit.Internal.Classes
-import ObjC.GameplayKit.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
 -- ---------------------------------------------------------------------------

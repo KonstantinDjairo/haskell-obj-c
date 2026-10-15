@@ -32,14 +32,9 @@ module ObjC.FileProvider.NSFileProviderManager
   , removeAllDomainsWithCompletionHandler
   , signalErrorResolved_completionHandler
   , globalProgressForKind
-  , claimKnownFolders_localizedReason_completionHandler
-  , releaseKnownFolders_localizedReason_completionHandler
   , listAvailableTestingOperationsWithError
   , runTestingOperations_error
   , getServiceWithName_itemIdentifier_completionHandler
-  , requestDiagnosticCollectionForItemWithIdentifier_errorReason_completionHandler
-  , checkDomainsCanBeStored_onVolumeAtURL_unsupportedReason_error
-  , stateDirectoryURLWithError
   , requestDownloadForItemWithIdentifier_requestedRange_completionHandler
   , disconnectWithReason_options_completionHandler
   , reconnectWithCompletionHandler
@@ -55,8 +50,6 @@ module ObjC.FileProvider.NSFileProviderManager
   , providerIdentifier
   , documentStorageURL
   , addDomain_completionHandlerSelector
-  , checkDomainsCanBeStored_onVolumeAtURL_unsupportedReason_errorSelector
-  , claimKnownFolders_localizedReason_completionHandlerSelector
   , defaultManagerSelector
   , disconnectWithReason_options_completionHandlerSelector
   , documentStorageURLSelector
@@ -76,17 +69,14 @@ module ObjC.FileProvider.NSFileProviderManager
   , reconnectWithCompletionHandlerSelector
   , registerURLSessionTask_forItemWithIdentifier_completionHandlerSelector
   , reimportItemsBelowItemWithIdentifier_completionHandlerSelector
-  , releaseKnownFolders_localizedReason_completionHandlerSelector
   , removeAllDomainsWithCompletionHandlerSelector
   , removeDomain_completionHandlerSelector
   , removeDomain_mode_completionHandlerSelector
-  , requestDiagnosticCollectionForItemWithIdentifier_errorReason_completionHandlerSelector
   , requestDownloadForItemWithIdentifier_requestedRange_completionHandlerSelector
   , requestModificationOfFields_forItemWithIdentifier_options_completionHandlerSelector
   , runTestingOperations_errorSelector
   , signalEnumeratorForContainerItemIdentifier_completionHandlerSelector
   , signalErrorResolved_completionHandlerSelector
-  , stateDirectoryURLWithErrorSelector
   , temporaryDirectoryURLWithErrorSelector
   , waitForChangesOnItemsBelowItemWithIdentifier_completionHandlerSelector
   , waitForStabilizationWithCompletionHandlerSelector
@@ -108,15 +98,10 @@ module ObjC.FileProvider.NSFileProviderManager
   , pattern NSFileProviderItemFileSystemFlags
   , pattern NSFileProviderItemExtendedAttributes
   , pattern NSFileProviderItemTypeAndCreator
-  , NSFileProviderKnownFolders(NSFileProviderKnownFolders)
-  , pattern NSFileProviderDesktop
-  , pattern NSFileProviderDocuments
   , NSFileProviderManagerDisconnectionOptions(NSFileProviderManagerDisconnectionOptions)
   , pattern NSFileProviderManagerDisconnectionOptionsTemporary
   , NSFileProviderModifyItemOptions(NSFileProviderModifyItemOptions)
   , pattern NSFileProviderModifyItemMayAlreadyExist
-  , pattern NSFileProviderModifyItemFailOnConflict
-  , pattern NSFileProviderModifyItemIsImmediateUploadRequestByPresentingApplication
 
   ) where
 
@@ -155,7 +140,7 @@ managerForDomain domain =
 --
 -- When using NSFileProviderReplicatedExtension, only call this method with NSFileProviderWorkingSetContainerItemIdentifier. Other container identifiers are ignored. The system will automatically propagate working set changes to the UI, without explicitly signaling the containers currently being viewed in the UI.
 --
--- In addition to using this method, your application/extension can register for pushes using the PKPushTypeFileProvider push type. Pushes of the form {     "container-identifier": "<identifier>",     "domain": "<domain identifier>" } with a topic of "<your application identifier>.pushkit.fileprovider" will be translated into a call to signalEnumeratorForContainerItemIdentifier:completionHandler:.
+-- In addition to using this method, your application/extension can register for pushes using the PKPushTypeFileProvider push type. Pushes of the form {     container-identifier = "<identifier>"     domain = "<domain identifier>" } with a topic of "<your application identifier>.pushkit.fileprovider" will be translated into a call to signalEnumeratorForContainerItemIdentifier:completionHandler:.
 --
 -- ObjC selector: @- signalEnumeratorForContainerItemIdentifier:completionHandler:@
 signalEnumeratorForContainerItemIdentifier_completionHandler :: (IsNSFileProviderManager nsFileProviderManager, IsNSString containerItemIdentifier) => nsFileProviderManager -> containerItemIdentifier -> Ptr () -> IO ()
@@ -166,7 +151,7 @@ signalEnumeratorForContainerItemIdentifier_completionHandler nsFileProviderManag
 --
 -- The caller must use file coordination (see NSFileCoordinator) if it wishes to read the content or list the children of the URL. The caller should not try to manipulate files in the user visible location. All changes coming from the provider should go through updates in the working set that will be applied to the user visible items by the system.
 --
--- The location may differ from the logical parentURL/filename. If an item on disk cannot be assigned the requested name (e.g. because the local file system has different case collision rules from the provider), one of the items can be assigned a different local name. In that case, the "com.apple.fileprovider.before-bounce#PX" extended attribute will contain the filename before collision resolution. This attribute is only set if the item has been assigned a different local name following a collision. Such local names are not synced up to the provider; the purpose of the attribute is to enable consistency checkers to detect this case.
+-- The location may differ from the logical parentURL/filename. If an item on disk cannot be assigned the requested name (e.g. because the local file system has different case collision rules from the provider), one of the items can be assigned a different local name. In that case, the "com.apple.fileprovider.before-bounce#P" extended attribute will contain the filename before collision resolution. This attribute is only set if the item has been assigned a different local name following a collision. Such local names are not synced up to the provider; the purpose of the attribute is to enable consistency checkers to detect this case.
 --
 -- Before accessing the content of the returned URL, the caller must call `-[NSURL startAccessingSecurityScopedResource] on the returned URL and call @-[NSURL stopAccessingSecurityScopedResource]@ when done accessing the content.
 --
@@ -201,9 +186,9 @@ registerURLSessionTask_forItemWithIdentifier_completionHandler nsFileProviderMan
 --
 -- The returned URL is guaranteed to be on the same volume as the user visible URL, making sure the system can atomatically clone/move files from that location to the user visible URL. The provider can also use that directory as a target for moves and clones of content URL passed to createItemBasedOnTemplate or modifyItem.
 --
--- If the system cannot find a suitable directory, this calls will fail. This could happen e.g. if the domain does not exist or is in instance of initialization.
+-- If the system cannot find a suitable directory, this calls will fail. This could happen e.g. if the domain does not exist.
 --
--- This call succeeds when called from the extension process with an instance of the extension for the domain  unless domain was disconnected by @-[NSFileProviderExternalVolumeHandling shouldConnectExternalDomainWithCompletionHandler:]@. It can also fail in the extension process if the domain (external) is being setup for the very first time (meaning it never existed).
+-- This call will not fail when called from the extension process with an active instance of the extension for that domain.
 --
 -- ObjC selector: @- temporaryDirectoryURLWithError:@
 temporaryDirectoryURLWithError :: (IsNSFileProviderManager nsFileProviderManager, IsNSError error_) => nsFileProviderManager -> error_ -> IO (Id NSURL)
@@ -261,7 +246,7 @@ removeAllDomainsWithCompletionHandler completionHandler =
 
 -- | Calling this method will cause the system to cancel throttling on every item which has been throttled due to the given error.
 --
--- This call supports the following errors: - NSFileProviderErrorNotAuthenticated - NSFileProviderErrorInsufficientQuota - NSFileProviderErrorServerUnreachable - NSFileProviderErrorCannotSynchronize - NSFileProviderErrorExcludedFromSync
+-- This call supports 4 types of errors: - NSFileProviderErrorNotAuthenticated - NSFileProviderErrorInsufficientQuota - NSFileProviderErrorServerUnreachable - NSFileProviderErrorCannotSynchronize
 --
 -- ObjC selector: @- signalErrorResolved:completionHandler:@
 signalErrorResolved_completionHandler :: (IsNSFileProviderManager nsFileProviderManager, IsNSError error_) => nsFileProviderManager -> error_ -> Ptr () -> IO ()
@@ -272,9 +257,9 @@ signalErrorResolved_completionHandler nsFileProviderManager error_ completionHan
 --
 -- This progress tracks all the ongoing kind of operations (from disk to the provider). Uploading operations are the operations from disk to the provider. Downloading operations are the operations from the provider to the disk.
 --
--- The global progress exposes the two following data: - Number of items with an ongoing matching kind operation along with the grand total; - Number of bytes already transferred along with the total amount of bytes to transfer.
+-- The global progress exposes the two following data: - Number of items with an ongoing matching kind operation along with the grand total; - Number of bytes already transfered along with the total amount of bytes to transfer.
 --
--- @totalUnitCount@ will only be reset when there are no operations left. If new operations of the matching kind arrive while the global progress is already ongoing, they will just be summed to the existing global progress.
+-- The grand total will only be reset to 0 when there are no operations left. If new operations of the matching kind arrive while the global progress is already ongoing, they will just be summed to the existing global progress.
 --
 -- By default, when no matching kind operations are active, the progress has its values set to 1 and its state set to finished.
 --
@@ -288,36 +273,6 @@ signalErrorResolved_completionHandler nsFileProviderManager error_ completionHan
 globalProgressForKind :: (IsNSFileProviderManager nsFileProviderManager, IsNSString kind) => nsFileProviderManager -> kind -> IO (Id NSProgress)
 globalProgressForKind nsFileProviderManager kind =
   sendMessage nsFileProviderManager globalProgressForKindSelector (toNSString kind)
-
--- | Request the specified known folders to be synced by this domain.
---
--- This method allows the provider to claim a set of known folders described by the non-null properties of the knownFolders parameter. The system will only enable sync for those folders in that domain if the set of locations is valid and if the user agrees.
---
--- This API should only be called as a result of the user requesting, via UI in the provider's application, that they wish to start syncing the Desktop and Document folders. If the provider chooses to implement a UI which invokes this API, the provider should also implement a UI for the user to request to stop syncing the Desktop and Document folders, using the @-[NSFileProviderManager releaseKnownFolders:localizedReason:completionHandler:]@ method.
---
--- The reason specified in this call is a custom string that the provider can pass and will be presented to the user as a way to explain why it is claiming those known folders. One suggested phrasing would be:
---
--- > Keep your Desktop & Documents in sync with <Provider name> and access them from other devices and from <Provider website>.
---
--- If the user denies the transition of the known folders, the call will fail with @NSUserCancelledError@.
---
--- The call will fail if: - one or more locations are not folders - multiple locations are backed by the same folder - a known folder doesn't live on the same volume as the root of the domain - the known folders don't have the same parent folder - ...
---
--- Currently, only claiming both ~/Desktop and ~/Documents together is allowed.
---
--- ObjC selector: @- claimKnownFolders:localizedReason:completionHandler:@
-claimKnownFolders_localizedReason_completionHandler :: (IsNSFileProviderManager nsFileProviderManager, IsNSFileProviderKnownFolderLocations knownFolders, IsNSString localizedReason) => nsFileProviderManager -> knownFolders -> localizedReason -> Ptr () -> IO ()
-claimKnownFolders_localizedReason_completionHandler nsFileProviderManager knownFolders localizedReason completionHandler =
-  sendMessage nsFileProviderManager claimKnownFolders_localizedReason_completionHandlerSelector (toNSFileProviderKnownFolderLocations knownFolders) (toNSString localizedReason) completionHandler
-
--- | Request that the system stops replicating the specified known folders in the domain.
---
--- This call can be used by the provider to immediately disable replication of the specified known folders.
---
--- ObjC selector: @- releaseKnownFolders:localizedReason:completionHandler:@
-releaseKnownFolders_localizedReason_completionHandler :: (IsNSFileProviderManager nsFileProviderManager, IsNSString localizedReason) => nsFileProviderManager -> NSFileProviderKnownFolders -> localizedReason -> Ptr () -> IO ()
-releaseKnownFolders_localizedReason_completionHandler nsFileProviderManager knownFolders localizedReason completionHandler =
-  sendMessage nsFileProviderManager releaseKnownFolders_localizedReason_completionHandlerSelector knownFolders (toNSString localizedReason) completionHandler
 
 -- | List the available operations.
 --
@@ -345,59 +300,6 @@ runTestingOperations_error nsFileProviderManager operations error_ =
 getServiceWithName_itemIdentifier_completionHandler :: (IsNSFileProviderManager nsFileProviderManager, IsNSString serviceName, IsNSString itemIdentifier) => nsFileProviderManager -> serviceName -> itemIdentifier -> Ptr () -> IO ()
 getServiceWithName_itemIdentifier_completionHandler nsFileProviderManager serviceName itemIdentifier completionHandler =
   sendMessage nsFileProviderManager getServiceWithName_itemIdentifier_completionHandlerSelector (toNSString serviceName) (toNSString itemIdentifier) completionHandler
-
--- | Request diagnostics collection for the item.
---
--- This will prompt the user about an issue with the sync in the provider and ask their permission to collection diagnostic information and to send them to Apple for further analysis.
---
--- This call is to be used wisely with care given there's global throttling on it preventing spamming the users. Furthermore it should be used in collaboration with Apple when you detect a misbehavior in the sync in your provider likely caused by a system bug and you need to work with Apple in order to resolve it.
---
--- This will return whether the call was allowed or not - not if it suceed This method will only return an error if the user was not on a Seed build
---
--- It is mandatory to provide an error for the item why the collection is requested. The error won't be shown to the user (a generic message will be shown instead) It will surface in the generated report though
---
--- It is important to note that even if the call is allowed, it might not trigger diagnostic collection nor prompt to the user depending on the system state and other throttling parameters
---
--- ObjC selector: @- requestDiagnosticCollectionForItemWithIdentifier:errorReason:completionHandler:@
-requestDiagnosticCollectionForItemWithIdentifier_errorReason_completionHandler :: (IsNSFileProviderManager nsFileProviderManager, IsNSString itemIdentifier, IsNSError errorReason) => nsFileProviderManager -> itemIdentifier -> errorReason -> Ptr () -> IO ()
-requestDiagnosticCollectionForItemWithIdentifier_errorReason_completionHandler nsFileProviderManager itemIdentifier errorReason completionHandler =
-  sendMessage nsFileProviderManager requestDiagnosticCollectionForItemWithIdentifier_errorReason_completionHandlerSelector (toNSString itemIdentifier) (toNSError errorReason) completionHandler
-
--- | Check if a URL is eligible for storing a domain.
---
--- This returns whether the check has been performed succesfully - NOT whether the drive is eligible.
---
--- If an error was encountered while checking, this method returns FALSE and an error describing the problem will be set.
---
--- The eligible parameter will contain the result of the check and indicate whether the volume can be used to store FP domains. Its value is only defined if the call returns YES.
---
--- The url can be any existing and accessible URL on the volume for which you want to assess eligibility. The checks are volume-wide and the exact location on the volume doesn't impact them.
---
--- If a drive is eligible, unsupportedReason will be empty (0). Otherwise it will contain the list of identified conditions that currently prevent this drive from being used to store FP domains.
---
--- ObjC selector: @+ checkDomainsCanBeStored:onVolumeAtURL:unsupportedReason:error:@
-checkDomainsCanBeStored_onVolumeAtURL_unsupportedReason_error :: (IsNSURL url, IsNSError error_) => Ptr Bool -> url -> Ptr NSFileProviderVolumeUnsupportedReason -> error_ -> IO Bool
-checkDomainsCanBeStored_onVolumeAtURL_unsupportedReason_error eligible url unsupportedReason error_ =
-  do
-    cls' <- getRequiredClass "NSFileProviderManager"
-    sendClassMessage cls' checkDomainsCanBeStored_onVolumeAtURL_unsupportedReason_errorSelector eligible (toNSURL url) unsupportedReason (toNSError error_)
-
--- | A directory suitable for storing state information for the domain.
---
--- The returned URL is guaranteed to be on the same volume as the user visible URL and the temporary URL, making sure the system can atomatically clone/move files from that location to the user visible URL. The caller is responsible for managing the security scope of the returned URL.
---
--- When syncing a domain on an external volume, all information about the sync state must be kept in this directory if the volume is to be shared between multiple machines.
---
--- If the system cannot find a suitable directory, this call will fail. This could happen e.g. if the domain does not exist or is in instance of initialization.
---
--- This call will not fail when called from the extension process with an active instance of the extension for that domain unless the domain is being setup for the very first time (meaning it never existed).
---
--- Removing the domain will remove the corresponding directory along with it.
---
--- ObjC selector: @- stateDirectoryURLWithError:@
-stateDirectoryURLWithError :: (IsNSFileProviderManager nsFileProviderManager, IsNSError error_) => nsFileProviderManager -> error_ -> IO (Id NSURL)
-stateDirectoryURLWithError nsFileProviderManager error_ =
-  sendMessage nsFileProviderManager stateDirectoryURLWithErrorSelector (toNSError error_)
 
 -- | Request that the system schedule a download for an item.
 --
@@ -490,7 +392,7 @@ importDomain_fromDirectoryAtURL_completionHandler domain url completionHandler =
 --
 -- In case the extension has lost its synchronisation state and is not interested in preserving the data cached on disk, it can remove and re-add the affected domain.
 --
--- The completion handler is called as soon as the reimport is initiated and does not not reflect the end of the import. When the import of the file hierarchy is finished, the system calls -[NSFileProviderExtension importDidFinishWithCompletionHandler:].
+-- The completion handler is called immediately and does not reflect the end of the import. When the import of the file hierarchy is finished, the system calls -[NSFileProviderExtension importDidFinishWithCompletionHandler:].
 --
 -- In some circumstances, in particular in case the requested item is the root item, calling reimport will cause the system to stop the extension process. If the call is initiated from the extension, the system does not guarantee that the completion handler will be called before the extension is stopped. When called on the root item, reimport will cause the system to rebuild its backing store for the domain. See @-[NSFileProviderDomain backingStoreIdentity]@.
 --
@@ -615,14 +517,6 @@ signalErrorResolved_completionHandlerSelector = mkSelector "signalErrorResolved:
 globalProgressForKindSelector :: Selector '[Id NSString] (Id NSProgress)
 globalProgressForKindSelector = mkSelector "globalProgressForKind:"
 
--- | @Selector@ for @claimKnownFolders:localizedReason:completionHandler:@
-claimKnownFolders_localizedReason_completionHandlerSelector :: Selector '[Id NSFileProviderKnownFolderLocations, Id NSString, Ptr ()] ()
-claimKnownFolders_localizedReason_completionHandlerSelector = mkSelector "claimKnownFolders:localizedReason:completionHandler:"
-
--- | @Selector@ for @releaseKnownFolders:localizedReason:completionHandler:@
-releaseKnownFolders_localizedReason_completionHandlerSelector :: Selector '[NSFileProviderKnownFolders, Id NSString, Ptr ()] ()
-releaseKnownFolders_localizedReason_completionHandlerSelector = mkSelector "releaseKnownFolders:localizedReason:completionHandler:"
-
 -- | @Selector@ for @listAvailableTestingOperationsWithError:@
 listAvailableTestingOperationsWithErrorSelector :: Selector '[Id NSError] (Id NSArray)
 listAvailableTestingOperationsWithErrorSelector = mkSelector "listAvailableTestingOperationsWithError:"
@@ -634,18 +528,6 @@ runTestingOperations_errorSelector = mkSelector "runTestingOperations:error:"
 -- | @Selector@ for @getServiceWithName:itemIdentifier:completionHandler:@
 getServiceWithName_itemIdentifier_completionHandlerSelector :: Selector '[Id NSString, Id NSString, Ptr ()] ()
 getServiceWithName_itemIdentifier_completionHandlerSelector = mkSelector "getServiceWithName:itemIdentifier:completionHandler:"
-
--- | @Selector@ for @requestDiagnosticCollectionForItemWithIdentifier:errorReason:completionHandler:@
-requestDiagnosticCollectionForItemWithIdentifier_errorReason_completionHandlerSelector :: Selector '[Id NSString, Id NSError, Ptr ()] ()
-requestDiagnosticCollectionForItemWithIdentifier_errorReason_completionHandlerSelector = mkSelector "requestDiagnosticCollectionForItemWithIdentifier:errorReason:completionHandler:"
-
--- | @Selector@ for @checkDomainsCanBeStored:onVolumeAtURL:unsupportedReason:error:@
-checkDomainsCanBeStored_onVolumeAtURL_unsupportedReason_errorSelector :: Selector '[Ptr Bool, Id NSURL, Ptr NSFileProviderVolumeUnsupportedReason, Id NSError] Bool
-checkDomainsCanBeStored_onVolumeAtURL_unsupportedReason_errorSelector = mkSelector "checkDomainsCanBeStored:onVolumeAtURL:unsupportedReason:error:"
-
--- | @Selector@ for @stateDirectoryURLWithError:@
-stateDirectoryURLWithErrorSelector :: Selector '[Id NSError] (Id NSURL)
-stateDirectoryURLWithErrorSelector = mkSelector "stateDirectoryURLWithError:"
 
 -- | @Selector@ for @requestDownloadForItemWithIdentifier:requestedRange:completionHandler:@
 requestDownloadForItemWithIdentifier_requestedRange_completionHandlerSelector :: Selector '[Id NSString, NSRange, Ptr ()] ()

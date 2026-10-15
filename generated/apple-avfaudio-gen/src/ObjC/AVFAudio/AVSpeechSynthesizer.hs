@@ -20,7 +20,6 @@ module ObjC.AVFAudio.AVSpeechSynthesizer
   , stopSpeakingAtBoundary
   , pauseSpeakingAtBoundary
   , continueSpeaking
-  , requestPersonalVoiceAuthorizationWithCompletionHandler
   , delegate
   , setDelegate
   , speaking
@@ -31,15 +30,12 @@ module ObjC.AVFAudio.AVSpeechSynthesizer
   , setUsesApplicationAudioSession
   , mixToTelephonyUplink
   , setMixToTelephonyUplink
-  , personalVoiceAuthorizationStatus
   , continueSpeakingSelector
   , delegateSelector
   , mixToTelephonyUplinkSelector
   , outputChannelsSelector
   , pauseSpeakingAtBoundarySelector
   , pausedSelector
-  , personalVoiceAuthorizationStatusSelector
-  , requestPersonalVoiceAuthorizationWithCompletionHandlerSelector
   , setDelegateSelector
   , setMixToTelephonyUplinkSelector
   , setOutputChannelsSelector
@@ -55,11 +51,6 @@ module ObjC.AVFAudio.AVSpeechSynthesizer
   , AVSpeechBoundary(AVSpeechBoundary)
   , pattern AVSpeechBoundaryImmediate
   , pattern AVSpeechBoundaryWord
-  , AVSpeechSynthesisPersonalVoiceAuthorizationStatus(AVSpeechSynthesisPersonalVoiceAuthorizationStatus)
-  , pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusNotDetermined
-  , pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusDenied
-  , pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusUnsupported
-  , pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusAuthorized
 
   ) where
 
@@ -106,19 +97,6 @@ pauseSpeakingAtBoundary avSpeechSynthesizer boundary =
 continueSpeaking :: IsAVSpeechSynthesizer avSpeechSynthesizer => avSpeechSynthesizer -> IO Bool
 continueSpeaking avSpeechSynthesizer =
   sendMessage avSpeechSynthesizer continueSpeakingSelector
-
--- | Asks the user to allow your app to use personal voices for speech synthesis
---
--- Call this method before performing any other tasks associated with speech synthesis using personal voices. This method executes asynchronously, returning shortly after you call it. At some point later, the system calls the provided handler block with the results.
---
--- When your app's authorization status is PersonalVoiceAuthorizationStatus.notDetermined, this method causes the system to prompt the user to grant or deny permission for your app to use personal voices. The user's response is saved so that future calls to this method do not prompt the user again.
---
--- ObjC selector: @+ requestPersonalVoiceAuthorizationWithCompletionHandler:@
-requestPersonalVoiceAuthorizationWithCompletionHandler :: Ptr () -> IO ()
-requestPersonalVoiceAuthorizationWithCompletionHandler handler =
-  do
-    cls' <- getRequiredClass "AVSpeechSynthesizer"
-    sendClassMessage cls' requestPersonalVoiceAuthorizationWithCompletionHandlerSelector handler
 
 -- | @- delegate@
 delegate :: IsAVSpeechSynthesizer avSpeechSynthesizer => avSpeechSynthesizer -> IO RawId
@@ -170,19 +148,6 @@ setMixToTelephonyUplink :: IsAVSpeechSynthesizer avSpeechSynthesizer => avSpeech
 setMixToTelephonyUplink avSpeechSynthesizer value =
   sendMessage avSpeechSynthesizer setMixToTelephonyUplinkSelector value
 
--- | Returns your app's current authorization to use personal voices.
---
--- The user can reject your app's request to use personal voices, but your request can also be denied if personal voices are not supported on the device. The app can also change your app's authorization status at any time from the Settings app.
---
--- The app's current authorization status value. For a list of values, see AVSpeechSynthesisPersonalVoiceAuthorizationStatus.
---
--- ObjC selector: @+ personalVoiceAuthorizationStatus@
-personalVoiceAuthorizationStatus :: IO AVSpeechSynthesisPersonalVoiceAuthorizationStatus
-personalVoiceAuthorizationStatus  =
-  do
-    cls' <- getRequiredClass "AVSpeechSynthesizer"
-    sendClassMessage cls' personalVoiceAuthorizationStatusSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -210,10 +175,6 @@ pauseSpeakingAtBoundarySelector = mkSelector "pauseSpeakingAtBoundary:"
 -- | @Selector@ for @continueSpeaking@
 continueSpeakingSelector :: Selector '[] Bool
 continueSpeakingSelector = mkSelector "continueSpeaking"
-
--- | @Selector@ for @requestPersonalVoiceAuthorizationWithCompletionHandler:@
-requestPersonalVoiceAuthorizationWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
-requestPersonalVoiceAuthorizationWithCompletionHandlerSelector = mkSelector "requestPersonalVoiceAuthorizationWithCompletionHandler:"
 
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId
@@ -254,8 +215,4 @@ mixToTelephonyUplinkSelector = mkSelector "mixToTelephonyUplink"
 -- | @Selector@ for @setMixToTelephonyUplink:@
 setMixToTelephonyUplinkSelector :: Selector '[Bool] ()
 setMixToTelephonyUplinkSelector = mkSelector "setMixToTelephonyUplink:"
-
--- | @Selector@ for @personalVoiceAuthorizationStatus@
-personalVoiceAuthorizationStatusSelector :: Selector '[] AVSpeechSynthesisPersonalVoiceAuthorizationStatus
-personalVoiceAuthorizationStatusSelector = mkSelector "personalVoiceAuthorizationStatus"
 

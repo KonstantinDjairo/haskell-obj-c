@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRAccessControlClusterTarget
   ( MTRAccessControlClusterTarget
   , IsMTRAccessControlClusterTarget(..)
+  , init_
+  , copyWithZone
   , cluster
   , setCluster
   , endpoint
@@ -14,8 +16,10 @@ module ObjC.Matter.MTRAccessControlClusterTarget
   , deviceType
   , setDeviceType
   , clusterSelector
+  , copyWithZoneSelector
   , deviceTypeSelector
   , endpointSelector
+  , initSelector
   , setClusterSelector
   , setDeviceTypeSelector
   , setEndpointSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRAccessControlClusterTarget mtrAccessControlClusterTarget => mtrAccessControlClusterTarget -> IO (Id MTRAccessControlClusterTarget)
+init_ mtrAccessControlClusterTarget =
+  sendOwnedMessage mtrAccessControlClusterTarget initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAccessControlClusterTarget mtrAccessControlClusterTarget => mtrAccessControlClusterTarget -> Ptr () -> IO RawId
+copyWithZone mtrAccessControlClusterTarget zone =
+  sendOwnedMessage mtrAccessControlClusterTarget copyWithZoneSelector zone
 
 -- | @- cluster@
 cluster :: IsMTRAccessControlClusterTarget mtrAccessControlClusterTarget => mtrAccessControlClusterTarget -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setDeviceType mtrAccessControlClusterTarget value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAccessControlClusterTarget)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @cluster@
 clusterSelector :: Selector '[] (Id NSNumber)

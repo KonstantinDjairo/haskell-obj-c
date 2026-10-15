@@ -21,14 +21,12 @@ module ObjC.AudioVideoBridging.AVB17221AECPInterface
   , removeResponseHandlerForControllerEntityID
   , sendCommand_toMACAddress_completionHandler
   , sendResponse_toMACAddress_error
-  , sendVendorUniqueCommand_toMACAddress_expectResponseWithinTimeout_completionHandler
   , aecpInterfaceWithInterfaceNamedSelector
   , aecpInterfaceWithInterfaceSelector
   , removeCommandHandlerForEntityIDSelector
   , removeResponseHandlerForControllerEntityIDSelector
   , sendCommand_toMACAddress_completionHandlerSelector
   , sendResponse_toMACAddress_errorSelector
-  , sendVendorUniqueCommand_toMACAddress_expectResponseWithinTimeout_completionHandlerSelector
   , setCommandHandler_forEntityIDSelector
   , setResponseHandler_forControllerEntityIDSelector
 
@@ -164,27 +162,6 @@ sendResponse_toMACAddress_error :: (IsAVB17221AECPInterface avB17221AECPInterfac
 sendResponse_toMACAddress_error avB17221AECPInterface message destMAC error_ =
   sendMessage avB17221AECPInterface sendResponse_toMACAddress_errorSelector (toAVB17221AECPMessage message) (toAVBMACAddress destMAC) (toNSError error_)
 
--- | sendVendorUniqueCommand:toMACAddress:expectResponseWithinTimeout:completionHandler:
---
--- Send an AECP vendor unique command message expected to receive a matching response.
---
--- @message@ — An instance of AVB17221AECPVendorMessage which contains the command message.
---
--- @destMAC@ — The MAC address of the end station to send the message to.
---
--- @timeout@ — The number of milliseconds before the command times out.
---
--- @completionHandler@ — A block containing code to execute when the command has been sent or timed out.
---
--- Returns: A BOOL indicating success or failure
---
--- This method synchronizes access to the kernel service providing transport for the message. This method is safe to call from any thread.
---
--- ObjC selector: @- sendVendorUniqueCommand:toMACAddress:expectResponseWithinTimeout:completionHandler:@
-sendVendorUniqueCommand_toMACAddress_expectResponseWithinTimeout_completionHandler :: (IsAVB17221AECPInterface avB17221AECPInterface, IsAVB17221AECPVendorMessage message, IsAVBMACAddress destMAC) => avB17221AECPInterface -> message -> destMAC -> CLong -> Ptr () -> IO Bool
-sendVendorUniqueCommand_toMACAddress_expectResponseWithinTimeout_completionHandler avB17221AECPInterface message destMAC timeout completionHandler =
-  sendMessage avB17221AECPInterface sendVendorUniqueCommand_toMACAddress_expectResponseWithinTimeout_completionHandlerSelector (toAVB17221AECPVendorMessage message) (toAVBMACAddress destMAC) timeout completionHandler
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -220,8 +197,4 @@ sendCommand_toMACAddress_completionHandlerSelector = mkSelector "sendCommand:toM
 -- | @Selector@ for @sendResponse:toMACAddress:error:@
 sendResponse_toMACAddress_errorSelector :: Selector '[Id AVB17221AECPMessage, Id AVBMACAddress, Id NSError] Bool
 sendResponse_toMACAddress_errorSelector = mkSelector "sendResponse:toMACAddress:error:"
-
--- | @Selector@ for @sendVendorUniqueCommand:toMACAddress:expectResponseWithinTimeout:completionHandler:@
-sendVendorUniqueCommand_toMACAddress_expectResponseWithinTimeout_completionHandlerSelector :: Selector '[Id AVB17221AECPVendorMessage, Id AVBMACAddress, CLong, Ptr ()] Bool
-sendVendorUniqueCommand_toMACAddress_expectResponseWithinTimeout_completionHandlerSelector = mkSelector "sendVendorUniqueCommand:toMACAddress:expectResponseWithinTimeout:completionHandler:"
 

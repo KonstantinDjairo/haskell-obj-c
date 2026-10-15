@@ -124,28 +124,28 @@ setDesiredKeys :: (IsCKFetchRecordChangesOperation ckFetchRecordChangesOperation
 setDesiredKeys ckFetchRecordChangesOperation value =
   sendMessage ckFetchRecordChangesOperation setDesiredKeysSelector (toNSArray value)
 
--- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordChangedBlock@
 recordChangedBlock :: IsCKFetchRecordChangesOperation ckFetchRecordChangesOperation => ckFetchRecordChangesOperation -> IO (Ptr ())
 recordChangedBlock ckFetchRecordChangesOperation =
   sendMessage ckFetchRecordChangesOperation recordChangedBlockSelector
 
--- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordChangedBlock:@
 setRecordChangedBlock :: IsCKFetchRecordChangesOperation ckFetchRecordChangesOperation => ckFetchRecordChangesOperation -> Ptr () -> IO ()
 setRecordChangedBlock ckFetchRecordChangesOperation value =
   sendMessage ckFetchRecordChangesOperation setRecordChangedBlockSelector value
 
--- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordWithIDWasDeletedBlock@
 recordWithIDWasDeletedBlock :: IsCKFetchRecordChangesOperation ckFetchRecordChangesOperation => ckFetchRecordChangesOperation -> IO (Ptr ())
 recordWithIDWasDeletedBlock ckFetchRecordChangesOperation =
   sendMessage ckFetchRecordChangesOperation recordWithIDWasDeletedBlockSelector
 
--- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordWithIDWasDeletedBlock:@
 setRecordWithIDWasDeletedBlock :: IsCKFetchRecordChangesOperation ckFetchRecordChangesOperation => ckFetchRecordChangesOperation -> Ptr () -> IO ()
@@ -163,7 +163,7 @@ moreComing ckFetchRecordChangesOperation =
 
 -- | This block is called when the operation completes.
 --
--- Clients are responsible for saving the change token at the end of the operation and passing it in to the next call to @CKFetchRecordChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in the completion block so that already fetched records don't need to be re-downloaded on a subsequent operation.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @previousServerChangeToken@ value was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @previousServerChangeToken.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Clients are responsible for saving the change token at the end of the operation and passing it in to the next call to @CKFetchRecordChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in the completion block so that already fetched records don't need to be re-downloaded on a subsequent operation.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @previousServerChangeToken@ value was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @previousServerChangeToken.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- fetchRecordChangesCompletionBlock@
 fetchRecordChangesCompletionBlock :: IsCKFetchRecordChangesOperation ckFetchRecordChangesOperation => ckFetchRecordChangesOperation -> IO (Ptr ())
@@ -172,7 +172,7 @@ fetchRecordChangesCompletionBlock ckFetchRecordChangesOperation =
 
 -- | This block is called when the operation completes.
 --
--- Clients are responsible for saving the change token at the end of the operation and passing it in to the next call to @CKFetchRecordChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in the completion block so that already fetched records don't need to be re-downloaded on a subsequent operation.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @previousServerChangeToken@ value was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @previousServerChangeToken.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Clients are responsible for saving the change token at the end of the operation and passing it in to the next call to @CKFetchRecordChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in the completion block so that already fetched records don't need to be re-downloaded on a subsequent operation.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @previousServerChangeToken@ value was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @previousServerChangeToken.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setFetchRecordChangesCompletionBlock:@
 setFetchRecordChangesCompletionBlock :: IsCKFetchRecordChangesOperation ckFetchRecordChangesOperation => ckFetchRecordChangesOperation -> Ptr () -> IO ()

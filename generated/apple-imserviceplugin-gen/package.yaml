@@ -1,0 +1,37 @@
+name:                apple-imserviceplugin-gen
+version:             0.1.0.0
+synopsis:            Generated Haskell bindings for the IMServicePlugIn framework
+license:             BSD-3-Clause
+
+dependencies:
+- base >= 4.7 && < 5
+- haskell-obj-c
+- libffi
+- apple-foundation-gen
+
+ghc-options:
+- -Wall
+- -Wno-orphans
+- -Wno-unused-imports
+
+library:
+  source-dirs: src
+  exposed-modules:
+  - ObjC.IMServicePlugIn.Delegate.IMServiceApplication
+  - ObjC.IMServicePlugIn.Delegate.IMServiceApplicationChatRoomSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServiceApplicationGroupListAuthorizationSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServiceApplicationGroupListSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServiceApplicationInstantMessagingSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugIn
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInChatRoomSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInGroupListAuthorizationSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInGroupListEditingSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInGroupListHandlePictureSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInGroupListOrderingSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInGroupListSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInInstantMessagingSupport
+  - ObjC.IMServicePlugIn.Delegate.IMServicePlugInPresenceSupport
+  - ObjC.IMServicePlugIn.Enums
+  - ObjC.IMServicePlugIn.IMServicePlugInMessage
+  - ObjC.IMServicePlugIn.Internal.Classes
+  - ObjC.IMServicePlugIn.Internal.Enums

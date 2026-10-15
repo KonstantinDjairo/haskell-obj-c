@@ -8,7 +8,6 @@
 -- Import the per-class modules for the public API.
 module ObjC.Vision.Internal.Classes (
     module ObjC.Vision.Internal.Classes,
-    module ObjC.AVFoundation.Internal.Classes,
     module ObjC.CoreImage.Internal.Classes,
     module ObjC.CoreML.Internal.Classes,
     module ObjC.Foundation.Internal.Classes,
@@ -17,7 +16,6 @@ module ObjC.Vision.Internal.Classes (
 import Data.Proxy (Proxy(..))
 import ObjC.Runtime.Types
 import ObjC.Runtime.Class (getRequiredClass)
-import ObjC.AVFoundation.Internal.Classes
 import ObjC.CoreImage.Internal.Classes
 import ObjC.CoreML.Internal.Classes
 import ObjC.Foundation.Internal.Classes
@@ -223,31 +221,6 @@ instance IsVNPoint (Id VNPoint) where
   toVNPoint = unsafeCastId
 
 instance IsNSObject (Id VNPoint) where
-  toNSObject = unsafeCastId
-
--- ---------- VNPoint3D ----------
-
--- | VNPoint3D
---
--- VNPoint3D represents a single, immutable, three-dimensional point in an image.
---
--- It should be noted that VNPoint3D is not intended as an overall replacement of simd float4x4, but is used by observations that need to present points which may contain additional metadata.
--- 
--- Phantom type for @VNPoint3D@.
-data VNPoint3D
-
-instance IsObjCObject (Id VNPoint3D) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNPoint3D"
-
-class IsNSObject a => IsVNPoint3D a where
-  toVNPoint3D :: a -> Id VNPoint3D
-
-instance IsVNPoint3D (Id VNPoint3D) where
-  toVNPoint3D = unsafeCastId
-
-instance IsNSObject (Id VNPoint3D) where
   toNSObject = unsafeCastId
 
 -- ---------- VNRecognizedText ----------
@@ -625,34 +598,6 @@ instance IsNSObject (Id VNHorizonObservation) where
 instance IsVNObservation (Id VNHorizonObservation) where
   toVNObservation = unsafeCastId
 
--- ---------- VNImageAestheticsScoresObservation ----------
-
--- | VNImageAestheticsScoresObservation
---
--- VNObservation
---
--- VNImageAestheticsScoresObservation provides an overall score of aesthetic attributes for an image.
--- 
--- Phantom type for @VNImageAestheticsScoresObservation@.
-data VNImageAestheticsScoresObservation
-
-instance IsObjCObject (Id VNImageAestheticsScoresObservation) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNImageAestheticsScoresObservation"
-
-class IsVNObservation a => IsVNImageAestheticsScoresObservation a where
-  toVNImageAestheticsScoresObservation :: a -> Id VNImageAestheticsScoresObservation
-
-instance IsVNImageAestheticsScoresObservation (Id VNImageAestheticsScoresObservation) where
-  toVNImageAestheticsScoresObservation = unsafeCastId
-
-instance IsNSObject (Id VNImageAestheticsScoresObservation) where
-  toNSObject = unsafeCastId
-
-instance IsVNObservation (Id VNImageAestheticsScoresObservation) where
-  toVNObservation = unsafeCastId
-
 -- ---------- VNImageAlignmentObservation ----------
 
 -- | VNImageAlignmentObservation
@@ -679,30 +624,6 @@ instance IsNSObject (Id VNImageAlignmentObservation) where
   toNSObject = unsafeCastId
 
 instance IsVNObservation (Id VNImageAlignmentObservation) where
-  toVNObservation = unsafeCastId
-
--- ---------- VNInstanceMaskObservation ----------
-
--- | An observation resulting from an instance mask generation request. It contains an instance mask that labels instances in the mask that labels per pixel an instance.
--- 
--- Phantom type for @VNInstanceMaskObservation@.
-data VNInstanceMaskObservation
-
-instance IsObjCObject (Id VNInstanceMaskObservation) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNInstanceMaskObservation"
-
-class IsVNObservation a => IsVNInstanceMaskObservation a where
-  toVNInstanceMaskObservation :: a -> Id VNInstanceMaskObservation
-
-instance IsVNInstanceMaskObservation (Id VNInstanceMaskObservation) where
-  toVNInstanceMaskObservation = unsafeCastId
-
-instance IsNSObject (Id VNInstanceMaskObservation) where
-  toNSObject = unsafeCastId
-
-instance IsVNObservation (Id VNInstanceMaskObservation) where
   toVNObservation = unsafeCastId
 
 -- ---------- VNPixelBufferObservation ----------
@@ -733,36 +654,6 @@ instance IsNSObject (Id VNPixelBufferObservation) where
   toNSObject = unsafeCastId
 
 instance IsVNObservation (Id VNPixelBufferObservation) where
-  toVNObservation = unsafeCastId
-
--- ---------- VNRecognizedPoints3DObservation ----------
-
--- | VNRecognizedPoints3D
---
--- Observation
---
--- VNObservation
---
--- VNRecognizedPointsObservation is a request result detailing points in an image.
--- 
--- Phantom type for @VNRecognizedPoints3DObservation@.
-data VNRecognizedPoints3DObservation
-
-instance IsObjCObject (Id VNRecognizedPoints3DObservation) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNRecognizedPoints3DObservation"
-
-class IsVNObservation a => IsVNRecognizedPoints3DObservation a where
-  toVNRecognizedPoints3DObservation :: a -> Id VNRecognizedPoints3DObservation
-
-instance IsVNRecognizedPoints3DObservation (Id VNRecognizedPoints3DObservation) where
-  toVNRecognizedPoints3DObservation = unsafeCastId
-
-instance IsNSObject (Id VNRecognizedPoints3DObservation) where
-  toNSObject = unsafeCastId
-
-instance IsVNObservation (Id VNRecognizedPoints3DObservation) where
   toVNObservation = unsafeCastId
 
 -- ---------- VNRecognizedPointsObservation ----------
@@ -848,34 +739,6 @@ instance IsNSObject (Id VNDetectedPoint) where
 
 instance IsVNPoint (Id VNDetectedPoint) where
   toVNPoint = unsafeCastId
-
--- ---------- VNRecognizedPoint3D ----------
-
--- | VNRecognizedPoint3D
---
--- An extension of VNPoint3D that associates an identifier to the point.
---
--- It should be noted that VNRecognizedPoint3D is not intended as an overall replacement of simd float 4x4, but is used by observations that recognize labeled points of interest.
--- 
--- Phantom type for @VNRecognizedPoint3D@.
-data VNRecognizedPoint3D
-
-instance IsObjCObject (Id VNRecognizedPoint3D) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNRecognizedPoint3D"
-
-class IsVNPoint3D a => IsVNRecognizedPoint3D a where
-  toVNRecognizedPoint3D :: a -> Id VNRecognizedPoint3D
-
-instance IsVNRecognizedPoint3D (Id VNRecognizedPoint3D) where
-  toVNRecognizedPoint3D = unsafeCastId
-
-instance IsNSObject (Id VNRecognizedPoint3D) where
-  toNSObject = unsafeCastId
-
-instance IsVNPoint3D (Id VNRecognizedPoint3D) where
-  toVNPoint3D = unsafeCastId
 
 -- ---------- VNImageBasedRequest ----------
 
@@ -1048,7 +911,7 @@ instance IsVNObservation (Id VNRecognizedObjectObservation) where
 
 -- | VNRectangleObservation
 --
--- VNDetectedObjectObservation
+-- VNObservation
 --
 -- VNRectangleObservation is the result of a rectangle detector
 --
@@ -1172,56 +1035,6 @@ instance IsVNObservation (Id VNSaliencyImageObservation) where
 instance IsVNPixelBufferObservation (Id VNSaliencyImageObservation) where
   toVNPixelBufferObservation = unsafeCastId
 
--- ---------- VNHumanBodyPose3DObservation ----------
-
--- | Phantom type for @VNHumanBodyPose3DObservation@.
-data VNHumanBodyPose3DObservation
-
-instance IsObjCObject (Id VNHumanBodyPose3DObservation) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNHumanBodyPose3DObservation"
-
-class IsVNRecognizedPoints3DObservation a => IsVNHumanBodyPose3DObservation a where
-  toVNHumanBodyPose3DObservation :: a -> Id VNHumanBodyPose3DObservation
-
-instance IsVNHumanBodyPose3DObservation (Id VNHumanBodyPose3DObservation) where
-  toVNHumanBodyPose3DObservation = unsafeCastId
-
-instance IsNSObject (Id VNHumanBodyPose3DObservation) where
-  toNSObject = unsafeCastId
-
-instance IsVNObservation (Id VNHumanBodyPose3DObservation) where
-  toVNObservation = unsafeCastId
-
-instance IsVNRecognizedPoints3DObservation (Id VNHumanBodyPose3DObservation) where
-  toVNRecognizedPoints3DObservation = unsafeCastId
-
--- ---------- VNAnimalBodyPoseObservation ----------
-
--- | Phantom type for @VNAnimalBodyPoseObservation@.
-data VNAnimalBodyPoseObservation
-
-instance IsObjCObject (Id VNAnimalBodyPoseObservation) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNAnimalBodyPoseObservation"
-
-class IsVNRecognizedPointsObservation a => IsVNAnimalBodyPoseObservation a where
-  toVNAnimalBodyPoseObservation :: a -> Id VNAnimalBodyPoseObservation
-
-instance IsVNAnimalBodyPoseObservation (Id VNAnimalBodyPoseObservation) where
-  toVNAnimalBodyPoseObservation = unsafeCastId
-
-instance IsNSObject (Id VNAnimalBodyPoseObservation) where
-  toNSObject = unsafeCastId
-
-instance IsVNObservation (Id VNAnimalBodyPoseObservation) where
-  toVNObservation = unsafeCastId
-
-instance IsVNRecognizedPointsObservation (Id VNAnimalBodyPoseObservation) where
-  toVNRecognizedPointsObservation = unsafeCastId
-
 -- ---------- VNHumanBodyPoseObservation ----------
 
 -- | Phantom type for @VNHumanBodyPoseObservation@.
@@ -1303,58 +1116,6 @@ instance IsVNDetectedPoint (Id VNRecognizedPoint) where
 instance IsVNPoint (Id VNRecognizedPoint) where
   toVNPoint = unsafeCastId
 
--- ---------- VNHumanBodyRecognizedPoint3D ----------
-
--- | Phantom type for @VNHumanBodyRecognizedPoint3D@.
-data VNHumanBodyRecognizedPoint3D
-
-instance IsObjCObject (Id VNHumanBodyRecognizedPoint3D) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNHumanBodyRecognizedPoint3D"
-
-class IsVNRecognizedPoint3D a => IsVNHumanBodyRecognizedPoint3D a where
-  toVNHumanBodyRecognizedPoint3D :: a -> Id VNHumanBodyRecognizedPoint3D
-
-instance IsVNHumanBodyRecognizedPoint3D (Id VNHumanBodyRecognizedPoint3D) where
-  toVNHumanBodyRecognizedPoint3D = unsafeCastId
-
-instance IsNSObject (Id VNHumanBodyRecognizedPoint3D) where
-  toNSObject = unsafeCastId
-
-instance IsVNPoint3D (Id VNHumanBodyRecognizedPoint3D) where
-  toVNPoint3D = unsafeCastId
-
-instance IsVNRecognizedPoint3D (Id VNHumanBodyRecognizedPoint3D) where
-  toVNRecognizedPoint3D = unsafeCastId
-
--- ---------- VNCalculateImageAestheticsScoresRequest ----------
-
--- | Analyzes an image for aesthetically pleasing attributes and returns a VNImageAestheticsScoresObservation.             This observation calculates an overall aeshetically pleasing score for the image and checks for utility images.
--- 
--- Phantom type for @VNCalculateImageAestheticsScoresRequest@.
-data VNCalculateImageAestheticsScoresRequest
-
-instance IsObjCObject (Id VNCalculateImageAestheticsScoresRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNCalculateImageAestheticsScoresRequest"
-
-class IsVNImageBasedRequest a => IsVNCalculateImageAestheticsScoresRequest a where
-  toVNCalculateImageAestheticsScoresRequest :: a -> Id VNCalculateImageAestheticsScoresRequest
-
-instance IsVNCalculateImageAestheticsScoresRequest (Id VNCalculateImageAestheticsScoresRequest) where
-  toVNCalculateImageAestheticsScoresRequest = unsafeCastId
-
-instance IsNSObject (Id VNCalculateImageAestheticsScoresRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNCalculateImageAestheticsScoresRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNCalculateImageAestheticsScoresRequest) where
-  toVNRequest = unsafeCastId
-
 -- ---------- VNClassifyImageRequest ----------
 
 -- | A request for classifying an image.
@@ -1386,7 +1147,7 @@ instance IsVNRequest (Id VNClassifyImageRequest) where
 
 -- ---------- VNCoreMLRequest ----------
 
--- | The VNCoreMLRequest uses a VNCoreMLModel, that is based on a CoreML MLModel object, to run predictions with that model. Depending on the model the returned             observation is either a VNClassificationObservation for classifier models, VNPixelBufferObservations for image-to-image models, VNRecognizedObjectObservation for object recognition models or VNCoreMLFeatureValueObservation for everything else. All -[VNObservation confidence] values are forwarded from relevant models as is, and do not conform to a common [0, 1] range rule
+-- | The VNCoreMLRequest uses a VNCoreMLModel, that is based on a CoreML MLModel object, to run predictions with that model. Depending on the model the returned             observation is either a VNClassificationObservation for classifier models, VNPixelBufferObservations for image-to-image models, VNRecognizedObjectObservation for object recognition models or VNCoreMLFeatureValueObservation for everything else.
 -- 
 -- Phantom type for @VNCoreMLRequest@.
 data VNCoreMLRequest
@@ -1409,35 +1170,6 @@ instance IsVNImageBasedRequest (Id VNCoreMLRequest) where
   toVNImageBasedRequest = unsafeCastId
 
 instance IsVNRequest (Id VNCoreMLRequest) where
-  toVNRequest = unsafeCastId
-
--- ---------- VNDetectAnimalBodyPoseRequest ----------
-
--- | Detects specific landmark points on animal bodies.
---
--- This request will produce a collection of VNAnimalBodyPoseObservation objects which describe the pose of each detected animal body.
--- 
--- Phantom type for @VNDetectAnimalBodyPoseRequest@.
-data VNDetectAnimalBodyPoseRequest
-
-instance IsObjCObject (Id VNDetectAnimalBodyPoseRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNDetectAnimalBodyPoseRequest"
-
-class IsVNImageBasedRequest a => IsVNDetectAnimalBodyPoseRequest a where
-  toVNDetectAnimalBodyPoseRequest :: a -> Id VNDetectAnimalBodyPoseRequest
-
-instance IsVNDetectAnimalBodyPoseRequest (Id VNDetectAnimalBodyPoseRequest) where
-  toVNDetectAnimalBodyPoseRequest = unsafeCastId
-
-instance IsNSObject (Id VNDetectAnimalBodyPoseRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNDetectAnimalBodyPoseRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNDetectAnimalBodyPoseRequest) where
   toVNRequest = unsafeCastId
 
 -- ---------- VNDetectBarcodesRequest ----------
@@ -1813,38 +1545,11 @@ instance IsVNImageBasedRequest (Id VNGenerateAttentionBasedSaliencyImageRequest)
 instance IsVNRequest (Id VNGenerateAttentionBasedSaliencyImageRequest) where
   toVNRequest = unsafeCastId
 
--- ---------- VNGenerateForegroundInstanceMaskRequest ----------
-
--- | A request that generates an instance mask of salient objects that can be separated from the background.
--- 
--- Phantom type for @VNGenerateForegroundInstanceMaskRequest@.
-data VNGenerateForegroundInstanceMaskRequest
-
-instance IsObjCObject (Id VNGenerateForegroundInstanceMaskRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNGenerateForegroundInstanceMaskRequest"
-
-class IsVNImageBasedRequest a => IsVNGenerateForegroundInstanceMaskRequest a where
-  toVNGenerateForegroundInstanceMaskRequest :: a -> Id VNGenerateForegroundInstanceMaskRequest
-
-instance IsVNGenerateForegroundInstanceMaskRequest (Id VNGenerateForegroundInstanceMaskRequest) where
-  toVNGenerateForegroundInstanceMaskRequest = unsafeCastId
-
-instance IsNSObject (Id VNGenerateForegroundInstanceMaskRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNGenerateForegroundInstanceMaskRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNGenerateForegroundInstanceMaskRequest) where
-  toVNRequest = unsafeCastId
-
 -- ---------- VNGenerateImageFeaturePrintRequest ----------
 
 -- | A request for generating a feature print of an image.
 --
--- This request will produce a @VNFeaturePrintObservation@ object.
+-- This request will produce a VNFeaturePrintObservation object.
 -- 
 -- Phantom type for @VNGenerateImageFeaturePrintRequest@.
 data VNGenerateImageFeaturePrintRequest
@@ -1894,33 +1599,6 @@ instance IsVNImageBasedRequest (Id VNGenerateObjectnessBasedSaliencyImageRequest
   toVNImageBasedRequest = unsafeCastId
 
 instance IsVNRequest (Id VNGenerateObjectnessBasedSaliencyImageRequest) where
-  toVNRequest = unsafeCastId
-
--- ---------- VNGeneratePersonInstanceMaskRequest ----------
-
--- | A request that generates an instance mask of individual people found in the image.
--- 
--- Phantom type for @VNGeneratePersonInstanceMaskRequest@.
-data VNGeneratePersonInstanceMaskRequest
-
-instance IsObjCObject (Id VNGeneratePersonInstanceMaskRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNGeneratePersonInstanceMaskRequest"
-
-class IsVNImageBasedRequest a => IsVNGeneratePersonInstanceMaskRequest a where
-  toVNGeneratePersonInstanceMaskRequest :: a -> Id VNGeneratePersonInstanceMaskRequest
-
-instance IsVNGeneratePersonInstanceMaskRequest (Id VNGeneratePersonInstanceMaskRequest) where
-  toVNGeneratePersonInstanceMaskRequest = unsafeCastId
-
-instance IsNSObject (Id VNGeneratePersonInstanceMaskRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNGeneratePersonInstanceMaskRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNGeneratePersonInstanceMaskRequest) where
   toVNRequest = unsafeCastId
 
 -- ---------- VNRecognizeAnimalsRequest ----------
@@ -2104,7 +1782,7 @@ instance IsVNRectangleObservation (Id VNBarcodeObservation) where
 
 -- | VNRecognizedTextObservation
 --
--- VNRectangleObservation
+-- VNDetectedObjectObservation
 --
 -- VNRecognizedTextObservation Describes a text area detected and recognized by the VNRecognizeTextRequest request.
 -- 
@@ -2138,7 +1816,7 @@ instance IsVNRectangleObservation (Id VNRecognizedTextObservation) where
 
 -- | VNTextObservation
 --
--- VNRectangleObservation
+-- VNDetectedObjectObservation
 --
 -- VNTextObservation Describes a text area detected by the VNRequestNameDetectTextRectangles request.
 -- 
@@ -2167,38 +1845,6 @@ instance IsVNObservation (Id VNTextObservation) where
 
 instance IsVNRectangleObservation (Id VNTextObservation) where
   toVNRectangleObservation = unsafeCastId
-
--- ---------- VNDetectHumanBodyPose3DRequest ----------
-
--- | A request that detects specific landmark points on human bodies in 3D space relative to the camera.        When possible,@AVDepthData@ depth information is used to produce more accurate results, but the request does not require it to run.
---
--- This request generates a collection of VNHumanBodyPose3DObservation objects which describe the position of each detected body
--- 
--- Phantom type for @VNDetectHumanBodyPose3DRequest@.
-data VNDetectHumanBodyPose3DRequest
-
-instance IsObjCObject (Id VNDetectHumanBodyPose3DRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNDetectHumanBodyPose3DRequest"
-
-class IsVNStatefulRequest a => IsVNDetectHumanBodyPose3DRequest a where
-  toVNDetectHumanBodyPose3DRequest :: a -> Id VNDetectHumanBodyPose3DRequest
-
-instance IsVNDetectHumanBodyPose3DRequest (Id VNDetectHumanBodyPose3DRequest) where
-  toVNDetectHumanBodyPose3DRequest = unsafeCastId
-
-instance IsNSObject (Id VNDetectHumanBodyPose3DRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNDetectHumanBodyPose3DRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNDetectHumanBodyPose3DRequest) where
-  toVNRequest = unsafeCastId
-
-instance IsVNStatefulRequest (Id VNDetectHumanBodyPose3DRequest) where
-  toVNStatefulRequest = unsafeCastId
 
 -- ---------- VNDetectTrajectoriesRequest ----------
 
@@ -2260,116 +1906,6 @@ instance IsVNRequest (Id VNGeneratePersonSegmentationRequest) where
   toVNRequest = unsafeCastId
 
 instance IsVNStatefulRequest (Id VNGeneratePersonSegmentationRequest) where
-  toVNStatefulRequest = unsafeCastId
-
--- ---------- VNTrackHomographicImageRegistrationRequest ----------
-
--- | An image registration request that will produce a homographic transformation that can morph one image to another.
---
--- Because this is a stateful request, it must be performed on at least two images in order to produce an observation.
--- 
--- Phantom type for @VNTrackHomographicImageRegistrationRequest@.
-data VNTrackHomographicImageRegistrationRequest
-
-instance IsObjCObject (Id VNTrackHomographicImageRegistrationRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNTrackHomographicImageRegistrationRequest"
-
-class IsVNStatefulRequest a => IsVNTrackHomographicImageRegistrationRequest a where
-  toVNTrackHomographicImageRegistrationRequest :: a -> Id VNTrackHomographicImageRegistrationRequest
-
-instance IsVNTrackHomographicImageRegistrationRequest (Id VNTrackHomographicImageRegistrationRequest) where
-  toVNTrackHomographicImageRegistrationRequest = unsafeCastId
-
-instance IsNSObject (Id VNTrackHomographicImageRegistrationRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNTrackHomographicImageRegistrationRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNTrackHomographicImageRegistrationRequest) where
-  toVNRequest = unsafeCastId
-
-instance IsVNStatefulRequest (Id VNTrackHomographicImageRegistrationRequest) where
-  toVNStatefulRequest = unsafeCastId
-
--- ---------- VNTrackOpticalFlowRequest ----------
-
--- | @VNTrackOpticalFlowRequest@ will determine directional change vectors for each pixel from a previous to current image, reporting this result with a single @VNPixelBufferObservation@.
---
--- Because this request works at the pixel level, both images must have the same dimensions in order for the request to be successfully performed.				Setting a region of interest will isolate where the change determination is performed; however, the resultant observation will still be reported				with a full resolution `VNPixelBufferObservation.
---
--- Being a stateful request, at least two images must me processed in order to produce an observation.
---
--- Optical flow requests are very resource intensive, so it is recommended that only one request at a time be created and that the handler                where the request was issued be released immediately after generating optical flows.
---
--- Example usage:
---
--- - (nullable VNPixelBufferObservation*) opticalFlowFromImage:(CVPixelBufferRef)fromImage toImage:(CVPixelBuffer)toImage error:(NSError**)error					{						VNTrackOpticalFlowRequest* request = [[VNTrackOpticalFlowRequest alloc] init];
---
--- VNImageRequestHandler* imageRequestHandler = [[VNImageRequestHandler alloc] initWithCVPixelBuffer:fromImage options:\@{}];						if (![imageRequestHandler performRequests:\@[ request ] error:error])						{							return nil;						}
---
--- imageRequestHandler = [[VNImageRequestHandler alloc] initWithCVPixelBuffer:toImage options:\@{}];						if (![imageRequestHandler performRequests:\@[ request ] error:error])						{							return nil;						}
---
--- return [[request results] firstObject];					}
--- 
--- Phantom type for @VNTrackOpticalFlowRequest@.
-data VNTrackOpticalFlowRequest
-
-instance IsObjCObject (Id VNTrackOpticalFlowRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNTrackOpticalFlowRequest"
-
-class IsVNStatefulRequest a => IsVNTrackOpticalFlowRequest a where
-  toVNTrackOpticalFlowRequest :: a -> Id VNTrackOpticalFlowRequest
-
-instance IsVNTrackOpticalFlowRequest (Id VNTrackOpticalFlowRequest) where
-  toVNTrackOpticalFlowRequest = unsafeCastId
-
-instance IsNSObject (Id VNTrackOpticalFlowRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNTrackOpticalFlowRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNTrackOpticalFlowRequest) where
-  toVNRequest = unsafeCastId
-
-instance IsVNStatefulRequest (Id VNTrackOpticalFlowRequest) where
-  toVNStatefulRequest = unsafeCastId
-
--- ---------- VNTrackTranslationalImageRegistrationRequest ----------
-
--- | An image registration request that will produce a translational transformation which will morph one image to another.
---
--- Because this is a stateful request, it must be performed on at least two images in order to produce an observation.
--- 
--- Phantom type for @VNTrackTranslationalImageRegistrationRequest@.
-data VNTrackTranslationalImageRegistrationRequest
-
-instance IsObjCObject (Id VNTrackTranslationalImageRegistrationRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VNTrackTranslationalImageRegistrationRequest"
-
-class IsVNStatefulRequest a => IsVNTrackTranslationalImageRegistrationRequest a where
-  toVNTrackTranslationalImageRegistrationRequest :: a -> Id VNTrackTranslationalImageRegistrationRequest
-
-instance IsVNTrackTranslationalImageRegistrationRequest (Id VNTrackTranslationalImageRegistrationRequest) where
-  toVNTrackTranslationalImageRegistrationRequest = unsafeCastId
-
-instance IsNSObject (Id VNTrackTranslationalImageRegistrationRequest) where
-  toNSObject = unsafeCastId
-
-instance IsVNImageBasedRequest (Id VNTrackTranslationalImageRegistrationRequest) where
-  toVNImageBasedRequest = unsafeCastId
-
-instance IsVNRequest (Id VNTrackTranslationalImageRegistrationRequest) where
-  toVNRequest = unsafeCastId
-
-instance IsVNStatefulRequest (Id VNTrackTranslationalImageRegistrationRequest) where
   toVNStatefulRequest = unsafeCastId
 
 -- ---------- VNGenerateOpticalFlowRequest ----------

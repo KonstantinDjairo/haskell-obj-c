@@ -461,7 +461,7 @@ skipDate itLibMediaItem =
 -- | The voice-over language of this media item
 --
 -- ObjC selector: @- voiceOverLanguage@
-voiceOverLanguage :: IsITLibMediaItem itLibMediaItem => itLibMediaItem -> IO RawId
+voiceOverLanguage :: IsITLibMediaItem itLibMediaItem => itLibMediaItem -> IO (Id NSString)
 voiceOverLanguage itLibMediaItem =
   sendMessage itLibMediaItem voiceOverLanguageSelector
 
@@ -677,7 +677,7 @@ skipDateSelector :: Selector '[] (Id NSDate)
 skipDateSelector = mkSelector "skipDate"
 
 -- | @Selector@ for @voiceOverLanguage@
-voiceOverLanguageSelector :: Selector '[] RawId
+voiceOverLanguageSelector :: Selector '[] (Id NSString)
 voiceOverLanguageSelector = mkSelector "voiceOverLanguage"
 
 -- | @Selector@ for @volumeAdjustment@

@@ -7,20 +7,20 @@
 module ObjC.Matter.MTRNetworkCommissioningClusterRemoveNetworkParams
   ( MTRNetworkCommissioningClusterRemoveNetworkParams
   , IsMTRNetworkCommissioningClusterRemoveNetworkParams(..)
+  , init_
+  , copyWithZone
   , networkID
   , setNetworkID
   , breadcrumb
   , setBreadcrumb
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , breadcrumbSelector
+  , copyWithZoneSelector
+  , initSelector
   , networkIDSelector
-  , serverSideProcessingTimeoutSelector
   , setBreadcrumbSelector
   , setNetworkIDSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRNetworkCommissioningClusterRemoveNetworkParams mtrNetworkCommissioningClusterRemoveNetworkParams => mtrNetworkCommissioningClusterRemoveNetworkParams -> IO (Id MTRNetworkCommissioningClusterRemoveNetworkParams)
+init_ mtrNetworkCommissioningClusterRemoveNetworkParams =
+  sendOwnedMessage mtrNetworkCommissioningClusterRemoveNetworkParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRNetworkCommissioningClusterRemoveNetworkParams mtrNetworkCommissioningClusterRemoveNetworkParams => mtrNetworkCommissioningClusterRemoveNetworkParams -> Ptr () -> IO RawId
+copyWithZone mtrNetworkCommissioningClusterRemoveNetworkParams zone =
+  sendOwnedMessage mtrNetworkCommissioningClusterRemoveNetworkParams copyWithZoneSelector zone
 
 -- | @- networkID@
 networkID :: IsMTRNetworkCommissioningClusterRemoveNetworkParams mtrNetworkCommissioningClusterRemoveNetworkParams => mtrNetworkCommissioningClusterRemoveNetworkParams -> IO (Id NSData)
@@ -80,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRNetworkCommissioningClusterRemoveNetworkParams 
 setTimedInvokeTimeoutMs mtrNetworkCommissioningClusterRemoveNetworkParams value =
   sendMessage mtrNetworkCommissioningClusterRemoveNetworkParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRNetworkCommissioningClusterRemoveNetworkParams mtrNetworkCommissioningClusterRemoveNetworkParams => mtrNetworkCommissioningClusterRemoveNetworkParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrNetworkCommissioningClusterRemoveNetworkParams =
-  sendMessage mtrNetworkCommissioningClusterRemoveNetworkParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRNetworkCommissioningClusterRemoveNetworkParams mtrNetworkCommissioningClusterRemoveNetworkParams, IsNSNumber value) => mtrNetworkCommissioningClusterRemoveNetworkParams -> value -> IO ()
-setServerSideProcessingTimeout mtrNetworkCommissioningClusterRemoveNetworkParams value =
-  sendMessage mtrNetworkCommissioningClusterRemoveNetworkParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRNetworkCommissioningClusterRemoveNetworkParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @networkID@
 networkIDSelector :: Selector '[] (Id NSData)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

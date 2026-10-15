@@ -9,11 +9,15 @@
 module ObjC.Matter.MTRWriteParams
   ( MTRWriteParams
   , IsMTRWriteParams(..)
+  , init_
+  , copyWithZone
   , timedWriteTimeout
   , setTimedWriteTimeout
   , dataVersion
   , setDataVersion
+  , copyWithZoneSelector
   , dataVersionSelector
+  , initSelector
   , setDataVersionSelector
   , setTimedWriteTimeoutSelector
   , timedWriteTimeoutSelector
@@ -32,13 +36,23 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRWriteParams mtrWriteParams => mtrWriteParams -> IO (Id MTRWriteParams)
+init_ mtrWriteParams =
+  sendOwnedMessage mtrWriteParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRWriteParams mtrWriteParams => mtrWriteParams -> Ptr () -> IO RawId
+copyWithZone mtrWriteParams zone =
+  sendOwnedMessage mtrWriteParams copyWithZoneSelector zone
+
 -- | Controls whether the write is a timed write.
 --
 -- If nil (the default value), a regular write is done for attributes that do not require a timed write and a timed write with some default timed request timeout is done for attributes that require a timed write.
 --
 -- If not nil, a timed write is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual write request) within the timeout window.
 --
--- This value is specified in milliseconds.
+-- This value is specified in milliseconds
 --
 -- ObjC selector: @- timedWriteTimeout@
 timedWriteTimeout :: IsMTRWriteParams mtrWriteParams => mtrWriteParams -> IO (Id NSNumber)
@@ -51,7 +65,7 @@ timedWriteTimeout mtrWriteParams =
 --
 -- If not nil, a timed write is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual write request) within the timeout window.
 --
--- This value is specified in milliseconds.
+-- This value is specified in milliseconds
 --
 -- ObjC selector: @- setTimedWriteTimeout:@
 setTimedWriteTimeout :: (IsMTRWriteParams mtrWriteParams, IsNSNumber value) => mtrWriteParams -> value -> IO ()
@@ -79,6 +93,14 @@ setDataVersion mtrWriteParams value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRWriteParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @timedWriteTimeout@
 timedWriteTimeoutSelector :: Selector '[] (Id NSNumber)

@@ -15,16 +15,12 @@ module ObjC.PassKit.PKIdentityRequest
   , setNonce
   , merchantIdentifier
   , setMerchantIdentifier
-  , usageDescriptionKey
-  , setUsageDescriptionKey
   , descriptorSelector
   , merchantIdentifierSelector
   , nonceSelector
   , setDescriptorSelector
   , setMerchantIdentifierSelector
   , setNonceSelector
-  , setUsageDescriptionKeySelector
-  , usageDescriptionKeySelector
 
 
   ) where
@@ -82,24 +78,6 @@ setMerchantIdentifier :: (IsPKIdentityRequest pkIdentityRequest, IsNSString valu
 setMerchantIdentifier pkIdentityRequest value =
   sendMessage pkIdentityRequest setMerchantIdentifierSelector (toNSString value)
 
--- | A key in the NSIdentityUsageDescriptionDictionary field of the app's Info.plist file.
---
--- The value for this key is an app-provided string that describes the reason for requesting identity information.
---
--- ObjC selector: @- usageDescriptionKey@
-usageDescriptionKey :: IsPKIdentityRequest pkIdentityRequest => pkIdentityRequest -> IO (Id NSString)
-usageDescriptionKey pkIdentityRequest =
-  sendMessage pkIdentityRequest usageDescriptionKeySelector
-
--- | A key in the NSIdentityUsageDescriptionDictionary field of the app's Info.plist file.
---
--- The value for this key is an app-provided string that describes the reason for requesting identity information.
---
--- ObjC selector: @- setUsageDescriptionKey:@
-setUsageDescriptionKey :: (IsPKIdentityRequest pkIdentityRequest, IsNSString value) => pkIdentityRequest -> value -> IO ()
-setUsageDescriptionKey pkIdentityRequest value =
-  sendMessage pkIdentityRequest setUsageDescriptionKeySelector (toNSString value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -127,12 +105,4 @@ merchantIdentifierSelector = mkSelector "merchantIdentifier"
 -- | @Selector@ for @setMerchantIdentifier:@
 setMerchantIdentifierSelector :: Selector '[Id NSString] ()
 setMerchantIdentifierSelector = mkSelector "setMerchantIdentifier:"
-
--- | @Selector@ for @usageDescriptionKey@
-usageDescriptionKeySelector :: Selector '[] (Id NSString)
-usageDescriptionKeySelector = mkSelector "usageDescriptionKey"
-
--- | @Selector@ for @setUsageDescriptionKey:@
-setUsageDescriptionKeySelector :: Selector '[Id NSString] ()
-setUsageDescriptionKeySelector = mkSelector "setUsageDescriptionKey:"
 

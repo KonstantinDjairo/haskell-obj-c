@@ -18,27 +18,18 @@ module ObjC.WebKit.WKWebpagePreferences
   , setAllowsContentJavaScript
   , lockdownModeEnabled
   , setLockdownModeEnabled
-  , preferredHTTPSNavigationPolicy
-  , setPreferredHTTPSNavigationPolicy
   , allowsContentJavaScriptSelector
   , lockdownModeEnabledSelector
   , preferredContentModeSelector
-  , preferredHTTPSNavigationPolicySelector
   , setAllowsContentJavaScriptSelector
   , setLockdownModeEnabledSelector
   , setPreferredContentModeSelector
-  , setPreferredHTTPSNavigationPolicySelector
 
   -- * Enum types
   , WKContentMode(WKContentMode)
   , pattern WKContentModeRecommended
   , pattern WKContentModeMobile
   , pattern WKContentModeDesktop
-  , WKWebpagePreferencesUpgradeToHTTPSPolicy(WKWebpagePreferencesUpgradeToHTTPSPolicy)
-  , pattern WKWebpagePreferencesUpgradeToHTTPSPolicyKeepAsRequested
-  , pattern WKWebpagePreferencesUpgradeToHTTPSPolicyAutomaticFallbackToHTTP
-  , pattern WKWebpagePreferencesUpgradeToHTTPSPolicyUserMediatedFallbackToHTTP
-  , pattern WKWebpagePreferencesUpgradeToHTTPSPolicyErrorOnFailure
 
   ) where
 
@@ -100,24 +91,6 @@ setLockdownModeEnabled :: IsWKWebpagePreferences wkWebpagePreferences => wkWebpa
 setLockdownModeEnabled wkWebpagePreferences value =
   sendMessage wkWebpagePreferences setLockdownModeEnabledSelector value
 
--- | A WKWebpagePreferencesUpgradeToHTTPSPolicy indicating the desired mode used when performing a top-level navigation to a webpage.
---
--- The default value is WKWebpagePreferencesUpgradeToHTTPSPolicyKeepAsRequested. The stated preference is ignored on subframe navigation, and it may be ignored based on system configuration. The upgradeKnownHostsToHTTPS property on WKWebViewConfiguration supercedes this policy for known hosts.
---
--- ObjC selector: @- preferredHTTPSNavigationPolicy@
-preferredHTTPSNavigationPolicy :: IsWKWebpagePreferences wkWebpagePreferences => wkWebpagePreferences -> IO WKWebpagePreferencesUpgradeToHTTPSPolicy
-preferredHTTPSNavigationPolicy wkWebpagePreferences =
-  sendMessage wkWebpagePreferences preferredHTTPSNavigationPolicySelector
-
--- | A WKWebpagePreferencesUpgradeToHTTPSPolicy indicating the desired mode used when performing a top-level navigation to a webpage.
---
--- The default value is WKWebpagePreferencesUpgradeToHTTPSPolicyKeepAsRequested. The stated preference is ignored on subframe navigation, and it may be ignored based on system configuration. The upgradeKnownHostsToHTTPS property on WKWebViewConfiguration supercedes this policy for known hosts.
---
--- ObjC selector: @- setPreferredHTTPSNavigationPolicy:@
-setPreferredHTTPSNavigationPolicy :: IsWKWebpagePreferences wkWebpagePreferences => wkWebpagePreferences -> WKWebpagePreferencesUpgradeToHTTPSPolicy -> IO ()
-setPreferredHTTPSNavigationPolicy wkWebpagePreferences value =
-  sendMessage wkWebpagePreferences setPreferredHTTPSNavigationPolicySelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -145,12 +118,4 @@ lockdownModeEnabledSelector = mkSelector "lockdownModeEnabled"
 -- | @Selector@ for @setLockdownModeEnabled:@
 setLockdownModeEnabledSelector :: Selector '[Bool] ()
 setLockdownModeEnabledSelector = mkSelector "setLockdownModeEnabled:"
-
--- | @Selector@ for @preferredHTTPSNavigationPolicy@
-preferredHTTPSNavigationPolicySelector :: Selector '[] WKWebpagePreferencesUpgradeToHTTPSPolicy
-preferredHTTPSNavigationPolicySelector = mkSelector "preferredHTTPSNavigationPolicy"
-
--- | @Selector@ for @setPreferredHTTPSNavigationPolicy:@
-setPreferredHTTPSNavigationPolicySelector :: Selector '[WKWebpagePreferencesUpgradeToHTTPSPolicy] ()
-setPreferredHTTPSNavigationPolicySelector = mkSelector "setPreferredHTTPSNavigationPolicy:"
 

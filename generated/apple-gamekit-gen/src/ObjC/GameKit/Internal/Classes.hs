@@ -115,25 +115,6 @@ instance IsGKChallenge (Id GKChallenge) where
 instance IsNSObject (Id GKChallenge) where
   toNSObject = unsafeCastId
 
--- ---------- GKChallengeDefinition ----------
-
--- | Phantom type for @GKChallengeDefinition@.
-data GKChallengeDefinition
-
-instance IsObjCObject (Id GKChallengeDefinition) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "GKChallengeDefinition"
-
-class IsNSObject a => IsGKChallengeDefinition a where
-  toGKChallengeDefinition :: a -> Id GKChallengeDefinition
-
-instance IsGKChallengeDefinition (Id GKChallengeDefinition) where
-  toGKChallengeDefinition = unsafeCastId
-
-instance IsNSObject (Id GKChallengeDefinition) where
-  toNSObject = unsafeCastId
-
 -- ---------- GKChallengeEventHandler ----------
 
 -- | A singleton object responsible for dispatching challenge-related events to its delegate
@@ -153,46 +134,6 @@ instance IsGKChallengeEventHandler (Id GKChallengeEventHandler) where
   toGKChallengeEventHandler = unsafeCastId
 
 instance IsNSObject (Id GKChallengeEventHandler) where
-  toNSObject = unsafeCastId
-
--- ---------- GKGameActivity ----------
-
--- | An object that represents a single instance of a game activity for the current game.
--- 
--- Phantom type for @GKGameActivity@.
-data GKGameActivity
-
-instance IsObjCObject (Id GKGameActivity) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "GKGameActivity"
-
-class IsNSObject a => IsGKGameActivity a where
-  toGKGameActivity :: a -> Id GKGameActivity
-
-instance IsGKGameActivity (Id GKGameActivity) where
-  toGKGameActivity = unsafeCastId
-
-instance IsNSObject (Id GKGameActivity) where
-  toNSObject = unsafeCastId
-
--- ---------- GKGameActivityDefinition ----------
-
--- | Phantom type for @GKGameActivityDefinition@.
-data GKGameActivityDefinition
-
-instance IsObjCObject (Id GKGameActivityDefinition) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "GKGameActivityDefinition"
-
-class IsNSObject a => IsGKGameActivityDefinition a where
-  toGKGameActivityDefinition :: a -> Id GKGameActivityDefinition
-
-instance IsGKGameActivityDefinition (Id GKGameActivityDefinition) where
-  toGKGameActivityDefinition = unsafeCastId
-
-instance IsNSObject (Id GKGameActivityDefinition) where
   toNSObject = unsafeCastId
 
 -- ---------- GKGameSession ----------
@@ -277,9 +218,7 @@ instance IsNSObject (Id GKLeaderboardEntry) where
 
 -- ---------- GKLeaderboardScore ----------
 
--- | A @GKLeaderboardScore@ object represents a score on a leaderboard for scores you report for challenges or turn-based games.
--- 
--- Phantom type for @GKLeaderboardScore@.
+-- | Phantom type for @GKLeaderboardScore@.
 data GKLeaderboardScore
 
 instance IsObjCObject (Id GKLeaderboardScore) where
@@ -357,25 +296,6 @@ instance IsGKMatchRequest (Id GKMatchRequest) where
   toGKMatchRequest = unsafeCastId
 
 instance IsNSObject (Id GKMatchRequest) where
-  toNSObject = unsafeCastId
-
--- ---------- GKMatchedPlayers ----------
-
--- | Phantom type for @GKMatchedPlayers@.
-data GKMatchedPlayers
-
-instance IsObjCObject (Id GKMatchedPlayers) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "GKMatchedPlayers"
-
-class IsNSObject a => IsGKMatchedPlayers a where
-  toGKMatchedPlayers :: a -> Id GKMatchedPlayers
-
-instance IsGKMatchedPlayers (Id GKMatchedPlayers) where
-  toGKMatchedPlayers = unsafeCastId
-
-instance IsNSObject (Id GKMatchedPlayers) where
   toNSObject = unsafeCastId
 
 -- ---------- GKMatchmaker ----------
@@ -464,11 +384,7 @@ instance IsNSObject (Id GKScore) where
 
 -- ---------- GKSession ----------
 
--- | The GKSession handles networking between peers for a game, which includes establishing and maintaining connections over a game network, and network data transport.
---
--- This a not a Game Center feature. To support Game Center and online play, see GKMatch.
--- 
--- Phantom type for @GKSession@.
+-- | Phantom type for @GKSession@.
 data GKSession
 
 instance IsObjCObject (Id GKSession) where
@@ -788,9 +704,7 @@ instance IsNSViewController (Id GKChallengesViewController) where
 
 -- ---------- GKFriendRequestComposeViewController ----------
 
--- | Standard view controller for sending friend requests to other players. Present modally from the top view controller.
--- 
--- Phantom type for @GKFriendRequestComposeViewController@.
+-- | Phantom type for @GKFriendRequestComposeViewController@.
 data GKFriendRequestComposeViewController
 
 instance IsObjCObject (Id GKFriendRequestComposeViewController) where
@@ -815,9 +729,7 @@ instance IsNSViewController (Id GKFriendRequestComposeViewController) where
 
 -- ---------- GKGameCenterViewController ----------
 
--- | View controller that provides the standard user interface for leaderboards, achievements, and challenges. Present modally from the top view controller.
--- 
--- Phantom type for @GKGameCenterViewController@.
+-- | Phantom type for @GKGameCenterViewController@.
 data GKGameCenterViewController
 
 instance IsObjCObject (Id GKGameCenterViewController) where
@@ -867,9 +779,7 @@ instance IsNSViewController (Id GKMatchmakerViewController) where
 
 -- ---------- GKTurnBasedMatchmakerViewController ----------
 
--- | View controller to manage turn-based matches, invite friends and perform automatching. Present modally from the top view controller.
--- 
--- Phantom type for @GKTurnBasedMatchmakerViewController@.
+-- | Phantom type for @GKTurnBasedMatchmakerViewController@.
 data GKTurnBasedMatchmakerViewController
 
 instance IsObjCObject (Id GKTurnBasedMatchmakerViewController) where

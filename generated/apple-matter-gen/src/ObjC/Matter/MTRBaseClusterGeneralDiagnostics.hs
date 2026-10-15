@@ -3,62 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster General Diagnostics
---
--- The General Diagnostics Cluster, along with other diagnostics clusters, provide a means to acquire standardized diagnostics metrics that MAY be used by a Node to assist a user or Administrative Node in diagnosing potential problems.
+-- | Cluster General Diagnostics    The General Diagnostics Cluster, along with other diagnostics clusters, provide a means to acquire standardized diagnostics metrics that MAY be used by a Node to assist a user or Administrative Node in diagnosing potential problems.
 --
 -- Generated bindings for @MTRBaseClusterGeneralDiagnostics@.
 module ObjC.Matter.MTRBaseClusterGeneralDiagnostics
   ( MTRBaseClusterGeneralDiagnostics
   , IsMTRBaseClusterGeneralDiagnostics(..)
-  , testEventTriggerWithParams_completion
-  , timeSnapshotWithParams_completion
-  , timeSnapshotWithCompletion
-  , payloadTestRequestWithParams_completion
-  , readAttributeNetworkInterfacesWithCompletion
-  , subscribeAttributeNetworkInterfacesWithParams_subscriptionEstablished_reportHandler
-  , readAttributeNetworkInterfacesWithClusterStateCache_endpoint_queue_completion
-  , readAttributeRebootCountWithCompletion
-  , subscribeAttributeRebootCountWithParams_subscriptionEstablished_reportHandler
-  , readAttributeRebootCountWithClusterStateCache_endpoint_queue_completion
-  , readAttributeUpTimeWithCompletion
-  , subscribeAttributeUpTimeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeUpTimeWithClusterStateCache_endpoint_queue_completion
-  , readAttributeTotalOperationalHoursWithCompletion
-  , subscribeAttributeTotalOperationalHoursWithParams_subscriptionEstablished_reportHandler
-  , readAttributeTotalOperationalHoursWithClusterStateCache_endpoint_queue_completion
-  , readAttributeBootReasonWithCompletion
-  , subscribeAttributeBootReasonWithParams_subscriptionEstablished_reportHandler
-  , readAttributeBootReasonWithClusterStateCache_endpoint_queue_completion
-  , readAttributeActiveHardwareFaultsWithCompletion
-  , subscribeAttributeActiveHardwareFaultsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeActiveHardwareFaultsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeActiveRadioFaultsWithCompletion
-  , subscribeAttributeActiveRadioFaultsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeActiveRadioFaultsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeActiveNetworkFaultsWithCompletion
-  , subscribeAttributeActiveNetworkFaultsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeActiveNetworkFaultsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeTestEventTriggersEnabledWithCompletion
-  , subscribeAttributeTestEventTriggersEnabledWithParams_subscriptionEstablished_reportHandler
-  , readAttributeTestEventTriggersEnabledWithClusterStateCache_endpoint_queue_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
-  , init_
-  , new
   , initWithDevice_endpoint_queue
   , testEventTriggerWithParams_completionHandler
   , readAttributeNetworkInterfacesWithCompletionHandler
@@ -103,100 +53,54 @@ module ObjC.Matter.MTRBaseClusterGeneralDiagnostics
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
-  , initWithDevice_endpointID_queue
+  , init_
+  , new
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
-  , payloadTestRequestWithParams_completionSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
   , readAttributeActiveHardwareFaultsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeActiveHardwareFaultsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeActiveHardwareFaultsWithCompletionHandlerSelector
-  , readAttributeActiveHardwareFaultsWithCompletionSelector
   , readAttributeActiveNetworkFaultsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeActiveNetworkFaultsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeActiveNetworkFaultsWithCompletionHandlerSelector
-  , readAttributeActiveNetworkFaultsWithCompletionSelector
   , readAttributeActiveRadioFaultsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeActiveRadioFaultsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeActiveRadioFaultsWithCompletionHandlerSelector
-  , readAttributeActiveRadioFaultsWithCompletionSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAttributeListWithCompletionHandlerSelector
-  , readAttributeAttributeListWithCompletionSelector
-  , readAttributeBootReasonWithClusterStateCache_endpoint_queue_completionSelector
-  , readAttributeBootReasonWithCompletionSelector
   , readAttributeBootReasonsWithAttributeCache_endpoint_queue_completionHandlerSelector
   , readAttributeBootReasonsWithCompletionHandlerSelector
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeClusterRevisionWithCompletionHandlerSelector
-  , readAttributeClusterRevisionWithCompletionSelector
   , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeFeatureMapWithCompletionHandlerSelector
-  , readAttributeFeatureMapWithCompletionSelector
   , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeGeneratedCommandListWithCompletionHandlerSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
   , readAttributeNetworkInterfacesWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeNetworkInterfacesWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeNetworkInterfacesWithCompletionHandlerSelector
-  , readAttributeNetworkInterfacesWithCompletionSelector
   , readAttributeRebootCountWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeRebootCountWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeRebootCountWithCompletionHandlerSelector
-  , readAttributeRebootCountWithCompletionSelector
   , readAttributeTestEventTriggersEnabledWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeTestEventTriggersEnabledWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeTestEventTriggersEnabledWithCompletionHandlerSelector
-  , readAttributeTestEventTriggersEnabledWithCompletionSelector
   , readAttributeTotalOperationalHoursWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeTotalOperationalHoursWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeTotalOperationalHoursWithCompletionHandlerSelector
-  , readAttributeTotalOperationalHoursWithCompletionSelector
   , readAttributeUpTimeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeUpTimeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeUpTimeWithCompletionHandlerSelector
-  , readAttributeUpTimeWithCompletionSelector
   , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeActiveHardwareFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeActiveHardwareFaultsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeActiveNetworkFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeActiveNetworkFaultsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeActiveRadioFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeActiveRadioFaultsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeBootReasonWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeBootReasonsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeNetworkInterfacesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeNetworkInterfacesWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeRebootCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeRebootCountWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeTestEventTriggersEnabledWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeTestEventTriggersEnabledWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeTotalOperationalHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeTotalOperationalHoursWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeUpTimeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeUpTimeWithParams_subscriptionEstablished_reportHandlerSelector
   , testEventTriggerWithParams_completionHandlerSelector
-  , testEventTriggerWithParams_completionSelector
-  , timeSnapshotWithCompletionSelector
-  , timeSnapshotWithParams_completionSelector
 
 
   ) where
@@ -211,288 +115,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | Command TestEventTrigger
---
--- Provide a means for certification tests to trigger some test-plan-specific events
---
--- ObjC selector: @- testEventTriggerWithParams:completion:@
-testEventTriggerWithParams_completion :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRGeneralDiagnosticsClusterTestEventTriggerParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> IO ()
-testEventTriggerWithParams_completion mtrBaseClusterGeneralDiagnostics params completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics testEventTriggerWithParams_completionSelector (toMTRGeneralDiagnosticsClusterTestEventTriggerParams params) completion
-
--- | Command TimeSnapshot
---
--- Take a snapshot of system time and epoch time.
---
--- ObjC selector: @- timeSnapshotWithParams:completion:@
-timeSnapshotWithParams_completion :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRGeneralDiagnosticsClusterTimeSnapshotParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> IO ()
-timeSnapshotWithParams_completion mtrBaseClusterGeneralDiagnostics params completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics timeSnapshotWithParams_completionSelector (toMTRGeneralDiagnosticsClusterTimeSnapshotParams params) completion
-
--- | @- timeSnapshotWithCompletion:@
-timeSnapshotWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-timeSnapshotWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics timeSnapshotWithCompletionSelector completion
-
--- | Command PayloadTestRequest
---
--- Request a variable length payload response.
---
--- ObjC selector: @- payloadTestRequestWithParams:completion:@
-payloadTestRequestWithParams_completion :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRGeneralDiagnosticsClusterPayloadTestRequestParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> IO ()
-payloadTestRequestWithParams_completion mtrBaseClusterGeneralDiagnostics params completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics payloadTestRequestWithParams_completionSelector (toMTRGeneralDiagnosticsClusterPayloadTestRequestParams params) completion
-
--- | @- readAttributeNetworkInterfacesWithCompletion:@
-readAttributeNetworkInterfacesWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeNetworkInterfacesWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeNetworkInterfacesWithCompletionSelector completion
-
--- | @- subscribeAttributeNetworkInterfacesWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeNetworkInterfacesWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeNetworkInterfacesWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeNetworkInterfacesWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeNetworkInterfacesWithClusterStateCache:endpoint:queue:completion:@
-readAttributeNetworkInterfacesWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeNetworkInterfacesWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeNetworkInterfacesWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeRebootCountWithCompletion:@
-readAttributeRebootCountWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeRebootCountWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeRebootCountWithCompletionSelector completion
-
--- | @- subscribeAttributeRebootCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeRebootCountWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeRebootCountWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeRebootCountWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeRebootCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeRebootCountWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeRebootCountWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeRebootCountWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeUpTimeWithCompletion:@
-readAttributeUpTimeWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeUpTimeWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeUpTimeWithCompletionSelector completion
-
--- | @- subscribeAttributeUpTimeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeUpTimeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeUpTimeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeUpTimeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeUpTimeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeUpTimeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeUpTimeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeUpTimeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeTotalOperationalHoursWithCompletion:@
-readAttributeTotalOperationalHoursWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeTotalOperationalHoursWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeTotalOperationalHoursWithCompletionSelector completion
-
--- | @- subscribeAttributeTotalOperationalHoursWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTotalOperationalHoursWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeTotalOperationalHoursWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeTotalOperationalHoursWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeTotalOperationalHoursWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTotalOperationalHoursWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeTotalOperationalHoursWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeTotalOperationalHoursWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeBootReasonWithCompletion:@
-readAttributeBootReasonWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeBootReasonWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeBootReasonWithCompletionSelector completion
-
--- | @- subscribeAttributeBootReasonWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBootReasonWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeBootReasonWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeBootReasonWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeBootReasonWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBootReasonWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeBootReasonWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeBootReasonWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeActiveHardwareFaultsWithCompletion:@
-readAttributeActiveHardwareFaultsWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeActiveHardwareFaultsWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeActiveHardwareFaultsWithCompletionSelector completion
-
--- | @- subscribeAttributeActiveHardwareFaultsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeActiveHardwareFaultsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeActiveHardwareFaultsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeActiveHardwareFaultsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeActiveHardwareFaultsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeActiveHardwareFaultsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeActiveHardwareFaultsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeActiveHardwareFaultsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeActiveRadioFaultsWithCompletion:@
-readAttributeActiveRadioFaultsWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeActiveRadioFaultsWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeActiveRadioFaultsWithCompletionSelector completion
-
--- | @- subscribeAttributeActiveRadioFaultsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeActiveRadioFaultsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeActiveRadioFaultsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeActiveRadioFaultsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeActiveRadioFaultsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeActiveRadioFaultsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeActiveRadioFaultsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeActiveRadioFaultsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeActiveNetworkFaultsWithCompletion:@
-readAttributeActiveNetworkFaultsWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeActiveNetworkFaultsWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeActiveNetworkFaultsWithCompletionSelector completion
-
--- | @- subscribeAttributeActiveNetworkFaultsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeActiveNetworkFaultsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeActiveNetworkFaultsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeActiveNetworkFaultsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeActiveNetworkFaultsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeActiveNetworkFaultsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeActiveNetworkFaultsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeActiveNetworkFaultsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeTestEventTriggersEnabledWithCompletion:@
-readAttributeTestEventTriggersEnabledWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeTestEventTriggersEnabledWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeTestEventTriggersEnabledWithCompletionSelector completion
-
--- | @- subscribeAttributeTestEventTriggersEnabledWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTestEventTriggersEnabledWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeTestEventTriggersEnabledWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeTestEventTriggersEnabledWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeTestEventTriggersEnabledWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTestEventTriggersEnabledWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeTestEventTriggersEnabledWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeTestEventTriggersEnabledWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeAcceptedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeAttributeListWithCompletionSelector completion
-
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeFeatureMapWithCompletionSelector completion
-
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterGeneralDiagnostics completion =
-  sendMessage mtrBaseClusterGeneralDiagnostics readAttributeClusterRevisionWithCompletionSelector completion
-
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- init@
-init_ :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> IO (Id MTRBaseClusterGeneralDiagnostics)
-init_ mtrBaseClusterGeneralDiagnostics =
-  sendOwnedMessage mtrBaseClusterGeneralDiagnostics initSelector
-
--- | @+ new@
-new :: IO (Id MTRBaseClusterGeneralDiagnostics)
-new  =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
-    sendOwnedClassMessage cls' newSelector
 
 -- | @- initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queue :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterGeneralDiagnostics -> device -> CUShort -> queue -> IO (Id MTRBaseClusterGeneralDiagnostics)
@@ -509,7 +131,9 @@ readAttributeNetworkInterfacesWithCompletionHandler :: IsMTRBaseClusterGeneralDi
 readAttributeNetworkInterfacesWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeNetworkInterfacesWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeNetworkInterfacesWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNetworkInterfacesWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNetworkInterfacesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNetworkInterfacesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeNetworkInterfacesWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -526,7 +150,9 @@ readAttributeRebootCountWithCompletionHandler :: IsMTRBaseClusterGeneralDiagnost
 readAttributeRebootCountWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeRebootCountWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeRebootCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeRebootCountWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeRebootCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeRebootCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeRebootCountWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -543,7 +169,9 @@ readAttributeUpTimeWithCompletionHandler :: IsMTRBaseClusterGeneralDiagnostics m
 readAttributeUpTimeWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeUpTimeWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeUpTimeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeUpTimeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeUpTimeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeUpTimeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeUpTimeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -560,7 +188,9 @@ readAttributeTotalOperationalHoursWithCompletionHandler :: IsMTRBaseClusterGener
 readAttributeTotalOperationalHoursWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeTotalOperationalHoursWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeTotalOperationalHoursWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeTotalOperationalHoursWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeTotalOperationalHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeTotalOperationalHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeTotalOperationalHoursWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -577,7 +207,9 @@ readAttributeBootReasonsWithCompletionHandler :: IsMTRBaseClusterGeneralDiagnost
 readAttributeBootReasonsWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeBootReasonsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeBootReasonsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeBootReasonsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeBootReasonsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeBootReasonsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeBootReasonsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -594,7 +226,9 @@ readAttributeActiveHardwareFaultsWithCompletionHandler :: IsMTRBaseClusterGenera
 readAttributeActiveHardwareFaultsWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeActiveHardwareFaultsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeActiveHardwareFaultsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeActiveHardwareFaultsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeActiveHardwareFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeActiveHardwareFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeActiveHardwareFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -611,7 +245,9 @@ readAttributeActiveRadioFaultsWithCompletionHandler :: IsMTRBaseClusterGeneralDi
 readAttributeActiveRadioFaultsWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeActiveRadioFaultsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeActiveRadioFaultsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeActiveRadioFaultsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeActiveRadioFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeActiveRadioFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeActiveRadioFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -628,7 +264,9 @@ readAttributeActiveNetworkFaultsWithCompletionHandler :: IsMTRBaseClusterGeneral
 readAttributeActiveNetworkFaultsWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeActiveNetworkFaultsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeActiveNetworkFaultsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeActiveNetworkFaultsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeActiveNetworkFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeActiveNetworkFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeActiveNetworkFaultsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -645,7 +283,9 @@ readAttributeTestEventTriggersEnabledWithCompletionHandler :: IsMTRBaseClusterGe
 readAttributeTestEventTriggersEnabledWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeTestEventTriggersEnabledWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeTestEventTriggersEnabledWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeTestEventTriggersEnabledWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeTestEventTriggersEnabledWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeTestEventTriggersEnabledWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeTestEventTriggersEnabledWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -662,7 +302,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterGenera
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -679,7 +321,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterGeneral
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -696,7 +340,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterGeneralDiagno
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -713,7 +359,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterGeneralDiagnosti
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -730,7 +378,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterGeneralDiag
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterGeneralDiagnostics completionHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterGeneralDiagnostics -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterGeneralDiagnostics minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterGeneralDiagnostics subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -742,208 +392,21 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
     cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterGeneralDiagnostics -> device -> endpointID -> queue -> IO (Id MTRBaseClusterGeneralDiagnostics)
-initWithDevice_endpointID_queue mtrBaseClusterGeneralDiagnostics device endpointID queue =
-  sendOwnedMessage mtrBaseClusterGeneralDiagnostics initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
+-- | @- init@
+init_ :: IsMTRBaseClusterGeneralDiagnostics mtrBaseClusterGeneralDiagnostics => mtrBaseClusterGeneralDiagnostics -> IO (Id MTRBaseClusterGeneralDiagnostics)
+init_ mtrBaseClusterGeneralDiagnostics =
+  sendOwnedMessage mtrBaseClusterGeneralDiagnostics initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterGeneralDiagnostics)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterGeneralDiagnostics"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @testEventTriggerWithParams:completion:@
-testEventTriggerWithParams_completionSelector :: Selector '[Id MTRGeneralDiagnosticsClusterTestEventTriggerParams, Ptr ()] ()
-testEventTriggerWithParams_completionSelector = mkSelector "testEventTriggerWithParams:completion:"
-
--- | @Selector@ for @timeSnapshotWithParams:completion:@
-timeSnapshotWithParams_completionSelector :: Selector '[Id MTRGeneralDiagnosticsClusterTimeSnapshotParams, Ptr ()] ()
-timeSnapshotWithParams_completionSelector = mkSelector "timeSnapshotWithParams:completion:"
-
--- | @Selector@ for @timeSnapshotWithCompletion:@
-timeSnapshotWithCompletionSelector :: Selector '[Ptr ()] ()
-timeSnapshotWithCompletionSelector = mkSelector "timeSnapshotWithCompletion:"
-
--- | @Selector@ for @payloadTestRequestWithParams:completion:@
-payloadTestRequestWithParams_completionSelector :: Selector '[Id MTRGeneralDiagnosticsClusterPayloadTestRequestParams, Ptr ()] ()
-payloadTestRequestWithParams_completionSelector = mkSelector "payloadTestRequestWithParams:completion:"
-
--- | @Selector@ for @readAttributeNetworkInterfacesWithCompletion:@
-readAttributeNetworkInterfacesWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeNetworkInterfacesWithCompletionSelector = mkSelector "readAttributeNetworkInterfacesWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeNetworkInterfacesWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeNetworkInterfacesWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeNetworkInterfacesWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeNetworkInterfacesWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeNetworkInterfacesWithClusterStateCache:endpoint:queue:completion:@
-readAttributeNetworkInterfacesWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeNetworkInterfacesWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeNetworkInterfacesWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeRebootCountWithCompletion:@
-readAttributeRebootCountWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeRebootCountWithCompletionSelector = mkSelector "readAttributeRebootCountWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeRebootCountWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeRebootCountWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeRebootCountWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeRebootCountWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeRebootCountWithClusterStateCache:endpoint:queue:completion:@
-readAttributeRebootCountWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeRebootCountWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeRebootCountWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeUpTimeWithCompletion:@
-readAttributeUpTimeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeUpTimeWithCompletionSelector = mkSelector "readAttributeUpTimeWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeUpTimeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeUpTimeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeUpTimeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeUpTimeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeUpTimeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeUpTimeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeUpTimeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeUpTimeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeTotalOperationalHoursWithCompletion:@
-readAttributeTotalOperationalHoursWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeTotalOperationalHoursWithCompletionSelector = mkSelector "readAttributeTotalOperationalHoursWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeTotalOperationalHoursWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTotalOperationalHoursWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeTotalOperationalHoursWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeTotalOperationalHoursWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeTotalOperationalHoursWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTotalOperationalHoursWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeTotalOperationalHoursWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeTotalOperationalHoursWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeBootReasonWithCompletion:@
-readAttributeBootReasonWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeBootReasonWithCompletionSelector = mkSelector "readAttributeBootReasonWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeBootReasonWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeBootReasonWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeBootReasonWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeBootReasonWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeBootReasonWithClusterStateCache:endpoint:queue:completion:@
-readAttributeBootReasonWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeBootReasonWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeBootReasonWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeActiveHardwareFaultsWithCompletion:@
-readAttributeActiveHardwareFaultsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeActiveHardwareFaultsWithCompletionSelector = mkSelector "readAttributeActiveHardwareFaultsWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeActiveHardwareFaultsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeActiveHardwareFaultsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeActiveHardwareFaultsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeActiveHardwareFaultsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeActiveHardwareFaultsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeActiveHardwareFaultsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeActiveHardwareFaultsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeActiveHardwareFaultsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeActiveRadioFaultsWithCompletion:@
-readAttributeActiveRadioFaultsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeActiveRadioFaultsWithCompletionSelector = mkSelector "readAttributeActiveRadioFaultsWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeActiveRadioFaultsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeActiveRadioFaultsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeActiveRadioFaultsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeActiveRadioFaultsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeActiveRadioFaultsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeActiveRadioFaultsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeActiveRadioFaultsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeActiveRadioFaultsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeActiveNetworkFaultsWithCompletion:@
-readAttributeActiveNetworkFaultsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeActiveNetworkFaultsWithCompletionSelector = mkSelector "readAttributeActiveNetworkFaultsWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeActiveNetworkFaultsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeActiveNetworkFaultsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeActiveNetworkFaultsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeActiveNetworkFaultsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeActiveNetworkFaultsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeActiveNetworkFaultsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeActiveNetworkFaultsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeActiveNetworkFaultsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeTestEventTriggersEnabledWithCompletion:@
-readAttributeTestEventTriggersEnabledWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeTestEventTriggersEnabledWithCompletionSelector = mkSelector "readAttributeTestEventTriggersEnabledWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeTestEventTriggersEnabledWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTestEventTriggersEnabledWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeTestEventTriggersEnabledWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeTestEventTriggersEnabledWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeTestEventTriggersEnabledWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTestEventTriggersEnabledWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeTestEventTriggersEnabledWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeTestEventTriggersEnabledWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterGeneralDiagnostics)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterGeneralDiagnostics)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterGeneralDiagnostics)
@@ -1121,7 +584,11 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterGeneralDiagnostics)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterGeneralDiagnostics)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterGeneralDiagnostics)
+newSelector = mkSelector "new"
 

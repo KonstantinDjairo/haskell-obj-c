@@ -14,57 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | @SKANError@
-newtype SKANError = SKANError CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern SKANErrorImpressionMissingRequiredValue :: SKANError
-pattern SKANErrorImpressionMissingRequiredValue = SKANError 0
-
-pattern SKANErrorUnsupported :: SKANError
-pattern SKANErrorUnsupported = SKANError 1
-
-pattern SKANErrorAdNetworkIdMissing :: SKANError
-pattern SKANErrorAdNetworkIdMissing = SKANError 2
-
-pattern SKANErrorMismatchedSourceAppId :: SKANError
-pattern SKANErrorMismatchedSourceAppId = SKANError 3
-
-pattern SKANErrorImpressionNotFound :: SKANError
-pattern SKANErrorImpressionNotFound = SKANError 4
-
-pattern SKANErrorInvalidCampaignId :: SKANError
-pattern SKANErrorInvalidCampaignId = SKANError 5
-
-pattern SKANErrorInvalidConversionValue :: SKANError
-pattern SKANErrorInvalidConversionValue = SKANError 6
-
-pattern SKANErrorInvalidSourceAppId :: SKANError
-pattern SKANErrorInvalidSourceAppId = SKANError 7
-
-pattern SKANErrorInvalidAdvertisedAppId :: SKANError
-pattern SKANErrorInvalidAdvertisedAppId = SKANError 8
-
-pattern SKANErrorInvalidVersion :: SKANError
-pattern SKANErrorInvalidVersion = SKANError 9
-
-pattern SKANErrorUnknown :: SKANError
-pattern SKANErrorUnknown = SKANError 10
-
-pattern SKANErrorImpressionTooShort :: SKANError
-pattern SKANErrorImpressionTooShort = SKANError 11
-
-instance ObjCArgument SKANError where
-  withObjCArg (SKANError x) k = k (argCLong x)
-
-instance ObjCReturn SKANError where
-  type RawReturn SKANError = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (SKANError x)
-  fromOwned x = pure (SKANError x)
-
 -- | @SKCloudServiceAuthorizationStatus@
 newtype SKCloudServiceAuthorizationStatus = SKCloudServiceAuthorizationStatus CLong
   deriving stock (Eq, Ord, Show)

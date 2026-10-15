@@ -7,10 +7,18 @@
 module ObjC.Matter.MTRDescriptorClusterDeviceType
   ( MTRDescriptorClusterDeviceType
   , IsMTRDescriptorClusterDeviceType(..)
+  , init_
+  , copyWithZone
+  , type_
+  , setType
   , revision
   , setRevision
+  , copyWithZoneSelector
+  , initSelector
   , revisionSelector
   , setRevisionSelector
+  , setTypeSelector
+  , typeSelector
 
 
   ) where
@@ -26,6 +34,26 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRDescriptorClusterDeviceType mtrDescriptorClusterDeviceType => mtrDescriptorClusterDeviceType -> IO (Id MTRDescriptorClusterDeviceType)
+init_ mtrDescriptorClusterDeviceType =
+  sendOwnedMessage mtrDescriptorClusterDeviceType initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDescriptorClusterDeviceType mtrDescriptorClusterDeviceType => mtrDescriptorClusterDeviceType -> Ptr () -> IO RawId
+copyWithZone mtrDescriptorClusterDeviceType zone =
+  sendOwnedMessage mtrDescriptorClusterDeviceType copyWithZoneSelector zone
+
+-- | @- type@
+type_ :: IsMTRDescriptorClusterDeviceType mtrDescriptorClusterDeviceType => mtrDescriptorClusterDeviceType -> IO (Id NSNumber)
+type_ mtrDescriptorClusterDeviceType =
+  sendMessage mtrDescriptorClusterDeviceType typeSelector
+
+-- | @- setType:@
+setType :: (IsMTRDescriptorClusterDeviceType mtrDescriptorClusterDeviceType, IsNSNumber value) => mtrDescriptorClusterDeviceType -> value -> IO ()
+setType mtrDescriptorClusterDeviceType value =
+  sendMessage mtrDescriptorClusterDeviceType setTypeSelector (toNSNumber value)
+
 -- | @- revision@
 revision :: IsMTRDescriptorClusterDeviceType mtrDescriptorClusterDeviceType => mtrDescriptorClusterDeviceType -> IO (Id NSNumber)
 revision mtrDescriptorClusterDeviceType =
@@ -39,6 +67,22 @@ setRevision mtrDescriptorClusterDeviceType value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDescriptorClusterDeviceType)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
+-- | @Selector@ for @type@
+typeSelector :: Selector '[] (Id NSNumber)
+typeSelector = mkSelector "type"
+
+-- | @Selector@ for @setType:@
+setTypeSelector :: Selector '[Id NSNumber] ()
+setTypeSelector = mkSelector "setType:"
 
 -- | @Selector@ for @revision@
 revisionSelector :: Selector '[] (Id NSNumber)

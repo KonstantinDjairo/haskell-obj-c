@@ -3,11 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A class that implements the Quick Look preview panel to display a preview of a list of items.
+-- | The QLPreviewPanel class implements the Preview Panel - a user interface object that displays the preview of a list of items.
 --
--- Every application has a single shared instance of ``QuickLookUI/QLPreviewPanel`` accessible through ``QuickLookUI/QLPreviewPanel/sharedPreviewPanel``. The preview panel follows the responder chain and adapts to the first responder willing to control it. A preview panel controller provides the content through methods defined in the ``QuickLookUI/QLPreviewPanelDataSource`` protocol.
+-- Each application has only one instance of QLPreviewPanel. You can not subclass QLPreviewPanel.
 --
--- You can’t subclass ``QuickLookUI/QLPreviewPanel``; you can, however, customize its behavior using a ``QuickLookUI/QLPreviewPanel/delegate``. See the ``QuickLookUI/QLPreviewPanelDelegate`` protocol for the methods to customize a preview panel’s behavior.
+-- QLPreviewPanel follows the responder chain and adapts to the first responder willing to control it. It uses a data source to      gets its content. QLPreviewPanel can also have a delegate.
 --
 -- Generated bindings for @QLPreviewPanel@.
 module ObjC.QuickLookUI.QLPreviewPanel
@@ -65,11 +65,7 @@ import ObjC.QuickLookUI.Internal.Classes
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Returns the shared Quick Look preview panel instance.
---
--- This method creates the panel if it doesn’t exist yet. Use ``QuickLookUI/QLPreviewPanel/sharedPreviewPanelExists`` if you want to determine whether the panel exists without creating it.
---
--- - Returns: The shared Quick Look preview panel instance for the application.
+-- | Returns the QLPreviewPanel instance, creating it if it doesn�t exist yet.
 --
 -- ObjC selector: @+ sharedPreviewPanel@
 sharedPreviewPanel :: IO (Id QLPreviewPanel)
@@ -78,9 +74,7 @@ sharedPreviewPanel  =
     cls' <- getRequiredClass "QLPreviewPanel"
     sendClassMessage cls' sharedPreviewPanelSelector
 
--- | Returns a Boolean value that indicates whether the system has created a shared Quick Look preview panel.
---
--- - Returns: <doc://com.apple.documentation/documentation/objectivec/yes> if the shared Quick Look preview panel instance has been created, otherwise <doc://com.apple.documentation/documentation/objectivec/no>.
+-- | Returns YES if the shared Preview Panel has been created, NO if it hasn�t..
 --
 -- ObjC selector: @+ sharedPreviewPanelExists@
 sharedPreviewPanelExists :: IO Bool
@@ -89,150 +83,120 @@ sharedPreviewPanelExists  =
     cls' <- getRequiredClass "QLPreviewPanel"
     sendClassMessage cls' sharedPreviewPanelExistsSelector
 
--- | Asks the preview panel to update its current controller.
+-- | Asks the Preview Panel to update its current controller.
 --
--- The preview panel automatically updates its controller (by searching the responder chain) whenever the main or key window changes. You should only invoke this method if the responder chain changes without explicit notice.
+-- The Preview Panel automatically updates its controller (by searching the responder chain) whenever the main or key window changes. Invoke updateController if the responder chain changes without explicit notice.
 --
 -- ObjC selector: @- updateController@
 updateController :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO ()
 updateController qlPreviewPanel =
   sendMessage qlPreviewPanel updateControllerSelector
 
--- | Asks the preview panel to reload its data from its data source.
+-- | Asks the Preview Panel to reload its data from its data source.
 --
--- This method doesn’t refresh the visible item if it hasn’t changed.
+-- This method does not refresh the visible item if it has not changed.
 --
 -- ObjC selector: @- reloadData@
 reloadData :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO ()
 reloadData qlPreviewPanel =
   sendMessage qlPreviewPanel reloadDataSelector
 
--- | Asks the preview panel to recompute the preview of the current preview item.
+-- | Asks the Preview Panel to recompute the preview of the currently previewed item.
 --
 -- ObjC selector: @- refreshCurrentPreviewItem@
 refreshCurrentPreviewItem :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO ()
 refreshCurrentPreviewItem qlPreviewPanel =
   sendMessage qlPreviewPanel refreshCurrentPreviewItemSelector
 
--- | Instructs the panel to enter full screen mode.
+-- | Enters full screen mode.
 --
--- If the panel isn’t onscreen, the panel goes directly to full screen mode.
---
--- The panel chooses the appropriate screen depending on where the panel is or, if entering fullscreen directly, where the panel zooms from.
---
--- - Parameters:   - screen: This parameter isn’t currently used—pass @nil@.
---
--- - options: This parameter isn’t currently used—pass @nil@.
---
--- - Returns: <doc://com.apple.documentation/documentation/objectivec/yes> if the panel was able to enter full screen mode; otherwise, <doc://com.apple.documentation/documentation/objectivec/no>.
+-- If panel is not on-screen, the panel will go directly to full screen mode.
 --
 -- ObjC selector: @- enterFullScreenMode:withOptions:@
 enterFullScreenMode_withOptions :: (IsQLPreviewPanel qlPreviewPanel, IsNSScreen screen, IsNSDictionary options) => qlPreviewPanel -> screen -> options -> IO Bool
 enterFullScreenMode_withOptions qlPreviewPanel screen options =
   sendMessage qlPreviewPanel enterFullScreenMode_withOptionsSelector (toNSScreen screen) (toNSDictionary options)
 
--- | Instructs the panel to exit full screen mode.
---
--- - Parameters:   - options: This parameter isn’t used — pass @nil@.
+-- | Exits full screen mode.
 --
 -- ObjC selector: @- exitFullScreenModeWithOptions:@
 exitFullScreenModeWithOptions :: (IsQLPreviewPanel qlPreviewPanel, IsNSDictionary options) => qlPreviewPanel -> options -> IO ()
 exitFullScreenModeWithOptions qlPreviewPanel options =
   sendMessage qlPreviewPanel exitFullScreenModeWithOptionsSelector (toNSDictionary options)
 
--- | The current first responder accepting to control the preview panel.
+-- | The current first responder accepting to control the Preview Panel.
 --
--- You should never change the preview panel’s state (for example, its delegate, datasource, and so on) if you aren’t controlling it.
+-- You should never change preview panel state (delegate, datasource, etc.) if you are not controlling it.
 --
 -- ObjC selector: @- currentController@
 currentController :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO RawId
 currentController qlPreviewPanel =
   sendMessage qlPreviewPanel currentControllerSelector
 
--- | The preview panel data source.
+-- | The Preview Panel data source.
 --
 -- ObjC selector: @- dataSource@
 dataSource :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO RawId
 dataSource qlPreviewPanel =
   sendMessage qlPreviewPanel dataSourceSelector
 
--- | The preview panel data source.
+-- | The Preview Panel data source.
 --
 -- ObjC selector: @- setDataSource:@
 setDataSource :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> RawId -> IO ()
 setDataSource qlPreviewPanel value =
   sendMessage qlPreviewPanel setDataSourceSelector value
 
--- | The index of the current preview item.
---
--- The value is @NSNotFound@ if there’s no current preview item.
+-- | The index of the currently previewed item in the preview panel or NSNotFound if there is none.
 --
 -- ObjC selector: @- currentPreviewItemIndex@
 currentPreviewItemIndex :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO CLong
 currentPreviewItemIndex qlPreviewPanel =
   sendMessage qlPreviewPanel currentPreviewItemIndexSelector
 
--- | The index of the current preview item.
---
--- The value is @NSNotFound@ if there’s no current preview item.
+-- | The index of the currently previewed item in the preview panel or NSNotFound if there is none.
 --
 -- ObjC selector: @- setCurrentPreviewItemIndex:@
 setCurrentPreviewItemIndex :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> CLong -> IO ()
 setCurrentPreviewItemIndex qlPreviewPanel value =
   sendMessage qlPreviewPanel setCurrentPreviewItemIndexSelector value
 
--- | The currently previewed item.
---
--- The value is @nil@ if there’s no current preview item.
+-- | The currently previewed item in the preview panel or nil if there is none.
 --
 -- ObjC selector: @- currentPreviewItem@
 currentPreviewItem :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO RawId
 currentPreviewItem qlPreviewPanel =
   sendMessage qlPreviewPanel currentPreviewItemSelector
 
--- | The preview panel’s display state.
---
--- This property is an opaque object that Quick Look uses to get and set the current display state of the preview. The display state could be, for example, the currently displayed page, the zoom factor on an image, or the position in a movie.
---
--- You can use this property to get and save the current display state of the preview before switching to another. This saving allows you to restore a preview later on when the user switches back to it.
+-- | The current panel's display state.
 --
 -- ObjC selector: @- displayState@
 displayState :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO RawId
 displayState qlPreviewPanel =
   sendMessage qlPreviewPanel displayStateSelector
 
--- | The preview panel’s display state.
---
--- This property is an opaque object that Quick Look uses to get and set the current display state of the preview. The display state could be, for example, the currently displayed page, the zoom factor on an image, or the position in a movie.
---
--- You can use this property to get and save the current display state of the preview before switching to another. This saving allows you to restore a preview later on when the user switches back to it.
+-- | The current panel's display state.
 --
 -- ObjC selector: @- setDisplayState:@
 setDisplayState :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> RawId -> IO ()
 setDisplayState qlPreviewPanel value =
   sendMessage qlPreviewPanel setDisplayStateSelector value
 
--- | The delegate object that controls the preview panel’s behavior.
---
--- The class assigned as the delegate should conform to the ``QuickLookUI/QLPreviewPanelDelegate`` protocol.
+-- | The Preview Panel delegate.
 --
 -- ObjC selector: @- delegate@
 delegate :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO RawId
 delegate qlPreviewPanel =
   sendMessage qlPreviewPanel delegateSelector
 
--- | The delegate object that controls the preview panel’s behavior.
---
--- The class assigned as the delegate should conform to the ``QuickLookUI/QLPreviewPanelDelegate`` protocol.
+-- | The Preview Panel delegate.
 --
 -- ObjC selector: @- setDelegate:@
 setDelegate :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> RawId -> IO ()
 setDelegate qlPreviewPanel value =
   sendMessage qlPreviewPanel setDelegateSelector value
 
--- | The property that indicates whether the panel is in full screen mode.
---
--- The value is <doc://com.apple.documentation/documentation/objectivec/yes> if the panel is currently open and in full screen mode; otherwise it’s <doc://com.apple.documentation/documentation/objectivec/no>.
+-- | YES if the panel is currently open and in full screen mode.
 --
 -- ObjC selector: @- inFullScreenMode@
 inFullScreenMode :: IsQLPreviewPanel qlPreviewPanel => qlPreviewPanel -> IO Bool

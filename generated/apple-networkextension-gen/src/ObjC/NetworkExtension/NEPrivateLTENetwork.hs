@@ -43,7 +43,7 @@ import ObjC.Foundation.Internal.Classes
 -- Mobile Country Code of the private LTE network.
 --
 -- ObjC selector: @- mobileCountryCode@
-mobileCountryCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> IO (Id NSString)
+mobileCountryCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> IO RawId
 mobileCountryCode nePrivateLTENetwork =
   sendMessage nePrivateLTENetwork mobileCountryCodeSelector
 
@@ -52,16 +52,16 @@ mobileCountryCode nePrivateLTENetwork =
 -- Mobile Country Code of the private LTE network.
 --
 -- ObjC selector: @- setMobileCountryCode:@
-setMobileCountryCode :: (IsNEPrivateLTENetwork nePrivateLTENetwork, IsNSString value) => nePrivateLTENetwork -> value -> IO ()
+setMobileCountryCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> RawId -> IO ()
 setMobileCountryCode nePrivateLTENetwork value =
-  sendMessage nePrivateLTENetwork setMobileCountryCodeSelector (toNSString value)
+  sendMessage nePrivateLTENetwork setMobileCountryCodeSelector value
 
 -- | mobileNetworkCode
 --
 -- Mobile Network Code of the private LTE network.
 --
 -- ObjC selector: @- mobileNetworkCode@
-mobileNetworkCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> IO (Id NSString)
+mobileNetworkCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> IO RawId
 mobileNetworkCode nePrivateLTENetwork =
   sendMessage nePrivateLTENetwork mobileNetworkCodeSelector
 
@@ -70,16 +70,16 @@ mobileNetworkCode nePrivateLTENetwork =
 -- Mobile Network Code of the private LTE network.
 --
 -- ObjC selector: @- setMobileNetworkCode:@
-setMobileNetworkCode :: (IsNEPrivateLTENetwork nePrivateLTENetwork, IsNSString value) => nePrivateLTENetwork -> value -> IO ()
+setMobileNetworkCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> RawId -> IO ()
 setMobileNetworkCode nePrivateLTENetwork value =
-  sendMessage nePrivateLTENetwork setMobileNetworkCodeSelector (toNSString value)
+  sendMessage nePrivateLTENetwork setMobileNetworkCodeSelector value
 
 -- | trackingAreaCode
 --
 -- Tracking Area Code of the private LTE network. This property is only applicable for band 48 private LTE networks.
 --
 -- ObjC selector: @- trackingAreaCode@
-trackingAreaCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> IO (Id NSString)
+trackingAreaCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> IO RawId
 trackingAreaCode nePrivateLTENetwork =
   sendMessage nePrivateLTENetwork trackingAreaCodeSelector
 
@@ -88,35 +88,35 @@ trackingAreaCode nePrivateLTENetwork =
 -- Tracking Area Code of the private LTE network. This property is only applicable for band 48 private LTE networks.
 --
 -- ObjC selector: @- setTrackingAreaCode:@
-setTrackingAreaCode :: (IsNEPrivateLTENetwork nePrivateLTENetwork, IsNSString value) => nePrivateLTENetwork -> value -> IO ()
+setTrackingAreaCode :: IsNEPrivateLTENetwork nePrivateLTENetwork => nePrivateLTENetwork -> RawId -> IO ()
 setTrackingAreaCode nePrivateLTENetwork value =
-  sendMessage nePrivateLTENetwork setTrackingAreaCodeSelector (toNSString value)
+  sendMessage nePrivateLTENetwork setTrackingAreaCodeSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @mobileCountryCode@
-mobileCountryCodeSelector :: Selector '[] (Id NSString)
+mobileCountryCodeSelector :: Selector '[] RawId
 mobileCountryCodeSelector = mkSelector "mobileCountryCode"
 
 -- | @Selector@ for @setMobileCountryCode:@
-setMobileCountryCodeSelector :: Selector '[Id NSString] ()
+setMobileCountryCodeSelector :: Selector '[RawId] ()
 setMobileCountryCodeSelector = mkSelector "setMobileCountryCode:"
 
 -- | @Selector@ for @mobileNetworkCode@
-mobileNetworkCodeSelector :: Selector '[] (Id NSString)
+mobileNetworkCodeSelector :: Selector '[] RawId
 mobileNetworkCodeSelector = mkSelector "mobileNetworkCode"
 
 -- | @Selector@ for @setMobileNetworkCode:@
-setMobileNetworkCodeSelector :: Selector '[Id NSString] ()
+setMobileNetworkCodeSelector :: Selector '[RawId] ()
 setMobileNetworkCodeSelector = mkSelector "setMobileNetworkCode:"
 
 -- | @Selector@ for @trackingAreaCode@
-trackingAreaCodeSelector :: Selector '[] (Id NSString)
+trackingAreaCodeSelector :: Selector '[] RawId
 trackingAreaCodeSelector = mkSelector "trackingAreaCode"
 
 -- | @Selector@ for @setTrackingAreaCode:@
-setTrackingAreaCodeSelector :: Selector '[Id NSString] ()
+setTrackingAreaCodeSelector :: Selector '[RawId] ()
 setTrackingAreaCodeSelector = mkSelector "setTrackingAreaCode:"
 

@@ -9,12 +9,8 @@ module ObjC.AuthenticationServices.ASAuthorizationSecurityKeyPublicKeyCredential
   , IsASAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest(..)
   , allowedCredentials
   , setAllowedCredentials
-  , appID
-  , setAppID
   , allowedCredentialsSelector
-  , appIDSelector
   , setAllowedCredentialsSelector
-  , setAppIDSelector
 
 
   ) where
@@ -44,20 +40,6 @@ setAllowedCredentials :: (IsASAuthorizationSecurityKeyPublicKeyCredentialAsserti
 setAllowedCredentials asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest value =
   sendMessage asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest setAllowedCredentialsSelector (toNSArray value)
 
--- | Use this value to request the appid WebAuthn extension. This can only be requested by web browsers.
---
--- ObjC selector: @- appID@
-appID :: IsASAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest => asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest -> IO (Id NSString)
-appID asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest =
-  sendMessage asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest appIDSelector
-
--- | Use this value to request the appid WebAuthn extension. This can only be requested by web browsers.
---
--- ObjC selector: @- setAppID:@
-setAppID :: (IsASAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest, IsNSString value) => asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest -> value -> IO ()
-setAppID asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest value =
-  sendMessage asAuthorizationSecurityKeyPublicKeyCredentialAssertionRequest setAppIDSelector (toNSString value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -69,12 +51,4 @@ allowedCredentialsSelector = mkSelector "allowedCredentials"
 -- | @Selector@ for @setAllowedCredentials:@
 setAllowedCredentialsSelector :: Selector '[Id NSArray] ()
 setAllowedCredentialsSelector = mkSelector "setAllowedCredentials:"
-
--- | @Selector@ for @appID@
-appIDSelector :: Selector '[] (Id NSString)
-appIDSelector = mkSelector "appID"
-
--- | @Selector@ for @setAppID:@
-setAppIDSelector :: Selector '[Id NSString] ()
-setAppIDSelector = mkSelector "setAppID:"
 

@@ -7,12 +7,14 @@
 module ObjC.Matter.MTRKeypadInputClusterSendKeyResponseParams
   ( MTRKeypadInputClusterSendKeyResponseParams
   , IsMTRKeypadInputClusterSendKeyResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , status
   , setStatus
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , setStatusSelector
   , setTimedInvokeTimeoutMsSelector
   , statusSelector
@@ -32,16 +34,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRKeypadInputClusterSendKeyResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRKeypadInputClusterSendKeyResponseParams mtrKeypadInputClusterSendKeyResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrKeypadInputClusterSendKeyResponseParams -> responseValue -> error_ -> IO (Id MTRKeypadInputClusterSendKeyResponseParams)
-initWithResponseValue_error mtrKeypadInputClusterSendKeyResponseParams responseValue error_ =
-  sendOwnedMessage mtrKeypadInputClusterSendKeyResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRKeypadInputClusterSendKeyResponseParams mtrKeypadInputClusterSendKeyResponseParams => mtrKeypadInputClusterSendKeyResponseParams -> IO (Id MTRKeypadInputClusterSendKeyResponseParams)
+init_ mtrKeypadInputClusterSendKeyResponseParams =
+  sendOwnedMessage mtrKeypadInputClusterSendKeyResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRKeypadInputClusterSendKeyResponseParams mtrKeypadInputClusterSendKeyResponseParams => mtrKeypadInputClusterSendKeyResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrKeypadInputClusterSendKeyResponseParams zone =
+  sendOwnedMessage mtrKeypadInputClusterSendKeyResponseParams copyWithZoneSelector zone
 
 -- | @- status@
 status :: IsMTRKeypadInputClusterSendKeyResponseParams mtrKeypadInputClusterSendKeyResponseParams => mtrKeypadInputClusterSendKeyResponseParams -> IO (Id NSNumber)
@@ -79,9 +80,13 @@ setTimedInvokeTimeoutMs mtrKeypadInputClusterSendKeyResponseParams value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRKeypadInputClusterSendKeyResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRKeypadInputClusterSendKeyResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @status@
 statusSelector :: Selector '[] (Id NSNumber)

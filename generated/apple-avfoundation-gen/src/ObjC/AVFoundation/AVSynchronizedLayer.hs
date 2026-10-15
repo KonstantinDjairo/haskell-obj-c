@@ -49,7 +49,7 @@ synchronizedLayerWithPlayerItem playerItem =
 -- Before macOS 13, iOS 16, tvOS 16, and watchOS 9, this property must be accessed on the main thread/queue.
 --
 -- ObjC selector: @- playerItem@
-playerItem :: IsAVSynchronizedLayer avSynchronizedLayer => avSynchronizedLayer -> IO (Id AVPlayerItem)
+playerItem :: IsAVSynchronizedLayer avSynchronizedLayer => avSynchronizedLayer -> IO RawId
 playerItem avSynchronizedLayer =
   sendMessage avSynchronizedLayer playerItemSelector
 
@@ -60,9 +60,9 @@ playerItem avSynchronizedLayer =
 -- Before macOS 13, iOS 16, tvOS 16, and watchOS 9, this property must be accessed on the main thread/queue.
 --
 -- ObjC selector: @- setPlayerItem:@
-setPlayerItem :: (IsAVSynchronizedLayer avSynchronizedLayer, IsAVPlayerItem value) => avSynchronizedLayer -> value -> IO ()
+setPlayerItem :: IsAVSynchronizedLayer avSynchronizedLayer => avSynchronizedLayer -> RawId -> IO ()
 setPlayerItem avSynchronizedLayer value =
-  sendMessage avSynchronizedLayer setPlayerItemSelector (toAVPlayerItem value)
+  sendMessage avSynchronizedLayer setPlayerItemSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -73,10 +73,10 @@ synchronizedLayerWithPlayerItemSelector :: Selector '[Id AVPlayerItem] (Id AVSyn
 synchronizedLayerWithPlayerItemSelector = mkSelector "synchronizedLayerWithPlayerItem:"
 
 -- | @Selector@ for @playerItem@
-playerItemSelector :: Selector '[] (Id AVPlayerItem)
+playerItemSelector :: Selector '[] RawId
 playerItemSelector = mkSelector "playerItem"
 
 -- | @Selector@ for @setPlayerItem:@
-setPlayerItemSelector :: Selector '[Id AVPlayerItem] ()
+setPlayerItemSelector :: Selector '[RawId] ()
 setPlayerItemSelector = mkSelector "setPlayerItem:"
 

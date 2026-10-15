@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterTestEmitTestEventRequestParams
   ( MTRTestClusterClusterTestEmitTestEventRequestParams
   , IsMTRTestClusterClusterTestEmitTestEventRequestParams(..)
+  , init_
+  , copyWithZone
   , arg1
   , setArg1
   , arg2
@@ -15,16 +17,14 @@ module ObjC.Matter.MTRTestClusterClusterTestEmitTestEventRequestParams
   , setArg3
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , arg1Selector
   , arg2Selector
   , arg3Selector
-  , serverSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setArg1Selector
   , setArg2Selector
   , setArg3Selector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -41,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestEmitTestEventRequestParams mtrTestClusterClusterTestEmitTestEventRequestParams => mtrTestClusterClusterTestEmitTestEventRequestParams -> IO (Id MTRTestClusterClusterTestEmitTestEventRequestParams)
+init_ mtrTestClusterClusterTestEmitTestEventRequestParams =
+  sendOwnedMessage mtrTestClusterClusterTestEmitTestEventRequestParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestEmitTestEventRequestParams mtrTestClusterClusterTestEmitTestEventRequestParams => mtrTestClusterClusterTestEmitTestEventRequestParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestEmitTestEventRequestParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestEmitTestEventRequestParams copyWithZoneSelector zone
 
 -- | @- arg1@
 arg1 :: IsMTRTestClusterClusterTestEmitTestEventRequestParams mtrTestClusterClusterTestEmitTestEventRequestParams => mtrTestClusterClusterTestEmitTestEventRequestParams -> IO (Id NSNumber)
@@ -94,31 +104,17 @@ setTimedInvokeTimeoutMs :: (IsMTRTestClusterClusterTestEmitTestEventRequestParam
 setTimedInvokeTimeoutMs mtrTestClusterClusterTestEmitTestEventRequestParams value =
   sendMessage mtrTestClusterClusterTestEmitTestEventRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRTestClusterClusterTestEmitTestEventRequestParams mtrTestClusterClusterTestEmitTestEventRequestParams => mtrTestClusterClusterTestEmitTestEventRequestParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrTestClusterClusterTestEmitTestEventRequestParams =
-  sendMessage mtrTestClusterClusterTestEmitTestEventRequestParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRTestClusterClusterTestEmitTestEventRequestParams mtrTestClusterClusterTestEmitTestEventRequestParams, IsNSNumber value) => mtrTestClusterClusterTestEmitTestEventRequestParams -> value -> IO ()
-setServerSideProcessingTimeout mtrTestClusterClusterTestEmitTestEventRequestParams value =
-  sendMessage mtrTestClusterClusterTestEmitTestEventRequestParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestEmitTestEventRequestParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @arg1@
 arg1Selector :: Selector '[] (Id NSNumber)
@@ -151,12 +147,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

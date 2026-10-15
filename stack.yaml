@@ -31,13 +31,11 @@ snapshot:
 #   - wai
 packages:
 - .
-- examples
 - codegen
 - bundler
 # Generated framework packages (flat under generated/)
 # Regenerate with: stack exec objc-codegen -- -f AppKit -f WebKit ... -o generated
 - generated/apple-accessibility-gen
-- generated/apple-accessorysetupkit-gen
 - generated/apple-accounts-gen
 - generated/apple-addressbook-gen
 - generated/apple-adservices-gen
@@ -59,21 +57,16 @@ packages:
 - generated/apple-avrouting-gen
 - generated/apple-backgroundassets-gen
 - generated/apple-backgroundtasks-gen
-- generated/apple-browserenginecore-gen
-- generated/apple-browserenginekit-gen
 - generated/apple-businesschat-gen
 - generated/apple-calendarstore-gen
 - generated/apple-callkit-gen
 - generated/apple-carbon-gen
 - generated/apple-cfnetwork-gen
-- generated/apple-cinematic-avfoundation-gen-ext
-- generated/apple-cinematic-gen
 - generated/apple-classkit-foundation-gen-ext
 - generated/apple-classkit-gen
 - generated/apple-cloudkit-foundation-gen-ext
 - generated/apple-cloudkit-gen
 - generated/apple-collaboration-gen
-- generated/apple-compositorservices-gen
 - generated/apple-contacts-gen
 - generated/apple-contactsui-gen
 - generated/apple-coreaudio-gen
@@ -88,7 +81,6 @@ packages:
 - generated/apple-coreimage-foundation-gen-ext
 - generated/apple-coreimage-gen
 - generated/apple-corelocation-gen
-- generated/apple-coremedia-gen
 - generated/apple-coremediaio-gen
 - generated/apple-coremidi-gen
 - generated/apple-coreml-gen
@@ -102,13 +94,13 @@ packages:
 - generated/apple-cryptotokenkit-gen
 - generated/apple-datadetection-gen
 - generated/apple-devicecheck-gen
-- generated/apple-devicediscoveryextension-gen
 - generated/apple-discrecording-gen
 - generated/apple-discrecordingui-gen
 - generated/apple-driverkit-gen
 - generated/apple-eventkit-gen
 - generated/apple-exceptionhandling-gen
 - generated/apple-executionpolicy-gen
+- generated/apple-exposurenotification-gen
 - generated/apple-extensionkit-gen
 - generated/apple-externalaccessory-gen
 - generated/apple-fileprovider-foundation-gen-ext
@@ -117,20 +109,18 @@ packages:
 - generated/apple-findersync-gen
 - generated/apple-forcefeedback-gen
 - generated/apple-foundation-gen
-- generated/apple-fskit-gen
-- generated/apple-gamecontroller-foundation-gen-ext
 - generated/apple-gamecontroller-gen
 - generated/apple-gamekit-gen
 - generated/apple-gameplaykit-foundation-gen-ext
 - generated/apple-gameplaykit-gen
 - generated/apple-gameplaykit-scenekit-gen-ext
 - generated/apple-gameplaykit-spritekit-gen-ext
-- generated/apple-gamesave-gen
 - generated/apple-glkit-gen
 - generated/apple-healthkit-gen
 - generated/apple-icadevices-gen
 - generated/apple-identitylookup-gen
 - generated/apple-imagecapturecore-gen
+- generated/apple-imserviceplugin-gen
 - generated/apple-inputmethodkit-gen
 - generated/apple-installerplugins-gen
 - generated/apple-intents-corelocation-gen-ext
@@ -145,6 +135,7 @@ packages:
 - generated/apple-iosurface-gen
 - generated/apple-iousbhost-gen
 - generated/apple-ituneslibrary-gen
+- generated/apple-javanativefoundation-gen
 - generated/apple-javaruntimesupport-appkit-gen-ext
 - generated/apple-javaruntimesupport-gen
 - generated/apple-javaruntimesupport-quartzcore-gen-ext
@@ -158,13 +149,10 @@ packages:
 - generated/apple-mapkit-foundation-gen-ext
 - generated/apple-mapkit-gen
 - generated/apple-matter-gen
-- generated/apple-mediaaccessibility-gen
-- generated/apple-mediaextension-gen
 - generated/apple-medialibrary-gen
 - generated/apple-mediaplayer-avfoundation-gen-ext
 - generated/apple-mediaplayer-foundation-gen-ext
 - generated/apple-mediaplayer-gen
-- generated/apple-metal-foundation-gen-ext
 - generated/apple-metal-gen
 - generated/apple-metalfx-gen
 - generated/apple-metalkit-gen
@@ -213,8 +201,6 @@ packages:
 - generated/apple-security-gen
 - generated/apple-securityfoundation-gen
 - generated/apple-securityinterface-gen
-- generated/apple-securityui-gen
-- generated/apple-sensitivecontentanalysis-gen
 - generated/apple-sensorkit-foundation-gen-ext
 - generated/apple-sensorkit-gen
 - generated/apple-servicemanagement-gen
@@ -229,7 +215,6 @@ packages:
 - generated/apple-spritekit-appkit-gen-ext
 - generated/apple-spritekit-gen
 - generated/apple-storekit-gen
-- generated/apple-symbols-gen
 - generated/apple-syncservices-coredata-gen-ext
 - generated/apple-syncservices-gen
 - generated/apple-systemextensions-gen

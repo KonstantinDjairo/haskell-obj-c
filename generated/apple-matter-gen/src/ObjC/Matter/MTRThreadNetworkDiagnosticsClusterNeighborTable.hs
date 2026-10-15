@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterNeighborTable
   ( MTRThreadNetworkDiagnosticsClusterNeighborTable
   , IsMTRThreadNetworkDiagnosticsClusterNeighborTable(..)
+  , init_
+  , copyWithZone
   , extAddress
   , setExtAddress
   , age
@@ -37,10 +39,12 @@ module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterNeighborTable
   , setIsChild
   , ageSelector
   , averageRssiSelector
+  , copyWithZoneSelector
   , extAddressSelector
   , frameErrorRateSelector
   , fullNetworkDataSelector
   , fullThreadDeviceSelector
+  , initSelector
   , isChildSelector
   , lastRssiSelector
   , linkFrameCounterSelector
@@ -77,6 +81,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRThreadNetworkDiagnosticsClusterNeighborTable mtrThreadNetworkDiagnosticsClusterNeighborTable => mtrThreadNetworkDiagnosticsClusterNeighborTable -> IO (Id MTRThreadNetworkDiagnosticsClusterNeighborTable)
+init_ mtrThreadNetworkDiagnosticsClusterNeighborTable =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterNeighborTable initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThreadNetworkDiagnosticsClusterNeighborTable mtrThreadNetworkDiagnosticsClusterNeighborTable => mtrThreadNetworkDiagnosticsClusterNeighborTable -> Ptr () -> IO RawId
+copyWithZone mtrThreadNetworkDiagnosticsClusterNeighborTable zone =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterNeighborTable copyWithZoneSelector zone
 
 -- | @- extAddress@
 extAddress :: IsMTRThreadNetworkDiagnosticsClusterNeighborTable mtrThreadNetworkDiagnosticsClusterNeighborTable => mtrThreadNetworkDiagnosticsClusterNeighborTable -> IO (Id NSNumber)
@@ -221,6 +235,14 @@ setIsChild mtrThreadNetworkDiagnosticsClusterNeighborTable value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThreadNetworkDiagnosticsClusterNeighborTable)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @extAddress@
 extAddressSelector :: Selector '[] (Id NSNumber)

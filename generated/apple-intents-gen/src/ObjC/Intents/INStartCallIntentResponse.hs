@@ -30,7 +30,6 @@ module ObjC.Intents.INStartCallIntentResponse
   , pattern INStartCallIntentResponseCodeFailureAppConfigurationRequired
   , pattern INStartCallIntentResponseCodeFailureCallInProgress
   , pattern INStartCallIntentResponseCodeFailureCallRinging
-  , pattern INStartCallIntentResponseCodeFailureRequiringInAppAuthentication
 
   ) where
 

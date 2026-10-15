@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRMediaPlaybackClusterPlaybackPosition
   ( MTRMediaPlaybackClusterPlaybackPosition
   , IsMTRMediaPlaybackClusterPlaybackPosition(..)
+  , init_
+  , copyWithZone
   , updatedAt
   , setUpdatedAt
   , position
   , setPosition
+  , copyWithZoneSelector
+  , initSelector
   , positionSelector
   , setPositionSelector
   , setUpdatedAtSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRMediaPlaybackClusterPlaybackPosition mtrMediaPlaybackClusterPlaybackPosition => mtrMediaPlaybackClusterPlaybackPosition -> IO (Id MTRMediaPlaybackClusterPlaybackPosition)
+init_ mtrMediaPlaybackClusterPlaybackPosition =
+  sendOwnedMessage mtrMediaPlaybackClusterPlaybackPosition initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRMediaPlaybackClusterPlaybackPosition mtrMediaPlaybackClusterPlaybackPosition => mtrMediaPlaybackClusterPlaybackPosition -> Ptr () -> IO RawId
+copyWithZone mtrMediaPlaybackClusterPlaybackPosition zone =
+  sendOwnedMessage mtrMediaPlaybackClusterPlaybackPosition copyWithZoneSelector zone
 
 -- | @- updatedAt@
 updatedAt :: IsMTRMediaPlaybackClusterPlaybackPosition mtrMediaPlaybackClusterPlaybackPosition => mtrMediaPlaybackClusterPlaybackPosition -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setPosition mtrMediaPlaybackClusterPlaybackPosition value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRMediaPlaybackClusterPlaybackPosition)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @updatedAt@
 updatedAtSelector :: Selector '[] (Id NSNumber)

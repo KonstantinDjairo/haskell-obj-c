@@ -20,19 +20,15 @@ module ObjC.PHASE.PHASESoundEvent
   , initWithEngine_assetIdentifier_error
   , prepareWithCompletion
   , startWithCompletion
-  , startAtTime_completion
   , seekToTime_completion
-  , seekToTime_resumeAtEngineTime_completion
   , pause
   , resume
-  , resumeAtTime
   , stopAndInvalidate
   , renderingState
   , prepareState
   , metaParameters
   , mixers
   , pushStreamNodes
-  , pullStreamNodes
   , indefinite
   , indefiniteSelector
   , initSelector
@@ -44,14 +40,10 @@ module ObjC.PHASE.PHASESoundEvent
   , pauseSelector
   , prepareStateSelector
   , prepareWithCompletionSelector
-  , pullStreamNodesSelector
   , pushStreamNodesSelector
   , renderingStateSelector
-  , resumeAtTimeSelector
   , resumeSelector
   , seekToTime_completionSelector
-  , seekToTime_resumeAtEngineTime_completionSelector
-  , startAtTime_completionSelector
   , startWithCompletionSelector
   , stopAndInvalidateSelector
 
@@ -77,7 +69,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PHASE.Internal.Classes
 import ObjC.PHASE.Internal.Enums
-import ObjC.AVFAudio.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | @- init@
@@ -150,21 +141,6 @@ startWithCompletion :: IsPHASESoundEvent phaseSoundEvent => phaseSoundEvent -> P
 startWithCompletion phaseSoundEvent handler =
   sendMessage phaseSoundEvent startWithCompletionSelector handler
 
--- | startAtTime:completion
---
--- Start the sound event
---
--- @when@ — The desired start time based on the engine time retrieved from [PHASEEngine lastRenderTime]        If the sound event starts immediately with an audible sound, it will begin rendering at this time.  The sound event will otherwise begin operating at this time.        A nil value will start the sound event immediately        This time is not scaled by unitsPerSecond.
---
--- @handler@ — The block that will be called when the sound event has stopped.
---
--- This function notifies the engine to start the sound event, then returns immediately.        Once the sound event is playing (or has failed to start), you will receive a callback via the completion.        Playback will begin at the requested time if the sound event has finished preparing in time.        You may wait for preparation to finish with the [PHASESoundEvent prepare:completion] method before calling startAtTime, to ensure that the sound event will start at the desired time.        However if the desired time is far enough into the future to allow for preparation to happen, you may skip calling prepare entirely and just call startAtTime.
---
--- ObjC selector: @- startAtTime:completion:@
-startAtTime_completion :: (IsPHASESoundEvent phaseSoundEvent, IsAVAudioTime when) => phaseSoundEvent -> when -> Ptr () -> IO ()
-startAtTime_completion phaseSoundEvent when handler =
-  sendMessage phaseSoundEvent startAtTime_completionSelector (toAVAudioTime when) handler
-
 -- | seekToTime:completion
 --
 -- Seeks all leaf nodes in a PHASESoundEvent to a specified time relative to the start of the sound event.
@@ -177,23 +153,6 @@ startAtTime_completion phaseSoundEvent when handler =
 seekToTime_completion :: IsPHASESoundEvent phaseSoundEvent => phaseSoundEvent -> CDouble -> Ptr () -> IO ()
 seekToTime_completion phaseSoundEvent time handler =
   sendMessage phaseSoundEvent seekToTime_completionSelector time handler
-
--- | seekToTime:resumeAtEngineTime:completion
---
--- Seeks all leaf nodes in a PHASESoundEvent to the specified time, and automatically resumes playback at the specified engine time.
---
--- @time@ — The desired time position in seconds to seek the nodes to.
---
--- @engineTime@ — The engine time to resume playback.
---
--- @handler@ — The completion callback that will be called when seeking is complete.
---
--- This is a low latency convenience method that allows for tight deadlines to be met.  However if the seek fails the node state will not be changed.  You should check the callback and handle the failure appropriately.        The time parameter will seek the nodes to the equivalent sample position based on the sample rate of the asset.        The engineTime parameter is the engine timestamp to resume rendering at, based off of [PHASEEngine lastRenderTime].        If any leaf nodes do not support seeking, those nodes will ignore this command.        Nodes that have finished playing or have stopped will not seek.        The time parameter is in seconds and will be scaled by unitsPerSecond.        The time in the AVAudioTime structure is not scaled by unitsPerSecond.        The engineTime parameter will use the sample time if valid, if not, then the host time if valid.
---
--- ObjC selector: @- seekToTime:resumeAtEngineTime:completion:@
-seekToTime_resumeAtEngineTime_completion :: (IsPHASESoundEvent phaseSoundEvent, IsAVAudioTime engineTime) => phaseSoundEvent -> CDouble -> engineTime -> Ptr () -> IO ()
-seekToTime_resumeAtEngineTime_completion phaseSoundEvent time engineTime handler =
-  sendMessage phaseSoundEvent seekToTime_resumeAtEngineTime_completionSelector time (toAVAudioTime engineTime) handler
 
 -- | pause
 --
@@ -212,19 +171,6 @@ pause phaseSoundEvent =
 resume :: IsPHASESoundEvent phaseSoundEvent => phaseSoundEvent -> IO ()
 resume phaseSoundEvent =
   sendMessage phaseSoundEvent resumeSelector
-
--- | resumeAtTime
---
--- Resume the sound event at a specific time
---
--- @time@ — The desired start time based on the engine time retrieved from [PHASEEngine lastRenderTime]
---
--- A nil time parameter will resume immediately.        The device time is not scaled by UnitsPerSecond and is in seconds.
---
--- ObjC selector: @- resumeAtTime:@
-resumeAtTime :: (IsPHASESoundEvent phaseSoundEvent, IsAVAudioTime time) => phaseSoundEvent -> time -> IO ()
-resumeAtTime phaseSoundEvent time =
-  sendMessage phaseSoundEvent resumeAtTimeSelector (toAVAudioTime time)
 
 -- | stopAndInvalidate
 --
@@ -280,15 +226,6 @@ pushStreamNodes :: IsPHASESoundEvent phaseSoundEvent => phaseSoundEvent -> IO (I
 pushStreamNodes phaseSoundEvent =
   sendMessage phaseSoundEvent pushStreamNodesSelector
 
--- | pullStreamNodes
---
--- A Dictionary containing the pull stream nodes associated with this sound event, for setting renderBlocks on.
---
--- ObjC selector: @- pullStreamNodes@
-pullStreamNodes :: IsPHASESoundEvent phaseSoundEvent => phaseSoundEvent -> IO (Id NSDictionary)
-pullStreamNodes phaseSoundEvent =
-  sendMessage phaseSoundEvent pullStreamNodesSelector
-
 -- | indefinite
 --
 -- A boolean that tell if this sound event will run indefinitely, or finish executing on its own
@@ -326,17 +263,9 @@ prepareWithCompletionSelector = mkSelector "prepareWithCompletion:"
 startWithCompletionSelector :: Selector '[Ptr ()] ()
 startWithCompletionSelector = mkSelector "startWithCompletion:"
 
--- | @Selector@ for @startAtTime:completion:@
-startAtTime_completionSelector :: Selector '[Id AVAudioTime, Ptr ()] ()
-startAtTime_completionSelector = mkSelector "startAtTime:completion:"
-
 -- | @Selector@ for @seekToTime:completion:@
 seekToTime_completionSelector :: Selector '[CDouble, Ptr ()] ()
 seekToTime_completionSelector = mkSelector "seekToTime:completion:"
-
--- | @Selector@ for @seekToTime:resumeAtEngineTime:completion:@
-seekToTime_resumeAtEngineTime_completionSelector :: Selector '[CDouble, Id AVAudioTime, Ptr ()] ()
-seekToTime_resumeAtEngineTime_completionSelector = mkSelector "seekToTime:resumeAtEngineTime:completion:"
 
 -- | @Selector@ for @pause@
 pauseSelector :: Selector '[] ()
@@ -345,10 +274,6 @@ pauseSelector = mkSelector "pause"
 -- | @Selector@ for @resume@
 resumeSelector :: Selector '[] ()
 resumeSelector = mkSelector "resume"
-
--- | @Selector@ for @resumeAtTime:@
-resumeAtTimeSelector :: Selector '[Id AVAudioTime] ()
-resumeAtTimeSelector = mkSelector "resumeAtTime:"
 
 -- | @Selector@ for @stopAndInvalidate@
 stopAndInvalidateSelector :: Selector '[] ()
@@ -373,10 +298,6 @@ mixersSelector = mkSelector "mixers"
 -- | @Selector@ for @pushStreamNodes@
 pushStreamNodesSelector :: Selector '[] (Id NSDictionary)
 pushStreamNodesSelector = mkSelector "pushStreamNodes"
-
--- | @Selector@ for @pullStreamNodes@
-pullStreamNodesSelector :: Selector '[] (Id NSDictionary)
-pullStreamNodesSelector = mkSelector "pullStreamNodes"
 
 -- | @Selector@ for @indefinite@
 indefiniteSelector :: Selector '[] Bool

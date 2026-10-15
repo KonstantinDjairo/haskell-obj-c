@@ -50,7 +50,7 @@ submitRequest osSystemExtensionManager request =
   sendMessage osSystemExtensionManager submitRequestSelector (toOSSystemExtensionRequest request)
 
 -- | @+ sharedManager@
-sharedManager :: IO (Id OSSystemExtensionManager)
+sharedManager :: IO RawId
 sharedManager  =
   do
     cls' <- getRequiredClass "OSSystemExtensionManager"
@@ -73,6 +73,6 @@ submitRequestSelector :: Selector '[Id OSSystemExtensionRequest] ()
 submitRequestSelector = mkSelector "submitRequest:"
 
 -- | @Selector@ for @sharedManager@
-sharedManagerSelector :: Selector '[] (Id OSSystemExtensionManager)
+sharedManagerSelector :: Selector '[] RawId
 sharedManagerSelector = mkSelector "sharedManager"
 

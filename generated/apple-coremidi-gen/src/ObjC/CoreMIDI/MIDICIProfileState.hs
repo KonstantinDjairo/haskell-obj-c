@@ -3,7 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MIDICIProfileState@.
+-- | MIDICIProfileState
+--
+-- Lists the enabled and disabled profiles for a MIDI channel or port on a device.
+--
+-- Generated bindings for @MIDICIProfileState@.
 module ObjC.CoreMIDI.MIDICIProfileState
   ( MIDICIProfileState
   , IsMIDICIProfileState(..)

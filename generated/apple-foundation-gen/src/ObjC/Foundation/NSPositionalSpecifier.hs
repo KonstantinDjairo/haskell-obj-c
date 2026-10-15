@@ -69,7 +69,7 @@ position nsPositionalSpecifier =
   sendMessage nsPositionalSpecifier positionSelector
 
 -- | @- objectSpecifier@
-objectSpecifier :: IsNSPositionalSpecifier nsPositionalSpecifier => nsPositionalSpecifier -> IO (Id NSScriptObjectSpecifier)
+objectSpecifier :: IsNSPositionalSpecifier nsPositionalSpecifier => nsPositionalSpecifier -> IO RawId
 objectSpecifier nsPositionalSpecifier =
   sendMessage nsPositionalSpecifier objectSpecifierSelector
 
@@ -114,7 +114,7 @@ positionSelector :: Selector '[] NSInsertionPosition
 positionSelector = mkSelector "position"
 
 -- | @Selector@ for @objectSpecifier@
-objectSpecifierSelector :: Selector '[] (Id NSScriptObjectSpecifier)
+objectSpecifierSelector :: Selector '[] RawId
 objectSpecifierSelector = mkSelector "objectSpecifier"
 
 -- | @Selector@ for @insertionContainer@

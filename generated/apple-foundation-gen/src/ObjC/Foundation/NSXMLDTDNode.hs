@@ -8,7 +8,7 @@
 --
 -- The nodes that are exclusive to a DTD
 --
--- Every DTD node has a name. Object value is defined as follows:		Entity declaration - the string that that entity resolves to eg "&lt;"		Attribute declaration - the default value, if any		Element declaration - the validation string		Notation declaration - no objectValue
+-- Every DTD node has a name. Object value is defined as follows:		Entity declaration - the string that that entity resolves to eg "<"		Attribute declaration - the default value, if any		Element declaration - the validation string		Notation declaration - no objectValue
 --
 -- Generated bindings for @NSXMLDTDNode@.
 module ObjC.Foundation.NSXMLDTDNode

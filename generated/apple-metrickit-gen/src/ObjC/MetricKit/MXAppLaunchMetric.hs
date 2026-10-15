@@ -13,11 +13,7 @@ module ObjC.MetricKit.MXAppLaunchMetric
   , IsMXAppLaunchMetric(..)
   , histogrammedTimeToFirstDraw
   , histogrammedApplicationResumeTime
-  , histogrammedOptimizedTimeToFirstDraw
-  , histogrammedExtendedLaunch
   , histogrammedApplicationResumeTimeSelector
-  , histogrammedExtendedLaunchSelector
-  , histogrammedOptimizedTimeToFirstDrawSelector
   , histogrammedTimeToFirstDrawSelector
 
 
@@ -58,34 +54,6 @@ histogrammedApplicationResumeTime :: IsMXAppLaunchMetric mxAppLaunchMetric => mx
 histogrammedApplicationResumeTime mxAppLaunchMetric =
   sendMessage mxAppLaunchMetric histogrammedApplicationResumeTimeSelector
 
--- | histogrammedOptimizedTimeToFirstDraw
---
--- Histogrammed optimized application time-to-first-draw data.
---
--- Dimensioned as NSUnitDuration.
---
--- This represents the time when the first CA commit is finished where the application launch has been optimized by the system.
---
--- In iOS 15, the system will opportunistically start applications that are not running in the background to reduce the amount of time a user may have to wait before an application is usable. These launches can occur after a system reboot and periodically as system conditions allow.
---
--- ObjC selector: @- histogrammedOptimizedTimeToFirstDraw@
-histogrammedOptimizedTimeToFirstDraw :: IsMXAppLaunchMetric mxAppLaunchMetric => mxAppLaunchMetric -> IO (Id MXHistogram)
-histogrammedOptimizedTimeToFirstDraw mxAppLaunchMetric =
-  sendMessage mxAppLaunchMetric histogrammedOptimizedTimeToFirstDrawSelector
-
--- | histogrammedExtendedLaunch
---
--- Histogrammed extended launch data.
---
--- Dimensioned as NSUnitDuration.
---
--- This represents the time when the app has drawn the first frame and finishes all extended launch tasks that assigned by the developer.
---
--- ObjC selector: @- histogrammedExtendedLaunch@
-histogrammedExtendedLaunch :: IsMXAppLaunchMetric mxAppLaunchMetric => mxAppLaunchMetric -> IO (Id MXHistogram)
-histogrammedExtendedLaunch mxAppLaunchMetric =
-  sendMessage mxAppLaunchMetric histogrammedExtendedLaunchSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -97,12 +65,4 @@ histogrammedTimeToFirstDrawSelector = mkSelector "histogrammedTimeToFirstDraw"
 -- | @Selector@ for @histogrammedApplicationResumeTime@
 histogrammedApplicationResumeTimeSelector :: Selector '[] (Id MXHistogram)
 histogrammedApplicationResumeTimeSelector = mkSelector "histogrammedApplicationResumeTime"
-
--- | @Selector@ for @histogrammedOptimizedTimeToFirstDraw@
-histogrammedOptimizedTimeToFirstDrawSelector :: Selector '[] (Id MXHistogram)
-histogrammedOptimizedTimeToFirstDrawSelector = mkSelector "histogrammedOptimizedTimeToFirstDraw"
-
--- | @Selector@ for @histogrammedExtendedLaunch@
-histogrammedExtendedLaunchSelector :: Selector '[] (Id MXHistogram)
-histogrammedExtendedLaunchSelector = mkSelector "histogrammedExtendedLaunch"
 

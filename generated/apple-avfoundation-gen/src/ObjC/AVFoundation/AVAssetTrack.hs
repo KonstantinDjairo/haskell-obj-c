@@ -3,11 +3,27 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVAssetTrack object provides provides the track-level inspection interface for all assets.
+-- | AVAsset
 --
--- AVAssetTrack adopts the AVAsynchronousKeyValueLoading protocol. Methods in the protocol should be used to access a track's properties without blocking the current thread. To cancel load requests for all keys of AVAssetTrack one must message the parent AVAsset object (for example, [track.asset cancelLoading]).
+-- An AVAsset is an abstract class that defines AVFoundation's model for timed audiovisual media.
 --
--- For clients who want to examine a subset of the metadata or other parts of the track, asynchronous methods like -loadMetadataForFormat:completionHandler: can be used to load this information without blocking. When using these asynchronous methods, it is not necessary to load the associated property beforehand. Swift clients can also use the load(:) method to load properties in a type safe manner.
+-- Each asset contains a collection of tracks that are intended to be presented or processed together, each of a uniform media type, including but not limited to audio, video, text, closed captions, and subtitles.
+--
+-- AVAssets are often instantiated via its concrete subclass AVURLAsset with NSURLs that refer to audiovisual media resources, such as streams (including HTTP live streams), QuickTime movie files, MP3 files, and files of other types.
+--
+-- They can also be instantiated using other concrete subclasses that extend the basic model for audiovisual media in useful ways, as AVComposition does for temporal editing.
+--
+-- Properties of assets as a whole are defined by AVAsset. Additionally, references to instances of AVAssetTracks representing tracks of the collection can be obtained, so that each of these can be examined independently.
+--
+-- Because of the nature of timed audiovisual media, upon successful initialization of an AVAsset some or all of the values for its keys may not be immediately available. The value of any key can be requested at any time, and AVAsset will always return its value synchronously, although it may have to block the calling thread in order to do so.
+--
+-- In order to avoid blocking, clients can register their interest in particular keys and to become notified when their values become available. For further details, see AVAsynchronousKeyValueLoading.h. For clients who want to examine a subset of the tracks, metadata, and other parts of the asset, asynchronous methods like -loadTracksWithMediaType:completionHandler: can be used to load this information without blocking. When using these asynchronous methods, it is not necessary to load the associated property beforehand. Swift clients can also use the load(:) method to load properties in a type safe manner.
+--
+-- On iOS, it is particularly important to avoid blocking.  To preserve responsiveness, a synchronous request that blocks for too long (eg, a property request on an asset on a slow HTTP server) may lead to media services being reset.
+--
+-- To play an instance of AVAsset, initialize an instance of AVPlayerItem with it, use the AVPlayerItem to set up its presentation state (such as whether only a limited timeRange of the asset should be played, etc.), and provide the AVPlayerItem to an AVPlayer according to whether the items is to be played by itself or together with a collection of other items. Full details available in AVPlayerItem.h and AVPlayer.h.
+--
+-- AVAssets can also be inserted into AVMutableCompositions in order to assemble audiovisual constructs from one or more source assets.
 --
 -- Generated bindings for @AVAssetTrack@.
 module ObjC.AVFoundation.AVAssetTrack
@@ -100,122 +116,118 @@ new  =
     cls' <- getRequiredClass "AVAssetTrack"
     sendOwnedClassMessage cls' newSelector
 
--- | Creates an instance of AVSampleCursor and positions it at the receiver's first media sample in decode order.
+-- | makeSampleCursorAtFirstSampleInDecodeOrder:
+--
+-- Creates an instance of AVSampleCursor and positions it at the receiver's first media sample in decode order.
+--
+-- Returns: An instance of AVSampleCursor.
 --
 -- This method will return nil if there are no samples in the track.
---
--- - Returns: An instance of AVSampleCursor.
 --
 -- ObjC selector: @- makeSampleCursorAtFirstSampleInDecodeOrder@
 makeSampleCursorAtFirstSampleInDecodeOrder :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id AVSampleCursor)
 makeSampleCursorAtFirstSampleInDecodeOrder avAssetTrack =
   sendMessage avAssetTrack makeSampleCursorAtFirstSampleInDecodeOrderSelector
 
--- | Creates an instance of AVSampleCursor and positions it at the receiver's last media sample in decode order.
+-- | makeSampleCursorAtLastSampleInDecodeOrder:
+--
+-- Creates an instance of AVSampleCursor and positions it at the receiver's last media sample in decode order.
+--
+-- Returns: An instance of AVSampleCursor.
 --
 -- This method will return nil if there are no samples in the track.
---
--- - Returns: An instance of AVSampleCursor.
 --
 -- ObjC selector: @- makeSampleCursorAtLastSampleInDecodeOrder@
 makeSampleCursorAtLastSampleInDecodeOrder :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id AVSampleCursor)
 makeSampleCursorAtLastSampleInDecodeOrder avAssetTrack =
   sendMessage avAssetTrack makeSampleCursorAtLastSampleInDecodeOrderSelector
 
--- | Provides an NSArray of AVAssetTracks, one for each track associated with the receiver with the specified type of track association.
+-- | associatedTracksOfType:
+--
+-- Provides an NSArray of AVAssetTracks, one for each track associated with the receiver with the specified type of track association.
+--
+-- @trackAssociationType@ — The type of track association for which associated tracks are requested.
+--
+-- Returns: An NSArray containing AVAssetTracks; may be empty if there is no associated tracks of the specified type.
 --
 -- Becomes callable without blocking when the key "availableTrackAssociationTypes" has been loaded.
---
--- - Parameter trackAssociationType: The type of track association for which associated tracks are requested.
---
--- - Returns: An NSArray containing AVAssetTracks; may be empty if there is no associated tracks of the specified type.
 --
 -- ObjC selector: @- associatedTracksOfType:@
 associatedTracksOfType :: (IsAVAssetTrack avAssetTrack, IsNSString trackAssociationType) => avAssetTrack -> trackAssociationType -> IO (Id NSArray)
 associatedTracksOfType avAssetTrack trackAssociationType =
   sendMessage avAssetTrack associatedTracksOfTypeSelector (toNSString trackAssociationType)
 
--- | Provides an NSArray of AVMetadataItems, one for each metadata item in the container of the specified format.
+-- | metadataForFormat:
+--
+-- Provides an NSArray of AVMetadataItems, one for each metadata item in the container of the specified format.
+--
+-- @format@ — The metadata format for which items are requested.
+--
+-- Returns: An NSArray containing AVMetadataItems.
 --
 -- Becomes callable without blocking when the key "availableMetadataFormats" has been loaded
---
--- - Parameter format: The metadata format for which items are requested.
---
--- - Returns: An NSArray containing AVMetadataItems.
 --
 -- ObjC selector: @- metadataForFormat:@
 metadataForFormat :: (IsAVAssetTrack avAssetTrack, IsNSString format) => avAssetTrack -> format -> IO (Id NSArray)
 metadataForFormat avAssetTrack format =
   sendMessage avAssetTrack metadataForFormatSelector (toNSString format)
 
--- | Reports whether the track references media with the specified media characteristic.
+-- | hasMediaCharacteristic:
 --
--- - Parameter mediaCharacteristic: The media characteristic of interest, e.g. AVMediaCharacteristicVisual, AVMediaCharacteristicAudible, AVMediaCharacteristicLegible, etc., as defined above.
+-- Reports whether the track references media with the specified media characteristic.
 --
--- - Returns: YES if the track references media with the specified characteristic, otherwise NO.
+-- @mediaCharacteristic@ — The media characteristic of interest, e.g. AVMediaCharacteristicVisual, AVMediaCharacteristicAudible, AVMediaCharacteristicLegible, etc.,					as defined above.
+--
+-- Returns: YES if the track references media with the specified characteristic, otherwise NO.
 --
 -- ObjC selector: @- hasMediaCharacteristic:@
 hasMediaCharacteristic :: (IsAVAssetTrack avAssetTrack, IsNSString mediaCharacteristic) => avAssetTrack -> mediaCharacteristic -> IO Bool
 hasMediaCharacteristic avAssetTrack mediaCharacteristic =
   sendMessage avAssetTrack hasMediaCharacteristicSelector (toNSString mediaCharacteristic)
 
--- | Provides a reference to the AVAsset of which the AVAssetTrack is a part
---
--- ObjC selector: @- asset@
+-- | @- asset@
 asset :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id AVAsset)
 asset avAssetTrack =
   sendMessage avAssetTrack assetSelector
 
--- | Indicates the persistent unique identifier for this track of the asset
---
--- ObjC selector: @- trackID@
+-- | @- trackID@
 trackID :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO CInt
 trackID avAssetTrack =
   sendMessage avAssetTrack trackIDSelector
 
--- | Indicates whether the receiver can provide instances of AVSampleCursor for traversing its media samples and discovering information about them.
---
--- ObjC selector: @- canProvideSampleCursors@
+-- | @- canProvideSampleCursors@
 canProvideSampleCursors :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO Bool
 canProvideSampleCursors avAssetTrack =
   sendMessage avAssetTrack canProvideSampleCursorsSelector
 
--- | Provides an NSArray of NSStrings, each representing a type of track association that the receiver has with one or more of the other tracks of the asset (e.g. AVTrackAssociationTypeChapterList, AVTrackAssociationTypeTimecode, etc.). Track association types are defined immediately above.
---
--- ObjC selector: @- availableTrackAssociationTypes@
+-- | @- availableTrackAssociationTypes@
 availableTrackAssociationTypes :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSArray)
 availableTrackAssociationTypes avAssetTrack =
   sendMessage avAssetTrack availableTrackAssociationTypesSelector
 
--- | Provides access to an array of AVMetadataItems for each common metadata key for which a value is available
---
--- ObjC selector: @- commonMetadata@
+-- | @- commonMetadata@
 commonMetadata :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSArray)
 commonMetadata avAssetTrack =
   sendMessage avAssetTrack commonMetadataSelector
 
--- | Provides access to an array of AVMetadataItems for all metadata identifiers for which a value is available; items can be filtered according to language via +[AVMetadataItem metadataItemsFromArray:filteredAndSortedAccordingToPreferredLanguages:] and according to identifier via +[AVMetadataItem metadataItemsFromArray:filteredByIdentifier:].
---
--- ObjC selector: @- metadata@
+-- | @- metadata@
 metadata :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSArray)
 metadata avAssetTrack =
   sendMessage avAssetTrack metadataSelector
 
--- | Provides an NSArray of NSStrings, each representing a format of metadata that's available for the track (e.g. QuickTime userdata, etc.) Metadata formats are defined in AVMetadataItem.h.
---
--- ObjC selector: @- availableMetadataFormats@
+-- | @- availableMetadataFormats@
 availableMetadataFormats :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSArray)
 availableMetadataFormats avAssetTrack =
   sendMessage avAssetTrack availableMetadataFormatsSelector
 
--- | Provides an array of AVAssetTrackSegments with time mappings from the timeline of the track's media samples to the timeline of the track. Empty edits, i.e. timeRanges for which no media data is available to be presented, have a value of AVAssetTrackSegment.empty equal to YES.
---
--- ObjC selector: @- segments@
+-- | @- segments@
 segments :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSArray)
 segments avAssetTrack =
   sendMessage avAssetTrack segmentsSelector
 
--- | For tracks that carry a full frame per media sample, indicates the frame rate of the track in units of frames per second.
+-- | nominalFrameRate
+--
+-- For tracks that carry a full frame per media sample, indicates the frame rate of the track in units of frames per second.
 --
 -- For field-based video tracks that carry one field per media sample, the value of this property is the field rate, not the frame rate.
 --
@@ -224,100 +236,76 @@ nominalFrameRate :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO CFloat
 nominalFrameRate avAssetTrack =
   sendMessage avAssetTrack nominalFrameRateSelector
 
--- | Indicates whether samples in the track may have different values for their presentation and decode timestamps.
+-- | requiresFrameReordering
+--
+-- Indicates whether samples in the track may have different values for their presentation and decode timestamps.
 --
 -- ObjC selector: @- requiresFrameReordering@
 requiresFrameReordering :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO Bool
 requiresFrameReordering avAssetTrack =
   sendMessage avAssetTrack requiresFrameReorderingSelector
 
--- | Indicates the volume specified in the track's storage container as the preferred volume of the audible media data
---
--- ObjC selector: @- preferredVolume@
+-- | @- preferredVolume@
 preferredVolume :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO CFloat
 preferredVolume avAssetTrack =
   sendMessage avAssetTrack preferredVolumeSelector
 
--- | Indicates whether this audio track has dependencies (e.g. kAudioFormatMPEGD_USAC)
---
--- ObjC selector: @- hasAudioSampleDependencies@
+-- | @- hasAudioSampleDependencies@
 hasAudioSampleDependencies :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO Bool
 hasAudioSampleDependencies avAssetTrack =
   sendMessage avAssetTrack hasAudioSampleDependenciesSelector
 
--- | Indicates the language associated with the track, as an ISO 639-2/T language code; may be nil if no language is indicated
---
--- ObjC selector: @- languageCode@
+-- | @- languageCode@
 languageCode :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSString)
 languageCode avAssetTrack =
   sendMessage avAssetTrack languageCodeSelector
 
--- | Indicates the language tag associated with the track, as an IETF BCP 47 (RFC 4646) language identifier; may be nil if no language tag is indicated
---
--- ObjC selector: @- extendedLanguageTag@
+-- | @- extendedLanguageTag@
 extendedLanguageTag :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSString)
 extendedLanguageTag avAssetTrack =
   sendMessage avAssetTrack extendedLanguageTagSelector
 
--- | Indicates a timescale in which time values for the track can be operated upon without extraneous numerical conversion
---
--- ObjC selector: @- naturalTimeScale@
+-- | @- naturalTimeScale@
 naturalTimeScale :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO CInt
 naturalTimeScale avAssetTrack =
   sendMessage avAssetTrack naturalTimeScaleSelector
 
--- | Indicates the estimated data rate of the media data referenced by the track, in units of bits per second
---
--- ObjC selector: @- estimatedDataRate@
+-- | @- estimatedDataRate@
 estimatedDataRate :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO CFloat
 estimatedDataRate avAssetTrack =
   sendMessage avAssetTrack estimatedDataRateSelector
 
--- | Indicates the media type for this track, e.g. AVMediaTypeVideo, AVMediaTypeAudio, etc., as defined in AVMediaFormat.h.
---
--- ObjC selector: @- mediaType@
+-- | @- mediaType@
 mediaType :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSString)
 mediaType avAssetTrack =
   sendMessage avAssetTrack mediaTypeSelector
 
--- | Provides an array of CMFormatDescriptions each of which indicates the format of media samples referenced by the track; a track that presents uniform media, e.g. encoded according to the same encoding settings, will provide an array with a count of 1.
---
--- ObjC selector: @- formatDescriptions@
+-- | @- formatDescriptions@
 formatDescriptions :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO (Id NSArray)
 formatDescriptions avAssetTrack =
   sendMessage avAssetTrack formatDescriptionsSelector
 
--- | Indicates whether the receiver is playable in the current environment; if YES, an AVPlayerItemTrack of an AVPlayerItem initialized with the receiver's asset can be enabled for playback.
---
--- ObjC selector: @- playable@
+-- | @- playable@
 playable :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO Bool
 playable avAssetTrack =
   sendMessage avAssetTrack playableSelector
 
--- | Indicates whether the receiver is decodable in the current environment; if YES, the track can be decoded even though decoding may be too slow for real time playback.
---
--- ObjC selector: @- decodable@
+-- | @- decodable@
 decodable :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO Bool
 decodable avAssetTrack =
   sendMessage avAssetTrack decodableSelector
 
--- | Indicates whether the track is enabled according to state stored in its container or construct; note that its presentation state can be changed from this default via AVPlayerItemTrack
---
--- ObjC selector: @- enabled@
+-- | @- enabled@
 enabled :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO Bool
 enabled avAssetTrack =
   sendMessage avAssetTrack enabledSelector
 
--- | Indicates whether the track references sample data only within its storage container
---
--- ObjC selector: @- selfContained@
+-- | @- selfContained@
 selfContained :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO Bool
 selfContained avAssetTrack =
   sendMessage avAssetTrack selfContainedSelector
 
--- | Indicates the total number of bytes of sample data required by the track
---
--- ObjC selector: @- totalSampleDataLength@
+-- | @- totalSampleDataLength@
 totalSampleDataLength :: IsAVAssetTrack avAssetTrack => avAssetTrack -> IO CLong
 totalSampleDataLength avAssetTrack =
   sendMessage avAssetTrack totalSampleDataLengthSelector

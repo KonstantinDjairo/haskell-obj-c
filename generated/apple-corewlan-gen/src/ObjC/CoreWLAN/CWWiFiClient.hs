@@ -20,7 +20,6 @@ module ObjC.CoreWLAN.CWWiFiClient
   , init_
   , interface
   , interfaceNames
-  , cwWiFiClientInterfaceNames
   , interfaceWithName
   , interfaces
   , startMonitoringEventWithType_error
@@ -28,7 +27,6 @@ module ObjC.CoreWLAN.CWWiFiClient
   , stopMonitoringAllEventsAndReturnError
   , delegate
   , setDelegate
-  , cwWiFiClientInterfaceNamesSelector
   , delegateSelector
   , initSelector
   , interfaceNamesSelector
@@ -98,17 +96,12 @@ interface cwWiFiClient =
 --
 -- If no Wi-Fi interfaces are available, this method will return an empty array. Returns nil if an error occurs.
 --
--- ObjC selector: @- interfaceNames@
-interfaceNames :: IsCWWiFiClient cwWiFiClient => cwWiFiClient -> IO (Id NSArray)
-interfaceNames cwWiFiClient =
-  sendMessage cwWiFiClient interfaceNamesSelector
-
--- | @+ interfaceNames@
-cwWiFiClientInterfaceNames :: IO (Id NSArray)
-cwWiFiClientInterfaceNames  =
+-- ObjC selector: @+ interfaceNames@
+interfaceNames :: IO (Id NSArray)
+interfaceNames  =
   do
     cls' <- getRequiredClass "CWWiFiClient"
-    sendClassMessage cls' cwWiFiClientInterfaceNamesSelector
+    sendClassMessage cls' interfaceNamesSelector
 
 -- | @interfaceName@ — The name of an available Wi-Fi interface.
 --
@@ -136,7 +129,7 @@ interfaces cwWiFiClient =
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Register for specific Wi-Fi event notifications.
 --
@@ -149,7 +142,7 @@ startMonitoringEventWithType_error cwWiFiClient type_ error_ =
 --
 -- @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Unregister for specific Wi-Fi event notifications.
 --
@@ -160,7 +153,7 @@ stopMonitoringEventWithType_error cwWiFiClient type_ error_ =
 
 -- | @error@ — An NSError object passed by reference, which upon return will contain the error if an error occurs. This parameter is optional.
 --
--- Returns: Returns YES upon success, or NO if an error occurred.
+-- Returns: A BOOL value indicating whether or not an error occurred. YES indicates no error occurred.
 --
 -- Unregister for all Wi-Fi event notifications.
 --
@@ -206,10 +199,6 @@ interfaceSelector = mkSelector "interface"
 -- | @Selector@ for @interfaceNames@
 interfaceNamesSelector :: Selector '[] (Id NSArray)
 interfaceNamesSelector = mkSelector "interfaceNames"
-
--- | @Selector@ for @interfaceNames@
-cwWiFiClientInterfaceNamesSelector :: Selector '[] (Id NSArray)
-cwWiFiClientInterfaceNamesSelector = mkSelector "interfaceNames"
 
 -- | @Selector@ for @interfaceWithName:@
 interfaceWithNameSelector :: Selector '[Id NSString] (Id CWInterface)

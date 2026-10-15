@@ -4,11 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | The class that defines the parameters for a long short-term memory (LSTM) operation.
---
--- Use this descriptor with the following ``MPSGraph`` methods: - ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:initState:initCell:descriptor:name:`` - ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:descriptor:name:`` - ``MPSGraph/LSTMWithSourceTensor:recurrentWeight:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:`` - ``MPSGraph/LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:descriptor:name:`` - ``MPSGraph/LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:inputWeight:bias:initState:initCell:descriptor:name:`` - ``MPSGraph/LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:inputWeight:bias:initState:initCell:mask:descriptor:name:`` - ``MPSGraph/LSTMGradientsWithSourceTensor:recurrentWeight:sourceGradient:zState:cellOutputFwd:stateGradient:cellGradient:inputWeight:bias:initState:initCell:mask:peephole:descriptor:name:``
---
--- Generated bindings for @MPSGraphLSTMDescriptor@.
+-- | Generated bindings for @MPSGraphLSTMDescriptor@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphLSTMDescriptor
   ( MPSGraphLSTMDescriptor
   , IsMPSGraphLSTMDescriptor(..)
@@ -77,189 +73,235 @@ import ObjC.MetalPerformanceShadersGraph.Internal.Classes
 import ObjC.MetalPerformanceShadersGraph.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | Creates an LSTM descriptor with default values.
---
--- ObjC selector: @+ descriptor@
+-- | @+ descriptor@
 descriptor :: IO (Id MPSGraphLSTMDescriptor)
 descriptor  =
   do
     cls' <- getRequiredClass "MPSGraphLSTMDescriptor"
     sendClassMessage cls' descriptorSelector
 
--- | A parameter that defines time direction of the input sequence.
+-- | reverse
 --
--- If set to @YES@ then the input sequence is passed in reverse time order to the layer. Note: Ignored when @bidirectional = YES@. Default value: @NO@.
+-- If set then the input sequence is passed in reverse time order to the layer.              Note: Ignored when
+--
+-- bidirectional = YES
+--
+-- .              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- reverse@
 reverse_ :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO Bool
 reverse_ mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor reverseSelector
 
--- | A parameter that defines time direction of the input sequence.
+-- | reverse
 --
--- If set to @YES@ then the input sequence is passed in reverse time order to the layer. Note: Ignored when @bidirectional = YES@. Default value: @NO@.
+-- If set then the input sequence is passed in reverse time order to the layer.              Note: Ignored when
+--
+-- bidirectional = YES
+--
+-- .              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setReverse:@
 setReverse :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> Bool -> IO ()
 setReverse mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setReverseSelector value
 
--- | A parameter that defines a bidirectional LSTM layer.
+-- | bidirectional
 --
--- If set to @YES@ then the input sequence is traversed in both directions and the two results are concatenated together on the channel-axis. Default value: @NO@.
+-- If set then the input sequence is traversed in both directions and the two results              are concatenated together on the channel-axis.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- bidirectional@
 bidirectional :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO Bool
 bidirectional mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor bidirectionalSelector
 
--- | A parameter that defines a bidirectional LSTM layer.
+-- | bidirectional
 --
--- If set to @YES@ then the input sequence is traversed in both directions and the two results are concatenated together on the channel-axis. Default value: @NO@.
+-- If set then the input sequence is traversed in both directions and the two results              are concatenated together on the channel-axis.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setBidirectional:@
 setBidirectional :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> Bool -> IO ()
 setBidirectional mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setBidirectionalSelector value
 
--- | A parameter that controls whether or not to return the output cell from the LSTM layer.
+-- | produceCell
 --
--- If set to @YES@ then this layer will produce the internal cell of the LSTM unit as secondary output. Default value: @NO@.
+-- If set then this layer will produce the internal cell of the LSTM unit as secondary output.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- produceCell@
 produceCell :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO Bool
 produceCell mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor produceCellSelector
 
--- | A parameter that controls whether or not to return the output cell from the LSTM layer.
+-- | produceCell
 --
--- If set to @YES@ then this layer will produce the internal cell of the LSTM unit as secondary output. Default value: @NO@.
+-- If set then this layer will produce the internal cell of the LSTM unit as secondary output.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setProduceCell:@
 setProduceCell :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> Bool -> IO ()
 setProduceCell mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setProduceCellSelector value
 
--- | A parameter that enables the LSTM layer to support training.
+-- | training
 --
--- If set to @YES@ then the layer will produce training state tensor as a secondary output. Default value: @NO@.
+-- If set then the layer will produce training state tensor as a secondary or third output.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- training@
 training :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO Bool
 training mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor trainingSelector
 
--- | A parameter that enables the LSTM layer to support training.
+-- | training
 --
--- If set to @YES@ then the layer will produce training state tensor as a secondary output. Default value: @NO@.
+-- If set then the layer will produce training state tensor as a secondary or third output.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setTraining:@
 setTraining :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> Bool -> IO ()
 setTraining mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setTrainingSelector value
 
--- | A parameter that controls the internal order of the LSTM gates.
+-- | forgetGateLast
 --
--- If set to @YES@ then the layer will use the gate-ordering @[ i, z, f, o ]@ instead of default @[ i, f, z, o ]@. Default value: @NO@
+-- If set then the layer will use the gate-ordering @[ i, z, f, o ]@ instead of default @[ i, f, z, o ]@.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- forgetGateLast@
 forgetGateLast :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO Bool
 forgetGateLast mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor forgetGateLastSelector
 
--- | A parameter that controls the internal order of the LSTM gates.
+-- | forgetGateLast
 --
--- If set to @YES@ then the layer will use the gate-ordering @[ i, z, f, o ]@ instead of default @[ i, f, z, o ]@. Default value: @NO@
+-- If set then the layer will use the gate-ordering @[ i, z, f, o ]@ instead of default @[ i, f, z, o ]@.              Default value:
+--
+-- NO
 --
 -- ObjC selector: @- setForgetGateLast:@
 setForgetGateLast :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> Bool -> IO ()
 setForgetGateLast mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setForgetGateLastSelector value
 
--- | A parameter that defines the activation function used with the input gate of the LSTM operation.
+-- | inputGateActivation
 --
--- Default value: @MPSGraphRNNActivationSigmoid@.
+-- Activation function to use with the input gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationSigmoid
 --
 -- ObjC selector: @- inputGateActivation@
 inputGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO MPSGraphRNNActivation
 inputGateActivation mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor inputGateActivationSelector
 
--- | A parameter that defines the activation function used with the input gate of the LSTM operation.
+-- | inputGateActivation
 --
--- Default value: @MPSGraphRNNActivationSigmoid@.
+-- Activation function to use with the input gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationSigmoid
 --
 -- ObjC selector: @- setInputGateActivation:@
 setInputGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> MPSGraphRNNActivation -> IO ()
 setInputGateActivation mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setInputGateActivationSelector value
 
--- | A parameter that defines the activation function used with the forget gate of the LSTM operation.
+-- | forgetGateActivation
 --
--- Default value: @MPSGraphRNNActivationSigmoid@.
+-- Activation function to use with the forget gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationSigmoid
 --
 -- ObjC selector: @- forgetGateActivation@
 forgetGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO MPSGraphRNNActivation
 forgetGateActivation mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor forgetGateActivationSelector
 
--- | A parameter that defines the activation function used with the forget gate of the LSTM operation.
+-- | forgetGateActivation
 --
--- Default value: @MPSGraphRNNActivationSigmoid@.
+-- Activation function to use with the forget gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationSigmoid
 --
 -- ObjC selector: @- setForgetGateActivation:@
 setForgetGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> MPSGraphRNNActivation -> IO ()
 setForgetGateActivation mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setForgetGateActivationSelector value
 
--- | A parameter that defines the activation function used with the cell gate of the LSTM operation.
+-- | cellGateActivation
 --
--- Default value: @MPSGraphRNNActivationTanh@.
+-- Activation function to use with the cell gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationTanh
 --
 -- ObjC selector: @- cellGateActivation@
 cellGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO MPSGraphRNNActivation
 cellGateActivation mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor cellGateActivationSelector
 
--- | A parameter that defines the activation function used with the cell gate of the LSTM operation.
+-- | cellGateActivation
 --
--- Default value: @MPSGraphRNNActivationTanh@.
+-- Activation function to use with the cell gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationTanh
 --
 -- ObjC selector: @- setCellGateActivation:@
 setCellGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> MPSGraphRNNActivation -> IO ()
 setCellGateActivation mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setCellGateActivationSelector value
 
--- | A parameter that defines the activation function used with the output gate of the LSTM operation.
+-- | outputGateActivation
 --
--- Default value: @MPSGraphRNNActivationSigmoid@.
+-- Activation function to use with the output gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationSigmoid
 --
 -- ObjC selector: @- outputGateActivation@
 outputGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO MPSGraphRNNActivation
 outputGateActivation mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor outputGateActivationSelector
 
--- | A parameter that defines the activation function used with the output gate of the LSTM operation.
+-- | outputGateActivation
 --
--- Default value: @MPSGraphRNNActivationSigmoid@.
+-- Activation function to use with the output gate of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationSigmoid
 --
 -- ObjC selector: @- setOutputGateActivation:@
 setOutputGateActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> MPSGraphRNNActivation -> IO ()
 setOutputGateActivation mpsGraphLSTMDescriptor value =
   sendMessage mpsGraphLSTMDescriptor setOutputGateActivationSelector value
 
--- | A parameter that defines the activation function used with the current cell value of the LSTM operation.
+-- | activation
 --
--- Default value: @MPSGraphRNNActivationTanh@.
+-- Activation function to use with the current cell value of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationTanh
 --
 -- ObjC selector: @- activation@
 activation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> IO MPSGraphRNNActivation
 activation mpsGraphLSTMDescriptor =
   sendMessage mpsGraphLSTMDescriptor activationSelector
 
--- | A parameter that defines the activation function used with the current cell value of the LSTM operation.
+-- | activation
 --
--- Default value: @MPSGraphRNNActivationTanh@.
+-- Activation function to use with the current cell value of the LSTM  op.              Default value:
+--
+-- MPSGraphRNNActivationTanh
 --
 -- ObjC selector: @- setActivation:@
 setActivation :: IsMPSGraphLSTMDescriptor mpsGraphLSTMDescriptor => mpsGraphLSTMDescriptor -> MPSGraphRNNActivation -> IO ()

@@ -39,7 +39,6 @@ module ObjC.AppKit.NSStackView
   , setSpacing
   , detachesHiddenViews
   , setDetachesHiddenViews
-  , arrangedSubviews
   , detachedViews
   , hasEqualSpacing
   , setHasEqualSpacing
@@ -47,7 +46,6 @@ module ObjC.AppKit.NSStackView
   , addArrangedSubviewSelector
   , addView_inGravitySelector
   , alignmentSelector
-  , arrangedSubviewsSelector
   , clippingResistancePriorityForOrientationSelector
   , customSpacingAfterViewSelector
   , delegateSelector
@@ -319,13 +317,6 @@ setDetachesHiddenViews :: IsNSStackView nsStackView => nsStackView -> Bool -> IO
 setDetachesHiddenViews nsStackView value =
   sendMessage nsStackView setDetachesHiddenViewsSelector value
 
--- | The list of views that are arranged in a stack by the receiver. They are a subset of @-subviews,@ with potential difference in ordering.
---
--- ObjC selector: @- arrangedSubviews@
-arrangedSubviews :: IsNSStackView nsStackView => nsStackView -> IO (Id NSArray)
-arrangedSubviews nsStackView =
-  sendMessage nsStackView arrangedSubviewsSelector
-
 -- | The arrangedSubviews that are currently detached/hidden.
 --
 -- ObjC selector: @- detachedViews@
@@ -475,10 +466,6 @@ detachesHiddenViewsSelector = mkSelector "detachesHiddenViews"
 -- | @Selector@ for @setDetachesHiddenViews:@
 setDetachesHiddenViewsSelector :: Selector '[Bool] ()
 setDetachesHiddenViewsSelector = mkSelector "setDetachesHiddenViews:"
-
--- | @Selector@ for @arrangedSubviews@
-arrangedSubviewsSelector :: Selector '[] (Id NSArray)
-arrangedSubviewsSelector = mkSelector "arrangedSubviews"
 
 -- | @Selector@ for @detachedViews@
 detachedViewsSelector :: Selector '[] (Id NSArray)

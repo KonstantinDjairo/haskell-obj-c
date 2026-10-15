@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRLevelControlClusterStepParams
   ( MTRLevelControlClusterStepParams
   , IsMTRLevelControlClusterStepParams(..)
+  , init_
+  , copyWithZone
   , stepMode
   , setStepMode
   , stepSize
@@ -19,14 +21,12 @@ module ObjC.Matter.MTRLevelControlClusterStepParams
   , setOptionsOverride
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , optionsMaskSelector
   , optionsOverrideSelector
-  , serverSideProcessingTimeoutSelector
   , setOptionsMaskSelector
   , setOptionsOverrideSelector
-  , setServerSideProcessingTimeoutSelector
   , setStepModeSelector
   , setStepSizeSelector
   , setTimedInvokeTimeoutMsSelector
@@ -49,6 +49,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRLevelControlClusterStepParams mtrLevelControlClusterStepParams => mtrLevelControlClusterStepParams -> IO (Id MTRLevelControlClusterStepParams)
+init_ mtrLevelControlClusterStepParams =
+  sendOwnedMessage mtrLevelControlClusterStepParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRLevelControlClusterStepParams mtrLevelControlClusterStepParams => mtrLevelControlClusterStepParams -> Ptr () -> IO RawId
+copyWithZone mtrLevelControlClusterStepParams zone =
+  sendOwnedMessage mtrLevelControlClusterStepParams copyWithZoneSelector zone
 
 -- | @- stepMode@
 stepMode :: IsMTRLevelControlClusterStepParams mtrLevelControlClusterStepParams => mtrLevelControlClusterStepParams -> IO (Id NSNumber)
@@ -122,31 +132,17 @@ setTimedInvokeTimeoutMs :: (IsMTRLevelControlClusterStepParams mtrLevelControlCl
 setTimedInvokeTimeoutMs mtrLevelControlClusterStepParams value =
   sendMessage mtrLevelControlClusterStepParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRLevelControlClusterStepParams mtrLevelControlClusterStepParams => mtrLevelControlClusterStepParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrLevelControlClusterStepParams =
-  sendMessage mtrLevelControlClusterStepParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRLevelControlClusterStepParams mtrLevelControlClusterStepParams, IsNSNumber value) => mtrLevelControlClusterStepParams -> value -> IO ()
-setServerSideProcessingTimeout mtrLevelControlClusterStepParams value =
-  sendMessage mtrLevelControlClusterStepParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRLevelControlClusterStepParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @stepMode@
 stepModeSelector :: Selector '[] (Id NSNumber)
@@ -195,12 +191,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

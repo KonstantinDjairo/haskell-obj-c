@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRSwitchClusterLongReleaseEvent
   ( MTRSwitchClusterLongReleaseEvent
   , IsMTRSwitchClusterLongReleaseEvent(..)
+  , init_
+  , copyWithZone
   , previousPosition
   , setPreviousPosition
+  , copyWithZoneSelector
+  , initSelector
   , previousPositionSelector
   , setPreviousPositionSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRSwitchClusterLongReleaseEvent mtrSwitchClusterLongReleaseEvent => mtrSwitchClusterLongReleaseEvent -> IO (Id MTRSwitchClusterLongReleaseEvent)
+init_ mtrSwitchClusterLongReleaseEvent =
+  sendOwnedMessage mtrSwitchClusterLongReleaseEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSwitchClusterLongReleaseEvent mtrSwitchClusterLongReleaseEvent => mtrSwitchClusterLongReleaseEvent -> Ptr () -> IO RawId
+copyWithZone mtrSwitchClusterLongReleaseEvent zone =
+  sendOwnedMessage mtrSwitchClusterLongReleaseEvent copyWithZoneSelector zone
+
 -- | @- previousPosition@
 previousPosition :: IsMTRSwitchClusterLongReleaseEvent mtrSwitchClusterLongReleaseEvent => mtrSwitchClusterLongReleaseEvent -> IO (Id NSNumber)
 previousPosition mtrSwitchClusterLongReleaseEvent =
@@ -39,6 +53,14 @@ setPreviousPosition mtrSwitchClusterLongReleaseEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSwitchClusterLongReleaseEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @previousPosition@
 previousPositionSelector :: Selector '[] (Id NSNumber)

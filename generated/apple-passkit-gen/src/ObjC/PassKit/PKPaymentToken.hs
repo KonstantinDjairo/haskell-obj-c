@@ -38,12 +38,12 @@ paymentMethod pkPaymentToken =
   sendMessage pkPaymentToken paymentMethodSelector
 
 -- | @- paymentInstrumentName@
-paymentInstrumentName :: IsPKPaymentToken pkPaymentToken => pkPaymentToken -> IO (Id NSString)
+paymentInstrumentName :: IsPKPaymentToken pkPaymentToken => pkPaymentToken -> IO RawId
 paymentInstrumentName pkPaymentToken =
   sendMessage pkPaymentToken paymentInstrumentNameSelector
 
 -- | @- paymentNetwork@
-paymentNetwork :: IsPKPaymentToken pkPaymentToken => pkPaymentToken -> IO (Id NSString)
+paymentNetwork :: IsPKPaymentToken pkPaymentToken => pkPaymentToken -> IO RawId
 paymentNetwork pkPaymentToken =
   sendMessage pkPaymentToken paymentNetworkSelector
 
@@ -66,11 +66,11 @@ paymentMethodSelector :: Selector '[] (Id PKPaymentMethod)
 paymentMethodSelector = mkSelector "paymentMethod"
 
 -- | @Selector@ for @paymentInstrumentName@
-paymentInstrumentNameSelector :: Selector '[] (Id NSString)
+paymentInstrumentNameSelector :: Selector '[] RawId
 paymentInstrumentNameSelector = mkSelector "paymentInstrumentName"
 
 -- | @Selector@ for @paymentNetwork@
-paymentNetworkSelector :: Selector '[] (Id NSString)
+paymentNetworkSelector :: Selector '[] RawId
 paymentNetworkSelector = mkSelector "paymentNetwork"
 
 -- | @Selector@ for @transactionIdentifier@

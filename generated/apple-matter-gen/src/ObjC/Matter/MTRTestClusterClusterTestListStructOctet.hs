@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRTestClusterClusterTestListStructOctet
   ( MTRTestClusterClusterTestListStructOctet
   , IsMTRTestClusterClusterTestListStructOctet(..)
+  , init_
+  , copyWithZone
   , member1
   , setMember1
   , member2
   , setMember2
+  , copyWithZoneSelector
+  , initSelector
   , member1Selector
   , member2Selector
   , setMember1Selector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestListStructOctet mtrTestClusterClusterTestListStructOctet => mtrTestClusterClusterTestListStructOctet -> IO (Id MTRTestClusterClusterTestListStructOctet)
+init_ mtrTestClusterClusterTestListStructOctet =
+  sendOwnedMessage mtrTestClusterClusterTestListStructOctet initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestListStructOctet mtrTestClusterClusterTestListStructOctet => mtrTestClusterClusterTestListStructOctet -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestListStructOctet zone =
+  sendOwnedMessage mtrTestClusterClusterTestListStructOctet copyWithZoneSelector zone
 
 -- | @- member1@
 member1 :: IsMTRTestClusterClusterTestListStructOctet mtrTestClusterClusterTestListStructOctet => mtrTestClusterClusterTestListStructOctet -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setMember2 mtrTestClusterClusterTestListStructOctet value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestListStructOctet)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @member1@
 member1Selector :: Selector '[] (Id NSNumber)

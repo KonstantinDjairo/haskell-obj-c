@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRTestClusterClusterTestNestedStructArgumentRequestParams
   ( MTRTestClusterClusterTestNestedStructArgumentRequestParams
   , IsMTRTestClusterClusterTestNestedStructArgumentRequestParams(..)
+  , init_
+  , copyWithZone
   , arg1
   , setArg1
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , arg1Selector
-  , serverSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setArg1Selector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -34,15 +34,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> IO (Id MTRTestClusterClusterTestNestedStructArgumentRequestParams)
+init_ mtrTestClusterClusterTestNestedStructArgumentRequestParams =
+  sendOwnedMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestNestedStructArgumentRequestParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams copyWithZoneSelector zone
+
 -- | @- arg1@
-arg1 :: IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> IO (Id MTRUnitTestingClusterNestedStruct)
+arg1 :: IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> IO (Id MTRTestClusterClusterNestedStruct)
 arg1 mtrTestClusterClusterTestNestedStructArgumentRequestParams =
   sendMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams arg1Selector
 
 -- | @- setArg1:@
-setArg1 :: (IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams, IsMTRUnitTestingClusterNestedStruct value) => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> value -> IO ()
+setArg1 :: (IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams, IsMTRTestClusterClusterNestedStruct value) => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> value -> IO ()
 setArg1 mtrTestClusterClusterTestNestedStructArgumentRequestParams value =
-  sendMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams setArg1Selector (toMTRUnitTestingClusterNestedStruct value)
+  sendMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams setArg1Selector (toMTRTestClusterClusterNestedStruct value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -66,38 +76,24 @@ setTimedInvokeTimeoutMs :: (IsMTRTestClusterClusterTestNestedStructArgumentReque
 setTimedInvokeTimeoutMs mtrTestClusterClusterTestNestedStructArgumentRequestParams value =
   sendMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrTestClusterClusterTestNestedStructArgumentRequestParams =
-  sendMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRTestClusterClusterTestNestedStructArgumentRequestParams mtrTestClusterClusterTestNestedStructArgumentRequestParams, IsNSNumber value) => mtrTestClusterClusterTestNestedStructArgumentRequestParams -> value -> IO ()
-setServerSideProcessingTimeout mtrTestClusterClusterTestNestedStructArgumentRequestParams value =
-  sendMessage mtrTestClusterClusterTestNestedStructArgumentRequestParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestNestedStructArgumentRequestParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
 -- | @Selector@ for @arg1@
-arg1Selector :: Selector '[] (Id MTRUnitTestingClusterNestedStruct)
+arg1Selector :: Selector '[] (Id MTRTestClusterClusterNestedStruct)
 arg1Selector = mkSelector "arg1"
 
 -- | @Selector@ for @setArg1:@
-setArg1Selector :: Selector '[Id MTRUnitTestingClusterNestedStruct] ()
+setArg1Selector :: Selector '[Id MTRTestClusterClusterNestedStruct] ()
 setArg1Selector = mkSelector "setArg1:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

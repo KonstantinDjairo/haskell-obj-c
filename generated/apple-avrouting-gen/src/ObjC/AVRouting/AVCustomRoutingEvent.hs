@@ -4,9 +4,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that represents an event that occurs on a route.
+-- | AVCustomRoutingEvent
 --
--- Depending on the route’s reason, apps establish or tear down a connection to a specified route.
+-- This class represents an event that occurs on a route.
+--
+-- Depending on the reason for the event, clients are expected to establish or tear down the connection to the given route.
 --
 -- Generated bindings for @AVCustomRoutingEvent@.
 module ObjC.AVRouting.AVCustomRoutingEvent
@@ -37,17 +39,21 @@ import ObjC.AVRouting.Internal.Classes
 import ObjC.AVRouting.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | A reason for an event, such as a user request to activate or deactivate a route.
+-- | reason
+--
+-- The reason for the event.
 --
 -- ObjC selector: @- reason@
 reason :: IsAVCustomRoutingEvent avCustomRoutingEvent => avCustomRoutingEvent -> IO AVCustomRoutingEventReason
 reason avCustomRoutingEvent =
   sendMessage avCustomRoutingEvent reasonSelector
 
--- | A route for the event.
+-- | route
+--
+-- The route associated with the event.
 --
 -- ObjC selector: @- route@
-route :: IsAVCustomRoutingEvent avCustomRoutingEvent => avCustomRoutingEvent -> IO (Id AVCustomDeviceRoute)
+route :: IsAVCustomRoutingEvent avCustomRoutingEvent => avCustomRoutingEvent -> IO RawId
 route avCustomRoutingEvent =
   sendMessage avCustomRoutingEvent routeSelector
 
@@ -60,6 +66,6 @@ reasonSelector :: Selector '[] AVCustomRoutingEventReason
 reasonSelector = mkSelector "reason"
 
 -- | @Selector@ for @route@
-routeSelector :: Selector '[] (Id AVCustomDeviceRoute)
+routeSelector :: Selector '[] RawId
 routeSelector = mkSelector "route"
 

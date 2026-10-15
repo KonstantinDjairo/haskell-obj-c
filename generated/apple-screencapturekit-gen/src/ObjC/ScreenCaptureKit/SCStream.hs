@@ -17,15 +17,11 @@ module ObjC.ScreenCaptureKit.SCStream
   , updateConfiguration_completionHandler
   , startCaptureWithCompletionHandler
   , stopCaptureWithCompletionHandler
-  , addRecordingOutput_error
-  , removeRecordingOutput_error
   , synchronizationClock
-  , addRecordingOutput_errorSelector
   , addStreamOutput_type_sampleHandlerQueue_errorSelector
   , initSelector
   , initWithFilter_configuration_delegateSelector
   , newSelector
-  , removeRecordingOutput_errorSelector
   , removeStreamOutput_type_errorSelector
   , startCaptureWithCompletionHandlerSelector
   , stopCaptureWithCompletionHandlerSelector
@@ -37,7 +33,6 @@ module ObjC.ScreenCaptureKit.SCStream
   , SCStreamOutputType(SCStreamOutputType)
   , pattern SCStreamOutputTypeScreen
   , pattern SCStreamOutputTypeAudio
-  , pattern SCStreamOutputTypeMicrophone
 
   ) where
 
@@ -160,36 +155,6 @@ stopCaptureWithCompletionHandler :: IsSCStream scStream => scStream -> Ptr () ->
 stopCaptureWithCompletionHandler scStream completionHandler =
   sendMessage scStream stopCaptureWithCompletionHandlerSelector completionHandler
 
--- | addRecordingOutput
---
--- Add a SCRecordingOutput to the SCStream. Starts Recording if stream is already capturing, otherwise recording will be started after capture starts. Recording will be written into a file url specified in SCRecordingOutput. Media(Screen/Audio/Microphone) to be recorded will be based on the SCStream configuration.
---
--- @recordingOutput@ — an SCRecordingOutput that including configuration of recording, and delegate for recording event.
---
--- @error@ — the error pertaining to the add recording output
---
--- Returns a BOOL denoting if the add was successful. Currently only support one recordingOutput on a stream. To guarantee the first sample captured in the stream to be written into the recording file, client need to add recordingOutput before startCapture. Delegate for recordingDidStart will be notified in SCRecordingOutput or recordingDidFinishWithError will be notified with an error associated if recording failed to start.
---
--- ObjC selector: @- addRecordingOutput:error:@
-addRecordingOutput_error :: (IsSCStream scStream, IsSCRecordingOutput recordingOutput, IsNSError error_) => scStream -> recordingOutput -> error_ -> IO Bool
-addRecordingOutput_error scStream recordingOutput error_ =
-  sendMessage scStream addRecordingOutput_errorSelector (toSCRecordingOutput recordingOutput) (toNSError error_)
-
--- | removeRecordingOutput
---
--- Remove SCRecordingOutput from the SCStream. Stops Recording if the stream is currently recording.
---
--- @recordingOutput@ — an SCRecordingOutput that including configuration of recording, and delegate for recording event.
---
--- @error@ — the error pertaining to the remove recording output
---
--- Returns a BOOL denoting if the remove was successful. Delegate for recordingDidFinishWithError will be notified in SCRecordingOutput, associate with an error code if recording failed to finish written to the file. If stopCapture is called without removing recordingOutput, recording will be stopped and finish writting into the file. In case client update the stream configuration during recording, recording will be stopped as well.
---
--- ObjC selector: @- removeRecordingOutput:error:@
-removeRecordingOutput_error :: (IsSCStream scStream, IsSCRecordingOutput recordingOutput, IsNSError error_) => scStream -> recordingOutput -> error_ -> IO Bool
-removeRecordingOutput_error scStream recordingOutput error_ =
-  sendMessage scStream removeRecordingOutput_errorSelector (toSCRecordingOutput recordingOutput) (toNSError error_)
-
 -- | Synchronization clock used for media capture.
 --
 -- ObjC selector: @- synchronizationClock@
@@ -236,14 +201,6 @@ startCaptureWithCompletionHandlerSelector = mkSelector "startCaptureWithCompleti
 -- | @Selector@ for @stopCaptureWithCompletionHandler:@
 stopCaptureWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 stopCaptureWithCompletionHandlerSelector = mkSelector "stopCaptureWithCompletionHandler:"
-
--- | @Selector@ for @addRecordingOutput:error:@
-addRecordingOutput_errorSelector :: Selector '[Id SCRecordingOutput, Id NSError] Bool
-addRecordingOutput_errorSelector = mkSelector "addRecordingOutput:error:"
-
--- | @Selector@ for @removeRecordingOutput:error:@
-removeRecordingOutput_errorSelector :: Selector '[Id SCRecordingOutput, Id NSError] Bool
-removeRecordingOutput_errorSelector = mkSelector "removeRecordingOutput:error:"
 
 -- | @Selector@ for @synchronizationClock@
 synchronizationClockSelector :: Selector '[] (Ptr ())

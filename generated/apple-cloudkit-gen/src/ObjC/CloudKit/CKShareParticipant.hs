@@ -10,7 +10,6 @@ module ObjC.CloudKit.CKShareParticipant
   , IsCKShareParticipant(..)
   , init_
   , new
-  , oneTimeURLParticipant
   , userIdentity
   , role_
   , setRole
@@ -19,16 +18,9 @@ module ObjC.CloudKit.CKShareParticipant
   , acceptanceStatus
   , permission
   , setPermission
-  , participantID
-  , isApprovedRequester
-  , dateAddedToShare
   , acceptanceStatusSelector
-  , dateAddedToShareSelector
   , initSelector
-  , isApprovedRequesterSelector
   , newSelector
-  , oneTimeURLParticipantSelector
-  , participantIDSelector
   , permissionSelector
   , roleSelector
   , setPermissionSelector
@@ -53,7 +45,6 @@ module ObjC.CloudKit.CKShareParticipant
   , pattern CKShareParticipantRoleOwner
   , pattern CKShareParticipantRolePrivateUser
   , pattern CKShareParticipantRolePublicUser
-  , pattern CKShareParticipantRoleAdministrator
   , CKShareParticipantType(CKShareParticipantType)
   , pattern CKShareParticipantTypeUnknown
   , pattern CKShareParticipantTypeOwner
@@ -88,19 +79,6 @@ new  =
     cls' <- getRequiredClass "CKShareParticipant"
     sendOwnedClassMessage cls' newSelector
 
--- | Generate a unique URL for inviting a participant without knowing their handle
---
--- When a participant's email address / phone number / userRecordID isn't known up-front, a ``CKShareParticipant/oneTimeURLParticipant`` can be added to the share. Once the share is saved, a custom invitation link or one-time URL is available for the added participant via ``CKShare/oneTimeURLForParticipantID:``. This custom link can be used by any recipient user to fetch share metadata and accept the share.
---
--- Note that a one-time URL participant in the ``ParticipantAcceptanceStatus/pending`` state has empty ``CKUserIdentity/nameComponents`` and a nil ``CKUserIdentity/lookupInfo``.
---
--- ObjC selector: @+ oneTimeURLParticipant@
-oneTimeURLParticipant :: IO (Id CKShareParticipant)
-oneTimeURLParticipant  =
-  do
-    cls' <- getRequiredClass "CKShareParticipant"
-    sendClassMessage cls' oneTimeURLParticipantSelector
-
 -- | @- userIdentity@
 userIdentity :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -> IO (Id CKUserIdentity)
 userIdentity ckShareParticipant =
@@ -120,14 +98,14 @@ setRole :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -> CKSh
 setRole ckShareParticipant value =
   sendMessage ckShareParticipant setRoleSelector value
 
--- | The default participant type is ``CloudKit/CKShareParticipantType/CKShareParticipantTypePrivateUser``.
+-- | The default participant type is @CKShareParticipantTypePrivateUser.@
 --
 -- ObjC selector: @- type@
 type_ :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -> IO CKShareParticipantType
 type_ ckShareParticipant =
   sendMessage ckShareParticipant typeSelector
 
--- | The default participant type is ``CloudKit/CKShareParticipantType/CKShareParticipantTypePrivateUser``.
+-- | The default participant type is @CKShareParticipantTypePrivateUser.@
 --
 -- ObjC selector: @- setType:@
 setType :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -> CKShareParticipantType -> IO ()
@@ -153,29 +131,6 @@ setPermission :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -
 setPermission ckShareParticipant value =
   sendMessage ckShareParticipant setPermissionSelector value
 
--- | A unique identifier for this participant.
---
--- ObjC selector: @- participantID@
-participantID :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -> IO (Id NSString)
-participantID ckShareParticipant =
-  sendMessage ckShareParticipant participantIDSelector
-
--- | Indicates whether the participant was originally a requester who was approved to join the share.
---
--- ObjC selector: @- isApprovedRequester@
-isApprovedRequester :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -> IO Bool
-isApprovedRequester ckShareParticipant =
-  sendMessage ckShareParticipant isApprovedRequesterSelector
-
--- | The date and time when the participant was added to the share.
---
--- This timestamp is set when the share is successfully saved to the server.
---
--- ObjC selector: @- dateAddedToShare@
-dateAddedToShare :: IsCKShareParticipant ckShareParticipant => ckShareParticipant -> IO (Id NSDate)
-dateAddedToShare ckShareParticipant =
-  sendMessage ckShareParticipant dateAddedToShareSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -187,10 +142,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id CKShareParticipant)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @oneTimeURLParticipant@
-oneTimeURLParticipantSelector :: Selector '[] (Id CKShareParticipant)
-oneTimeURLParticipantSelector = mkSelector "oneTimeURLParticipant"
 
 -- | @Selector@ for @userIdentity@
 userIdentitySelector :: Selector '[] (Id CKUserIdentity)
@@ -223,16 +174,4 @@ permissionSelector = mkSelector "permission"
 -- | @Selector@ for @setPermission:@
 setPermissionSelector :: Selector '[CKShareParticipantPermission] ()
 setPermissionSelector = mkSelector "setPermission:"
-
--- | @Selector@ for @participantID@
-participantIDSelector :: Selector '[] (Id NSString)
-participantIDSelector = mkSelector "participantID"
-
--- | @Selector@ for @isApprovedRequester@
-isApprovedRequesterSelector :: Selector '[] Bool
-isApprovedRequesterSelector = mkSelector "isApprovedRequester"
-
--- | @Selector@ for @dateAddedToShare@
-dateAddedToShareSelector :: Selector '[] (Id NSDate)
-dateAddedToShareSelector = mkSelector "dateAddedToShare"
 

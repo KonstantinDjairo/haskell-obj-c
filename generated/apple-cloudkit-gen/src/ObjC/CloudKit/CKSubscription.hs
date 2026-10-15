@@ -68,7 +68,7 @@ subscriptionType ckSubscription =
 -- This property must be set to a non-nil value before saving the @CKSubscription.@
 --
 -- ObjC selector: @- notificationInfo@
-notificationInfo :: IsCKSubscription ckSubscription => ckSubscription -> IO (Id CKNotificationInfo)
+notificationInfo :: IsCKSubscription ckSubscription => ckSubscription -> IO RawId
 notificationInfo ckSubscription =
   sendMessage ckSubscription notificationInfoSelector
 
@@ -77,9 +77,9 @@ notificationInfo ckSubscription =
 -- This property must be set to a non-nil value before saving the @CKSubscription.@
 --
 -- ObjC selector: @- setNotificationInfo:@
-setNotificationInfo :: (IsCKSubscription ckSubscription, IsCKNotificationInfo value) => ckSubscription -> value -> IO ()
+setNotificationInfo :: IsCKSubscription ckSubscription => ckSubscription -> RawId -> IO ()
 setNotificationInfo ckSubscription value =
-  sendMessage ckSubscription setNotificationInfoSelector (toCKNotificationInfo value)
+  sendMessage ckSubscription setNotificationInfoSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -102,10 +102,10 @@ subscriptionTypeSelector :: Selector '[] CKSubscriptionType
 subscriptionTypeSelector = mkSelector "subscriptionType"
 
 -- | @Selector@ for @notificationInfo@
-notificationInfoSelector :: Selector '[] (Id CKNotificationInfo)
+notificationInfoSelector :: Selector '[] RawId
 notificationInfoSelector = mkSelector "notificationInfo"
 
 -- | @Selector@ for @setNotificationInfo:@
-setNotificationInfoSelector :: Selector '[Id CKNotificationInfo] ()
+setNotificationInfoSelector :: Selector '[RawId] ()
 setNotificationInfoSelector = mkSelector "setNotificationInfo:"
 

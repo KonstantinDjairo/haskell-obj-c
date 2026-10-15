@@ -18,8 +18,6 @@ module ObjC.MetalPerformanceShaders.MPSNDArrayDescriptor
   , sliceRangeForDimension
   , sliceDimension_withSubrange
   , transposeDimension_withDimension
-  , permuteWithDimensionOrder
-  , getShape
   , descriptorWithDataType_dimensionCount_dimensionSizes
   , descriptorWithDataType_shape
   , descriptorWithDataType_dimensionSizes
@@ -30,23 +28,17 @@ module ObjC.MetalPerformanceShaders.MPSNDArrayDescriptor
   , setDataType
   , numberOfDimensions
   , setNumberOfDimensions
-  , preferPackedRows
-  , setPreferPackedRows
   , dataTypeSelector
   , descriptorWithDataType_dimensionCount_dimensionSizesSelector
   , descriptorWithDataType_dimensionSizesSelector
   , descriptorWithDataType_shapeSelector
-  , getShapeSelector
   , initSelector
   , lengthOfDimensionSelector
   , numberOfDimensionsSelector
-  , permuteWithDimensionOrderSelector
-  , preferPackedRowsSelector
   , reshapeWithDimensionCount_dimensionSizesSelector
   , reshapeWithShapeSelector
   , setDataTypeSelector
   , setNumberOfDimensionsSelector
-  , setPreferPackedRowsSelector
   , sliceDimension_withSubrangeSelector
   , sliceRangeForDimensionSelector
   , transposeDimension_withDimensionSelector
@@ -62,21 +54,16 @@ module ObjC.MetalPerformanceShaders.MPSNDArrayDescriptor
   , pattern MPSDataTypeComplexFloat16
   , pattern MPSDataTypeSignedBit
   , pattern MPSDataTypeIntBit
-  , pattern MPSDataTypeInt2
-  , pattern MPSDataTypeInt4
   , pattern MPSDataTypeInt8
   , pattern MPSDataTypeInt16
   , pattern MPSDataTypeInt32
   , pattern MPSDataTypeInt64
-  , pattern MPSDataTypeUInt2
-  , pattern MPSDataTypeUInt4
   , pattern MPSDataTypeUInt8
   , pattern MPSDataTypeUInt16
   , pattern MPSDataTypeUInt32
   , pattern MPSDataTypeUInt64
   , pattern MPSDataTypeAlternateEncodingBit
   , pattern MPSDataTypeBool
-  , pattern MPSDataTypeBFloat16
   , pattern MPSDataTypeNormalizedBit
   , pattern MPSDataTypeUnorm1
   , pattern MPSDataTypeUnorm8
@@ -149,26 +136,6 @@ sliceDimension_withSubrange mpsndArrayDescriptor dimensionIndex subRange =
 transposeDimension_withDimension :: IsMPSNDArrayDescriptor mpsndArrayDescriptor => mpsndArrayDescriptor -> CULong -> CULong -> IO ()
 transposeDimension_withDimension mpsndArrayDescriptor dimensionIndex dimensionIndex2 =
   sendMessage mpsndArrayDescriptor transposeDimension_withDimensionSelector dimensionIndex dimensionIndex2
-
--- | Permutes the dimensions of the current descriptor
---
--- @dimensionOrder@ — A permutation of the dimensions of the NDArray.                               dimensionOrder[i] must contain the new postion of dimenson i.                               Size of the array must be equal to the original number of dimensions in the descriptor.                               Must have all the indices in [0, numberOfDimensions) present uniquely.
---
--- This permutation is applied on top of whatever transpostions/permutations that may have been performed on the descriptor before.
---
--- ObjC selector: @- permuteWithDimensionOrder:@
-permuteWithDimensionOrder :: IsMPSNDArrayDescriptor mpsndArrayDescriptor => mpsndArrayDescriptor -> Ptr CULong -> IO ()
-permuteWithDimensionOrder mpsndArrayDescriptor dimensionOrder =
-  sendMessage mpsndArrayDescriptor permuteWithDimensionOrderSelector dimensionOrder
-
--- | Returns the shape of the NDArray as MPSShape
---
--- The length of the array is the number of dimensions and the size of the fastest running dimension is the last element in the array.
---
--- ObjC selector: @- getShape@
-getShape :: IsMPSNDArrayDescriptor mpsndArrayDescriptor => mpsndArrayDescriptor -> IO (Id NSArray)
-getShape mpsndArrayDescriptor =
-  sendMessage mpsndArrayDescriptor getShapeSelector
 
 -- | Create an MPSNDArrayDescriptor object for a given size of dimensions.
 --
@@ -297,24 +264,6 @@ setNumberOfDimensions :: IsMPSNDArrayDescriptor mpsndArrayDescriptor => mpsndArr
 setNumberOfDimensions mpsndArrayDescriptor value =
   sendMessage mpsndArrayDescriptor setNumberOfDimensionsSelector value
 
--- | preferPackedRows
---
--- If YES, then new NDArrays created with this descriptor will pack the rows. Default: NO.
---
--- ObjC selector: @- preferPackedRows@
-preferPackedRows :: IsMPSNDArrayDescriptor mpsndArrayDescriptor => mpsndArrayDescriptor -> IO Bool
-preferPackedRows mpsndArrayDescriptor =
-  sendMessage mpsndArrayDescriptor preferPackedRowsSelector
-
--- | preferPackedRows
---
--- If YES, then new NDArrays created with this descriptor will pack the rows. Default: NO.
---
--- ObjC selector: @- setPreferPackedRows:@
-setPreferPackedRows :: IsMPSNDArrayDescriptor mpsndArrayDescriptor => mpsndArrayDescriptor -> Bool -> IO ()
-setPreferPackedRows mpsndArrayDescriptor value =
-  sendMessage mpsndArrayDescriptor setPreferPackedRowsSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -334,14 +283,6 @@ sliceDimension_withSubrangeSelector = mkSelector "sliceDimension:withSubrange:"
 -- | @Selector@ for @transposeDimension:withDimension:@
 transposeDimension_withDimensionSelector :: Selector '[CULong, CULong] ()
 transposeDimension_withDimensionSelector = mkSelector "transposeDimension:withDimension:"
-
--- | @Selector@ for @permuteWithDimensionOrder:@
-permuteWithDimensionOrderSelector :: Selector '[Ptr CULong] ()
-permuteWithDimensionOrderSelector = mkSelector "permuteWithDimensionOrder:"
-
--- | @Selector@ for @getShape@
-getShapeSelector :: Selector '[] (Id NSArray)
-getShapeSelector = mkSelector "getShape"
 
 -- | @Selector@ for @descriptorWithDataType:dimensionCount:dimensionSizes:@
 descriptorWithDataType_dimensionCount_dimensionSizesSelector :: Selector '[MPSDataType, CULong, Ptr CULong] (Id MPSNDArrayDescriptor)
@@ -382,12 +323,4 @@ numberOfDimensionsSelector = mkSelector "numberOfDimensions"
 -- | @Selector@ for @setNumberOfDimensions:@
 setNumberOfDimensionsSelector :: Selector '[CULong] ()
 setNumberOfDimensionsSelector = mkSelector "setNumberOfDimensions:"
-
--- | @Selector@ for @preferPackedRows@
-preferPackedRowsSelector :: Selector '[] Bool
-preferPackedRowsSelector = mkSelector "preferPackedRows"
-
--- | @Selector@ for @setPreferPackedRows:@
-setPreferPackedRowsSelector :: Selector '[Bool] ()
-setPreferPackedRowsSelector = mkSelector "setPreferPackedRows:"
 

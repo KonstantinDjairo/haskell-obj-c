@@ -7,12 +7,14 @@
 module ObjC.Matter.MTRAccountLoginClusterGetSetupPINResponseParams
   ( MTRAccountLoginClusterGetSetupPINResponseParams
   , IsMTRAccountLoginClusterGetSetupPINResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , setupPIN
   , setSetupPIN
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , setSetupPINSelector
   , setTimedInvokeTimeoutMsSelector
   , setupPINSelector
@@ -32,16 +34,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRAccountLoginClusterGetSetupPINResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRAccountLoginClusterGetSetupPINResponseParams mtrAccountLoginClusterGetSetupPINResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrAccountLoginClusterGetSetupPINResponseParams -> responseValue -> error_ -> IO (Id MTRAccountLoginClusterGetSetupPINResponseParams)
-initWithResponseValue_error mtrAccountLoginClusterGetSetupPINResponseParams responseValue error_ =
-  sendOwnedMessage mtrAccountLoginClusterGetSetupPINResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRAccountLoginClusterGetSetupPINResponseParams mtrAccountLoginClusterGetSetupPINResponseParams => mtrAccountLoginClusterGetSetupPINResponseParams -> IO (Id MTRAccountLoginClusterGetSetupPINResponseParams)
+init_ mtrAccountLoginClusterGetSetupPINResponseParams =
+  sendOwnedMessage mtrAccountLoginClusterGetSetupPINResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAccountLoginClusterGetSetupPINResponseParams mtrAccountLoginClusterGetSetupPINResponseParams => mtrAccountLoginClusterGetSetupPINResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrAccountLoginClusterGetSetupPINResponseParams zone =
+  sendOwnedMessage mtrAccountLoginClusterGetSetupPINResponseParams copyWithZoneSelector zone
 
 -- | @- setupPIN@
 setupPIN :: IsMTRAccountLoginClusterGetSetupPINResponseParams mtrAccountLoginClusterGetSetupPINResponseParams => mtrAccountLoginClusterGetSetupPINResponseParams -> IO (Id NSString)
@@ -79,9 +80,13 @@ setTimedInvokeTimeoutMs mtrAccountLoginClusterGetSetupPINResponseParams value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRAccountLoginClusterGetSetupPINResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAccountLoginClusterGetSetupPINResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @setupPIN@
 setupPINSelector :: Selector '[] (Id NSString)

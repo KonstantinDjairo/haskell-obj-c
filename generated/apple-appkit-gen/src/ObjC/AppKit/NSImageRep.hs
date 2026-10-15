@@ -50,8 +50,6 @@ module ObjC.AppKit.NSImageRep
   , layoutDirection
   , setLayoutDirection
   , registeredImageRepClasses
-  , imageUnfilteredTypes
-  , imageTypes
   , alphaSelector
   , bitsPerSampleSelector
   , canInitWithDataSelector
@@ -74,10 +72,8 @@ module ObjC.AppKit.NSImageRep
   , imageRepsWithContentsOfFileSelector
   , imageRepsWithContentsOfURLSelector
   , imageRepsWithPasteboardSelector
-  , imageTypesSelector
   , imageUnfilteredFileTypesSelector
   , imageUnfilteredPasteboardTypesSelector
-  , imageUnfilteredTypesSelector
   , initSelector
   , initWithCoderSelector
   , layoutDirectionSelector
@@ -396,20 +392,6 @@ registeredImageRepClasses  =
     cls' <- getRequiredClass "NSImageRep"
     sendClassMessage cls' registeredImageRepClassesSelector
 
--- | @+ imageUnfilteredTypes@
-imageUnfilteredTypes :: IO (Id NSArray)
-imageUnfilteredTypes  =
-  do
-    cls' <- getRequiredClass "NSImageRep"
-    sendClassMessage cls' imageUnfilteredTypesSelector
-
--- | @+ imageTypes@
-imageTypes :: IO (Id NSArray)
-imageTypes  =
-  do
-    cls' <- getRequiredClass "NSImageRep"
-    sendClassMessage cls' imageTypesSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -581,12 +563,4 @@ setLayoutDirectionSelector = mkSelector "setLayoutDirection:"
 -- | @Selector@ for @registeredImageRepClasses@
 registeredImageRepClassesSelector :: Selector '[] (Id NSArray)
 registeredImageRepClassesSelector = mkSelector "registeredImageRepClasses"
-
--- | @Selector@ for @imageUnfilteredTypes@
-imageUnfilteredTypesSelector :: Selector '[] (Id NSArray)
-imageUnfilteredTypesSelector = mkSelector "imageUnfilteredTypes"
-
--- | @Selector@ for @imageTypes@
-imageTypesSelector :: Selector '[] (Id NSArray)
-imageTypesSelector = mkSelector "imageTypes"
 

@@ -19,10 +19,8 @@ module ObjC.MetricKit.MXCrashDiagnostic
   , exceptionType
   , exceptionCode
   , signal
-  , exceptionReason
   , callStackTreeSelector
   , exceptionCodeSelector
-  , exceptionReasonSelector
   , exceptionTypeSelector
   , signalSelector
   , terminationReasonSelector
@@ -108,17 +106,6 @@ signal :: IsMXCrashDiagnostic mxCrashDiagnostic => mxCrashDiagnostic -> IO (Id N
 signal mxCrashDiagnostic =
   sendMessage mxCrashDiagnostic signalSelector
 
--- | exceptionReason
---
--- The MXCrashDiagnosticObjectiveCExceptionReason object associated with this crash.
---
--- See: <MetricKit/MXCrashDiagnosticObjectiveCExceptionReason.h>
---
--- ObjC selector: @- exceptionReason@
-exceptionReason :: IsMXCrashDiagnostic mxCrashDiagnostic => mxCrashDiagnostic -> IO (Id MXCrashDiagnosticObjectiveCExceptionReason)
-exceptionReason mxCrashDiagnostic =
-  sendMessage mxCrashDiagnostic exceptionReasonSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -146,8 +133,4 @@ exceptionCodeSelector = mkSelector "exceptionCode"
 -- | @Selector@ for @signal@
 signalSelector :: Selector '[] (Id NSNumber)
 signalSelector = mkSelector "signal"
-
--- | @Selector@ for @exceptionReason@
-exceptionReasonSelector :: Selector '[] (Id MXCrashDiagnosticObjectiveCExceptionReason)
-exceptionReasonSelector = mkSelector "exceptionReason"
 

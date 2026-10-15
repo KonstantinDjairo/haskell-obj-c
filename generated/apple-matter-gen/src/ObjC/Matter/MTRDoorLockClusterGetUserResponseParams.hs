@@ -7,13 +7,14 @@
 module ObjC.Matter.MTRDoorLockClusterGetUserResponseParams
   ( MTRDoorLockClusterGetUserResponseParams
   , IsMTRDoorLockClusterGetUserResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , userIndex
   , setUserIndex
   , userName
   , setUserName
-  , userUniqueID
-  , setUserUniqueID
+  , userUniqueId
+  , setUserUniqueId
   , userStatus
   , setUserStatus
   , userType
@@ -30,12 +31,11 @@ module ObjC.Matter.MTRDoorLockClusterGetUserResponseParams
   , setNextUserIndex
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , userUniqueId
-  , setUserUniqueId
+  , copyWithZoneSelector
   , creatorFabricIndexSelector
   , credentialRuleSelector
   , credentialsSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , lastModifiedFabricIndexSelector
   , nextUserIndexSelector
   , setCreatorFabricIndexSelector
@@ -48,14 +48,12 @@ module ObjC.Matter.MTRDoorLockClusterGetUserResponseParams
   , setUserNameSelector
   , setUserStatusSelector
   , setUserTypeSelector
-  , setUserUniqueIDSelector
   , setUserUniqueIdSelector
   , timedInvokeTimeoutMsSelector
   , userIndexSelector
   , userNameSelector
   , userStatusSelector
   , userTypeSelector
-  , userUniqueIDSelector
   , userUniqueIdSelector
 
 
@@ -72,16 +70,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRDoorLockClusterGetUserResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrDoorLockClusterGetUserResponseParams -> responseValue -> error_ -> IO (Id MTRDoorLockClusterGetUserResponseParams)
-initWithResponseValue_error mtrDoorLockClusterGetUserResponseParams responseValue error_ =
-  sendOwnedMessage mtrDoorLockClusterGetUserResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams => mtrDoorLockClusterGetUserResponseParams -> IO (Id MTRDoorLockClusterGetUserResponseParams)
+init_ mtrDoorLockClusterGetUserResponseParams =
+  sendOwnedMessage mtrDoorLockClusterGetUserResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams => mtrDoorLockClusterGetUserResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterGetUserResponseParams zone =
+  sendOwnedMessage mtrDoorLockClusterGetUserResponseParams copyWithZoneSelector zone
 
 -- | @- userIndex@
 userIndex :: IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams => mtrDoorLockClusterGetUserResponseParams -> IO (Id NSNumber)
@@ -103,15 +100,15 @@ setUserName :: (IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetU
 setUserName mtrDoorLockClusterGetUserResponseParams value =
   sendMessage mtrDoorLockClusterGetUserResponseParams setUserNameSelector (toNSString value)
 
--- | @- userUniqueID@
-userUniqueID :: IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams => mtrDoorLockClusterGetUserResponseParams -> IO (Id NSNumber)
-userUniqueID mtrDoorLockClusterGetUserResponseParams =
-  sendMessage mtrDoorLockClusterGetUserResponseParams userUniqueIDSelector
+-- | @- userUniqueId@
+userUniqueId :: IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams => mtrDoorLockClusterGetUserResponseParams -> IO (Id NSNumber)
+userUniqueId mtrDoorLockClusterGetUserResponseParams =
+  sendMessage mtrDoorLockClusterGetUserResponseParams userUniqueIdSelector
 
--- | @- setUserUniqueID:@
-setUserUniqueID :: (IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams, IsNSNumber value) => mtrDoorLockClusterGetUserResponseParams -> value -> IO ()
-setUserUniqueID mtrDoorLockClusterGetUserResponseParams value =
-  sendMessage mtrDoorLockClusterGetUserResponseParams setUserUniqueIDSelector (toNSNumber value)
+-- | @- setUserUniqueId:@
+setUserUniqueId :: (IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams, IsNSNumber value) => mtrDoorLockClusterGetUserResponseParams -> value -> IO ()
+setUserUniqueId mtrDoorLockClusterGetUserResponseParams value =
+  sendMessage mtrDoorLockClusterGetUserResponseParams setUserUniqueIdSelector (toNSNumber value)
 
 -- | @- userStatus@
 userStatus :: IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams => mtrDoorLockClusterGetUserResponseParams -> IO (Id NSNumber)
@@ -205,23 +202,17 @@ setTimedInvokeTimeoutMs :: (IsMTRDoorLockClusterGetUserResponseParams mtrDoorLoc
 setTimedInvokeTimeoutMs mtrDoorLockClusterGetUserResponseParams value =
   sendMessage mtrDoorLockClusterGetUserResponseParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | @- userUniqueId@
-userUniqueId :: IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams => mtrDoorLockClusterGetUserResponseParams -> IO (Id NSNumber)
-userUniqueId mtrDoorLockClusterGetUserResponseParams =
-  sendMessage mtrDoorLockClusterGetUserResponseParams userUniqueIdSelector
-
--- | @- setUserUniqueId:@
-setUserUniqueId :: (IsMTRDoorLockClusterGetUserResponseParams mtrDoorLockClusterGetUserResponseParams, IsNSNumber value) => mtrDoorLockClusterGetUserResponseParams -> value -> IO ()
-setUserUniqueId mtrDoorLockClusterGetUserResponseParams value =
-  sendMessage mtrDoorLockClusterGetUserResponseParams setUserUniqueIdSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRDoorLockClusterGetUserResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterGetUserResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @userIndex@
 userIndexSelector :: Selector '[] (Id NSNumber)
@@ -239,13 +230,13 @@ userNameSelector = mkSelector "userName"
 setUserNameSelector :: Selector '[Id NSString] ()
 setUserNameSelector = mkSelector "setUserName:"
 
--- | @Selector@ for @userUniqueID@
-userUniqueIDSelector :: Selector '[] (Id NSNumber)
-userUniqueIDSelector = mkSelector "userUniqueID"
+-- | @Selector@ for @userUniqueId@
+userUniqueIdSelector :: Selector '[] (Id NSNumber)
+userUniqueIdSelector = mkSelector "userUniqueId"
 
--- | @Selector@ for @setUserUniqueID:@
-setUserUniqueIDSelector :: Selector '[Id NSNumber] ()
-setUserUniqueIDSelector = mkSelector "setUserUniqueID:"
+-- | @Selector@ for @setUserUniqueId:@
+setUserUniqueIdSelector :: Selector '[Id NSNumber] ()
+setUserUniqueIdSelector = mkSelector "setUserUniqueId:"
 
 -- | @Selector@ for @userStatus@
 userStatusSelector :: Selector '[] (Id NSNumber)
@@ -310,12 +301,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @userUniqueId@
-userUniqueIdSelector :: Selector '[] (Id NSNumber)
-userUniqueIdSelector = mkSelector "userUniqueId"
-
--- | @Selector@ for @setUserUniqueId:@
-setUserUniqueIdSelector :: Selector '[Id NSNumber] ()
-setUserUniqueIdSelector = mkSelector "setUserUniqueId:"
 

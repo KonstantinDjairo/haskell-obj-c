@@ -3,14 +3,16 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams@.
-module ObjC.Matter.MTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams
-  ( MTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams
-  , IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams(..)
-  , providerNodeID
-  , setProviderNodeID
-  , vendorID
-  , setVendorID
+-- | Generated bindings for @MTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams@.
+module ObjC.Matter.MTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams
+  ( MTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams
+  , IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams(..)
+  , init_
+  , copyWithZone
+  , providerNodeId
+  , setProviderNodeId
+  , vendorId
+  , setVendorId
   , announcementReason
   , setAnnouncementReason
   , metadataForNode
@@ -19,29 +21,19 @@ module ObjC.Matter.MTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams
   , setEndpoint
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , providerNodeId
-  , setProviderNodeId
-  , vendorId
-  , setVendorId
   , announcementReasonSelector
+  , copyWithZoneSelector
   , endpointSelector
+  , initSelector
   , metadataForNodeSelector
-  , providerNodeIDSelector
   , providerNodeIdSelector
-  , serverSideProcessingTimeoutSelector
   , setAnnouncementReasonSelector
   , setEndpointSelector
   , setMetadataForNodeSelector
-  , setProviderNodeIDSelector
   , setProviderNodeIdSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
-  , setVendorIDSelector
   , setVendorIdSelector
   , timedInvokeTimeoutMsSelector
-  , vendorIDSelector
   , vendorIdSelector
 
 
@@ -58,55 +50,65 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- providerNodeID@
-providerNodeID :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-providerNodeID mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams providerNodeIDSelector
+-- | @- init@
+init_ :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> IO (Id MTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams)
+init_ mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams =
+  sendOwnedMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams initSelector
 
--- | @- setProviderNodeID:@
-setProviderNodeID :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setProviderNodeID mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setProviderNodeIDSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> Ptr () -> IO RawId
+copyWithZone mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams zone =
+  sendOwnedMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams copyWithZoneSelector zone
 
--- | @- vendorID@
-vendorID :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-vendorID mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams vendorIDSelector
+-- | @- providerNodeId@
+providerNodeId :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> IO (Id NSNumber)
+providerNodeId mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams providerNodeIdSelector
 
--- | @- setVendorID:@
-setVendorID :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setVendorID mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setVendorIDSelector (toNSNumber value)
+-- | @- setProviderNodeId:@
+setProviderNodeId :: (IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> value -> IO ()
+setProviderNodeId mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams setProviderNodeIdSelector (toNSNumber value)
+
+-- | @- vendorId@
+vendorId :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> IO (Id NSNumber)
+vendorId mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams vendorIdSelector
+
+-- | @- setVendorId:@
+setVendorId :: (IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> value -> IO ()
+setVendorId mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams setVendorIdSelector (toNSNumber value)
 
 -- | @- announcementReason@
-announcementReason :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-announcementReason mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams announcementReasonSelector
+announcementReason :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> IO (Id NSNumber)
+announcementReason mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams announcementReasonSelector
 
 -- | @- setAnnouncementReason:@
-setAnnouncementReason :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setAnnouncementReason mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setAnnouncementReasonSelector (toNSNumber value)
+setAnnouncementReason :: (IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> value -> IO ()
+setAnnouncementReason mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams setAnnouncementReasonSelector (toNSNumber value)
 
 -- | @- metadataForNode@
-metadataForNode :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSData)
-metadataForNode mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams metadataForNodeSelector
+metadataForNode :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> IO (Id NSData)
+metadataForNode mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams metadataForNodeSelector
 
 -- | @- setMetadataForNode:@
-setMetadataForNode :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSData value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setMetadataForNode mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setMetadataForNodeSelector (toNSData value)
+setMetadataForNode :: (IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams, IsNSData value) => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> value -> IO ()
+setMetadataForNode mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams setMetadataForNodeSelector (toNSData value)
 
 -- | @- endpoint@
-endpoint :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-endpoint mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams endpointSelector
+endpoint :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> IO (Id NSNumber)
+endpoint mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams endpointSelector
 
 -- | @- setEndpoint:@
-setEndpoint :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setEndpoint mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setEndpointSelector (toNSNumber value)
+setEndpoint :: (IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> value -> IO ()
+setEndpoint mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams setEndpointSelector (toNSNumber value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -115,9 +117,9 @@ setEndpoint mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value 
 -- If not nil, a timed invoke is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual invoke request) within the timeout window.
 --
 -- ObjC selector: @- timedInvokeTimeoutMs@
-timedInvokeTimeoutMs :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-timedInvokeTimeoutMs mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams timedInvokeTimeoutMsSelector
+timedInvokeTimeoutMs :: IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> IO (Id NSNumber)
+timedInvokeTimeoutMs mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams timedInvokeTimeoutMsSelector
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -126,71 +128,37 @@ timedInvokeTimeoutMs mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderPara
 -- If not nil, a timed invoke is done, with the provided value used as the timed request timeout.  The value should be chosen small enough to provide the desired security properties but large enough that it will allow a round-trip from the sever to the client (for the status response and actual invoke request) within the timeout window.
 --
 -- ObjC selector: @- setTimedInvokeTimeoutMs:@
-setTimedInvokeTimeoutMs :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setTimedInvokeTimeoutMs mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setServerSideProcessingTimeout mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
--- | @- providerNodeId@
-providerNodeId :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-providerNodeId mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams providerNodeIdSelector
-
--- | @- setProviderNodeId:@
-setProviderNodeId :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setProviderNodeId mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setProviderNodeIdSelector (toNSNumber value)
-
--- | @- vendorId@
-vendorId :: IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> IO (Id NSNumber)
-vendorId mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams vendorIdSelector
-
--- | @- setVendorId:@
-setVendorId :: (IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams -> value -> IO ()
-setVendorId mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterAnnounceOTAProviderParams setVendorIdSelector (toNSNumber value)
+setTimedInvokeTimeoutMs :: (IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams -> value -> IO ()
+setTimedInvokeTimeoutMs mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @providerNodeID@
-providerNodeIDSelector :: Selector '[] (Id NSNumber)
-providerNodeIDSelector = mkSelector "providerNodeID"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setProviderNodeID:@
-setProviderNodeIDSelector :: Selector '[Id NSNumber] ()
-setProviderNodeIDSelector = mkSelector "setProviderNodeID:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
--- | @Selector@ for @vendorID@
-vendorIDSelector :: Selector '[] (Id NSNumber)
-vendorIDSelector = mkSelector "vendorID"
+-- | @Selector@ for @providerNodeId@
+providerNodeIdSelector :: Selector '[] (Id NSNumber)
+providerNodeIdSelector = mkSelector "providerNodeId"
 
--- | @Selector@ for @setVendorID:@
-setVendorIDSelector :: Selector '[Id NSNumber] ()
-setVendorIDSelector = mkSelector "setVendorID:"
+-- | @Selector@ for @setProviderNodeId:@
+setProviderNodeIdSelector :: Selector '[Id NSNumber] ()
+setProviderNodeIdSelector = mkSelector "setProviderNodeId:"
+
+-- | @Selector@ for @vendorId@
+vendorIdSelector :: Selector '[] (Id NSNumber)
+vendorIdSelector = mkSelector "vendorId"
+
+-- | @Selector@ for @setVendorId:@
+setVendorIdSelector :: Selector '[Id NSNumber] ()
+setVendorIdSelector = mkSelector "setVendorId:"
 
 -- | @Selector@ for @announcementReason@
 announcementReasonSelector :: Selector '[] (Id NSNumber)
@@ -223,28 +191,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
-
--- | @Selector@ for @providerNodeId@
-providerNodeIdSelector :: Selector '[] (Id NSNumber)
-providerNodeIdSelector = mkSelector "providerNodeId"
-
--- | @Selector@ for @setProviderNodeId:@
-setProviderNodeIdSelector :: Selector '[Id NSNumber] ()
-setProviderNodeIdSelector = mkSelector "setProviderNodeId:"
-
--- | @Selector@ for @vendorId@
-vendorIdSelector :: Selector '[] (Id NSNumber)
-vendorIdSelector = mkSelector "vendorId"
-
--- | @Selector@ for @setVendorId:@
-setVendorIdSelector :: Selector '[Id NSNumber] ()
-setVendorIdSelector = mkSelector "setVendorId:"
 

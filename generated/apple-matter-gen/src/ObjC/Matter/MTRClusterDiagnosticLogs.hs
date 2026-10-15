@@ -9,7 +9,8 @@
 module ObjC.Matter.MTRClusterDiagnosticLogs
   ( MTRClusterDiagnosticLogs
   , IsMTRClusterDiagnosticLogs(..)
-  , retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
   , readAttributeAttributeListWithParams
@@ -17,11 +18,7 @@ module ObjC.Matter.MTRClusterDiagnosticLogs
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -30,7 +27,6 @@ module ObjC.Matter.MTRClusterDiagnosticLogs
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
   , retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionSelector
 
 
   ) where
@@ -46,10 +42,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completion:@
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterDiagnosticLogs mtrClusterDiagnosticLogs, IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterDiagnosticLogs -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completion mtrClusterDiagnosticLogs params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterDiagnosticLogs retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRDiagnosticLogsClusterRetrieveLogsRequestParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterDiagnosticLogs mtrClusterDiagnosticLogs, IsMTRDevice device, IsNSObject queue) => mtrClusterDiagnosticLogs -> device -> CUShort -> queue -> IO (Id MTRClusterDiagnosticLogs)
+initWithDevice_endpoint_queue mtrClusterDiagnosticLogs device endpoint queue =
+  sendOwnedMessage mtrClusterDiagnosticLogs initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
+
+-- | @- retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completionHandler:@
+retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterDiagnosticLogs mtrClusterDiagnosticLogs, IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterDiagnosticLogs -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterDiagnosticLogs params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterDiagnosticLogs retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRDiagnosticLogsClusterRetrieveLogsRequestParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParams :: (IsMTRClusterDiagnosticLogs mtrClusterDiagnosticLogs, IsMTRReadParams params) => mtrClusterDiagnosticLogs -> params -> IO (Id NSDictionary)
@@ -88,30 +89,17 @@ new  =
     cls' <- getRequiredClass "MTRClusterDiagnosticLogs"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterDiagnosticLogs mtrClusterDiagnosticLogs, IsMTRDevice device, IsNSObject queue) => mtrClusterDiagnosticLogs -> device -> CUShort -> queue -> IO (Id MTRClusterDiagnosticLogs)
-initWithDevice_endpoint_queue mtrClusterDiagnosticLogs device endpoint queue =
-  sendOwnedMessage mtrClusterDiagnosticLogs initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completionHandler:@
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterDiagnosticLogs mtrClusterDiagnosticLogs, IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterDiagnosticLogs -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterDiagnosticLogs params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterDiagnosticLogs retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRDiagnosticLogsClusterRetrieveLogsRequestParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterDiagnosticLogs mtrClusterDiagnosticLogs, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterDiagnosticLogs -> device -> endpointID -> queue -> IO (Id MTRClusterDiagnosticLogs)
-initWithDevice_endpointID_queue mtrClusterDiagnosticLogs device endpointID queue =
-  sendOwnedMessage mtrClusterDiagnosticLogs initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completion:@
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRDiagnosticLogsClusterRetrieveLogsRequestParams, Id NSArray, Id NSNumber, Ptr ()] ()
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterDiagnosticLogs)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
+
+-- | @Selector@ for @retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completionHandler:@
+retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRDiagnosticLogsClusterRetrieveLogsRequestParams, Id NSArray, Id NSNumber, Ptr ()] ()
+retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -140,16 +128,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterDiagnosticLogs)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterDiagnosticLogs)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completionHandler:@
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRDiagnosticLogsClusterRetrieveLogsRequestParams, Id NSArray, Id NSNumber, Ptr ()] ()
-retrieveLogsRequestWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "retrieveLogsRequestWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterDiagnosticLogs)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

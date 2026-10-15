@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRElectricalMeasurementClusterGetMeasurementProfileCommandParams
   ( MTRElectricalMeasurementClusterGetMeasurementProfileCommandParams
   , IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams(..)
+  , init_
+  , copyWithZone
   , attributeId
   , setAttributeId
   , startTime
@@ -15,14 +17,12 @@ module ObjC.Matter.MTRElectricalMeasurementClusterGetMeasurementProfileCommandPa
   , setNumberOfIntervals
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , attributeIdSelector
+  , copyWithZoneSelector
+  , initSelector
   , numberOfIntervalsSelector
-  , serverSideProcessingTimeoutSelector
   , setAttributeIdSelector
   , setNumberOfIntervalsSelector
-  , setServerSideProcessingTimeoutSelector
   , setStartTimeSelector
   , setTimedInvokeTimeoutMsSelector
   , startTimeSelector
@@ -41,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams => mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams -> IO (Id MTRElectricalMeasurementClusterGetMeasurementProfileCommandParams)
+init_ mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams =
+  sendOwnedMessage mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams => mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams -> Ptr () -> IO RawId
+copyWithZone mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams zone =
+  sendOwnedMessage mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams copyWithZoneSelector zone
 
 -- | @- attributeId@
 attributeId :: IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams => mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams -> IO (Id NSNumber)
@@ -94,31 +104,17 @@ setTimedInvokeTimeoutMs :: (IsMTRElectricalMeasurementClusterGetMeasurementProfi
 setTimedInvokeTimeoutMs mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams value =
   sendMessage mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams => mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams =
-  sendMessage mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams, IsNSNumber value) => mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams -> value -> IO ()
-setServerSideProcessingTimeout mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams value =
-  sendMessage mtrElectricalMeasurementClusterGetMeasurementProfileCommandParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRElectricalMeasurementClusterGetMeasurementProfileCommandParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @attributeId@
 attributeIdSelector :: Selector '[] (Id NSNumber)
@@ -151,12 +147,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

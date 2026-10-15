@@ -16,31 +16,17 @@ module ObjC.WebKit.WKWebsiteDataStore
   , allWebsiteDataTypes
   , removeDataOfTypes_forDataRecords_completionHandler
   , removeDataOfTypes_modifiedSince_completionHandler
-  , fetchDataOfTypes_completionHandler
-  , restoreData_completionHandler
-  , dataStoreForIdentifier
-  , removeDataStoreForIdentifier_completionHandler
   , persistent
   , httpCookieStore
-  , identifier
-  , proxyConfigurations
-  , setProxyConfigurations
   , allWebsiteDataTypesSelector
-  , dataStoreForIdentifierSelector
   , defaultDataStoreSelector
-  , fetchDataOfTypes_completionHandlerSelector
   , httpCookieStoreSelector
-  , identifierSelector
   , initSelector
   , newSelector
   , nonPersistentDataStoreSelector
   , persistentSelector
-  , proxyConfigurationsSelector
   , removeDataOfTypes_forDataRecords_completionHandlerSelector
   , removeDataOfTypes_modifiedSince_completionHandlerSelector
-  , removeDataStoreForIdentifier_completionHandlerSelector
-  , restoreData_completionHandlerSelector
-  , setProxyConfigurationsSelector
 
 
   ) where
@@ -119,44 +105,6 @@ removeDataOfTypes_modifiedSince_completionHandler :: (IsWKWebsiteDataStore wkWeb
 removeDataOfTypes_modifiedSince_completionHandler wkWebsiteDataStore dataTypes date completionHandler =
   sendMessage wkWebsiteDataStore removeDataOfTypes_modifiedSince_completionHandlerSelector (toNSSet dataTypes) (toNSDate date) completionHandler
 
--- | @- fetchDataOfTypes:completionHandler:@
-fetchDataOfTypes_completionHandler :: (IsWKWebsiteDataStore wkWebsiteDataStore, IsNSSet dataTypes) => wkWebsiteDataStore -> dataTypes -> Ptr () -> IO ()
-fetchDataOfTypes_completionHandler wkWebsiteDataStore dataTypes completionHandler =
-  sendMessage wkWebsiteDataStore fetchDataOfTypes_completionHandlerSelector (toNSSet dataTypes) completionHandler
-
--- | @- restoreData:completionHandler:@
-restoreData_completionHandler :: (IsWKWebsiteDataStore wkWebsiteDataStore, IsNSData data_) => wkWebsiteDataStore -> data_ -> Ptr () -> IO ()
-restoreData_completionHandler wkWebsiteDataStore data_ completionHandler =
-  sendMessage wkWebsiteDataStore restoreData_completionHandlerSelector (toNSData data_) completionHandler
-
--- | Get a persistent data store.
---
--- @identifier@ — An identifier that is used to uniquely identify the data store.
---
--- If a data store with this identifier does not exist yet, it will be created. Throws exception if identifier is 0.
---
--- ObjC selector: @+ dataStoreForIdentifier:@
-dataStoreForIdentifier :: IsNSUUID identifier => identifier -> IO (Id WKWebsiteDataStore)
-dataStoreForIdentifier identifier =
-  do
-    cls' <- getRequiredClass "WKWebsiteDataStore"
-    sendClassMessage cls' dataStoreForIdentifierSelector (toNSUUID identifier)
-
--- | Delete a persistent data store.
---
--- @identifier@ — An identifier that is used to uniquely identify the data store.
---
--- @completionHandler@ — A block to invoke with optional error when the operation completes.
---
--- This should be called when the data store is not used any more. Returns error if removal fails to complete. WKWebView using the data store must be released before removal.
---
--- ObjC selector: @+ removeDataStoreForIdentifier:completionHandler:@
-removeDataStoreForIdentifier_completionHandler :: IsNSUUID identifier => identifier -> Ptr () -> IO ()
-removeDataStoreForIdentifier_completionHandler identifier completionHandler =
-  do
-    cls' <- getRequiredClass "WKWebsiteDataStore"
-    sendClassMessage cls' removeDataStoreForIdentifier_completionHandlerSelector (toNSUUID identifier) completionHandler
-
 -- | Whether the data store is persistent or not.
 --
 -- ObjC selector: @- persistent@
@@ -170,25 +118,6 @@ persistent wkWebsiteDataStore =
 httpCookieStore :: IsWKWebsiteDataStore wkWebsiteDataStore => wkWebsiteDataStore -> IO (Id WKHTTPCookieStore)
 httpCookieStore wkWebsiteDataStore =
   sendMessage wkWebsiteDataStore httpCookieStoreSelector
-
--- | Get identifier for a data store.
---
--- Returns nil for default and non-persistent data store .
---
--- ObjC selector: @- identifier@
-identifier :: IsWKWebsiteDataStore wkWebsiteDataStore => wkWebsiteDataStore -> IO (Id NSUUID)
-identifier wkWebsiteDataStore =
-  sendMessage wkWebsiteDataStore identifierSelector
-
--- | @- proxyConfigurations@
-proxyConfigurations :: IsWKWebsiteDataStore wkWebsiteDataStore => wkWebsiteDataStore -> IO (Id NSArray)
-proxyConfigurations wkWebsiteDataStore =
-  sendMessage wkWebsiteDataStore proxyConfigurationsSelector
-
--- | @- setProxyConfigurations:@
-setProxyConfigurations :: (IsWKWebsiteDataStore wkWebsiteDataStore, IsNSArray value) => wkWebsiteDataStore -> value -> IO ()
-setProxyConfigurations wkWebsiteDataStore value =
-  sendMessage wkWebsiteDataStore setProxyConfigurationsSelector (toNSArray value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -222,22 +151,6 @@ removeDataOfTypes_forDataRecords_completionHandlerSelector = mkSelector "removeD
 removeDataOfTypes_modifiedSince_completionHandlerSelector :: Selector '[Id NSSet, Id NSDate, Ptr ()] ()
 removeDataOfTypes_modifiedSince_completionHandlerSelector = mkSelector "removeDataOfTypes:modifiedSince:completionHandler:"
 
--- | @Selector@ for @fetchDataOfTypes:completionHandler:@
-fetchDataOfTypes_completionHandlerSelector :: Selector '[Id NSSet, Ptr ()] ()
-fetchDataOfTypes_completionHandlerSelector = mkSelector "fetchDataOfTypes:completionHandler:"
-
--- | @Selector@ for @restoreData:completionHandler:@
-restoreData_completionHandlerSelector :: Selector '[Id NSData, Ptr ()] ()
-restoreData_completionHandlerSelector = mkSelector "restoreData:completionHandler:"
-
--- | @Selector@ for @dataStoreForIdentifier:@
-dataStoreForIdentifierSelector :: Selector '[Id NSUUID] (Id WKWebsiteDataStore)
-dataStoreForIdentifierSelector = mkSelector "dataStoreForIdentifier:"
-
--- | @Selector@ for @removeDataStoreForIdentifier:completionHandler:@
-removeDataStoreForIdentifier_completionHandlerSelector :: Selector '[Id NSUUID, Ptr ()] ()
-removeDataStoreForIdentifier_completionHandlerSelector = mkSelector "removeDataStoreForIdentifier:completionHandler:"
-
 -- | @Selector@ for @persistent@
 persistentSelector :: Selector '[] Bool
 persistentSelector = mkSelector "persistent"
@@ -245,16 +158,4 @@ persistentSelector = mkSelector "persistent"
 -- | @Selector@ for @httpCookieStore@
 httpCookieStoreSelector :: Selector '[] (Id WKHTTPCookieStore)
 httpCookieStoreSelector = mkSelector "httpCookieStore"
-
--- | @Selector@ for @identifier@
-identifierSelector :: Selector '[] (Id NSUUID)
-identifierSelector = mkSelector "identifier"
-
--- | @Selector@ for @proxyConfigurations@
-proxyConfigurationsSelector :: Selector '[] (Id NSArray)
-proxyConfigurationsSelector = mkSelector "proxyConfigurations"
-
--- | @Selector@ for @setProxyConfigurations:@
-setProxyConfigurationsSelector :: Selector '[Id NSArray] ()
-setProxyConfigurationsSelector = mkSelector "setProxyConfigurations:"
 

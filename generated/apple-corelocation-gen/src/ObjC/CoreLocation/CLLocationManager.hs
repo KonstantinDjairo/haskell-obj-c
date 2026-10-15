@@ -63,6 +63,7 @@ module ObjC.CoreLocation.CLLocationManager
   , setAllowsBackgroundLocationUpdates
   , showsBackgroundLocationIndicator
   , setShowsBackgroundLocationIndicator
+  , location
   , headingAvailable
   , headingFilter
   , setHeadingFilter
@@ -94,6 +95,7 @@ module ObjC.CoreLocation.CLLocationManager
   , headingSelector
   , isMonitoringAvailableForClassSelector
   , isRangingAvailableSelector
+  , locationSelector
   , locationServicesEnabledSelector
   , maximumRegionMonitoringDistanceSelector
   , monitoredRegionsSelector
@@ -472,6 +474,11 @@ setShowsBackgroundLocationIndicator :: IsCLLocationManager clLocationManager => 
 setShowsBackgroundLocationIndicator clLocationManager value =
   sendMessage clLocationManager setShowsBackgroundLocationIndicatorSelector value
 
+-- | @- location@
+location :: IsCLLocationManager clLocationManager => clLocationManager -> IO (Id CLLocation)
+location clLocationManager =
+  sendMessage clLocationManager locationSelector
+
 -- | @- headingAvailable@
 headingAvailable :: IsCLLocationManager clLocationManager => clLocationManager -> IO Bool
 headingAvailable clLocationManager =
@@ -745,6 +752,10 @@ showsBackgroundLocationIndicatorSelector = mkSelector "showsBackgroundLocationIn
 -- | @Selector@ for @setShowsBackgroundLocationIndicator:@
 setShowsBackgroundLocationIndicatorSelector :: Selector '[Bool] ()
 setShowsBackgroundLocationIndicatorSelector = mkSelector "setShowsBackgroundLocationIndicator:"
+
+-- | @Selector@ for @location@
+locationSelector :: Selector '[] (Id CLLocation)
+locationSelector = mkSelector "location"
 
 -- | @Selector@ for @headingAvailable@
 headingAvailableSelector :: Selector '[] Bool

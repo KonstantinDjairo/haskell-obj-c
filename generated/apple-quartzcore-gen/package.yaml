@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -29,8 +30,6 @@ library:
   - ObjC.QuartzCore.CAKeyframeAnimation
   - ObjC.QuartzCore.CALayer
   - ObjC.QuartzCore.CAMediaTimingFunction
-  - ObjC.QuartzCore.CAMetalDisplayLink
-  - ObjC.QuartzCore.CAMetalDisplayLinkUpdate
   - ObjC.QuartzCore.CAMetalLayer
   - ObjC.QuartzCore.CAOpenGLLayer
   - ObjC.QuartzCore.CAPropertyAnimation
@@ -52,7 +51,6 @@ library:
   - ObjC.QuartzCore.Delegate.CALayerDelegate
   - ObjC.QuartzCore.Delegate.CALayoutManager
   - ObjC.QuartzCore.Delegate.CAMediaTiming
-  - ObjC.QuartzCore.Delegate.CAMetalDisplayLinkDelegate
   - ObjC.QuartzCore.Delegate.CAMetalDrawable
   - ObjC.QuartzCore.Enums
   - ObjC.QuartzCore.Internal.Classes

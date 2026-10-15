@@ -15,21 +15,9 @@ module ObjC.NetworkExtension.NEHotspotHS20Settings
   , domainName
   , roamingEnabled
   , setRoamingEnabled
-  , roamingConsortiumOIs
-  , setRoamingConsortiumOIs
-  , naiRealmNames
-  , setNaiRealmNames
-  , mccAndMNCs
-  , setMCCAndMNCs
   , domainNameSelector
   , initWithDomainName_roamingEnabledSelector
-  , mccAndMNCsSelector
-  , naiRealmNamesSelector
-  , roamingConsortiumOIsSelector
   , roamingEnabledSelector
-  , setMCCAndMNCsSelector
-  , setNaiRealmNamesSelector
-  , setRoamingConsortiumOIsSelector
   , setRoamingEnabledSelector
 
 
@@ -64,7 +52,7 @@ initWithDomainName_roamingEnabled neHotspotHS20Settings domainName roamingEnable
 -- Domain Name of Legacy Hotspot or Hotspot 2.0 Wi-Fi Network.   This Domain Name is used for Wi-Fi Hotspot 2.0 negotiation.
 --
 -- ObjC selector: @- domainName@
-domainName :: IsNEHotspotHS20Settings neHotspotHS20Settings => neHotspotHS20Settings -> IO (Id NSString)
+domainName :: IsNEHotspotHS20Settings neHotspotHS20Settings => neHotspotHS20Settings -> IO RawId
 domainName neHotspotHS20Settings =
   sendMessage neHotspotHS20Settings domainNameSelector
 
@@ -86,60 +74,6 @@ setRoamingEnabled :: IsNEHotspotHS20Settings neHotspotHS20Settings => neHotspotH
 setRoamingEnabled neHotspotHS20Settings value =
   sendMessage neHotspotHS20Settings setRoamingEnabledSelector value
 
--- | roamingConsortiumOIs
---
--- Array of Roaming Consortium Organization Identifiers used   for Wi-Fi Hotspot 2.0 negotiation.
---
--- ObjC selector: @- roamingConsortiumOIs@
-roamingConsortiumOIs :: IsNEHotspotHS20Settings neHotspotHS20Settings => neHotspotHS20Settings -> IO (Id NSArray)
-roamingConsortiumOIs neHotspotHS20Settings =
-  sendMessage neHotspotHS20Settings roamingConsortiumOIsSelector
-
--- | roamingConsortiumOIs
---
--- Array of Roaming Consortium Organization Identifiers used   for Wi-Fi Hotspot 2.0 negotiation.
---
--- ObjC selector: @- setRoamingConsortiumOIs:@
-setRoamingConsortiumOIs :: (IsNEHotspotHS20Settings neHotspotHS20Settings, IsNSArray value) => neHotspotHS20Settings -> value -> IO ()
-setRoamingConsortiumOIs neHotspotHS20Settings value =
-  sendMessage neHotspotHS20Settings setRoamingConsortiumOIsSelector (toNSArray value)
-
--- | naiRealmNames
---
--- Array of Network Access Identifier Realm names used for   Wi-Fi Hotspot 2.0 negotiation.
---
--- ObjC selector: @- naiRealmNames@
-naiRealmNames :: IsNEHotspotHS20Settings neHotspotHS20Settings => neHotspotHS20Settings -> IO (Id NSArray)
-naiRealmNames neHotspotHS20Settings =
-  sendMessage neHotspotHS20Settings naiRealmNamesSelector
-
--- | naiRealmNames
---
--- Array of Network Access Identifier Realm names used for   Wi-Fi Hotspot 2.0 negotiation.
---
--- ObjC selector: @- setNaiRealmNames:@
-setNaiRealmNames :: (IsNEHotspotHS20Settings neHotspotHS20Settings, IsNSArray value) => neHotspotHS20Settings -> value -> IO ()
-setNaiRealmNames neHotspotHS20Settings value =
-  sendMessage neHotspotHS20Settings setNaiRealmNamesSelector (toNSArray value)
-
--- | MCCAndMNCs
---
--- Array of Mobile Country Code (MCC)/Mobile Network Code (MNC)   pairs used for Wi-Fi Hotspot 2.0 negotiation. Each string must contain   exactly six digits.
---
--- ObjC selector: @- MCCAndMNCs@
-mccAndMNCs :: IsNEHotspotHS20Settings neHotspotHS20Settings => neHotspotHS20Settings -> IO (Id NSArray)
-mccAndMNCs neHotspotHS20Settings =
-  sendMessage neHotspotHS20Settings mccAndMNCsSelector
-
--- | MCCAndMNCs
---
--- Array of Mobile Country Code (MCC)/Mobile Network Code (MNC)   pairs used for Wi-Fi Hotspot 2.0 negotiation. Each string must contain   exactly six digits.
---
--- ObjC selector: @- setMCCAndMNCs:@
-setMCCAndMNCs :: (IsNEHotspotHS20Settings neHotspotHS20Settings, IsNSArray value) => neHotspotHS20Settings -> value -> IO ()
-setMCCAndMNCs neHotspotHS20Settings value =
-  sendMessage neHotspotHS20Settings setMCCAndMNCsSelector (toNSArray value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -149,7 +83,7 @@ initWithDomainName_roamingEnabledSelector :: Selector '[Id NSString, Bool] (Id N
 initWithDomainName_roamingEnabledSelector = mkSelector "initWithDomainName:roamingEnabled:"
 
 -- | @Selector@ for @domainName@
-domainNameSelector :: Selector '[] (Id NSString)
+domainNameSelector :: Selector '[] RawId
 domainNameSelector = mkSelector "domainName"
 
 -- | @Selector@ for @roamingEnabled@
@@ -159,28 +93,4 @@ roamingEnabledSelector = mkSelector "roamingEnabled"
 -- | @Selector@ for @setRoamingEnabled:@
 setRoamingEnabledSelector :: Selector '[Bool] ()
 setRoamingEnabledSelector = mkSelector "setRoamingEnabled:"
-
--- | @Selector@ for @roamingConsortiumOIs@
-roamingConsortiumOIsSelector :: Selector '[] (Id NSArray)
-roamingConsortiumOIsSelector = mkSelector "roamingConsortiumOIs"
-
--- | @Selector@ for @setRoamingConsortiumOIs:@
-setRoamingConsortiumOIsSelector :: Selector '[Id NSArray] ()
-setRoamingConsortiumOIsSelector = mkSelector "setRoamingConsortiumOIs:"
-
--- | @Selector@ for @naiRealmNames@
-naiRealmNamesSelector :: Selector '[] (Id NSArray)
-naiRealmNamesSelector = mkSelector "naiRealmNames"
-
--- | @Selector@ for @setNaiRealmNames:@
-setNaiRealmNamesSelector :: Selector '[Id NSArray] ()
-setNaiRealmNamesSelector = mkSelector "setNaiRealmNames:"
-
--- | @Selector@ for @MCCAndMNCs@
-mccAndMNCsSelector :: Selector '[] (Id NSArray)
-mccAndMNCsSelector = mkSelector "MCCAndMNCs"
-
--- | @Selector@ for @setMCCAndMNCs:@
-setMCCAndMNCsSelector :: Selector '[Id NSArray] ()
-setMCCAndMNCsSelector = mkSelector "setMCCAndMNCs:"
 

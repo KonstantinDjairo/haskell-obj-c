@@ -22,17 +22,13 @@ module ObjC.AppKit.NSSharingService
   , alternateImage
   , menuItemTitle
   , setMenuItemTitle
-  , recipients
-  , setRecipients
   , subject
   , setSubject
   , messageBody
   , permanentLink
   , accountName
-  , attachmentFileURLs
   , accountNameSelector
   , alternateImageSelector
-  , attachmentFileURLsSelector
   , canPerformWithItemsSelector
   , delegateSelector
   , imageSelector
@@ -42,10 +38,8 @@ module ObjC.AppKit.NSSharingService
   , messageBodySelector
   , performWithItemsSelector
   , permanentLinkSelector
-  , recipientsSelector
   , setDelegateSelector
   , setMenuItemTitleSelector
-  , setRecipientsSelector
   , setSubjectSelector
   , sharingServiceNamedSelector
   , sharingServicesForItemsSelector
@@ -144,68 +138,47 @@ alternateImage nsSharingService =
 -- | Title of the service in the Share menu. Can be modified.
 --
 -- ObjC selector: @- menuItemTitle@
-menuItemTitle :: IsNSSharingService nsSharingService => nsSharingService -> IO (Id NSString)
+menuItemTitle :: IsNSSharingService nsSharingService => nsSharingService -> IO RawId
 menuItemTitle nsSharingService =
   sendMessage nsSharingService menuItemTitleSelector
 
 -- | Title of the service in the Share menu. Can be modified.
 --
 -- ObjC selector: @- setMenuItemTitle:@
-setMenuItemTitle :: (IsNSSharingService nsSharingService, IsNSString value) => nsSharingService -> value -> IO ()
+setMenuItemTitle :: IsNSSharingService nsSharingService => nsSharingService -> RawId -> IO ()
 setMenuItemTitle nsSharingService value =
-  sendMessage nsSharingService setMenuItemTitleSelector (toNSString value)
-
--- | NSArray of NSString objects representing handles (example: email adresses)
---
--- ObjC selector: @- recipients@
-recipients :: IsNSSharingService nsSharingService => nsSharingService -> IO (Id NSArray)
-recipients nsSharingService =
-  sendMessage nsSharingService recipientsSelector
-
--- | NSArray of NSString objects representing handles (example: email adresses)
---
--- ObjC selector: @- setRecipients:@
-setRecipients :: (IsNSSharingService nsSharingService, IsNSArray value) => nsSharingService -> value -> IO ()
-setRecipients nsSharingService value =
-  sendMessage nsSharingService setRecipientsSelector (toNSArray value)
+  sendMessage nsSharingService setMenuItemTitleSelector value
 
 -- | @- subject@
-subject :: IsNSSharingService nsSharingService => nsSharingService -> IO (Id NSString)
+subject :: IsNSSharingService nsSharingService => nsSharingService -> IO RawId
 subject nsSharingService =
   sendMessage nsSharingService subjectSelector
 
 -- | @- setSubject:@
-setSubject :: (IsNSSharingService nsSharingService, IsNSString value) => nsSharingService -> value -> IO ()
+setSubject :: IsNSSharingService nsSharingService => nsSharingService -> RawId -> IO ()
 setSubject nsSharingService value =
-  sendMessage nsSharingService setSubjectSelector (toNSString value)
+  sendMessage nsSharingService setSubjectSelector value
 
 -- | Message body as string
 --
 -- ObjC selector: @- messageBody@
-messageBody :: IsNSSharingService nsSharingService => nsSharingService -> IO (Id NSString)
+messageBody :: IsNSSharingService nsSharingService => nsSharingService -> IO RawId
 messageBody nsSharingService =
   sendMessage nsSharingService messageBodySelector
 
 -- | URL to access the post on Facebook, Twitter, Sina Weibo, etc. (also known as permalink)
 --
 -- ObjC selector: @- permanentLink@
-permanentLink :: IsNSSharingService nsSharingService => nsSharingService -> IO (Id NSURL)
+permanentLink :: IsNSSharingService nsSharingService => nsSharingService -> IO RawId
 permanentLink nsSharingService =
   sendMessage nsSharingService permanentLinkSelector
 
 -- | Account name used for sending on Twitter or Sina Weibo
 --
 -- ObjC selector: @- accountName@
-accountName :: IsNSSharingService nsSharingService => nsSharingService -> IO (Id NSString)
+accountName :: IsNSSharingService nsSharingService => nsSharingService -> IO RawId
 accountName nsSharingService =
   sendMessage nsSharingService accountNameSelector
-
--- | NSArray of NSURL objects representing the files that were shared
---
--- ObjC selector: @- attachmentFileURLs@
-attachmentFileURLs :: IsNSSharingService nsSharingService => nsSharingService -> IO (Id NSArray)
-attachmentFileURLs nsSharingService =
-  sendMessage nsSharingService attachmentFileURLsSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -256,42 +229,30 @@ alternateImageSelector :: Selector '[] (Id NSImage)
 alternateImageSelector = mkSelector "alternateImage"
 
 -- | @Selector@ for @menuItemTitle@
-menuItemTitleSelector :: Selector '[] (Id NSString)
+menuItemTitleSelector :: Selector '[] RawId
 menuItemTitleSelector = mkSelector "menuItemTitle"
 
 -- | @Selector@ for @setMenuItemTitle:@
-setMenuItemTitleSelector :: Selector '[Id NSString] ()
+setMenuItemTitleSelector :: Selector '[RawId] ()
 setMenuItemTitleSelector = mkSelector "setMenuItemTitle:"
 
--- | @Selector@ for @recipients@
-recipientsSelector :: Selector '[] (Id NSArray)
-recipientsSelector = mkSelector "recipients"
-
--- | @Selector@ for @setRecipients:@
-setRecipientsSelector :: Selector '[Id NSArray] ()
-setRecipientsSelector = mkSelector "setRecipients:"
-
 -- | @Selector@ for @subject@
-subjectSelector :: Selector '[] (Id NSString)
+subjectSelector :: Selector '[] RawId
 subjectSelector = mkSelector "subject"
 
 -- | @Selector@ for @setSubject:@
-setSubjectSelector :: Selector '[Id NSString] ()
+setSubjectSelector :: Selector '[RawId] ()
 setSubjectSelector = mkSelector "setSubject:"
 
 -- | @Selector@ for @messageBody@
-messageBodySelector :: Selector '[] (Id NSString)
+messageBodySelector :: Selector '[] RawId
 messageBodySelector = mkSelector "messageBody"
 
 -- | @Selector@ for @permanentLink@
-permanentLinkSelector :: Selector '[] (Id NSURL)
+permanentLinkSelector :: Selector '[] RawId
 permanentLinkSelector = mkSelector "permanentLink"
 
 -- | @Selector@ for @accountName@
-accountNameSelector :: Selector '[] (Id NSString)
+accountNameSelector :: Selector '[] RawId
 accountNameSelector = mkSelector "accountName"
-
--- | @Selector@ for @attachmentFileURLs@
-attachmentFileURLsSelector :: Selector '[] (Id NSArray)
-attachmentFileURLsSelector = mkSelector "attachmentFileURLs"
 

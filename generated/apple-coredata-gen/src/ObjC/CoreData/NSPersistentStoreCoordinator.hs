@@ -29,9 +29,6 @@ module ObjC.CoreData.NSPersistentStoreCoordinator
   , performBlock
   , performBlockAndWait
   , currentPersistentHistoryTokenFromStores
-  , finishDeferredLightweightMigration
-  , finishDeferredLightweightMigrationTask
-  , managedObjectIDFromUTF8String_length
   , metadataForPersistentStoreWithURL_error
   , lock
   , unlock
@@ -50,13 +47,10 @@ module ObjC.CoreData.NSPersistentStoreCoordinator
   , destroyPersistentStoreAtURL_withType_options_errorSelector
   , elementsDerivedFromExternalRecordURLSelector
   , executeRequest_withContext_errorSelector
-  , finishDeferredLightweightMigrationSelector
-  , finishDeferredLightweightMigrationTaskSelector
   , importStoreWithIdentifier_fromExternalRecordsDirectory_toURL_options_withType_errorSelector
   , initWithManagedObjectModelSelector
   , lockSelector
   , managedObjectIDForURIRepresentationSelector
-  , managedObjectIDFromUTF8String_lengthSelector
   , managedObjectModelSelector
   , metadataForPersistentStoreOfType_URL_errorSelector
   , metadataForPersistentStoreOfType_URL_options_errorSelector
@@ -213,21 +207,6 @@ performBlockAndWait nsPersistentStoreCoordinator block =
 currentPersistentHistoryTokenFromStores :: (IsNSPersistentStoreCoordinator nsPersistentStoreCoordinator, IsNSArray stores) => nsPersistentStoreCoordinator -> stores -> IO (Id NSPersistentHistoryToken)
 currentPersistentHistoryTokenFromStores nsPersistentStoreCoordinator stores =
   sendMessage nsPersistentStoreCoordinator currentPersistentHistoryTokenFromStoresSelector (toNSArray stores)
-
--- | @- finishDeferredLightweightMigration:@
-finishDeferredLightweightMigration :: (IsNSPersistentStoreCoordinator nsPersistentStoreCoordinator, IsNSError error_) => nsPersistentStoreCoordinator -> error_ -> IO Bool
-finishDeferredLightweightMigration nsPersistentStoreCoordinator error_ =
-  sendMessage nsPersistentStoreCoordinator finishDeferredLightweightMigrationSelector (toNSError error_)
-
--- | @- finishDeferredLightweightMigrationTask:@
-finishDeferredLightweightMigrationTask :: (IsNSPersistentStoreCoordinator nsPersistentStoreCoordinator, IsNSError error_) => nsPersistentStoreCoordinator -> error_ -> IO Bool
-finishDeferredLightweightMigrationTask nsPersistentStoreCoordinator error_ =
-  sendMessage nsPersistentStoreCoordinator finishDeferredLightweightMigrationTaskSelector (toNSError error_)
-
--- | @- managedObjectIDFromUTF8String:length:@
-managedObjectIDFromUTF8String_length :: IsNSPersistentStoreCoordinator nsPersistentStoreCoordinator => nsPersistentStoreCoordinator -> Const (Ptr CChar) -> CULong -> IO (Id NSManagedObjectID)
-managedObjectIDFromUTF8String_length nsPersistentStoreCoordinator utf8string len =
-  sendMessage nsPersistentStoreCoordinator managedObjectIDFromUTF8String_lengthSelector utf8string len
 
 -- | @+ metadataForPersistentStoreWithURL:error:@
 metadataForPersistentStoreWithURL_error :: (IsNSURL url, IsNSError error_) => url -> error_ -> IO (Id NSDictionary)
@@ -390,18 +369,6 @@ performBlockAndWaitSelector = mkSelector "performBlockAndWait:"
 -- | @Selector@ for @currentPersistentHistoryTokenFromStores:@
 currentPersistentHistoryTokenFromStoresSelector :: Selector '[Id NSArray] (Id NSPersistentHistoryToken)
 currentPersistentHistoryTokenFromStoresSelector = mkSelector "currentPersistentHistoryTokenFromStores:"
-
--- | @Selector@ for @finishDeferredLightweightMigration:@
-finishDeferredLightweightMigrationSelector :: Selector '[Id NSError] Bool
-finishDeferredLightweightMigrationSelector = mkSelector "finishDeferredLightweightMigration:"
-
--- | @Selector@ for @finishDeferredLightweightMigrationTask:@
-finishDeferredLightweightMigrationTaskSelector :: Selector '[Id NSError] Bool
-finishDeferredLightweightMigrationTaskSelector = mkSelector "finishDeferredLightweightMigrationTask:"
-
--- | @Selector@ for @managedObjectIDFromUTF8String:length:@
-managedObjectIDFromUTF8String_lengthSelector :: Selector '[Const (Ptr CChar), CULong] (Id NSManagedObjectID)
-managedObjectIDFromUTF8String_lengthSelector = mkSelector "managedObjectIDFromUTF8String:length:"
 
 -- | @Selector@ for @metadataForPersistentStoreWithURL:error:@
 metadataForPersistentStoreWithURL_errorSelector :: Selector '[Id NSURL, Id NSError] (Id NSDictionary)

@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRMediaInputClusterSelectInputParams
   ( MTRMediaInputClusterSelectInputParams
   , IsMTRMediaInputClusterSelectInputParams(..)
+  , init_
+  , copyWithZone
   , index
   , setIndex
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , indexSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setIndexSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRMediaInputClusterSelectInputParams mtrMediaInputClusterSelectInputParams => mtrMediaInputClusterSelectInputParams -> IO (Id MTRMediaInputClusterSelectInputParams)
+init_ mtrMediaInputClusterSelectInputParams =
+  sendOwnedMessage mtrMediaInputClusterSelectInputParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRMediaInputClusterSelectInputParams mtrMediaInputClusterSelectInputParams => mtrMediaInputClusterSelectInputParams -> Ptr () -> IO RawId
+copyWithZone mtrMediaInputClusterSelectInputParams zone =
+  sendOwnedMessage mtrMediaInputClusterSelectInputParams copyWithZoneSelector zone
 
 -- | @- index@
 index :: IsMTRMediaInputClusterSelectInputParams mtrMediaInputClusterSelectInputParams => mtrMediaInputClusterSelectInputParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRMediaInputClusterSelectInputParams mtrMediaInpu
 setTimedInvokeTimeoutMs mtrMediaInputClusterSelectInputParams value =
   sendMessage mtrMediaInputClusterSelectInputParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRMediaInputClusterSelectInputParams mtrMediaInputClusterSelectInputParams => mtrMediaInputClusterSelectInputParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrMediaInputClusterSelectInputParams =
-  sendMessage mtrMediaInputClusterSelectInputParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRMediaInputClusterSelectInputParams mtrMediaInputClusterSelectInputParams, IsNSNumber value) => mtrMediaInputClusterSelectInputParams -> value -> IO ()
-setServerSideProcessingTimeout mtrMediaInputClusterSelectInputParams value =
-  sendMessage mtrMediaInputClusterSelectInputParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRMediaInputClusterSelectInputParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @index@
 indexSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

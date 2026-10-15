@@ -20,48 +20,18 @@ module ObjC.PhotosUI.PHPickerConfiguration
   , setSelectionLimit
   , filter_
   , setFilter
-  , preselectedAssetIdentifiers
-  , setPreselectedAssetIdentifiers
-  , mode
-  , setMode
-  , edgesWithoutContentMargins
-  , setEdgesWithoutContentMargins
-  , disabledCapabilities
-  , setDisabledCapabilities
-  , disabledCapabilitiesSelector
-  , edgesWithoutContentMarginsSelector
   , filterSelector
   , initSelector
   , initWithPhotoLibrarySelector
-  , modeSelector
   , preferredAssetRepresentationModeSelector
-  , preselectedAssetIdentifiersSelector
   , selectionLimitSelector
   , selectionSelector
-  , setDisabledCapabilitiesSelector
-  , setEdgesWithoutContentMarginsSelector
   , setFilterSelector
-  , setModeSelector
   , setPreferredAssetRepresentationModeSelector
-  , setPreselectedAssetIdentifiersSelector
   , setSelectionLimitSelector
   , setSelectionSelector
 
   -- * Enum types
-  , NSDirectionalRectEdge(NSDirectionalRectEdge)
-  , pattern NSDirectionalRectEdgeNone
-  , pattern NSDirectionalRectEdgeTop
-  , pattern NSDirectionalRectEdgeLeading
-  , pattern NSDirectionalRectEdgeBottom
-  , pattern NSDirectionalRectEdgeTrailing
-  , pattern NSDirectionalRectEdgeAll
-  , PHPickerCapabilities(PHPickerCapabilities)
-  , pattern PHPickerCapabilitiesNone
-  , pattern PHPickerCapabilitiesSearch
-  , pattern PHPickerCapabilitiesStagingArea
-  , pattern PHPickerCapabilitiesCollectionNavigation
-  , pattern PHPickerCapabilitiesSelectionActions
-  , pattern PHPickerCapabilitiesSensitivityAnalysisIntervention
   , PHPickerConfigurationAssetRepresentationMode(PHPickerConfigurationAssetRepresentationMode)
   , pattern PHPickerConfigurationAssetRepresentationModeAutomatic
   , pattern PHPickerConfigurationAssetRepresentationModeCurrent
@@ -69,11 +39,6 @@ module ObjC.PhotosUI.PHPickerConfiguration
   , PHPickerConfigurationSelection(PHPickerConfigurationSelection)
   , pattern PHPickerConfigurationSelectionDefault
   , pattern PHPickerConfigurationSelectionOrdered
-  , pattern PHPickerConfigurationSelectionContinuous
-  , pattern PHPickerConfigurationSelectionContinuousAndOrdered
-  , PHPickerMode(PHPickerMode)
-  , pattern PHPickerModeDefault
-  , pattern PHPickerModeCompact
 
   ) where
 
@@ -87,7 +52,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PhotosUI.Internal.Classes
 import ObjC.PhotosUI.Internal.Enums
-import ObjC.AppKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 import ObjC.Photos.Internal.Classes
 
@@ -173,66 +137,6 @@ setFilter :: (IsPHPickerConfiguration phPickerConfiguration, IsPHPickerFilter va
 setFilter phPickerConfiguration value =
   sendMessage phPickerConfiguration setFilterSelector (toPHPickerFilter value)
 
--- | Local identifiers of assets to be shown as selected when the picker is presented. Default is an empty array.
---
--- @preselectedAssetIdentifiers@ should be an empty array if @selectionLimit@ is 1 or @photoLibrary@ is not specified. Returned item providers for preselected assets are always empty.
---
--- ObjC selector: @- preselectedAssetIdentifiers@
-preselectedAssetIdentifiers :: IsPHPickerConfiguration phPickerConfiguration => phPickerConfiguration -> IO (Id NSArray)
-preselectedAssetIdentifiers phPickerConfiguration =
-  sendMessage phPickerConfiguration preselectedAssetIdentifiersSelector
-
--- | Local identifiers of assets to be shown as selected when the picker is presented. Default is an empty array.
---
--- @preselectedAssetIdentifiers@ should be an empty array if @selectionLimit@ is 1 or @photoLibrary@ is not specified. Returned item providers for preselected assets are always empty.
---
--- ObjC selector: @- setPreselectedAssetIdentifiers:@
-setPreselectedAssetIdentifiers :: (IsPHPickerConfiguration phPickerConfiguration, IsNSArray value) => phPickerConfiguration -> value -> IO ()
-setPreselectedAssetIdentifiers phPickerConfiguration value =
-  sendMessage phPickerConfiguration setPreselectedAssetIdentifiersSelector (toNSArray value)
-
--- | The mode of the picker. Default is @PHPickerModeDefault.@
---
--- ObjC selector: @- mode@
-mode :: IsPHPickerConfiguration phPickerConfiguration => phPickerConfiguration -> IO PHPickerMode
-mode phPickerConfiguration =
-  sendMessage phPickerConfiguration modeSelector
-
--- | The mode of the picker. Default is @PHPickerModeDefault.@
---
--- ObjC selector: @- setMode:@
-setMode :: IsPHPickerConfiguration phPickerConfiguration => phPickerConfiguration -> PHPickerMode -> IO ()
-setMode phPickerConfiguration value =
-  sendMessage phPickerConfiguration setModeSelector value
-
--- | Edges of the picker that have no margin between the content and the edge (e.g. without bars in between). Default is @NSDirectionalRectEdgeNone.@
---
--- ObjC selector: @- edgesWithoutContentMargins@
-edgesWithoutContentMargins :: IsPHPickerConfiguration phPickerConfiguration => phPickerConfiguration -> IO NSDirectionalRectEdge
-edgesWithoutContentMargins phPickerConfiguration =
-  sendMessage phPickerConfiguration edgesWithoutContentMarginsSelector
-
--- | Edges of the picker that have no margin between the content and the edge (e.g. without bars in between). Default is @NSDirectionalRectEdgeNone.@
---
--- ObjC selector: @- setEdgesWithoutContentMargins:@
-setEdgesWithoutContentMargins :: IsPHPickerConfiguration phPickerConfiguration => phPickerConfiguration -> NSDirectionalRectEdge -> IO ()
-setEdgesWithoutContentMargins phPickerConfiguration value =
-  sendMessage phPickerConfiguration setEdgesWithoutContentMarginsSelector value
-
--- | Capabilities of the picker that should be disabled. Default is @PHPickerCapabilitiesNone.@
---
--- ObjC selector: @- disabledCapabilities@
-disabledCapabilities :: IsPHPickerConfiguration phPickerConfiguration => phPickerConfiguration -> IO PHPickerCapabilities
-disabledCapabilities phPickerConfiguration =
-  sendMessage phPickerConfiguration disabledCapabilitiesSelector
-
--- | Capabilities of the picker that should be disabled. Default is @PHPickerCapabilitiesNone.@
---
--- ObjC selector: @- setDisabledCapabilities:@
-setDisabledCapabilities :: IsPHPickerConfiguration phPickerConfiguration => phPickerConfiguration -> PHPickerCapabilities -> IO ()
-setDisabledCapabilities phPickerConfiguration value =
-  sendMessage phPickerConfiguration setDisabledCapabilitiesSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -276,36 +180,4 @@ filterSelector = mkSelector "filter"
 -- | @Selector@ for @setFilter:@
 setFilterSelector :: Selector '[Id PHPickerFilter] ()
 setFilterSelector = mkSelector "setFilter:"
-
--- | @Selector@ for @preselectedAssetIdentifiers@
-preselectedAssetIdentifiersSelector :: Selector '[] (Id NSArray)
-preselectedAssetIdentifiersSelector = mkSelector "preselectedAssetIdentifiers"
-
--- | @Selector@ for @setPreselectedAssetIdentifiers:@
-setPreselectedAssetIdentifiersSelector :: Selector '[Id NSArray] ()
-setPreselectedAssetIdentifiersSelector = mkSelector "setPreselectedAssetIdentifiers:"
-
--- | @Selector@ for @mode@
-modeSelector :: Selector '[] PHPickerMode
-modeSelector = mkSelector "mode"
-
--- | @Selector@ for @setMode:@
-setModeSelector :: Selector '[PHPickerMode] ()
-setModeSelector = mkSelector "setMode:"
-
--- | @Selector@ for @edgesWithoutContentMargins@
-edgesWithoutContentMarginsSelector :: Selector '[] NSDirectionalRectEdge
-edgesWithoutContentMarginsSelector = mkSelector "edgesWithoutContentMargins"
-
--- | @Selector@ for @setEdgesWithoutContentMargins:@
-setEdgesWithoutContentMarginsSelector :: Selector '[NSDirectionalRectEdge] ()
-setEdgesWithoutContentMarginsSelector = mkSelector "setEdgesWithoutContentMargins:"
-
--- | @Selector@ for @disabledCapabilities@
-disabledCapabilitiesSelector :: Selector '[] PHPickerCapabilities
-disabledCapabilitiesSelector = mkSelector "disabledCapabilities"
-
--- | @Selector@ for @setDisabledCapabilities:@
-setDisabledCapabilitiesSelector :: Selector '[PHPickerCapabilities] ()
-setDisabledCapabilitiesSelector = mkSelector "setDisabledCapabilities:"
 

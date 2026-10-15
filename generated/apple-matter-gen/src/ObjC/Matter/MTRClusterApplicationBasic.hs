@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterApplicationBasic
   ( MTRClusterApplicationBasic
   , IsMTRClusterApplicationBasic(..)
+  , initWithDevice_endpoint_queue
   , readAttributeVendorNameWithParams
   , readAttributeVendorIDWithParams
   , readAttributeApplicationNameWithParams
@@ -24,10 +25,7 @@ module ObjC.Matter.MTRClusterApplicationBasic
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -57,6 +55,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterApplicationBasic mtrClusterApplicationBasic, IsMTRDevice device, IsNSObject queue) => mtrClusterApplicationBasic -> device -> CUShort -> queue -> IO (Id MTRClusterApplicationBasic)
+initWithDevice_endpoint_queue mtrClusterApplicationBasic device endpoint queue =
+  sendOwnedMessage mtrClusterApplicationBasic initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeVendorNameWithParams:@
 readAttributeVendorNameWithParams :: (IsMTRClusterApplicationBasic mtrClusterApplicationBasic, IsMTRReadParams params) => mtrClusterApplicationBasic -> params -> IO (Id NSDictionary)
@@ -135,21 +138,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterApplicationBasic"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterApplicationBasic mtrClusterApplicationBasic, IsMTRDevice device, IsNSObject queue) => mtrClusterApplicationBasic -> device -> CUShort -> queue -> IO (Id MTRClusterApplicationBasic)
-initWithDevice_endpoint_queue mtrClusterApplicationBasic device endpoint queue =
-  sendOwnedMessage mtrClusterApplicationBasic initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterApplicationBasic mtrClusterApplicationBasic, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterApplicationBasic -> device -> endpointID -> queue -> IO (Id MTRClusterApplicationBasic)
-initWithDevice_endpointID_queue mtrClusterApplicationBasic device endpointID queue =
-  sendOwnedMessage mtrClusterApplicationBasic initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterApplicationBasic)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeVendorNameWithParams:@
 readAttributeVendorNameWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -210,12 +205,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterApplicationBasic)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterApplicationBasic)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterApplicationBasic)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

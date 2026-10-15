@@ -46,9 +46,9 @@ new  =
 
 -- | Retrieves the classification candidate with the specified identifier.
 --
--- - Parameter identifier: An identifier on which to query for a particular classification candidate. The query will match to any classification candidate whose @identifier@ property (see @identifier@ property of @SNClassification@) contains a value equal to the provided argument.
+-- @identifier@ — An identifier on which to query for a particular classification candidate. The query will match to any classification candidate whose @identifier@ property (see @identifier@ property of @SNClassification@) contains a value equal to the provided argument.
 --
--- - Returns: The classification candidate which has the specified identifier, if it exists. If no such candidate exists, @nil@ will be returned.
+-- Returns: The classification candidate which has the specified identifier, if it exists. If no such candidate exists, @nil@ will be returned.
 --
 -- ObjC selector: @- classificationForIdentifier:@
 classificationForIdentifier :: (IsSNClassificationResult snClassificationResult, IsNSString identifier) => snClassificationResult -> identifier -> IO (Id SNClassification)

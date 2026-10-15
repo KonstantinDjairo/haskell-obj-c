@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterGetWeekDayScheduleResponseParams
   ( MTRDoorLockClusterGetWeekDayScheduleResponseParams
   , IsMTRDoorLockClusterGetWeekDayScheduleResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , weekDayIndex
   , setWeekDayIndex
   , userIndex
@@ -26,10 +27,11 @@ module ObjC.Matter.MTRDoorLockClusterGetWeekDayScheduleResponseParams
   , setEndMinute
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , daysMaskSelector
   , endHourSelector
   , endMinuteSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , setDaysMaskSelector
   , setEndHourSelector
   , setEndMinuteSelector
@@ -60,16 +62,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRDoorLockClusterGetWeekDayScheduleResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRDoorLockClusterGetWeekDayScheduleResponseParams mtrDoorLockClusterGetWeekDayScheduleResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrDoorLockClusterGetWeekDayScheduleResponseParams -> responseValue -> error_ -> IO (Id MTRDoorLockClusterGetWeekDayScheduleResponseParams)
-initWithResponseValue_error mtrDoorLockClusterGetWeekDayScheduleResponseParams responseValue error_ =
-  sendOwnedMessage mtrDoorLockClusterGetWeekDayScheduleResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRDoorLockClusterGetWeekDayScheduleResponseParams mtrDoorLockClusterGetWeekDayScheduleResponseParams => mtrDoorLockClusterGetWeekDayScheduleResponseParams -> IO (Id MTRDoorLockClusterGetWeekDayScheduleResponseParams)
+init_ mtrDoorLockClusterGetWeekDayScheduleResponseParams =
+  sendOwnedMessage mtrDoorLockClusterGetWeekDayScheduleResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterGetWeekDayScheduleResponseParams mtrDoorLockClusterGetWeekDayScheduleResponseParams => mtrDoorLockClusterGetWeekDayScheduleResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterGetWeekDayScheduleResponseParams zone =
+  sendOwnedMessage mtrDoorLockClusterGetWeekDayScheduleResponseParams copyWithZoneSelector zone
 
 -- | @- weekDayIndex@
 weekDayIndex :: IsMTRDoorLockClusterGetWeekDayScheduleResponseParams mtrDoorLockClusterGetWeekDayScheduleResponseParams => mtrDoorLockClusterGetWeekDayScheduleResponseParams -> IO (Id NSNumber)
@@ -177,9 +178,13 @@ setTimedInvokeTimeoutMs mtrDoorLockClusterGetWeekDayScheduleResponseParams value
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRDoorLockClusterGetWeekDayScheduleResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterGetWeekDayScheduleResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @weekDayIndex@
 weekDayIndexSelector :: Selector '[] (Id NSNumber)

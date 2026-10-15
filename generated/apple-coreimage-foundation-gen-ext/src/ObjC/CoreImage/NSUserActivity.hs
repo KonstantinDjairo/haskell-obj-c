@@ -26,8 +26,6 @@ import ObjC.Foundation.Internal.Classes
 
 -- | The scanned code in the user activity passed in by system scanner.
 --
--- This property is optional. This value is present if the user activity was created from a source that detected a QR code or other code symbol.
---
 -- ObjC selector: @- detectedBarcodeDescriptor@
 detectedBarcodeDescriptor :: IsNSUserActivity nsUserActivity => nsUserActivity -> IO (Id CIBarcodeDescriptor)
 detectedBarcodeDescriptor nsUserActivity =

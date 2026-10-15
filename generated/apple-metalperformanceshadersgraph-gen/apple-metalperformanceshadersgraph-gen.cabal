@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -18,20 +18,15 @@ library
       ObjC.MetalPerformanceShadersGraph.MPSGraph
       ObjC.MetalPerformanceShadersGraph.MPSGraphCompilationDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphConvolution2DOpDescriptor
-      ObjC.MetalPerformanceShadersGraph.MPSGraphConvolution3DOpDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphCreateSparseOpDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphDepthwiseConvolution2DOpDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphDepthwiseConvolution3DOpDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphDevice
       ObjC.MetalPerformanceShadersGraph.MPSGraphExecutable
       ObjC.MetalPerformanceShadersGraph.MPSGraphExecutableExecutionDescriptor
-      ObjC.MetalPerformanceShadersGraph.MPSGraphExecutableSerializationDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphExecutionDescriptor
-      ObjC.MetalPerformanceShadersGraph.MPSGraphFFTDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphGRUDescriptor
-      ObjC.MetalPerformanceShadersGraph.MPSGraphImToColOpDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphLSTMDescriptor
-      ObjC.MetalPerformanceShadersGraph.MPSGraphObject
       ObjC.MetalPerformanceShadersGraph.MPSGraphOperation
       ObjC.MetalPerformanceShadersGraph.MPSGraphPooling2DOpDescriptor
       ObjC.MetalPerformanceShadersGraph.MPSGraphPooling4DOpDescriptor
@@ -49,7 +44,7 @@ library
       Paths_apple_metalperformanceshadersgraph_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-foundation-gen
     , apple-metalperformanceshaders-gen

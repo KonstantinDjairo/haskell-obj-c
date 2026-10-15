@@ -84,9 +84,7 @@ setStateFromExtendedGamepad :: (IsGCExtendedGamepad gcExtendedGamepad, IsGCExten
 setStateFromExtendedGamepad gcExtendedGamepad extendedGamepad =
   sendMessage gcExtendedGamepad setStateFromExtendedGamepadSelector (toGCExtendedGamepad extendedGamepad)
 
--- | A profile keeps a reference to the controller that this profile is mapping input from.
---
--- ObjC selector: @- controller@
+-- | @- controller@
 controller :: IsGCExtendedGamepad gcExtendedGamepad => gcExtendedGamepad -> IO (Id GCController)
 controller gcExtendedGamepad =
   sendMessage gcExtendedGamepad controllerSelector

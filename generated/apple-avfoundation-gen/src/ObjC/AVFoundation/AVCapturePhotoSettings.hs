@@ -22,8 +22,6 @@ module ObjC.AVFoundation.AVCapturePhotoSettings
   , photoSettingsFromPhotoSettings
   , uniqueID
   , format
-  , rawFileFormat
-  , setRawFileFormat
   , processedFileType
   , rawPhotoPixelFormatType
   , rawFileType
@@ -80,12 +78,6 @@ module ObjC.AVFoundation.AVCapturePhotoSettings
   , setRawEmbeddedThumbnailPhotoFormat
   , autoContentAwareDistortionCorrectionEnabled
   , setAutoContentAwareDistortionCorrectionEnabled
-  , constantColorEnabled
-  , setConstantColorEnabled
-  , constantColorFallbackPhotoDeliveryEnabled
-  , setConstantColorFallbackPhotoDeliveryEnabled
-  , shutterSoundSuppressionEnabled
-  , setShutterSoundSuppressionEnabled
   , autoContentAwareDistortionCorrectionEnabledSelector
   , autoDualCameraFusionEnabledSelector
   , autoRedEyeReductionEnabledSelector
@@ -95,8 +87,6 @@ module ObjC.AVFoundation.AVCapturePhotoSettings
   , availablePreviewPhotoPixelFormatTypesSelector
   , availableRawEmbeddedThumbnailPhotoCodecTypesSelector
   , cameraCalibrationDataDeliveryEnabledSelector
-  , constantColorEnabledSelector
-  , constantColorFallbackPhotoDeliveryEnabledSelector
   , depthDataDeliveryEnabledSelector
   , depthDataFilteredSelector
   , dualCameraDualPhotoDeliveryEnabledSelector
@@ -123,7 +113,6 @@ module ObjC.AVFoundation.AVCapturePhotoSettings
   , previewPhotoFormatSelector
   , processedFileTypeSelector
   , rawEmbeddedThumbnailPhotoFormatSelector
-  , rawFileFormatSelector
   , rawFileTypeSelector
   , rawPhotoPixelFormatTypeSelector
   , setAutoContentAwareDistortionCorrectionEnabledSelector
@@ -132,8 +121,6 @@ module ObjC.AVFoundation.AVCapturePhotoSettings
   , setAutoStillImageStabilizationEnabledSelector
   , setAutoVirtualDeviceFusionEnabledSelector
   , setCameraCalibrationDataDeliveryEnabledSelector
-  , setConstantColorEnabledSelector
-  , setConstantColorFallbackPhotoDeliveryEnabledSelector
   , setDepthDataDeliveryEnabledSelector
   , setDepthDataFilteredSelector
   , setDualCameraDualPhotoDeliveryEnabledSelector
@@ -152,10 +139,7 @@ module ObjC.AVFoundation.AVCapturePhotoSettings
   , setPortraitEffectsMatteDeliveryEnabledSelector
   , setPreviewPhotoFormatSelector
   , setRawEmbeddedThumbnailPhotoFormatSelector
-  , setRawFileFormatSelector
-  , setShutterSoundSuppressionEnabledSelector
   , setVirtualDeviceConstituentPhotoDeliveryEnabledDevicesSelector
-  , shutterSoundSuppressionEnabledSelector
   , uniqueIDSelector
   , virtualDeviceConstituentPhotoDeliveryEnabledDevicesSelector
 
@@ -251,7 +235,7 @@ photoSettingsWithRawPixelFormatType_processedFormat rawPixelFormatType processed
     cls' <- getRequiredClass "AVCapturePhotoSettings"
     sendClassMessage cls' photoSettingsWithRawPixelFormatType_processedFormatSelector rawPixelFormatType (toNSDictionary processedFormat)
 
--- | photoSettingsWithRawPixelFormatType:rawFileType:processedFormat:processedFileType:
+-- | photoSettingsWithRawPixelFormatType:processedFormat:fileType:
 --
 -- Creates an instance of AVCapturePhotoSettings specifying RAW + a processed format (such as JPEG) and a file container to which it will be written.
 --
@@ -265,7 +249,7 @@ photoSettingsWithRawPixelFormatType_processedFormat rawPixelFormatType processed
 --
 -- Returns: An instance of AVCapturePhotoSettings.
 --
--- rawPixelFormatType must be one of the OSTypes contained in AVCapturePhotoOutput's -availableRawPhotoPixelFormatTypes array. Set rawPixelFormatType to 0 if you do not desire a RAW photo callback. If you are specifying a rawFileType, it must be present in AVCapturePhotoOutput's -availableRawPhotoFileTypes array. If you wish an uncompressed processedFormat, your dictionary must contain kCVPixelBufferPixelFormatTypeKey, and the processedFormat specified must be present in AVCapturePhotoOutput's -availablePhotoPixelFormatTypes array. kCVPixelBufferPixelFormatTypeKey is the only supported key when expressing uncompressed processedFormat. If you wish a compressed format, your dictionary must contain AVVideoCodecKey and the codec specified must be present in AVCapturePhotoOutput's -availablePhotoCodecTypes array. If you are specifying a compressed format, the AVVideoCompressionPropertiesKey is also supported, with a payload dictionary containing a single AVVideoQualityKey. If you are specifying a processedFileType (such as AVFileTypeJPEG, AVFileTypeHEIC or AVFileTypeDICOM), it must be present in AVCapturePhotoOutput's -availablePhotoFileTypes array. Pass a nil processedFormat dictionary if you only desire a RAW photo capture. See AVCapturePhotoOutput's -capturePhotoWithSettings:delegate: inline documentation for a discussion of restrictions on AVCapturePhotoSettings when requesting RAW capture.
+-- rawPixelFormatType must be one of the OSTypes contained in AVCapturePhotoOutput's -availableRawPhotoPixelFormatTypes array. Set rawPixelFormatType to 0 if you do not desire a RAW photo callback. If you are specifying a rawFileType, it must be present in AVCapturePhotoOutput's -availableRawPhotoFileTypes array. If you wish an uncompressed processedFormat, your dictionary must contain kCVPixelBufferPixelFormatTypeKey, and the processedFormat specified must be present in AVCapturePhotoOutput's -availablePhotoPixelFormatTypes array. kCVPixelBufferPixelFormatTypeKey is the only supported key when expressing uncompressed processedFormat. If you wish a compressed format, your dictionary must contain AVVideoCodecKey and the codec specified must be present in AVCapturePhotoOutput's -availablePhotoCodecTypes array. If you are specifying a compressed format, the AVVideoCompressionPropertiesKey is also supported, with a payload dictionary containing a single AVVideoQualityKey. If you are specifying a processedFileType, it must be present in AVCapturePhotoOutput's -availablePhotoFileTypes array. Pass a nil processedFormat dictionary if you only desire a RAW photo capture. See AVCapturePhotoOutput's -capturePhotoWithSettings:delegate: inline documentation for a discussion of restrictions on AVCapturePhotoSettings when requesting RAW capture.
 --
 -- ObjC selector: @+ photoSettingsWithRawPixelFormatType:rawFileType:processedFormat:processedFileType:@
 photoSettingsWithRawPixelFormatType_rawFileType_processedFormat_processedFileType :: (IsNSString rawFileType, IsNSDictionary processedFormat, IsNSString processedFileType) => CUInt -> rawFileType -> processedFormat -> processedFileType -> IO (Id AVCapturePhotoSettings)
@@ -312,28 +296,6 @@ uniqueID avCapturePhotoSettings =
 format :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> IO (Id NSDictionary)
 format avCapturePhotoSettings =
   sendMessage avCapturePhotoSettings formatSelector
-
--- | rawFileFormat
---
--- A dictionary of AVVideoSettings keys specifying the RAW file format to be used for the RAW photo.
---
--- One can specify desired format properties of the RAW file that will be created. Currently only the key AVVideoAppleProRAWBitDepthKey is allowed and the value to which it can be set should be from 8-16.  The AVVideoCodecKey must be present in the receiver's -availableRawPhotoCodecTypes array as well as in -supportedRawPhotoCodecTypesForRawPhotoPixelFormatType:fileType:. AVVideoQualityKey (NSNumber in range [0.0,1.0]) can be optionally set and a value between [0.0,1.0] will use lossy compression with lower values being more lossy resulting in smaller file sizes but lower image quality, while a value of 1.0 will use lossless compression resulting in the largest file size but also the best quality.
---
--- ObjC selector: @- rawFileFormat@
-rawFileFormat :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> IO (Id NSDictionary)
-rawFileFormat avCapturePhotoSettings =
-  sendMessage avCapturePhotoSettings rawFileFormatSelector
-
--- | rawFileFormat
---
--- A dictionary of AVVideoSettings keys specifying the RAW file format to be used for the RAW photo.
---
--- One can specify desired format properties of the RAW file that will be created. Currently only the key AVVideoAppleProRAWBitDepthKey is allowed and the value to which it can be set should be from 8-16.  The AVVideoCodecKey must be present in the receiver's -availableRawPhotoCodecTypes array as well as in -supportedRawPhotoCodecTypesForRawPhotoPixelFormatType:fileType:. AVVideoQualityKey (NSNumber in range [0.0,1.0]) can be optionally set and a value between [0.0,1.0] will use lossy compression with lower values being more lossy resulting in smaller file sizes but lower image quality, while a value of 1.0 will use lossless compression resulting in the largest file size but also the best quality.
---
--- ObjC selector: @- setRawFileFormat:@
-setRawFileFormat :: (IsAVCapturePhotoSettings avCapturePhotoSettings, IsNSDictionary value) => avCapturePhotoSettings -> value -> IO ()
-setRawFileFormat avCapturePhotoSettings value =
-  sendMessage avCapturePhotoSettings setRawFileFormatSelector (toNSDictionary value)
 
 -- | processedFileType
 --
@@ -967,72 +929,6 @@ setAutoContentAwareDistortionCorrectionEnabled :: IsAVCapturePhotoSettings avCap
 setAutoContentAwareDistortionCorrectionEnabled avCapturePhotoSettings value =
   sendMessage avCapturePhotoSettings setAutoContentAwareDistortionCorrectionEnabledSelector value
 
--- | constantColorEnabled
---
--- Specifies whether the photo will be captured with constant color.
---
--- Default is NO. Set to YES if you wish to capture a constant color photo. Throws an exception if -[AVCapturePhotoOutput constantColorEnabled] is not set to YES.
---
--- ObjC selector: @- constantColorEnabled@
-constantColorEnabled :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> IO Bool
-constantColorEnabled avCapturePhotoSettings =
-  sendMessage avCapturePhotoSettings constantColorEnabledSelector
-
--- | constantColorEnabled
---
--- Specifies whether the photo will be captured with constant color.
---
--- Default is NO. Set to YES if you wish to capture a constant color photo. Throws an exception if -[AVCapturePhotoOutput constantColorEnabled] is not set to YES.
---
--- ObjC selector: @- setConstantColorEnabled:@
-setConstantColorEnabled :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> Bool -> IO ()
-setConstantColorEnabled avCapturePhotoSettings value =
-  sendMessage avCapturePhotoSettings setConstantColorEnabledSelector value
-
--- | constantColorFallbackPhotoDeliveryEnabled
---
--- Specifies whether a fallback photo is delivered when taking a constant color capture.
---
--- Default is NO. Set to YES if you wish to receive a fallback photo that can be used in case the main constant color photo's confidence level is too low for your use case.
---
--- ObjC selector: @- constantColorFallbackPhotoDeliveryEnabled@
-constantColorFallbackPhotoDeliveryEnabled :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> IO Bool
-constantColorFallbackPhotoDeliveryEnabled avCapturePhotoSettings =
-  sendMessage avCapturePhotoSettings constantColorFallbackPhotoDeliveryEnabledSelector
-
--- | constantColorFallbackPhotoDeliveryEnabled
---
--- Specifies whether a fallback photo is delivered when taking a constant color capture.
---
--- Default is NO. Set to YES if you wish to receive a fallback photo that can be used in case the main constant color photo's confidence level is too low for your use case.
---
--- ObjC selector: @- setConstantColorFallbackPhotoDeliveryEnabled:@
-setConstantColorFallbackPhotoDeliveryEnabled :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> Bool -> IO ()
-setConstantColorFallbackPhotoDeliveryEnabled avCapturePhotoSettings value =
-  sendMessage avCapturePhotoSettings setConstantColorFallbackPhotoDeliveryEnabledSelector value
-
--- | shutterSoundSuppressionEnabled
---
--- Specifies whether the built-in shutter sound should be suppressed when capturing a photo with these settings.
---
--- Default is NO. Set to YES if you wish to suppress AVCapturePhotoOutput's built-in shutter sound for this request. AVCapturePhotoOutput throws an NSInvalidArgumentException in @-capturePhotoWithSettings:@ if its @shutterSoundSuppressionSupported@ property returns NO.
---
--- ObjC selector: @- shutterSoundSuppressionEnabled@
-shutterSoundSuppressionEnabled :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> IO Bool
-shutterSoundSuppressionEnabled avCapturePhotoSettings =
-  sendMessage avCapturePhotoSettings shutterSoundSuppressionEnabledSelector
-
--- | shutterSoundSuppressionEnabled
---
--- Specifies whether the built-in shutter sound should be suppressed when capturing a photo with these settings.
---
--- Default is NO. Set to YES if you wish to suppress AVCapturePhotoOutput's built-in shutter sound for this request. AVCapturePhotoOutput throws an NSInvalidArgumentException in @-capturePhotoWithSettings:@ if its @shutterSoundSuppressionSupported@ property returns NO.
---
--- ObjC selector: @- setShutterSoundSuppressionEnabled:@
-setShutterSoundSuppressionEnabled :: IsAVCapturePhotoSettings avCapturePhotoSettings => avCapturePhotoSettings -> Bool -> IO ()
-setShutterSoundSuppressionEnabled avCapturePhotoSettings value =
-  sendMessage avCapturePhotoSettings setShutterSoundSuppressionEnabledSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -1068,14 +964,6 @@ uniqueIDSelector = mkSelector "uniqueID"
 -- | @Selector@ for @format@
 formatSelector :: Selector '[] (Id NSDictionary)
 formatSelector = mkSelector "format"
-
--- | @Selector@ for @rawFileFormat@
-rawFileFormatSelector :: Selector '[] (Id NSDictionary)
-rawFileFormatSelector = mkSelector "rawFileFormat"
-
--- | @Selector@ for @setRawFileFormat:@
-setRawFileFormatSelector :: Selector '[Id NSDictionary] ()
-setRawFileFormatSelector = mkSelector "setRawFileFormat:"
 
 -- | @Selector@ for @processedFileType@
 processedFileTypeSelector :: Selector '[] (Id NSString)
@@ -1300,28 +1188,4 @@ autoContentAwareDistortionCorrectionEnabledSelector = mkSelector "autoContentAwa
 -- | @Selector@ for @setAutoContentAwareDistortionCorrectionEnabled:@
 setAutoContentAwareDistortionCorrectionEnabledSelector :: Selector '[Bool] ()
 setAutoContentAwareDistortionCorrectionEnabledSelector = mkSelector "setAutoContentAwareDistortionCorrectionEnabled:"
-
--- | @Selector@ for @constantColorEnabled@
-constantColorEnabledSelector :: Selector '[] Bool
-constantColorEnabledSelector = mkSelector "constantColorEnabled"
-
--- | @Selector@ for @setConstantColorEnabled:@
-setConstantColorEnabledSelector :: Selector '[Bool] ()
-setConstantColorEnabledSelector = mkSelector "setConstantColorEnabled:"
-
--- | @Selector@ for @constantColorFallbackPhotoDeliveryEnabled@
-constantColorFallbackPhotoDeliveryEnabledSelector :: Selector '[] Bool
-constantColorFallbackPhotoDeliveryEnabledSelector = mkSelector "constantColorFallbackPhotoDeliveryEnabled"
-
--- | @Selector@ for @setConstantColorFallbackPhotoDeliveryEnabled:@
-setConstantColorFallbackPhotoDeliveryEnabledSelector :: Selector '[Bool] ()
-setConstantColorFallbackPhotoDeliveryEnabledSelector = mkSelector "setConstantColorFallbackPhotoDeliveryEnabled:"
-
--- | @Selector@ for @shutterSoundSuppressionEnabled@
-shutterSoundSuppressionEnabledSelector :: Selector '[] Bool
-shutterSoundSuppressionEnabledSelector = mkSelector "shutterSoundSuppressionEnabled"
-
--- | @Selector@ for @setShutterSoundSuppressionEnabled:@
-setShutterSoundSuppressionEnabledSelector :: Selector '[Bool] ()
-setShutterSoundSuppressionEnabledSelector = mkSelector "setShutterSoundSuppressionEnabled:"
 

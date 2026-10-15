@@ -17,10 +17,8 @@ module ObjC.CryptoTokenKit.TKSmartCardATR
   , bytes
   , protocols
   , historicalBytes
-  , historicalRecords
   , bytesSelector
   , historicalBytesSelector
-  , historicalRecordsSelector
   , initWithBytesSelector
   , initWithSourceSelector
   , interfaceGroupAtIndexSelector
@@ -110,15 +108,6 @@ historicalBytes :: IsTKSmartCardATR tkSmartCardATR => tkSmartCardATR -> IO (Id N
 historicalBytes tkSmartCardATR =
   sendMessage tkSmartCardATR historicalBytesSelector
 
--- | An array of TKCompactTLVRecord instances with TLV records parsed from historical bytes.  If historical bytes are not structured using Compact TLV encoding, nil is returned.
---
--- Note: In case that ATR historical bytes begin with 0x00, the last three bytes (status indicator) are automatically       appended into the returned records as if historical bytes would begin with 0x80 and 0x8 record is present       in historical bytes.
---
--- ObjC selector: @- historicalRecords@
-historicalRecords :: IsTKSmartCardATR tkSmartCardATR => tkSmartCardATR -> IO (Id NSArray)
-historicalRecords tkSmartCardATR =
-  sendMessage tkSmartCardATR historicalRecordsSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -150,8 +139,4 @@ protocolsSelector = mkSelector "protocols"
 -- | @Selector@ for @historicalBytes@
 historicalBytesSelector :: Selector '[] (Id NSData)
 historicalBytesSelector = mkSelector "historicalBytes"
-
--- | @Selector@ for @historicalRecords@
-historicalRecordsSelector :: Selector '[] (Id NSArray)
-historicalRecordsSelector = mkSelector "historicalRecords"
 

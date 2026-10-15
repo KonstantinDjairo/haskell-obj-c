@@ -37,14 +37,9 @@ module ObjC.GameKit.GKTurnBasedMatch
   , message
   , setMessage
   , matchDataMaximumSize
-  , exchanges
-  , activeExchanges
-  , completedExchanges
   , exchangeDataMaximumSize
   , exchangeMaxInitiatedExchangesPerPlayer
   , acceptInviteWithCompletionHandlerSelector
-  , activeExchangesSelector
-  , completedExchangesSelector
   , creationDateSelector
   , currentParticipantSelector
   , declineInviteWithCompletionHandlerSelector
@@ -55,7 +50,6 @@ module ObjC.GameKit.GKTurnBasedMatch
   , endTurnWithNextParticipants_turnTimeout_matchData_completionHandlerSelector
   , exchangeDataMaximumSizeSelector
   , exchangeMaxInitiatedExchangesPerPlayerSelector
-  , exchangesSelector
   , findMatchForRequest_withCompletionHandlerSelector
   , loadMatchDataWithCompletionHandlerSelector
   , loadMatchWithID_withCompletionHandlerSelector
@@ -259,21 +253,6 @@ matchDataMaximumSize :: IsGKTurnBasedMatch gkTurnBasedMatch => gkTurnBasedMatch 
 matchDataMaximumSize gkTurnBasedMatch =
   sendMessage gkTurnBasedMatch matchDataMaximumSizeSelector
 
--- | @- exchanges@
-exchanges :: IsGKTurnBasedMatch gkTurnBasedMatch => gkTurnBasedMatch -> IO (Id NSArray)
-exchanges gkTurnBasedMatch =
-  sendMessage gkTurnBasedMatch exchangesSelector
-
--- | @- activeExchanges@
-activeExchanges :: IsGKTurnBasedMatch gkTurnBasedMatch => gkTurnBasedMatch -> IO (Id NSArray)
-activeExchanges gkTurnBasedMatch =
-  sendMessage gkTurnBasedMatch activeExchangesSelector
-
--- | @- completedExchanges@
-completedExchanges :: IsGKTurnBasedMatch gkTurnBasedMatch => gkTurnBasedMatch -> IO (Id NSArray)
-completedExchanges gkTurnBasedMatch =
-  sendMessage gkTurnBasedMatch completedExchangesSelector
-
 -- | @- exchangeDataMaximumSize@
 exchangeDataMaximumSize :: IsGKTurnBasedMatch gkTurnBasedMatch => gkTurnBasedMatch -> IO CULong
 exchangeDataMaximumSize gkTurnBasedMatch =
@@ -403,18 +382,6 @@ setMessageSelector = mkSelector "setMessage:"
 -- | @Selector@ for @matchDataMaximumSize@
 matchDataMaximumSizeSelector :: Selector '[] CULong
 matchDataMaximumSizeSelector = mkSelector "matchDataMaximumSize"
-
--- | @Selector@ for @exchanges@
-exchangesSelector :: Selector '[] (Id NSArray)
-exchangesSelector = mkSelector "exchanges"
-
--- | @Selector@ for @activeExchanges@
-activeExchangesSelector :: Selector '[] (Id NSArray)
-activeExchangesSelector = mkSelector "activeExchanges"
-
--- | @Selector@ for @completedExchanges@
-completedExchangesSelector :: Selector '[] (Id NSArray)
-completedExchangesSelector = mkSelector "completedExchanges"
 
 -- | @Selector@ for @exchangeDataMaximumSize@
 exchangeDataMaximumSizeSelector :: Selector '[] CULong

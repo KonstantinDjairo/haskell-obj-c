@@ -14,7 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | The error codes that may be returned by AAAttribution.
 -- | @AAAttributionErrorCode@
 newtype AAAttributionErrorCode = AAAttributionErrorCode CLong
   deriving stock (Eq, Ord, Show)

@@ -147,7 +147,7 @@ setMuted :: IsPHLivePhotoView phLivePhotoView => phLivePhotoView -> Bool -> IO (
 setMuted phLivePhotoView value =
   sendMessage phLivePhotoView setMutedSelector value
 
--- | Directly access the livePhotoBadge in cases where it should be added to a different place in the view hierarchy and not the live photo view. This can be useful when the live photo view is added to a scroll view.
+-- | Directly access the livePhotoBadge in cases where it should be added to a different place in the view hierachy and not the live photo view. This can be useful when the live photo view is added to a scroll view.
 --
 -- ObjC selector: @- livePhotoBadgeView@
 livePhotoBadgeView :: IsPHLivePhotoView phLivePhotoView => phLivePhotoView -> IO (Id NSView)

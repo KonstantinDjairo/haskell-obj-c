@@ -118,7 +118,6 @@ module ObjC.AppKit.NSStatusItem
   , pattern NSEventMaskPressure
   , pattern NSEventMaskDirectTouch
   , pattern NSEventMaskChangeMode
-  , pattern NSEventMaskMouseCancelled
   , pattern NSEventMaskAny
   , NSStatusItemBehavior(NSStatusItemBehavior)
   , pattern NSStatusItemBehaviorRemovalAllowed
@@ -180,7 +179,7 @@ setMenu nsStatusItem value =
   sendMessage nsStatusItem setMenuSelector (toNSMenu value)
 
 -- | @- button@
-button :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO (Id NSStatusBarButton)
+button :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO RawId
 button nsStatusItem =
   sendMessage nsStatusItem buttonSelector
 
@@ -245,44 +244,44 @@ setTarget nsStatusItem value =
   sendMessage nsStatusItem setTargetSelector value
 
 -- | @- title@
-title :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO (Id NSString)
+title :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO RawId
 title nsStatusItem =
   sendMessage nsStatusItem titleSelector
 
 -- | @- setTitle:@
-setTitle :: (IsNSStatusItem nsStatusItem, IsNSString value) => nsStatusItem -> value -> IO ()
+setTitle :: IsNSStatusItem nsStatusItem => nsStatusItem -> RawId -> IO ()
 setTitle nsStatusItem value =
-  sendMessage nsStatusItem setTitleSelector (toNSString value)
+  sendMessage nsStatusItem setTitleSelector value
 
 -- | @- attributedTitle@
-attributedTitle :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO (Id NSAttributedString)
+attributedTitle :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO RawId
 attributedTitle nsStatusItem =
   sendMessage nsStatusItem attributedTitleSelector
 
 -- | @- setAttributedTitle:@
-setAttributedTitle :: (IsNSStatusItem nsStatusItem, IsNSAttributedString value) => nsStatusItem -> value -> IO ()
+setAttributedTitle :: IsNSStatusItem nsStatusItem => nsStatusItem -> RawId -> IO ()
 setAttributedTitle nsStatusItem value =
-  sendMessage nsStatusItem setAttributedTitleSelector (toNSAttributedString value)
+  sendMessage nsStatusItem setAttributedTitleSelector value
 
 -- | @- image@
-image :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO (Id NSImage)
+image :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO RawId
 image nsStatusItem =
   sendMessage nsStatusItem imageSelector
 
 -- | @- setImage:@
-setImage :: (IsNSStatusItem nsStatusItem, IsNSImage value) => nsStatusItem -> value -> IO ()
+setImage :: IsNSStatusItem nsStatusItem => nsStatusItem -> RawId -> IO ()
 setImage nsStatusItem value =
-  sendMessage nsStatusItem setImageSelector (toNSImage value)
+  sendMessage nsStatusItem setImageSelector value
 
 -- | @- alternateImage@
-alternateImage :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO (Id NSImage)
+alternateImage :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO RawId
 alternateImage nsStatusItem =
   sendMessage nsStatusItem alternateImageSelector
 
 -- | @- setAlternateImage:@
-setAlternateImage :: (IsNSStatusItem nsStatusItem, IsNSImage value) => nsStatusItem -> value -> IO ()
+setAlternateImage :: IsNSStatusItem nsStatusItem => nsStatusItem -> RawId -> IO ()
 setAlternateImage nsStatusItem value =
-  sendMessage nsStatusItem setAlternateImageSelector (toNSImage value)
+  sendMessage nsStatusItem setAlternateImageSelector value
 
 -- | @- enabled@
 enabled :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO Bool
@@ -305,24 +304,24 @@ setHighlightMode nsStatusItem value =
   sendMessage nsStatusItem setHighlightModeSelector value
 
 -- | @- toolTip@
-toolTip :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO (Id NSString)
+toolTip :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO RawId
 toolTip nsStatusItem =
   sendMessage nsStatusItem toolTipSelector
 
 -- | @- setToolTip:@
-setToolTip :: (IsNSStatusItem nsStatusItem, IsNSString value) => nsStatusItem -> value -> IO ()
+setToolTip :: IsNSStatusItem nsStatusItem => nsStatusItem -> RawId -> IO ()
 setToolTip nsStatusItem value =
-  sendMessage nsStatusItem setToolTipSelector (toNSString value)
+  sendMessage nsStatusItem setToolTipSelector value
 
 -- | @- view@
-view :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO (Id NSView)
+view :: IsNSStatusItem nsStatusItem => nsStatusItem -> IO RawId
 view nsStatusItem =
   sendMessage nsStatusItem viewSelector
 
 -- | @- setView:@
-setView :: (IsNSStatusItem nsStatusItem, IsNSView value) => nsStatusItem -> value -> IO ()
+setView :: IsNSStatusItem nsStatusItem => nsStatusItem -> RawId -> IO ()
 setView nsStatusItem value =
-  sendMessage nsStatusItem setViewSelector (toNSView value)
+  sendMessage nsStatusItem setViewSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -361,7 +360,7 @@ setMenuSelector :: Selector '[Id NSMenu] ()
 setMenuSelector = mkSelector "setMenu:"
 
 -- | @Selector@ for @button@
-buttonSelector :: Selector '[] (Id NSStatusBarButton)
+buttonSelector :: Selector '[] RawId
 buttonSelector = mkSelector "button"
 
 -- | @Selector@ for @behavior@
@@ -413,35 +412,35 @@ setTargetSelector :: Selector '[RawId] ()
 setTargetSelector = mkSelector "setTarget:"
 
 -- | @Selector@ for @title@
-titleSelector :: Selector '[] (Id NSString)
+titleSelector :: Selector '[] RawId
 titleSelector = mkSelector "title"
 
 -- | @Selector@ for @setTitle:@
-setTitleSelector :: Selector '[Id NSString] ()
+setTitleSelector :: Selector '[RawId] ()
 setTitleSelector = mkSelector "setTitle:"
 
 -- | @Selector@ for @attributedTitle@
-attributedTitleSelector :: Selector '[] (Id NSAttributedString)
+attributedTitleSelector :: Selector '[] RawId
 attributedTitleSelector = mkSelector "attributedTitle"
 
 -- | @Selector@ for @setAttributedTitle:@
-setAttributedTitleSelector :: Selector '[Id NSAttributedString] ()
+setAttributedTitleSelector :: Selector '[RawId] ()
 setAttributedTitleSelector = mkSelector "setAttributedTitle:"
 
 -- | @Selector@ for @image@
-imageSelector :: Selector '[] (Id NSImage)
+imageSelector :: Selector '[] RawId
 imageSelector = mkSelector "image"
 
 -- | @Selector@ for @setImage:@
-setImageSelector :: Selector '[Id NSImage] ()
+setImageSelector :: Selector '[RawId] ()
 setImageSelector = mkSelector "setImage:"
 
 -- | @Selector@ for @alternateImage@
-alternateImageSelector :: Selector '[] (Id NSImage)
+alternateImageSelector :: Selector '[] RawId
 alternateImageSelector = mkSelector "alternateImage"
 
 -- | @Selector@ for @setAlternateImage:@
-setAlternateImageSelector :: Selector '[Id NSImage] ()
+setAlternateImageSelector :: Selector '[RawId] ()
 setAlternateImageSelector = mkSelector "setAlternateImage:"
 
 -- | @Selector@ for @enabled@
@@ -461,18 +460,18 @@ setHighlightModeSelector :: Selector '[Bool] ()
 setHighlightModeSelector = mkSelector "setHighlightMode:"
 
 -- | @Selector@ for @toolTip@
-toolTipSelector :: Selector '[] (Id NSString)
+toolTipSelector :: Selector '[] RawId
 toolTipSelector = mkSelector "toolTip"
 
 -- | @Selector@ for @setToolTip:@
-setToolTipSelector :: Selector '[Id NSString] ()
+setToolTipSelector :: Selector '[RawId] ()
 setToolTipSelector = mkSelector "setToolTip:"
 
 -- | @Selector@ for @view@
-viewSelector :: Selector '[] (Id NSView)
+viewSelector :: Selector '[] RawId
 viewSelector = mkSelector "view"
 
 -- | @Selector@ for @setView:@
-setViewSelector :: Selector '[Id NSView] ()
+setViewSelector :: Selector '[RawId] ()
 setViewSelector = mkSelector "setView:"
 

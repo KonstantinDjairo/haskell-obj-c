@@ -95,12 +95,12 @@ sharingInstanceIdentifier pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata sharingInstanceIdentifierSelector
 
 -- | @- templateIdentifier@
-templateIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO (Id NSString)
+templateIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO RawId
 templateIdentifier pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata templateIdentifierSelector
 
 -- | @- cardTemplateIdentifier@
-cardTemplateIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO (Id NSString)
+cardTemplateIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO RawId
 cardTemplateIdentifier pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata cardTemplateIdentifierSelector
 
@@ -120,17 +120,17 @@ setRequiresUnifiedAccessCapableDevice pkShareablePassMetadata value =
   sendMessage pkShareablePassMetadata setRequiresUnifiedAccessCapableDeviceSelector value
 
 -- | @- serverEnvironmentIdentifier@
-serverEnvironmentIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO (Id NSString)
+serverEnvironmentIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO RawId
 serverEnvironmentIdentifier pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata serverEnvironmentIdentifierSelector
 
 -- | @- setServerEnvironmentIdentifier:@
-setServerEnvironmentIdentifier :: (IsPKShareablePassMetadata pkShareablePassMetadata, IsNSString value) => pkShareablePassMetadata -> value -> IO ()
+setServerEnvironmentIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> RawId -> IO ()
 setServerEnvironmentIdentifier pkShareablePassMetadata value =
-  sendMessage pkShareablePassMetadata setServerEnvironmentIdentifierSelector (toNSString value)
+  sendMessage pkShareablePassMetadata setServerEnvironmentIdentifierSelector value
 
 -- | @- preview@
-preview :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO (Id PKShareablePassMetadataPreview)
+preview :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO RawId
 preview pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata previewSelector
 
@@ -150,24 +150,24 @@ ownerDisplayName pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata ownerDisplayNameSelector
 
 -- | @- accountHash@
-accountHash :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO (Id NSString)
+accountHash :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO RawId
 accountHash pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata accountHashSelector
 
 -- | @- setAccountHash:@
-setAccountHash :: (IsPKShareablePassMetadata pkShareablePassMetadata, IsNSString value) => pkShareablePassMetadata -> value -> IO ()
+setAccountHash :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> RawId -> IO ()
 setAccountHash pkShareablePassMetadata value =
-  sendMessage pkShareablePassMetadata setAccountHashSelector (toNSString value)
+  sendMessage pkShareablePassMetadata setAccountHashSelector value
 
 -- | @- relyingPartyIdentifier@
-relyingPartyIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO (Id NSString)
+relyingPartyIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> IO RawId
 relyingPartyIdentifier pkShareablePassMetadata =
   sendMessage pkShareablePassMetadata relyingPartyIdentifierSelector
 
 -- | @- setRelyingPartyIdentifier:@
-setRelyingPartyIdentifier :: (IsPKShareablePassMetadata pkShareablePassMetadata, IsNSString value) => pkShareablePassMetadata -> value -> IO ()
+setRelyingPartyIdentifier :: IsPKShareablePassMetadata pkShareablePassMetadata => pkShareablePassMetadata -> RawId -> IO ()
 setRelyingPartyIdentifier pkShareablePassMetadata value =
-  sendMessage pkShareablePassMetadata setRelyingPartyIdentifierSelector (toNSString value)
+  sendMessage pkShareablePassMetadata setRelyingPartyIdentifierSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -198,11 +198,11 @@ sharingInstanceIdentifierSelector :: Selector '[] (Id NSString)
 sharingInstanceIdentifierSelector = mkSelector "sharingInstanceIdentifier"
 
 -- | @Selector@ for @templateIdentifier@
-templateIdentifierSelector :: Selector '[] (Id NSString)
+templateIdentifierSelector :: Selector '[] RawId
 templateIdentifierSelector = mkSelector "templateIdentifier"
 
 -- | @Selector@ for @cardTemplateIdentifier@
-cardTemplateIdentifierSelector :: Selector '[] (Id NSString)
+cardTemplateIdentifierSelector :: Selector '[] RawId
 cardTemplateIdentifierSelector = mkSelector "cardTemplateIdentifier"
 
 -- | @Selector@ for @cardConfigurationIdentifier@
@@ -218,15 +218,15 @@ setRequiresUnifiedAccessCapableDeviceSelector :: Selector '[Bool] ()
 setRequiresUnifiedAccessCapableDeviceSelector = mkSelector "setRequiresUnifiedAccessCapableDevice:"
 
 -- | @Selector@ for @serverEnvironmentIdentifier@
-serverEnvironmentIdentifierSelector :: Selector '[] (Id NSString)
+serverEnvironmentIdentifierSelector :: Selector '[] RawId
 serverEnvironmentIdentifierSelector = mkSelector "serverEnvironmentIdentifier"
 
 -- | @Selector@ for @setServerEnvironmentIdentifier:@
-setServerEnvironmentIdentifierSelector :: Selector '[Id NSString] ()
+setServerEnvironmentIdentifierSelector :: Selector '[RawId] ()
 setServerEnvironmentIdentifierSelector = mkSelector "setServerEnvironmentIdentifier:"
 
 -- | @Selector@ for @preview@
-previewSelector :: Selector '[] (Id PKShareablePassMetadataPreview)
+previewSelector :: Selector '[] RawId
 previewSelector = mkSelector "preview"
 
 -- | @Selector@ for @passThumbnailImage@
@@ -242,18 +242,18 @@ ownerDisplayNameSelector :: Selector '[] (Id NSString)
 ownerDisplayNameSelector = mkSelector "ownerDisplayName"
 
 -- | @Selector@ for @accountHash@
-accountHashSelector :: Selector '[] (Id NSString)
+accountHashSelector :: Selector '[] RawId
 accountHashSelector = mkSelector "accountHash"
 
 -- | @Selector@ for @setAccountHash:@
-setAccountHashSelector :: Selector '[Id NSString] ()
+setAccountHashSelector :: Selector '[RawId] ()
 setAccountHashSelector = mkSelector "setAccountHash:"
 
 -- | @Selector@ for @relyingPartyIdentifier@
-relyingPartyIdentifierSelector :: Selector '[] (Id NSString)
+relyingPartyIdentifierSelector :: Selector '[] RawId
 relyingPartyIdentifierSelector = mkSelector "relyingPartyIdentifier"
 
 -- | @Selector@ for @setRelyingPartyIdentifier:@
-setRelyingPartyIdentifierSelector :: Selector '[Id NSString] ()
+setRelyingPartyIdentifierSelector :: Selector '[RawId] ()
 setRelyingPartyIdentifierSelector = mkSelector "setRelyingPartyIdentifier:"
 

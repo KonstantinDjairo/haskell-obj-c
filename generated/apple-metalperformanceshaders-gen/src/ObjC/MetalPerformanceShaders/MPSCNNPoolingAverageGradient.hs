@@ -11,13 +11,17 @@
 --
 -- Average pooling forward pass is defined as:
 --
--- out(x) = sum_{dx  Window(x)} in(s*x+dx) / N(x), where
+-- out(x) = sum_{dx
+--
+-- Window(x)} in(s*x+dx) / N(x), where
 --
 -- the pooling window definition 'Window(x)' follows MPSCNNPooling specification,              'N(x)' is effective pooling window size in pixels as specified in MPSCNNPoolingAverage,              's' is the pixel stride and in() is the source input image.
 --
 -- Hence the partial derivative of the output value wrt. to the input value needed in the              gradient backpropagation in MPSCNNPoolingGradient is:
 --
--- d out(x)/d in(y) = sum_{dx  Window(x)} delta_{s*x+dx, y} / N(x), where
+-- d out(x)/d in(y) = sum_{dx
+--
+-- Window(x)} delta_{s*x+dx, y} / N(x), where
 --
 -- delta_{x,y} is the Kronecker delta symbol for which
 --

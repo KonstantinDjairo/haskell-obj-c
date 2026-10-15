@@ -7,22 +7,22 @@
 module ObjC.Matter.MTROperationalCredentialsClusterNOCStruct
   ( MTROperationalCredentialsClusterNOCStruct
   , IsMTROperationalCredentialsClusterNOCStruct(..)
+  , init_
+  , copyWithZone
   , noc
   , setNoc
   , icac
   , setIcac
-  , vvsc
-  , setVvsc
   , fabricIndex
   , setFabricIndex
+  , copyWithZoneSelector
   , fabricIndexSelector
   , icacSelector
+  , initSelector
   , nocSelector
   , setFabricIndexSelector
   , setIcacSelector
   , setNocSelector
-  , setVvscSelector
-  , vvscSelector
 
 
   ) where
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTROperationalCredentialsClusterNOCStruct mtrOperationalCredentialsClusterNOCStruct => mtrOperationalCredentialsClusterNOCStruct -> IO (Id MTROperationalCredentialsClusterNOCStruct)
+init_ mtrOperationalCredentialsClusterNOCStruct =
+  sendOwnedMessage mtrOperationalCredentialsClusterNOCStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROperationalCredentialsClusterNOCStruct mtrOperationalCredentialsClusterNOCStruct => mtrOperationalCredentialsClusterNOCStruct -> Ptr () -> IO RawId
+copyWithZone mtrOperationalCredentialsClusterNOCStruct zone =
+  sendOwnedMessage mtrOperationalCredentialsClusterNOCStruct copyWithZoneSelector zone
 
 -- | @- noc@
 noc :: IsMTROperationalCredentialsClusterNOCStruct mtrOperationalCredentialsClusterNOCStruct => mtrOperationalCredentialsClusterNOCStruct -> IO (Id NSData)
@@ -58,16 +68,6 @@ setIcac :: (IsMTROperationalCredentialsClusterNOCStruct mtrOperationalCredential
 setIcac mtrOperationalCredentialsClusterNOCStruct value =
   sendMessage mtrOperationalCredentialsClusterNOCStruct setIcacSelector (toNSData value)
 
--- | @- vvsc@
-vvsc :: IsMTROperationalCredentialsClusterNOCStruct mtrOperationalCredentialsClusterNOCStruct => mtrOperationalCredentialsClusterNOCStruct -> IO (Id NSData)
-vvsc mtrOperationalCredentialsClusterNOCStruct =
-  sendMessage mtrOperationalCredentialsClusterNOCStruct vvscSelector
-
--- | @- setVvsc:@
-setVvsc :: (IsMTROperationalCredentialsClusterNOCStruct mtrOperationalCredentialsClusterNOCStruct, IsNSData value) => mtrOperationalCredentialsClusterNOCStruct -> value -> IO ()
-setVvsc mtrOperationalCredentialsClusterNOCStruct value =
-  sendMessage mtrOperationalCredentialsClusterNOCStruct setVvscSelector (toNSData value)
-
 -- | @- fabricIndex@
 fabricIndex :: IsMTROperationalCredentialsClusterNOCStruct mtrOperationalCredentialsClusterNOCStruct => mtrOperationalCredentialsClusterNOCStruct -> IO (Id NSNumber)
 fabricIndex mtrOperationalCredentialsClusterNOCStruct =
@@ -81,6 +81,14 @@ setFabricIndex mtrOperationalCredentialsClusterNOCStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROperationalCredentialsClusterNOCStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @noc@
 nocSelector :: Selector '[] (Id NSData)
@@ -97,14 +105,6 @@ icacSelector = mkSelector "icac"
 -- | @Selector@ for @setIcac:@
 setIcacSelector :: Selector '[Id NSData] ()
 setIcacSelector = mkSelector "setIcac:"
-
--- | @Selector@ for @vvsc@
-vvscSelector :: Selector '[] (Id NSData)
-vvscSelector = mkSelector "vvsc"
-
--- | @Selector@ for @setVvsc:@
-setVvscSelector :: Selector '[Id NSData] ()
-setVvscSelector = mkSelector "setVvsc:"
 
 -- | @Selector@ for @fabricIndex@
 fabricIndexSelector :: Selector '[] (Id NSNumber)

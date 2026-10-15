@@ -18,9 +18,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- ASIdentifierManager ----------
 
--- | The object that contains the advertising identifier.
--- 
--- Phantom type for @ASIdentifierManager@.
+-- | Phantom type for @ASIdentifierManager@.
 data ASIdentifierManager
 
 instance IsObjCObject (Id ASIdentifierManager) where

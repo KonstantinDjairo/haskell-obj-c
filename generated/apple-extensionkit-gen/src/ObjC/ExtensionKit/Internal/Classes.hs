@@ -20,13 +20,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- EXAppExtensionBrowserViewController ----------
 
--- | A view controller that displays an interface to enable or disable the host app’s extensions.
---
--- When your host app supports app extensions, use this view controller to give people a way to enable or disable those extensions. When you present this view controller, the system displays an out-of-process UI with a list of all app extensions that support your app’s extension points. Someone using your app can use the presented interface to enable or disable extensions selectively. App extensions you include inside your host app’s bundle are enabled by default, but extensions that ship in separate apps are disabled by default.
---
--- Present this view controller modally from your app, or embed the view controller as a child in one of your existing view controller interfaces. For example, you might choose to embed the view controller in a tab of your app’s preferences interface.
--- 
--- Phantom type for @EXAppExtensionBrowserViewController@.
+-- | Phantom type for @EXAppExtensionBrowserViewController@.
 data EXAppExtensionBrowserViewController
 
 instance IsObjCObject (Id EXAppExtensionBrowserViewController) where
@@ -51,13 +45,7 @@ instance IsNSViewController (Id EXAppExtensionBrowserViewController) where
 
 -- ---------- EXHostViewController ----------
 
--- | A view controller that hosts remote views provided by an app extension.
---
--- Present this view controller from your app’s interface to display the content for an associated app extension. Configure the view controller with the app extension identity and the specific scene you want to display. Use the associated delegate object to receive notifications when the app extension becomes active or inactive.
---
--- For more information about presenting this view controller and using it to display an app extension’s UI, see <doc://com.apple.documentation/documentation/extensionkit/including-extension-based-ui-in-your-interface>.
--- 
--- Phantom type for @EXHostViewController@.
+-- | Phantom type for @EXHostViewController@.
 data EXHostViewController
 
 instance IsObjCObject (Id EXHostViewController) where

@@ -7,20 +7,20 @@
 module ObjC.Matter.MTRApplicationLauncherClusterLaunchAppParams
   ( MTRApplicationLauncherClusterLaunchAppParams
   , IsMTRApplicationLauncherClusterLaunchAppParams(..)
+  , init_
+  , copyWithZone
   , application
   , setApplication
   , data_
   , setData
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , applicationSelector
+  , copyWithZoneSelector
   , dataSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setApplicationSelector
   , setDataSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -38,15 +38,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams => mtrApplicationLauncherClusterLaunchAppParams -> IO (Id MTRApplicationLauncherClusterLaunchAppParams)
+init_ mtrApplicationLauncherClusterLaunchAppParams =
+  sendOwnedMessage mtrApplicationLauncherClusterLaunchAppParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams => mtrApplicationLauncherClusterLaunchAppParams -> Ptr () -> IO RawId
+copyWithZone mtrApplicationLauncherClusterLaunchAppParams zone =
+  sendOwnedMessage mtrApplicationLauncherClusterLaunchAppParams copyWithZoneSelector zone
+
 -- | @- application@
-application :: IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams => mtrApplicationLauncherClusterLaunchAppParams -> IO (Id MTRApplicationLauncherClusterApplicationStruct)
+application :: IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams => mtrApplicationLauncherClusterLaunchAppParams -> IO (Id MTRApplicationLauncherClusterApplication)
 application mtrApplicationLauncherClusterLaunchAppParams =
   sendMessage mtrApplicationLauncherClusterLaunchAppParams applicationSelector
 
 -- | @- setApplication:@
-setApplication :: (IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams, IsMTRApplicationLauncherClusterApplicationStruct value) => mtrApplicationLauncherClusterLaunchAppParams -> value -> IO ()
+setApplication :: (IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams, IsMTRApplicationLauncherClusterApplication value) => mtrApplicationLauncherClusterLaunchAppParams -> value -> IO ()
 setApplication mtrApplicationLauncherClusterLaunchAppParams value =
-  sendMessage mtrApplicationLauncherClusterLaunchAppParams setApplicationSelector (toMTRApplicationLauncherClusterApplicationStruct value)
+  sendMessage mtrApplicationLauncherClusterLaunchAppParams setApplicationSelector (toMTRApplicationLauncherClusterApplication value)
 
 -- | @- data@
 data_ :: IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams => mtrApplicationLauncherClusterLaunchAppParams -> IO (Id NSData)
@@ -80,38 +90,24 @@ setTimedInvokeTimeoutMs :: (IsMTRApplicationLauncherClusterLaunchAppParams mtrAp
 setTimedInvokeTimeoutMs mtrApplicationLauncherClusterLaunchAppParams value =
   sendMessage mtrApplicationLauncherClusterLaunchAppParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams => mtrApplicationLauncherClusterLaunchAppParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrApplicationLauncherClusterLaunchAppParams =
-  sendMessage mtrApplicationLauncherClusterLaunchAppParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRApplicationLauncherClusterLaunchAppParams mtrApplicationLauncherClusterLaunchAppParams, IsNSNumber value) => mtrApplicationLauncherClusterLaunchAppParams -> value -> IO ()
-setServerSideProcessingTimeout mtrApplicationLauncherClusterLaunchAppParams value =
-  sendMessage mtrApplicationLauncherClusterLaunchAppParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRApplicationLauncherClusterLaunchAppParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
 -- | @Selector@ for @application@
-applicationSelector :: Selector '[] (Id MTRApplicationLauncherClusterApplicationStruct)
+applicationSelector :: Selector '[] (Id MTRApplicationLauncherClusterApplication)
 applicationSelector = mkSelector "application"
 
 -- | @Selector@ for @setApplication:@
-setApplicationSelector :: Selector '[Id MTRApplicationLauncherClusterApplicationStruct] ()
+setApplicationSelector :: Selector '[Id MTRApplicationLauncherClusterApplication] ()
 setApplicationSelector = mkSelector "setApplication:"
 
 -- | @Selector@ for @data@
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

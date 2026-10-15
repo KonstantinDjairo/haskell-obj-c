@@ -9,9 +9,10 @@
 module ObjC.Matter.MTRClusterElectricalMeasurement
   ( MTRClusterElectricalMeasurement
   , IsMTRClusterElectricalMeasurement(..)
-  , getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completion
-  , getProfileInfoCommandWithExpectedValues_expectedValueInterval_completion
-  , getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandler
+  , getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandler
+  , getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeMeasurementTypeWithParams
   , readAttributeDcVoltageWithParams
   , readAttributeDcVoltageMinWithParams
@@ -163,19 +164,10 @@ module ObjC.Matter.MTRClusterElectricalMeasurement
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandler
-  , getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandler
-  , getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionSelector
   , getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionSelector
   , getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcActivePowerOverloadWithParamsSelector
@@ -342,20 +334,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completion:@
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRElectricalMeasurementClusterGetProfileInfoCommandParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completion mtrClusterElectricalMeasurement params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterElectricalMeasurement getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRElectricalMeasurementClusterGetProfileInfoCommandParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRDevice device, IsNSObject queue) => mtrClusterElectricalMeasurement -> device -> CUShort -> queue -> IO (Id MTRClusterElectricalMeasurement)
+initWithDevice_endpoint_queue mtrClusterElectricalMeasurement device endpoint queue =
+  sendOwnedMessage mtrClusterElectricalMeasurement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- getProfileInfoCommandWithExpectedValues:expectedValueInterval:completion:@
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completion mtrClusterElectricalMeasurement expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterElectricalMeasurement getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
+getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRElectricalMeasurementClusterGetProfileInfoCommandParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterElectricalMeasurement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterElectricalMeasurement getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRElectricalMeasurementClusterGetProfileInfoCommandParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completion:@
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completion mtrClusterElectricalMeasurement params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterElectricalMeasurement getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- getProfileInfoCommandWithExpectedValues:expectedValueInterval:completionHandler:@
+getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandler mtrClusterElectricalMeasurement expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterElectricalMeasurement getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
+
+-- | @- getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
+getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterElectricalMeasurement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterElectricalMeasurement getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeMeasurementTypeWithParams:@
 readAttributeMeasurementTypeWithParams :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRReadParams params) => mtrClusterElectricalMeasurement -> params -> IO (Id NSDictionary)
@@ -1114,48 +1111,25 @@ new  =
     cls' <- getRequiredClass "MTRClusterElectricalMeasurement"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRDevice device, IsNSObject queue) => mtrClusterElectricalMeasurement -> device -> CUShort -> queue -> IO (Id MTRClusterElectricalMeasurement)
-initWithDevice_endpoint_queue mtrClusterElectricalMeasurement device endpoint queue =
-  sendOwnedMessage mtrClusterElectricalMeasurement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRElectricalMeasurementClusterGetProfileInfoCommandParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterElectricalMeasurement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterElectricalMeasurement getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRElectricalMeasurementClusterGetProfileInfoCommandParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- getProfileInfoCommandWithExpectedValues:expectedValueInterval:completionHandler:@
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandler mtrClusterElectricalMeasurement expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterElectricalMeasurement getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterElectricalMeasurement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterElectricalMeasurement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterElectricalMeasurement getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRElectricalMeasurementClusterGetMeasurementProfileCommandParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterElectricalMeasurement mtrClusterElectricalMeasurement, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterElectricalMeasurement -> device -> endpointID -> queue -> IO (Id MTRClusterElectricalMeasurement)
-initWithDevice_endpointID_queue mtrClusterElectricalMeasurement device endpointID queue =
-  sendOwnedMessage mtrClusterElectricalMeasurement initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completion:@
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRElectricalMeasurementClusterGetProfileInfoCommandParams, Id NSArray, Id NSNumber, Ptr ()] ()
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterElectricalMeasurement)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @getProfileInfoCommandWithExpectedValues:expectedValueInterval:completion:@
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "getProfileInfoCommandWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
+getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRElectricalMeasurementClusterGetProfileInfoCommandParams, Id NSArray, Id NSNumber, Ptr ()] ()
+getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completion:@
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRElectricalMeasurementClusterGetMeasurementProfileCommandParams, Id NSArray, Id NSNumber, Ptr ()] ()
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @getProfileInfoCommandWithExpectedValues:expectedValueInterval:completionHandler:@
+getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getProfileInfoCommandWithExpectedValues:expectedValueInterval:completionHandler:"
+
+-- | @Selector@ for @getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
+getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRElectricalMeasurementClusterGetMeasurementProfileCommandParams, Id NSArray, Id NSNumber, Ptr ()] ()
+getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeMeasurementTypeWithParams:@
 readAttributeMeasurementTypeWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -1760,24 +1734,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterElectricalMeasurement)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterElectricalMeasurement)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRElectricalMeasurementClusterGetProfileInfoCommandParams, Id NSArray, Id NSNumber, Ptr ()] ()
-getProfileInfoCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getProfileInfoCommandWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @getProfileInfoCommandWithExpectedValues:expectedValueInterval:completionHandler:@
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-getProfileInfoCommandWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getProfileInfoCommandWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completionHandler:@
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRElectricalMeasurementClusterGetMeasurementProfileCommandParams, Id NSArray, Id NSNumber, Ptr ()] ()
-getMeasurementProfileCommandWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getMeasurementProfileCommandWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterElectricalMeasurement)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

@@ -19,15 +19,12 @@ module ObjC.AppKit.NSTextAttachment
   , setImage
   , fileWrapper
   , setFileWrapper
-  , attachmentCell
-  , setAttachmentCell
   , lineLayoutPadding
   , setLineLayoutPadding
   , allowsTextAttachmentView
   , setAllowsTextAttachmentView
   , usesTextAttachmentView
   , allowsTextAttachmentViewSelector
-  , attachmentCellSelector
   , contentsSelector
   , fileTypeSelector
   , fileWrapperSelector
@@ -37,7 +34,6 @@ module ObjC.AppKit.NSTextAttachment
   , lineLayoutPaddingSelector
   , registerTextAttachmentViewProviderClass_forFileTypeSelector
   , setAllowsTextAttachmentViewSelector
-  , setAttachmentCellSelector
   , setContentsSelector
   , setFileTypeSelector
   , setFileWrapperSelector
@@ -138,16 +134,6 @@ setFileWrapper :: (IsNSTextAttachment nsTextAttachment, IsNSFileWrapper value) =
 setFileWrapper nsTextAttachment value =
   sendMessage nsTextAttachment setFileWrapperSelector (toNSFileWrapper value)
 
--- | @- attachmentCell@
-attachmentCell :: IsNSTextAttachment nsTextAttachment => nsTextAttachment -> IO RawId
-attachmentCell nsTextAttachment =
-  sendMessage nsTextAttachment attachmentCellSelector
-
--- | @- setAttachmentCell:@
-setAttachmentCell :: IsNSTextAttachment nsTextAttachment => nsTextAttachment -> RawId -> IO ()
-setAttachmentCell nsTextAttachment value =
-  sendMessage nsTextAttachment setAttachmentCellSelector value
-
 -- | @- lineLayoutPadding@
 lineLayoutPadding :: IsNSTextAttachment nsTextAttachment => nsTextAttachment -> IO CDouble
 lineLayoutPadding nsTextAttachment =
@@ -224,14 +210,6 @@ fileWrapperSelector = mkSelector "fileWrapper"
 -- | @Selector@ for @setFileWrapper:@
 setFileWrapperSelector :: Selector '[Id NSFileWrapper] ()
 setFileWrapperSelector = mkSelector "setFileWrapper:"
-
--- | @Selector@ for @attachmentCell@
-attachmentCellSelector :: Selector '[] RawId
-attachmentCellSelector = mkSelector "attachmentCell"
-
--- | @Selector@ for @setAttachmentCell:@
-setAttachmentCellSelector :: Selector '[RawId] ()
-setAttachmentCellSelector = mkSelector "setAttachmentCell:"
 
 -- | @Selector@ for @lineLayoutPadding@
 lineLayoutPaddingSelector :: Selector '[] CDouble

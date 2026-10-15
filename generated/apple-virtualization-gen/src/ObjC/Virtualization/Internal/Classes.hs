@@ -101,7 +101,7 @@ instance IsNSObject (Id VZAudioOutputStreamSink) where
 
 -- | Base class of boot loader configuration.
 --
--- VZVirtualMachineConfiguration requires a boot loader defining how to start the virtual machine.    VZBootLoader is the abstract base class of boot loader definitions.
+-- VZVirtualMachineConfiguration requires a boot loader defining how to start the virtual machine.     VZBootLoader is the abstract base class of boot loader definitions.
 --
 -- Don't instantiate VZBootLoader directly, instead use its subclass VZEFIBootLoader, VZLinuxBootLoader, or VZMacOSBootLoader.
 --
@@ -404,35 +404,6 @@ instance IsVZGenericMachineIdentifier (Id VZGenericMachineIdentifier) where
 instance IsNSObject (Id VZGenericMachineIdentifier) where
   toNSObject = unsafeCastId
 
--- ---------- VZGraphicsDevice ----------
-
--- | Class representing a graphics device in a virtual machine.
---
--- VZGraphicsDevice should not be instantiated directly.
---
--- Graphics devices are first configured on the VZVirtualMachineConfiguration through a subclass of VZGraphicsDeviceConfiguration.    When a VZVirtualMachine is created from the configuration, the graphics devices are available through the VZVirtualMachine.graphicsDevices property.
---
--- The real type of VZGraphicsDevice corresponds to the type used by the configuration.    For example, a VZVirtioGraphicsDeviceConfiguration leads to a device of type VZVirtioGraphicsDevice.    And a VZMacGraphicsDeviceConfiguration leads to a device of type VZMacGraphicsDevice.
---
--- See: VZGraphicsDeviceConfiguration
--- 
--- Phantom type for @VZGraphicsDevice@.
-data VZGraphicsDevice
-
-instance IsObjCObject (Id VZGraphicsDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZGraphicsDevice"
-
-class IsNSObject a => IsVZGraphicsDevice a where
-  toVZGraphicsDevice :: a -> Id VZGraphicsDevice
-
-instance IsVZGraphicsDevice (Id VZGraphicsDevice) where
-  toVZGraphicsDevice = unsafeCastId
-
-instance IsNSObject (Id VZGraphicsDevice) where
-  toNSObject = unsafeCastId
-
 -- ---------- VZGraphicsDeviceConfiguration ----------
 
 -- | Phantom type for @VZGraphicsDeviceConfiguration@.
@@ -452,71 +423,13 @@ instance IsVZGraphicsDeviceConfiguration (Id VZGraphicsDeviceConfiguration) wher
 instance IsNSObject (Id VZGraphicsDeviceConfiguration) where
   toNSObject = unsafeCastId
 
--- ---------- VZGraphicsDisplay ----------
-
--- | Class representing a graphics display in a virtual machine.
---
--- VZGraphicsDisplay should not be instantiated directly.
---
--- Graphics displays are first configured on a VZGraphicsDeviceConfiguration subclass.    When a VZVirtualMachine is created from the configuration, the displays    are available through the VZGraphicsDevice's @displays@ property.
---
--- See: VZMacGraphicsDisplayConfiguration
---
--- See: VZVirtioGraphicsScanoutConfiguration
--- 
--- Phantom type for @VZGraphicsDisplay@.
-data VZGraphicsDisplay
-
-instance IsObjCObject (Id VZGraphicsDisplay) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZGraphicsDisplay"
-
-class IsNSObject a => IsVZGraphicsDisplay a where
-  toVZGraphicsDisplay :: a -> Id VZGraphicsDisplay
-
-instance IsVZGraphicsDisplay (Id VZGraphicsDisplay) where
-  toVZGraphicsDisplay = unsafeCastId
-
-instance IsNSObject (Id VZGraphicsDisplay) where
-  toNSObject = unsafeCastId
-
--- ---------- VZGraphicsDisplayConfiguration ----------
-
--- | Base class for a graphics display configuration.
---
--- VZGraphicsDisplayConfiguration should not be instantiated directly.    One of its subclasses should be used instead.
---
--- See: VZMacGraphicsDisplayConfiguration
---
--- See: VZVirtioGraphicsScanoutConfiguration
--- 
--- Phantom type for @VZGraphicsDisplayConfiguration@.
-data VZGraphicsDisplayConfiguration
-
-instance IsObjCObject (Id VZGraphicsDisplayConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZGraphicsDisplayConfiguration"
-
-class IsNSObject a => IsVZGraphicsDisplayConfiguration a where
-  toVZGraphicsDisplayConfiguration :: a -> Id VZGraphicsDisplayConfiguration
-
-instance IsVZGraphicsDisplayConfiguration (Id VZGraphicsDisplayConfiguration) where
-  toVZGraphicsDisplayConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZGraphicsDisplayConfiguration) where
-  toNSObject = unsafeCastId
-
 -- ---------- VZKeyboardConfiguration ----------
 
 -- | Base class for a keyboard configuration.
 --
--- VZKeyboardConfiguration should not be instantiated directly.    One of its subclasses like VZUSBKeyboardConfiguration or VZMacKeyboardConfiguration should be used instead.
+-- VZKeyboardConfiguration should not be instantiated directly.    One of its subclasses like VZUSBKeyboardConfiguration should be used instead.
 --
 -- See: VZUSBKeyboardConfiguration
---
--- See: VZMacKeyboardConfiguration
 -- 
 -- Phantom type for @VZKeyboardConfiguration@.
 data VZKeyboardConfiguration
@@ -533,35 +446,6 @@ instance IsVZKeyboardConfiguration (Id VZKeyboardConfiguration) where
   toVZKeyboardConfiguration = unsafeCastId
 
 instance IsNSObject (Id VZKeyboardConfiguration) where
-  toNSObject = unsafeCastId
-
--- ---------- VZLinuxRosettaCachingOptions ----------
-
--- | Base class for a VZLinuxRosettaCachingOptions.
---
--- VZLinuxRosettaCachingOptions define the communication mechanism between the Rosetta daemon and the Rosetta runtime.
---
--- VZLinuxRosettaCachingOptions should not be instantiated directly.    One of its subclasses like VZLinuxRosettaUnixSocketCachingOptions or VZLinuxRosettaAbstractCachingOptions should be used instead.
---
--- See: VZLinuxRosettaUnixSocketCachingOptions
---
--- See: VZLinuxRosettaAbstractCachingOptions
--- 
--- Phantom type for @VZLinuxRosettaCachingOptions@.
-data VZLinuxRosettaCachingOptions
-
-instance IsObjCObject (Id VZLinuxRosettaCachingOptions) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZLinuxRosettaCachingOptions"
-
-class IsNSObject a => IsVZLinuxRosettaCachingOptions a where
-  toVZLinuxRosettaCachingOptions :: a -> Id VZLinuxRosettaCachingOptions
-
-instance IsVZLinuxRosettaCachingOptions (Id VZLinuxRosettaCachingOptions) where
-  toVZLinuxRosettaCachingOptions = unsafeCastId
-
-instance IsNSObject (Id VZLinuxRosettaCachingOptions) where
   toNSObject = unsafeCastId
 
 -- ---------- VZMACAddress ----------
@@ -589,252 +473,27 @@ instance IsVZMACAddress (Id VZMACAddress) where
 instance IsNSObject (Id VZMACAddress) where
   toNSObject = unsafeCastId
 
--- ---------- VZMacAuxiliaryStorage ----------
+-- ---------- VZMacGraphicsDisplayConfiguration ----------
 
--- | Mac auxiliary storage.
+-- | Configuration for a display attached to a Mac graphics device.
 --
--- The Mac auxiliary storage contains data used by the boot loader and the guest operating system. It is necessary to boot a macOS guest OS.
---
--- When creating a new virtual machine from scratch, VZMacOSInstaller can use a default initialized auxiliary storage.    Use -[VZMacAuxiliaryStorage initCreatingStorageAtURL:hardwareModel:options:error:] to create an empty auxiliary storage.
---
--- The hardware model used when creating the new auxiliary storage depends on the restore image that will be used for installation.    From the restore image, use VZMacOSRestoreImage.mostFeaturefulSupportedConfiguration to get a supported configuration.    A configuration has a VZMacHardwareModel associated with it.
---
--- After initializing the new auxiliary storage, set it on VZMacPlatformConfiguration.auxiliaryStorage to use it.    The hardware model in VZMacPlatformConfiguration.hardwareModel must be identical to the one used to create the empty    auxiliary storage. The behavior is undefined otherwise.
---
--- When installing macOS, the VZMacOSInstaller lays out data on the auxiliary storage.    After installation, the macOS guest uses the auxiliary storage for every subsequent boot.
---
--- When moving or doing a backup of a virtual machine, the file containing the auxiliary storage must also be moved    or copied along with the main disk image.
---
--- To boot a virtual machine that has already been installed with VZMacOSInstaller, use -[VZMacAuxiliaryStorage initWithContentsOfURL:]    to set up the auxiliary storage from the existing file used at installation.    When using an existing file, the hardware model of the VZMacPlatformConfiguration must match the hardware model used when    the file was created.
---
--- VZMacPlatformConfiguration
---
--- VZMacOSRestoreImage
---
--- VZMacOSConfigurationRequirements
---
--- VZMacOSInstaller
+-- This display can be shown in a VZVirtualMachineView.
 -- 
--- Phantom type for @VZMacAuxiliaryStorage@.
-data VZMacAuxiliaryStorage
+-- Phantom type for @VZMacGraphicsDisplayConfiguration@.
+data VZMacGraphicsDisplayConfiguration
 
-instance IsObjCObject (Id VZMacAuxiliaryStorage) where
+instance IsObjCObject (Id VZMacGraphicsDisplayConfiguration) where
   toRawId = idToRawId
   withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacAuxiliaryStorage"
+  staticClass _ = getRequiredClass "VZMacGraphicsDisplayConfiguration"
 
-class IsNSObject a => IsVZMacAuxiliaryStorage a where
-  toVZMacAuxiliaryStorage :: a -> Id VZMacAuxiliaryStorage
+class IsNSObject a => IsVZMacGraphicsDisplayConfiguration a where
+  toVZMacGraphicsDisplayConfiguration :: a -> Id VZMacGraphicsDisplayConfiguration
 
-instance IsVZMacAuxiliaryStorage (Id VZMacAuxiliaryStorage) where
-  toVZMacAuxiliaryStorage = unsafeCastId
+instance IsVZMacGraphicsDisplayConfiguration (Id VZMacGraphicsDisplayConfiguration) where
+  toVZMacGraphicsDisplayConfiguration = unsafeCastId
 
-instance IsNSObject (Id VZMacAuxiliaryStorage) where
-  toNSObject = unsafeCastId
-
--- ---------- VZMacHardwareModel ----------
-
--- | Describes a specific virtual Mac hardware model.
---
--- The Mac hardware model abstracts a set of virtualized hardware elements and configurations.    A version of macOS may only run on certain hardware models. The host may also only provide certain hardware models    based on the version of macOS and the underlying hardware.    Use VZMacHardwareModel.supported to know if a hardware model is supported on the current host.
---
--- Choosing the hardware model starts from a restore image with VZMacOSRestoreImage.    A restore image describes its supported configuration requirements through VZMacOSRestoreImage.mostFeaturefulSupportedConfiguration.    A configuration requirements object has a corresponding hardware model that can be used to configure a virtual machine    that meets the requirements.
---
--- Once the hardware model is obtained, use VZMacPlatformConfiguration.hardwareModel to configure the Mac platform,    and -[VZMacAuxiliaryStorage initCreatingStorageAtURL:hardwareModel:options:error:] to create its auxiliary storage.    Once the virtual machine is created, use VZMacOSInstaller to install macOS on it.
---
--- If the virtual machine is preserved on disk, the hardware model used for installation should be preserved for subsequent boots.    The VZMacHardwareModel.dataRepresentation property provides a unique binary representation that can be serialized.    The hardware model then can be recreated from the binary representation with -[VZMacHardwareModel initWithDataRepresentation:].
---
--- VZMacOSInstaller
---
--- VZMacOSRestoreImage
--- 
--- Phantom type for @VZMacHardwareModel@.
-data VZMacHardwareModel
-
-instance IsObjCObject (Id VZMacHardwareModel) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacHardwareModel"
-
-class IsNSObject a => IsVZMacHardwareModel a where
-  toVZMacHardwareModel :: a -> Id VZMacHardwareModel
-
-instance IsVZMacHardwareModel (Id VZMacHardwareModel) where
-  toVZMacHardwareModel = unsafeCastId
-
-instance IsNSObject (Id VZMacHardwareModel) where
-  toNSObject = unsafeCastId
-
--- ---------- VZMacMachineIdentifier ----------
-
--- | An identifier to make a virtual machine unique.
---
--- The Mac machine identifier is used by macOS guests to uniquely identify the virtual hardware.
---
--- Two virtual machines running concurrently should not use the same identifier.
---
--- If the virtual machine is serialized to disk, the identifier can be preserved in a binary representation through VZMacMachineIdentifier.dataRepresentation.    The identifier can then be recreated with -[VZMacMachineIdentifier initWithDataRepresentation:] from the binary representation.
---
--- The contents of two identifiers can be compared with -[VZMacMachineIdentifier isEqual:].
---
--- VZMacPlatformConfiguration
--- 
--- Phantom type for @VZMacMachineIdentifier@.
-data VZMacMachineIdentifier
-
-instance IsObjCObject (Id VZMacMachineIdentifier) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacMachineIdentifier"
-
-class IsNSObject a => IsVZMacMachineIdentifier a where
-  toVZMacMachineIdentifier :: a -> Id VZMacMachineIdentifier
-
-instance IsVZMacMachineIdentifier (Id VZMacMachineIdentifier) where
-  toVZMacMachineIdentifier = unsafeCastId
-
-instance IsNSObject (Id VZMacMachineIdentifier) where
-  toNSObject = unsafeCastId
-
--- ---------- VZMacOSConfigurationRequirements ----------
-
--- | VZMacOSConfigurationRequirements describes the parameter constraints required by a specific configuration of macOS.
---
--- When a VZMacOSRestoreImage is loaded, it can be inspected to determine the configurations supported by that restore image.
---
--- VZMacHardwareModel
---
--- VZMacOSRestoreImage
--- 
--- Phantom type for @VZMacOSConfigurationRequirements@.
-data VZMacOSConfigurationRequirements
-
-instance IsObjCObject (Id VZMacOSConfigurationRequirements) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacOSConfigurationRequirements"
-
-class IsNSObject a => IsVZMacOSConfigurationRequirements a where
-  toVZMacOSConfigurationRequirements :: a -> Id VZMacOSConfigurationRequirements
-
-instance IsVZMacOSConfigurationRequirements (Id VZMacOSConfigurationRequirements) where
-  toVZMacOSConfigurationRequirements = unsafeCastId
-
-instance IsNSObject (Id VZMacOSConfigurationRequirements) where
-  toNSObject = unsafeCastId
-
--- ---------- VZMacOSInstaller ----------
-
--- | VZMacOSInstaller is used to install macOS on the specified virtual machine.
---
--- A VZMacOSInstaller object must be initialized with a VZVirtualMachine and a file URL referring to a macOS restore image.    The following code example shows how VZMacOSInstaller is used.
---
--- // VZMacOSInstaller must be called with a URL corresponding to a local file. We need a place to store the restore image we download.
--- NSURL *localRestoreImageURL = ...;
---
--- // Load the latest restore image.
--- [VZMacOSRestoreImage fetchLatestSupportedWithCompletionHandler:^(VZMacOSRestoreImage *restoreImage, NSError *error) {
--- if (error) {
--- // Handle the error.
--- abort();
--- }
---
--- // VZMacOSInstaller must be called with a URL corresponding to a local file. Since restoreImage came from
--- // fetchLatestSupportedWithCompletionHandler, its URL property refers to a restore image on the network.
--- // Download the restore image to the local filesystem.
--- [[NSURLSession sharedSession] downloadTaskWithURL:restoreImage.URL completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
--- if (error) {
--- // Handle the error.
--- abort();
--- }
--- if (![[NSFileManager defaultManager] moveItemAtURL:location toURL:localRestoreImageURL error:&error]) {
--- // Handle the error.
--- abort();
--- }
--- dispatch_async(dispatch_get_main_queue(), ^{
--- // Since this restore image came from -[VZMacOSRestoreImage fetchLatestSupportedWithCompletionHandler:], mostFeaturefulSupportedConfiguration should not be nil.
--- VZMacOSConfigurationRequirements *configurationRequirements = restoreImage.mostFeaturefulSupportedConfiguration;
---
--- // Construct a VZVirtualMachineConfiguration that satisfies the configuration requirements.
--- VZVirtualMachineConfiguration *configuration = [[VZVirtualMachineConfiguration alloc] init];
--- configuration.bootLoader = [[VZMacOSBootLoader alloc] init];
--- configuration.platform = [[VZMacPlatformConfiguration alloc] init];
---
--- // The following are minimum values; you can use larger values if desired.
--- configuration.CPUCount = configurationRequirements.minimumSupportedCPUCount;
--- configuration.memorySize = configurationRequirements.minimumSupportedMemorySize;
---
--- // Set other configuration properties as necessary.
--- // ...
---
--- assert([configuration validateWithError:nil]);
---
--- VZVirtualMachine *virtualMachine = [[VZVirtualMachine alloc] initWithConfiguration:configuration];
--- VZMacOSInstaller *installer = [[VZMacOSInstaller alloc] initWithVirtualMachine:virtualMachine restoreImageURL:localRestoreImageURL];
--- [installer installWithCompletionHandler:^(NSError *error) {
--- if (error) {
--- // Handle the error.
--- abort();
--- } else {
--- // Installation was successful.
--- }
--- }];
---
--- // Observe progress using installer.progress object.
--- });
--- }];
--- }];
---
--- VZVirtualMachine
---
--- VZMacOSRestoreImage
--- 
--- Phantom type for @VZMacOSInstaller@.
-data VZMacOSInstaller
-
-instance IsObjCObject (Id VZMacOSInstaller) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacOSInstaller"
-
-class IsNSObject a => IsVZMacOSInstaller a where
-  toVZMacOSInstaller :: a -> Id VZMacOSInstaller
-
-instance IsVZMacOSInstaller (Id VZMacOSInstaller) where
-  toVZMacOSInstaller = unsafeCastId
-
-instance IsNSObject (Id VZMacOSInstaller) where
-  toNSObject = unsafeCastId
-
--- ---------- VZMacOSRestoreImage ----------
-
--- | VZMacOSRestoreImage describes a version of macOS to be installed to a virtual machine.
---
--- A VZMacOSRestoreImage object can be created by loading an installation media file. A VZMacOSInstaller    object must be initialized with this VZMacOSRestoreImage object in order to install the operating    system onto a virtual machine.
---
--- Loading a restore image requires the app to have the "com.apple.security.virtualization" entitlement.
---
--- VZMacHardwareModel
---
--- VZMacOSInstaller
---
--- VZMacOSConfigurationRequirements
--- 
--- Phantom type for @VZMacOSRestoreImage@.
-data VZMacOSRestoreImage
-
-instance IsObjCObject (Id VZMacOSRestoreImage) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacOSRestoreImage"
-
-class IsNSObject a => IsVZMacOSRestoreImage a where
-  toVZMacOSRestoreImage :: a -> Id VZMacOSRestoreImage
-
-instance IsVZMacOSRestoreImage (Id VZMacOSRestoreImage) where
-  toVZMacOSRestoreImage = unsafeCastId
-
-instance IsNSObject (Id VZMacOSRestoreImage) where
+instance IsNSObject (Id VZMacGraphicsDisplayConfiguration) where
   toNSObject = unsafeCastId
 
 -- ---------- VZMemoryBalloonDevice ----------
@@ -1140,7 +799,7 @@ instance IsNSObject (Id VZSocketDevice) where
 
 -- | Base class for a socket device configuration.
 --
--- VZSocketDeviceConfiguration should not be instantiated directly.    One of its subclasses like VZVirtioSocketDeviceConfiguration should be used instead.
+-- VZNetworkDeviceConfiguration should not be instantiated directly.    One of its subclasses like VZVirtioSocketDeviceConfiguration should be used instead.
 --
 -- See: VZVirtioSocketDeviceConfiguration
 -- 
@@ -1159,31 +818,6 @@ instance IsVZSocketDeviceConfiguration (Id VZSocketDeviceConfiguration) where
   toVZSocketDeviceConfiguration = unsafeCastId
 
 instance IsNSObject (Id VZSocketDeviceConfiguration) where
-  toNSObject = unsafeCastId
-
--- ---------- VZStorageDevice ----------
-
--- | Class representing a storage device in a virtual machine.
---
--- VZStorageDevice should not be instantiated directly.    One of its subclasses like VZUSBMassStorageDevice should be used instead.
---
--- See: VZUSBMassStorageDevice
--- 
--- Phantom type for @VZStorageDevice@.
-data VZStorageDevice
-
-instance IsObjCObject (Id VZStorageDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZStorageDevice"
-
-class IsNSObject a => IsVZStorageDevice a where
-  toVZStorageDevice :: a -> Id VZStorageDevice
-
-instance IsVZStorageDevice (Id VZStorageDevice) where
-  toVZStorageDevice = unsafeCastId
-
-instance IsNSObject (Id VZStorageDevice) where
   toNSObject = unsafeCastId
 
 -- ---------- VZStorageDeviceAttachment ----------
@@ -1219,8 +853,6 @@ instance IsNSObject (Id VZStorageDeviceAttachment) where
 --
 -- VZStorageDeviceConfiguration should not be instantiated directly.    One of its subclasses like VZVirtioBlockDeviceConfiguration should be used instead.
 --
--- See: VZNVMExpressControllerDeviceConfiguration
---
 -- See: VZUSBMassStorageDeviceConfiguration
 --
 -- See: VZVirtioBlockDeviceConfiguration
@@ -1240,56 +872,6 @@ instance IsVZStorageDeviceConfiguration (Id VZStorageDeviceConfiguration) where
   toVZStorageDeviceConfiguration = unsafeCastId
 
 instance IsNSObject (Id VZStorageDeviceConfiguration) where
-  toNSObject = unsafeCastId
-
--- ---------- VZUSBController ----------
-
--- | Class representing a USB controller in a virtual machine.
---
--- VZUSBController should not be instantiated directly.    USB controllers are first configured on the VZVirtualMachineConfiguration through a subclass of VZUSBControllerConfiguration.    When a VZVirtualMachine is created from the configuration, the USB controllers are available through the VZVirtualMachine.usbControllers property.    The real type of VZUSBController corresponds to the type used by the configuration.    For example, a VZXHCIControllerConfiguration leads to a device of type VZXHCIController.
---
--- See: VZUSBControllerConfiguration
--- 
--- Phantom type for @VZUSBController@.
-data VZUSBController
-
-instance IsObjCObject (Id VZUSBController) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZUSBController"
-
-class IsNSObject a => IsVZUSBController a where
-  toVZUSBController :: a -> Id VZUSBController
-
-instance IsVZUSBController (Id VZUSBController) where
-  toVZUSBController = unsafeCastId
-
-instance IsNSObject (Id VZUSBController) where
-  toNSObject = unsafeCastId
-
--- ---------- VZUSBControllerConfiguration ----------
-
--- | Base class for a USB Controller configuration.
---
--- VZUSBControllerConfiguration should not be instantiated directly.    One of its subclasses like VZXHCIControllerConfiguration should be used instead.
---
--- See: VZXHCIControllerConfiguration
--- 
--- Phantom type for @VZUSBControllerConfiguration@.
-data VZUSBControllerConfiguration
-
-instance IsObjCObject (Id VZUSBControllerConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZUSBControllerConfiguration"
-
-class IsNSObject a => IsVZUSBControllerConfiguration a where
-  toVZUSBControllerConfiguration :: a -> Id VZUSBControllerConfiguration
-
-instance IsVZUSBControllerConfiguration (Id VZUSBControllerConfiguration) where
-  toVZUSBControllerConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZUSBControllerConfiguration) where
   toNSObject = unsafeCastId
 
 -- ---------- VZVirtioConsolePort ----------
@@ -1369,6 +951,31 @@ instance IsVZVirtioConsolePortConfigurationArray (Id VZVirtioConsolePortConfigur
   toVZVirtioConsolePortConfigurationArray = unsafeCastId
 
 instance IsNSObject (Id VZVirtioConsolePortConfigurationArray) where
+  toNSObject = unsafeCastId
+
+-- ---------- VZVirtioGraphicsScanoutConfiguration ----------
+
+-- | Configuration for a scanout attached to a Virtio graphics device.
+--
+-- This scanout can be shown in a VZVirtualMachineView.
+--
+-- VZVirtioGraphicsDeviceConfiguration
+-- 
+-- Phantom type for @VZVirtioGraphicsScanoutConfiguration@.
+data VZVirtioGraphicsScanoutConfiguration
+
+instance IsObjCObject (Id VZVirtioGraphicsScanoutConfiguration) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "VZVirtioGraphicsScanoutConfiguration"
+
+class IsNSObject a => IsVZVirtioGraphicsScanoutConfiguration a where
+  toVZVirtioGraphicsScanoutConfiguration :: a -> Id VZVirtioGraphicsScanoutConfiguration
+
+instance IsVZVirtioGraphicsScanoutConfiguration (Id VZVirtioGraphicsScanoutConfiguration) where
+  toVZVirtioGraphicsScanoutConfiguration = unsafeCastId
+
+instance IsNSObject (Id VZVirtioGraphicsScanoutConfiguration) where
   toNSObject = unsafeCastId
 
 -- ---------- VZVirtioSocketConnection ----------
@@ -1499,11 +1106,11 @@ instance IsNSObject (Id VZVirtualMachine) where
 --
 -- ## Configuring a virtual machine to run macOS
 --
--- To configure a virtual machine running macOS:    - Set up a platform configuration of type VZMacPlatformConfiguration and set it on the @platform@ property.    - Set up a VZMacOSBootLoader on the @bootLoader@ property.    - Set the CPUCount and memorySize based on the guest's VZMacOSConfigurationRequirements.    - Set up the main storage device as first device on @storageDevices@. Additional storage devices can be set up after the main storage.    - Set up the @keyboards@, @pointingDevices@ and @graphicsDevices@ devices.    - Set up any additional device as needed.
+-- To configure a virtual machine running macOS:    - Set up a platform configuration of type VZMacPlatformConfiguration and set it on the “platform” property.    - Set up a VZMacOSBootLoader on the “bootLoader” property.    - Set the CPUCount and memorySize based on the guest's VZMacOSConfigurationRequirements.    - Set up the main storage device as first device on “storageDevices”. Additional storage devices can be set up after the main storage.    - Set up the “keyboards”, “pointingDevices” and “graphicsDevices” devices.    - Set up any additional device as needed.
 --
 -- ## Configuring a virtual machine to run Linux
 --
--- To configure a virtual machine running Linux:    - Set up a VZLinuxBootLoader on the @bootLoader@ property.    - Set the CPUCount and memorySize.    - Set up any additional device as needed.
+-- To configure a virtual machine running Linux:    - Set up a VZLinuxBootLoader on the “bootLoader” property.    - Set the CPUCount and memorySize.    - Set up any additional device as needed.
 --
 -- See: VZVirtualMachine
 -- 
@@ -1689,36 +1296,6 @@ instance IsNSObject (Id VZLinuxBootLoader) where
 instance IsVZBootLoader (Id VZLinuxBootLoader) where
   toVZBootLoader = unsafeCastId
 
--- ---------- VZMacOSBootLoader ----------
-
--- | Boot loader configuration for booting macOS on Apple Silicon.
---
--- You must use a VZMacPlatformConfiguration in conjunction with the macOS boot loader.    It is invalid to use it with any other platform configuration.
---
--- See: VZMacPlatformConfiguration
---
--- See: VZVirtualMachineConfiguration.platform.
--- 
--- Phantom type for @VZMacOSBootLoader@.
-data VZMacOSBootLoader
-
-instance IsObjCObject (Id VZMacOSBootLoader) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacOSBootLoader"
-
-class IsVZBootLoader a => IsVZMacOSBootLoader a where
-  toVZMacOSBootLoader :: a -> Id VZMacOSBootLoader
-
-instance IsVZMacOSBootLoader (Id VZMacOSBootLoader) where
-  toVZMacOSBootLoader = unsafeCastId
-
-instance IsNSObject (Id VZMacOSBootLoader) where
-  toNSObject = unsafeCastId
-
-instance IsVZBootLoader (Id VZMacOSBootLoader) where
-  toVZBootLoader = unsafeCastId
-
 -- ---------- VZVirtioConsoleDevice ----------
 
 -- | Class representing a Virtio console device in a virtual machine.
@@ -1810,36 +1387,6 @@ instance IsNSObject (Id VZVirtioConsolePortConfiguration) where
 
 instance IsVZConsolePortConfiguration (Id VZVirtioConsolePortConfiguration) where
   toVZConsolePortConfiguration = unsafeCastId
-
--- ---------- VZLinuxRosettaDirectoryShare ----------
-
--- | Directory share to enable Rosetta support for Linux binaries.
---
--- This directory share exposes Rosetta within a shared directory in the guest. Linux can use it to translate x86_64 binaries.
---
--- See: VZDirectorySharingDeviceConfiguration
---
--- See: VZSharedDirectory
--- 
--- Phantom type for @VZLinuxRosettaDirectoryShare@.
-data VZLinuxRosettaDirectoryShare
-
-instance IsObjCObject (Id VZLinuxRosettaDirectoryShare) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZLinuxRosettaDirectoryShare"
-
-class IsVZDirectoryShare a => IsVZLinuxRosettaDirectoryShare a where
-  toVZLinuxRosettaDirectoryShare :: a -> Id VZLinuxRosettaDirectoryShare
-
-instance IsVZLinuxRosettaDirectoryShare (Id VZLinuxRosettaDirectoryShare) where
-  toVZLinuxRosettaDirectoryShare = unsafeCastId
-
-instance IsNSObject (Id VZLinuxRosettaDirectoryShare) where
-  toNSObject = unsafeCastId
-
-instance IsVZDirectoryShare (Id VZLinuxRosettaDirectoryShare) where
-  toVZDirectoryShare = unsafeCastId
 
 -- ---------- VZMultipleDirectoryShare ----------
 
@@ -1987,74 +1534,6 @@ instance IsNSObject (Id VZVirtioEntropyDeviceConfiguration) where
 instance IsVZEntropyDeviceConfiguration (Id VZVirtioEntropyDeviceConfiguration) where
   toVZEntropyDeviceConfiguration = unsafeCastId
 
--- ---------- VZMacGraphicsDevice ----------
-
--- | A Mac graphics device.
---
--- The VZMacGraphicsDevice is the runtime counterpart of VZMacGraphicsDeviceConfiguration.
---
--- For example, if a @VZVirtualMachineConfiguration.graphicsDevices[0]@ is an instance of @VZMacGraphicsDeviceConfiguration@, when creating the virtual Mac, the @VZVirtualMachine.graphicsDevices[0]@ is the corresponding @VZMacGraphicsDevice@.
---
--- An important property is the @displays@ inherited from @VZGraphicsDevice@. It provides the list of displays on the graphics device,    each corresponding to the display configuration set on @VZMacGraphicsDeviceConfiguration@.
---
--- See: VZMacGraphicsDeviceConfiguration
---
--- See: VZGraphicsDevice.displays
--- 
--- Phantom type for @VZMacGraphicsDevice@.
-data VZMacGraphicsDevice
-
-instance IsObjCObject (Id VZMacGraphicsDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacGraphicsDevice"
-
-class IsVZGraphicsDevice a => IsVZMacGraphicsDevice a where
-  toVZMacGraphicsDevice :: a -> Id VZMacGraphicsDevice
-
-instance IsVZMacGraphicsDevice (Id VZMacGraphicsDevice) where
-  toVZMacGraphicsDevice = unsafeCastId
-
-instance IsNSObject (Id VZMacGraphicsDevice) where
-  toNSObject = unsafeCastId
-
-instance IsVZGraphicsDevice (Id VZMacGraphicsDevice) where
-  toVZGraphicsDevice = unsafeCastId
-
--- ---------- VZVirtioGraphicsDevice ----------
-
--- | A Virtio graphics device.
---
--- The VZVirtioGraphicsDevice is the runtime counterpart of VZVirtioGraphicsDeviceConfiguration.
---
--- For example, if a @VZVirtualMachineConfiguration.graphicsDevices[0]@ is an instance of @VZVirtioGraphicsDeviceConfiguration@, when creating the virtual machine, the @VZVirtualMachine.graphicsDevices[0]@ is the corresponding @VZVirtioGraphicsDevice@.
---
--- An important property is the @displays@ inherited from @VZGraphicsDevice@. It provides the list of scanouts on the graphics device,    each corresponding to the scanout configuration set on @VZVirtioGraphicsDeviceConfiguration@.
---
--- See: VZVirtioGraphicsDeviceConfiguration
---
--- See: VZGraphicsDevice.displays
--- 
--- Phantom type for @VZVirtioGraphicsDevice@.
-data VZVirtioGraphicsDevice
-
-instance IsObjCObject (Id VZVirtioGraphicsDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZVirtioGraphicsDevice"
-
-class IsVZGraphicsDevice a => IsVZVirtioGraphicsDevice a where
-  toVZVirtioGraphicsDevice :: a -> Id VZVirtioGraphicsDevice
-
-instance IsVZVirtioGraphicsDevice (Id VZVirtioGraphicsDevice) where
-  toVZVirtioGraphicsDevice = unsafeCastId
-
-instance IsNSObject (Id VZVirtioGraphicsDevice) where
-  toNSObject = unsafeCastId
-
-instance IsVZGraphicsDevice (Id VZVirtioGraphicsDevice) where
-  toVZGraphicsDevice = unsafeCastId
-
 -- ---------- VZMacGraphicsDeviceConfiguration ----------
 
 -- | Configuration for a Mac graphics device.
@@ -2109,156 +1588,6 @@ instance IsNSObject (Id VZVirtioGraphicsDeviceConfiguration) where
 instance IsVZGraphicsDeviceConfiguration (Id VZVirtioGraphicsDeviceConfiguration) where
   toVZGraphicsDeviceConfiguration = unsafeCastId
 
--- ---------- VZMacGraphicsDisplay ----------
-
--- | Class representing a virtual Mac graphics display.
---
--- The VZMacGraphicsDisplay is the runtime counterpart of VZMacGraphicsDisplayConfiguration.
---
--- When a graphics device is configured with class VZMacGraphicsDisplayConfiguration,    the VZGraphicsDevice's displays are in the same order as their configuration objects and they have the type VZMacGraphicsDisplay.
---
--- For example, if when setting up a virtual Mac, @VZMacGraphicsDeviceConfiguration.displays[0]@ is a @VZMacGraphicsDisplayConfiguration@,    then after creating a virtual machine from the configuration, the @VZVirtualMachine.graphicsDevices@ is a @VZMacGraphicsDevice@.    The @VZMacGraphicsDevice.displays[0]@ is a @VZMacGraphicsDisplay@ corresponding to the @VZMacGraphicsDeviceConfiguration@ in the configuration.
---
--- See: VZMacGraphicsDisplayConfiguration
---
--- See: VZGraphicsDevice
--- 
--- Phantom type for @VZMacGraphicsDisplay@.
-data VZMacGraphicsDisplay
-
-instance IsObjCObject (Id VZMacGraphicsDisplay) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacGraphicsDisplay"
-
-class IsVZGraphicsDisplay a => IsVZMacGraphicsDisplay a where
-  toVZMacGraphicsDisplay :: a -> Id VZMacGraphicsDisplay
-
-instance IsVZMacGraphicsDisplay (Id VZMacGraphicsDisplay) where
-  toVZMacGraphicsDisplay = unsafeCastId
-
-instance IsNSObject (Id VZMacGraphicsDisplay) where
-  toNSObject = unsafeCastId
-
-instance IsVZGraphicsDisplay (Id VZMacGraphicsDisplay) where
-  toVZGraphicsDisplay = unsafeCastId
-
--- ---------- VZVirtioGraphicsScanout ----------
-
--- | Class representing a Virtio graphics device scanout.
---
--- The VZVirtioGraphicsScanout is the runtime counterpart of VZVirtioGraphicsScanoutConfiguration.
---
--- When a graphics device is configured with class VZVirtioGraphicsScanoutConfiguration,    the VZGraphicsDevice's displays are in the same order as their configuration objects and they have the type VZVirtioGraphicsScanout.
---
--- For example, if when setting up a virtual machine, its @VZVirtioGraphicsDeviceConfiguration.scanouts[0]@ is a @VZVirtioGraphicsScanoutConfiguration@,    then after creating a virtual machine from the configuration, the @VZVirtualMachine.graphicsDevices@ is a @VZVirtioGraphicsDevice@.    The @VZVirtioGraphicsDevice.displays[0]@ is a @VZVirtioGraphicsScanout@ corresponding to the @VZVirtioGraphicsScanoutConfiguration@ in the configuration.
---
--- See: VZVirtioGraphicsScanoutConfiguration
---
--- See: VZGraphicsDisplay
---
--- See: VZGraphicsDevice
--- 
--- Phantom type for @VZVirtioGraphicsScanout@.
-data VZVirtioGraphicsScanout
-
-instance IsObjCObject (Id VZVirtioGraphicsScanout) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZVirtioGraphicsScanout"
-
-class IsVZGraphicsDisplay a => IsVZVirtioGraphicsScanout a where
-  toVZVirtioGraphicsScanout :: a -> Id VZVirtioGraphicsScanout
-
-instance IsVZVirtioGraphicsScanout (Id VZVirtioGraphicsScanout) where
-  toVZVirtioGraphicsScanout = unsafeCastId
-
-instance IsNSObject (Id VZVirtioGraphicsScanout) where
-  toNSObject = unsafeCastId
-
-instance IsVZGraphicsDisplay (Id VZVirtioGraphicsScanout) where
-  toVZGraphicsDisplay = unsafeCastId
-
--- ---------- VZMacGraphicsDisplayConfiguration ----------
-
--- | Configuration for a display attached to a Mac graphics device.
---
--- This display can be shown in a VZVirtualMachineView.
--- 
--- Phantom type for @VZMacGraphicsDisplayConfiguration@.
-data VZMacGraphicsDisplayConfiguration
-
-instance IsObjCObject (Id VZMacGraphicsDisplayConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacGraphicsDisplayConfiguration"
-
-class IsVZGraphicsDisplayConfiguration a => IsVZMacGraphicsDisplayConfiguration a where
-  toVZMacGraphicsDisplayConfiguration :: a -> Id VZMacGraphicsDisplayConfiguration
-
-instance IsVZMacGraphicsDisplayConfiguration (Id VZMacGraphicsDisplayConfiguration) where
-  toVZMacGraphicsDisplayConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZMacGraphicsDisplayConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsVZGraphicsDisplayConfiguration (Id VZMacGraphicsDisplayConfiguration) where
-  toVZGraphicsDisplayConfiguration = unsafeCastId
-
--- ---------- VZVirtioGraphicsScanoutConfiguration ----------
-
--- | Configuration for a scanout attached to a Virtio graphics device.
---
--- This scanout can be shown in a VZVirtualMachineView.
---
--- VZVirtioGraphicsDeviceConfiguration
--- 
--- Phantom type for @VZVirtioGraphicsScanoutConfiguration@.
-data VZVirtioGraphicsScanoutConfiguration
-
-instance IsObjCObject (Id VZVirtioGraphicsScanoutConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZVirtioGraphicsScanoutConfiguration"
-
-class IsVZGraphicsDisplayConfiguration a => IsVZVirtioGraphicsScanoutConfiguration a where
-  toVZVirtioGraphicsScanoutConfiguration :: a -> Id VZVirtioGraphicsScanoutConfiguration
-
-instance IsVZVirtioGraphicsScanoutConfiguration (Id VZVirtioGraphicsScanoutConfiguration) where
-  toVZVirtioGraphicsScanoutConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZVirtioGraphicsScanoutConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsVZGraphicsDisplayConfiguration (Id VZVirtioGraphicsScanoutConfiguration) where
-  toVZGraphicsDisplayConfiguration = unsafeCastId
-
--- ---------- VZMacKeyboardConfiguration ----------
-
--- | Configuration for a Mac keyboard.
---
--- This device can be used by VZVirtualMachineView to send keyboard events to the virtual machine.    This keyboard supports Apple-specific features such as the globe key.    Note: this device is only recognized by virtual machines running macOS 13.0 and later. In order to support both macOS 13.0 and earlier    guests, VZVirtualMachineConfiguration.keyboards can be set to an array containing both a VZMacKeyboardConfiguration and    a VZUSBKeyboardConfiguration object. macOS 13.0 and later guests will use the Mac keyboard device,    while earlier versions of macOS will use the USB keyboard device.
--- 
--- Phantom type for @VZMacKeyboardConfiguration@.
-data VZMacKeyboardConfiguration
-
-instance IsObjCObject (Id VZMacKeyboardConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacKeyboardConfiguration"
-
-class IsVZKeyboardConfiguration a => IsVZMacKeyboardConfiguration a where
-  toVZMacKeyboardConfiguration :: a -> Id VZMacKeyboardConfiguration
-
-instance IsVZMacKeyboardConfiguration (Id VZMacKeyboardConfiguration) where
-  toVZMacKeyboardConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZMacKeyboardConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsVZKeyboardConfiguration (Id VZMacKeyboardConfiguration) where
-  toVZKeyboardConfiguration = unsafeCastId
-
 -- ---------- VZUSBKeyboardConfiguration ----------
 
 -- | Configuration for a USB keyboard.
@@ -2284,62 +1613,6 @@ instance IsNSObject (Id VZUSBKeyboardConfiguration) where
 
 instance IsVZKeyboardConfiguration (Id VZUSBKeyboardConfiguration) where
   toVZKeyboardConfiguration = unsafeCastId
-
--- ---------- VZLinuxRosettaAbstractSocketCachingOptions ----------
-
--- | Caching options for an Abstract Socket.
---
--- This object configures Rosetta to communicate with the Rosetta daemon using an Abstract Socket.
---
--- See: VZLinuxRosettaCachingOptions
--- 
--- Phantom type for @VZLinuxRosettaAbstractSocketCachingOptions@.
-data VZLinuxRosettaAbstractSocketCachingOptions
-
-instance IsObjCObject (Id VZLinuxRosettaAbstractSocketCachingOptions) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZLinuxRosettaAbstractSocketCachingOptions"
-
-class IsVZLinuxRosettaCachingOptions a => IsVZLinuxRosettaAbstractSocketCachingOptions a where
-  toVZLinuxRosettaAbstractSocketCachingOptions :: a -> Id VZLinuxRosettaAbstractSocketCachingOptions
-
-instance IsVZLinuxRosettaAbstractSocketCachingOptions (Id VZLinuxRosettaAbstractSocketCachingOptions) where
-  toVZLinuxRosettaAbstractSocketCachingOptions = unsafeCastId
-
-instance IsNSObject (Id VZLinuxRosettaAbstractSocketCachingOptions) where
-  toNSObject = unsafeCastId
-
-instance IsVZLinuxRosettaCachingOptions (Id VZLinuxRosettaAbstractSocketCachingOptions) where
-  toVZLinuxRosettaCachingOptions = unsafeCastId
-
--- ---------- VZLinuxRosettaUnixSocketCachingOptions ----------
-
--- | Caching options for a Unix Domain Socket.
---
--- This object configures Rosetta to communicate with the Rosetta daemon using a Unix Domain Socket.
---
--- See: VZLinuxRosettaCachingOptions
--- 
--- Phantom type for @VZLinuxRosettaUnixSocketCachingOptions@.
-data VZLinuxRosettaUnixSocketCachingOptions
-
-instance IsObjCObject (Id VZLinuxRosettaUnixSocketCachingOptions) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZLinuxRosettaUnixSocketCachingOptions"
-
-class IsVZLinuxRosettaCachingOptions a => IsVZLinuxRosettaUnixSocketCachingOptions a where
-  toVZLinuxRosettaUnixSocketCachingOptions :: a -> Id VZLinuxRosettaUnixSocketCachingOptions
-
-instance IsVZLinuxRosettaUnixSocketCachingOptions (Id VZLinuxRosettaUnixSocketCachingOptions) where
-  toVZLinuxRosettaUnixSocketCachingOptions = unsafeCastId
-
-instance IsNSObject (Id VZLinuxRosettaUnixSocketCachingOptions) where
-  toNSObject = unsafeCastId
-
-instance IsVZLinuxRosettaCachingOptions (Id VZLinuxRosettaUnixSocketCachingOptions) where
-  toVZLinuxRosettaCachingOptions = unsafeCastId
 
 -- ---------- VZVirtioTraditionalMemoryBalloonDevice ----------
 
@@ -2505,36 +1778,6 @@ instance IsNSObject (Id VZNATNetworkDeviceAttachment) where
 instance IsVZNetworkDeviceAttachment (Id VZNATNetworkDeviceAttachment) where
   toVZNetworkDeviceAttachment = unsafeCastId
 
--- ---------- VZVmnetNetworkDeviceAttachment ----------
-
--- | Network device attachment that allows custom network topology.
---
--- This attachment is backed by a logical network which is created and customized through    the vmnet framework APIs to allow custom network topology, which allows multiple virtual    machines to appear on the same network and connect with each other.
---
--- See: VZNetworkDeviceConfiguration
---
--- See: VZVirtioNetworkDeviceConfiguration
--- 
--- Phantom type for @VZVmnetNetworkDeviceAttachment@.
-data VZVmnetNetworkDeviceAttachment
-
-instance IsObjCObject (Id VZVmnetNetworkDeviceAttachment) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZVmnetNetworkDeviceAttachment"
-
-class IsVZNetworkDeviceAttachment a => IsVZVmnetNetworkDeviceAttachment a where
-  toVZVmnetNetworkDeviceAttachment :: a -> Id VZVmnetNetworkDeviceAttachment
-
-instance IsVZVmnetNetworkDeviceAttachment (Id VZVmnetNetworkDeviceAttachment) where
-  toVZVmnetNetworkDeviceAttachment = unsafeCastId
-
-instance IsNSObject (Id VZVmnetNetworkDeviceAttachment) where
-  toNSObject = unsafeCastId
-
-instance IsVZNetworkDeviceAttachment (Id VZVmnetNetworkDeviceAttachment) where
-  toVZNetworkDeviceAttachment = unsafeCastId
-
 -- ---------- VZVirtioNetworkDeviceConfiguration ----------
 
 -- | Configuration of a paravirtualized network device of type Virtio Network Device.
@@ -2568,10 +1811,6 @@ instance IsVZNetworkDeviceConfiguration (Id VZVirtioNetworkDeviceConfiguration) 
 -- ---------- VZGenericPlatformConfiguration ----------
 
 -- | The platform configuration for a generic Intel or ARM virtual machine.
---
--- When a virtual machine is saved to disk then loaded again, the @machineIdentifier@    must be restored to the original value.
---
--- If multiple virtual machines are created from the same configuration, each should have a unique @machineIdentifier@.
 -- 
 -- Phantom type for @VZGenericPlatformConfiguration@.
 data VZGenericPlatformConfiguration
@@ -2592,68 +1831,6 @@ instance IsNSObject (Id VZGenericPlatformConfiguration) where
 
 instance IsVZPlatformConfiguration (Id VZGenericPlatformConfiguration) where
   toVZPlatformConfiguration = unsafeCastId
-
--- ---------- VZMacPlatformConfiguration ----------
-
--- | The platform configuration for booting macOS on Apple Silicon.
---
--- When creating a virtual machine from scratch, the @hardwareModel@ and @auxiliaryStorage@ depend on the restore image    that will be used to install macOS.
---
--- To choose the hardware model, start from VZMacOSRestoreImage.mostFeaturefulSupportedConfiguration to get a supported configuration, then    use its VZMacOSConfigurationRequirements.hardwareModel property to get the hardware model.    Use the hardware model to set up VZMacPlatformConfiguration and to initialize a new auxiliary storage with    -[VZMacAuxiliaryStorage initCreatingStorageAtURL:hardwareModel:options:error:].
---
--- When a virtual machine is saved to disk then loaded again, the @hardwareModel@, @machineIdentifier@ and @auxiliaryStorage@    must be restored to their original values.
---
--- If multiple virtual machines are created from the same configuration, each should have a unique  @auxiliaryStorage@ and @machineIdentifier@.
---
--- VZMacOSRestoreImage
---
--- VZMacOSConfigurationRequirements
--- 
--- Phantom type for @VZMacPlatformConfiguration@.
-data VZMacPlatformConfiguration
-
-instance IsObjCObject (Id VZMacPlatformConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacPlatformConfiguration"
-
-class IsVZPlatformConfiguration a => IsVZMacPlatformConfiguration a where
-  toVZMacPlatformConfiguration :: a -> Id VZMacPlatformConfiguration
-
-instance IsVZMacPlatformConfiguration (Id VZMacPlatformConfiguration) where
-  toVZMacPlatformConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZMacPlatformConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsVZPlatformConfiguration (Id VZMacPlatformConfiguration) where
-  toVZPlatformConfiguration = unsafeCastId
-
--- ---------- VZMacTrackpadConfiguration ----------
-
--- | Configuration for a Mac trackpad.
---
--- This device can be used by VZVirtualMachineView to send pointer events and multi-touch trackpad gestures to the virtual machine.    Note: this device is only recognized by virtual machines running macOS 13.0 and later. In order to support both macOS 13.0 and earlier    guests, VZVirtualMachineConfiguration.pointingDevices can be set to an array containing both a VZMacTrackpadConfiguration and    a VZUSBScreenCoordinatePointingDeviceConfiguration object. macOS 13.0 and later guests will use the multi-touch trackpad device,    while earlier versions of macOS will use the USB pointing device.
--- 
--- Phantom type for @VZMacTrackpadConfiguration@.
-data VZMacTrackpadConfiguration
-
-instance IsObjCObject (Id VZMacTrackpadConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacTrackpadConfiguration"
-
-class IsVZPointingDeviceConfiguration a => IsVZMacTrackpadConfiguration a where
-  toVZMacTrackpadConfiguration :: a -> Id VZMacTrackpadConfiguration
-
-instance IsVZMacTrackpadConfiguration (Id VZMacTrackpadConfiguration) where
-  toVZMacTrackpadConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZMacTrackpadConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsVZPointingDeviceConfiguration (Id VZMacTrackpadConfiguration) where
-  toVZPointingDeviceConfiguration = unsafeCastId
 
 -- ---------- VZUSBScreenCoordinatePointingDeviceConfiguration ----------
 
@@ -2845,91 +2022,13 @@ instance IsNSObject (Id VZVirtioSocketDeviceConfiguration) where
 instance IsVZSocketDeviceConfiguration (Id VZVirtioSocketDeviceConfiguration) where
   toVZSocketDeviceConfiguration = unsafeCastId
 
--- ---------- VZUSBMassStorageDevice ----------
-
--- | Class representing a hot-pluggable USB Mass Storage device.
---
--- This device is created through either instantiating it directly and passing VZUSBMassStorageDeviceConfiguration to its initializer    or instantiating a VZUSBMassStorageDeviceConfiguration in a VZVirtualMachineConfiguration. Direct instantiation will create    an object that can be passed to -[VZUSBController attachDevice:completionHandler:] method. Instantiation via VZUSBMassStorageDeviceConfiguration    will make the device available in VZUSBController.usbDevices property.
---
--- See: VZUSBController
--- 
--- Phantom type for @VZUSBMassStorageDevice@.
-data VZUSBMassStorageDevice
-
-instance IsObjCObject (Id VZUSBMassStorageDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZUSBMassStorageDevice"
-
-class IsVZStorageDevice a => IsVZUSBMassStorageDevice a where
-  toVZUSBMassStorageDevice :: a -> Id VZUSBMassStorageDevice
-
-instance IsVZUSBMassStorageDevice (Id VZUSBMassStorageDevice) where
-  toVZUSBMassStorageDevice = unsafeCastId
-
-instance IsNSObject (Id VZUSBMassStorageDevice) where
-  toNSObject = unsafeCastId
-
-instance IsVZStorageDevice (Id VZUSBMassStorageDevice) where
-  toVZStorageDevice = unsafeCastId
-
--- ---------- VZDiskBlockDeviceStorageDeviceAttachment ----------
-
--- | Storage device attachment using a disk block device to store data.
---
--- The disk block device implements a storage attachment by using an actual disk rather than a disk image on a file system.
---
--- For example, a disk block device on the disk at @/dev/rdisk42@ would execute the I/O operations directly on that disk    rather than through a file system.
---
--- Note that if the disk has a file system formatted on it, the guest is able to destroy data in a way that is not recoverable.    The disk passed to this attachment needs to be handled with caution.
---
--- An example use of this API is:    ```    NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:"/dev/rdisk42"];    if (!fileHandle) {        // Handle errors.    }
---
--- NSError *error;    VZDiskBlockDeviceStorageDeviceAttachment *attachment =        [[VZDiskBlockDeviceStorageDeviceAttachment alloc] initWithFileHandle:fileHandle                                                                     readOnly:YES                                                          synchronizationMode:VZDiskSynchronizationModeFull                                                                        error:error];    if (!attachment) {        // Handle errors.    }    ```
---
--- Disk file handles are typically only accessible by the @root@ user unless permission is explicitly granted.    Running virtual machines as root is not recommended. If @root@ access is required to open the file descriptor, it is recommended to do that operation    in a separate process then pass the file descriptor to a less privileged process running Virtualization framework.
---
--- See: VZDiskImageStorageDeviceAttachment
---
--- See: VZNVMExpressControllerDeviceConfiguration
---
--- See: VZUSBMassStorageDeviceConfiguration
---
--- See: VZVirtioBlockDeviceConfiguration
--- 
--- Phantom type for @VZDiskBlockDeviceStorageDeviceAttachment@.
-data VZDiskBlockDeviceStorageDeviceAttachment
-
-instance IsObjCObject (Id VZDiskBlockDeviceStorageDeviceAttachment) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZDiskBlockDeviceStorageDeviceAttachment"
-
-class IsVZStorageDeviceAttachment a => IsVZDiskBlockDeviceStorageDeviceAttachment a where
-  toVZDiskBlockDeviceStorageDeviceAttachment :: a -> Id VZDiskBlockDeviceStorageDeviceAttachment
-
-instance IsVZDiskBlockDeviceStorageDeviceAttachment (Id VZDiskBlockDeviceStorageDeviceAttachment) where
-  toVZDiskBlockDeviceStorageDeviceAttachment = unsafeCastId
-
-instance IsNSObject (Id VZDiskBlockDeviceStorageDeviceAttachment) where
-  toNSObject = unsafeCastId
-
-instance IsVZStorageDeviceAttachment (Id VZDiskBlockDeviceStorageDeviceAttachment) where
-  toVZStorageDeviceAttachment = unsafeCastId
-
 -- ---------- VZDiskImageStorageDeviceAttachment ----------
 
 -- | Storage device attachment using a disk image to implement the storage.
 --
 -- This storage device attachment uses a disk image on the host file system as the drive of the storage device.
 --
--- Only RAW data disk images are supported.
---
--- An empty RAW disk image can be created with @FileDescriptor.resize(to:retryOnInterrupt:)@ method in Swift,    the @ftruncate()@ function in Swift or Objective-C, or the @truncate@ command on the command line.    The size of the file must be a multiple of 512 bytes, the block size.
---
--- See: VZNVMExpressControllerDeviceConfiguration
---
--- See: VZUSBMassStorageDeviceConfiguration
+-- Only raw data disk images are supported.
 --
 -- See: VZVirtioBlockDeviceConfiguration
 -- 
@@ -2952,74 +2051,6 @@ instance IsNSObject (Id VZDiskImageStorageDeviceAttachment) where
 
 instance IsVZStorageDeviceAttachment (Id VZDiskImageStorageDeviceAttachment) where
   toVZStorageDeviceAttachment = unsafeCastId
-
--- ---------- VZNetworkBlockDeviceStorageDeviceAttachment ----------
-
--- | Storage device attachment backed by a Network Block Device (NBD) client.
---
--- This storage device attachment provides an NBD client implementation. The NBD client is connected    to an NBD server referred to by an NBD Uniform Resource Indicator (URI), represented as an URL in    this API. The NBD server runs outside of Virtualization framework and is not controlled by    Virtualization framework. The NBD client forwards the guest's I/O operations to the NBD server,    where the I/O operations are handled.
---
--- The NBD client will attempt to connect to the NBD server referred to by the URL when you start the virtual    machine (e.g. when @[VZVirtualMachine startWithCompletionHandler:]@ is called). A connection attempt is NOT    made when the attachment object is initialized. Reconnection attempts will take place throughout the life    cycle of the virtual machine when the NBD client encounters a recoverable error such as connection timeout    and unexpected connection errors. The NBD client will disconnect from the server when the virtual machine    shuts down.
---
--- Using this attachment requires the app to have the "com.apple.security.network.client" entitlement as this attachment opens an outgoing    network connection.
---
--- For more information about NBD, see https://github.com/NetworkBlockDevice/nbd/blob/master/doc/proto.md.    For more information about the NBD URL format, see https://github.com/NetworkBlockDevice/nbd/blob/master/doc/uri.md.
---
--- An example use of this API is:    ```    NSURL *url = [[NSURL alloc] initWithString:"nbd://localhost:10809/myDisk"]    NSError *error = nil;    VZNetworkBlockDeviceStorageDeviceAttachment *attachment =        [[VZNetworkBlockDeviceStorageDeviceAttachment alloc] initWithURL:url                                                                 timeout:5.0                                                          forcedReadOnly:NO                                                     synchronizationMode:VZDiskSynchronizationModeFull                                                                   error:&error];
---
--- if (!attachment) {        // Handle the @error@.    }
---
--- VZVirtioBlockDeviceConfiguration *blockDevice = [[VZVirtioBlockDeviceConfiguration alloc] initWithAttachment:attachment];    ```
--- 
--- Phantom type for @VZNetworkBlockDeviceStorageDeviceAttachment@.
-data VZNetworkBlockDeviceStorageDeviceAttachment
-
-instance IsObjCObject (Id VZNetworkBlockDeviceStorageDeviceAttachment) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZNetworkBlockDeviceStorageDeviceAttachment"
-
-class IsVZStorageDeviceAttachment a => IsVZNetworkBlockDeviceStorageDeviceAttachment a where
-  toVZNetworkBlockDeviceStorageDeviceAttachment :: a -> Id VZNetworkBlockDeviceStorageDeviceAttachment
-
-instance IsVZNetworkBlockDeviceStorageDeviceAttachment (Id VZNetworkBlockDeviceStorageDeviceAttachment) where
-  toVZNetworkBlockDeviceStorageDeviceAttachment = unsafeCastId
-
-instance IsNSObject (Id VZNetworkBlockDeviceStorageDeviceAttachment) where
-  toNSObject = unsafeCastId
-
-instance IsVZStorageDeviceAttachment (Id VZNetworkBlockDeviceStorageDeviceAttachment) where
-  toVZStorageDeviceAttachment = unsafeCastId
-
--- ---------- VZNVMExpressControllerDeviceConfiguration ----------
-
--- | Configuration of an NVM Express Controller storage device.
---
--- This device configuration creates a storage device that conforms to the NVM Express specification revision 1.1b.
---
--- The device configuration is valid only if used with VZGenericPlatformConfiguration.
---
--- See: VZGenericPlatformConfiguration
--- 
--- Phantom type for @VZNVMExpressControllerDeviceConfiguration@.
-data VZNVMExpressControllerDeviceConfiguration
-
-instance IsObjCObject (Id VZNVMExpressControllerDeviceConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZNVMExpressControllerDeviceConfiguration"
-
-class IsVZStorageDeviceConfiguration a => IsVZNVMExpressControllerDeviceConfiguration a where
-  toVZNVMExpressControllerDeviceConfiguration :: a -> Id VZNVMExpressControllerDeviceConfiguration
-
-instance IsVZNVMExpressControllerDeviceConfiguration (Id VZNVMExpressControllerDeviceConfiguration) where
-  toVZNVMExpressControllerDeviceConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZNVMExpressControllerDeviceConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsVZStorageDeviceConfiguration (Id VZNVMExpressControllerDeviceConfiguration) where
-  toVZStorageDeviceConfiguration = unsafeCastId
 
 -- ---------- VZUSBMassStorageDeviceConfiguration ----------
 
@@ -3075,62 +2106,6 @@ instance IsNSObject (Id VZVirtioBlockDeviceConfiguration) where
 instance IsVZStorageDeviceConfiguration (Id VZVirtioBlockDeviceConfiguration) where
   toVZStorageDeviceConfiguration = unsafeCastId
 
--- ---------- VZXHCIController ----------
-
--- | Class representing a USB XHCI controller in a virtual machine.
---
--- VZXHCIController should not be instantiated directly.    In order to create a runtime VZXHCIController object, the usbControllers property of    VZVirtualMachineConfiguration object needs to be populated with VZXHCIControllerConfiguration object.
---
--- See: VZUSBController
---
--- See: VZXHCIControllerConfiguration
--- 
--- Phantom type for @VZXHCIController@.
-data VZXHCIController
-
-instance IsObjCObject (Id VZXHCIController) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZXHCIController"
-
-class IsVZUSBController a => IsVZXHCIController a where
-  toVZXHCIController :: a -> Id VZXHCIController
-
-instance IsVZXHCIController (Id VZXHCIController) where
-  toVZXHCIController = unsafeCastId
-
-instance IsNSObject (Id VZXHCIController) where
-  toNSObject = unsafeCastId
-
-instance IsVZUSBController (Id VZXHCIController) where
-  toVZUSBController = unsafeCastId
-
--- ---------- VZXHCIControllerConfiguration ----------
-
--- | Configuration for the USB XHCI controller.
---
--- This configuration creates a USB XHCI controller device for the guest.
--- 
--- Phantom type for @VZXHCIControllerConfiguration@.
-data VZXHCIControllerConfiguration
-
-instance IsObjCObject (Id VZXHCIControllerConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZXHCIControllerConfiguration"
-
-class IsVZUSBControllerConfiguration a => IsVZXHCIControllerConfiguration a where
-  toVZXHCIControllerConfiguration :: a -> Id VZXHCIControllerConfiguration
-
-instance IsVZXHCIControllerConfiguration (Id VZXHCIControllerConfiguration) where
-  toVZXHCIControllerConfiguration = unsafeCastId
-
-instance IsNSObject (Id VZXHCIControllerConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsVZUSBControllerConfiguration (Id VZXHCIControllerConfiguration) where
-  toVZUSBControllerConfiguration = unsafeCastId
-
 -- ---------- VZVirtioSoundDeviceInputStreamConfiguration ----------
 
 -- | Virtio Sound Device Input Stream Configuration.
@@ -3182,30 +2157,6 @@ instance IsNSObject (Id VZVirtioSoundDeviceOutputStreamConfiguration) where
 
 instance IsVZVirtioSoundDeviceStreamConfiguration (Id VZVirtioSoundDeviceOutputStreamConfiguration) where
   toVZVirtioSoundDeviceStreamConfiguration = unsafeCastId
-
--- ---------- VZMacOSVirtualMachineStartOptions ----------
-
--- | Options controlling startup behavior of a virtual machine using VZMacOSBootLoader.
--- 
--- Phantom type for @VZMacOSVirtualMachineStartOptions@.
-data VZMacOSVirtualMachineStartOptions
-
-instance IsObjCObject (Id VZMacOSVirtualMachineStartOptions) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "VZMacOSVirtualMachineStartOptions"
-
-class IsVZVirtualMachineStartOptions a => IsVZMacOSVirtualMachineStartOptions a where
-  toVZMacOSVirtualMachineStartOptions :: a -> Id VZMacOSVirtualMachineStartOptions
-
-instance IsVZMacOSVirtualMachineStartOptions (Id VZMacOSVirtualMachineStartOptions) where
-  toVZMacOSVirtualMachineStartOptions = unsafeCastId
-
-instance IsNSObject (Id VZMacOSVirtualMachineStartOptions) where
-  toNSObject = unsafeCastId
-
-instance IsVZVirtualMachineStartOptions (Id VZMacOSVirtualMachineStartOptions) where
-  toVZVirtualMachineStartOptions = unsafeCastId
 
 -- ---------- VZVirtualMachineView ----------
 

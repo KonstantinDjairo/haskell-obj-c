@@ -31,7 +31,6 @@ module ObjC.PDFKit.PDFDocument
   , cancelFindString
   , printOperationForPrintInfo_scalingMode_autoRotate
   , selectionFromPage_atPoint_toPage_atPoint
-  , selectionFromPage_atPoint_toPage_atPoint_withGranularity
   , selectionFromPage_atCharacterIndex_toPage_atCharacterIndex
   , documentURL
   , documentRef
@@ -100,7 +99,6 @@ module ObjC.PDFKit.PDFDocument
   , selectionForEntireDocumentSelector
   , selectionFromPage_atCharacterIndex_toPage_atCharacterIndexSelector
   , selectionFromPage_atPoint_toPage_atPointSelector
-  , selectionFromPage_atPoint_toPage_atPoint_withGranularitySelector
   , setDelegateSelector
   , setDocumentAttributesSelector
   , setOutlineRootSelector
@@ -139,10 +137,6 @@ module ObjC.PDFKit.PDFDocument
   , pattern KPDFPrintPageScaleNone
   , pattern KPDFPrintPageScaleToFit
   , pattern KPDFPrintPageScaleDownToFit
-  , PDFSelectionGranularity(PDFSelectionGranularity)
-  , pattern PDFSelectionGranularityCharacter
-  , pattern PDFSelectionGranularityWord
-  , pattern PDFSelectionGranularityLine
 
   ) where
 
@@ -275,11 +269,6 @@ printOperationForPrintInfo_scalingMode_autoRotate pdfDocument printInfo scaleMod
 selectionFromPage_atPoint_toPage_atPoint :: (IsPDFDocument pdfDocument, IsPDFPage startPage, IsPDFPage endPage) => pdfDocument -> startPage -> NSPoint -> endPage -> NSPoint -> IO (Id PDFSelection)
 selectionFromPage_atPoint_toPage_atPoint pdfDocument startPage startPoint endPage endPoint =
   sendMessage pdfDocument selectionFromPage_atPoint_toPage_atPointSelector (toPDFPage startPage) startPoint (toPDFPage endPage) endPoint
-
--- | @- selectionFromPage:atPoint:toPage:atPoint:withGranularity:@
-selectionFromPage_atPoint_toPage_atPoint_withGranularity :: (IsPDFDocument pdfDocument, IsPDFPage startPage, IsPDFPage endPage) => pdfDocument -> startPage -> NSPoint -> endPage -> NSPoint -> PDFSelectionGranularity -> IO (Id PDFSelection)
-selectionFromPage_atPoint_toPage_atPoint_withGranularity pdfDocument startPage startPoint endPage endPoint granularity =
-  sendMessage pdfDocument selectionFromPage_atPoint_toPage_atPoint_withGranularitySelector (toPDFPage startPage) startPoint (toPDFPage endPage) endPoint granularity
 
 -- | @- selectionFromPage:atCharacterIndex:toPage:atCharacterIndex:@
 selectionFromPage_atCharacterIndex_toPage_atCharacterIndex :: (IsPDFDocument pdfDocument, IsPDFPage startPage, IsPDFPage endPage) => pdfDocument -> startPage -> CULong -> endPage -> CULong -> IO (Id PDFSelection)
@@ -511,10 +500,6 @@ printOperationForPrintInfo_scalingMode_autoRotateSelector = mkSelector "printOpe
 -- | @Selector@ for @selectionFromPage:atPoint:toPage:atPoint:@
 selectionFromPage_atPoint_toPage_atPointSelector :: Selector '[Id PDFPage, NSPoint, Id PDFPage, NSPoint] (Id PDFSelection)
 selectionFromPage_atPoint_toPage_atPointSelector = mkSelector "selectionFromPage:atPoint:toPage:atPoint:"
-
--- | @Selector@ for @selectionFromPage:atPoint:toPage:atPoint:withGranularity:@
-selectionFromPage_atPoint_toPage_atPoint_withGranularitySelector :: Selector '[Id PDFPage, NSPoint, Id PDFPage, NSPoint, PDFSelectionGranularity] (Id PDFSelection)
-selectionFromPage_atPoint_toPage_atPoint_withGranularitySelector = mkSelector "selectionFromPage:atPoint:toPage:atPoint:withGranularity:"
 
 -- | @Selector@ for @selectionFromPage:atCharacterIndex:toPage:atCharacterIndex:@
 selectionFromPage_atCharacterIndex_toPage_atCharacterIndexSelector :: Selector '[Id PDFPage, CULong, Id PDFPage, CULong] (Id PDFSelection)

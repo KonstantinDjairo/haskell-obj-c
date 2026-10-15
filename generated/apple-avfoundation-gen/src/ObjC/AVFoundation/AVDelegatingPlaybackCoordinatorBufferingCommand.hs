@@ -3,11 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A playback command requesting buffering in anticipation of playback.
+-- | AVDelegatingPlaybackCoordinatorBufferingCommand
 --
--- Receiving this command should be reflected to the user as playback in a buffering state. To cancel the group intent to begin playback and move back into a paused state, call [AVDelegatingPlaybackCoordinator coordinateRateChangeToRate:0 options: 0]
+-- A playback command requesting buffering in anticipation of playback.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Receiving this command should be reflected to the user as playback in a buffering state.				To cancel the group intent to begin playback and move back into a paused state, call [AVDelegatingPlaybackCoordinator coordinateRateChangeToRate:0 options: 0]
 --
 -- Generated bindings for @AVDelegatingPlaybackCoordinatorBufferingCommand@.
 module ObjC.AVFoundation.AVDelegatingPlaybackCoordinatorBufferingCommand
@@ -48,7 +48,9 @@ new  =
     cls' <- getRequiredClass "AVDelegatingPlaybackCoordinatorBufferingCommand"
     sendOwnedClassMessage cls' newSelector
 
--- | The rate to prepare playback for.
+-- | anticipatedPlaybackRate
+--
+-- The rate to prepare playback for.
 --
 -- The command should only be considered complete once the player is ready to receive an AVDelegatingPlaybackCoordinatorPlayCommand with the indicated rate.
 --
@@ -57,9 +59,11 @@ anticipatedPlaybackRate :: IsAVDelegatingPlaybackCoordinatorBufferingCommand avD
 anticipatedPlaybackRate avDelegatingPlaybackCoordinatorBufferingCommand =
   sendMessage avDelegatingPlaybackCoordinatorBufferingCommand anticipatedPlaybackRateSelector
 
--- | Communicates when the coordinator expects the command's completion handler at the latest.
+-- | completionDueDate
 --
--- A receiver of a buffering command should fire the completion handler by this date at the latest. This is useful in buffering situations where the receiver has not yet buffered enough data to be considered ready to play by the due date. The receiver should then decide to either complete the command as is to try and keep up with the group, or alternatively begin a stall recovery suspension to communicate the situation to the other participants. Completing the command after this date means that the coordinator will likely send a play command for a later time than the receiver buffered for.
+-- Communicates when the coordinator expects the command's completion handler at the latest.
+--
+-- A receiver of a buffering command should fire the completion handler by this date at the latest. This is useful in buffering situations where the receiver				has not yet buffered enough data to be considered ready to play by the due date. The receiver should then decide to either complete the command as is				to try and keep up with the group, or alternatively begin a stall recovery suspension to communicate the situation to the other participants.				Completing the command after this date means that the coordinator will likely send a play command for a later time than the receiver buffered for.
 --
 -- ObjC selector: @- completionDueDate@
 completionDueDate :: IsAVDelegatingPlaybackCoordinatorBufferingCommand avDelegatingPlaybackCoordinatorBufferingCommand => avDelegatingPlaybackCoordinatorBufferingCommand -> IO (Id NSDate)

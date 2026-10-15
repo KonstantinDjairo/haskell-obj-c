@@ -90,7 +90,7 @@ setDelegate nsSharingServicePicker value =
 -- | Returns a menu item suitable to display the picker for the given items.
 --
 -- ObjC selector: @- standardShareMenuItem@
-standardShareMenuItem :: IsNSSharingServicePicker nsSharingServicePicker => nsSharingServicePicker -> IO (Id NSMenuItem)
+standardShareMenuItem :: IsNSSharingServicePicker nsSharingServicePicker => nsSharingServicePicker -> IO RawId
 standardShareMenuItem nsSharingServicePicker =
   sendMessage nsSharingServicePicker standardShareMenuItemSelector
 
@@ -123,6 +123,6 @@ setDelegateSelector :: Selector '[RawId] ()
 setDelegateSelector = mkSelector "setDelegate:"
 
 -- | @Selector@ for @standardShareMenuItem@
-standardShareMenuItemSelector :: Selector '[] (Id NSMenuItem)
+standardShareMenuItemSelector :: Selector '[] RawId
 standardShareMenuItemSelector = mkSelector "standardShareMenuItem"
 

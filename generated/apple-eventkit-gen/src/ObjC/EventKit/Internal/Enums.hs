@@ -99,11 +99,7 @@ instance ObjCReturn EKAlarmType where
 --
 -- EKAuthorizationStatusDenied         The user explicitly denied access to the service for this application.
 --
--- EKAuthorizationStatusWriteOnly      This application is authorized to save new items.
---
--- EKAuthorizationStatusFullAccess     This application is authorized to read or modify all data for the service.
---
--- EKAuthorizationStatusAuthorized     (Deprecated) This application is authorized to access the service.
+-- EKAuthorizationStatusAuthorized     This application is authorized to access the service.
 -- | @EKAuthorizationStatus@
 newtype EKAuthorizationStatus = EKAuthorizationStatus CLong
   deriving stock (Eq, Ord, Show)
@@ -117,12 +113,6 @@ pattern EKAuthorizationStatusRestricted = EKAuthorizationStatus 1
 
 pattern EKAuthorizationStatusDenied :: EKAuthorizationStatus
 pattern EKAuthorizationStatusDenied = EKAuthorizationStatus 2
-
-pattern EKAuthorizationStatusFullAccess :: EKAuthorizationStatus
-pattern EKAuthorizationStatusFullAccess = EKAuthorizationStatus 3
-
-pattern EKAuthorizationStatusWriteOnly :: EKAuthorizationStatus
-pattern EKAuthorizationStatusWriteOnly = EKAuthorizationStatus 4
 
 pattern EKAuthorizationStatusAuthorized :: EKAuthorizationStatus
 pattern EKAuthorizationStatusAuthorized = EKAuthorizationStatus 3

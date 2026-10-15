@@ -11,7 +11,6 @@ module ObjC.Photos.PHContentEditingInput
   , mediaType
   , mediaSubtypes
   , creationDate
-  , contentType
   , uniformTypeIdentifier
   , playbackStyle
   , adjustmentData
@@ -22,7 +21,6 @@ module ObjC.Photos.PHContentEditingInput
   , livePhoto
   , adjustmentDataSelector
   , avAssetSelector
-  , contentTypeSelector
   , creationDateSelector
   , displaySizeImageSelector
   , fullSizeImageOrientationSelector
@@ -41,11 +39,9 @@ module ObjC.Photos.PHContentEditingInput
   , pattern PHAssetMediaSubtypePhotoScreenshot
   , pattern PHAssetMediaSubtypePhotoLive
   , pattern PHAssetMediaSubtypePhotoDepthEffect
-  , pattern PHAssetMediaSubtypeSpatialMedia
   , pattern PHAssetMediaSubtypeVideoStreamed
   , pattern PHAssetMediaSubtypeVideoHighFrameRate
   , pattern PHAssetMediaSubtypeVideoTimelapse
-  , pattern PHAssetMediaSubtypeVideoScreenRecording
   , pattern PHAssetMediaSubtypeVideoCinematic
   , PHAssetMediaType(PHAssetMediaType)
   , pattern PHAssetMediaTypeUnknown
@@ -74,7 +70,6 @@ import ObjC.Photos.Internal.Classes
 import ObjC.Photos.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- | @- mediaType@
 mediaType :: IsPHContentEditingInput phContentEditingInput => phContentEditingInput -> IO PHAssetMediaType
@@ -90,13 +85,6 @@ mediaSubtypes phContentEditingInput =
 creationDate :: IsPHContentEditingInput phContentEditingInput => phContentEditingInput -> IO (Id NSDate)
 creationDate phContentEditingInput =
   sendMessage phContentEditingInput creationDateSelector
-
--- | The type of data provided as the asset's content editing input image or video.
---
--- ObjC selector: @- contentType@
-contentType :: IsPHContentEditingInput phContentEditingInput => phContentEditingInput -> IO (Id UTType)
-contentType phContentEditingInput =
-  sendMessage phContentEditingInput contentTypeSelector
 
 -- | @- uniformTypeIdentifier@
 uniformTypeIdentifier :: IsPHContentEditingInput phContentEditingInput => phContentEditingInput -> IO (Id NSString)
@@ -153,10 +141,6 @@ mediaSubtypesSelector = mkSelector "mediaSubtypes"
 -- | @Selector@ for @creationDate@
 creationDateSelector :: Selector '[] (Id NSDate)
 creationDateSelector = mkSelector "creationDate"
-
--- | @Selector@ for @contentType@
-contentTypeSelector :: Selector '[] (Id UTType)
-contentTypeSelector = mkSelector "contentType"
 
 -- | @Selector@ for @uniformTypeIdentifier@
 uniformTypeIdentifierSelector :: Selector '[] (Id NSString)

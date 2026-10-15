@@ -38,7 +38,6 @@ import ObjC.Runtime.StableIvar
 data MTLIndirectComputeCommandOverrides = MTLIndirectComputeCommandOverrides
   { _setComputePipelineState :: !(Maybe (RawId -> IO ()))
   , _setKernelBuffer_offset_atIndex :: !(Maybe (RawId -> Int -> Int -> IO ()))
-  , _setKernelBuffer_offset_attributeStride_atIndex :: !(Maybe (RawId -> Int -> Int -> Int -> IO ()))
   , _setBarrier :: !(Maybe (IO ()))
   , _clearBarrier :: !(Maybe (IO ()))
   , _setImageblockWidth_height :: !(Maybe (Int -> Int -> IO ()))
@@ -51,7 +50,6 @@ defaultMTLIndirectComputeCommandOverrides :: MTLIndirectComputeCommandOverrides
 defaultMTLIndirectComputeCommandOverrides = MTLIndirectComputeCommandOverrides
   { _setComputePipelineState = Nothing
   , _setKernelBuffer_offset_atIndex = Nothing
-  , _setKernelBuffer_offset_attributeStride_atIndex = Nothing
   , _setBarrier = Nothing
   , _clearBarrier = Nothing
   , _setImageblockWidth_height = Nothing
@@ -68,11 +66,6 @@ foreign import ccall "wrapper"
   wrap_v
     :: (Ptr ObjCObject -> Ptr ObjCSel -> IO ())
     -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> IO ()))
-
-foreign import ccall "wrapper"
-  wrap_at_Q_Q_Q_v
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> CULong -> CULong -> CULong -> IO ())
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> CULong -> CULong -> CULong -> IO ()))
 
 foreign import ccall "wrapper"
   wrap_at_Q_Q_v
@@ -100,7 +93,6 @@ mtlIndirectComputeCommandDelegateClass = unsafePerformIO $ do
   addHsDataIvar cls
   let sel_setComputePipelineState = unSelector (mkSelector "setComputePipelineState:")
       sel_setKernelBuffer_offset_atIndex = unSelector (mkSelector "setKernelBuffer:offset:atIndex:")
-      sel_setKernelBuffer_offset_attributeStride_atIndex = unSelector (mkSelector "setKernelBuffer:offset:attributeStride:atIndex:")
       sel_setBarrier = unSelector (mkSelector "setBarrier")
       sel_clearBarrier = unSelector (mkSelector "clearBarrier")
       sel_setImageblockWidth_height = unSelector (mkSelector "setImageblockWidth:height:")
@@ -124,59 +116,50 @@ mtlIndirectComputeCommandDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (fromIntegral arg1) (fromIntegral arg2)
   addObjCMethod cls "setKernelBuffer:offset:atIndex:" "v@:@QQ" stub_1
 
-  -- setKernelBuffer:offset:attributeStride:atIndex:
-  stub_2 <- wrap_at_Q_Q_Q_v $ \self _cmd arg0 arg1 arg2 arg3 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTLIndirectComputeCommandOverrides
-    case _setKernelBuffer_offset_attributeStride_atIndex rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (fromIntegral arg1) (fromIntegral arg2) (fromIntegral arg3)
-  addObjCMethod cls "setKernelBuffer:offset:attributeStride:atIndex:" "v@:@QQQ" stub_2
-
   -- setBarrier
-  stub_3 <- wrap_v $ \self _cmd -> do
+  stub_2 <- wrap_v $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLIndirectComputeCommandOverrides
     case _setBarrier rec_ of
       Nothing -> pure ()
       Just f -> f 
-  addObjCMethod cls "setBarrier" "v@:" stub_3
+  addObjCMethod cls "setBarrier" "v@:" stub_2
 
   -- clearBarrier
-  stub_4 <- wrap_v $ \self _cmd -> do
+  stub_3 <- wrap_v $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLIndirectComputeCommandOverrides
     case _clearBarrier rec_ of
       Nothing -> pure ()
       Just f -> f 
-  addObjCMethod cls "clearBarrier" "v@:" stub_4
+  addObjCMethod cls "clearBarrier" "v@:" stub_3
 
   -- setImageblockWidth:height:
-  stub_5 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_4 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLIndirectComputeCommandOverrides
     case _setImageblockWidth_height rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0) (fromIntegral arg1)
-  addObjCMethod cls "setImageblockWidth:height:" "v@:QQ" stub_5
+  addObjCMethod cls "setImageblockWidth:height:" "v@:QQ" stub_4
 
   -- reset
-  stub_6 <- wrap_v $ \self _cmd -> do
+  stub_5 <- wrap_v $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLIndirectComputeCommandOverrides
     case _reset rec_ of
       Nothing -> pure ()
       Just f -> f 
-  addObjCMethod cls "reset" "v@:" stub_6
+  addObjCMethod cls "reset" "v@:" stub_5
 
   -- setThreadgroupMemoryLength:atIndex:
-  stub_7 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
+  stub_6 <- wrap_Q_Q_v $ \self _cmd arg0 arg1 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLIndirectComputeCommandOverrides
     case _setThreadgroupMemoryLength_atIndex rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0) (fromIntegral arg1)
-  addObjCMethod cls "setThreadgroupMemoryLength:atIndex:" "v@:QQ" stub_7
+  addObjCMethod cls "setThreadgroupMemoryLength:atIndex:" "v@:QQ" stub_6
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -184,7 +167,6 @@ mtlIndirectComputeCommandDelegateClass = unsafePerformIO $ do
     rec_ <- deRefStablePtr sp :: IO MTLIndirectComputeCommandOverrides
     if queriedSel == sel_setComputePipelineState then pure (maybe 0 (const 1) (_setComputePipelineState rec_))
     else if queriedSel == sel_setKernelBuffer_offset_atIndex then pure (maybe 0 (const 1) (_setKernelBuffer_offset_atIndex rec_))
-    else if queriedSel == sel_setKernelBuffer_offset_attributeStride_atIndex then pure (maybe 0 (const 1) (_setKernelBuffer_offset_attributeStride_atIndex rec_))
     else if queriedSel == sel_setBarrier then pure (maybe 0 (const 1) (_setBarrier rec_))
     else if queriedSel == sel_clearBarrier then pure (maybe 0 (const 1) (_clearBarrier rec_))
     else if queriedSel == sel_setImageblockWidth_height then pure (maybe 0 (const 1) (_setImageblockWidth_height rec_))

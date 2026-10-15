@@ -187,7 +187,7 @@ evaluationErrorSpecifier nsScriptObjectSpecifier =
   sendMessage nsScriptObjectSpecifier evaluationErrorSpecifierSelector
 
 -- | @- descriptor@
-descriptor :: IsNSScriptObjectSpecifier nsScriptObjectSpecifier => nsScriptObjectSpecifier -> IO (Id NSAppleEventDescriptor)
+descriptor :: IsNSScriptObjectSpecifier nsScriptObjectSpecifier => nsScriptObjectSpecifier -> IO RawId
 descriptor nsScriptObjectSpecifier =
   sendMessage nsScriptObjectSpecifier descriptorSelector
 
@@ -288,6 +288,6 @@ evaluationErrorSpecifierSelector :: Selector '[] (Id NSScriptObjectSpecifier)
 evaluationErrorSpecifierSelector = mkSelector "evaluationErrorSpecifier"
 
 -- | @Selector@ for @descriptor@
-descriptorSelector :: Selector '[] (Id NSAppleEventDescriptor)
+descriptorSelector :: Selector '[] RawId
 descriptorSelector = mkSelector "descriptor"
 

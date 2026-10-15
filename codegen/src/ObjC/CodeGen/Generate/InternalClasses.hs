@@ -124,7 +124,7 @@ internalClassDecls hierarchy name cls = concat
     ]
   , internalIsObjCObject name
   , [""]
-  , internalTypeClass cls
+  , internalTypeClass hierarchy cls
   , [""]
   , internalSelfInstance name
   , internalAncestorInstances hierarchy name
@@ -147,16 +147,17 @@ internalIsObjCObject name =
   ]
 
 -- | Type class declaration.
-internalTypeClass :: ObjCClass -> [Text]
-internalTypeClass cls =
+internalTypeClass :: ClassHierarchy -> ObjCClass -> [Text]
+internalTypeClass hierarchy cls =
   [ "class " <> superConstraint <> "Is" <> name <> " a where"
   , "  to" <> name <> " :: a -> Id " <> name
   ]
   where
     name = className cls
     superConstraint = case classSuperclass cls of
-      Nothing    -> "IsObjCObject a => "
-      Just super -> "Is" <> super <> " a => "
+      Just super | Map.member super (hierarchyClasses hierarchy) ->
+        "Is" <> super <> " a => "
+      _ -> "IsObjCObject a => "
 
 -- | Self instance.
 internalSelfInstance :: Text -> [Text]
@@ -168,8 +169,9 @@ internalSelfInstance name =
 -- | Ancestor instances.
 internalAncestorInstances :: ClassHierarchy -> Text -> [Text]
 internalAncestorInstances hierarchy name =
-  let ancestors = fromMaybe Set.empty
-        (Map.lookup name (hierarchyAncestors hierarchy))
+  let ancestors = Set.filter
+        (\anc -> Map.member anc (hierarchyClasses hierarchy)) $
+        fromMaybe Set.empty (Map.lookup name (hierarchyAncestors hierarchy))
   in concatMap (\anc ->
        [ ""
        , "instance Is" <> anc <> " (Id " <> name <> ") where"

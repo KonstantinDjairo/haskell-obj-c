@@ -7,12 +7,12 @@ dependencies:
 - base >= 4.7 && < 5
 - haskell-obj-c
 - libffi
-- apple-accessorysetupkit-gen
 - apple-foundation-gen
 
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -86,8 +86,6 @@ library:
   - ObjC.NetworkExtension.NEProvider
   - ObjC.NetworkExtension.NEProxyServer
   - ObjC.NetworkExtension.NEProxySettings
-  - ObjC.NetworkExtension.NERelay
-  - ObjC.NetworkExtension.NERelayManager
   - ObjC.NetworkExtension.NETransparentProxyManager
   - ObjC.NetworkExtension.NETransparentProxyNetworkSettings
   - ObjC.NetworkExtension.NETransparentProxyProvider
@@ -96,9 +94,7 @@ library:
   - ObjC.NetworkExtension.NETunnelProviderManager
   - ObjC.NetworkExtension.NETunnelProviderProtocol
   - ObjC.NetworkExtension.NETunnelProviderSession
-  - ObjC.NetworkExtension.NEURLFilter
   - ObjC.NetworkExtension.NEVPNConnection
-  - ObjC.NetworkExtension.NEVPNIKEv2PPKConfiguration
   - ObjC.NetworkExtension.NEVPNIKEv2SecurityAssociationParameters
   - ObjC.NetworkExtension.NEVPNManager
   - ObjC.NetworkExtension.NEVPNProtocol

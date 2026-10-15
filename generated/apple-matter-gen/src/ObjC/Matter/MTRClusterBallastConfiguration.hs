@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterBallastConfiguration
   ( MTRClusterBallastConfiguration
   , IsMTRClusterBallastConfiguration(..)
+  , initWithDevice_endpoint_queue
   , readAttributePhysicalMinLevelWithParams
   , readAttributePhysicalMaxLevelWithParams
   , readAttributeBallastStatusWithParams
@@ -18,9 +19,9 @@ module ObjC.Matter.MTRClusterBallastConfiguration
   , readAttributeMaxLevelWithParams
   , writeAttributeMaxLevelWithValue_expectedValueInterval
   , writeAttributeMaxLevelWithValue_expectedValueInterval_params
-  , readAttributeIntrinsicBallastFactorWithParams
-  , writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval
-  , writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval_params
+  , readAttributeIntrinsicBalanceFactorWithParams
+  , writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval
+  , writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_params
   , readAttributeBallastFactorAdjustmentWithParams
   , writeAttributeBallastFactorAdjustmentWithValue_expectedValueInterval
   , writeAttributeBallastFactorAdjustmentWithValue_expectedValueInterval_params
@@ -50,13 +51,7 @@ module ObjC.Matter.MTRClusterBallastConfiguration
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , readAttributeIntrinsicBalanceFactorWithParams
-  , writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval
-  , writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_params
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -67,7 +62,6 @@ module ObjC.Matter.MTRClusterBallastConfiguration
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
   , readAttributeIntrinsicBalanceFactorWithParamsSelector
-  , readAttributeIntrinsicBallastFactorWithParamsSelector
   , readAttributeLampAlarmModeWithParamsSelector
   , readAttributeLampBurnHoursTripPointWithParamsSelector
   , readAttributeLampBurnHoursWithParamsSelector
@@ -83,8 +77,6 @@ module ObjC.Matter.MTRClusterBallastConfiguration
   , writeAttributeBallastFactorAdjustmentWithValue_expectedValueInterval_paramsSelector
   , writeAttributeIntrinsicBalanceFactorWithValue_expectedValueIntervalSelector
   , writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_paramsSelector
-  , writeAttributeIntrinsicBallastFactorWithValue_expectedValueIntervalSelector
-  , writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval_paramsSelector
   , writeAttributeLampAlarmModeWithValue_expectedValueIntervalSelector
   , writeAttributeLampAlarmModeWithValue_expectedValueInterval_paramsSelector
   , writeAttributeLampBurnHoursTripPointWithValue_expectedValueIntervalSelector
@@ -115,6 +107,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRDevice device, IsNSObject queue) => mtrClusterBallastConfiguration -> device -> CUShort -> queue -> IO (Id MTRClusterBallastConfiguration)
+initWithDevice_endpoint_queue mtrClusterBallastConfiguration device endpoint queue =
+  sendOwnedMessage mtrClusterBallastConfiguration initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributePhysicalMinLevelWithParams:@
 readAttributePhysicalMinLevelWithParams :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRReadParams params) => mtrClusterBallastConfiguration -> params -> IO (Id NSDictionary)
@@ -161,20 +158,20 @@ writeAttributeMaxLevelWithValue_expectedValueInterval_params :: (IsMTRClusterBal
 writeAttributeMaxLevelWithValue_expectedValueInterval_params mtrClusterBallastConfiguration dataValueDictionary expectedValueIntervalMs params =
   sendMessage mtrClusterBallastConfiguration writeAttributeMaxLevelWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
--- | @- readAttributeIntrinsicBallastFactorWithParams:@
-readAttributeIntrinsicBallastFactorWithParams :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRReadParams params) => mtrClusterBallastConfiguration -> params -> IO (Id NSDictionary)
-readAttributeIntrinsicBallastFactorWithParams mtrClusterBallastConfiguration params =
-  sendMessage mtrClusterBallastConfiguration readAttributeIntrinsicBallastFactorWithParamsSelector (toMTRReadParams params)
+-- | @- readAttributeIntrinsicBalanceFactorWithParams:@
+readAttributeIntrinsicBalanceFactorWithParams :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRReadParams params) => mtrClusterBallastConfiguration -> params -> IO (Id NSDictionary)
+readAttributeIntrinsicBalanceFactorWithParams mtrClusterBallastConfiguration params =
+  sendMessage mtrClusterBallastConfiguration readAttributeIntrinsicBalanceFactorWithParamsSelector (toMTRReadParams params)
 
--- | @- writeAttributeIntrinsicBallastFactorWithValue:expectedValueInterval:@
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterBallastConfiguration -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval mtrClusterBallastConfiguration dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterBallastConfiguration writeAttributeIntrinsicBallastFactorWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
+-- | @- writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:@
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterBallastConfiguration -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval mtrClusterBallastConfiguration dataValueDictionary expectedValueIntervalMs =
+  sendMessage mtrClusterBallastConfiguration writeAttributeIntrinsicBalanceFactorWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
 
--- | @- writeAttributeIntrinsicBallastFactorWithValue:expectedValueInterval:params:@
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval_params :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterBallastConfiguration -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval_params mtrClusterBallastConfiguration dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterBallastConfiguration writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
+-- | @- writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:params:@
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_params :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterBallastConfiguration -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_params mtrClusterBallastConfiguration dataValueDictionary expectedValueIntervalMs params =
+  sendMessage mtrClusterBallastConfiguration writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
 -- | @- readAttributeBallastFactorAdjustmentWithParams:@
 readAttributeBallastFactorAdjustmentWithParams :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRReadParams params) => mtrClusterBallastConfiguration -> params -> IO (Id NSDictionary)
@@ -323,36 +320,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterBallastConfiguration"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRDevice device, IsNSObject queue) => mtrClusterBallastConfiguration -> device -> CUShort -> queue -> IO (Id MTRClusterBallastConfiguration)
-initWithDevice_endpoint_queue mtrClusterBallastConfiguration device endpoint queue =
-  sendOwnedMessage mtrClusterBallastConfiguration initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- readAttributeIntrinsicBalanceFactorWithParams:@
-readAttributeIntrinsicBalanceFactorWithParams :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRReadParams params) => mtrClusterBallastConfiguration -> params -> IO (Id NSDictionary)
-readAttributeIntrinsicBalanceFactorWithParams mtrClusterBallastConfiguration params =
-  sendMessage mtrClusterBallastConfiguration readAttributeIntrinsicBalanceFactorWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:@
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterBallastConfiguration -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval mtrClusterBallastConfiguration dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterBallastConfiguration writeAttributeIntrinsicBalanceFactorWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:params:@
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_params :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterBallastConfiguration -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_params mtrClusterBallastConfiguration dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterBallastConfiguration writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterBallastConfiguration mtrClusterBallastConfiguration, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterBallastConfiguration -> device -> endpointID -> queue -> IO (Id MTRClusterBallastConfiguration)
-initWithDevice_endpointID_queue mtrClusterBallastConfiguration device endpointID queue =
-  sendOwnedMessage mtrClusterBallastConfiguration initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBallastConfiguration)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributePhysicalMinLevelWithParams:@
 readAttributePhysicalMinLevelWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -390,17 +364,17 @@ writeAttributeMaxLevelWithValue_expectedValueIntervalSelector = mkSelector "writ
 writeAttributeMaxLevelWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
 writeAttributeMaxLevelWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeMaxLevelWithValue:expectedValueInterval:params:"
 
--- | @Selector@ for @readAttributeIntrinsicBallastFactorWithParams:@
-readAttributeIntrinsicBallastFactorWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeIntrinsicBallastFactorWithParamsSelector = mkSelector "readAttributeIntrinsicBallastFactorWithParams:"
+-- | @Selector@ for @readAttributeIntrinsicBalanceFactorWithParams:@
+readAttributeIntrinsicBalanceFactorWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributeIntrinsicBalanceFactorWithParamsSelector = mkSelector "readAttributeIntrinsicBalanceFactorWithParams:"
 
--- | @Selector@ for @writeAttributeIntrinsicBallastFactorWithValue:expectedValueInterval:@
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeIntrinsicBallastFactorWithValue:expectedValueInterval:"
+-- | @Selector@ for @writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:@
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:"
 
--- | @Selector@ for @writeAttributeIntrinsicBallastFactorWithValue:expectedValueInterval:params:@
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributeIntrinsicBallastFactorWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeIntrinsicBallastFactorWithValue:expectedValueInterval:params:"
+-- | @Selector@ for @writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:params:@
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
+writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:params:"
 
 -- | @Selector@ for @readAttributeBallastFactorAdjustmentWithParams:@
 readAttributeBallastFactorAdjustmentWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -517,24 +491,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterBallastConfiguration)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBallastConfiguration)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @readAttributeIntrinsicBalanceFactorWithParams:@
-readAttributeIntrinsicBalanceFactorWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeIntrinsicBalanceFactorWithParamsSelector = mkSelector "readAttributeIntrinsicBalanceFactorWithParams:"
-
--- | @Selector@ for @writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:@
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:params:@
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributeIntrinsicBalanceFactorWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeIntrinsicBalanceFactorWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterBallastConfiguration)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

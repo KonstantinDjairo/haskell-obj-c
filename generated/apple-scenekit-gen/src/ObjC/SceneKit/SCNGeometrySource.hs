@@ -93,8 +93,6 @@ module ObjC.SceneKit.SCNGeometrySource
   , pattern MTLVertexFormatUShortNormalized
   , pattern MTLVertexFormatShortNormalized
   , pattern MTLVertexFormatHalf
-  , pattern MTLVertexFormatFloatRG11B10
-  , pattern MTLVertexFormatFloatRGB9E5
 
   ) where
 

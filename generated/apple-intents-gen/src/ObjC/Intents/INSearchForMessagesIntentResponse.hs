@@ -29,7 +29,6 @@ module ObjC.Intents.INSearchForMessagesIntentResponse
   , pattern INSearchForMessagesIntentResponseCodeFailureRequiringAppLaunch
   , pattern INSearchForMessagesIntentResponseCodeFailureMessageServiceNotAvailable
   , pattern INSearchForMessagesIntentResponseCodeFailureMessageTooManyResults
-  , pattern INSearchForMessagesIntentResponseCodeFailureRequiringInAppAuthentication
 
   ) where
 

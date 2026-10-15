@@ -39,7 +39,7 @@ import ObjC.Foundation.Internal.Classes
 -- The NSURLRequest of the flow. This property is always nil for the control providers.
 --
 -- ObjC selector: @- request@
-request :: IsNEFilterBrowserFlow neFilterBrowserFlow => neFilterBrowserFlow -> IO (Id NSURLRequest)
+request :: IsNEFilterBrowserFlow neFilterBrowserFlow => neFilterBrowserFlow -> IO RawId
 request neFilterBrowserFlow =
   sendMessage neFilterBrowserFlow requestSelector
 
@@ -48,7 +48,7 @@ request neFilterBrowserFlow =
 -- The NSURLResponse of the flow. This will be nil until the request is sent to the server and the response headers are received. And this property is always nil for the control providers.
 --
 -- ObjC selector: @- response@
-response :: IsNEFilterBrowserFlow neFilterBrowserFlow => neFilterBrowserFlow -> IO (Id NSURLResponse)
+response :: IsNEFilterBrowserFlow neFilterBrowserFlow => neFilterBrowserFlow -> IO RawId
 response neFilterBrowserFlow =
   sendMessage neFilterBrowserFlow responseSelector
 
@@ -57,7 +57,7 @@ response neFilterBrowserFlow =
 -- The parent URL for the current flow which is created to load the sub frames because the flow with the parent URL was allowed. Will be nil if the parent flow does not exist.
 --
 -- ObjC selector: @- parentURL@
-parentURL :: IsNEFilterBrowserFlow neFilterBrowserFlow => neFilterBrowserFlow -> IO (Id NSURL)
+parentURL :: IsNEFilterBrowserFlow neFilterBrowserFlow => neFilterBrowserFlow -> IO RawId
 parentURL neFilterBrowserFlow =
   sendMessage neFilterBrowserFlow parentURLSelector
 
@@ -66,14 +66,14 @@ parentURL neFilterBrowserFlow =
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @request@
-requestSelector :: Selector '[] (Id NSURLRequest)
+requestSelector :: Selector '[] RawId
 requestSelector = mkSelector "request"
 
 -- | @Selector@ for @response@
-responseSelector :: Selector '[] (Id NSURLResponse)
+responseSelector :: Selector '[] RawId
 responseSelector = mkSelector "response"
 
 -- | @Selector@ for @parentURL@
-parentURLSelector :: Selector '[] (Id NSURL)
+parentURLSelector :: Selector '[] RawId
 parentURLSelector = mkSelector "parentURL"
 

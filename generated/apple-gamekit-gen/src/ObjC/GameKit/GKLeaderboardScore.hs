@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A @GKLeaderboardScore@ object represents a score on a leaderboard for scores you report for challenges or turn-based games.
---
--- Generated bindings for @GKLeaderboardScore@.
+-- | Generated bindings for @GKLeaderboardScore@.
 module ObjC.GameKit.GKLeaderboardScore
   ( GKLeaderboardScore
   , IsGKLeaderboardScore(..)
@@ -40,58 +38,42 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.GameKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | The player who earns the score.
---
--- ObjC selector: @- player@
+-- | @- player@
 player :: IsGKLeaderboardScore gkLeaderboardScore => gkLeaderboardScore -> IO (Id GKPlayer)
 player gkLeaderboardScore =
   sendMessage gkLeaderboardScore playerSelector
 
--- | The player who earns the score.
---
--- ObjC selector: @- setPlayer:@
+-- | @- setPlayer:@
 setPlayer :: (IsGKLeaderboardScore gkLeaderboardScore, IsGKPlayer value) => gkLeaderboardScore -> value -> IO ()
 setPlayer gkLeaderboardScore value =
   sendMessage gkLeaderboardScore setPlayerSelector (toGKPlayer value)
 
--- | The score that the player earns.
---
--- ObjC selector: @- value@
+-- | @- value@
 value :: IsGKLeaderboardScore gkLeaderboardScore => gkLeaderboardScore -> IO CLong
 value gkLeaderboardScore =
   sendMessage gkLeaderboardScore valueSelector
 
--- | The score that the player earns.
---
--- ObjC selector: @- setValue:@
+-- | @- setValue:@
 setValue :: IsGKLeaderboardScore gkLeaderboardScore => gkLeaderboardScore -> CLong -> IO ()
 setValue gkLeaderboardScore value =
   sendMessage gkLeaderboardScore setValueSelector value
 
--- | An integer value that your game uses.
---
--- ObjC selector: @- context@
+-- | @- context@
 context :: IsGKLeaderboardScore gkLeaderboardScore => gkLeaderboardScore -> IO CULong
 context gkLeaderboardScore =
   sendMessage gkLeaderboardScore contextSelector
 
--- | An integer value that your game uses.
---
--- ObjC selector: @- setContext:@
+-- | @- setContext:@
 setContext :: IsGKLeaderboardScore gkLeaderboardScore => gkLeaderboardScore -> CULong -> IO ()
 setContext gkLeaderboardScore value =
   sendMessage gkLeaderboardScore setContextSelector value
 
--- | The ID that Game Center uses for the leaderboard.
---
--- ObjC selector: @- leaderboardID@
+-- | @- leaderboardID@
 leaderboardID :: IsGKLeaderboardScore gkLeaderboardScore => gkLeaderboardScore -> IO (Id NSString)
 leaderboardID gkLeaderboardScore =
   sendMessage gkLeaderboardScore leaderboardIDSelector
 
--- | The ID that Game Center uses for the leaderboard.
---
--- ObjC selector: @- setLeaderboardID:@
+-- | @- setLeaderboardID:@
 setLeaderboardID :: (IsGKLeaderboardScore gkLeaderboardScore, IsNSString value) => gkLeaderboardScore -> value -> IO ()
 setLeaderboardID gkLeaderboardScore value =
   sendMessage gkLeaderboardScore setLeaderboardIDSelector (toNSString value)

@@ -37,7 +37,6 @@ import ObjC.Runtime.StableIvar
 -- selector).  'Just' provides the Haskell implementation.
 data MTLSharedEventOverrides = MTLSharedEventOverrides
   { _newSharedEventHandle :: !(Maybe (IO RawId))
-  , _waitUntilSignaledValue_timeoutMS :: !(Maybe (Int -> Int -> IO Bool))
   , _signaledValue :: !(Maybe (IO Int))
   , _setSignaledValue :: !(Maybe (Int -> IO ()))
   }
@@ -46,7 +45,6 @@ data MTLSharedEventOverrides = MTLSharedEventOverrides
 defaultMTLSharedEventOverrides :: MTLSharedEventOverrides
 defaultMTLSharedEventOverrides = MTLSharedEventOverrides
   { _newSharedEventHandle = Nothing
-  , _waitUntilSignaledValue_timeoutMS = Nothing
   , _signaledValue = Nothing
   , _setSignaledValue = Nothing
   }
@@ -60,11 +58,6 @@ foreign import ccall "wrapper"
   wrap_Q
     :: (Ptr ObjCObject -> Ptr ObjCSel -> IO CULong)
     -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> IO CULong))
-
-foreign import ccall "wrapper"
-  wrap_Q_Q_B
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> CULong -> CULong -> IO CULong)
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> CULong -> CULong -> IO CULong))
 
 foreign import ccall "wrapper"
   wrap_at
@@ -86,7 +79,6 @@ mtlSharedEventDelegateClass = unsafePerformIO $ do
     objc_allocateClassPair superCls n 0
   addHsDataIvar cls
   let sel_newSharedEventHandle = unSelector (mkSelector "newSharedEventHandle")
-      sel_waitUntilSignaledValue_timeoutMS = unSelector (mkSelector "waitUntilSignaledValue:timeoutMS:")
       sel_signaledValue = unSelector (mkSelector "signaledValue")
       sel_setSignaledValue = unSelector (mkSelector "setSignaledValue:")
   -- newSharedEventHandle
@@ -100,19 +92,8 @@ mtlSharedEventDelegateClass = unsafePerformIO $ do
         pure (castPtr (unRawId r) :: Ptr ObjCObject)
   addObjCMethod cls "newSharedEventHandle" "@@:" stub_0
 
-  -- waitUntilSignaledValue:timeoutMS:
-  stub_1 <- wrap_Q_Q_B $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTLSharedEventOverrides
-    case _waitUntilSignaledValue_timeoutMS rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f (fromIntegral arg0) (fromIntegral arg1)
-        pure (if r then 1 else 0)
-  addObjCMethod cls "waitUntilSignaledValue:timeoutMS:" "B@:QQ" stub_1
-
   -- signaledValue
-  stub_2 <- wrap_Q $ \self _cmd -> do
+  stub_1 <- wrap_Q $ \self _cmd -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLSharedEventOverrides
     case _signaledValue rec_ of
@@ -120,23 +101,22 @@ mtlSharedEventDelegateClass = unsafePerformIO $ do
       Just f -> do
         r <- f 
         pure (fromIntegral r)
-  addObjCMethod cls "signaledValue" "Q@:" stub_2
+  addObjCMethod cls "signaledValue" "Q@:" stub_1
 
   -- setSignaledValue:
-  stub_3 <- wrap_Q_v $ \self _cmd arg0 -> do
+  stub_2 <- wrap_Q_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLSharedEventOverrides
     case _setSignaledValue rec_ of
       Nothing -> pure ()
       Just f -> f (fromIntegral arg0)
-  addObjCMethod cls "setSignaledValue:" "v@:Q" stub_3
+  addObjCMethod cls "setSignaledValue:" "v@:Q" stub_2
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTLSharedEventOverrides
     if queriedSel == sel_newSharedEventHandle then pure (maybe 0 (const 1) (_newSharedEventHandle rec_))
-    else if queriedSel == sel_waitUntilSignaledValue_timeoutMS then pure (maybe 0 (const 1) (_waitUntilSignaledValue_timeoutMS rec_))
     else if queriedSel == sel_signaledValue then pure (maybe 0 (const 1) (_signaledValue rec_))
     else if queriedSel == sel_setSignaledValue then pure (maybe 0 (const 1) (_setSignaledValue rec_))
     else do

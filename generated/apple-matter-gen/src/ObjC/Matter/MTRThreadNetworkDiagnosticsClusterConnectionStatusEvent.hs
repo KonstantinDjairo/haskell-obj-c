@@ -7,9 +7,13 @@
 module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterConnectionStatusEvent
   ( MTRThreadNetworkDiagnosticsClusterConnectionStatusEvent
   , IsMTRThreadNetworkDiagnosticsClusterConnectionStatusEvent(..)
+  , init_
+  , copyWithZone
   , connectionStatus
   , setConnectionStatus
   , connectionStatusSelector
+  , copyWithZoneSelector
+  , initSelector
   , setConnectionStatusSelector
 
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRThreadNetworkDiagnosticsClusterConnectionStatusEvent mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent => mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent -> IO (Id MTRThreadNetworkDiagnosticsClusterConnectionStatusEvent)
+init_ mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThreadNetworkDiagnosticsClusterConnectionStatusEvent mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent => mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent -> Ptr () -> IO RawId
+copyWithZone mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent zone =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent copyWithZoneSelector zone
+
 -- | @- connectionStatus@
 connectionStatus :: IsMTRThreadNetworkDiagnosticsClusterConnectionStatusEvent mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent => mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent -> IO (Id NSNumber)
 connectionStatus mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent =
@@ -39,6 +53,14 @@ setConnectionStatus mtrThreadNetworkDiagnosticsClusterConnectionStatusEvent valu
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThreadNetworkDiagnosticsClusterConnectionStatusEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @connectionStatus@
 connectionStatusSelector :: Selector '[] (Id NSNumber)

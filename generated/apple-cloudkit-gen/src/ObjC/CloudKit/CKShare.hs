@@ -18,31 +18,19 @@ module ObjC.CloudKit.CKShare
   , initWithCoder
   , addParticipant
   , removeParticipant
-  , oneTimeURLForParticipantID
   , init_
   , new
   , initWithRecordType
   , initWithRecordType_recordID
   , initWithRecordType_zoneID
-  , denyRequesters
-  , blockRequesters
-  , unblockIdentities
   , publicPermission
   , setPublicPermission
   , url
   , participants
   , owner
   , currentUserParticipant
-  , requesters
-  , blockedIdentities
-  , allowsAccessRequests
-  , setAllowsAccessRequests
   , addParticipantSelector
-  , allowsAccessRequestsSelector
-  , blockRequestersSelector
-  , blockedIdentitiesSelector
   , currentUserParticipantSelector
-  , denyRequestersSelector
   , initSelector
   , initWithCoderSelector
   , initWithRecordTypeSelector
@@ -52,15 +40,11 @@ module ObjC.CloudKit.CKShare
   , initWithRootRecordSelector
   , initWithRootRecord_shareIDSelector
   , newSelector
-  , oneTimeURLForParticipantIDSelector
   , ownerSelector
   , participantsSelector
   , publicPermissionSelector
   , removeParticipantSelector
-  , requestersSelector
-  , setAllowsAccessRequestsSelector
   , setPublicPermissionSelector
-  , unblockIdentitiesSelector
   , urlSelector
 
   -- * Enum types
@@ -112,7 +96,7 @@ initWithCoder :: (IsCKShare ckShare, IsNSCoder aDecoder) => ckShare -> aDecoder 
 initWithCoder ckShare aDecoder =
   sendOwnedMessage ckShare initWithCoderSelector (toNSCoder aDecoder)
 
--- | If a participant with a matching userIdentity already exists, then that existing participant's properties will be updated; no new participant will be added.  A ``CKShareParticipant`` instance that has already been added to one ``CKShare`` cannot be added to another, unless it is removed from the first ``CKShare`` through @removeParticipant@.  In order to modify the list of participants, a share must have publicPermission set to @CKShareParticipantPermissionNone.@  That is, you cannot mix-and-match private users and public users in the same share.
+-- | If a participant with a matching userIdentity already exists, then that existing participant's properties will be updated; no new participant will be added.  In order to modify the list of participants, a share must have publicPermission set to @CKShareParticipantPermissionNone.@  That is, you cannot mix-and-match private users and public users in the same share.  Only certain participant types may be added via this API
 --
 -- See: CKShareParticipantRole
 --
@@ -121,23 +105,10 @@ addParticipant :: (IsCKShare ckShare, IsCKShareParticipant participant) => ckSha
 addParticipant ckShare participant =
   sendMessage ckShare addParticipantSelector (toCKShareParticipant participant)
 
--- | It's not allowed to call @removeParticipant@ on a ``CKShare`` with a ``CKShareParticipant`` that has never been added to that share through @addParticipant@.
---
--- ObjC selector: @- removeParticipant:@
+-- | @- removeParticipant:@
 removeParticipant :: (IsCKShare ckShare, IsCKShareParticipant participant) => ckShare -> participant -> IO ()
 removeParticipant ckShare participant =
   sendMessage ckShare removeParticipantSelector (toCKShareParticipant participant)
-
--- | Invitation URLs that can be used by any receiver to claim the associated participantID and join the share.
---
--- Only available after a share record has been saved to the server for participants created via ``CKShareParticipant/oneTimeURLParticipant``. One-time URLs are stable, and tied to the associated participantIDs as long as the participant is part of the share. Typically, a recipient user invited via their handle is provided a ``URL`` directly by the share's owner. However, any user can also use a one-time URL in the same manner to fetch share metadata and accept the share. After share acceptance, the one-time URL becomes functionally equivalent to the regular ``URL``.
---
--- - Parameters:   - participantID: The ``CKShareParticipant/participantID`` corresponding to the ``CKShareParticipant/oneTimeURLParticipant`` added to the share.
---
--- ObjC selector: @- oneTimeURLForParticipantID:@
-oneTimeURLForParticipantID :: (IsCKShare ckShare, IsNSString participantID) => ckShare -> participantID -> IO (Id NSURL)
-oneTimeURLForParticipantID ckShare participantID =
-  sendMessage ckShare oneTimeURLForParticipantIDSelector (toNSString participantID)
 
 -- | These superclass-provided initializers are not allowed for CKShare
 --
@@ -167,51 +138,6 @@ initWithRecordType_recordID ckShare recordType recordID =
 initWithRecordType_zoneID :: (IsCKShare ckShare, IsNSString recordType, IsCKRecordZoneID zoneID) => ckShare -> recordType -> zoneID -> IO (Id CKShare)
 initWithRecordType_zoneID ckShare recordType zoneID =
   sendOwnedMessage ckShare initWithRecordType_zoneIDSelector (toNSString recordType) (toCKRecordZoneID zoneID)
-
--- | Denies access requests from specified users.
---
--- Use this method to deny pending access requests from uninvited users. Denied requesters are removed from the ``CloudKit/CKShare/requesters`` array. To persist the changes, save the share to the server after calling this method.
---
--- After denial, requesters can still submit new access requests unless explicitly blocked using ``CloudKit/CKShare/blockRequesters:``.
---
--- Only the share owner or an administrator can invoke this method. Attempts by other participants result in an exception.
---
--- - Parameter requesters: An array of ``CKShareAccessRequester`` objects to deny.
---
--- ObjC selector: @- denyRequesters:@
-denyRequesters :: (IsCKShare ckShare, IsNSArray requesters) => ckShare -> requesters -> IO ()
-denyRequesters ckShare requesters =
-  sendMessage ckShare denyRequestersSelector (toNSArray requesters)
-
--- | Blocks specified users from requesting access to this share.
---
--- Blocking prevents users from submitting future access requests and removes existing participants from the share. Blocked requesters appear in the ``CloudKit/CKShare/blockedIdentities`` array.
---
--- To persist this change, save the share to the server after calling this method.
---
--- Only the share owner or an administrator can invoke this method. Attempts by other participants result in an exception.
---
--- - Parameter requesters: An array of ``CKShareAccessRequester`` objects to block.
---
--- ObjC selector: @- blockRequesters:@
-blockRequesters :: (IsCKShare ckShare, IsNSArray requesters) => ckShare -> requesters -> IO ()
-blockRequesters ckShare requesters =
-  sendMessage ckShare blockRequestersSelector (toNSArray requesters)
-
--- | Unblocks previously blocked users, allowing them to request access again.
---
--- Use this method to remove specified identities from the ``CloudKit/CKShare/blockedIdentities`` array. Unblocked identities can request access again if access requests are enabled.
---
--- To persist this change, save the share to the server after calling this method.
---
--- Only the share owner or an administrator can invoke this method. Attempts by other participants result in an exception.
---
--- - Parameter blockedIdentities: An array of ``CKShareBlockedIdentity`` objects to unblock.
---
--- ObjC selector: @- unblockIdentities:@
-unblockIdentities :: (IsCKShare ckShare, IsNSArray blockedIdentities) => ckShare -> blockedIdentities -> IO ()
-unblockIdentities ckShare blockedIdentities =
-  sendMessage ckShare unblockIdentitiesSelector (toNSArray blockedIdentities)
 
 -- | Defines what permission a user has when not explicitly added to the share.
 --
@@ -261,56 +187,6 @@ currentUserParticipant :: IsCKShare ckShare => ckShare -> IO (Id CKShareParticip
 currentUserParticipant ckShare =
   sendMessage ckShare currentUserParticipantSelector
 
--- | A list of all uninvited users who have requested access to this share.
---
--- When share access requests are allowed, uninvited users can request to join the share. All pending access requests appear in this array. Each requester is returned with name components and either an email or phone number.
---
--- Either share owners or administrators can respond to these access requests.
---
--- ### Responding to Access Requests:
---
--- - **Approve Requesters:**     - Fetch the participant information by running ``CKFetchShareParticipantsOperation`` with       the requester's ``CKShareAccessRequester/participantLookupInfo``.     - Add the resulting participant to the share.
---
--- - **Deny Requesters:**     - Use ``CloudKit/CKShare/denyRequesters:`` to remove the requester from the requesters list.
---
--- - **Block Requesters:**     - Use ``CloudKit/CKShare/blockRequesters:`` to block requesters.     - Blocking a requester prevents them from sending future access requests to the share.
---
--- ObjC selector: @- requesters@
-requesters :: IsCKShare ckShare => ckShare -> IO (Id NSArray)
-requesters ckShare =
-  sendMessage ckShare requestersSelector
-
--- | A list of users blocked from requesting access to this share.
---
--- Identities remain in this list until an owner or administrator calls ``CloudKit/CKShare/unblockIdentities:``.
---
--- ObjC selector: @- blockedIdentities@
-blockedIdentities :: IsCKShare ckShare => ckShare -> IO (Id NSArray)
-blockedIdentities ckShare =
-  sendMessage ckShare blockedIdentitiesSelector
-
--- | Indicates whether uninvited users can request access to this share.
---
--- By default, this property is set to @NO@. When set to @YES@, uninvited users can request access to the share if they discover the share URL. When set to @NO@, the server prevents uninvited users from requesting access and does not indicate whether the share exists.
---
--- Only the share owner or an administrator can modify this property. Attempts by other participants to modify this property result in an exception.
---
--- ObjC selector: @- allowsAccessRequests@
-allowsAccessRequests :: IsCKShare ckShare => ckShare -> IO Bool
-allowsAccessRequests ckShare =
-  sendMessage ckShare allowsAccessRequestsSelector
-
--- | Indicates whether uninvited users can request access to this share.
---
--- By default, this property is set to @NO@. When set to @YES@, uninvited users can request access to the share if they discover the share URL. When set to @NO@, the server prevents uninvited users from requesting access and does not indicate whether the share exists.
---
--- Only the share owner or an administrator can modify this property. Attempts by other participants to modify this property result in an exception.
---
--- ObjC selector: @- setAllowsAccessRequests:@
-setAllowsAccessRequests :: IsCKShare ckShare => ckShare -> Bool -> IO ()
-setAllowsAccessRequests ckShare value =
-  sendMessage ckShare setAllowsAccessRequestsSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -339,10 +215,6 @@ addParticipantSelector = mkSelector "addParticipant:"
 removeParticipantSelector :: Selector '[Id CKShareParticipant] ()
 removeParticipantSelector = mkSelector "removeParticipant:"
 
--- | @Selector@ for @oneTimeURLForParticipantID:@
-oneTimeURLForParticipantIDSelector :: Selector '[Id NSString] (Id NSURL)
-oneTimeURLForParticipantIDSelector = mkSelector "oneTimeURLForParticipantID:"
-
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id CKShare)
 initSelector = mkSelector "init"
@@ -362,18 +234,6 @@ initWithRecordType_recordIDSelector = mkSelector "initWithRecordType:recordID:"
 -- | @Selector@ for @initWithRecordType:zoneID:@
 initWithRecordType_zoneIDSelector :: Selector '[Id NSString, Id CKRecordZoneID] (Id CKShare)
 initWithRecordType_zoneIDSelector = mkSelector "initWithRecordType:zoneID:"
-
--- | @Selector@ for @denyRequesters:@
-denyRequestersSelector :: Selector '[Id NSArray] ()
-denyRequestersSelector = mkSelector "denyRequesters:"
-
--- | @Selector@ for @blockRequesters:@
-blockRequestersSelector :: Selector '[Id NSArray] ()
-blockRequestersSelector = mkSelector "blockRequesters:"
-
--- | @Selector@ for @unblockIdentities:@
-unblockIdentitiesSelector :: Selector '[Id NSArray] ()
-unblockIdentitiesSelector = mkSelector "unblockIdentities:"
 
 -- | @Selector@ for @publicPermission@
 publicPermissionSelector :: Selector '[] CKShareParticipantPermission
@@ -398,20 +258,4 @@ ownerSelector = mkSelector "owner"
 -- | @Selector@ for @currentUserParticipant@
 currentUserParticipantSelector :: Selector '[] (Id CKShareParticipant)
 currentUserParticipantSelector = mkSelector "currentUserParticipant"
-
--- | @Selector@ for @requesters@
-requestersSelector :: Selector '[] (Id NSArray)
-requestersSelector = mkSelector "requesters"
-
--- | @Selector@ for @blockedIdentities@
-blockedIdentitiesSelector :: Selector '[] (Id NSArray)
-blockedIdentitiesSelector = mkSelector "blockedIdentities"
-
--- | @Selector@ for @allowsAccessRequests@
-allowsAccessRequestsSelector :: Selector '[] Bool
-allowsAccessRequestsSelector = mkSelector "allowsAccessRequests"
-
--- | @Selector@ for @setAllowsAccessRequests:@
-setAllowsAccessRequestsSelector :: Selector '[Bool] ()
-setAllowsAccessRequestsSelector = mkSelector "setAllowsAccessRequests:"
 

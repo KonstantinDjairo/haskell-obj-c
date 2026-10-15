@@ -3,7 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A description of a model containing input, output, and state feature descriptions, optionally outputted features with special meaning and metadata.
+-- | A description of a model containing input and output feature descriptions, optionally outputted features with special meaning and metadata.
 --
 -- Generated bindings for @MLModelDescription@.
 module ObjC.CoreML.MLModelDescription
@@ -11,7 +11,6 @@ module ObjC.CoreML.MLModelDescription
   , IsMLModelDescription(..)
   , inputDescriptionsByName
   , outputDescriptionsByName
-  , stateDescriptionsByName
   , predictedFeatureName
   , predictedProbabilitiesName
   , metadata
@@ -27,7 +26,6 @@ module ObjC.CoreML.MLModelDescription
   , parameterDescriptionsByKeySelector
   , predictedFeatureNameSelector
   , predictedProbabilitiesNameSelector
-  , stateDescriptionsByNameSelector
   , trainingInputDescriptionsByNameSelector
 
 
@@ -57,13 +55,6 @@ inputDescriptionsByName mlModelDescription =
 outputDescriptionsByName :: IsMLModelDescription mlModelDescription => mlModelDescription -> IO (Id NSDictionary)
 outputDescriptionsByName mlModelDescription =
   sendMessage mlModelDescription outputDescriptionsByNameSelector
-
--- | Description of the state features.
---
--- ObjC selector: @- stateDescriptionsByName@
-stateDescriptionsByName :: IsMLModelDescription mlModelDescription => mlModelDescription -> IO (Id NSDictionary)
-stateDescriptionsByName mlModelDescription =
-  sendMessage mlModelDescription stateDescriptionsByNameSelector
 
 -- | Name of the primary target / predicted output feature in the output descriptions
 --
@@ -127,10 +118,6 @@ inputDescriptionsByNameSelector = mkSelector "inputDescriptionsByName"
 -- | @Selector@ for @outputDescriptionsByName@
 outputDescriptionsByNameSelector :: Selector '[] (Id NSDictionary)
 outputDescriptionsByNameSelector = mkSelector "outputDescriptionsByName"
-
--- | @Selector@ for @stateDescriptionsByName@
-stateDescriptionsByNameSelector :: Selector '[] (Id NSDictionary)
-stateDescriptionsByNameSelector = mkSelector "stateDescriptionsByName"
 
 -- | @Selector@ for @predictedFeatureName@
 predictedFeatureNameSelector :: Selector '[] (Id NSString)

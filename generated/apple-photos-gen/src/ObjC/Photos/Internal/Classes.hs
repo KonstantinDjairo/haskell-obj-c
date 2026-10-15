@@ -10,7 +10,6 @@ module ObjC.Photos.Internal.Classes (
     module ObjC.Photos.Internal.Classes,
     module ObjC.AppKit.Internal.Classes,
     module ObjC.Foundation.Internal.Classes,
-    module ObjC.UniformTypeIdentifiers.Internal.Classes,
   ) where
 
 import Data.Proxy (Proxy(..))
@@ -18,7 +17,6 @@ import ObjC.Runtime.Types
 import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- ---------- PHAdjustmentData ----------
 
@@ -619,34 +617,6 @@ instance IsNSObject (Id PHAssetCollectionChangeRequest) where
 instance IsPHChangeRequest (Id PHAssetCollectionChangeRequest) where
   toPHChangeRequest = unsafeCastId
 
--- ---------- PHAssetResourceUploadJobChangeRequest ----------
-
--- | Use within an application's @com.apple.photos.background-upload@ extension to create and change ``PHAssetResourceUploadJob`` records.
---
--- When the extension's principal class receives a call to @process@ background uploads, it can create new ``PHAssetResourceUploadJob``s through calls to perform changes on a PHPhotoLibrary using ``PHAssetResourceUploadJobChangeRequest`` and any in-flight upload jobs can be handled by updating their state to mark them as acknowledged, or to be retried. The maximum number of jobs that can be in flight is limited to the ``PHAssetResourceUploadJob.jobLimit``.
---
--- ``PHAssetResourceUploadJobChangeRequest`` can only be created or used within a photo library change block. For details on change blocks, see ``PHPhotoLibrary``.
--- 
--- Phantom type for @PHAssetResourceUploadJobChangeRequest@.
-data PHAssetResourceUploadJobChangeRequest
-
-instance IsObjCObject (Id PHAssetResourceUploadJobChangeRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PHAssetResourceUploadJobChangeRequest"
-
-class IsPHChangeRequest a => IsPHAssetResourceUploadJobChangeRequest a where
-  toPHAssetResourceUploadJobChangeRequest :: a -> Id PHAssetResourceUploadJobChangeRequest
-
-instance IsPHAssetResourceUploadJobChangeRequest (Id PHAssetResourceUploadJobChangeRequest) where
-  toPHAssetResourceUploadJobChangeRequest = unsafeCastId
-
-instance IsNSObject (Id PHAssetResourceUploadJobChangeRequest) where
-  toNSObject = unsafeCastId
-
-instance IsPHChangeRequest (Id PHAssetResourceUploadJobChangeRequest) where
-  toPHChangeRequest = unsafeCastId
-
 -- ---------- PHCollectionListChangeRequest ----------
 
 -- | Phantom type for @PHCollectionListChangeRequest@.
@@ -733,36 +703,6 @@ instance IsNSObject (Id PHAsset) where
   toNSObject = unsafeCastId
 
 instance IsPHObject (Id PHAsset) where
-  toPHObject = unsafeCastId
-
--- ---------- PHAssetResourceUploadJob ----------
-
--- | An object that represents a request to upload an asset resource.
---
--- Use within an application's @com.apple.photos.background-upload@ extension to request an upload of a ``PHAssetResource`` to a destination <doc://com.apple.documentation/documentation/foundation/nsurlrequest>.
---
--- When the extension's principal class receives a call to ``PHBackgroundResourceUploadExtension/process()`` background uploads, it can create new ``PHAssetResourceUploadJob`` objects using ``PHAssetResourceUploadJobChangeRequest``.
---
--- The maximum number of jobs that can be in flight is limited to the ``jobLimit``. To make space for new jobs, you must call ``PHAssetResourceUploadJobChangeRequest/fetchJobsWithAction:options:`` and retry/acknowledge them with ``PHAssetResourceUploadJobChangeRequest/acknowledge:`` or ``PHAssetResourceUploadJobChangeRequest/retryWithDestination:`` respectively.
--- 
--- Phantom type for @PHAssetResourceUploadJob@.
-data PHAssetResourceUploadJob
-
-instance IsObjCObject (Id PHAssetResourceUploadJob) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PHAssetResourceUploadJob"
-
-class IsPHObject a => IsPHAssetResourceUploadJob a where
-  toPHAssetResourceUploadJob :: a -> Id PHAssetResourceUploadJob
-
-instance IsPHAssetResourceUploadJob (Id PHAssetResourceUploadJob) where
-  toPHAssetResourceUploadJob = unsafeCastId
-
-instance IsNSObject (Id PHAssetResourceUploadJob) where
-  toNSObject = unsafeCastId
-
-instance IsPHObject (Id PHAssetResourceUploadJob) where
   toPHObject = unsafeCastId
 
 -- ---------- PHCollection ----------

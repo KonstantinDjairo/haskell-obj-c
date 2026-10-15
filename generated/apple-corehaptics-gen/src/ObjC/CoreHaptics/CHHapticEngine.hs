@@ -40,8 +40,6 @@ module ObjC.CoreHaptics.CHHapticEngine
   , setIsMutedForHaptics
   , autoShutdownEnabled
   , setAutoShutdownEnabled
-  , intendedSpatialExperience
-  , setIntendedSpatialExperience
   , autoShutdownEnabledSelector
   , capabilitiesForHardwareSelector
   , createAdvancedPlayerWithPattern_errorSelector
@@ -50,7 +48,6 @@ module ObjC.CoreHaptics.CHHapticEngine
   , initAndReturnErrorSelector
   , initSelector
   , initWithAudioSession_errorSelector
-  , intendedSpatialExperienceSelector
   , isMutedForAudioSelector
   , isMutedForHapticsSelector
   , notifyWhenPlayersFinishedSelector
@@ -61,7 +58,6 @@ module ObjC.CoreHaptics.CHHapticEngine
   , registerAudioResource_options_errorSelector
   , resetHandlerSelector
   , setAutoShutdownEnabledSelector
-  , setIntendedSpatialExperienceSelector
   , setIsMutedForAudioSelector
   , setIsMutedForHapticsSelector
   , setPlaysAudioOnlySelector
@@ -422,28 +418,6 @@ setAutoShutdownEnabled :: IsCHHapticEngine chHapticEngine => chHapticEngine -> B
 setAutoShutdownEnabled chHapticEngine value =
   sendMessage chHapticEngine setAutoShutdownEnabledSelector value
 
--- | intendedSpatialExperience
---
--- The CHHapticEngine's intended @CASpatialAudioExperience@.
---
--- Only useful for engines that have audio output. If unspecified, the        property value defaults to @CAAutomaticSpatialAudio@.
---
--- ObjC selector: @- intendedSpatialExperience@
-intendedSpatialExperience :: IsCHHapticEngine chHapticEngine => chHapticEngine -> IO RawId
-intendedSpatialExperience chHapticEngine =
-  sendMessage chHapticEngine intendedSpatialExperienceSelector
-
--- | intendedSpatialExperience
---
--- The CHHapticEngine's intended @CASpatialAudioExperience@.
---
--- Only useful for engines that have audio output. If unspecified, the        property value defaults to @CAAutomaticSpatialAudio@.
---
--- ObjC selector: @- setIntendedSpatialExperience:@
-setIntendedSpatialExperience :: IsCHHapticEngine chHapticEngine => chHapticEngine -> RawId -> IO ()
-setIntendedSpatialExperience chHapticEngine value =
-  sendMessage chHapticEngine setIntendedSpatialExperienceSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -563,12 +537,4 @@ autoShutdownEnabledSelector = mkSelector "autoShutdownEnabled"
 -- | @Selector@ for @setAutoShutdownEnabled:@
 setAutoShutdownEnabledSelector :: Selector '[Bool] ()
 setAutoShutdownEnabledSelector = mkSelector "setAutoShutdownEnabled:"
-
--- | @Selector@ for @intendedSpatialExperience@
-intendedSpatialExperienceSelector :: Selector '[] RawId
-intendedSpatialExperienceSelector = mkSelector "intendedSpatialExperience"
-
--- | @Selector@ for @setIntendedSpatialExperience:@
-setIntendedSpatialExperienceSelector :: Selector '[RawId] ()
-setIntendedSpatialExperienceSelector = mkSelector "setIntendedSpatialExperience:"
 

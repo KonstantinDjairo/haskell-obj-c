@@ -6,7 +6,7 @@
 
 -- | A request for generating a feature print of an image.
 --
--- This request will produce a @VNFeaturePrintObservation@ object.
+-- This request will produce a VNFeaturePrintObservation object.
 --
 -- Generated bindings for @VNGenerateImageFeaturePrintRequest@.
 module ObjC.Vision.VNGenerateImageFeaturePrintRequest
@@ -43,7 +43,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Determine what type of croping and scaling action should be applied to the image before generating the feature print.
 --
--- The default value for this property is @VNImageCropAndScaleOptionScaleFill@.
+-- The default value for this property is VNImageCropAndScaleOptionScaleFill.
 --
 -- ObjC selector: @- imageCropAndScaleOption@
 imageCropAndScaleOption :: IsVNGenerateImageFeaturePrintRequest vnGenerateImageFeaturePrintRequest => vnGenerateImageFeaturePrintRequest -> IO VNImageCropAndScaleOption
@@ -52,14 +52,14 @@ imageCropAndScaleOption vnGenerateImageFeaturePrintRequest =
 
 -- | Determine what type of croping and scaling action should be applied to the image before generating the feature print.
 --
--- The default value for this property is @VNImageCropAndScaleOptionScaleFill@.
+-- The default value for this property is VNImageCropAndScaleOptionScaleFill.
 --
 -- ObjC selector: @- setImageCropAndScaleOption:@
 setImageCropAndScaleOption :: IsVNGenerateImageFeaturePrintRequest vnGenerateImageFeaturePrintRequest => vnGenerateImageFeaturePrintRequest -> VNImageCropAndScaleOption -> IO ()
 setImageCropAndScaleOption vnGenerateImageFeaturePrintRequest value =
   sendMessage vnGenerateImageFeaturePrintRequest setImageCropAndScaleOptionSelector value
 
--- | @VNFeaturePrintObservation@ results.
+-- | VNFeaturePrintObservation results.
 --
 -- ObjC selector: @- results@
 results :: IsVNGenerateImageFeaturePrintRequest vnGenerateImageFeaturePrintRequest => vnGenerateImageFeaturePrintRequest -> IO (Id NSArray)

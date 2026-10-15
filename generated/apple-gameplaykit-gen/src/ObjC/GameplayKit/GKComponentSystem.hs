@@ -60,7 +60,7 @@ initWithComponentClass gkComponentSystem cls =
 
 -- | Adds a component to the system. The component must be of the same class as the system's componentClass. The component is added to the tail of the collection and will be processed after components that were added before it.
 --
--- if the component added is not a kind of the system's componentClass.
+-- NSInvalidArgumentException if the component added is not a kind of the system's componentClass.
 --
 -- ObjC selector: @- addComponent:@
 addComponent :: (IsGKComponentSystem gkComponentSystem, IsGKComponent component) => gkComponentSystem -> component -> IO ()

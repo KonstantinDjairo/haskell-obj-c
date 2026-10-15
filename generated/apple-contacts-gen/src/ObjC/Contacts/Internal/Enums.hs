@@ -32,9 +32,6 @@ pattern CNAuthorizationStatusDenied = CNAuthorizationStatus 2
 pattern CNAuthorizationStatusAuthorized :: CNAuthorizationStatus
 pattern CNAuthorizationStatusAuthorized = CNAuthorizationStatus 3
 
-pattern CNAuthorizationStatusLimited :: CNAuthorizationStatus
-pattern CNAuthorizationStatusLimited = CNAuthorizationStatus 4
-
 instance ObjCArgument CNAuthorizationStatus where
   withObjCArg (CNAuthorizationStatus x) k = k (argCLong x)
 
@@ -211,9 +208,6 @@ pattern CNErrorCodeUnauthorizedKeys = CNErrorCode 102
 
 pattern CNErrorCodeFeatureDisabledByUser :: CNErrorCode
 pattern CNErrorCodeFeatureDisabledByUser = CNErrorCode 103
-
-pattern CNErrorCodeFeatureNotAvailable :: CNErrorCode
-pattern CNErrorCodeFeatureNotAvailable = CNErrorCode 104
 
 pattern CNErrorCodeRecordDoesNotExist :: CNErrorCode
 pattern CNErrorCodeRecordDoesNotExist = CNErrorCode 200

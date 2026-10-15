@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Defines an interface for querying information about the requirements of the current pass, such as the time ranges of media data to append.
+-- | AVAssetWriterInputPassDescription
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Defines an interface for querying information about the requirements of the current pass, such as the time ranges of media data to append.
 --
 -- Generated bindings for @AVAssetWriterInputPassDescription@.
 module ObjC.AVFoundation.AVAssetWriterInputPassDescription
@@ -44,7 +44,9 @@ new  =
     cls' <- getRequiredClass "AVAssetWriterInputPassDescription"
     sendOwnedClassMessage cls' newSelector
 
--- | An NSArray of NSValue objects wrapping CMTimeRange structures, each representing one source time range.
+-- | sourceTimeRanges
+--
+-- An NSArray of NSValue objects wrapping CMTimeRange structures, each representing one source time range.
 --
 -- The value of this property is suitable for using as a parameter for -[AVAssetReaderOutput resetForReadingTimeRanges:].
 --

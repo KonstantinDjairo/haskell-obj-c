@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -41,10 +40,6 @@ module ObjC.Metal.MTLRenderPassDescriptor
   , rasterizationRateMap
   , setRasterizationRateMap
   , sampleBufferAttachments
-  , visibilityResultType
-  , setVisibilityResultType
-  , supportColorAttachmentMapping
-  , setSupportColorAttachmentMapping
   , colorAttachmentsSelector
   , defaultRasterSampleCountSelector
   , depthAttachmentSelector
@@ -65,24 +60,16 @@ module ObjC.Metal.MTLRenderPassDescriptor
   , setRenderTargetWidthSelector
   , setSamplePositions_countSelector
   , setStencilAttachmentSelector
-  , setSupportColorAttachmentMappingSelector
   , setThreadgroupMemoryLengthSelector
   , setTileHeightSelector
   , setTileWidthSelector
   , setVisibilityResultBufferSelector
-  , setVisibilityResultTypeSelector
   , stencilAttachmentSelector
-  , supportColorAttachmentMappingSelector
   , threadgroupMemoryLengthSelector
   , tileHeightSelector
   , tileWidthSelector
   , visibilityResultBufferSelector
-  , visibilityResultTypeSelector
 
-  -- * Enum types
-  , MTLVisibilityResultType(MTLVisibilityResultType)
-  , pattern MTLVisibilityResultTypeReset
-  , pattern MTLVisibilityResultTypeAccumulate
 
   ) where
 
@@ -95,7 +82,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Metal.Internal.Classes
-import ObjC.Metal.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | renderPassDescriptor
@@ -371,34 +357,6 @@ sampleBufferAttachments :: IsMTLRenderPassDescriptor mtlRenderPassDescriptor => 
 sampleBufferAttachments mtlRenderPassDescriptor =
   sendMessage mtlRenderPassDescriptor sampleBufferAttachmentsSelector
 
--- | Specifies if Metal accumulates visibility results between render encoders or resets them.
---
--- ObjC selector: @- visibilityResultType@
-visibilityResultType :: IsMTLRenderPassDescriptor mtlRenderPassDescriptor => mtlRenderPassDescriptor -> IO MTLVisibilityResultType
-visibilityResultType mtlRenderPassDescriptor =
-  sendMessage mtlRenderPassDescriptor visibilityResultTypeSelector
-
--- | Specifies if Metal accumulates visibility results between render encoders or resets them.
---
--- ObjC selector: @- setVisibilityResultType:@
-setVisibilityResultType :: IsMTLRenderPassDescriptor mtlRenderPassDescriptor => mtlRenderPassDescriptor -> MTLVisibilityResultType -> IO ()
-setVisibilityResultType mtlRenderPassDescriptor value =
-  sendMessage mtlRenderPassDescriptor setVisibilityResultTypeSelector value
-
--- | Specifies if the render pass should support color attachment mapping.
---
--- ObjC selector: @- supportColorAttachmentMapping@
-supportColorAttachmentMapping :: IsMTLRenderPassDescriptor mtlRenderPassDescriptor => mtlRenderPassDescriptor -> IO Bool
-supportColorAttachmentMapping mtlRenderPassDescriptor =
-  sendMessage mtlRenderPassDescriptor supportColorAttachmentMappingSelector
-
--- | Specifies if the render pass should support color attachment mapping.
---
--- ObjC selector: @- setSupportColorAttachmentMapping:@
-setSupportColorAttachmentMapping :: IsMTLRenderPassDescriptor mtlRenderPassDescriptor => mtlRenderPassDescriptor -> Bool -> IO ()
-setSupportColorAttachmentMapping mtlRenderPassDescriptor value =
-  sendMessage mtlRenderPassDescriptor setSupportColorAttachmentMappingSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -518,20 +476,4 @@ setRasterizationRateMapSelector = mkSelector "setRasterizationRateMap:"
 -- | @Selector@ for @sampleBufferAttachments@
 sampleBufferAttachmentsSelector :: Selector '[] (Id MTLRenderPassSampleBufferAttachmentDescriptorArray)
 sampleBufferAttachmentsSelector = mkSelector "sampleBufferAttachments"
-
--- | @Selector@ for @visibilityResultType@
-visibilityResultTypeSelector :: Selector '[] MTLVisibilityResultType
-visibilityResultTypeSelector = mkSelector "visibilityResultType"
-
--- | @Selector@ for @setVisibilityResultType:@
-setVisibilityResultTypeSelector :: Selector '[MTLVisibilityResultType] ()
-setVisibilityResultTypeSelector = mkSelector "setVisibilityResultType:"
-
--- | @Selector@ for @supportColorAttachmentMapping@
-supportColorAttachmentMappingSelector :: Selector '[] Bool
-supportColorAttachmentMappingSelector = mkSelector "supportColorAttachmentMapping"
-
--- | @Selector@ for @setSupportColorAttachmentMapping:@
-setSupportColorAttachmentMappingSelector :: Selector '[Bool] ()
-setSupportColorAttachmentMappingSelector = mkSelector "setSupportColorAttachmentMapping:"
 

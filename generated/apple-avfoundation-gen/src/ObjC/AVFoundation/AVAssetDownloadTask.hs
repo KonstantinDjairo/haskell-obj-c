@@ -3,7 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A NSURLSessionTask that accepts remote AVURLAssets to download locally.
+-- | AVAssetDownloadTask
+--
+-- A NSURLSessionTask that accepts remote AVURLAssets to download locally.
 --
 -- Should be created with -[AVAssetDownloadURLSession assetDownloadTaskWithURLAsset:assetTitle:assetArtworkData:options:]. To utilize local data for playback for downloads that are in-progress, re-use the URLAsset supplied in initialization. An AVAssetDownloadTask may be instantiated with a destinationURL pointing to an existing asset on disk, for the purpose of completing or augmenting a downloaded asset.
 --
@@ -56,30 +58,38 @@ new  =
     cls' <- getRequiredClass "AVAssetDownloadTask"
     sendOwnedClassMessage cls' newSelector
 
--- | The asset supplied to the download task upon initialization.
+-- | URLAsset
+--
+-- The asset supplied to the download task upon initialization.
 --
 -- ObjC selector: @- URLAsset@
 urlAsset :: IsAVAssetDownloadTask avAssetDownloadTask => avAssetDownloadTask -> IO (Id AVURLAsset)
 urlAsset avAssetDownloadTask =
   sendMessage avAssetDownloadTask urlAssetSelector
 
--- | The file URL supplied to the download task upon initialization.
+-- | destinationURL
+--
+-- The file URL supplied to the download task upon initialization.
 --
 -- This URL may have been appended with the appropriate extension for the asset.
 --
 -- ObjC selector: @- destinationURL@
-destinationURL :: IsAVAssetDownloadTask avAssetDownloadTask => avAssetDownloadTask -> IO (Id NSURL)
+destinationURL :: IsAVAssetDownloadTask avAssetDownloadTask => avAssetDownloadTask -> IO RawId
 destinationURL avAssetDownloadTask =
   sendMessage avAssetDownloadTask destinationURLSelector
 
--- | The options supplied to the download task upon initialization.
+-- | options
+--
+-- The options supplied to the download task upon initialization.
 --
 -- ObjC selector: @- options@
 options :: IsAVAssetDownloadTask avAssetDownloadTask => avAssetDownloadTask -> IO (Id NSDictionary)
 options avAssetDownloadTask =
   sendMessage avAssetDownloadTask optionsSelector
 
--- | This property provides a collection of time ranges for which the download task has media data already downloaded and playable. The ranges provided might be discontinuous.
+-- | loadedTimeRanges
+--
+-- This property provides a collection of time ranges for which the download task has media data already downloaded and playable. The ranges provided might be discontinuous.
 --
 -- Returns an NSArray of NSValues containing CMTimeRanges.
 --
@@ -120,7 +130,7 @@ urlAssetSelector :: Selector '[] (Id AVURLAsset)
 urlAssetSelector = mkSelector "URLAsset"
 
 -- | @Selector@ for @destinationURL@
-destinationURLSelector :: Selector '[] (Id NSURL)
+destinationURLSelector :: Selector '[] RawId
 destinationURLSelector = mkSelector "destinationURL"
 
 -- | @Selector@ for @options@

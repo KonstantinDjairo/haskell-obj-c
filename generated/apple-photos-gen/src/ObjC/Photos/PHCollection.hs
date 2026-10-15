@@ -75,7 +75,7 @@ canContainCollections phCollection =
   sendMessage phCollection canContainCollectionsSelector
 
 -- | @- localizedTitle@
-localizedTitle :: IsPHCollection phCollection => phCollection -> IO (Id NSString)
+localizedTitle :: IsPHCollection phCollection => phCollection -> IO RawId
 localizedTitle phCollection =
   sendMessage phCollection localizedTitleSelector
 
@@ -104,6 +104,6 @@ canContainCollectionsSelector :: Selector '[] Bool
 canContainCollectionsSelector = mkSelector "canContainCollections"
 
 -- | @Selector@ for @localizedTitle@
-localizedTitleSelector :: Selector '[] (Id NSString)
+localizedTitleSelector :: Selector '[] RawId
 localizedTitleSelector = mkSelector "localizedTitle"
 

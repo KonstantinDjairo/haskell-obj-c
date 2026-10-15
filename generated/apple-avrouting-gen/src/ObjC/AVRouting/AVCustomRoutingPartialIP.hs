@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Represents a full or partial IP address.
+-- | AVCustomRoutingPartialIP
 --
--- Use this class in conjunction with ``knownRouteIPs``.
+-- Represents a full or partial IP address. To be used in conjunction with AVCustomRoutingController.knownRouteIPs
 --
 -- Generated bindings for @AVCustomRoutingPartialIP@.
 module ObjC.AVRouting.AVCustomRoutingPartialIP
@@ -36,7 +36,9 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVRouting.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates an IP fragment.  - Parameters:    - address: The IP address.    - mask: The address mask.
+-- | initWithAddress:mask:
+--
+-- Initializes an IP fragment.
 --
 -- ObjC selector: @- initWithAddress:mask:@
 initWithAddress_mask :: (IsAVCustomRoutingPartialIP avCustomRoutingPartialIP, IsNSData address, IsNSData mask) => avCustomRoutingPartialIP -> address -> mask -> IO (Id AVCustomRoutingPartialIP)
@@ -55,25 +57,25 @@ new  =
     cls' <- getRequiredClass "AVCustomRoutingPartialIP"
     sendOwnedClassMessage cls' newSelector
 
--- | A full or partial IP address for a device known to be on the network.
+-- | address
 --
--- Use the following code to create a full known IP address.
+-- Bytes of the IP address. A full or partial IP address for a device known to be on the network.
 --
--- ```var anIPAddressInBytes:[Byte] = [192, 168, 10, 5]var address = Data(bytes: anAddressInBytes, length: anAddressInBytes.count)var aMaskInBytes:[Byte] = [255, 255, 255, 255]var mask = Data(bytes: aMaskInBytes, length: aMaskInBytes.count)var partialIP = AVCustomRoutingPartialIP(address: address, mask: mask)```
+-- To create full known IP, the app would do the following:                    var anIPAddressInBytes:[Byte] = [192, 168, 10, 5]                    var address = Data(bytes: anAddressInBytes, length: anAddressInBytes.count)                    var aMaskInBytes:[Byte] = [255, 255, 255, 255]                    var mask = Data(bytes: aMaskInBytes, length: aMaskInBytes.count)                    var partialIP = AVCustomRoutingPartialIP(address: address, mask: mask)
 --
 -- ObjC selector: @- address@
-address :: IsAVCustomRoutingPartialIP avCustomRoutingPartialIP => avCustomRoutingPartialIP -> IO (Id NSData)
+address :: IsAVCustomRoutingPartialIP avCustomRoutingPartialIP => avCustomRoutingPartialIP -> IO RawId
 address avCustomRoutingPartialIP =
   sendMessage avCustomRoutingPartialIP addressSelector
 
--- | A mask representing how many octets of the IP  address to respect.
+-- | mask
 --
--- Use this mask to pass the last two bytes of the IP address instead of passing all four bytes.
+-- A mask representing how many octets of the ip address to respect.
 --
--- ```var anIPAddressInBytes:[Byte] = [0, 0, 10, 5] var address = Data(bytes: anAddressInBytes, length: anAddressInBytes.count) var aMaskInBytes:[Byte] = [0, 0, 255, 255] var mask = Data(bytes: aMaskInBytes, length: aMaskInBytes.count) var partialIP =AVCustomRoutingPartialIP(address: address, mask: mask) ```
+-- An app can use this mask to only pass e.g. the last two bytes of the IP address. So instead of passing the full IP address, the app can pass just the last two bytes by masking the first two.                    var anIPAddressInBytes:[Byte] = [0, 0, 10, 5]                    var address = Data(bytes: anAddressInBytes, length: anAddressInBytes.count)                    var aMaskInBytes:[Byte] = [0, 0, 255, 255]                    var mask = Data(bytes: aMaskInBytes, length: aMaskInBytes.count)                    var partialIP =AVCustomRoutingPartialIP(address: address, mask: mask)
 --
 -- ObjC selector: @- mask@
-mask :: IsAVCustomRoutingPartialIP avCustomRoutingPartialIP => avCustomRoutingPartialIP -> IO (Id NSData)
+mask :: IsAVCustomRoutingPartialIP avCustomRoutingPartialIP => avCustomRoutingPartialIP -> IO RawId
 mask avCustomRoutingPartialIP =
   sendMessage avCustomRoutingPartialIP maskSelector
 
@@ -94,10 +96,10 @@ newSelector :: Selector '[] (Id AVCustomRoutingPartialIP)
 newSelector = mkSelector "new"
 
 -- | @Selector@ for @address@
-addressSelector :: Selector '[] (Id NSData)
+addressSelector :: Selector '[] RawId
 addressSelector = mkSelector "address"
 
 -- | @Selector@ for @mask@
-maskSelector :: Selector '[] (Id NSData)
+maskSelector :: Selector '[] RawId
 maskSelector = mkSelector "mask"
 

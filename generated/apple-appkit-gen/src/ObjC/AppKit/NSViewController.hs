@@ -11,7 +11,6 @@ module ObjC.AppKit.NSViewController
   , initWithNibName_bundle
   , initWithCoder
   , loadView
-  , loadViewIfNeeded
   , commitEditingWithDelegate_didCommitSelector_contextInfo
   , commitEditing
   , discardEditing
@@ -32,7 +31,6 @@ module ObjC.AppKit.NSViewController
   , presentViewControllerAsSheet
   , presentViewControllerAsModalWindow
   , presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior
-  , presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior_hasFullSizeContent
   , transitionFromViewController_toViewController_options_completionHandler
   , presentViewController_animator
   , dismissViewController
@@ -45,7 +43,6 @@ module ObjC.AppKit.NSViewController
   , setTitle
   , view
   , setView
-  , viewIfLoaded
   , viewLoaded
   , preferredContentSize
   , setPreferredContentSize
@@ -58,12 +55,8 @@ module ObjC.AppKit.NSViewController
   , preferredMaximumSize
   , storyboard
   , parentViewController
-  , childViewControllers
-  , setChildViewControllers
-  , presentedViewControllers
   , presentingViewController
   , addChildViewControllerSelector
-  , childViewControllersSelector
   , commitEditingSelector
   , commitEditingWithDelegate_didCommitSelector_contextInfoSelector
   , discardEditingSelector
@@ -73,7 +66,6 @@ module ObjC.AppKit.NSViewController
   , initWithCoderSelector
   , initWithNibName_bundleSelector
   , insertChildViewController_atIndexSelector
-  , loadViewIfNeededSelector
   , loadViewSelector
   , nibBundleSelector
   , nibNameSelector
@@ -87,13 +79,10 @@ module ObjC.AppKit.NSViewController
   , presentViewControllerAsSheetSelector
   , presentViewController_animatorSelector
   , presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behaviorSelector
-  , presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior_hasFullSizeContentSelector
-  , presentedViewControllersSelector
   , presentingViewControllerSelector
   , removeChildViewControllerAtIndexSelector
   , removeFromParentViewControllerSelector
   , representedObjectSelector
-  , setChildViewControllersSelector
   , setPreferredContentSizeSelector
   , setPreferredScreenOriginSelector
   , setRepresentedObjectSelector
@@ -109,7 +98,6 @@ module ObjC.AppKit.NSViewController
   , viewDidDisappearSelector
   , viewDidLayoutSelector
   , viewDidLoadSelector
-  , viewIfLoadedSelector
   , viewLoadedSelector
   , viewSelector
   , viewWillAppearSelector
@@ -172,11 +160,6 @@ initWithCoder nsViewController coder =
 loadView :: IsNSViewController nsViewController => nsViewController -> IO ()
 loadView nsViewController =
   sendMessage nsViewController loadViewSelector
-
--- | @- loadViewIfNeeded@
-loadViewIfNeeded :: IsNSViewController nsViewController => nsViewController -> IO ()
-loadViewIfNeeded nsViewController =
-  sendMessage nsViewController loadViewIfNeededSelector
 
 -- | @- commitEditingWithDelegate:didCommitSelector:contextInfo:@
 commitEditingWithDelegate_didCommitSelector_contextInfo :: IsNSViewController nsViewController => nsViewController -> RawId -> Sel -> Ptr () -> IO ()
@@ -278,11 +261,6 @@ presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior :: (
 presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior nsViewController viewController positioningRect positioningView preferredEdge behavior =
   sendMessage nsViewController presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behaviorSelector (toNSViewController viewController) positioningRect (toNSView positioningView) preferredEdge behavior
 
--- | @- presentViewController:asPopoverRelativeToRect:ofView:preferredEdge:behavior:hasFullSizeContent:@
-presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior_hasFullSizeContent :: (IsNSViewController nsViewController, IsNSViewController viewController, IsNSView positioningView) => nsViewController -> viewController -> NSRect -> positioningView -> NSRectEdge -> NSPopoverBehavior -> Bool -> IO ()
-presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior_hasFullSizeContent nsViewController viewController positioningRect positioningView preferredEdge behavior hasFullSizeContent =
-  sendMessage nsViewController presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior_hasFullSizeContentSelector (toNSViewController viewController) positioningRect (toNSView positioningView) preferredEdge behavior hasFullSizeContent
-
 -- | @- transitionFromViewController:toViewController:options:completionHandler:@
 transitionFromViewController_toViewController_options_completionHandler :: (IsNSViewController nsViewController, IsNSViewController fromViewController, IsNSViewController toViewController) => nsViewController -> fromViewController -> toViewController -> NSViewControllerTransitionOptions -> Ptr () -> IO ()
 transitionFromViewController_toViewController_options_completionHandler nsViewController fromViewController toViewController options completion =
@@ -343,11 +321,6 @@ setView :: (IsNSViewController nsViewController, IsNSView value) => nsViewContro
 setView nsViewController value =
   sendMessage nsViewController setViewSelector (toNSView value)
 
--- | @- viewIfLoaded@
-viewIfLoaded :: IsNSViewController nsViewController => nsViewController -> IO (Id NSView)
-viewIfLoaded nsViewController =
-  sendMessage nsViewController viewIfLoadedSelector
-
 -- | @- viewLoaded@
 viewLoaded :: IsNSViewController nsViewController => nsViewController -> IO Bool
 viewLoaded nsViewController =
@@ -364,19 +337,19 @@ setPreferredContentSize nsViewController value =
   sendMessage nsViewController setPreferredContentSizeSelector value
 
 -- | @- extensionContext@
-extensionContext :: IsNSViewController nsViewController => nsViewController -> IO (Id NSExtensionContext)
+extensionContext :: IsNSViewController nsViewController => nsViewController -> IO RawId
 extensionContext nsViewController =
   sendMessage nsViewController extensionContextSelector
 
 -- | @- sourceItemView@
-sourceItemView :: IsNSViewController nsViewController => nsViewController -> IO (Id NSView)
+sourceItemView :: IsNSViewController nsViewController => nsViewController -> IO RawId
 sourceItemView nsViewController =
   sendMessage nsViewController sourceItemViewSelector
 
 -- | @- setSourceItemView:@
-setSourceItemView :: (IsNSViewController nsViewController, IsNSView value) => nsViewController -> value -> IO ()
+setSourceItemView :: IsNSViewController nsViewController => nsViewController -> RawId -> IO ()
 setSourceItemView nsViewController value =
-  sendMessage nsViewController setSourceItemViewSelector (toNSView value)
+  sendMessage nsViewController setSourceItemViewSelector value
 
 -- | @- preferredScreenOrigin@
 preferredScreenOrigin :: IsNSViewController nsViewController => nsViewController -> IO NSPoint
@@ -399,32 +372,17 @@ preferredMaximumSize nsViewController =
   sendMessage nsViewController preferredMaximumSizeSelector
 
 -- | @- storyboard@
-storyboard :: IsNSViewController nsViewController => nsViewController -> IO (Id NSStoryboard)
+storyboard :: IsNSViewController nsViewController => nsViewController -> IO RawId
 storyboard nsViewController =
   sendMessage nsViewController storyboardSelector
 
 -- | @- parentViewController@
-parentViewController :: IsNSViewController nsViewController => nsViewController -> IO (Id NSViewController)
+parentViewController :: IsNSViewController nsViewController => nsViewController -> IO RawId
 parentViewController nsViewController =
   sendMessage nsViewController parentViewControllerSelector
 
--- | @- childViewControllers@
-childViewControllers :: IsNSViewController nsViewController => nsViewController -> IO (Id NSArray)
-childViewControllers nsViewController =
-  sendMessage nsViewController childViewControllersSelector
-
--- | @- setChildViewControllers:@
-setChildViewControllers :: (IsNSViewController nsViewController, IsNSArray value) => nsViewController -> value -> IO ()
-setChildViewControllers nsViewController value =
-  sendMessage nsViewController setChildViewControllersSelector (toNSArray value)
-
--- | @- presentedViewControllers@
-presentedViewControllers :: IsNSViewController nsViewController => nsViewController -> IO (Id NSArray)
-presentedViewControllers nsViewController =
-  sendMessage nsViewController presentedViewControllersSelector
-
 -- | @- presentingViewController@
-presentingViewController :: IsNSViewController nsViewController => nsViewController -> IO (Id NSViewController)
+presentingViewController :: IsNSViewController nsViewController => nsViewController -> IO RawId
 presentingViewController nsViewController =
   sendMessage nsViewController presentingViewControllerSelector
 
@@ -443,10 +401,6 @@ initWithCoderSelector = mkSelector "initWithCoder:"
 -- | @Selector@ for @loadView@
 loadViewSelector :: Selector '[] ()
 loadViewSelector = mkSelector "loadView"
-
--- | @Selector@ for @loadViewIfNeeded@
-loadViewIfNeededSelector :: Selector '[] ()
-loadViewIfNeededSelector = mkSelector "loadViewIfNeeded"
 
 -- | @Selector@ for @commitEditingWithDelegate:didCommitSelector:contextInfo:@
 commitEditingWithDelegate_didCommitSelector_contextInfoSelector :: Selector '[RawId, Sel, Ptr ()] ()
@@ -528,10 +482,6 @@ presentViewControllerAsModalWindowSelector = mkSelector "presentViewControllerAs
 presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behaviorSelector :: Selector '[Id NSViewController, NSRect, Id NSView, NSRectEdge, NSPopoverBehavior] ()
 presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behaviorSelector = mkSelector "presentViewController:asPopoverRelativeToRect:ofView:preferredEdge:behavior:"
 
--- | @Selector@ for @presentViewController:asPopoverRelativeToRect:ofView:preferredEdge:behavior:hasFullSizeContent:@
-presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior_hasFullSizeContentSelector :: Selector '[Id NSViewController, NSRect, Id NSView, NSRectEdge, NSPopoverBehavior, Bool] ()
-presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior_hasFullSizeContentSelector = mkSelector "presentViewController:asPopoverRelativeToRect:ofView:preferredEdge:behavior:hasFullSizeContent:"
-
 -- | @Selector@ for @transitionFromViewController:toViewController:options:completionHandler:@
 transitionFromViewController_toViewController_options_completionHandlerSelector :: Selector '[Id NSViewController, Id NSViewController, NSViewControllerTransitionOptions, Ptr ()] ()
 transitionFromViewController_toViewController_options_completionHandlerSelector = mkSelector "transitionFromViewController:toViewController:options:completionHandler:"
@@ -580,10 +530,6 @@ viewSelector = mkSelector "view"
 setViewSelector :: Selector '[Id NSView] ()
 setViewSelector = mkSelector "setView:"
 
--- | @Selector@ for @viewIfLoaded@
-viewIfLoadedSelector :: Selector '[] (Id NSView)
-viewIfLoadedSelector = mkSelector "viewIfLoaded"
-
 -- | @Selector@ for @viewLoaded@
 viewLoadedSelector :: Selector '[] Bool
 viewLoadedSelector = mkSelector "viewLoaded"
@@ -597,15 +543,15 @@ setPreferredContentSizeSelector :: Selector '[NSSize] ()
 setPreferredContentSizeSelector = mkSelector "setPreferredContentSize:"
 
 -- | @Selector@ for @extensionContext@
-extensionContextSelector :: Selector '[] (Id NSExtensionContext)
+extensionContextSelector :: Selector '[] RawId
 extensionContextSelector = mkSelector "extensionContext"
 
 -- | @Selector@ for @sourceItemView@
-sourceItemViewSelector :: Selector '[] (Id NSView)
+sourceItemViewSelector :: Selector '[] RawId
 sourceItemViewSelector = mkSelector "sourceItemView"
 
 -- | @Selector@ for @setSourceItemView:@
-setSourceItemViewSelector :: Selector '[Id NSView] ()
+setSourceItemViewSelector :: Selector '[RawId] ()
 setSourceItemViewSelector = mkSelector "setSourceItemView:"
 
 -- | @Selector@ for @preferredScreenOrigin@
@@ -625,26 +571,14 @@ preferredMaximumSizeSelector :: Selector '[] NSSize
 preferredMaximumSizeSelector = mkSelector "preferredMaximumSize"
 
 -- | @Selector@ for @storyboard@
-storyboardSelector :: Selector '[] (Id NSStoryboard)
+storyboardSelector :: Selector '[] RawId
 storyboardSelector = mkSelector "storyboard"
 
 -- | @Selector@ for @parentViewController@
-parentViewControllerSelector :: Selector '[] (Id NSViewController)
+parentViewControllerSelector :: Selector '[] RawId
 parentViewControllerSelector = mkSelector "parentViewController"
 
--- | @Selector@ for @childViewControllers@
-childViewControllersSelector :: Selector '[] (Id NSArray)
-childViewControllersSelector = mkSelector "childViewControllers"
-
--- | @Selector@ for @setChildViewControllers:@
-setChildViewControllersSelector :: Selector '[Id NSArray] ()
-setChildViewControllersSelector = mkSelector "setChildViewControllers:"
-
--- | @Selector@ for @presentedViewControllers@
-presentedViewControllersSelector :: Selector '[] (Id NSArray)
-presentedViewControllersSelector = mkSelector "presentedViewControllers"
-
 -- | @Selector@ for @presentingViewController@
-presentingViewControllerSelector :: Selector '[] (Id NSViewController)
+presentingViewControllerSelector :: Selector '[] RawId
 presentingViewControllerSelector = mkSelector "presentingViewController"
 

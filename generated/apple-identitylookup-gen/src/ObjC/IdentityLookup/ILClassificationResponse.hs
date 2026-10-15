@@ -62,14 +62,14 @@ action ilClassificationResponse =
   sendMessage ilClassificationResponse actionSelector
 
 -- | @- userString@
-userString :: IsILClassificationResponse ilClassificationResponse => ilClassificationResponse -> IO (Id NSString)
+userString :: IsILClassificationResponse ilClassificationResponse => ilClassificationResponse -> IO RawId
 userString ilClassificationResponse =
   sendMessage ilClassificationResponse userStringSelector
 
 -- | @- setUserString:@
-setUserString :: (IsILClassificationResponse ilClassificationResponse, IsNSString value) => ilClassificationResponse -> value -> IO ()
+setUserString :: IsILClassificationResponse ilClassificationResponse => ilClassificationResponse -> RawId -> IO ()
 setUserString ilClassificationResponse value =
-  sendMessage ilClassificationResponse setUserStringSelector (toNSString value)
+  sendMessage ilClassificationResponse setUserStringSelector value
 
 -- | @- userInfo@
 userInfo :: IsILClassificationResponse ilClassificationResponse => ilClassificationResponse -> IO (Id NSDictionary)
@@ -98,11 +98,11 @@ actionSelector :: Selector '[] ILClassificationAction
 actionSelector = mkSelector "action"
 
 -- | @Selector@ for @userString@
-userStringSelector :: Selector '[] (Id NSString)
+userStringSelector :: Selector '[] RawId
 userStringSelector = mkSelector "userString"
 
 -- | @Selector@ for @setUserString:@
-setUserStringSelector :: Selector '[Id NSString] ()
+setUserStringSelector :: Selector '[RawId] ()
 setUserStringSelector = mkSelector "setUserString:"
 
 -- | @Selector@ for @userInfo@

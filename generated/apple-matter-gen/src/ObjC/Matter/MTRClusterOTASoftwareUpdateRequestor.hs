@@ -5,14 +5,15 @@
 
 -- | Cluster OTA Software Update Requestor    Provides an interface for downloading and applying OTA software updates
 --
--- Generated bindings for @MTRClusterOTASoftwareUpdateRequestor@.
-module ObjC.Matter.MTRClusterOTASoftwareUpdateRequestor
-  ( MTRClusterOTASoftwareUpdateRequestor
-  , IsMTRClusterOTASoftwareUpdateRequestor(..)
-  , announceOTAProviderWithParams_expectedValues_expectedValueInterval_completion
-  , readAttributeDefaultOTAProvidersWithParams
-  , writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval
-  , writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval_params
+-- Generated bindings for @MTRClusterOtaSoftwareUpdateRequestor@.
+module ObjC.Matter.MTRClusterOtaSoftwareUpdateRequestor
+  ( MTRClusterOtaSoftwareUpdateRequestor
+  , IsMTRClusterOtaSoftwareUpdateRequestor(..)
+  , initWithDevice_endpoint_queue
+  , announceOtaProviderWithParams_expectedValues_expectedValueInterval_completionHandler
+  , readAttributeDefaultOtaProvidersWithParams
+  , writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval
+  , writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval_params
   , readAttributeUpdatePossibleWithParams
   , readAttributeUpdateStateWithParams
   , readAttributeUpdateStateProgressWithParams
@@ -23,22 +24,21 @@ module ObjC.Matter.MTRClusterOTASoftwareUpdateRequestor
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpointID_queue
-  , announceOTAProviderWithParams_expectedValues_expectedValueInterval_completionSelector
+  , announceOtaProviderWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
+  , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
   , readAttributeClusterRevisionWithParamsSelector
-  , readAttributeDefaultOTAProvidersWithParamsSelector
+  , readAttributeDefaultOtaProvidersWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
   , readAttributeUpdatePossibleWithParamsSelector
   , readAttributeUpdateStateProgressWithParamsSelector
   , readAttributeUpdateStateWithParamsSelector
-  , writeAttributeDefaultOTAProvidersWithValue_expectedValueIntervalSelector
-  , writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval_paramsSelector
+  , writeAttributeDefaultOtaProvidersWithValue_expectedValueIntervalSelector
+  , writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval_paramsSelector
 
 
   ) where
@@ -54,104 +54,106 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- announceOTAProviderWithParams:expectedValues:expectedValueInterval:completion:@
-announceOTAProviderWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterOTASoftwareUpdateRequestor -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-announceOTAProviderWithParams_expectedValues_expectedValueInterval_completion mtrClusterOTASoftwareUpdateRequestor params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor announceOTAProviderWithParams_expectedValues_expectedValueInterval_completionSelector (toMTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRDevice device, IsNSObject queue) => mtrClusterOtaSoftwareUpdateRequestor -> device -> CUShort -> queue -> IO (Id MTRClusterOtaSoftwareUpdateRequestor)
+initWithDevice_endpoint_queue mtrClusterOtaSoftwareUpdateRequestor device endpoint queue =
+  sendOwnedMessage mtrClusterOtaSoftwareUpdateRequestor initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- readAttributeDefaultOTAProvidersWithParams:@
-readAttributeDefaultOTAProvidersWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeDefaultOTAProvidersWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeDefaultOTAProvidersWithParamsSelector (toMTRReadParams params)
+-- | @- announceOtaProviderWithParams:expectedValues:expectedValueInterval:completionHandler:@
+announceOtaProviderWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterOtaSoftwareUpdateRequestor -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+announceOtaProviderWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterOtaSoftwareUpdateRequestor params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor announceOtaProviderWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- writeAttributeDefaultOTAProvidersWithValue:expectedValueInterval:@
-writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOTASoftwareUpdateRequestor -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval mtrClusterOTASoftwareUpdateRequestor dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor writeAttributeDefaultOTAProvidersWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
+-- | @- readAttributeDefaultOtaProvidersWithParams:@
+readAttributeDefaultOtaProvidersWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeDefaultOtaProvidersWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeDefaultOtaProvidersWithParamsSelector (toMTRReadParams params)
 
--- | @- writeAttributeDefaultOTAProvidersWithValue:expectedValueInterval:params:@
-writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval_params :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOTASoftwareUpdateRequestor -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval_params mtrClusterOTASoftwareUpdateRequestor dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
+-- | @- writeAttributeDefaultOtaProvidersWithValue:expectedValueInterval:@
+writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOtaSoftwareUpdateRequestor -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
+writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval mtrClusterOtaSoftwareUpdateRequestor dataValueDictionary expectedValueIntervalMs =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor writeAttributeDefaultOtaProvidersWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
+
+-- | @- writeAttributeDefaultOtaProvidersWithValue:expectedValueInterval:params:@
+writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval_params :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOtaSoftwareUpdateRequestor -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
+writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval_params mtrClusterOtaSoftwareUpdateRequestor dataValueDictionary expectedValueIntervalMs params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
 -- | @- readAttributeUpdatePossibleWithParams:@
-readAttributeUpdatePossibleWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeUpdatePossibleWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeUpdatePossibleWithParamsSelector (toMTRReadParams params)
+readAttributeUpdatePossibleWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeUpdatePossibleWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeUpdatePossibleWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeUpdateStateWithParams:@
-readAttributeUpdateStateWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeUpdateStateWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeUpdateStateWithParamsSelector (toMTRReadParams params)
+readAttributeUpdateStateWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeUpdateStateWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeUpdateStateWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeUpdateStateProgressWithParams:@
-readAttributeUpdateStateProgressWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeUpdateStateProgressWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeUpdateStateProgressWithParamsSelector (toMTRReadParams params)
+readAttributeUpdateStateProgressWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeUpdateStateProgressWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeUpdateStateProgressWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeGeneratedCommandListWithParams:@
-readAttributeGeneratedCommandListWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeGeneratedCommandListWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeGeneratedCommandListWithParamsSelector (toMTRReadParams params)
+readAttributeGeneratedCommandListWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeGeneratedCommandListWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeGeneratedCommandListWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeAcceptedCommandListWithParams:@
-readAttributeAcceptedCommandListWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeAcceptedCommandListWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeAcceptedCommandListWithParamsSelector (toMTRReadParams params)
+readAttributeAcceptedCommandListWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeAcceptedCommandListWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeAcceptedCommandListWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeAttributeListWithParams:@
-readAttributeAttributeListWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeAttributeListWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeAttributeListWithParamsSelector (toMTRReadParams params)
+readAttributeAttributeListWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeAttributeListWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeAttributeListWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeFeatureMapWithParams:@
-readAttributeFeatureMapWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeFeatureMapWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeFeatureMapWithParamsSelector (toMTRReadParams params)
+readAttributeFeatureMapWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeFeatureMapWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeFeatureMapWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeClusterRevisionWithParams:@
-readAttributeClusterRevisionWithParams :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOTASoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
-readAttributeClusterRevisionWithParams mtrClusterOTASoftwareUpdateRequestor params =
-  sendMessage mtrClusterOTASoftwareUpdateRequestor readAttributeClusterRevisionWithParamsSelector (toMTRReadParams params)
+readAttributeClusterRevisionWithParams :: (IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor, IsMTRReadParams params) => mtrClusterOtaSoftwareUpdateRequestor -> params -> IO (Id NSDictionary)
+readAttributeClusterRevisionWithParams mtrClusterOtaSoftwareUpdateRequestor params =
+  sendMessage mtrClusterOtaSoftwareUpdateRequestor readAttributeClusterRevisionWithParamsSelector (toMTRReadParams params)
 
 -- | @- init@
-init_ :: IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor => mtrClusterOTASoftwareUpdateRequestor -> IO (Id MTRClusterOTASoftwareUpdateRequestor)
-init_ mtrClusterOTASoftwareUpdateRequestor =
-  sendOwnedMessage mtrClusterOTASoftwareUpdateRequestor initSelector
+init_ :: IsMTRClusterOtaSoftwareUpdateRequestor mtrClusterOtaSoftwareUpdateRequestor => mtrClusterOtaSoftwareUpdateRequestor -> IO (Id MTRClusterOtaSoftwareUpdateRequestor)
+init_ mtrClusterOtaSoftwareUpdateRequestor =
+  sendOwnedMessage mtrClusterOtaSoftwareUpdateRequestor initSelector
 
 -- | @+ new@
-new :: IO (Id MTRClusterOTASoftwareUpdateRequestor)
+new :: IO (Id MTRClusterOtaSoftwareUpdateRequestor)
 new  =
   do
-    cls' <- getRequiredClass "MTRClusterOTASoftwareUpdateRequestor"
+    cls' <- getRequiredClass "MTRClusterOtaSoftwareUpdateRequestor"
     sendOwnedClassMessage cls' newSelector
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterOTASoftwareUpdateRequestor mtrClusterOTASoftwareUpdateRequestor, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterOTASoftwareUpdateRequestor -> device -> endpointID -> queue -> IO (Id MTRClusterOTASoftwareUpdateRequestor)
-initWithDevice_endpointID_queue mtrClusterOTASoftwareUpdateRequestor device endpointID queue =
-  sendOwnedMessage mtrClusterOTASoftwareUpdateRequestor initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @announceOTAProviderWithParams:expectedValues:expectedValueInterval:completion:@
-announceOTAProviderWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTROTASoftwareUpdateRequestorClusterAnnounceOTAProviderParams, Id NSArray, Id NSNumber, Ptr ()] ()
-announceOTAProviderWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "announceOTAProviderWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterOtaSoftwareUpdateRequestor)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @readAttributeDefaultOTAProvidersWithParams:@
-readAttributeDefaultOTAProvidersWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeDefaultOTAProvidersWithParamsSelector = mkSelector "readAttributeDefaultOTAProvidersWithParams:"
+-- | @Selector@ for @announceOtaProviderWithParams:expectedValues:expectedValueInterval:completionHandler:@
+announceOtaProviderWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTROtaSoftwareUpdateRequestorClusterAnnounceOtaProviderParams, Id NSArray, Id NSNumber, Ptr ()] ()
+announceOtaProviderWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "announceOtaProviderWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @writeAttributeDefaultOTAProvidersWithValue:expectedValueInterval:@
-writeAttributeDefaultOTAProvidersWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributeDefaultOTAProvidersWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeDefaultOTAProvidersWithValue:expectedValueInterval:"
+-- | @Selector@ for @readAttributeDefaultOtaProvidersWithParams:@
+readAttributeDefaultOtaProvidersWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributeDefaultOtaProvidersWithParamsSelector = mkSelector "readAttributeDefaultOtaProvidersWithParams:"
 
--- | @Selector@ for @writeAttributeDefaultOTAProvidersWithValue:expectedValueInterval:params:@
-writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributeDefaultOTAProvidersWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeDefaultOTAProvidersWithValue:expectedValueInterval:params:"
+-- | @Selector@ for @writeAttributeDefaultOtaProvidersWithValue:expectedValueInterval:@
+writeAttributeDefaultOtaProvidersWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
+writeAttributeDefaultOtaProvidersWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeDefaultOtaProvidersWithValue:expectedValueInterval:"
+
+-- | @Selector@ for @writeAttributeDefaultOtaProvidersWithValue:expectedValueInterval:params:@
+writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
+writeAttributeDefaultOtaProvidersWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeDefaultOtaProvidersWithValue:expectedValueInterval:params:"
 
 -- | @Selector@ for @readAttributeUpdatePossibleWithParams:@
 readAttributeUpdatePossibleWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -186,14 +188,10 @@ readAttributeClusterRevisionWithParamsSelector :: Selector '[Id MTRReadParams] (
 readAttributeClusterRevisionWithParamsSelector = mkSelector "readAttributeClusterRevisionWithParams:"
 
 -- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRClusterOTASoftwareUpdateRequestor)
+initSelector :: Selector '[] (Id MTRClusterOtaSoftwareUpdateRequestor)
 initSelector = mkSelector "init"
 
 -- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRClusterOTASoftwareUpdateRequestor)
+newSelector :: Selector '[] (Id MTRClusterOtaSoftwareUpdateRequestor)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterOTASoftwareUpdateRequestor)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

@@ -77,14 +77,14 @@ setBackgroundColor nsTableViewRowAction value =
   sendMessage nsTableViewRowAction setBackgroundColorSelector (toNSColor value)
 
 -- | @- image@
-image :: IsNSTableViewRowAction nsTableViewRowAction => nsTableViewRowAction -> IO (Id NSImage)
+image :: IsNSTableViewRowAction nsTableViewRowAction => nsTableViewRowAction -> IO RawId
 image nsTableViewRowAction =
   sendMessage nsTableViewRowAction imageSelector
 
 -- | @- setImage:@
-setImage :: (IsNSTableViewRowAction nsTableViewRowAction, IsNSImage value) => nsTableViewRowAction -> value -> IO ()
+setImage :: IsNSTableViewRowAction nsTableViewRowAction => nsTableViewRowAction -> RawId -> IO ()
 setImage nsTableViewRowAction value =
-  sendMessage nsTableViewRowAction setImageSelector (toNSImage value)
+  sendMessage nsTableViewRowAction setImageSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -115,10 +115,10 @@ setBackgroundColorSelector :: Selector '[Id NSColor] ()
 setBackgroundColorSelector = mkSelector "setBackgroundColor:"
 
 -- | @Selector@ for @image@
-imageSelector :: Selector '[] (Id NSImage)
+imageSelector :: Selector '[] RawId
 imageSelector = mkSelector "image"
 
 -- | @Selector@ for @setImage:@
-setImageSelector :: Selector '[Id NSImage] ()
+setImageSelector :: Selector '[RawId] ()
 setImageSelector = mkSelector "setImage:"
 

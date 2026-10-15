@@ -19,8 +19,6 @@ module ObjC.AudioVideoBridging.AVBIPAddress
   , setIpv6Address
   , ipv4Address
   , setIpv4Address
-  , stringRepresentation
-  , setStringRepresentation
   , initWithIPv4AddressSelector
   , initWithIPv6AddressDataSelector
   , initWithIPv6AddressSelector
@@ -29,8 +27,6 @@ module ObjC.AudioVideoBridging.AVBIPAddress
   , representsIPv4AddressSelector
   , setIpv4AddressSelector
   , setIpv6AddressSelector
-  , setStringRepresentationSelector
-  , stringRepresentationSelector
 
 
   ) where
@@ -55,7 +51,7 @@ import ObjC.Foundation.Internal.Classes
 -- Returns: The initialized receiver.
 --
 -- ObjC selector: @- initWithIPv6Address:@
-initWithIPv6Address :: IsAVBIPAddress avbipAddress => avbipAddress -> Const (Ptr CUChar) -> IO (Id AVBIPAddress)
+initWithIPv6Address :: IsAVBIPAddress avbipAddress => avbipAddress -> Ptr CUChar -> IO (Id AVBIPAddress)
 initWithIPv6Address avbipAddress ipv6Address =
   sendOwnedMessage avbipAddress initWithIPv6AddressSelector ipv6Address
 
@@ -130,30 +126,12 @@ setIpv4Address :: IsAVBIPAddress avbipAddress => avbipAddress -> CUInt -> IO ()
 setIpv4Address avbipAddress value =
   sendMessage avbipAddress setIpv4AddressSelector value
 
--- | stringRepresentation
---
--- A strign representation of the IP address in the appropriate representation for IPv4 or IPv6.
---
--- ObjC selector: @- stringRepresentation@
-stringRepresentation :: IsAVBIPAddress avbipAddress => avbipAddress -> IO (Id NSString)
-stringRepresentation avbipAddress =
-  sendMessage avbipAddress stringRepresentationSelector
-
--- | stringRepresentation
---
--- A strign representation of the IP address in the appropriate representation for IPv4 or IPv6.
---
--- ObjC selector: @- setStringRepresentation:@
-setStringRepresentation :: (IsAVBIPAddress avbipAddress, IsNSString value) => avbipAddress -> value -> IO ()
-setStringRepresentation avbipAddress value =
-  sendMessage avbipAddress setStringRepresentationSelector (toNSString value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @initWithIPv6Address:@
-initWithIPv6AddressSelector :: Selector '[Const (Ptr CUChar)] (Id AVBIPAddress)
+initWithIPv6AddressSelector :: Selector '[Ptr CUChar] (Id AVBIPAddress)
 initWithIPv6AddressSelector = mkSelector "initWithIPv6Address:"
 
 -- | @Selector@ for @initWithIPv6AddressData:@
@@ -183,12 +161,4 @@ ipv4AddressSelector = mkSelector "ipv4Address"
 -- | @Selector@ for @setIpv4Address:@
 setIpv4AddressSelector :: Selector '[CUInt] ()
 setIpv4AddressSelector = mkSelector "setIpv4Address:"
-
--- | @Selector@ for @stringRepresentation@
-stringRepresentationSelector :: Selector '[] (Id NSString)
-stringRepresentationSelector = mkSelector "stringRepresentation"
-
--- | @Selector@ for @setStringRepresentation:@
-setStringRepresentationSelector :: Selector '[Id NSString] ()
-setStringRepresentationSelector = mkSelector "setStringRepresentation:"
 

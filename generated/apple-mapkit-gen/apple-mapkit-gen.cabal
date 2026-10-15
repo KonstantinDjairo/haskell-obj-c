@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -14,15 +14,11 @@ library
   exposed-modules:
       ObjC.MapKit.Delegate.MKLocalSearchCompleterDelegate
       ObjC.MapKit.Delegate.MKLookAroundViewControllerDelegate
-      ObjC.MapKit.Delegate.MKMapItemDetailViewControllerDelegate
       ObjC.MapKit.Delegate.MKMapViewDelegate
       ObjC.MapKit.Delegate.MKOverlay
       ObjC.MapKit.Enums
       ObjC.MapKit.Internal.Classes
       ObjC.MapKit.Internal.Enums
-      ObjC.MapKit.MKAddress
-      ObjC.MapKit.MKAddressFilter
-      ObjC.MapKit.MKAddressRepresentations
       ObjC.MapKit.MKAnnotationView
       ObjC.MapKit.MKCircle
       ObjC.MapKit.MKCircleRenderer
@@ -35,7 +31,6 @@ library
       ObjC.MapKit.MKETAResponse
       ObjC.MapKit.MKGeoJSONDecoder
       ObjC.MapKit.MKGeoJSONFeature
-      ObjC.MapKit.MKGeocodingRequest
       ObjC.MapKit.MKGeodesicPolyline
       ObjC.MapKit.MKGradientPolylineRenderer
       ObjC.MapKit.MKHybridMapConfiguration
@@ -57,11 +52,6 @@ library
       ObjC.MapKit.MKMapCameraZoomRange
       ObjC.MapKit.MKMapConfiguration
       ObjC.MapKit.MKMapItem
-      ObjC.MapKit.MKMapItemAnnotation
-      ObjC.MapKit.MKMapItemDetailSelectionAccessoryPresentationStyle
-      ObjC.MapKit.MKMapItemDetailViewController
-      ObjC.MapKit.MKMapItemIdentifier
-      ObjC.MapKit.MKMapItemRequest
       ObjC.MapKit.MKMapSnapshot
       ObjC.MapKit.MKMapSnapshotOptions
       ObjC.MapKit.MKMapSnapshotter
@@ -83,10 +73,8 @@ library
       ObjC.MapKit.MKPolygonRenderer
       ObjC.MapKit.MKPolyline
       ObjC.MapKit.MKPolylineRenderer
-      ObjC.MapKit.MKReverseGeocodingRequest
       ObjC.MapKit.MKRoute
       ObjC.MapKit.MKRouteStep
-      ObjC.MapKit.MKSelectionAccessory
       ObjC.MapKit.MKShape
       ObjC.MapKit.MKStandardMapConfiguration
       ObjC.MapKit.MKTileOverlay
@@ -100,7 +88,7 @@ library
       Paths_apple_mapkit_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-appkit-gen
     , apple-contacts-gen

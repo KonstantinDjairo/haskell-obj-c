@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRGeneralDiagnosticsClusterNetworkInterfaceType
   ( MTRGeneralDiagnosticsClusterNetworkInterfaceType
   , IsMTRGeneralDiagnosticsClusterNetworkInterfaceType(..)
+  , init_
+  , copyWithZone
   , name
   , setName
   , isOperational
@@ -23,9 +25,11 @@ module ObjC.Matter.MTRGeneralDiagnosticsClusterNetworkInterfaceType
   , setIPv6Addresses
   , type_
   , setType
+  , copyWithZoneSelector
   , hardwareAddressSelector
   , iPv4AddressesSelector
   , iPv6AddressesSelector
+  , initSelector
   , isOperationalSelector
   , nameSelector
   , offPremiseServicesReachableIPv4Selector
@@ -53,6 +57,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGeneralDiagnosticsClusterNetworkInterfaceType mtrGeneralDiagnosticsClusterNetworkInterfaceType => mtrGeneralDiagnosticsClusterNetworkInterfaceType -> IO (Id MTRGeneralDiagnosticsClusterNetworkInterfaceType)
+init_ mtrGeneralDiagnosticsClusterNetworkInterfaceType =
+  sendOwnedMessage mtrGeneralDiagnosticsClusterNetworkInterfaceType initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGeneralDiagnosticsClusterNetworkInterfaceType mtrGeneralDiagnosticsClusterNetworkInterfaceType => mtrGeneralDiagnosticsClusterNetworkInterfaceType -> Ptr () -> IO RawId
+copyWithZone mtrGeneralDiagnosticsClusterNetworkInterfaceType zone =
+  sendOwnedMessage mtrGeneralDiagnosticsClusterNetworkInterfaceType copyWithZoneSelector zone
 
 -- | @- name@
 name :: IsMTRGeneralDiagnosticsClusterNetworkInterfaceType mtrGeneralDiagnosticsClusterNetworkInterfaceType => mtrGeneralDiagnosticsClusterNetworkInterfaceType -> IO (Id NSString)
@@ -137,6 +151,14 @@ setType mtrGeneralDiagnosticsClusterNetworkInterfaceType value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGeneralDiagnosticsClusterNetworkInterfaceType)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @name@
 nameSelector :: Selector '[] (Id NSString)

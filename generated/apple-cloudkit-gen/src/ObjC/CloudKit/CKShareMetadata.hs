@@ -8,8 +8,6 @@
 module ObjC.CloudKit.CKShareMetadata
   ( CKShareMetadata
   , IsCKShareMetadata(..)
-  , init_
-  , new
   , containerIdentifier
   , share
   , hierarchicalRootRecordID
@@ -22,8 +20,6 @@ module ObjC.CloudKit.CKShareMetadata
   , rootRecordID
   , containerIdentifierSelector
   , hierarchicalRootRecordIDSelector
-  , initSelector
-  , newSelector
   , ownerIdentitySelector
   , participantPermissionSelector
   , participantRoleSelector
@@ -49,7 +45,6 @@ module ObjC.CloudKit.CKShareMetadata
   , pattern CKShareParticipantRoleOwner
   , pattern CKShareParticipantRolePrivateUser
   , pattern CKShareParticipantRolePublicUser
-  , pattern CKShareParticipantRoleAdministrator
   , CKShareParticipantType(CKShareParticipantType)
   , pattern CKShareParticipantTypeUnknown
   , pattern CKShareParticipantTypeOwner
@@ -69,18 +64,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.CloudKit.Internal.Classes
 import ObjC.CloudKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | @- init@
-init_ :: IsCKShareMetadata ckShareMetadata => ckShareMetadata -> IO (Id CKShareMetadata)
-init_ ckShareMetadata =
-  sendOwnedMessage ckShareMetadata initSelector
-
--- | @+ new@
-new :: IO (Id CKShareMetadata)
-new  =
-  do
-    cls' <- getRequiredClass "CKShareMetadata"
-    sendOwnedClassMessage cls' newSelector
 
 -- | @- containerIdentifier@
 containerIdentifier :: IsCKShareMetadata ckShareMetadata => ckShareMetadata -> IO (Id NSString)
@@ -139,14 +122,6 @@ rootRecordID ckShareMetadata =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id CKShareMetadata)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id CKShareMetadata)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @containerIdentifier@
 containerIdentifierSelector :: Selector '[] (Id NSString)

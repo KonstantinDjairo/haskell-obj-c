@@ -43,7 +43,6 @@ module ObjC.SceneKit.SCNScene
   , setScreenSpaceReflectionStride
   , paused
   , setPaused
-  , particleSystems
   , addParticleSystem_withTransformSelector
   , attributeForKeySelector
   , backgroundSelector
@@ -52,7 +51,6 @@ module ObjC.SceneKit.SCNScene
   , fogEndDistanceSelector
   , fogStartDistanceSelector
   , lightingEnvironmentSelector
-  , particleSystemsSelector
   , pausedSelector
   , physicsWorldSelector
   , removeAllParticleSystemsSelector
@@ -235,7 +233,7 @@ rootNode scnScene =
 -- Every scene automatically creates a physics world object to simulate physics on nodes in the scene. You use this property to access the scene’s global physics properties, such as gravity. To add physics to a particular node, see physicsBody.
 --
 -- ObjC selector: @- physicsWorld@
-physicsWorld :: IsSCNScene scnScene => scnScene -> IO (Id SCNPhysicsWorld)
+physicsWorld :: IsSCNScene scnScene => scnScene -> IO RawId
 physicsWorld scnScene =
   sendMessage scnScene physicsWorldSelector
 
@@ -246,7 +244,7 @@ physicsWorld scnScene =
 -- The background is rendered before the rest of the scene.             The background can be rendered as a skybox by setting a cube map as described in SCNMaterialProperty.h             Colors are supported starting in macOS 10.12 and iOS 10. Prior to that you can use SCNView.backgroundColor.             MDLSkyCubeTexture is supported starting in macOS 10.13 and iOS 11.
 --
 -- ObjC selector: @- background@
-background :: IsSCNScene scnScene => scnScene -> IO (Id SCNMaterialProperty)
+background :: IsSCNScene scnScene => scnScene -> IO RawId
 background scnScene =
   sendMessage scnScene backgroundSelector
 
@@ -254,7 +252,7 @@ background scnScene =
 --
 -- Specifies the receiver's environment for image-based lighting (IBL).
 --
--- The environment can be              - a cube map (as described in SCNMaterialProperty.h)              - an instance of @MDLSkyCubeTexture@ (supported since macOS 10.13 and iOS 11)              - an object returned by @+[SCNMaterialProperty precomputedLightingEnvironmentContentsWithURL:error:]@ or @+[SCNMaterialProperty precomputedLightingEnvironmentContentsWithData:error:]@
+-- The environment should be a cube map as described in SCNMaterialProperty.h.             MDLSkyCubeTexture is supported starting in macOS 10.13 and iOS 11.
 --
 -- ObjC selector: @- lightingEnvironment@
 lightingEnvironment :: IsSCNScene scnScene => scnScene -> IO (Id SCNMaterialProperty)
@@ -451,11 +449,6 @@ setPaused :: IsSCNScene scnScene => scnScene -> Bool -> IO ()
 setPaused scnScene value =
   sendMessage scnScene setPausedSelector value
 
--- | @- particleSystems@
-particleSystems :: IsSCNScene scnScene => scnScene -> IO (Id NSArray)
-particleSystems scnScene =
-  sendMessage scnScene particleSystemsSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -505,11 +498,11 @@ rootNodeSelector :: Selector '[] (Id SCNNode)
 rootNodeSelector = mkSelector "rootNode"
 
 -- | @Selector@ for @physicsWorld@
-physicsWorldSelector :: Selector '[] (Id SCNPhysicsWorld)
+physicsWorldSelector :: Selector '[] RawId
 physicsWorldSelector = mkSelector "physicsWorld"
 
 -- | @Selector@ for @background@
-backgroundSelector :: Selector '[] (Id SCNMaterialProperty)
+backgroundSelector :: Selector '[] RawId
 backgroundSelector = mkSelector "background"
 
 -- | @Selector@ for @lightingEnvironment@
@@ -587,8 +580,4 @@ pausedSelector = mkSelector "paused"
 -- | @Selector@ for @setPaused:@
 setPausedSelector :: Selector '[Bool] ()
 setPausedSelector = mkSelector "setPaused:"
-
--- | @Selector@ for @particleSystems@
-particleSystemsSelector :: Selector '[] (Id NSArray)
-particleSystemsSelector = mkSelector "particleSystems"
 

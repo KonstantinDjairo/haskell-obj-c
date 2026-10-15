@@ -15,41 +15,6 @@ import Foreign.LibFFI.Internal (CType)
 import System.IO.Unsafe (unsafePerformIO)
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | A struct representing a range of a Metal buffer. The offset into the buffer is included in the address. The length is generally optional, which a value of (uint64_t)-1 representing the range from the given address to the end of the buffer. However, providing the length can enable more accurate API validation, especially when sub-allocating ranges of a buffer.
-data MTL4BufferRange = MTL4BufferRange
-  { mtL4BufferRangeBufferAddress :: !CULong
-  , mtL4BufferRangeLength :: !CULong
-  } deriving (Eq, Show)
-
-instance Storable MTL4BufferRange where
-  sizeOf    _ = 16
-  alignment _ = 8
-  peek p = MTL4BufferRange <$> peekByteOff p 0
-    <*> peekByteOff p 8
-  poke p (MTL4BufferRange {..}) = do
-    pokeByteOff p 0 mtL4BufferRangeBufferAddress
-    pokeByteOff p 8 mtL4BufferRangeLength
-
-{-# NOINLINE mtL4BufferRangeStructType #-}
-mtL4BufferRangeStructType :: Ptr CType
-mtL4BufferRangeStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_ulong, ffi_type_ulong]
-
-argMTL4BufferRange :: MTL4BufferRange -> Arg
-argMTL4BufferRange = mkStorableArg mtL4BufferRangeStructType
-
-retMTL4BufferRange :: RetType MTL4BufferRange
-retMTL4BufferRange = mkStorableRetType mtL4BufferRangeStructType
-
-instance ObjCArgument MTL4BufferRange where
-  withObjCArg x k = k (argMTL4BufferRange x)
-
-instance ObjCReturn MTL4BufferRange where
-  type RawReturn MTL4BufferRange = MTL4BufferRange
-  objcRetType = retMTL4BufferRange
-  msgSendVariant = MsgSendStret
-  fromRetained = pure
-  fromOwned = pure
-
 -- | An axis aligned bounding box with a min and max point
 data MTLAxisAlignedBoundingBox = MTLAxisAlignedBoundingBox
   { mtlAxisAlignedBoundingBoxMin :: !(Ptr ())
@@ -85,51 +50,11 @@ instance ObjCReturn MTLAxisAlignedBoundingBox where
   fromRetained = pure
   fromOwned = pure
 
-data MTLPackedFloatQuaternion = MTLPackedFloatQuaternion
-  { mtlPackedFloatQuaternionX :: !CFloat
-  , mtlPackedFloatQuaternionY :: !CFloat
-  , mtlPackedFloatQuaternionZ :: !CFloat
-  , mtlPackedFloatQuaternionW :: !CFloat
-  } deriving (Eq, Show)
-
-instance Storable MTLPackedFloatQuaternion where
-  sizeOf    _ = 16
-  alignment _ = 4
-  peek p = MTLPackedFloatQuaternion <$> peekByteOff p 0
-    <*> peekByteOff p 4
-    <*> peekByteOff p 8
-    <*> peekByteOff p 12
-  poke p (MTLPackedFloatQuaternion {..}) = do
-    pokeByteOff p 0 mtlPackedFloatQuaternionX
-    pokeByteOff p 4 mtlPackedFloatQuaternionY
-    pokeByteOff p 8 mtlPackedFloatQuaternionZ
-    pokeByteOff p 12 mtlPackedFloatQuaternionW
-
-{-# NOINLINE mtlPackedFloatQuaternionStructType #-}
-mtlPackedFloatQuaternionStructType :: Ptr CType
-mtlPackedFloatQuaternionStructType = unsafePerformIO $ fst <$> newStructCType [ffi_type_float, ffi_type_float, ffi_type_float, ffi_type_float]
-
-argMTLPackedFloatQuaternion :: MTLPackedFloatQuaternion -> Arg
-argMTLPackedFloatQuaternion = mkStorableArg mtlPackedFloatQuaternionStructType
-
-retMTLPackedFloatQuaternion :: RetType MTLPackedFloatQuaternion
-retMTLPackedFloatQuaternion = mkStorableRetType mtlPackedFloatQuaternionStructType
-
-instance ObjCArgument MTLPackedFloatQuaternion where
-  withObjCArg x k = k (argMTLPackedFloatQuaternion x)
-
-instance ObjCReturn MTLPackedFloatQuaternion where
-  type RawReturn MTLPackedFloatQuaternion = MTLPackedFloatQuaternion
-  objcRetType = retMTLPackedFloatQuaternion
-  msgSendVariant = MsgSendStret
-  fromRetained = pure
-  fromOwned = pure
-
 -- | MTLResourceID
 --
--- Handle of the GPU resource used for binding resources to argument tables, navigating resource view pools and storing resources in an argument buffer
+-- Handle of the GPU resource suitable for storing in an Argument Buffer
 --
--- MTLResourceID represents a specific GPU resource. This handle can be mutated by modifying textureID or samplerID values to get to individual resource views in a resource view pool.
+-- A MTLResourceID represents a specific GPU resource, mutating this handle is undefined unless the mutation results in the value equalling an already existing handle of the same resource type.
 data MTLResourceID = MTLResourceID
   { mtlResourceID_impl :: !CULong
   } deriving (Eq, Show)

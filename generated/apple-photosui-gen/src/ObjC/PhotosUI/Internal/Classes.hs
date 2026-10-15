@@ -83,27 +83,6 @@ instance IsPHPickerResult (Id PHPickerResult) where
 instance IsNSObject (Id PHPickerResult) where
   toNSObject = unsafeCastId
 
--- ---------- PHPickerUpdateConfiguration ----------
-
--- | An update configuration for @PHPickerViewController.@
--- 
--- Phantom type for @PHPickerUpdateConfiguration@.
-data PHPickerUpdateConfiguration
-
-instance IsObjCObject (Id PHPickerUpdateConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PHPickerUpdateConfiguration"
-
-class IsNSObject a => IsPHPickerUpdateConfiguration a where
-  toPHPickerUpdateConfiguration :: a -> Id PHPickerUpdateConfiguration
-
-instance IsPHPickerUpdateConfiguration (Id PHPickerUpdateConfiguration) where
-  toPHPickerUpdateConfiguration = unsafeCastId
-
-instance IsNSObject (Id PHPickerUpdateConfiguration) where
-  toNSObject = unsafeCastId
-
 -- ---------- PHProjectElement ----------
 
 -- | PHProjectElement is the superclass for all element objects. It is never directly used, but defines the shared properties of any element in an instance of PHProjectSectionContent.

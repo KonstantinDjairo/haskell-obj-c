@@ -111,8 +111,6 @@ initWithRecordType_zoneID ckRecord recordType zoneID =
 --
 -- Any other classes will result in an exception with name @NSInvalidArgumentException.@
 --
--- Whenever possible, value objects will be copied when set on a record.
---
 -- Field keys starting with '_' are reserved. Attempting to set a key prefixed with a '_' will result in an error.
 --
 -- Key names roughly match C variable name restrictions. They must begin with an ASCII letter and can contain ASCII letters and numbers and the underscore character.  The maximum key length is 255 characters.

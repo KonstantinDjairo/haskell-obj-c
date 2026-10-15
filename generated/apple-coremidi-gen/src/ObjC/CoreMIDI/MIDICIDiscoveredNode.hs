@@ -3,7 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MIDICIDiscoveredNode@.
+-- | MIDICIDiscoveredNode
+--
+-- An object created during MIDI-CI discovery representing a MIDI destination with an                 associated MIDI source that responds to capability inquiries.
+--
+-- Generated bindings for @MIDICIDiscoveredNode@.
 module ObjC.CoreMIDI.MIDICIDiscoveredNode
   ( MIDICIDiscoveredNode
   , IsMIDICIDiscoveredNode(..)

@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A playback command requesting a pause
+-- | AVDelegatingPlaybackCoordinatorPauseCommand
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A playback command requesting a pause
 --
 -- Generated bindings for @AVDelegatingPlaybackCoordinatorPauseCommand@.
 module ObjC.AVFoundation.AVDelegatingPlaybackCoordinatorPauseCommand
@@ -46,16 +46,20 @@ new  =
     cls' <- getRequiredClass "AVDelegatingPlaybackCoordinatorPauseCommand"
     sendOwnedClassMessage cls' newSelector
 
--- | Indicates that playback is anticipated and the player should begin buffering if necessary.
+-- | shouldBufferInAnticipationOfPlayback
 --
--- When shouldBufferInAnticipationOfPlayback is YES, some participant wants to resume playback at the rate indicated by the anticipatedPlaybackRate property. This should be treated similar to receiving a separate AVDelegatingPlaybackCoordinatorBufferingCommand. If YES, the command should only be considered complete once the player is ready to receive an AVDelegatingPlaybackCoordinatorPlayCommand with the indicated rate.
+-- Indicates that playback is anticipated and the player should begin buffering if necessary.
+--
+-- When shouldBufferInAnticipationOfPlayback is YES, some participant wants to resume playback at the rate indicated by the anticipatedPlaybackRate property.				This should be treated similar to receiving a separate AVDelegatingPlaybackCoordinatorBufferingCommand.				If YES, the command should only be considered complete once the player is ready to receive an AVDelegatingPlaybackCoordinatorPlayCommand with the indicated rate.
 --
 -- ObjC selector: @- shouldBufferInAnticipationOfPlayback@
 shouldBufferInAnticipationOfPlayback :: IsAVDelegatingPlaybackCoordinatorPauseCommand avDelegatingPlaybackCoordinatorPauseCommand => avDelegatingPlaybackCoordinatorPauseCommand -> IO Bool
 shouldBufferInAnticipationOfPlayback avDelegatingPlaybackCoordinatorPauseCommand =
   sendMessage avDelegatingPlaybackCoordinatorPauseCommand shouldBufferInAnticipationOfPlaybackSelector
 
--- | The rate to prepare for if shouldBufferInAnticipationOfPlayback is YES.
+-- | anticipatedPlaybackRate
+--
+-- The rate to prepare for if shouldBufferInAnticipationOfPlayback is YES.
 --
 -- ObjC selector: @- anticipatedPlaybackRate@
 anticipatedPlaybackRate :: IsAVDelegatingPlaybackCoordinatorPauseCommand avDelegatingPlaybackCoordinatorPauseCommand => avDelegatingPlaybackCoordinatorPauseCommand -> IO CFloat

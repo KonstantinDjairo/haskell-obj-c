@@ -20,15 +20,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- CBIdentity ----------
 
--- | A @CBIdentity@ object is used for accessing the attributes of an identity stored in an identity authority. You can use an identity object for finding identities, and storing them in an access control list (ACL). If you need to edit these attributes, take advantage of the @CSIdentity@ class in Core Services.
---
--- You can obtain a @CBIdentity@ object from one of the following class factory methods: ``CBIdentity/identityWithName:authority:``, ``CBIdentity/identityWithUUIDString:authority:``, ``CBIdentity/identityWithPersistentReference:``, or ``CBIdentity/identityWithCSIdentity:``.
---
--- A @CBIdentity@ object has methods to support for interoperability with the Core Services Identity API. Send ``CBIdentity/CSIdentity`` to your @CBIdentity@ object to return an opaque object for use in the Core Services Identity API. Similarly, call ``CBIdentity/identityWithCSIdentity:`` to use an Core Services Identity opaque object in the Collaboration framework.
---
--- There are two subclasses of @CBIdentity@: @CBGroupIdentity@ and @CBUserIdentity@. If you are working specifically with a group identity, use @CBGroupIdentity@. Similarly, if you are working with a user identity, use @CBUserIdentity@.
--- 
--- Phantom type for @CBIdentity@.
+-- | Phantom type for @CBIdentity@.
 data CBIdentity
 
 instance IsObjCObject (Id CBIdentity) where
@@ -47,9 +39,7 @@ instance IsNSObject (Id CBIdentity) where
 
 -- ---------- CBIdentityAuthority ----------
 
--- | An identity authority is a database that stores information about identities. The @CBIdentityAuthority@ class defines one or more identity authorities. This database can be searched for identities in conjunction with the @CBIdentity@ class factory methods.
--- 
--- Phantom type for @CBIdentityAuthority@.
+-- | Phantom type for @CBIdentityAuthority@.
 data CBIdentityAuthority
 
 instance IsObjCObject (Id CBIdentityAuthority) where
@@ -68,9 +58,7 @@ instance IsNSObject (Id CBIdentityAuthority) where
 
 -- ---------- CBIdentityPicker ----------
 
--- | A @CBIdentityPicker@ object allows a user to select identities—for example, user or group objects—that it wants one or more services or shared resources to have access to. An identity picker can be displayed either as an application-modal dialog or as a sheet attached to a document window. An identity picker returns the selected records to be added to access control lists using Collaboration. If a selected record is not a user or group identity, then an identity picker prompts the user for additional information—such as a password—to promote that record to a sharing account.
--- 
--- Phantom type for @CBIdentityPicker@.
+-- | Phantom type for @CBIdentityPicker@.
 data CBIdentityPicker
 
 instance IsObjCObject (Id CBIdentityPicker) where
@@ -89,9 +77,7 @@ instance IsNSObject (Id CBIdentityPicker) where
 
 -- ---------- CBGroupIdentity ----------
 
--- | An object of the @CBGroupIdentity@ class represents a group identity and is used for viewing the attributes of group identities from an identity authority. The principal attributes of a @CBGroupIdentity@ object are a POSIX group identifier (GID) and a list of members.
--- 
--- Phantom type for @CBGroupIdentity@.
+-- | Phantom type for @CBGroupIdentity@.
 data CBGroupIdentity
 
 instance IsObjCObject (Id CBGroupIdentity) where
@@ -113,9 +99,7 @@ instance IsNSObject (Id CBGroupIdentity) where
 
 -- ---------- CBUserIdentity ----------
 
--- | An object of the @CBUserIdentity@ class represents a user identity and is used for accessing the attributes of a user identity from an identity authority. The principal attributes of @CBUserIdentity@ are a POSIX user identifier (UID), password, and certificate.
--- 
--- Phantom type for @CBUserIdentity@.
+-- | Phantom type for @CBUserIdentity@.
 data CBUserIdentity
 
 instance IsObjCObject (Id CBUserIdentity) where

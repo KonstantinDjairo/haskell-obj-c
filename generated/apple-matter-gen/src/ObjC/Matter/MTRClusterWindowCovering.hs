@@ -9,16 +9,17 @@
 module ObjC.Matter.MTRClusterWindowCovering
   ( MTRClusterWindowCovering
   , IsMTRClusterWindowCovering(..)
-  , upOrOpenWithParams_expectedValues_expectedValueInterval_completion
-  , upOrOpenWithExpectedValues_expectedValueInterval_completion
-  , downOrCloseWithParams_expectedValues_expectedValueInterval_completion
-  , downOrCloseWithExpectedValues_expectedValueInterval_completion
-  , stopMotionWithParams_expectedValues_expectedValueInterval_completion
-  , stopMotionWithExpectedValues_expectedValueInterval_completion
-  , goToLiftValueWithParams_expectedValues_expectedValueInterval_completion
-  , goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completion
-  , goToTiltValueWithParams_expectedValues_expectedValueInterval_completion
-  , goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandler
+  , upOrOpenWithExpectedValues_expectedValueInterval_completionHandler
+  , downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandler
+  , downOrCloseWithExpectedValues_expectedValueInterval_completionHandler
+  , stopMotionWithParams_expectedValues_expectedValueInterval_completionHandler
+  , stopMotionWithExpectedValues_expectedValueInterval_completionHandler
+  , goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandler
+  , goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandler
+  , goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandler
+  , goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeTypeWithParams
   , readAttributePhysicalClosedLimitLiftWithParams
   , readAttributePhysicalClosedLimitTiltWithParams
@@ -50,32 +51,13 @@ module ObjC.Matter.MTRClusterWindowCovering
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandler
-  , upOrOpenWithExpectedValues_expectedValueInterval_completionHandler
-  , downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandler
-  , downOrCloseWithExpectedValues_expectedValueInterval_completionHandler
-  , stopMotionWithParams_expectedValues_expectedValueInterval_completionHandler
-  , stopMotionWithExpectedValues_expectedValueInterval_completionHandler
-  , goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandler
-  , goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandler
-  , goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandler
-  , goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , downOrCloseWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , downOrCloseWithExpectedValues_expectedValueInterval_completionSelector
   , downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , downOrCloseWithParams_expectedValues_expectedValueInterval_completionSelector
   , goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionSelector
   , goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , goToLiftValueWithParams_expectedValues_expectedValueInterval_completionSelector
   , goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionSelector
   , goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , goToTiltValueWithParams_expectedValues_expectedValueInterval_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -106,13 +88,9 @@ module ObjC.Matter.MTRClusterWindowCovering
   , readAttributeTargetPositionTiltPercent100thsWithParamsSelector
   , readAttributeTypeWithParamsSelector
   , stopMotionWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , stopMotionWithExpectedValues_expectedValueInterval_completionSelector
   , stopMotionWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , stopMotionWithParams_expectedValues_expectedValueInterval_completionSelector
   , upOrOpenWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , upOrOpenWithExpectedValues_expectedValueInterval_completionSelector
   , upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , upOrOpenWithParams_expectedValues_expectedValueInterval_completionSelector
   , writeAttributeModeWithValue_expectedValueIntervalSelector
   , writeAttributeModeWithValue_expectedValueInterval_paramsSelector
 
@@ -130,55 +108,60 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- upOrOpenWithParams:expectedValues:expectedValueInterval:completion:@
-upOrOpenWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterUpOrOpenParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-upOrOpenWithParams_expectedValues_expectedValueInterval_completion mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering upOrOpenWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWindowCoveringClusterUpOrOpenParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRDevice device, IsNSObject queue) => mtrClusterWindowCovering -> device -> CUShort -> queue -> IO (Id MTRClusterWindowCovering)
+initWithDevice_endpoint_queue mtrClusterWindowCovering device endpoint queue =
+  sendOwnedMessage mtrClusterWindowCovering initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- upOrOpenWithExpectedValues:expectedValueInterval:completion:@
-upOrOpenWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-upOrOpenWithExpectedValues_expectedValueInterval_completion mtrClusterWindowCovering expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering upOrOpenWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- upOrOpenWithParams:expectedValues:expectedValueInterval:completionHandler:@
+upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterUpOrOpenParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterUpOrOpenParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- downOrCloseWithParams:expectedValues:expectedValueInterval:completion:@
-downOrCloseWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterDownOrCloseParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-downOrCloseWithParams_expectedValues_expectedValueInterval_completion mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering downOrCloseWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWindowCoveringClusterDownOrCloseParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- upOrOpenWithExpectedValues:expectedValueInterval:completionHandler:@
+upOrOpenWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+upOrOpenWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering upOrOpenWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- downOrCloseWithExpectedValues:expectedValueInterval:completion:@
-downOrCloseWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-downOrCloseWithExpectedValues_expectedValueInterval_completion mtrClusterWindowCovering expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering downOrCloseWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- downOrCloseWithParams:expectedValues:expectedValueInterval:completionHandler:@
+downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterDownOrCloseParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterDownOrCloseParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- stopMotionWithParams:expectedValues:expectedValueInterval:completion:@
-stopMotionWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterStopMotionParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-stopMotionWithParams_expectedValues_expectedValueInterval_completion mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering stopMotionWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWindowCoveringClusterStopMotionParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- downOrCloseWithExpectedValues:expectedValueInterval:completionHandler:@
+downOrCloseWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+downOrCloseWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering downOrCloseWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- stopMotionWithExpectedValues:expectedValueInterval:completion:@
-stopMotionWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-stopMotionWithExpectedValues_expectedValueInterval_completion mtrClusterWindowCovering expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering stopMotionWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- stopMotionWithParams:expectedValues:expectedValueInterval:completionHandler:@
+stopMotionWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterStopMotionParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+stopMotionWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering stopMotionWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterStopMotionParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- goToLiftValueWithParams:expectedValues:expectedValueInterval:completion:@
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftValueParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completion mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering goToLiftValueWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWindowCoveringClusterGoToLiftValueParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- stopMotionWithExpectedValues:expectedValueInterval:completionHandler:@
+stopMotionWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+stopMotionWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering stopMotionWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completion:@
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftPercentageParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completion mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWindowCoveringClusterGoToLiftPercentageParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- goToLiftValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftValueParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToLiftValueParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- goToTiltValueWithParams:expectedValues:expectedValueInterval:completion:@
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltValueParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completion mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering goToTiltValueWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWindowCoveringClusterGoToTiltValueParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftPercentageParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToLiftPercentageParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completion:@
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltPercentageParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completion mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterWindowCovering goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRWindowCoveringClusterGoToTiltPercentageParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- goToTiltValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltValueParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToTiltValueParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
+
+-- | @- goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltPercentageParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterWindowCovering goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToTiltPercentageParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeTypeWithParams:@
 readAttributeTypeWithParams :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRReadParams params) => mtrClusterWindowCovering -> params -> IO (Id NSDictionary)
@@ -337,111 +320,53 @@ new  =
     cls' <- getRequiredClass "MTRClusterWindowCovering"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRDevice device, IsNSObject queue) => mtrClusterWindowCovering -> device -> CUShort -> queue -> IO (Id MTRClusterWindowCovering)
-initWithDevice_endpoint_queue mtrClusterWindowCovering device endpoint queue =
-  sendOwnedMessage mtrClusterWindowCovering initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- upOrOpenWithParams:expectedValues:expectedValueInterval:completionHandler:@
-upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterUpOrOpenParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterUpOrOpenParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- upOrOpenWithExpectedValues:expectedValueInterval:completionHandler:@
-upOrOpenWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-upOrOpenWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering upOrOpenWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- downOrCloseWithParams:expectedValues:expectedValueInterval:completionHandler:@
-downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterDownOrCloseParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterDownOrCloseParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- downOrCloseWithExpectedValues:expectedValueInterval:completionHandler:@
-downOrCloseWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-downOrCloseWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering downOrCloseWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- stopMotionWithParams:expectedValues:expectedValueInterval:completionHandler:@
-stopMotionWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterStopMotionParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-stopMotionWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering stopMotionWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterStopMotionParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- stopMotionWithExpectedValues:expectedValueInterval:completionHandler:@
-stopMotionWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-stopMotionWithExpectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering stopMotionWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- goToLiftValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftValueParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToLiftValueParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftPercentageParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToLiftPercentageParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- goToTiltValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltValueParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToTiltValueParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltPercentageParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterWindowCovering -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterWindowCovering params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterWindowCovering goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRWindowCoveringClusterGoToTiltPercentageParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterWindowCovering mtrClusterWindowCovering, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterWindowCovering -> device -> endpointID -> queue -> IO (Id MTRClusterWindowCovering)
-initWithDevice_endpointID_queue mtrClusterWindowCovering device endpointID queue =
-  sendOwnedMessage mtrClusterWindowCovering initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @upOrOpenWithParams:expectedValues:expectedValueInterval:completion:@
-upOrOpenWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWindowCoveringClusterUpOrOpenParams, Id NSArray, Id NSNumber, Ptr ()] ()
-upOrOpenWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "upOrOpenWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterWindowCovering)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @upOrOpenWithExpectedValues:expectedValueInterval:completion:@
-upOrOpenWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-upOrOpenWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "upOrOpenWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @upOrOpenWithParams:expectedValues:expectedValueInterval:completionHandler:@
+upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterUpOrOpenParams, Id NSArray, Id NSNumber, Ptr ()] ()
+upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "upOrOpenWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @downOrCloseWithParams:expectedValues:expectedValueInterval:completion:@
-downOrCloseWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWindowCoveringClusterDownOrCloseParams, Id NSArray, Id NSNumber, Ptr ()] ()
-downOrCloseWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "downOrCloseWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @upOrOpenWithExpectedValues:expectedValueInterval:completionHandler:@
+upOrOpenWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+upOrOpenWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "upOrOpenWithExpectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @downOrCloseWithExpectedValues:expectedValueInterval:completion:@
-downOrCloseWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-downOrCloseWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "downOrCloseWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @downOrCloseWithParams:expectedValues:expectedValueInterval:completionHandler:@
+downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterDownOrCloseParams, Id NSArray, Id NSNumber, Ptr ()] ()
+downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "downOrCloseWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @stopMotionWithParams:expectedValues:expectedValueInterval:completion:@
-stopMotionWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWindowCoveringClusterStopMotionParams, Id NSArray, Id NSNumber, Ptr ()] ()
-stopMotionWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "stopMotionWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @downOrCloseWithExpectedValues:expectedValueInterval:completionHandler:@
+downOrCloseWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+downOrCloseWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "downOrCloseWithExpectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @stopMotionWithExpectedValues:expectedValueInterval:completion:@
-stopMotionWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-stopMotionWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "stopMotionWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @stopMotionWithParams:expectedValues:expectedValueInterval:completionHandler:@
+stopMotionWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterStopMotionParams, Id NSArray, Id NSNumber, Ptr ()] ()
+stopMotionWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "stopMotionWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @goToLiftValueWithParams:expectedValues:expectedValueInterval:completion:@
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftValueParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "goToLiftValueWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @stopMotionWithExpectedValues:expectedValueInterval:completionHandler:@
+stopMotionWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+stopMotionWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "stopMotionWithExpectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completion:@
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftPercentageParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @goToLiftValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftValueParams, Id NSArray, Id NSNumber, Ptr ()] ()
+goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToLiftValueWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @goToTiltValueWithParams:expectedValues:expectedValueInterval:completion:@
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltValueParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "goToTiltValueWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftPercentageParams, Id NSArray, Id NSNumber, Ptr ()] ()
+goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completion:@
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltPercentageParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @goToTiltValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltValueParams, Id NSArray, Id NSNumber, Ptr ()] ()
+goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToTiltValueWithParams:expectedValues:expectedValueInterval:completionHandler:"
+
+-- | @Selector@ for @goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
+goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltPercentageParams, Id NSArray, Id NSNumber, Ptr ()] ()
+goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeTypeWithParams:@
 readAttributeTypeWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -566,52 +491,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterWindowCovering)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterWindowCovering)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @upOrOpenWithParams:expectedValues:expectedValueInterval:completionHandler:@
-upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterUpOrOpenParams, Id NSArray, Id NSNumber, Ptr ()] ()
-upOrOpenWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "upOrOpenWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @upOrOpenWithExpectedValues:expectedValueInterval:completionHandler:@
-upOrOpenWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-upOrOpenWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "upOrOpenWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @downOrCloseWithParams:expectedValues:expectedValueInterval:completionHandler:@
-downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterDownOrCloseParams, Id NSArray, Id NSNumber, Ptr ()] ()
-downOrCloseWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "downOrCloseWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @downOrCloseWithExpectedValues:expectedValueInterval:completionHandler:@
-downOrCloseWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-downOrCloseWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "downOrCloseWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @stopMotionWithParams:expectedValues:expectedValueInterval:completionHandler:@
-stopMotionWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterStopMotionParams, Id NSArray, Id NSNumber, Ptr ()] ()
-stopMotionWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "stopMotionWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @stopMotionWithExpectedValues:expectedValueInterval:completionHandler:@
-stopMotionWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-stopMotionWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "stopMotionWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @goToLiftValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftValueParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToLiftValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToLiftValueWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftPercentageParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToLiftPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToLiftPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @goToTiltValueWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltValueParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToTiltValueWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToTiltValueWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:@
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltPercentageParams, Id NSArray, Id NSNumber, Ptr ()] ()
-goToTiltPercentageWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "goToTiltPercentageWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterWindowCovering)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

@@ -75,7 +75,6 @@ module ObjC.AppKit.NSScroller
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
   , NSControlTint(NSControlTint)
   , pattern NSDefaultControlTint
   , pattern NSBlueControlTint

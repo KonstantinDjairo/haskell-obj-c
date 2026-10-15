@@ -11,7 +11,9 @@
 --
 -- Dilated Max pooling forward pass is defined as:
 --
--- out(x) = max_{dx  Window(x)} in(s*x+D*dx), where
+-- out(x) = max_{dx
+--
+-- Window(x)} in(s*x+D*dx), where
 --
 -- the pooling window definition 'Window(x)' follows MPSCNNPooling specification,              's' is the pixel stride and in() is the source input image and D is the dilation factor.              For MPSCNNPoolingMaxGradient the dilationRate 'D' is one. NOTE: For even-sized pooling              windows with dilation rate greater than one the effective pooling window is centered              around s*x with non-even windows leaning towards top-left corner. For example if              kernel width = 2, dilation rate = 3, then the pooling considers positions '-2' and '+1'              relative to the pooling window center 's*x'.
 --

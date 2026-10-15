@@ -21,17 +21,13 @@ module ObjC.GameKit.GKVoiceChat
   , setActive
   , volume
   , setVolume
-  , players
-  , playerIDs
   , playerStateUpdateHandler
   , setPlayerStateUpdateHandler
   , activeSelector
   , isVoIPAllowedSelector
   , nameSelector
-  , playerIDsSelector
   , playerStateUpdateHandlerSelector
   , playerVoiceChatStateDidChangeHandlerSelector
-  , playersSelector
   , setActiveSelector
   , setMute_forPlayerSelector
   , setPlayerStateUpdateHandlerSelector
@@ -124,18 +120,6 @@ setVolume :: IsGKVoiceChat gkVoiceChat => gkVoiceChat -> CFloat -> IO ()
 setVolume gkVoiceChat value =
   sendMessage gkVoiceChat setVolumeSelector value
 
--- | @- players@
-players :: IsGKVoiceChat gkVoiceChat => gkVoiceChat -> IO (Id NSArray)
-players gkVoiceChat =
-  sendMessage gkVoiceChat playersSelector
-
--- | * This property is obsolete. **
---
--- ObjC selector: @- playerIDs@
-playerIDs :: IsGKVoiceChat gkVoiceChat => gkVoiceChat -> IO (Id NSArray)
-playerIDs gkVoiceChat =
-  sendMessage gkVoiceChat playerIDsSelector
-
 -- | @- playerStateUpdateHandler@
 playerStateUpdateHandler :: IsGKVoiceChat gkVoiceChat => gkVoiceChat -> IO (Ptr ())
 playerStateUpdateHandler gkVoiceChat =
@@ -197,14 +181,6 @@ volumeSelector = mkSelector "volume"
 -- | @Selector@ for @setVolume:@
 setVolumeSelector :: Selector '[CFloat] ()
 setVolumeSelector = mkSelector "setVolume:"
-
--- | @Selector@ for @players@
-playersSelector :: Selector '[] (Id NSArray)
-playersSelector = mkSelector "players"
-
--- | @Selector@ for @playerIDs@
-playerIDsSelector :: Selector '[] (Id NSArray)
-playerIDsSelector = mkSelector "playerIDs"
 
 -- | @Selector@ for @playerStateUpdateHandler@
 playerStateUpdateHandlerSelector :: Selector '[] (Ptr ())

@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRActionsClusterActionStruct
   ( MTRActionsClusterActionStruct
   , IsMTRActionsClusterActionStruct(..)
+  , init_
+  , copyWithZone
   , actionID
   , setActionID
   , name
@@ -20,7 +22,9 @@ module ObjC.Matter.MTRActionsClusterActionStruct
   , state
   , setState
   , actionIDSelector
+  , copyWithZoneSelector
   , endpointListIDSelector
+  , initSelector
   , nameSelector
   , setActionIDSelector
   , setEndpointListIDSelector
@@ -45,6 +49,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRActionsClusterActionStruct mtrActionsClusterActionStruct => mtrActionsClusterActionStruct -> IO (Id MTRActionsClusterActionStruct)
+init_ mtrActionsClusterActionStruct =
+  sendOwnedMessage mtrActionsClusterActionStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRActionsClusterActionStruct mtrActionsClusterActionStruct => mtrActionsClusterActionStruct -> Ptr () -> IO RawId
+copyWithZone mtrActionsClusterActionStruct zone =
+  sendOwnedMessage mtrActionsClusterActionStruct copyWithZoneSelector zone
 
 -- | @- actionID@
 actionID :: IsMTRActionsClusterActionStruct mtrActionsClusterActionStruct => mtrActionsClusterActionStruct -> IO (Id NSNumber)
@@ -109,6 +123,14 @@ setState mtrActionsClusterActionStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRActionsClusterActionStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @actionID@
 actionIDSelector :: Selector '[] (Id NSNumber)

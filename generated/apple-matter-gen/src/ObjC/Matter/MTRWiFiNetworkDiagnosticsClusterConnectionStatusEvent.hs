@@ -7,9 +7,13 @@
 module ObjC.Matter.MTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent
   ( MTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent
   , IsMTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent(..)
+  , init_
+  , copyWithZone
   , connectionStatus
   , setConnectionStatus
   , connectionStatusSelector
+  , copyWithZoneSelector
+  , initSelector
   , setConnectionStatusSelector
 
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent => mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent -> IO (Id MTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent)
+init_ mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent =
+  sendOwnedMessage mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent => mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent -> Ptr () -> IO RawId
+copyWithZone mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent zone =
+  sendOwnedMessage mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent copyWithZoneSelector zone
+
 -- | @- connectionStatus@
 connectionStatus :: IsMTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent => mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent -> IO (Id NSNumber)
 connectionStatus mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent =
@@ -39,6 +53,14 @@ setConnectionStatus mtrWiFiNetworkDiagnosticsClusterConnectionStatusEvent value 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRWiFiNetworkDiagnosticsClusterConnectionStatusEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @connectionStatus@
 connectionStatusSelector :: Selector '[] (Id NSNumber)

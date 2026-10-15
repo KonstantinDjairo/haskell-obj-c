@@ -267,7 +267,7 @@ setChamferSegmentCount scnText value =
 -- The profile should be a 2D curve beginning at (0,1) and ending at (1,0). The "flatness" property is also used to flatten this path. The default value is nil.
 --
 -- ObjC selector: @- chamferProfile@
-chamferProfile :: IsSCNText scnText => scnText -> IO (Id NSBezierPath)
+chamferProfile :: IsSCNText scnText => scnText -> IO RawId
 chamferProfile scnText =
   sendMessage scnText chamferProfileSelector
 
@@ -278,9 +278,9 @@ chamferProfile scnText =
 -- The profile should be a 2D curve beginning at (0,1) and ending at (1,0). The "flatness" property is also used to flatten this path. The default value is nil.
 --
 -- ObjC selector: @- setChamferProfile:@
-setChamferProfile :: (IsSCNText scnText, IsNSBezierPath value) => scnText -> value -> IO ()
+setChamferProfile :: IsSCNText scnText => scnText -> RawId -> IO ()
 setChamferProfile scnText value =
-  sendMessage scnText setChamferProfileSelector (toNSBezierPath value)
+  sendMessage scnText setChamferProfileSelector value
 
 -- | flatness
 --
@@ -377,11 +377,11 @@ setChamferSegmentCountSelector :: Selector '[CLong] ()
 setChamferSegmentCountSelector = mkSelector "setChamferSegmentCount:"
 
 -- | @Selector@ for @chamferProfile@
-chamferProfileSelector :: Selector '[] (Id NSBezierPath)
+chamferProfileSelector :: Selector '[] RawId
 chamferProfileSelector = mkSelector "chamferProfile"
 
 -- | @Selector@ for @setChamferProfile:@
-setChamferProfileSelector :: Selector '[Id NSBezierPath] ()
+setChamferProfileSelector :: Selector '[RawId] ()
 setChamferProfileSelector = mkSelector "setChamferProfile:"
 
 -- | @Selector@ for @flatness@

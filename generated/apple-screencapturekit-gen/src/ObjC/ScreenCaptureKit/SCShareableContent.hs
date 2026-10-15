@@ -8,11 +8,9 @@ module ObjC.ScreenCaptureKit.SCShareableContent
   ( SCShareableContent
   , IsSCShareableContent(..)
   , getShareableContentWithCompletionHandler
-  , getCurrentProcessShareableContentWithCompletionHandler
   , getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandler
   , getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyBelowWindow_completionHandler
   , getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyAboveWindow_completionHandler
-  , infoForFilter
   , init_
   , new
   , windows
@@ -20,12 +18,10 @@ module ObjC.ScreenCaptureKit.SCShareableContent
   , applications
   , applicationsSelector
   , displaysSelector
-  , getCurrentProcessShareableContentWithCompletionHandlerSelector
   , getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyAboveWindow_completionHandlerSelector
   , getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyBelowWindow_completionHandlerSelector
   , getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandlerSelector
   , getShareableContentWithCompletionHandlerSelector
-  , infoForFilterSelector
   , initSelector
   , newSelector
   , windowsSelector
@@ -56,19 +52,6 @@ getShareableContentWithCompletionHandler completionHandler =
   do
     cls' <- getRequiredClass "SCShareableContent"
     sendClassMessage cls' getShareableContentWithCompletionHandlerSelector completionHandler
-
--- | getCurrentProcessShareableContentWithCompletionHandler:completionHandler
---
--- @completionHandler@ — the call back that will hand you back a SCShareableContent object
---
--- this method will create a SCShareableContent object that is called on the supplied queue. The SCShareableContent will contain redacted information about windows, displays and applications that are available to capture by current process without user consent via TCC
---
--- ObjC selector: @+ getCurrentProcessShareableContentWithCompletionHandler:@
-getCurrentProcessShareableContentWithCompletionHandler :: Ptr () -> IO ()
-getCurrentProcessShareableContentWithCompletionHandler completionHandler =
-  do
-    cls' <- getRequiredClass "SCShareableContent"
-    sendClassMessage cls' getCurrentProcessShareableContentWithCompletionHandlerSelector completionHandler
 
 -- | getShareableContentExcludingDesktopWindows:onScreenWindowsOnly:completionHandler
 --
@@ -121,19 +104,6 @@ getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyAboveWindow_comple
     cls' <- getRequiredClass "SCShareableContent"
     sendClassMessage cls' getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyAboveWindow_completionHandlerSelector excludeDesktopWindows (toSCWindow window) completionHandler
 
--- | infoForFilter:
---
--- @filter@ — content filter to translate to content details
---
--- this method will create a SCShareableContentInformation object given a filter
---
--- ObjC selector: @+ infoForFilter:@
-infoForFilter :: IsSCContentFilter filter_ => filter_ -> IO (Id SCShareableContentInfo)
-infoForFilter filter_ =
-  do
-    cls' <- getRequiredClass "SCShareableContent"
-    sendClassMessage cls' infoForFilterSelector (toSCContentFilter filter_)
-
 -- | @- init@
 init_ :: IsSCShareableContent scShareableContent => scShareableContent -> IO (Id SCShareableContent)
 init_ scShareableContent =
@@ -175,10 +145,6 @@ applications scShareableContent =
 getShareableContentWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
 getShareableContentWithCompletionHandlerSelector = mkSelector "getShareableContentWithCompletionHandler:"
 
--- | @Selector@ for @getCurrentProcessShareableContentWithCompletionHandler:@
-getCurrentProcessShareableContentWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
-getCurrentProcessShareableContentWithCompletionHandlerSelector = mkSelector "getCurrentProcessShareableContentWithCompletionHandler:"
-
 -- | @Selector@ for @getShareableContentExcludingDesktopWindows:onScreenWindowsOnly:completionHandler:@
 getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandlerSelector :: Selector '[Bool, Bool, Ptr ()] ()
 getShareableContentExcludingDesktopWindows_onScreenWindowsOnly_completionHandlerSelector = mkSelector "getShareableContentExcludingDesktopWindows:onScreenWindowsOnly:completionHandler:"
@@ -190,10 +156,6 @@ getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyBelowWindow_comple
 -- | @Selector@ for @getShareableContentExcludingDesktopWindows:onScreenWindowsOnlyAboveWindow:completionHandler:@
 getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyAboveWindow_completionHandlerSelector :: Selector '[Bool, Id SCWindow, Ptr ()] ()
 getShareableContentExcludingDesktopWindows_onScreenWindowsOnlyAboveWindow_completionHandlerSelector = mkSelector "getShareableContentExcludingDesktopWindows:onScreenWindowsOnlyAboveWindow:completionHandler:"
-
--- | @Selector@ for @infoForFilter:@
-infoForFilterSelector :: Selector '[Id SCContentFilter] (Id SCShareableContentInfo)
-infoForFilterSelector = mkSelector "infoForFilter:"
 
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id SCShareableContent)

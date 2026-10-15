@@ -83,7 +83,7 @@ error_ avSampleBufferAudioRenderer =
 -- If multiple AVSampleBufferAudioRenderers with different values for audioOutputDeviceUniqueID are attached to the same AVSampleBufferRenderSynchronizer, audio may not stay in sync during playback.  To avoid this, ensure that all synchronized AVSampleBufferAudioRenderers are using the same audio output device.
 --
 -- ObjC selector: @- audioOutputDeviceUniqueID@
-audioOutputDeviceUniqueID :: IsAVSampleBufferAudioRenderer avSampleBufferAudioRenderer => avSampleBufferAudioRenderer -> IO (Id NSString)
+audioOutputDeviceUniqueID :: IsAVSampleBufferAudioRenderer avSampleBufferAudioRenderer => avSampleBufferAudioRenderer -> IO RawId
 audioOutputDeviceUniqueID avSampleBufferAudioRenderer =
   sendMessage avSampleBufferAudioRenderer audioOutputDeviceUniqueIDSelector
 
@@ -102,9 +102,9 @@ audioOutputDeviceUniqueID avSampleBufferAudioRenderer =
 -- If multiple AVSampleBufferAudioRenderers with different values for audioOutputDeviceUniqueID are attached to the same AVSampleBufferRenderSynchronizer, audio may not stay in sync during playback.  To avoid this, ensure that all synchronized AVSampleBufferAudioRenderers are using the same audio output device.
 --
 -- ObjC selector: @- setAudioOutputDeviceUniqueID:@
-setAudioOutputDeviceUniqueID :: (IsAVSampleBufferAudioRenderer avSampleBufferAudioRenderer, IsNSString value) => avSampleBufferAudioRenderer -> value -> IO ()
+setAudioOutputDeviceUniqueID :: IsAVSampleBufferAudioRenderer avSampleBufferAudioRenderer => avSampleBufferAudioRenderer -> RawId -> IO ()
 setAudioOutputDeviceUniqueID avSampleBufferAudioRenderer value =
-  sendMessage avSampleBufferAudioRenderer setAudioOutputDeviceUniqueIDSelector (toNSString value)
+  sendMessage avSampleBufferAudioRenderer setAudioOutputDeviceUniqueIDSelector value
 
 -- | audioTimePitchAlgorithm
 --
@@ -195,11 +195,11 @@ errorSelector :: Selector '[] (Id NSError)
 errorSelector = mkSelector "error"
 
 -- | @Selector@ for @audioOutputDeviceUniqueID@
-audioOutputDeviceUniqueIDSelector :: Selector '[] (Id NSString)
+audioOutputDeviceUniqueIDSelector :: Selector '[] RawId
 audioOutputDeviceUniqueIDSelector = mkSelector "audioOutputDeviceUniqueID"
 
 -- | @Selector@ for @setAudioOutputDeviceUniqueID:@
-setAudioOutputDeviceUniqueIDSelector :: Selector '[Id NSString] ()
+setAudioOutputDeviceUniqueIDSelector :: Selector '[RawId] ()
 setAudioOutputDeviceUniqueIDSelector = mkSelector "setAudioOutputDeviceUniqueID:"
 
 -- | @Selector@ for @audioTimePitchAlgorithm@

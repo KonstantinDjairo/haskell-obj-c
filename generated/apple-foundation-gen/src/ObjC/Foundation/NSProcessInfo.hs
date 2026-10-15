@@ -35,7 +35,6 @@ module ObjC.Foundation.NSProcessInfo
   , setAutomaticTerminationSupportEnabled
   , macCatalystApp
   , iOSAppOnMac
-  , iOSAppOnVision
   , lowPowerModeEnabled
   , thermalState
   , userName
@@ -54,7 +53,6 @@ module ObjC.Foundation.NSProcessInfo
   , globallyUniqueStringSelector
   , hostNameSelector
   , iOSAppOnMacSelector
-  , iOSAppOnVisionSelector
   , lowPowerModeEnabledSelector
   , macCatalystAppSelector
   , operatingSystemNameSelector
@@ -242,11 +240,6 @@ iOSAppOnMac :: IsNSProcessInfo nsProcessInfo => nsProcessInfo -> IO Bool
 iOSAppOnMac nsProcessInfo =
   sendMessage nsProcessInfo iOSAppOnMacSelector
 
--- | @- iOSAppOnVision@
-iOSAppOnVision :: IsNSProcessInfo nsProcessInfo => nsProcessInfo -> IO Bool
-iOSAppOnVision nsProcessInfo =
-  sendMessage nsProcessInfo iOSAppOnVisionSelector
-
 -- | @- lowPowerModeEnabled@
 lowPowerModeEnabled :: IsNSProcessInfo nsProcessInfo => nsProcessInfo -> IO Bool
 lowPowerModeEnabled nsProcessInfo =
@@ -258,12 +251,12 @@ thermalState nsProcessInfo =
   sendMessage nsProcessInfo thermalStateSelector
 
 -- | @- userName@
-userName :: IsNSProcessInfo nsProcessInfo => nsProcessInfo -> IO (Id NSString)
+userName :: IsNSProcessInfo nsProcessInfo => nsProcessInfo -> IO RawId
 userName nsProcessInfo =
   sendMessage nsProcessInfo userNameSelector
 
 -- | @- fullUserName@
-fullUserName :: IsNSProcessInfo nsProcessInfo => nsProcessInfo -> IO (Id NSString)
+fullUserName :: IsNSProcessInfo nsProcessInfo => nsProcessInfo -> IO RawId
 fullUserName nsProcessInfo =
   sendMessage nsProcessInfo fullUserNameSelector
 
@@ -379,10 +372,6 @@ macCatalystAppSelector = mkSelector "macCatalystApp"
 iOSAppOnMacSelector :: Selector '[] Bool
 iOSAppOnMacSelector = mkSelector "iOSAppOnMac"
 
--- | @Selector@ for @iOSAppOnVision@
-iOSAppOnVisionSelector :: Selector '[] Bool
-iOSAppOnVisionSelector = mkSelector "iOSAppOnVision"
-
 -- | @Selector@ for @lowPowerModeEnabled@
 lowPowerModeEnabledSelector :: Selector '[] Bool
 lowPowerModeEnabledSelector = mkSelector "lowPowerModeEnabled"
@@ -392,10 +381,10 @@ thermalStateSelector :: Selector '[] NSProcessInfoThermalState
 thermalStateSelector = mkSelector "thermalState"
 
 -- | @Selector@ for @userName@
-userNameSelector :: Selector '[] (Id NSString)
+userNameSelector :: Selector '[] RawId
 userNameSelector = mkSelector "userName"
 
 -- | @Selector@ for @fullUserName@
-fullUserNameSelector :: Selector '[] (Id NSString)
+fullUserNameSelector :: Selector '[] RawId
 fullUserNameSelector = mkSelector "fullUserName"
 

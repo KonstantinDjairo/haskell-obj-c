@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVMediaSelectionGroup provides a collection of mutually exclusive options for the presentation of media within an asset.
---
--- Generated bindings for @AVMediaSelectionGroup@.
+-- | Generated bindings for @AVMediaSelectionGroup@.
 module ObjC.AVFoundation.AVMediaSelectionGroup
   ( AVMediaSelectionGroup
   , IsAVMediaSelectionGroup(..)
@@ -18,9 +16,7 @@ module ObjC.AVFoundation.AVMediaSelectionGroup
   , options
   , defaultOption
   , allowsEmptySelection
-  , customMediaSelectionScheme
   , allowsEmptySelectionSelector
-  , customMediaSelectionSchemeSelector
   , defaultOptionSelector
   , mediaSelectionOptionWithPropertyListSelector
   , mediaSelectionOptionsFromArray_filteredAndSortedAccordingToPreferredLanguagesSelector
@@ -44,22 +40,26 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Returns the instance of AVMediaSelectionOption with properties that match the specified property list.
+-- | mediaSelectionOptionWithPropertyList:
 --
--- - Parameter plist: A property list previously obtained from an option in the group via -[AVMediaSelectionOption propertyList].
+-- Returns the instance of AVMediaSelectionOption with properties that match the specified property list.
 --
--- - Returns: If the specified properties match those of an option in the group, an instance of AVMediaSelectionOption. Otherwise nil.
+-- @plist@ — A property list previously obtained from an option in the group via -[AVMediaSelectionOption propertyList].
+--
+-- Returns: If the specified properties match those of an option in the group, an instance of AVMediaSelectionOption. Otherwise nil.
 --
 -- ObjC selector: @- mediaSelectionOptionWithPropertyList:@
 mediaSelectionOptionWithPropertyList :: IsAVMediaSelectionGroup avMediaSelectionGroup => avMediaSelectionGroup -> RawId -> IO (Id AVMediaSelectionOption)
 mediaSelectionOptionWithPropertyList avMediaSelectionGroup plist =
   sendMessage avMediaSelectionGroup mediaSelectionOptionWithPropertyListSelector plist
 
--- | Filters an array of AVMediaSelectionOptions according to whether they are playable.
+-- | playableMediaSelectionOptionsFromArray:
 --
--- - Parameter mediaSelectionOptions: An array of AVMediaSelectionOption to be filtered according to whether they are playable.
+-- Filters an array of AVMediaSelectionOptions according to whether they are playable.
 --
--- - Returns: An instance of NSArray containing the media selection options of the specified NSArray that are playable.
+-- @mediaSelectionOptions@ — An array of AVMediaSelectionOption to be filtered according to whether they are playable.
+--
+-- Returns: An instance of NSArray containing the media selection options of the specified NSArray that are playable.
 --
 -- ObjC selector: @+ playableMediaSelectionOptionsFromArray:@
 playableMediaSelectionOptionsFromArray :: IsNSArray mediaSelectionOptions => mediaSelectionOptions -> IO (Id NSArray)
@@ -68,11 +68,15 @@ playableMediaSelectionOptionsFromArray mediaSelectionOptions =
     cls' <- getRequiredClass "AVMediaSelectionGroup"
     sendClassMessage cls' playableMediaSelectionOptionsFromArraySelector (toNSArray mediaSelectionOptions)
 
--- | Filters an array of AVMediaSelectionOptions according to whether their locales match any language identifier in the specified array of preferred languages. The returned array is sorted according to the order of preference of the language each matches.
+-- | mediaSelectionOptionsFromArray:filteredAndSortedAccordingToPreferredLanguages:
 --
--- - Parameter mediaSelectionOptions: An array of AVMediaSelectionOptions to be filtered and sorted. - Parameter preferredLanguages: An array of language identifiers in order of preference, each of which is an IETF BCP 47 (RFC 4646) language identifier. If your goal is to provide the best match for the end user's preferred languages without consideration of your app's available localizations, pass [NSLocale preferredLanguages] as the value of preferredLanguages. However, if you want to filter the available choices in order to obtain the best match among the localizations that are available for your app, pass [NSBundle preferredLocalizationsFromArray:[[NSBundle mainBundle] localizations] forPreferences:[NSLocale preferredLanguages]] instead. The latter choice is normally more appropriate for strings intended for display as part of the app's UI.
+-- Filters an array of AVMediaSelectionOptions according to whether their locales match any language identifier in the specified array of preferred languages. The returned array is sorted according to the order of preference of the language each matches.
 --
--- - Returns: An instance of NSArray containing media selection options of the specified NSArray that match a preferred language, sorted according to the order of preference of the language each matches.
+-- @mediaSelectionOptions@ — An array of AVMediaSelectionOptions to be filtered and sorted.
+--
+-- @preferredLanguages@ — An array of language identifiers in order of preference, each of which is an IETF BCP 47 (RFC 4646) language identifier. Use +[NSLocale preferredLanguages] to obtain the user's list of preferred languages.
+--
+-- Returns: An instance of NSArray containing media selection options of the specified NSArray that match a preferred language, sorted according to the order of preference of the language each matches.
 --
 -- ObjC selector: @+ mediaSelectionOptionsFromArray:filteredAndSortedAccordingToPreferredLanguages:@
 mediaSelectionOptionsFromArray_filteredAndSortedAccordingToPreferredLanguages :: (IsNSArray mediaSelectionOptions, IsNSArray preferredLanguages) => mediaSelectionOptions -> preferredLanguages -> IO (Id NSArray)
@@ -81,11 +85,15 @@ mediaSelectionOptionsFromArray_filteredAndSortedAccordingToPreferredLanguages me
     cls' <- getRequiredClass "AVMediaSelectionGroup"
     sendClassMessage cls' mediaSelectionOptionsFromArray_filteredAndSortedAccordingToPreferredLanguagesSelector (toNSArray mediaSelectionOptions) (toNSArray preferredLanguages)
 
--- | Filters an array of AVMediaSelectionOptions according to locale.
+-- | mediaSelectionOptionsFromArray:withLocale:
 --
--- - Parameter mediaSelectionOptions: An array of AVMediaSelectionOption to be filtered by locale. - Parameter locale: The NSLocale that must be matched for a media selection option to be copied to the output array.
+-- Filters an array of AVMediaSelectionOptions according to locale.
 --
--- - Returns: An instance of NSArray containing the media selection options of the specified NSArray that match the specified locale.
+-- @mediaSelectionOptions@ — An array of AVMediaSelectionOption to be filtered by locale.
+--
+-- @locale@ — The NSLocale that must be matched for a media selection option to be copied to the output array.
+--
+-- Returns: An instance of NSArray containing the media selection options of the specified NSArray that match the specified locale.
 --
 -- ObjC selector: @+ mediaSelectionOptionsFromArray:withLocale:@
 mediaSelectionOptionsFromArray_withLocale :: (IsNSArray mediaSelectionOptions, IsNSLocale locale) => mediaSelectionOptions -> locale -> IO (Id NSArray)
@@ -94,11 +102,15 @@ mediaSelectionOptionsFromArray_withLocale mediaSelectionOptions locale =
     cls' <- getRequiredClass "AVMediaSelectionGroup"
     sendClassMessage cls' mediaSelectionOptionsFromArray_withLocaleSelector (toNSArray mediaSelectionOptions) (toNSLocale locale)
 
--- | Filters an array of AVMediaSelectionOptions according to one or more media characteristics.
+-- | mediaSelectionOptionsFromArray:withMediaCharacteristics:
 --
--- - Parameter mediaSelectionOptions: An array of AVMediaSelectionOptions to be filtered by media characteristic. - Parameter mediaCharacteristics: The media characteristics that must be matched for a media selection option to be copied to the output array.
+-- Filters an array of AVMediaSelectionOptions according to one or more media characteristics.
 --
--- - Returns: An instance of NSArray containing the media selection options of the specified NSArray that match the specified 				media characteristics.
+-- @mediaSelectionOptions@ — An array of AVMediaSelectionOptions to be filtered by media characteristic.
+--
+-- @mediaCharacteristics@ — The media characteristics that must be matched for a media selection option to be copied to the output array.
+--
+-- Returns: An instance of NSArray containing the media selection options of the specified NSArray that match the specified				media characteristics.
 --
 -- ObjC selector: @+ mediaSelectionOptionsFromArray:withMediaCharacteristics:@
 mediaSelectionOptionsFromArray_withMediaCharacteristics :: (IsNSArray mediaSelectionOptions, IsNSArray mediaCharacteristics) => mediaSelectionOptions -> mediaCharacteristics -> IO (Id NSArray)
@@ -107,11 +119,15 @@ mediaSelectionOptionsFromArray_withMediaCharacteristics mediaSelectionOptions me
     cls' <- getRequiredClass "AVMediaSelectionGroup"
     sendClassMessage cls' mediaSelectionOptionsFromArray_withMediaCharacteristicsSelector (toNSArray mediaSelectionOptions) (toNSArray mediaCharacteristics)
 
--- | Filters an array of AVMediaSelectionOptions according to whether they lack one or more media characteristics.
+-- | mediaSelectionOptionsFromArray:withoutMediaCharacteristics:
 --
--- - Parameter mediaSelectionOptions: An array of AVMediaSelectionOptions to be filtered by media characteristic. - Parameter mediaCharacteristics: The media characteristics that must not be present for a media selection option to be copied to the output array.
+-- Filters an array of AVMediaSelectionOptions according to whether they lack one or more media characteristics.
 --
--- - Returns: An instance of NSArray containing the media selection options of the specified NSArray that lack the specified 				media characteristics.
+-- @mediaSelectionOptions@ — An array of AVMediaSelectionOptions to be filtered by media characteristic.
+--
+-- @mediaCharacteristics@ — The media characteristics that must not be present for a media selection option to be copied to the output array.
+--
+-- Returns: An instance of NSArray containing the media selection options of the specified NSArray that lack the specified				media characteristics.
 --
 -- ObjC selector: @+ mediaSelectionOptionsFromArray:withoutMediaCharacteristics:@
 mediaSelectionOptionsFromArray_withoutMediaCharacteristics :: (IsNSArray mediaSelectionOptions, IsNSArray mediaCharacteristics) => mediaSelectionOptions -> mediaCharacteristics -> IO (Id NSArray)
@@ -120,7 +136,9 @@ mediaSelectionOptionsFromArray_withoutMediaCharacteristics mediaSelectionOptions
     cls' <- getRequiredClass "AVMediaSelectionGroup"
     sendClassMessage cls' mediaSelectionOptionsFromArray_withoutMediaCharacteristicsSelector (toNSArray mediaSelectionOptions) (toNSArray mediaCharacteristics)
 
--- | A collection of mutually exclusive media selection options.
+-- | options
+--
+-- A collection of mutually exclusive media selection options.
 --
 -- An NSArray of AVMediaSelectionOption*.
 --
@@ -129,7 +147,9 @@ options :: IsAVMediaSelectionGroup avMediaSelectionGroup => avMediaSelectionGrou
 options avMediaSelectionGroup =
   sendMessage avMediaSelectionGroup optionsSelector
 
--- | Indicates the default option in the group, i.e. the option that's intended for use in the absence of a specific end-user selection or preference.
+-- | defaultOption
+--
+-- Indicates the default option in the group, i.e. the option that's intended for use in the absence of a specific end-user selection or preference.
 --
 -- Can be nil, indicating that without a specific end-user selection or preference, no option in the group is intended to be selected.
 --
@@ -138,21 +158,16 @@ defaultOption :: IsAVMediaSelectionGroup avMediaSelectionGroup => avMediaSelecti
 defaultOption avMediaSelectionGroup =
   sendMessage avMediaSelectionGroup defaultOptionSelector
 
--- | Indicates whether it's possible to present none of the options in the group when an associated AVPlayerItem is played.
+-- | allowsEmptySelection
 --
--- If allowsEmptySelection is YES, all of the available media options in the group can be deselected by passing nil as the specified AVMediaSelectionOption to -[AVPlayerItem selectMediaOption:inMediaSelectionGroup:].
+-- Indicates whether it's possible to present none of the options in the group when an associated AVPlayerItem is played.
+--
+-- If allowsEmptySelection is YES, all of the available media options in the group can be deselected by passing nil	as the specified AVMediaSelectionOption to -[AVPlayerItem selectMediaOption:inMediaSelectionGroup:].
 --
 -- ObjC selector: @- allowsEmptySelection@
 allowsEmptySelection :: IsAVMediaSelectionGroup avMediaSelectionGroup => avMediaSelectionGroup -> IO Bool
 allowsEmptySelection avMediaSelectionGroup =
   sendMessage avMediaSelectionGroup allowsEmptySelectionSelector
-
--- | For content that has been authored with the express intent of offering an alternative selection interface for AVMediaSelectionOptions, AVCustomMediaSelectionScheme provides a collection of custom settings for controlling the presentation of the media.
---
--- ObjC selector: @- customMediaSelectionScheme@
-customMediaSelectionScheme :: IsAVMediaSelectionGroup avMediaSelectionGroup => avMediaSelectionGroup -> IO (Id AVCustomMediaSelectionScheme)
-customMediaSelectionScheme avMediaSelectionGroup =
-  sendMessage avMediaSelectionGroup customMediaSelectionSchemeSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -193,8 +208,4 @@ defaultOptionSelector = mkSelector "defaultOption"
 -- | @Selector@ for @allowsEmptySelection@
 allowsEmptySelectionSelector :: Selector '[] Bool
 allowsEmptySelectionSelector = mkSelector "allowsEmptySelection"
-
--- | @Selector@ for @customMediaSelectionScheme@
-customMediaSelectionSchemeSelector :: Selector '[] (Id AVCustomMediaSelectionScheme)
-customMediaSelectionSchemeSelector = mkSelector "customMediaSelectionScheme"
 

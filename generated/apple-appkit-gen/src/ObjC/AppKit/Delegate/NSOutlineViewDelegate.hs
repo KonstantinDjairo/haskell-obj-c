@@ -64,8 +64,6 @@ data NSOutlineViewDelegateOverrides = NSOutlineViewDelegateOverrides
   , _outlineView_sizeToFitWidthOfColumn :: !(Maybe (RawId -> Int -> IO Double))
   , _outlineView_shouldReorderColumn_toColumn :: !(Maybe (RawId -> Int -> Int -> IO Bool))
   , _outlineView_shouldShowOutlineCellForItem :: !(Maybe (RawId -> RawId -> IO Bool))
-  , _outlineView_userCanChangeVisibilityOfTableColumn :: !(Maybe (RawId -> RawId -> IO Bool))
-  , _outlineView_userDidChangeVisibilityOfTableColumns :: !(Maybe (RawId -> RawId -> IO ()))
   , _outlineViewSelectionDidChange :: !(Maybe (RawId -> IO ()))
   , _outlineViewColumnDidMove :: !(Maybe (RawId -> IO ()))
   , _outlineViewColumnDidResize :: !(Maybe (RawId -> IO ()))
@@ -107,8 +105,6 @@ defaultNSOutlineViewDelegateOverrides = NSOutlineViewDelegateOverrides
   , _outlineView_sizeToFitWidthOfColumn = Nothing
   , _outlineView_shouldReorderColumn_toColumn = Nothing
   , _outlineView_shouldShowOutlineCellForItem = Nothing
-  , _outlineView_userCanChangeVisibilityOfTableColumn = Nothing
-  , _outlineView_userDidChangeVisibilityOfTableColumns = Nothing
   , _outlineViewSelectionDidChange = Nothing
   , _outlineViewColumnDidMove = Nothing
   , _outlineViewColumnDidResize = Nothing
@@ -231,8 +227,6 @@ nsOutlineViewDelegateDelegateClass = unsafePerformIO $ do
       sel_outlineView_sizeToFitWidthOfColumn = unSelector (mkSelector "outlineView:sizeToFitWidthOfColumn:")
       sel_outlineView_shouldReorderColumn_toColumn = unSelector (mkSelector "outlineView:shouldReorderColumn:toColumn:")
       sel_outlineView_shouldShowOutlineCellForItem = unSelector (mkSelector "outlineView:shouldShowOutlineCellForItem:")
-      sel_outlineView_userCanChangeVisibilityOfTableColumn = unSelector (mkSelector "outlineView:userCanChangeVisibilityOfTableColumn:")
-      sel_outlineView_userDidChangeVisibilityOfTableColumns = unSelector (mkSelector "outlineView:userDidChangeVisibilityOfTableColumns:")
       sel_outlineViewSelectionDidChange = unSelector (mkSelector "outlineViewSelectionDidChange:")
       sel_outlineViewColumnDidMove = unSelector (mkSelector "outlineViewColumnDidMove:")
       sel_outlineViewColumnDidResize = unSelector (mkSelector "outlineViewColumnDidResize:")
@@ -535,97 +529,77 @@ nsOutlineViewDelegateDelegateClass = unsafePerformIO $ do
         pure (if r then 1 else 0)
   addObjCMethod cls "outlineView:shouldShowOutlineCellForItem:" "B@:@@" stub_27
 
-  -- outlineView:userCanChangeVisibilityOfTableColumn:
-  stub_28 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
-    case _outlineView_userCanChangeVisibilityOfTableColumn rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f (RawId arg0) (RawId arg1)
-        pure (if r then 1 else 0)
-  addObjCMethod cls "outlineView:userCanChangeVisibilityOfTableColumn:" "B@:@@" stub_28
-
-  -- outlineView:userDidChangeVisibilityOfTableColumns:
-  stub_29 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
-    case _outlineView_userDidChangeVisibilityOfTableColumns rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "outlineView:userDidChangeVisibilityOfTableColumns:" "v@:@@" stub_29
-
   -- outlineViewSelectionDidChange:
-  stub_30 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_28 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewSelectionDidChange rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewSelectionDidChange:" "v@:@" stub_30
+  addObjCMethod cls "outlineViewSelectionDidChange:" "v@:@" stub_28
 
   -- outlineViewColumnDidMove:
-  stub_31 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_29 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewColumnDidMove rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewColumnDidMove:" "v@:@" stub_31
+  addObjCMethod cls "outlineViewColumnDidMove:" "v@:@" stub_29
 
   -- outlineViewColumnDidResize:
-  stub_32 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_30 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewColumnDidResize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewColumnDidResize:" "v@:@" stub_32
+  addObjCMethod cls "outlineViewColumnDidResize:" "v@:@" stub_30
 
   -- outlineViewSelectionIsChanging:
-  stub_33 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_31 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewSelectionIsChanging rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewSelectionIsChanging:" "v@:@" stub_33
+  addObjCMethod cls "outlineViewSelectionIsChanging:" "v@:@" stub_31
 
   -- outlineViewItemWillExpand:
-  stub_34 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_32 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewItemWillExpand rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewItemWillExpand:" "v@:@" stub_34
+  addObjCMethod cls "outlineViewItemWillExpand:" "v@:@" stub_32
 
   -- outlineViewItemDidExpand:
-  stub_35 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_33 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewItemDidExpand rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewItemDidExpand:" "v@:@" stub_35
+  addObjCMethod cls "outlineViewItemDidExpand:" "v@:@" stub_33
 
   -- outlineViewItemWillCollapse:
-  stub_36 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_34 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewItemWillCollapse rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewItemWillCollapse:" "v@:@" stub_36
+  addObjCMethod cls "outlineViewItemWillCollapse:" "v@:@" stub_34
 
   -- outlineViewItemDidCollapse:
-  stub_37 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_35 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSOutlineViewDelegateOverrides
     case _outlineViewItemDidCollapse rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "outlineViewItemDidCollapse:" "v@:@" stub_37
+  addObjCMethod cls "outlineViewItemDidCollapse:" "v@:@" stub_35
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -659,8 +633,6 @@ nsOutlineViewDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_outlineView_sizeToFitWidthOfColumn then pure (maybe 0 (const 1) (_outlineView_sizeToFitWidthOfColumn rec_))
     else if queriedSel == sel_outlineView_shouldReorderColumn_toColumn then pure (maybe 0 (const 1) (_outlineView_shouldReorderColumn_toColumn rec_))
     else if queriedSel == sel_outlineView_shouldShowOutlineCellForItem then pure (maybe 0 (const 1) (_outlineView_shouldShowOutlineCellForItem rec_))
-    else if queriedSel == sel_outlineView_userCanChangeVisibilityOfTableColumn then pure (maybe 0 (const 1) (_outlineView_userCanChangeVisibilityOfTableColumn rec_))
-    else if queriedSel == sel_outlineView_userDidChangeVisibilityOfTableColumns then pure (maybe 0 (const 1) (_outlineView_userDidChangeVisibilityOfTableColumns rec_))
     else if queriedSel == sel_outlineViewSelectionDidChange then pure (maybe 0 (const 1) (_outlineViewSelectionDidChange rec_))
     else if queriedSel == sel_outlineViewColumnDidMove then pure (maybe 0 (const 1) (_outlineViewColumnDidMove rec_))
     else if queriedSel == sel_outlineViewColumnDidResize then pure (maybe 0 (const 1) (_outlineViewColumnDidResize rec_))

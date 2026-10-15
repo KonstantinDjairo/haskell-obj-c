@@ -65,7 +65,7 @@ setSubscriptionIDs ckFetchSubscriptionsOperation value =
 
 -- | Called on success or failure for each subscriptionID.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perSubscriptionCompletionBlock@
 perSubscriptionCompletionBlock :: IsCKFetchSubscriptionsOperation ckFetchSubscriptionsOperation => ckFetchSubscriptionsOperation -> IO (Ptr ())
@@ -74,7 +74,7 @@ perSubscriptionCompletionBlock ckFetchSubscriptionsOperation =
 
 -- | Called on success or failure for each subscriptionID.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerSubscriptionCompletionBlock:@
 setPerSubscriptionCompletionBlock :: IsCKFetchSubscriptionsOperation ckFetchSubscriptionsOperation => ckFetchSubscriptionsOperation -> Ptr () -> IO ()

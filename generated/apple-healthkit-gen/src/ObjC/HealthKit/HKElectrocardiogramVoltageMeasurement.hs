@@ -39,7 +39,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | quantityForLead:
 --
--- Returns an HKQuantity for the specified lead with a unit compatible with [HKUnit voltUnit].
+-- Returns an HKQuantity for the specified lead with a unit compatible with [HKUnit voltageUnit].
 --
 -- @lead@ — The HKElectrocardiogramLead for which voltage quantity will be returned.
 --

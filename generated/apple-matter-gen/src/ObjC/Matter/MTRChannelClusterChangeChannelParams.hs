@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRChannelClusterChangeChannelParams
   ( MTRChannelClusterChangeChannelParams
   , IsMTRChannelClusterChangeChannelParams(..)
+  , init_
+  , copyWithZone
   , match
   , setMatch
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , matchSelector
-  , serverSideProcessingTimeoutSelector
   , setMatchSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRChannelClusterChangeChannelParams mtrChannelClusterChangeChannelParams => mtrChannelClusterChangeChannelParams -> IO (Id MTRChannelClusterChangeChannelParams)
+init_ mtrChannelClusterChangeChannelParams =
+  sendOwnedMessage mtrChannelClusterChangeChannelParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRChannelClusterChangeChannelParams mtrChannelClusterChangeChannelParams => mtrChannelClusterChangeChannelParams -> Ptr () -> IO RawId
+copyWithZone mtrChannelClusterChangeChannelParams zone =
+  sendOwnedMessage mtrChannelClusterChangeChannelParams copyWithZoneSelector zone
 
 -- | @- match@
 match :: IsMTRChannelClusterChangeChannelParams mtrChannelClusterChangeChannelParams => mtrChannelClusterChangeChannelParams -> IO (Id NSString)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRChannelClusterChangeChannelParams mtrChannelClu
 setTimedInvokeTimeoutMs mtrChannelClusterChangeChannelParams value =
   sendMessage mtrChannelClusterChangeChannelParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRChannelClusterChangeChannelParams mtrChannelClusterChangeChannelParams => mtrChannelClusterChangeChannelParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrChannelClusterChangeChannelParams =
-  sendMessage mtrChannelClusterChangeChannelParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRChannelClusterChangeChannelParams mtrChannelClusterChangeChannelParams, IsNSNumber value) => mtrChannelClusterChangeChannelParams -> value -> IO ()
-setServerSideProcessingTimeout mtrChannelClusterChangeChannelParams value =
-  sendMessage mtrChannelClusterChangeChannelParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRChannelClusterChangeChannelParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @match@
 matchSelector :: Selector '[] (Id NSString)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

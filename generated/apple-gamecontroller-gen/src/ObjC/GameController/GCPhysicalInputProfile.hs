@@ -70,9 +70,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Profile elements can be accessed using keyed subscript notation, with a valid alias of its inputs.
 --
--- extendedGamepad["Button A"] == extendedGamepad.buttonA // YES
---
--- microGamepad["Button X"] == microGamepad.buttonX // YES
+-- extendedGamepad["Button A"] == extendedGamepad.buttonA // YES  microGamepad["Button X"] == microGamepad.buttonX // YES
 --
 -- Note: Equivalent to -elements
 --
@@ -178,11 +176,7 @@ setValueDidChangeHandler gcPhysicalInputProfile value =
 
 -- | The following properties allow for runtime lookup of any input element on a profile, when provided with a valid alias.
 --
--- extendedGamepad.elements["Button A"] == extendedGamepad.buttonA // YES
---
--- extendedGamepad.dpads["Left Thumbstick"] == extendedGamepad.leftThumbstick // YES
---
--- extendedGamepad.dpads["Button B"] // returns nil, "Button B" is not a GCControllerDirectionPad
+-- extendedGamepad.elements["Button A"] == extendedGamepad.buttonA // YES  extendedGamepad.dpads["Left Thumbstick"] == extendedGamepad.leftThumbstick // YES  extendedGamepad.dpads["Button B"] // returns nil, "Button B" is not a GCControllerDirectionPad
 --
 -- ObjC selector: @- elements@
 elements :: IsGCPhysicalInputProfile gcPhysicalInputProfile => gcPhysicalInputProfile -> IO (Id NSDictionary)

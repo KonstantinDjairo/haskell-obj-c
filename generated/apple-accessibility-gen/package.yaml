@@ -12,14 +12,12 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
   - ObjC.Accessibility.AXBrailleMap
-  - ObjC.Accessibility.AXBrailleTable
-  - ObjC.Accessibility.AXBrailleTranslationResult
-  - ObjC.Accessibility.AXBrailleTranslator
   - ObjC.Accessibility.AXCategoricalDataAxisDescriptor
   - ObjC.Accessibility.AXChartDescriptor
   - ObjC.Accessibility.AXCustomContent
@@ -27,27 +25,10 @@ library:
   - ObjC.Accessibility.AXDataPointValue
   - ObjC.Accessibility.AXDataSeriesDescriptor
   - ObjC.Accessibility.AXLiveAudioGraph
-  - ObjC.Accessibility.AXMathExpression
-  - ObjC.Accessibility.AXMathExpressionFenced
-  - ObjC.Accessibility.AXMathExpressionFraction
-  - ObjC.Accessibility.AXMathExpressionIdentifier
-  - ObjC.Accessibility.AXMathExpressionMultiscript
-  - ObjC.Accessibility.AXMathExpressionNumber
-  - ObjC.Accessibility.AXMathExpressionOperator
-  - ObjC.Accessibility.AXMathExpressionRoot
-  - ObjC.Accessibility.AXMathExpressionRow
-  - ObjC.Accessibility.AXMathExpressionSubSuperscript
-  - ObjC.Accessibility.AXMathExpressionTable
-  - ObjC.Accessibility.AXMathExpressionTableCell
-  - ObjC.Accessibility.AXMathExpressionTableRow
-  - ObjC.Accessibility.AXMathExpressionText
-  - ObjC.Accessibility.AXMathExpressionUnderOver
   - ObjC.Accessibility.AXNumericDataAxisDescriptor
-  - ObjC.Accessibility.AXRequest
   - ObjC.Accessibility.Delegate.AXChart
   - ObjC.Accessibility.Delegate.AXCustomContentProvider
   - ObjC.Accessibility.Delegate.AXDataAxisDescriptor
-  - ObjC.Accessibility.Delegate.AXMathExpressionProvider
   - ObjC.Accessibility.Enums
   - ObjC.Accessibility.Internal.Classes
   - ObjC.Accessibility.Internal.Enums

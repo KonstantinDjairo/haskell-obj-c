@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that contains a postal address that the data detection system matches.
---
--- The DataDetection framework returns a postal address match in a @DDMatchPostalAddress@ object, which optionally contains the matching parts of a postal address: street, city, state, postal code, and country.
---
--- Generated bindings for @DDMatchPostalAddress@.
+-- | Generated bindings for @DDMatchPostalAddress@.
 module ObjC.DataDetection.DDMatchPostalAddress
   ( DDMatchPostalAddress
   , IsDDMatchPostalAddress(..)
@@ -36,37 +32,27 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.DataDetection.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | The street name in a postal address.
---
--- ObjC selector: @- street@
+-- | @- street@
 street :: IsDDMatchPostalAddress ddMatchPostalAddress => ddMatchPostalAddress -> IO (Id NSString)
 street ddMatchPostalAddress =
   sendMessage ddMatchPostalAddress streetSelector
 
--- | The city name in a postal address.
---
--- ObjC selector: @- city@
+-- | @- city@
 city :: IsDDMatchPostalAddress ddMatchPostalAddress => ddMatchPostalAddress -> IO (Id NSString)
 city ddMatchPostalAddress =
   sendMessage ddMatchPostalAddress citySelector
 
--- | The state name in a postal address.
---
--- ObjC selector: @- state@
+-- | @- state@
 state :: IsDDMatchPostalAddress ddMatchPostalAddress => ddMatchPostalAddress -> IO (Id NSString)
 state ddMatchPostalAddress =
   sendMessage ddMatchPostalAddress stateSelector
 
--- | The postal code in a postal address.
---
--- ObjC selector: @- postalCode@
+-- | @- postalCode@
 postalCode :: IsDDMatchPostalAddress ddMatchPostalAddress => ddMatchPostalAddress -> IO (Id NSString)
 postalCode ddMatchPostalAddress =
   sendMessage ddMatchPostalAddress postalCodeSelector
 
--- | The country or region name in a postal address.
---
--- ObjC selector: @- country@
+-- | @- country@
 country :: IsDDMatchPostalAddress ddMatchPostalAddress => ddMatchPostalAddress -> IO (Id NSString)
 country ddMatchPostalAddress =
   sendMessage ddMatchPostalAddress countrySelector

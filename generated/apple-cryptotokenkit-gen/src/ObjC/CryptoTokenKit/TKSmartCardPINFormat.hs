@@ -186,7 +186,7 @@ setPINJustification tkSmartCardPINFormat value =
 --
 -- Note: Default value: 0
 --
--- The offset, in bits, within the PIN block to mark a location for filling in the formatted PIN, which is justified with respect to the PINJustification property value.
+-- Note that the value of PINBitOffset indirectly controls the internal system units indicator. If PINBitOffset is byte aligned (PINBitOffset mod 8 is equal to 0), the internal representation of PINBitOffset gets converted from bits to bytes.
 --
 -- ObjC selector: @- PINBitOffset@
 pinBitOffset :: IsTKSmartCardPINFormat tkSmartCardPINFormat => tkSmartCardPINFormat -> IO CLong
@@ -197,7 +197,7 @@ pinBitOffset tkSmartCardPINFormat =
 --
 -- Note: Default value: 0
 --
--- The offset, in bits, within the PIN block to mark a location for filling in the formatted PIN, which is justified with respect to the PINJustification property value.
+-- Note that the value of PINBitOffset indirectly controls the internal system units indicator. If PINBitOffset is byte aligned (PINBitOffset mod 8 is equal to 0), the internal representation of PINBitOffset gets converted from bits to bytes.
 --
 -- ObjC selector: @- setPINBitOffset:@
 setPINBitOffset :: IsTKSmartCardPINFormat tkSmartCardPINFormat => tkSmartCardPINFormat -> CLong -> IO ()
@@ -208,7 +208,7 @@ setPINBitOffset tkSmartCardPINFormat value =
 --
 -- Note: Default value: 0
 --
--- The offset, in bits, within the PIN block to mark a location for filling in the PIN length, which is always left justified.
+-- Note that the value of PINLengthBitOffset indirectly controls the internal system units indicator. If PINLengthBitOffset is byte aligned (PINLengthBitOffset mod 8 is equal to 0), the internal representation of PINLengthBitOffset gets converted from bits to bytes.
 --
 -- ObjC selector: @- PINLengthBitOffset@
 pinLengthBitOffset :: IsTKSmartCardPINFormat tkSmartCardPINFormat => tkSmartCardPINFormat -> IO CLong
@@ -219,7 +219,7 @@ pinLengthBitOffset tkSmartCardPINFormat =
 --
 -- Note: Default value: 0
 --
--- The offset, in bits, within the PIN block to mark a location for filling in the PIN length, which is always left justified.
+-- Note that the value of PINLengthBitOffset indirectly controls the internal system units indicator. If PINLengthBitOffset is byte aligned (PINLengthBitOffset mod 8 is equal to 0), the internal representation of PINLengthBitOffset gets converted from bits to bytes.
 --
 -- ObjC selector: @- setPINLengthBitOffset:@
 setPINLengthBitOffset :: IsTKSmartCardPINFormat tkSmartCardPINFormat => tkSmartCardPINFormat -> CLong -> IO ()

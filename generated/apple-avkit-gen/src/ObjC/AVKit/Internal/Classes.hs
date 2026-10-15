@@ -151,7 +151,11 @@ instance IsNSView (Id AVPlayerView) where
 
 -- ---------- AVRoutePickerView ----------
 
--- | Phantom type for @AVRoutePickerView@.
+-- | AVRoutePickerView
+--
+-- AVRoutePickerView is a subclass of NSView that displays controls for picking playback routes.
+-- 
+-- Phantom type for @AVRoutePickerView@.
 data AVRoutePickerView
 
 instance IsObjCObject (Id AVRoutePickerView) where

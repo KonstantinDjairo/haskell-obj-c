@@ -13,13 +13,6 @@ module ObjC.AppKit.NSSplitViewItem
   , splitViewItemWithViewController
   , sidebarWithViewController
   , contentListWithViewController
-  , inspectorWithViewController
-  , addTopAlignedAccessoryViewController
-  , insertTopAlignedAccessoryViewController_atIndex
-  , removeTopAlignedAccessoryViewControllerAtIndex
-  , addBottomAlignedAccessoryViewController
-  , insertBottomAlignedAccessoryViewController_atIndex
-  , removeBottomAlignedAccessoryViewControllerAtIndex
   , behavior
   , viewController
   , setViewController
@@ -41,44 +34,23 @@ module ObjC.AppKit.NSSplitViewItem
   , setAutomaticMaximumThickness
   , springLoaded
   , setSpringLoaded
-  , canCollapseFromWindowResize
-  , setCanCollapseFromWindowResize
   , allowsFullHeightLayout
   , setAllowsFullHeightLayout
   , titlebarSeparatorStyle
   , setTitlebarSeparatorStyle
-  , automaticallyAdjustsSafeAreaInsets
-  , setAutomaticallyAdjustsSafeAreaInsets
-  , topAlignedAccessoryViewControllers
-  , setTopAlignedAccessoryViewControllers
-  , bottomAlignedAccessoryViewControllers
-  , setBottomAlignedAccessoryViewControllers
-  , addBottomAlignedAccessoryViewControllerSelector
-  , addTopAlignedAccessoryViewControllerSelector
   , allowsFullHeightLayoutSelector
   , automaticMaximumThicknessSelector
-  , automaticallyAdjustsSafeAreaInsetsSelector
   , behaviorSelector
-  , bottomAlignedAccessoryViewControllersSelector
-  , canCollapseFromWindowResizeSelector
   , canCollapseSelector
   , collapseBehaviorSelector
   , collapsedSelector
   , contentListWithViewControllerSelector
   , holdingPrioritySelector
-  , insertBottomAlignedAccessoryViewController_atIndexSelector
-  , insertTopAlignedAccessoryViewController_atIndexSelector
-  , inspectorWithViewControllerSelector
   , maximumThicknessSelector
   , minimumThicknessSelector
   , preferredThicknessFractionSelector
-  , removeBottomAlignedAccessoryViewControllerAtIndexSelector
-  , removeTopAlignedAccessoryViewControllerAtIndexSelector
   , setAllowsFullHeightLayoutSelector
   , setAutomaticMaximumThicknessSelector
-  , setAutomaticallyAdjustsSafeAreaInsetsSelector
-  , setBottomAlignedAccessoryViewControllersSelector
-  , setCanCollapseFromWindowResizeSelector
   , setCanCollapseSelector
   , setCollapseBehaviorSelector
   , setCollapsedSelector
@@ -88,13 +60,11 @@ module ObjC.AppKit.NSSplitViewItem
   , setPreferredThicknessFractionSelector
   , setSpringLoadedSelector
   , setTitlebarSeparatorStyleSelector
-  , setTopAlignedAccessoryViewControllersSelector
   , setViewControllerSelector
   , sidebarWithViewControllerSelector
   , splitViewItemWithViewControllerSelector
   , springLoadedSelector
   , titlebarSeparatorStyleSelector
-  , topAlignedAccessoryViewControllersSelector
   , viewControllerSelector
 
   -- * Enum types
@@ -102,7 +72,6 @@ module ObjC.AppKit.NSSplitViewItem
   , pattern NSSplitViewItemBehaviorDefault
   , pattern NSSplitViewItemBehaviorSidebar
   , pattern NSSplitViewItemBehaviorContentList
-  , pattern NSSplitViewItemBehaviorInspector
   , NSSplitViewItemCollapseBehavior(NSSplitViewItemCollapseBehavior)
   , pattern NSSplitViewItemCollapseBehaviorDefault
   , pattern NSSplitViewItemCollapseBehaviorPreferResizingSplitViewWithFixedSiblings
@@ -166,53 +135,6 @@ contentListWithViewController viewController =
   do
     cls' <- getRequiredClass "NSSplitViewItem"
     sendClassMessage cls' contentListWithViewControllerSelector (toNSViewController viewController)
-
--- | Creates a split view item representing an inspector for the provided ViewController. On macOS 14.0 and above inspectors have the following standard system behavior:  - canCollapse is set to YES  - minimumThickness and maximumThickness are set to the standard inspector size (270) and are not resizable by default
---
--- @viewController@ — The view controller used to set the viewController property
---
--- Returns: An autoreleased SplitViewItem that acts as an inspector.
---
--- ObjC selector: @+ inspectorWithViewController:@
-inspectorWithViewController :: IsNSViewController viewController => viewController -> IO (Id NSSplitViewItem)
-inspectorWithViewController viewController =
-  do
-    cls' <- getRequiredClass "NSSplitViewItem"
-    sendClassMessage cls' inspectorWithViewControllerSelector (toNSViewController viewController)
-
--- | @- addTopAlignedAccessoryViewController:@
-addTopAlignedAccessoryViewController :: (IsNSSplitViewItem nsSplitViewItem, IsNSSplitViewItemAccessoryViewController childViewController) => nsSplitViewItem -> childViewController -> IO ()
-addTopAlignedAccessoryViewController nsSplitViewItem childViewController =
-  sendMessage nsSplitViewItem addTopAlignedAccessoryViewControllerSelector (toNSSplitViewItemAccessoryViewController childViewController)
-
--- | @- insertTopAlignedAccessoryViewController:atIndex:@
-insertTopAlignedAccessoryViewController_atIndex :: (IsNSSplitViewItem nsSplitViewItem, IsNSSplitViewItemAccessoryViewController childViewController) => nsSplitViewItem -> childViewController -> CLong -> IO ()
-insertTopAlignedAccessoryViewController_atIndex nsSplitViewItem childViewController index =
-  sendMessage nsSplitViewItem insertTopAlignedAccessoryViewController_atIndexSelector (toNSSplitViewItemAccessoryViewController childViewController) index
-
--- | NOTE: you can use this method, or @-removeFromParentViewController:@, whichever is easier.
---
--- ObjC selector: @- removeTopAlignedAccessoryViewControllerAtIndex:@
-removeTopAlignedAccessoryViewControllerAtIndex :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> CLong -> IO ()
-removeTopAlignedAccessoryViewControllerAtIndex nsSplitViewItem index =
-  sendMessage nsSplitViewItem removeTopAlignedAccessoryViewControllerAtIndexSelector index
-
--- | @- addBottomAlignedAccessoryViewController:@
-addBottomAlignedAccessoryViewController :: (IsNSSplitViewItem nsSplitViewItem, IsNSSplitViewItemAccessoryViewController childViewController) => nsSplitViewItem -> childViewController -> IO ()
-addBottomAlignedAccessoryViewController nsSplitViewItem childViewController =
-  sendMessage nsSplitViewItem addBottomAlignedAccessoryViewControllerSelector (toNSSplitViewItemAccessoryViewController childViewController)
-
--- | @- insertBottomAlignedAccessoryViewController:atIndex:@
-insertBottomAlignedAccessoryViewController_atIndex :: (IsNSSplitViewItem nsSplitViewItem, IsNSSplitViewItemAccessoryViewController childViewController) => nsSplitViewItem -> childViewController -> CLong -> IO ()
-insertBottomAlignedAccessoryViewController_atIndex nsSplitViewItem childViewController index =
-  sendMessage nsSplitViewItem insertBottomAlignedAccessoryViewController_atIndexSelector (toNSSplitViewItemAccessoryViewController childViewController) index
-
--- | NOTE: you can use this method, or @-removeFromParentViewController:@, whichever is easier.
---
--- ObjC selector: @- removeBottomAlignedAccessoryViewControllerAtIndex:@
-removeBottomAlignedAccessoryViewControllerAtIndex :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> CLong -> IO ()
-removeBottomAlignedAccessoryViewControllerAtIndex nsSplitViewItem index =
-  sendMessage nsSplitViewItem removeBottomAlignedAccessoryViewControllerAtIndexSelector index
 
 -- | The standard behavior type of the receiver. See initializers for descriptions of each behavior.
 --
@@ -361,28 +283,14 @@ setSpringLoaded :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> Bool 
 setSpringLoaded nsSplitViewItem value =
   sendMessage nsSplitViewItem setSpringLoadedSelector value
 
--- | If YES, the item can be collapsed from a window resize. This can differ from @canCollapse@, to allow divider collapsing but not window resize collapsing or vice versa. Defaults to YES for Sidebars and NO for Inspectors. - Note: Setting @canCollapse@ for sidebars will reset this value to that new value.
---
--- ObjC selector: @- canCollapseFromWindowResize@
-canCollapseFromWindowResize :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> IO Bool
-canCollapseFromWindowResize nsSplitViewItem =
-  sendMessage nsSplitViewItem canCollapseFromWindowResizeSelector
-
--- | If YES, the item can be collapsed from a window resize. This can differ from @canCollapse@, to allow divider collapsing but not window resize collapsing or vice versa. Defaults to YES for Sidebars and NO for Inspectors. - Note: Setting @canCollapse@ for sidebars will reset this value to that new value.
---
--- ObjC selector: @- setCanCollapseFromWindowResize:@
-setCanCollapseFromWindowResize :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> Bool -> IO ()
-setCanCollapseFromWindowResize nsSplitViewItem value =
-  sendMessage nsSplitViewItem setCanCollapseFromWindowResizeSelector value
-
--- | Whether or not a sidebar or inspector is allowed to be full height in the window when the @NSFullSizeContentViewWindowMask@ style mask is also set. Only applies to NSSplitViewItemBehaviorSidebar and NSSplitViewItemBehaviorInspector. Defaults to YES.
+-- | Whether or not a sidebar is allowed to be full height in the window when the @NSFullSizeContentViewWindowMask@ style mask is also set. Only applies to NSSplitViewItemBehaviorSidebar. Defaults to YES
 --
 -- ObjC selector: @- allowsFullHeightLayout@
 allowsFullHeightLayout :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> IO Bool
 allowsFullHeightLayout nsSplitViewItem =
   sendMessage nsSplitViewItem allowsFullHeightLayoutSelector
 
--- | Whether or not a sidebar or inspector is allowed to be full height in the window when the @NSFullSizeContentViewWindowMask@ style mask is also set. Only applies to NSSplitViewItemBehaviorSidebar and NSSplitViewItemBehaviorInspector. Defaults to YES.
+-- | Whether or not a sidebar is allowed to be full height in the window when the @NSFullSizeContentViewWindowMask@ style mask is also set. Only applies to NSSplitViewItemBehaviorSidebar. Defaults to YES
 --
 -- ObjC selector: @- setAllowsFullHeightLayout:@
 setAllowsFullHeightLayout :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> Bool -> IO ()
@@ -407,44 +315,6 @@ setTitlebarSeparatorStyle :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewIte
 setTitlebarSeparatorStyle nsSplitViewItem value =
   sendMessage nsSplitViewItem setTitlebarSeparatorStyleSelector value
 
--- | When YES, other items such as sidebars or inspectors may appear overlaid on top of this item's @viewController@ and this item's @safeAreaInsets@ will be adjusted with respect to overlaid content. Defaults to @NO@.
---
--- ObjC selector: @- automaticallyAdjustsSafeAreaInsets@
-automaticallyAdjustsSafeAreaInsets :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> IO Bool
-automaticallyAdjustsSafeAreaInsets nsSplitViewItem =
-  sendMessage nsSplitViewItem automaticallyAdjustsSafeAreaInsetsSelector
-
--- | When YES, other items such as sidebars or inspectors may appear overlaid on top of this item's @viewController@ and this item's @safeAreaInsets@ will be adjusted with respect to overlaid content. Defaults to @NO@.
---
--- ObjC selector: @- setAutomaticallyAdjustsSafeAreaInsets:@
-setAutomaticallyAdjustsSafeAreaInsets :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> Bool -> IO ()
-setAutomaticallyAdjustsSafeAreaInsets nsSplitViewItem value =
-  sendMessage nsSplitViewItem setAutomaticallyAdjustsSafeAreaInsetsSelector value
-
--- | The following methods allow you to add accessory views to the top/bottom of this splitViewItem. See @NSSplitViewItemAccessoryViewController@ for more details.
---
--- ObjC selector: @- topAlignedAccessoryViewControllers@
-topAlignedAccessoryViewControllers :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> IO (Id NSArray)
-topAlignedAccessoryViewControllers nsSplitViewItem =
-  sendMessage nsSplitViewItem topAlignedAccessoryViewControllersSelector
-
--- | The following methods allow you to add accessory views to the top/bottom of this splitViewItem. See @NSSplitViewItemAccessoryViewController@ for more details.
---
--- ObjC selector: @- setTopAlignedAccessoryViewControllers:@
-setTopAlignedAccessoryViewControllers :: (IsNSSplitViewItem nsSplitViewItem, IsNSArray value) => nsSplitViewItem -> value -> IO ()
-setTopAlignedAccessoryViewControllers nsSplitViewItem value =
-  sendMessage nsSplitViewItem setTopAlignedAccessoryViewControllersSelector (toNSArray value)
-
--- | @- bottomAlignedAccessoryViewControllers@
-bottomAlignedAccessoryViewControllers :: IsNSSplitViewItem nsSplitViewItem => nsSplitViewItem -> IO (Id NSArray)
-bottomAlignedAccessoryViewControllers nsSplitViewItem =
-  sendMessage nsSplitViewItem bottomAlignedAccessoryViewControllersSelector
-
--- | @- setBottomAlignedAccessoryViewControllers:@
-setBottomAlignedAccessoryViewControllers :: (IsNSSplitViewItem nsSplitViewItem, IsNSArray value) => nsSplitViewItem -> value -> IO ()
-setBottomAlignedAccessoryViewControllers nsSplitViewItem value =
-  sendMessage nsSplitViewItem setBottomAlignedAccessoryViewControllersSelector (toNSArray value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -460,34 +330,6 @@ sidebarWithViewControllerSelector = mkSelector "sidebarWithViewController:"
 -- | @Selector@ for @contentListWithViewController:@
 contentListWithViewControllerSelector :: Selector '[Id NSViewController] (Id NSSplitViewItem)
 contentListWithViewControllerSelector = mkSelector "contentListWithViewController:"
-
--- | @Selector@ for @inspectorWithViewController:@
-inspectorWithViewControllerSelector :: Selector '[Id NSViewController] (Id NSSplitViewItem)
-inspectorWithViewControllerSelector = mkSelector "inspectorWithViewController:"
-
--- | @Selector@ for @addTopAlignedAccessoryViewController:@
-addTopAlignedAccessoryViewControllerSelector :: Selector '[Id NSSplitViewItemAccessoryViewController] ()
-addTopAlignedAccessoryViewControllerSelector = mkSelector "addTopAlignedAccessoryViewController:"
-
--- | @Selector@ for @insertTopAlignedAccessoryViewController:atIndex:@
-insertTopAlignedAccessoryViewController_atIndexSelector :: Selector '[Id NSSplitViewItemAccessoryViewController, CLong] ()
-insertTopAlignedAccessoryViewController_atIndexSelector = mkSelector "insertTopAlignedAccessoryViewController:atIndex:"
-
--- | @Selector@ for @removeTopAlignedAccessoryViewControllerAtIndex:@
-removeTopAlignedAccessoryViewControllerAtIndexSelector :: Selector '[CLong] ()
-removeTopAlignedAccessoryViewControllerAtIndexSelector = mkSelector "removeTopAlignedAccessoryViewControllerAtIndex:"
-
--- | @Selector@ for @addBottomAlignedAccessoryViewController:@
-addBottomAlignedAccessoryViewControllerSelector :: Selector '[Id NSSplitViewItemAccessoryViewController] ()
-addBottomAlignedAccessoryViewControllerSelector = mkSelector "addBottomAlignedAccessoryViewController:"
-
--- | @Selector@ for @insertBottomAlignedAccessoryViewController:atIndex:@
-insertBottomAlignedAccessoryViewController_atIndexSelector :: Selector '[Id NSSplitViewItemAccessoryViewController, CLong] ()
-insertBottomAlignedAccessoryViewController_atIndexSelector = mkSelector "insertBottomAlignedAccessoryViewController:atIndex:"
-
--- | @Selector@ for @removeBottomAlignedAccessoryViewControllerAtIndex:@
-removeBottomAlignedAccessoryViewControllerAtIndexSelector :: Selector '[CLong] ()
-removeBottomAlignedAccessoryViewControllerAtIndexSelector = mkSelector "removeBottomAlignedAccessoryViewControllerAtIndex:"
 
 -- | @Selector@ for @behavior@
 behaviorSelector :: Selector '[] NSSplitViewItemBehavior
@@ -573,14 +415,6 @@ springLoadedSelector = mkSelector "springLoaded"
 setSpringLoadedSelector :: Selector '[Bool] ()
 setSpringLoadedSelector = mkSelector "setSpringLoaded:"
 
--- | @Selector@ for @canCollapseFromWindowResize@
-canCollapseFromWindowResizeSelector :: Selector '[] Bool
-canCollapseFromWindowResizeSelector = mkSelector "canCollapseFromWindowResize"
-
--- | @Selector@ for @setCanCollapseFromWindowResize:@
-setCanCollapseFromWindowResizeSelector :: Selector '[Bool] ()
-setCanCollapseFromWindowResizeSelector = mkSelector "setCanCollapseFromWindowResize:"
-
 -- | @Selector@ for @allowsFullHeightLayout@
 allowsFullHeightLayoutSelector :: Selector '[] Bool
 allowsFullHeightLayoutSelector = mkSelector "allowsFullHeightLayout"
@@ -596,28 +430,4 @@ titlebarSeparatorStyleSelector = mkSelector "titlebarSeparatorStyle"
 -- | @Selector@ for @setTitlebarSeparatorStyle:@
 setTitlebarSeparatorStyleSelector :: Selector '[NSTitlebarSeparatorStyle] ()
 setTitlebarSeparatorStyleSelector = mkSelector "setTitlebarSeparatorStyle:"
-
--- | @Selector@ for @automaticallyAdjustsSafeAreaInsets@
-automaticallyAdjustsSafeAreaInsetsSelector :: Selector '[] Bool
-automaticallyAdjustsSafeAreaInsetsSelector = mkSelector "automaticallyAdjustsSafeAreaInsets"
-
--- | @Selector@ for @setAutomaticallyAdjustsSafeAreaInsets:@
-setAutomaticallyAdjustsSafeAreaInsetsSelector :: Selector '[Bool] ()
-setAutomaticallyAdjustsSafeAreaInsetsSelector = mkSelector "setAutomaticallyAdjustsSafeAreaInsets:"
-
--- | @Selector@ for @topAlignedAccessoryViewControllers@
-topAlignedAccessoryViewControllersSelector :: Selector '[] (Id NSArray)
-topAlignedAccessoryViewControllersSelector = mkSelector "topAlignedAccessoryViewControllers"
-
--- | @Selector@ for @setTopAlignedAccessoryViewControllers:@
-setTopAlignedAccessoryViewControllersSelector :: Selector '[Id NSArray] ()
-setTopAlignedAccessoryViewControllersSelector = mkSelector "setTopAlignedAccessoryViewControllers:"
-
--- | @Selector@ for @bottomAlignedAccessoryViewControllers@
-bottomAlignedAccessoryViewControllersSelector :: Selector '[] (Id NSArray)
-bottomAlignedAccessoryViewControllersSelector = mkSelector "bottomAlignedAccessoryViewControllers"
-
--- | @Selector@ for @setBottomAlignedAccessoryViewControllers:@
-setBottomAlignedAccessoryViewControllersSelector :: Selector '[Id NSArray] ()
-setBottomAlignedAccessoryViewControllersSelector = mkSelector "setBottomAlignedAccessoryViewControllers:"
 

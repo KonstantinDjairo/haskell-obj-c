@@ -76,16 +76,6 @@ module ObjC.QuartzCore.CALayer
   , setContentsScale
   , contentsFormat
   , setContentsFormat
-  , wantsExtendedDynamicRangeContent
-  , setWantsExtendedDynamicRangeContent
-  , toneMapMode
-  , setToneMapMode
-  , preferredDynamicRange
-  , setPreferredDynamicRange
-  , contentsHeadroom
-  , setContentsHeadroom
-  , wantsDynamicContentScaling
-  , setWantsDynamicContentScaling
   , minificationFilter
   , setMinificationFilter
   , magnificationFilter
@@ -170,7 +160,6 @@ module ObjC.QuartzCore.CALayer
   , contentsAreFlippedSelector
   , contentsFormatSelector
   , contentsGravitySelector
-  , contentsHeadroomSelector
   , contentsScaleSelector
   , contentsSelector
   , convertTime_fromLayerSelector
@@ -214,7 +203,6 @@ module ObjC.QuartzCore.CALayer
   , needsLayoutSelector
   , opacitySelector
   , opaqueSelector
-  , preferredDynamicRangeSelector
   , presentationLayerSelector
   , rasterizationScaleSelector
   , removeAllAnimationsSelector
@@ -235,7 +223,6 @@ module ObjC.QuartzCore.CALayer
   , setConstraintsSelector
   , setContentsFormatSelector
   , setContentsGravitySelector
-  , setContentsHeadroomSelector
   , setContentsScaleSelector
   , setContentsSelector
   , setCornerCurveSelector
@@ -260,7 +247,6 @@ module ObjC.QuartzCore.CALayer
   , setNeedsLayoutSelector
   , setOpacitySelector
   , setOpaqueSelector
-  , setPreferredDynamicRangeSelector
   , setRasterizationScaleSelector
   , setShadowColorSelector
   , setShadowOpacitySelector
@@ -270,10 +256,7 @@ module ObjC.QuartzCore.CALayer
   , setStyleSelector
   , setSublayerTransformSelector
   , setSublayersSelector
-  , setToneMapModeSelector
   , setTransformSelector
-  , setWantsDynamicContentScalingSelector
-  , setWantsExtendedDynamicRangeContentSelector
   , setZPositionSelector
   , shadowColorSelector
   , shadowOpacitySelector
@@ -285,10 +268,7 @@ module ObjC.QuartzCore.CALayer
   , sublayerTransformSelector
   , sublayersSelector
   , superlayerSelector
-  , toneMapModeSelector
   , transformSelector
-  , wantsDynamicContentScalingSelector
-  , wantsExtendedDynamicRangeContentSelector
   , zPositionSelector
 
   -- * Enum types
@@ -681,56 +661,6 @@ contentsFormat caLayer =
 setContentsFormat :: (IsCALayer caLayer, IsNSString value) => caLayer -> value -> IO ()
 setContentsFormat caLayer value =
   sendMessage caLayer setContentsFormatSelector (toNSString value)
-
--- | @- wantsExtendedDynamicRangeContent@
-wantsExtendedDynamicRangeContent :: IsCALayer caLayer => caLayer -> IO Bool
-wantsExtendedDynamicRangeContent caLayer =
-  sendMessage caLayer wantsExtendedDynamicRangeContentSelector
-
--- | @- setWantsExtendedDynamicRangeContent:@
-setWantsExtendedDynamicRangeContent :: IsCALayer caLayer => caLayer -> Bool -> IO ()
-setWantsExtendedDynamicRangeContent caLayer value =
-  sendMessage caLayer setWantsExtendedDynamicRangeContentSelector value
-
--- | @- toneMapMode@
-toneMapMode :: IsCALayer caLayer => caLayer -> IO (Id NSString)
-toneMapMode caLayer =
-  sendMessage caLayer toneMapModeSelector
-
--- | @- setToneMapMode:@
-setToneMapMode :: (IsCALayer caLayer, IsNSString value) => caLayer -> value -> IO ()
-setToneMapMode caLayer value =
-  sendMessage caLayer setToneMapModeSelector (toNSString value)
-
--- | @- preferredDynamicRange@
-preferredDynamicRange :: IsCALayer caLayer => caLayer -> IO (Id NSString)
-preferredDynamicRange caLayer =
-  sendMessage caLayer preferredDynamicRangeSelector
-
--- | @- setPreferredDynamicRange:@
-setPreferredDynamicRange :: (IsCALayer caLayer, IsNSString value) => caLayer -> value -> IO ()
-setPreferredDynamicRange caLayer value =
-  sendMessage caLayer setPreferredDynamicRangeSelector (toNSString value)
-
--- | @- contentsHeadroom@
-contentsHeadroom :: IsCALayer caLayer => caLayer -> IO CDouble
-contentsHeadroom caLayer =
-  sendMessage caLayer contentsHeadroomSelector
-
--- | @- setContentsHeadroom:@
-setContentsHeadroom :: IsCALayer caLayer => caLayer -> CDouble -> IO ()
-setContentsHeadroom caLayer value =
-  sendMessage caLayer setContentsHeadroomSelector value
-
--- | @- wantsDynamicContentScaling@
-wantsDynamicContentScaling :: IsCALayer caLayer => caLayer -> IO Bool
-wantsDynamicContentScaling caLayer =
-  sendMessage caLayer wantsDynamicContentScalingSelector
-
--- | @- setWantsDynamicContentScaling:@
-setWantsDynamicContentScaling :: IsCALayer caLayer => caLayer -> Bool -> IO ()
-setWantsDynamicContentScaling caLayer value =
-  sendMessage caLayer setWantsDynamicContentScalingSelector value
 
 -- | @- minificationFilter@
 minificationFilter :: IsCALayer caLayer => caLayer -> IO (Id NSString)
@@ -1331,46 +1261,6 @@ contentsFormatSelector = mkSelector "contentsFormat"
 -- | @Selector@ for @setContentsFormat:@
 setContentsFormatSelector :: Selector '[Id NSString] ()
 setContentsFormatSelector = mkSelector "setContentsFormat:"
-
--- | @Selector@ for @wantsExtendedDynamicRangeContent@
-wantsExtendedDynamicRangeContentSelector :: Selector '[] Bool
-wantsExtendedDynamicRangeContentSelector = mkSelector "wantsExtendedDynamicRangeContent"
-
--- | @Selector@ for @setWantsExtendedDynamicRangeContent:@
-setWantsExtendedDynamicRangeContentSelector :: Selector '[Bool] ()
-setWantsExtendedDynamicRangeContentSelector = mkSelector "setWantsExtendedDynamicRangeContent:"
-
--- | @Selector@ for @toneMapMode@
-toneMapModeSelector :: Selector '[] (Id NSString)
-toneMapModeSelector = mkSelector "toneMapMode"
-
--- | @Selector@ for @setToneMapMode:@
-setToneMapModeSelector :: Selector '[Id NSString] ()
-setToneMapModeSelector = mkSelector "setToneMapMode:"
-
--- | @Selector@ for @preferredDynamicRange@
-preferredDynamicRangeSelector :: Selector '[] (Id NSString)
-preferredDynamicRangeSelector = mkSelector "preferredDynamicRange"
-
--- | @Selector@ for @setPreferredDynamicRange:@
-setPreferredDynamicRangeSelector :: Selector '[Id NSString] ()
-setPreferredDynamicRangeSelector = mkSelector "setPreferredDynamicRange:"
-
--- | @Selector@ for @contentsHeadroom@
-contentsHeadroomSelector :: Selector '[] CDouble
-contentsHeadroomSelector = mkSelector "contentsHeadroom"
-
--- | @Selector@ for @setContentsHeadroom:@
-setContentsHeadroomSelector :: Selector '[CDouble] ()
-setContentsHeadroomSelector = mkSelector "setContentsHeadroom:"
-
--- | @Selector@ for @wantsDynamicContentScaling@
-wantsDynamicContentScalingSelector :: Selector '[] Bool
-wantsDynamicContentScalingSelector = mkSelector "wantsDynamicContentScaling"
-
--- | @Selector@ for @setWantsDynamicContentScaling:@
-setWantsDynamicContentScalingSelector :: Selector '[Bool] ()
-setWantsDynamicContentScalingSelector = mkSelector "setWantsDynamicContentScaling:"
 
 -- | @Selector@ for @minificationFilter@
 minificationFilterSelector :: Selector '[] (Id NSString)

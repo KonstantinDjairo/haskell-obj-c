@@ -7,16 +7,18 @@
 module ObjC.Matter.MTRGeneralCommissioningClusterCommissioningCompleteResponseParams
   ( MTRGeneralCommissioningClusterCommissioningCompleteResponseParams
   , IsMTRGeneralCommissioningClusterCommissioningCompleteResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , errorCode
   , setErrorCode
   , debugText
   , setDebugText
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , debugTextSelector
   , errorCodeSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , setDebugTextSelector
   , setErrorCodeSelector
   , setTimedInvokeTimeoutMsSelector
@@ -36,16 +38,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRGeneralCommissioningClusterCommissioningCompleteResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRGeneralCommissioningClusterCommissioningCompleteResponseParams mtrGeneralCommissioningClusterCommissioningCompleteResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrGeneralCommissioningClusterCommissioningCompleteResponseParams -> responseValue -> error_ -> IO (Id MTRGeneralCommissioningClusterCommissioningCompleteResponseParams)
-initWithResponseValue_error mtrGeneralCommissioningClusterCommissioningCompleteResponseParams responseValue error_ =
-  sendOwnedMessage mtrGeneralCommissioningClusterCommissioningCompleteResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRGeneralCommissioningClusterCommissioningCompleteResponseParams mtrGeneralCommissioningClusterCommissioningCompleteResponseParams => mtrGeneralCommissioningClusterCommissioningCompleteResponseParams -> IO (Id MTRGeneralCommissioningClusterCommissioningCompleteResponseParams)
+init_ mtrGeneralCommissioningClusterCommissioningCompleteResponseParams =
+  sendOwnedMessage mtrGeneralCommissioningClusterCommissioningCompleteResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGeneralCommissioningClusterCommissioningCompleteResponseParams mtrGeneralCommissioningClusterCommissioningCompleteResponseParams => mtrGeneralCommissioningClusterCommissioningCompleteResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrGeneralCommissioningClusterCommissioningCompleteResponseParams zone =
+  sendOwnedMessage mtrGeneralCommissioningClusterCommissioningCompleteResponseParams copyWithZoneSelector zone
 
 -- | @- errorCode@
 errorCode :: IsMTRGeneralCommissioningClusterCommissioningCompleteResponseParams mtrGeneralCommissioningClusterCommissioningCompleteResponseParams => mtrGeneralCommissioningClusterCommissioningCompleteResponseParams -> IO (Id NSNumber)
@@ -93,9 +94,13 @@ setTimedInvokeTimeoutMs mtrGeneralCommissioningClusterCommissioningCompleteRespo
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRGeneralCommissioningClusterCommissioningCompleteResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGeneralCommissioningClusterCommissioningCompleteResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @errorCode@
 errorCodeSelector :: Selector '[] (Id NSNumber)

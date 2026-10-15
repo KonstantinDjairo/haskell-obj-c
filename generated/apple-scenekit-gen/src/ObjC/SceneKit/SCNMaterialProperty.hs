@@ -15,9 +15,6 @@ module ObjC.SceneKit.SCNMaterialProperty
   ( SCNMaterialProperty
   , IsSCNMaterialProperty(..)
   , materialPropertyWithContents
-  , precomputedLightingEnvironmentContentsWithURL_error
-  , precomputedLightingEnvironmentContentsWithData_error
-  , precomputedLightingEnvironmentDataForContents_device_error
   , contents
   , setContents
   , intensity
@@ -52,9 +49,6 @@ module ObjC.SceneKit.SCNMaterialProperty
   , maxAnisotropySelector
   , minificationFilterSelector
   , mipFilterSelector
-  , precomputedLightingEnvironmentContentsWithData_errorSelector
-  , precomputedLightingEnvironmentContentsWithURL_errorSelector
-  , precomputedLightingEnvironmentDataForContents_device_errorSelector
   , setBorderColorSelector
   , setContentsSelector
   , setContentsTransformSelector
@@ -114,41 +108,6 @@ materialPropertyWithContents contents =
   do
     cls' <- getRequiredClass "SCNMaterialProperty"
     sendClassMessage cls' materialPropertyWithContentsSelector contents
-
--- | precomputedLightingEnvironmentContentsWithURL:error:
---
--- Returns an object suitable for a scene's @lightingEnvironment.contents@ and initialized with data that was previously created by @+precomputedLightingEnvironmentDataForContents:device:error:@.
---
--- ObjC selector: @+ precomputedLightingEnvironmentContentsWithURL:error:@
-precomputedLightingEnvironmentContentsWithURL_error :: (IsNSURL url, IsNSError error_) => url -> error_ -> IO RawId
-precomputedLightingEnvironmentContentsWithURL_error url error_ =
-  do
-    cls' <- getRequiredClass "SCNMaterialProperty"
-    sendClassMessage cls' precomputedLightingEnvironmentContentsWithURL_errorSelector (toNSURL url) (toNSError error_)
-
--- | precomputedLightingEnvironmentContentsWithData:error:
---
--- Returns an object suitable for a scene's @lightingEnvironment.contents@ and initialized with data that was previously created by @+precomputedLightingEnvironmentDataForContents:device:error:@.
---
--- ObjC selector: @+ precomputedLightingEnvironmentContentsWithData:error:@
-precomputedLightingEnvironmentContentsWithData_error :: (IsNSData data_, IsNSError error_) => data_ -> error_ -> IO RawId
-precomputedLightingEnvironmentContentsWithData_error data_ error_ =
-  do
-    cls' <- getRequiredClass "SCNMaterialProperty"
-    sendClassMessage cls' precomputedLightingEnvironmentContentsWithData_errorSelector (toNSData data_) (toNSError error_)
-
--- | precomputedLightingEnvironmentDataForContents:device:error:
---
--- Returns an @NSData@ instance containing the result of CPU and GPU-intensive operations that is suitable for caching.
---
--- This method can be leveraged in a custom offline asset pipeline, or at run time at a convenient time before the scene is presented to the user.
---
--- ObjC selector: @+ precomputedLightingEnvironmentDataForContents:device:error:@
-precomputedLightingEnvironmentDataForContents_device_error :: IsNSError error_ => RawId -> RawId -> error_ -> IO (Id NSData)
-precomputedLightingEnvironmentDataForContents_device_error contents device error_ =
-  do
-    cls' <- getRequiredClass "SCNMaterialProperty"
-    sendClassMessage cls' precomputedLightingEnvironmentDataForContents_device_errorSelector contents device (toNSError error_)
 
 -- | contents
 --
@@ -405,18 +364,6 @@ setBorderColor scnMaterialProperty value =
 -- | @Selector@ for @materialPropertyWithContents:@
 materialPropertyWithContentsSelector :: Selector '[RawId] (Id SCNMaterialProperty)
 materialPropertyWithContentsSelector = mkSelector "materialPropertyWithContents:"
-
--- | @Selector@ for @precomputedLightingEnvironmentContentsWithURL:error:@
-precomputedLightingEnvironmentContentsWithURL_errorSelector :: Selector '[Id NSURL, Id NSError] RawId
-precomputedLightingEnvironmentContentsWithURL_errorSelector = mkSelector "precomputedLightingEnvironmentContentsWithURL:error:"
-
--- | @Selector@ for @precomputedLightingEnvironmentContentsWithData:error:@
-precomputedLightingEnvironmentContentsWithData_errorSelector :: Selector '[Id NSData, Id NSError] RawId
-precomputedLightingEnvironmentContentsWithData_errorSelector = mkSelector "precomputedLightingEnvironmentContentsWithData:error:"
-
--- | @Selector@ for @precomputedLightingEnvironmentDataForContents:device:error:@
-precomputedLightingEnvironmentDataForContents_device_errorSelector :: Selector '[RawId, RawId, Id NSError] (Id NSData)
-precomputedLightingEnvironmentDataForContents_device_errorSelector = mkSelector "precomputedLightingEnvironmentDataForContents:device:error:"
 
 -- | @Selector@ for @contents@
 contentsSelector :: Selector '[] RawId

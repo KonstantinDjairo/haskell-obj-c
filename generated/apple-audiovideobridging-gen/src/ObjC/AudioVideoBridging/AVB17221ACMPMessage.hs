@@ -501,7 +501,7 @@ setDestinationPort avB17221ACMPMessage value =
 -- The source_ip_address field of the ACMP message.
 --
 -- ObjC selector: @- sourceIPAddress@
-sourceIPAddress :: IsAVB17221ACMPMessage avB17221ACMPMessage => avB17221ACMPMessage -> IO (Id AVBIPAddress)
+sourceIPAddress :: IsAVB17221ACMPMessage avB17221ACMPMessage => avB17221ACMPMessage -> IO RawId
 sourceIPAddress avB17221ACMPMessage =
   sendMessage avB17221ACMPMessage sourceIPAddressSelector
 
@@ -510,16 +510,16 @@ sourceIPAddress avB17221ACMPMessage =
 -- The source_ip_address field of the ACMP message.
 --
 -- ObjC selector: @- setSourceIPAddress:@
-setSourceIPAddress :: (IsAVB17221ACMPMessage avB17221ACMPMessage, IsAVBIPAddress value) => avB17221ACMPMessage -> value -> IO ()
+setSourceIPAddress :: IsAVB17221ACMPMessage avB17221ACMPMessage => avB17221ACMPMessage -> RawId -> IO ()
 setSourceIPAddress avB17221ACMPMessage value =
-  sendMessage avB17221ACMPMessage setSourceIPAddressSelector (toAVBIPAddress value)
+  sendMessage avB17221ACMPMessage setSourceIPAddressSelector value
 
 -- | destinationAddress
 --
 -- The destination_ip_address field of the ACMP message.
 --
 -- ObjC selector: @- destinationIPAddress@
-destinationIPAddress :: IsAVB17221ACMPMessage avB17221ACMPMessage => avB17221ACMPMessage -> IO (Id AVBIPAddress)
+destinationIPAddress :: IsAVB17221ACMPMessage avB17221ACMPMessage => avB17221ACMPMessage -> IO RawId
 destinationIPAddress avB17221ACMPMessage =
   sendMessage avB17221ACMPMessage destinationIPAddressSelector
 
@@ -528,9 +528,9 @@ destinationIPAddress avB17221ACMPMessage =
 -- The destination_ip_address field of the ACMP message.
 --
 -- ObjC selector: @- setDestinationIPAddress:@
-setDestinationIPAddress :: (IsAVB17221ACMPMessage avB17221ACMPMessage, IsAVBIPAddress value) => avB17221ACMPMessage -> value -> IO ()
+setDestinationIPAddress :: IsAVB17221ACMPMessage avB17221ACMPMessage => avB17221ACMPMessage -> RawId -> IO ()
 setDestinationIPAddress avB17221ACMPMessage value =
-  sendMessage avB17221ACMPMessage setDestinationIPAddressSelector (toAVBIPAddress value)
+  sendMessage avB17221ACMPMessage setDestinationIPAddressSelector value
 
 -- | sourceMAC
 --
@@ -699,19 +699,19 @@ setDestinationPortSelector :: Selector '[CUShort] ()
 setDestinationPortSelector = mkSelector "setDestinationPort:"
 
 -- | @Selector@ for @sourceIPAddress@
-sourceIPAddressSelector :: Selector '[] (Id AVBIPAddress)
+sourceIPAddressSelector :: Selector '[] RawId
 sourceIPAddressSelector = mkSelector "sourceIPAddress"
 
 -- | @Selector@ for @setSourceIPAddress:@
-setSourceIPAddressSelector :: Selector '[Id AVBIPAddress] ()
+setSourceIPAddressSelector :: Selector '[RawId] ()
 setSourceIPAddressSelector = mkSelector "setSourceIPAddress:"
 
 -- | @Selector@ for @destinationIPAddress@
-destinationIPAddressSelector :: Selector '[] (Id AVBIPAddress)
+destinationIPAddressSelector :: Selector '[] RawId
 destinationIPAddressSelector = mkSelector "destinationIPAddress"
 
 -- | @Selector@ for @setDestinationIPAddress:@
-setDestinationIPAddressSelector :: Selector '[Id AVBIPAddress] ()
+setDestinationIPAddressSelector :: Selector '[RawId] ()
 setDestinationIPAddressSelector = mkSelector "setDestinationIPAddress:"
 
 -- | @Selector@ for @sourceMAC@

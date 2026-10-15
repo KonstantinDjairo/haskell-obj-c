@@ -38,10 +38,7 @@ module ObjC.AppKit.NSPasteboard
   , generalPasteboard
   , name
   , changeCount
-  , accessBehavior
-  , pasteboardItems
   , types
-  , accessBehaviorSelector
   , addTypes_ownerSelector
   , availableTypeFromArraySelector
   , canReadItemWithDataConformingToTypesSelector
@@ -56,7 +53,6 @@ module ObjC.AppKit.NSPasteboard
   , pasteboardByFilteringData_ofTypeSelector
   , pasteboardByFilteringFileSelector
   , pasteboardByFilteringTypesInPasteboardSelector
-  , pasteboardItemsSelector
   , pasteboardWithNameSelector
   , pasteboardWithUniqueNameSelector
   , prepareForNewContentsWithOptionsSelector
@@ -76,11 +72,6 @@ module ObjC.AppKit.NSPasteboard
   , writeObjectsSelector
 
   -- * Enum types
-  , NSPasteboardAccessBehavior(NSPasteboardAccessBehavior)
-  , pattern NSPasteboardAccessBehaviorDefault
-  , pattern NSPasteboardAccessBehaviorAsk
-  , pattern NSPasteboardAccessBehaviorAlwaysAllow
-  , pattern NSPasteboardAccessBehaviorAlwaysDeny
   , NSPasteboardContentsOptions(NSPasteboardContentsOptions)
   , pattern NSPasteboardContentsCurrentHostOnly
 
@@ -262,18 +253,6 @@ changeCount :: IsNSPasteboard nsPasteboard => nsPasteboard -> IO CLong
 changeCount nsPasteboard =
   sendMessage nsPasteboard changeCountSelector
 
--- | The current pasteboard access behavior. The user can customize this behavior per-app in System Settings for any app that has triggered a pasteboard access alert in the past.
---
--- ObjC selector: @- accessBehavior@
-accessBehavior :: IsNSPasteboard nsPasteboard => nsPasteboard -> IO NSPasteboardAccessBehavior
-accessBehavior nsPasteboard =
-  sendMessage nsPasteboard accessBehaviorSelector
-
--- | @- pasteboardItems@
-pasteboardItems :: IsNSPasteboard nsPasteboard => nsPasteboard -> IO (Id NSArray)
-pasteboardItems nsPasteboard =
-  sendMessage nsPasteboard pasteboardItemsSelector
-
 -- | @- types@
 types :: IsNSPasteboard nsPasteboard => nsPasteboard -> IO (Id NSArray)
 types nsPasteboard =
@@ -402,14 +381,6 @@ nameSelector = mkSelector "name"
 -- | @Selector@ for @changeCount@
 changeCountSelector :: Selector '[] CLong
 changeCountSelector = mkSelector "changeCount"
-
--- | @Selector@ for @accessBehavior@
-accessBehaviorSelector :: Selector '[] NSPasteboardAccessBehavior
-accessBehaviorSelector = mkSelector "accessBehavior"
-
--- | @Selector@ for @pasteboardItems@
-pasteboardItemsSelector :: Selector '[] (Id NSArray)
-pasteboardItemsSelector = mkSelector "pasteboardItems"
 
 -- | @Selector@ for @types@
 typesSelector :: Selector '[] (Id NSArray)

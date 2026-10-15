@@ -7,6 +7,8 @@
 module ObjC.Intents.INRideVehicle
   ( INRideVehicle
   , IsINRideVehicle(..)
+  , location
+  , setLocation
   , registrationPlate
   , setRegistrationPlate
   , manufacturer
@@ -15,10 +17,12 @@ module ObjC.Intents.INRideVehicle
   , setModel
   , mapAnnotationImage
   , setMapAnnotationImage
+  , locationSelector
   , manufacturerSelector
   , mapAnnotationImageSelector
   , modelSelector
   , registrationPlateSelector
+  , setLocationSelector
   , setManufacturerSelector
   , setMapAnnotationImageSelector
   , setModelSelector
@@ -36,7 +40,18 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Intents.Internal.Classes
+import ObjC.CoreLocation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- location@
+location :: IsINRideVehicle inRideVehicle => inRideVehicle -> IO (Id CLLocation)
+location inRideVehicle =
+  sendMessage inRideVehicle locationSelector
+
+-- | @- setLocation:@
+setLocation :: (IsINRideVehicle inRideVehicle, IsCLLocation value) => inRideVehicle -> value -> IO ()
+setLocation inRideVehicle value =
+  sendMessage inRideVehicle setLocationSelector (toCLLocation value)
 
 -- | @- registrationPlate@
 registrationPlate :: IsINRideVehicle inRideVehicle => inRideVehicle -> IO (Id NSString)
@@ -81,6 +96,14 @@ setMapAnnotationImage inRideVehicle value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @location@
+locationSelector :: Selector '[] (Id CLLocation)
+locationSelector = mkSelector "location"
+
+-- | @Selector@ for @setLocation:@
+setLocationSelector :: Selector '[Id CLLocation] ()
+setLocationSelector = mkSelector "setLocation:"
 
 -- | @Selector@ for @registrationPlate@
 registrationPlateSelector :: Selector '[] (Id NSString)

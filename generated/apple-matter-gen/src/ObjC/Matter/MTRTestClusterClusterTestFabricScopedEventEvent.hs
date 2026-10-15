@@ -7,9 +7,13 @@
 module ObjC.Matter.MTRTestClusterClusterTestFabricScopedEventEvent
   ( MTRTestClusterClusterTestFabricScopedEventEvent
   , IsMTRTestClusterClusterTestFabricScopedEventEvent(..)
+  , init_
+  , copyWithZone
   , fabricIndex
   , setFabricIndex
+  , copyWithZoneSelector
   , fabricIndexSelector
+  , initSelector
   , setFabricIndexSelector
 
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestFabricScopedEventEvent mtrTestClusterClusterTestFabricScopedEventEvent => mtrTestClusterClusterTestFabricScopedEventEvent -> IO (Id MTRTestClusterClusterTestFabricScopedEventEvent)
+init_ mtrTestClusterClusterTestFabricScopedEventEvent =
+  sendOwnedMessage mtrTestClusterClusterTestFabricScopedEventEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestFabricScopedEventEvent mtrTestClusterClusterTestFabricScopedEventEvent => mtrTestClusterClusterTestFabricScopedEventEvent -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestFabricScopedEventEvent zone =
+  sendOwnedMessage mtrTestClusterClusterTestFabricScopedEventEvent copyWithZoneSelector zone
+
 -- | @- fabricIndex@
 fabricIndex :: IsMTRTestClusterClusterTestFabricScopedEventEvent mtrTestClusterClusterTestFabricScopedEventEvent => mtrTestClusterClusterTestFabricScopedEventEvent -> IO (Id NSNumber)
 fabricIndex mtrTestClusterClusterTestFabricScopedEventEvent =
@@ -39,6 +53,14 @@ setFabricIndex mtrTestClusterClusterTestFabricScopedEventEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestFabricScopedEventEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @fabricIndex@
 fabricIndexSelector :: Selector '[] (Id NSNumber)

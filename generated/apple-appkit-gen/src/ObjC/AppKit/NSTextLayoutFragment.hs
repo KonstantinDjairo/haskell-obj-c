@@ -11,8 +11,6 @@ module ObjC.AppKit.NSTextLayoutFragment
   , initWithTextElement_range
   , initWithCoder
   , init_
-  , textLineFragmentForVerticalOffset_requiresExactMatch
-  , textLineFragmentForTextLocation_isUpstreamAffinity
   , invalidateLayout
   , textLayoutManager
   , textElement
@@ -39,8 +37,6 @@ module ObjC.AppKit.NSTextLayoutFragment
   , textAttachmentViewProvidersSelector
   , textElementSelector
   , textLayoutManagerSelector
-  , textLineFragmentForTextLocation_isUpstreamAffinitySelector
-  , textLineFragmentForVerticalOffset_requiresExactMatchSelector
   , textLineFragmentsSelector
   , topMarginSelector
   , trailingPaddingSelector
@@ -80,16 +76,6 @@ initWithCoder nsTextLayoutFragment coder =
 init_ :: IsNSTextLayoutFragment nsTextLayoutFragment => nsTextLayoutFragment -> IO (Id NSTextLayoutFragment)
 init_ nsTextLayoutFragment =
   sendOwnedMessage nsTextLayoutFragment initSelector
-
--- | @- textLineFragmentForVerticalOffset:requiresExactMatch:@
-textLineFragmentForVerticalOffset_requiresExactMatch :: IsNSTextLayoutFragment nsTextLayoutFragment => nsTextLayoutFragment -> CDouble -> Bool -> IO (Id NSTextLineFragment)
-textLineFragmentForVerticalOffset_requiresExactMatch nsTextLayoutFragment verticalOffset requiresExactMatch =
-  sendMessage nsTextLayoutFragment textLineFragmentForVerticalOffset_requiresExactMatchSelector verticalOffset requiresExactMatch
-
--- | @- textLineFragmentForTextLocation:isUpstreamAffinity:@
-textLineFragmentForTextLocation_isUpstreamAffinity :: IsNSTextLayoutFragment nsTextLayoutFragment => nsTextLayoutFragment -> RawId -> Bool -> IO (Id NSTextLineFragment)
-textLineFragmentForTextLocation_isUpstreamAffinity nsTextLayoutFragment textLocation isUpstreamAffinity =
-  sendMessage nsTextLayoutFragment textLineFragmentForTextLocation_isUpstreamAffinitySelector textLocation isUpstreamAffinity
 
 -- | @- invalidateLayout@
 invalidateLayout :: IsNSTextLayoutFragment nsTextLayoutFragment => nsTextLayoutFragment -> IO ()
@@ -171,14 +157,6 @@ initWithCoderSelector = mkSelector "initWithCoder:"
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id NSTextLayoutFragment)
 initSelector = mkSelector "init"
-
--- | @Selector@ for @textLineFragmentForVerticalOffset:requiresExactMatch:@
-textLineFragmentForVerticalOffset_requiresExactMatchSelector :: Selector '[CDouble, Bool] (Id NSTextLineFragment)
-textLineFragmentForVerticalOffset_requiresExactMatchSelector = mkSelector "textLineFragmentForVerticalOffset:requiresExactMatch:"
-
--- | @Selector@ for @textLineFragmentForTextLocation:isUpstreamAffinity:@
-textLineFragmentForTextLocation_isUpstreamAffinitySelector :: Selector '[RawId, Bool] (Id NSTextLineFragment)
-textLineFragmentForTextLocation_isUpstreamAffinitySelector = mkSelector "textLineFragmentForTextLocation:isUpstreamAffinity:"
 
 -- | @Selector@ for @invalidateLayout@
 invalidateLayoutSelector :: Selector '[] ()

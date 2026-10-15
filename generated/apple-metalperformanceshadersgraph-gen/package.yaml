@@ -13,6 +13,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -23,20 +24,15 @@ library:
   - ObjC.MetalPerformanceShadersGraph.MPSGraph
   - ObjC.MetalPerformanceShadersGraph.MPSGraphCompilationDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphConvolution2DOpDescriptor
-  - ObjC.MetalPerformanceShadersGraph.MPSGraphConvolution3DOpDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphCreateSparseOpDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphDepthwiseConvolution2DOpDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphDepthwiseConvolution3DOpDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphDevice
   - ObjC.MetalPerformanceShadersGraph.MPSGraphExecutable
   - ObjC.MetalPerformanceShadersGraph.MPSGraphExecutableExecutionDescriptor
-  - ObjC.MetalPerformanceShadersGraph.MPSGraphExecutableSerializationDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphExecutionDescriptor
-  - ObjC.MetalPerformanceShadersGraph.MPSGraphFFTDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphGRUDescriptor
-  - ObjC.MetalPerformanceShadersGraph.MPSGraphImToColOpDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphLSTMDescriptor
-  - ObjC.MetalPerformanceShadersGraph.MPSGraphObject
   - ObjC.MetalPerformanceShadersGraph.MPSGraphOperation
   - ObjC.MetalPerformanceShadersGraph.MPSGraphPooling2DOpDescriptor
   - ObjC.MetalPerformanceShadersGraph.MPSGraphPooling4DOpDescriptor

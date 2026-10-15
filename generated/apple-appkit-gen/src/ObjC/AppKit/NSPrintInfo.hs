@@ -54,7 +54,6 @@ module ObjC.AppKit.NSPrintInfo
   , imageablePageBounds
   , localizedPaperName
   , defaultPrinter
-  , printSettings
   , selectionOnly
   , setSelectionOnly
   , bottomMarginSelector
@@ -75,7 +74,6 @@ module ObjC.AppKit.NSPrintInfo
   , pmPageFormatSelector
   , pmPrintSessionSelector
   , pmPrintSettingsSelector
-  , printSettingsSelector
   , printerSelector
   , rightMarginSelector
   , scalingFactorSelector
@@ -371,11 +369,6 @@ defaultPrinter  =
     cls' <- getRequiredClass "NSPrintInfo"
     sendClassMessage cls' defaultPrinterSelector
 
--- | @- printSettings@
-printSettings :: IsNSPrintInfo nsPrintInfo => nsPrintInfo -> IO (Id NSMutableDictionary)
-printSettings nsPrintInfo =
-  sendMessage nsPrintInfo printSettingsSelector
-
 -- | @- selectionOnly@
 selectionOnly :: IsNSPrintInfo nsPrintInfo => nsPrintInfo -> IO Bool
 selectionOnly nsPrintInfo =
@@ -573,10 +566,6 @@ localizedPaperNameSelector = mkSelector "localizedPaperName"
 -- | @Selector@ for @defaultPrinter@
 defaultPrinterSelector :: Selector '[] (Id NSPrinter)
 defaultPrinterSelector = mkSelector "defaultPrinter"
-
--- | @Selector@ for @printSettings@
-printSettingsSelector :: Selector '[] (Id NSMutableDictionary)
-printSettingsSelector = mkSelector "printSettings"
 
 -- | @Selector@ for @selectionOnly@
 selectionOnlySelector :: Selector '[] Bool

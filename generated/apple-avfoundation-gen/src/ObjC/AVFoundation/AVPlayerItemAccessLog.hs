@@ -3,11 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVPlayerItemAccessLog provides methods to retrieve the access log in a format suitable for serialization.
+-- | AVPlayerItemAccessLog
 --
--- An AVPlayerItemAccessLog acculumulates key metrics about network playback and presents them as a collection  of AVPlayerItemAccessLogEvent instances. Each AVPlayerItemAccessLogEvent instance collates the data  that relates to each uninterrupted period of playback.
+-- An AVPlayerItemAccessLog provides methods to retrieve the access log in a format suitable for serialization.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- An AVPlayerItemAccessLog acculumulates key metrics about network playback and presents them as a collection  				of AVPlayerItemAccessLogEvent instances. Each AVPlayerItemAccessLogEvent instance collates the data  				that relates to each uninterrupted period of playback.
 --
 -- Generated bindings for @AVPlayerItemAccessLog@.
 module ObjC.AVFoundation.AVPlayerItemAccessLog
@@ -50,29 +50,35 @@ new  =
     cls' <- getRequiredClass "AVPlayerItemAccessLog"
     sendOwnedClassMessage cls' newSelector
 
--- | Serializes an AVPlayerItemAccessLog in the Extended Log File Format.
+-- | extendedLogData
 --
--- This method converts the webserver access log into a textual format that conforms to the W3C Extended Log File Format for web server log files. For more information see: http://www.w3.org/pub/WWW/TR/WD-logfile.html
+-- Serializes an AVPlayerItemAccessLog in the Extended Log File Format.
 --
--- - Returns: An autoreleased NSData instance.
+-- This method converts the webserver access log into a textual format that conforms to the				W3C Extended Log File Format for web server log files.				For more information see: http://www.w3.org/pub/WWW/TR/WD-logfile.html
+--
+-- Returns: An autoreleased NSData instance.
 --
 -- ObjC selector: @- extendedLogData@
 extendedLogData :: IsAVPlayerItemAccessLog avPlayerItemAccessLog => avPlayerItemAccessLog -> IO (Id NSData)
 extendedLogData avPlayerItemAccessLog =
   sendMessage avPlayerItemAccessLog extendedLogDataSelector
 
--- | Returns the NSStringEncoding for extendedLogData, see above.
+-- | extendedLogDataStringEncoding
 --
--- A string suitable for console output is obtainable by:  [[NSString alloc] initWithData:[myLog extendedLogData] encoding:[myLog extendedLogDataStringEncoding]]
+-- Returns the NSStringEncoding for extendedLogData, see above.
+--
+-- A string suitable for console output is obtainable by:  				[[NSString alloc] initWithData:[myLog extendedLogData] encoding:[myLog extendedLogDataStringEncoding]]
 --
 -- ObjC selector: @- extendedLogDataStringEncoding@
 extendedLogDataStringEncoding :: IsAVPlayerItemAccessLog avPlayerItemAccessLog => avPlayerItemAccessLog -> IO CULong
 extendedLogDataStringEncoding avPlayerItemAccessLog =
   sendMessage avPlayerItemAccessLog extendedLogDataStringEncodingSelector
 
--- | An ordered collection of AVPlayerItemAccessLogEvent instances.
+-- | events
 --
--- An ordered collection of AVPlayerItemAccessLogEvent instances that represent the chronological sequence of events contained in the access log. This property is not observable.
+-- An ordered collection of AVPlayerItemAccessLogEvent instances.
+--
+-- An ordered collection of AVPlayerItemAccessLogEvent instances that represent the chronological 				sequence of events contained in the access log. 				This property is not observable.
 --
 -- ObjC selector: @- events@
 events :: IsAVPlayerItemAccessLog avPlayerItemAccessLog => avPlayerItemAccessLog -> IO (Id NSArray)

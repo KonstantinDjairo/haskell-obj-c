@@ -7,7 +7,7 @@
 --
 -- A supplemental category to provide more context than just the app category
 --
--- The app categories from @SRDeviceUsageCategoryKey@ are very general. Providing a supplemental category allows more context about the specific app while not revealing the exact app identity.
+-- The app categories are very general. Providing a supplemental category will allow more context about the specific app while not revealing the exact app name.
 --
 -- Generated bindings for @SRSupplementalCategory@.
 module ObjC.SensorKit.SRSupplementalCategory

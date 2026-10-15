@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -23,4 +24,5 @@ library:
   - ObjC.JavaRuntimeSupport.JRSDrag
   - ObjC.JavaRuntimeSupport.JRSInputMethodController
   - ObjC.JavaRuntimeSupport.JRSRenderServer
+  - ObjC.JavaRuntimeSupport.JRSSecurity
   - ObjC.JavaRuntimeSupport.JRSSymbolicator

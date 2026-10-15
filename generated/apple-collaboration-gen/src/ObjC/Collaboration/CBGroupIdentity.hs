@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object of the @CBGroupIdentity@ class represents a group identity and is used for viewing the attributes of group identities from an identity authority. The principal attributes of a @CBGroupIdentity@ object are a POSIX group identifier (GID) and a list of members.
---
--- Generated bindings for @CBGroupIdentity@.
+-- | Generated bindings for @CBGroupIdentity@.
 module ObjC.Collaboration.CBGroupIdentity
   ( CBGroupIdentity
   , IsCBGroupIdentity(..)
@@ -30,39 +28,19 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Collaboration.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Returns the group identity with the given POSIX GID in the specified identity authority.
---
--- - Parameters:   - gid: The GID of the group identity you are searching for.   - authority: An identity authority in which to search for the group identity. - Returns: The group identity object with the given GID in the specified identity authority, or @nil@ if no identity exists with the specified GID.
---
--- ## See Also
---
--- - [Identity Services Programming Guide](https://developer.apple.com/library/archive/documentation/Networking/Conceptual/IdentityServices_ProgGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004490)
---
--- ObjC selector: @+ groupIdentityWithPosixGID:authority:@
+-- | @+ groupIdentityWithPosixGID:authority:@
 groupIdentityWithPosixGID_authority :: IsCBIdentityAuthority authority => CUInt -> authority -> IO (Id CBGroupIdentity)
 groupIdentityWithPosixGID_authority gid authority =
   do
     cls' <- getRequiredClass "CBGroupIdentity"
     sendClassMessage cls' groupIdentityWithPosixGID_authoritySelector gid (toCBIdentityAuthority authority)
 
--- | Returns the POSIX GID of the identity.
---
--- The POSIX GID is an integer that can identify a group within an identity authority. GIDs are not guaranteed to be unique within an identity authority.
---
--- - Returns: The POSIX GID of the group identity.
---
--- ObjC selector: @- posixGID@
+-- | @- posixGID@
 posixGID :: IsCBGroupIdentity cbGroupIdentity => cbGroupIdentity -> IO CUInt
 posixGID cbGroupIdentity =
   sendMessage cbGroupIdentity posixGIDSelector
 
--- | Returns the members of the group.
---
--- This method only returns direct members of a group, it does not return members of members. Both user and group identities can be members of a group, but a group cannot be a member of itself. You also cannot have “circular” membership, i.e. a group be a member of another group that is a member of the first group.
---
--- - Returns: An array of @CBIdentity@ objects each representing a member of the group identity.
---
--- ObjC selector: @- members@
+-- | @- members@
 members :: IsCBGroupIdentity cbGroupIdentity => cbGroupIdentity -> IO RawId
 members cbGroupIdentity =
   sendMessage cbGroupIdentity membersSelector

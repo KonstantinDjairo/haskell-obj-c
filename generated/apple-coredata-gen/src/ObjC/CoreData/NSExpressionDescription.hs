@@ -34,7 +34,6 @@ module ObjC.CoreData.NSExpressionDescription
   , pattern NSURIAttributeType
   , pattern NSTransformableAttributeType
   , pattern NSObjectIDAttributeType
-  , pattern NSCompositeAttributeType
 
   ) where
 

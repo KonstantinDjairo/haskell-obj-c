@@ -31,6 +31,7 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PassKit.Internal.Classes
 import ObjC.PassKit.Internal.Enums
+import ObjC.Foundation.Internal.Classes
 
 -- | @- activationState@
 activationState :: IsPKPaymentPass pkPaymentPass => pkPaymentPass -> IO PKPaymentPassActivationState

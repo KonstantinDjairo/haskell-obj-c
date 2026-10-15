@@ -7,20 +7,16 @@
 module ObjC.Matter.MTRAccountLoginClusterLoginParams
   ( MTRAccountLoginClusterLoginParams
   , IsMTRAccountLoginClusterLoginParams(..)
+  , init_
+  , copyWithZone
   , tempAccountIdentifier
   , setTempAccountIdentifier
   , setupPIN
   , setSetupPIN
-  , node
-  , setNode
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , nodeSelector
-  , serverSideProcessingTimeoutSelector
-  , setNodeSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setSetupPINSelector
   , setTempAccountIdentifierSelector
   , setTimedInvokeTimeoutMsSelector
@@ -42,6 +38,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams => mtrAccountLoginClusterLoginParams -> IO (Id MTRAccountLoginClusterLoginParams)
+init_ mtrAccountLoginClusterLoginParams =
+  sendOwnedMessage mtrAccountLoginClusterLoginParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams => mtrAccountLoginClusterLoginParams -> Ptr () -> IO RawId
+copyWithZone mtrAccountLoginClusterLoginParams zone =
+  sendOwnedMessage mtrAccountLoginClusterLoginParams copyWithZoneSelector zone
+
 -- | @- tempAccountIdentifier@
 tempAccountIdentifier :: IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams => mtrAccountLoginClusterLoginParams -> IO (Id NSString)
 tempAccountIdentifier mtrAccountLoginClusterLoginParams =
@@ -61,16 +67,6 @@ setupPIN mtrAccountLoginClusterLoginParams =
 setSetupPIN :: (IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams, IsNSString value) => mtrAccountLoginClusterLoginParams -> value -> IO ()
 setSetupPIN mtrAccountLoginClusterLoginParams value =
   sendMessage mtrAccountLoginClusterLoginParams setSetupPINSelector (toNSString value)
-
--- | @- node@
-node :: IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams => mtrAccountLoginClusterLoginParams -> IO (Id NSNumber)
-node mtrAccountLoginClusterLoginParams =
-  sendMessage mtrAccountLoginClusterLoginParams nodeSelector
-
--- | @- setNode:@
-setNode :: (IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams, IsNSNumber value) => mtrAccountLoginClusterLoginParams -> value -> IO ()
-setNode mtrAccountLoginClusterLoginParams value =
-  sendMessage mtrAccountLoginClusterLoginParams setNodeSelector (toNSNumber value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -94,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRAccountLoginClusterLoginParams mtrAccountLoginC
 setTimedInvokeTimeoutMs mtrAccountLoginClusterLoginParams value =
   sendMessage mtrAccountLoginClusterLoginParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams => mtrAccountLoginClusterLoginParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrAccountLoginClusterLoginParams =
-  sendMessage mtrAccountLoginClusterLoginParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRAccountLoginClusterLoginParams mtrAccountLoginClusterLoginParams, IsNSNumber value) => mtrAccountLoginClusterLoginParams -> value -> IO ()
-setServerSideProcessingTimeout mtrAccountLoginClusterLoginParams value =
-  sendMessage mtrAccountLoginClusterLoginParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAccountLoginClusterLoginParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @tempAccountIdentifier@
 tempAccountIdentifierSelector :: Selector '[] (Id NSString)
@@ -136,14 +118,6 @@ setupPINSelector = mkSelector "setupPIN"
 setSetupPINSelector :: Selector '[Id NSString] ()
 setSetupPINSelector = mkSelector "setSetupPIN:"
 
--- | @Selector@ for @node@
-nodeSelector :: Selector '[] (Id NSNumber)
-nodeSelector = mkSelector "node"
-
--- | @Selector@ for @setNode:@
-setNodeSelector :: Selector '[Id NSNumber] ()
-setNodeSelector = mkSelector "setNode:"
-
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
 timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
@@ -151,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

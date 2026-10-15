@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | os_workgroup_t
---
--- A reference counted os object representing a workload that needs to be distinctly recognized and tracked by the system.  The workgroup tracks a collection of threads all working cooperatively. An os_workgroup object - when not an instance of a specific os_workgroup_t subclass - represents a generic workload and makes no assumptions about the kind of work done.
---
--- Threads can explicitly join an os_workgroup_t to mark themselves as participants in the workload.
---
--- Generated bindings for @OS_os_workgroup@.
+-- | Generated bindings for @OS_os_workgroup@.
 module ObjC.Foundation.OS_os_workgroup
   ( OS_os_workgroup
   , IsOS_os_workgroup(..)

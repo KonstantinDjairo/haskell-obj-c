@@ -19,15 +19,11 @@ module ObjC.AVFAudio.AVAudioSession
   , overrideOutputAudioPort_error
   , setPreferredInput_error
   , setPrefersNoInterruptionsFromSystemAlerts_error
-  , setPrefersEchoCancelledInput_error
-  , setOutputMuted_error
   , init_
   , setActive_withFlags_error
   , setPreferredHardwareSampleRate_error
-  , setPreferredMicrophoneInjectionMode_error
   , setAggregatedIOPreference_error
   , setSupportsMultichannelContent_error
-  , setPrefersInterruptionOnRouteDisconnect_error
   , setPreferredSampleRate_error
   , setPreferredIOBufferDuration_error
   , setPreferredInputNumberOfChannels_error
@@ -49,11 +45,6 @@ module ObjC.AVFAudio.AVAudioSession
   , recordPermission
   , preferredInput
   , prefersNoInterruptionsFromSystemAlerts
-  , renderingMode
-  , prefersEchoCancelledInput
-  , isEchoCancelledInputEnabled
-  , isEchoCancelledInputAvailable
-  , outputMuted
   , delegate
   , setDelegate
   , inputIsAvailable
@@ -61,12 +52,9 @@ module ObjC.AVFAudio.AVAudioSession
   , currentHardwareInputNumberOfChannels
   , currentHardwareOutputNumberOfChannels
   , preferredHardwareSampleRate
-  , preferredMicrophoneInjectionMode
-  , isMicrophoneInjectionAvailable
   , availableInputs
   , currentRoute
   , supportsMultichannelContent
-  , prefersInterruptionOnRouteDisconnect
   , otherAudioPlaying
   , secondaryAudioShouldBeSilencedHint
   , outputVolume
@@ -92,7 +80,6 @@ module ObjC.AVFAudio.AVAudioSession
   , inputLatency
   , outputLatency
   , ioBufferDuration
-  , supportedOutputChannelLayouts
   , activateWithOptions_completionHandlerSelector
   , allowHapticsAndSystemSoundsDuringRecordingSelector
   , availableCategoriesSelector
@@ -116,9 +103,6 @@ module ObjC.AVFAudio.AVAudioSession
   , inputNumberOfChannelsSelector
   , inputOrientationSelector
   , ioBufferDurationSelector
-  , isEchoCancelledInputAvailableSelector
-  , isEchoCancelledInputEnabledSelector
-  , isMicrophoneInjectionAvailableSelector
   , maximumInputNumberOfChannelsSelector
   , maximumOutputNumberOfChannelsSelector
   , modeSelector
@@ -126,7 +110,6 @@ module ObjC.AVFAudio.AVAudioSession
   , outputDataSourceSelector
   , outputDataSourcesSelector
   , outputLatencySelector
-  , outputMutedSelector
   , outputNumberOfChannelsSelector
   , outputVolumeSelector
   , overrideOutputAudioPort_errorSelector
@@ -135,15 +118,11 @@ module ObjC.AVFAudio.AVAudioSession
   , preferredInputNumberOfChannelsSelector
   , preferredInputOrientationSelector
   , preferredInputSelector
-  , preferredMicrophoneInjectionModeSelector
   , preferredOutputNumberOfChannelsSelector
   , preferredSampleRateSelector
-  , prefersEchoCancelledInputSelector
-  , prefersInterruptionOnRouteDisconnectSelector
   , prefersNoInterruptionsFromSystemAlertsSelector
   , promptStyleSelector
   , recordPermissionSelector
-  , renderingModeSelector
   , requestRecordPermissionSelector
   , routeSharingPolicySelector
   , sampleRateSelector
@@ -162,21 +141,16 @@ module ObjC.AVFAudio.AVAudioSession
   , setInputGain_errorSelector
   , setMode_errorSelector
   , setOutputDataSource_errorSelector
-  , setOutputMuted_errorSelector
   , setPreferredHardwareSampleRate_errorSelector
   , setPreferredIOBufferDuration_errorSelector
   , setPreferredInputNumberOfChannels_errorSelector
   , setPreferredInputOrientation_errorSelector
   , setPreferredInput_errorSelector
-  , setPreferredMicrophoneInjectionMode_errorSelector
   , setPreferredOutputNumberOfChannels_errorSelector
   , setPreferredSampleRate_errorSelector
-  , setPrefersEchoCancelledInput_errorSelector
-  , setPrefersInterruptionOnRouteDisconnect_errorSelector
   , setPrefersNoInterruptionsFromSystemAlerts_errorSelector
   , setSupportsMultichannelContent_errorSelector
   , sharedInstanceSelector
-  , supportedOutputChannelLayoutsSelector
   , supportsMultichannelContentSelector
 
   -- * Enum types
@@ -186,20 +160,14 @@ module ObjC.AVFAudio.AVAudioSession
   , pattern AVAudioSessionCategoryOptionMixWithOthers
   , pattern AVAudioSessionCategoryOptionDuckOthers
   , pattern AVAudioSessionCategoryOptionAllowBluetooth
-  , pattern AVAudioSessionCategoryOptionAllowBluetoothHFP
   , pattern AVAudioSessionCategoryOptionDefaultToSpeaker
   , pattern AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers
   , pattern AVAudioSessionCategoryOptionAllowBluetoothA2DP
   , pattern AVAudioSessionCategoryOptionAllowAirPlay
   , pattern AVAudioSessionCategoryOptionOverrideMutedMicrophoneInterruption
-  , pattern AVAudioSessionCategoryOptionFarFieldInput
-  , pattern AVAudioSessionCategoryOptionBluetoothHighQualityRecording
   , AVAudioSessionIOType(AVAudioSessionIOType)
   , pattern AVAudioSessionIOTypeNotSpecified
   , pattern AVAudioSessionIOTypeAggregated
-  , AVAudioSessionMicrophoneInjectionMode(AVAudioSessionMicrophoneInjectionMode)
-  , pattern AVAudioSessionMicrophoneInjectionModeNone
-  , pattern AVAudioSessionMicrophoneInjectionModeSpokenAudio
   , AVAudioSessionPortOverride(AVAudioSessionPortOverride)
   , pattern AVAudioSessionPortOverrideNone
   , pattern AVAudioSessionPortOverrideSpeaker
@@ -211,13 +179,6 @@ module ObjC.AVFAudio.AVAudioSession
   , pattern AVAudioSessionRecordPermissionUndetermined
   , pattern AVAudioSessionRecordPermissionDenied
   , pattern AVAudioSessionRecordPermissionGranted
-  , AVAudioSessionRenderingMode(AVAudioSessionRenderingMode)
-  , pattern AVAudioSessionRenderingModeNotApplicable
-  , pattern AVAudioSessionRenderingModeMonoStereo
-  , pattern AVAudioSessionRenderingModeSurround
-  , pattern AVAudioSessionRenderingModeSpatialAudio
-  , pattern AVAudioSessionRenderingModeDolbyAudio
-  , pattern AVAudioSessionRenderingModeDolbyAtmos
   , AVAudioSessionRouteSharingPolicy(AVAudioSessionRouteSharingPolicy)
   , pattern AVAudioSessionRouteSharingPolicyDefault
   , pattern AVAudioSessionRouteSharingPolicyLongFormAudio
@@ -337,42 +298,12 @@ setPreferredInput_error avAudioSession inPort outError =
 
 -- | Set ringtone and alert interruption preference.
 --
--- Inform the system when the session prefers to not be interrupted by    ringtones and alerts. By setting this property to YES, clients will not be interrupted    by incoming call notifications and other alerts. Starting in iOS 14.0, users can set a global    preference for incoming call display style to "Banner" or "Full Screen". With "Banner" display style,    if below property is set to YES then system audio will be silenced. Thus, clients will not be interrupted    on incoming call notification and user will have opportunity to accept or decline the call. If call is declined,    the session will not be interrupted, but if user accepts the incoming call, the session will be interrupted.    With  display style set as "Full Screen", below property will have no effect and clients will be    interrupted by incoming calls. Apps that record audio and/or video and apps that are used for    music performance are candidates for using this feature.
+-- Inform the system when the session prefers to not be interrupted by    ringtones and alerts. By setting this property to YES, clients will not be interrupted    by incoming call notifications and other alerts. Starting in iOS 14.0, users can set a global    preference for incoming call display style to "Banner" or "Full Screen". With "Banner" display style,    if below property is set to YES then clients will not be interrupted on incoming call notification    and user will have opportunity to accept or decline the call. If call is declined, the session    will not be interrupted, but if user accepts the incoming call, the session will be interrupted.    With  display style set as "Full Screen", below property will have no effect and clients will be    interrupted by incoming calls. Apps that record audio and/or video and apps that are used for    music performance are candidates for using this feature.
 --
 -- ObjC selector: @- setPrefersNoInterruptionsFromSystemAlerts:error:@
 setPrefersNoInterruptionsFromSystemAlerts_error :: (IsAVAudioSession avAudioSession, IsNSError outError) => avAudioSession -> Bool -> outError -> IO Bool
 setPrefersNoInterruptionsFromSystemAlerts_error avAudioSession inValue outError =
   sendMessage avAudioSession setPrefersNoInterruptionsFromSystemAlerts_errorSelector inValue (toNSError outError)
-
--- | Set a preference to enable echo cancelled input on supported hardware
---
--- Applications might want to record the built-in microphone's input while also playing audio out via the built-in speaker.Enabling echo cancelled input is useful when the application needs the input signal to be clear of any echoesfrom the audio playing out of the built-in speaker.
---
--- Audio sessions using Voice Processor don't need this option as echo cancellation is implicitly applied for those routes.The Voice Processor solution is tuned for voice signals, unlike this option, which is tuned for better captureof wider range of audio signals in the presence of built-in speaker echo.
---
--- This option is only available on certain 2024 or later iPhone models and is valid only when used with the following configurations: - AVAudioSessionCategoryPlayAndRecord and AVAudioSessionModeDefault - AVAudioSessionCategoryMultiRoute and AVAudioSessionModeDualRouteSupport can be queried using property @isEchoCancelledInputAvailable@.Other recording sessions might be interrupted if this option is not compatible with sessions that are already recording.
---
--- After an audio session goes active, @isEchoCancelledInputEnabled@ property can be queried to check if the option was honored.Note that the enabled state may change after route changes, e.g. if user plugs in a headset, that route might not support echo cancellation.
---
--- ObjC selector: @- setPrefersEchoCancelledInput:error:@
-setPrefersEchoCancelledInput_error :: (IsAVAudioSession avAudioSession, IsNSError error_) => avAudioSession -> Bool -> error_ -> IO Bool
-setPrefersEchoCancelledInput_error avAudioSession value error_ =
-  sendMessage avAudioSession setPrefersEchoCancelledInput_errorSelector value (toNSError error_)
-
--- | Sets a Boolean value to inform the system to mute the session's output audio. The default value is false (unmuted).
---
--- This property is supported with all categories and modes, except for ``AVAudioSessionCategoryPlayAndRecord`` where it is only supported with ``AVAudioSessionModeDefault``. Changing the mode to non-default mode with ``AVAudioSessionCategoryPlayAndRecord`` category will cause the session to unmute.
---
--- Changes in output mute state can be observed via ``AVAudioSessionOutputMuteStateChangeNotification``. If this value is set to true, ``AVAudioSessionUserIntentToUnmuteOutputNotification`` may be sent when a user hints to unmute by changing the volume.
---
--- - Note: This will not mute system sounds and haptics.
---
--- - Parameters: - @muted@: A Boolean value to set the audio output to the desired muted state. - @error@: A pointer to an error object. If an error occurs, the framework sets the pointer to an error object that describes the failure.
---
--- ObjC selector: @- setOutputMuted:error:@
-setOutputMuted_error :: (IsAVAudioSession avAudioSession, IsNSError outError) => avAudioSession -> Bool -> outError -> IO Bool
-setOutputMuted_error avAudioSession muted outError =
-  sendMessage avAudioSession setOutputMuted_errorSelector muted (toNSError outError)
 
 -- | @- init@
 init_ :: IsAVAudioSession avAudioSession => avAudioSession -> IO (Id AVAudioSession)
@@ -389,13 +320,6 @@ setPreferredHardwareSampleRate_error :: (IsAVAudioSession avAudioSession, IsNSEr
 setPreferredHardwareSampleRate_error avAudioSession sampleRate outError =
   sendMessage avAudioSession setPreferredHardwareSampleRate_errorSelector sampleRate (toNSError outError)
 
--- | Set the preferred form of audio injection into another app's input stream See AVAudioSessionMicrophoneInjectionMode for available modes
---
--- ObjC selector: @- setPreferredMicrophoneInjectionMode:error:@
-setPreferredMicrophoneInjectionMode_error :: (IsAVAudioSession avAudioSession, IsNSError outError) => avAudioSession -> AVAudioSessionMicrophoneInjectionMode -> outError -> IO Bool
-setPreferredMicrophoneInjectionMode_error avAudioSession inValue outError =
-  sendMessage avAudioSession setPreferredMicrophoneInjectionMode_errorSelector inValue (toNSError outError)
-
 -- | Controls whether audio input and output are aggregated. Only valid in combination with    AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryMultiRoute.
 --
 -- See the AVAudioSessionIOType documentation for a more detailed explanation of why a client may    want to change the IO type.
@@ -411,17 +335,6 @@ setAggregatedIOPreference_error avAudioSession inIOType outError =
 setSupportsMultichannelContent_error :: (IsAVAudioSession avAudioSession, IsNSError outError) => avAudioSession -> Bool -> outError -> IO Bool
 setSupportsMultichannelContent_error avAudioSession inValue outError =
   sendMessage avAudioSession setSupportsMultichannelContent_errorSelector inValue (toNSError outError)
-
--- | Use this method to opt in or opt out of interruption on route disconnect policy.
---
--- As described in the Audio Session Programming Guide, most media playback apps are expected    to pause playback if the route change reason is AVAudioSessionRouteChangeReasonOldDeviceUnavailable.
---
--- Starting in iOS 17, by default Now Playing sessions will be interrupted if they are active    when a route change occurs because of a disconnect event. All other sessions will not be    interrupted due to a disconnect event.
---
--- ObjC selector: @- setPrefersInterruptionOnRouteDisconnect:error:@
-setPrefersInterruptionOnRouteDisconnect_error :: (IsAVAudioSession avAudioSession, IsNSError outError) => avAudioSession -> Bool -> outError -> IO Bool
-setPrefersInterruptionOnRouteDisconnect_error avAudioSession inValue outError =
-  sendMessage avAudioSession setPrefersInterruptionOnRouteDisconnect_errorSelector inValue (toNSError outError)
 
 -- | The preferred hardware sample rate for the session. The actual sample rate may be different.
 --
@@ -483,7 +396,7 @@ setOutputDataSource_error avAudioSession dataSource outError =
 
 -- | Set the session active or inactive.
 --
--- Note that activating an audio session is a synchronous (blocking) operation.	Therefore, we recommend that applications not activate their session from a thread where a long	blocking operation will be problematic.	Apps may activate a AVAudioSessionCategoryPlayback session when another app is hosting a	call (to start a SharePlay activity for example). However, they are not permitted to capture the    microphone of the active call, so attempts to activate a session with category	AVAudioSessionCategoryRecord or AVAudioSessionCategoryPlayAndRecord will fail with error	AVAudioSessionErrorCodeInsufficientPriority.	When deactivating a session, the caller is required to	first stop or pause all running I/Os (e.g. audio queues, players, recorders, converters,	remote I/Os, etc.). Starting in iOS 8, if the session has running I/Os at the time that	deactivation is requested, the session will be deactivated, but the method will return NO and	populate the NSError with the code property set to AVAudioSessionErrorCodeIsBusy to indicate the	misuse of the API. Prior to iOS 8, the session would have remained active if it had running I/Os	at the time of the deactivation request. Starting in iOS 26.0, deactivating while IO is running will	no longer return AVAudioSessionErrorCodeIsBusy.
+-- Note that activating an audio session is a synchronous (blocking) operation.	Therefore, we recommend that applications not activate their session from a thread where a long	blocking operation will be problematic.	Apps may activate a AVAudioSessionCategoryPlayback session when another app is hosting a	call (to start a SharePlay activity for example). However, they are not permitted to capture the    microphone of the active call, so attempts to activate a session with category	AVAudioSessionCategoryRecord or AVAudioSessionCategoryPlayAndRecord will fail with error	AVAudioSessionErrorCodeInsufficientPriority.	When deactivating a session, the caller is required to	first stop or pause all running I/Os (e.g. audio queues, players, recorders, converters,	remote I/Os, etc.). Starting in iOS 8, if the session has running I/Os at the time that	deactivation is requested, the session will be deactivated, but the method will return NO and	populate the NSError with the code property set to AVAudioSessionErrorCodeIsBusy to indicate the	misuse of the API. Prior to iOS 8, the session would have remained active if it had running I/Os	at the time of the deactivation request.
 --
 -- ObjC selector: @- setActive:error:@
 setActive_error :: (IsAVAudioSession avAudioSession, IsNSError outError) => avAudioSession -> Bool -> outError -> IO Bool
@@ -574,41 +487,6 @@ prefersNoInterruptionsFromSystemAlerts :: IsAVAudioSession avAudioSession => avA
 prefersNoInterruptionsFromSystemAlerts avAudioSession =
   sendMessage avAudioSession prefersNoInterruptionsFromSystemAlertsSelector
 
--- | Get the currently resolved rendering mode to badge content appropriately. Clients should use this property to determine what to badge content as.
---
--- ObjC selector: @- renderingMode@
-renderingMode :: IsAVAudioSession avAudioSession => avAudioSession -> IO AVAudioSessionRenderingMode
-renderingMode avAudioSession =
-  sendMessage avAudioSession renderingModeSelector
-
--- | @- prefersEchoCancelledInput@
-prefersEchoCancelledInput :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
-prefersEchoCancelledInput avAudioSession =
-  sendMessage avAudioSession prefersEchoCancelledInputSelector
-
--- | Returns YES if echo cancelled input is successfully enabled on an active session. Please see @prefersEchoCancelledInput@ above for more details.
---
--- ObjC selector: @- isEchoCancelledInputEnabled@
-isEchoCancelledInputEnabled :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
-isEchoCancelledInputEnabled avAudioSession =
-  sendMessage avAudioSession isEchoCancelledInputEnabledSelector
-
--- | This property will return YES if the device supports echo cancellation with the following category and mode combinations:	- ``AVAudioSessionCategoryPlayAndRecord`` with ``AVAudioSessionModeDefault``	- ``AVAudioSessionCategoryMultiRoute`` with ``AVAudioSessionModeDualRoute``
---
--- Query whether built-in mic / built-in speaker route supports echo cancellation for the session's given category and mode.
---
--- ObjC selector: @- isEchoCancelledInputAvailable@
-isEchoCancelledInputAvailable :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
-isEchoCancelledInputAvailable avAudioSession =
-  sendMessage avAudioSession isEchoCancelledInputAvailableSelector
-
--- | A Boolean value that indicates whether audio output is in a muted state.
---
--- ObjC selector: @- outputMuted@
-outputMuted :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
-outputMuted avAudioSession =
-  sendMessage avAudioSession outputMutedSelector
-
 -- | @- delegate@
 delegate :: IsAVAudioSession avAudioSession => avAudioSession -> IO RawId
 delegate avAudioSession =
@@ -644,23 +522,9 @@ preferredHardwareSampleRate :: IsAVAudioSession avAudioSession => avAudioSession
 preferredHardwareSampleRate avAudioSession =
   sendMessage avAudioSession preferredHardwareSampleRateSelector
 
--- | @- preferredMicrophoneInjectionMode@
-preferredMicrophoneInjectionMode :: IsAVAudioSession avAudioSession => avAudioSession -> IO AVAudioSessionMicrophoneInjectionMode
-preferredMicrophoneInjectionMode avAudioSession =
-  sendMessage avAudioSession preferredMicrophoneInjectionModeSelector
-
--- | Indicates if microphone injection is available. Observe AVAudioSessionMicrophoneInjectionCapabilitiesChangeNotification for changes to this property
---
--- ObjC selector: @- isMicrophoneInjectionAvailable@
-isMicrophoneInjectionAvailable :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
-isMicrophoneInjectionAvailable avAudioSession =
-  sendMessage avAudioSession isMicrophoneInjectionAvailableSelector
-
 -- | Get the set of input ports that are available for routing.
 --
 -- Note that this property only applies to the session's current category and mode. For    example, if the session's current category is AVAudioSessionCategoryPlayback, there will be    no available inputs.
---
--- On iOS, clients can listen to AVAudioSessionAvailableInputsChangeNotification to	be notified when this changes.
 --
 -- ObjC selector: @- availableInputs@
 availableInputs :: IsAVAudioSession avAudioSession => avAudioSession -> IO (Id NSArray)
@@ -678,13 +542,6 @@ currentRoute avAudioSession =
 supportsMultichannelContent :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
 supportsMultichannelContent avAudioSession =
   sendMessage avAudioSession supportsMultichannelContentSelector
-
--- | Indicates if session will be interrupted on route disconnect.
---
--- ObjC selector: @- prefersInterruptionOnRouteDisconnect@
-prefersInterruptionOnRouteDisconnect :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
-prefersInterruptionOnRouteDisconnect avAudioSession =
-  sendMessage avAudioSession prefersInterruptionOnRouteDisconnectSelector
 
 -- | True when another application is playing audio.
 --
@@ -778,7 +635,7 @@ inputGainSettable :: IsAVAudioSession avAudioSession => avAudioSession -> IO Boo
 inputGainSettable avAudioSession =
   sendMessage avAudioSession inputGainSettableSelector
 
--- | True if input hardware is available. Key-value observable.
+-- | True if input hardware is available.
 --
 -- ObjC selector: @- inputAvailable@
 inputAvailable :: IsAVAudioSession avAudioSession => avAudioSession -> IO Bool
@@ -817,7 +674,7 @@ outputDataSource :: IsAVAudioSession avAudioSession => avAudioSession -> IO (Id 
 outputDataSource avAudioSession =
   sendMessage avAudioSession outputDataSourceSelector
 
--- | The current hardware sample rate. Is key-value observable (starting iOS 18.0).
+-- | The current hardware sample rate
 --
 -- ObjC selector: @- sampleRate@
 sampleRate :: IsAVAudioSession avAudioSession => avAudioSession -> IO CDouble
@@ -852,19 +709,12 @@ outputLatency :: IsAVAudioSession avAudioSession => avAudioSession -> IO CDouble
 outputLatency avAudioSession =
   sendMessage avAudioSession outputLatencySelector
 
--- | The current hardware IO buffer duration in seconds. Is key-value observable.
+-- | The current hardware IO buffer duration in seconds.
 --
 -- ObjC selector: @- IOBufferDuration@
 ioBufferDuration :: IsAVAudioSession avAudioSession => avAudioSession -> IO CDouble
 ioBufferDuration avAudioSession =
   sendMessage avAudioSession ioBufferDurationSelector
-
--- | Get an array of channel layouts that the current route supports. This property is only supported when the output is routed to ports of type AVAudioSessionPortCarAudio or AVAudioSessionPortAirPlay Otherwise, an empty array will be returned. Note that this will return an empty array if session is inactive. Clients should listen to AVAudioSessionRenderingCapabilitiesChangeNotification to be notified when this changes.
---
--- ObjC selector: @- supportedOutputChannelLayouts@
-supportedOutputChannelLayouts :: IsAVAudioSession avAudioSession => avAudioSession -> IO (Id NSArray)
-supportedOutputChannelLayouts avAudioSession =
-  sendMessage avAudioSession supportedOutputChannelLayoutsSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -914,14 +764,6 @@ setPreferredInput_errorSelector = mkSelector "setPreferredInput:error:"
 setPrefersNoInterruptionsFromSystemAlerts_errorSelector :: Selector '[Bool, Id NSError] Bool
 setPrefersNoInterruptionsFromSystemAlerts_errorSelector = mkSelector "setPrefersNoInterruptionsFromSystemAlerts:error:"
 
--- | @Selector@ for @setPrefersEchoCancelledInput:error:@
-setPrefersEchoCancelledInput_errorSelector :: Selector '[Bool, Id NSError] Bool
-setPrefersEchoCancelledInput_errorSelector = mkSelector "setPrefersEchoCancelledInput:error:"
-
--- | @Selector@ for @setOutputMuted:error:@
-setOutputMuted_errorSelector :: Selector '[Bool, Id NSError] Bool
-setOutputMuted_errorSelector = mkSelector "setOutputMuted:error:"
-
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id AVAudioSession)
 initSelector = mkSelector "init"
@@ -934,10 +776,6 @@ setActive_withFlags_errorSelector = mkSelector "setActive:withFlags:error:"
 setPreferredHardwareSampleRate_errorSelector :: Selector '[CDouble, Id NSError] Bool
 setPreferredHardwareSampleRate_errorSelector = mkSelector "setPreferredHardwareSampleRate:error:"
 
--- | @Selector@ for @setPreferredMicrophoneInjectionMode:error:@
-setPreferredMicrophoneInjectionMode_errorSelector :: Selector '[AVAudioSessionMicrophoneInjectionMode, Id NSError] Bool
-setPreferredMicrophoneInjectionMode_errorSelector = mkSelector "setPreferredMicrophoneInjectionMode:error:"
-
 -- | @Selector@ for @setAggregatedIOPreference:error:@
 setAggregatedIOPreference_errorSelector :: Selector '[AVAudioSessionIOType, Id NSError] Bool
 setAggregatedIOPreference_errorSelector = mkSelector "setAggregatedIOPreference:error:"
@@ -945,10 +783,6 @@ setAggregatedIOPreference_errorSelector = mkSelector "setAggregatedIOPreference:
 -- | @Selector@ for @setSupportsMultichannelContent:error:@
 setSupportsMultichannelContent_errorSelector :: Selector '[Bool, Id NSError] Bool
 setSupportsMultichannelContent_errorSelector = mkSelector "setSupportsMultichannelContent:error:"
-
--- | @Selector@ for @setPrefersInterruptionOnRouteDisconnect:error:@
-setPrefersInterruptionOnRouteDisconnect_errorSelector :: Selector '[Bool, Id NSError] Bool
-setPrefersInterruptionOnRouteDisconnect_errorSelector = mkSelector "setPrefersInterruptionOnRouteDisconnect:error:"
 
 -- | @Selector@ for @setPreferredSampleRate:error:@
 setPreferredSampleRate_errorSelector :: Selector '[CDouble, Id NSError] Bool
@@ -1034,26 +868,6 @@ preferredInputSelector = mkSelector "preferredInput"
 prefersNoInterruptionsFromSystemAlertsSelector :: Selector '[] Bool
 prefersNoInterruptionsFromSystemAlertsSelector = mkSelector "prefersNoInterruptionsFromSystemAlerts"
 
--- | @Selector@ for @renderingMode@
-renderingModeSelector :: Selector '[] AVAudioSessionRenderingMode
-renderingModeSelector = mkSelector "renderingMode"
-
--- | @Selector@ for @prefersEchoCancelledInput@
-prefersEchoCancelledInputSelector :: Selector '[] Bool
-prefersEchoCancelledInputSelector = mkSelector "prefersEchoCancelledInput"
-
--- | @Selector@ for @isEchoCancelledInputEnabled@
-isEchoCancelledInputEnabledSelector :: Selector '[] Bool
-isEchoCancelledInputEnabledSelector = mkSelector "isEchoCancelledInputEnabled"
-
--- | @Selector@ for @isEchoCancelledInputAvailable@
-isEchoCancelledInputAvailableSelector :: Selector '[] Bool
-isEchoCancelledInputAvailableSelector = mkSelector "isEchoCancelledInputAvailable"
-
--- | @Selector@ for @outputMuted@
-outputMutedSelector :: Selector '[] Bool
-outputMutedSelector = mkSelector "outputMuted"
-
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId
 delegateSelector = mkSelector "delegate"
@@ -1082,14 +896,6 @@ currentHardwareOutputNumberOfChannelsSelector = mkSelector "currentHardwareOutpu
 preferredHardwareSampleRateSelector :: Selector '[] CDouble
 preferredHardwareSampleRateSelector = mkSelector "preferredHardwareSampleRate"
 
--- | @Selector@ for @preferredMicrophoneInjectionMode@
-preferredMicrophoneInjectionModeSelector :: Selector '[] AVAudioSessionMicrophoneInjectionMode
-preferredMicrophoneInjectionModeSelector = mkSelector "preferredMicrophoneInjectionMode"
-
--- | @Selector@ for @isMicrophoneInjectionAvailable@
-isMicrophoneInjectionAvailableSelector :: Selector '[] Bool
-isMicrophoneInjectionAvailableSelector = mkSelector "isMicrophoneInjectionAvailable"
-
 -- | @Selector@ for @availableInputs@
 availableInputsSelector :: Selector '[] (Id NSArray)
 availableInputsSelector = mkSelector "availableInputs"
@@ -1101,10 +907,6 @@ currentRouteSelector = mkSelector "currentRoute"
 -- | @Selector@ for @supportsMultichannelContent@
 supportsMultichannelContentSelector :: Selector '[] Bool
 supportsMultichannelContentSelector = mkSelector "supportsMultichannelContent"
-
--- | @Selector@ for @prefersInterruptionOnRouteDisconnect@
-prefersInterruptionOnRouteDisconnectSelector :: Selector '[] Bool
-prefersInterruptionOnRouteDisconnectSelector = mkSelector "prefersInterruptionOnRouteDisconnect"
 
 -- | @Selector@ for @otherAudioPlaying@
 otherAudioPlayingSelector :: Selector '[] Bool
@@ -1205,8 +1007,4 @@ outputLatencySelector = mkSelector "outputLatency"
 -- | @Selector@ for @IOBufferDuration@
 ioBufferDurationSelector :: Selector '[] CDouble
 ioBufferDurationSelector = mkSelector "IOBufferDuration"
-
--- | @Selector@ for @supportedOutputChannelLayouts@
-supportedOutputChannelLayoutsSelector :: Selector '[] (Id NSArray)
-supportedOutputChannelLayoutsSelector = mkSelector "supportedOutputChannelLayouts"
 

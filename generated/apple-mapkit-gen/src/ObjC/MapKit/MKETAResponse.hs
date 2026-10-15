@@ -28,7 +28,6 @@ module ObjC.MapKit.MKETAResponse
   , pattern MKDirectionsTransportTypeAutomobile
   , pattern MKDirectionsTransportTypeWalking
   , pattern MKDirectionsTransportTypeTransit
-  , pattern MKDirectionsTransportTypeCycling
   , pattern MKDirectionsTransportTypeAny
 
   ) where

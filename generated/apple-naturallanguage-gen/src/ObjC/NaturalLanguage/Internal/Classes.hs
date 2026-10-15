@@ -18,44 +18,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.CoreML.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- ---------- NLContextualEmbedding ----------
-
--- | Phantom type for @NLContextualEmbedding@.
-data NLContextualEmbedding
-
-instance IsObjCObject (Id NLContextualEmbedding) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NLContextualEmbedding"
-
-class IsNSObject a => IsNLContextualEmbedding a where
-  toNLContextualEmbedding :: a -> Id NLContextualEmbedding
-
-instance IsNLContextualEmbedding (Id NLContextualEmbedding) where
-  toNLContextualEmbedding = unsafeCastId
-
-instance IsNSObject (Id NLContextualEmbedding) where
-  toNSObject = unsafeCastId
-
--- ---------- NLContextualEmbeddingResult ----------
-
--- | Phantom type for @NLContextualEmbeddingResult@.
-data NLContextualEmbeddingResult
-
-instance IsObjCObject (Id NLContextualEmbeddingResult) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NLContextualEmbeddingResult"
-
-class IsNSObject a => IsNLContextualEmbeddingResult a where
-  toNLContextualEmbeddingResult :: a -> Id NLContextualEmbeddingResult
-
-instance IsNLContextualEmbeddingResult (Id NLContextualEmbeddingResult) where
-  toNLContextualEmbeddingResult = unsafeCastId
-
-instance IsNSObject (Id NLContextualEmbeddingResult) where
-  toNSObject = unsafeCastId
-
 -- ---------- NLEmbedding ----------
 
 -- | Phantom type for @NLEmbedding@.

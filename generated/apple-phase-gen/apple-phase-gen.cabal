@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -35,6 +35,7 @@ library
       ObjC.PHASE.PHASEEnvelopeDistanceModelParameters
       ObjC.PHASE.PHASEEnvelopeSegment
       ObjC.PHASE.PHASEGeneratorNodeDefinition
+      ObjC.PHASE.PHASEGeneratorParameters
       ObjC.PHASE.PHASEGeometricSpreadingDistanceModelParameters
       ObjC.PHASE.PHASEGlobalMetaParameterAsset
       ObjC.PHASE.PHASEGroup
@@ -54,8 +55,6 @@ library
       ObjC.PHASE.PHASENumericPair
       ObjC.PHASE.PHASEObject
       ObjC.PHASE.PHASEOccluder
-      ObjC.PHASE.PHASEPullStreamNode
-      ObjC.PHASE.PHASEPullStreamNodeDefinition
       ObjC.PHASE.PHASEPushStreamNode
       ObjC.PHASE.PHASEPushStreamNodeDefinition
       ObjC.PHASE.PHASERandomNodeDefinition
@@ -70,7 +69,6 @@ library
       ObjC.PHASE.PHASESpatialMixerDefinition
       ObjC.PHASE.PHASESpatialPipeline
       ObjC.PHASE.PHASESpatialPipelineEntry
-      ObjC.PHASE.PHASEStreamNode
       ObjC.PHASE.PHASEStringMetaParameter
       ObjC.PHASE.PHASEStringMetaParameterDefinition
       ObjC.PHASE.PHASESwitchNodeDefinition
@@ -80,7 +78,7 @@ library
       Paths_apple_phase_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-avfaudio-gen
     , apple-foundation-gen

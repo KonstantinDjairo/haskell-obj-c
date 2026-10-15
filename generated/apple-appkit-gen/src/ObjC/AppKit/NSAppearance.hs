@@ -75,21 +75,21 @@ name nsAppearance =
   sendMessage nsAppearance nameSelector
 
 -- | @+ currentAppearance@
-currentAppearance :: IO (Id NSAppearance)
+currentAppearance :: IO RawId
 currentAppearance  =
   do
     cls' <- getRequiredClass "NSAppearance"
     sendClassMessage cls' currentAppearanceSelector
 
 -- | @+ setCurrentAppearance:@
-setCurrentAppearance :: IsNSAppearance value => value -> IO ()
+setCurrentAppearance :: RawId -> IO ()
 setCurrentAppearance value =
   do
     cls' <- getRequiredClass "NSAppearance"
-    sendClassMessage cls' setCurrentAppearanceSelector (toNSAppearance value)
+    sendClassMessage cls' setCurrentAppearanceSelector value
 
 -- | @+ currentDrawingAppearance@
-currentDrawingAppearance :: IO (Id NSAppearance)
+currentDrawingAppearance :: IO RawId
 currentDrawingAppearance  =
   do
     cls' <- getRequiredClass "NSAppearance"
@@ -129,15 +129,15 @@ nameSelector :: Selector '[] (Id NSString)
 nameSelector = mkSelector "name"
 
 -- | @Selector@ for @currentAppearance@
-currentAppearanceSelector :: Selector '[] (Id NSAppearance)
+currentAppearanceSelector :: Selector '[] RawId
 currentAppearanceSelector = mkSelector "currentAppearance"
 
 -- | @Selector@ for @setCurrentAppearance:@
-setCurrentAppearanceSelector :: Selector '[Id NSAppearance] ()
+setCurrentAppearanceSelector :: Selector '[RawId] ()
 setCurrentAppearanceSelector = mkSelector "setCurrentAppearance:"
 
 -- | @Selector@ for @currentDrawingAppearance@
-currentDrawingAppearanceSelector :: Selector '[] (Id NSAppearance)
+currentDrawingAppearanceSelector :: Selector '[] RawId
 currentDrawingAppearanceSelector = mkSelector "currentDrawingAppearance"
 
 -- | @Selector@ for @allowsVibrancy@

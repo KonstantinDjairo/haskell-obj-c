@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRActionsClusterEndpointListStruct
   ( MTRActionsClusterEndpointListStruct
   , IsMTRActionsClusterEndpointListStruct(..)
+  , init_
+  , copyWithZone
   , endpointListID
   , setEndpointListID
   , name
@@ -15,8 +17,10 @@ module ObjC.Matter.MTRActionsClusterEndpointListStruct
   , setType
   , endpoints
   , setEndpoints
+  , copyWithZoneSelector
   , endpointListIDSelector
   , endpointsSelector
+  , initSelector
   , nameSelector
   , setEndpointListIDSelector
   , setEndpointsSelector
@@ -37,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRActionsClusterEndpointListStruct mtrActionsClusterEndpointListStruct => mtrActionsClusterEndpointListStruct -> IO (Id MTRActionsClusterEndpointListStruct)
+init_ mtrActionsClusterEndpointListStruct =
+  sendOwnedMessage mtrActionsClusterEndpointListStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRActionsClusterEndpointListStruct mtrActionsClusterEndpointListStruct => mtrActionsClusterEndpointListStruct -> Ptr () -> IO RawId
+copyWithZone mtrActionsClusterEndpointListStruct zone =
+  sendOwnedMessage mtrActionsClusterEndpointListStruct copyWithZoneSelector zone
 
 -- | @- endpointListID@
 endpointListID :: IsMTRActionsClusterEndpointListStruct mtrActionsClusterEndpointListStruct => mtrActionsClusterEndpointListStruct -> IO (Id NSNumber)
@@ -81,6 +95,14 @@ setEndpoints mtrActionsClusterEndpointListStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRActionsClusterEndpointListStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @endpointListID@
 endpointListIDSelector :: Selector '[] (Id NSNumber)

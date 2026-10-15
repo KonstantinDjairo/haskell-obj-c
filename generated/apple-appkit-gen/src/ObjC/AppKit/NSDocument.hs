@@ -146,7 +146,7 @@ module ObjC.AppKit.NSDocument
   , autosavingIsImplicitlyCancellable
   , keepBackupFile
   , backupFileURL
-  , savePanelShowsFileFormatsControl
+  , shouldRunSavePanelWithAccessoryView
   , fileNameExtensionWasHiddenInLastRunSavePanel
   , fileTypeFromLastRunSavePanel
   , hasUnautosavedChanges
@@ -162,8 +162,6 @@ module ObjC.AppKit.NSDocument
   , setPrintInfo
   , pdfPrintOperation
   , allowsDocumentSharing
-  , previewRepresentableActivityItems
-  , setPreviewRepresentableActivityItems
   , documentEdited
   , inViewingMode
   , undoManager
@@ -178,14 +176,11 @@ module ObjC.AppKit.NSDocument
   , writableTypes
   , usesUbiquitousStorage
   , presentedItemURL
-  , observedPresentedItemUbiquityAttributes
-  , restorableStateKeyPaths
   , lastComponentOfFileName
   , setLastComponentOfFileName
   , objectSpecifier
   , userActivity
   , setUserActivity
-  , shouldRunSavePanelWithAccessoryView
   , accommodatePresentedItemDeletionWithCompletionHandlerSelector
   , addWindowControllerSelector
   , allowedClassesForRestorableStateKeyPathSelector
@@ -259,7 +254,6 @@ module ObjC.AppKit.NSDocument
   , moveDocumentWithCompletionHandlerSelector
   , moveToURL_completionHandlerSelector
   , objectSpecifierSelector
-  , observedPresentedItemUbiquityAttributesSelector
   , pdfPrintOperationSelector
   , performActivityWithSynchronousWaiting_usingBlockSelector
   , performAsynchronousFileAccessUsingBlockSelector
@@ -277,7 +271,6 @@ module ObjC.AppKit.NSDocument
   , presentedItemDidResolveConflictVersionSelector
   , presentedItemURLSelector
   , preservesVersionsSelector
-  , previewRepresentableActivityItemsSelector
   , printDocumentSelector
   , printDocumentWithSettings_showPrintPanel_delegate_didPrintSelector_contextInfoSelector
   , printInfoSelector
@@ -293,7 +286,6 @@ module ObjC.AppKit.NSDocument
   , relinquishPresentedItemToWriterSelector
   , removeWindowControllerSelector
   , renameDocumentSelector
-  , restorableStateKeyPathsSelector
   , restoreDocumentWindowWithIdentifier_state_completionHandlerSelector
   , restoreStateWithCoderSelector
   , revertDocumentToSavedSelector
@@ -310,7 +302,6 @@ module ObjC.AppKit.NSDocument
   , saveDocumentToPDFSelector
   , saveDocumentToSelector
   , saveDocumentWithDelegate_didSaveSelector_contextInfoSelector
-  , savePanelShowsFileFormatsControlSelector
   , savePresentedItemChangesWithCompletionHandlerSelector
   , saveToFile_saveOperation_delegate_didSaveSelector_contextInfoSelector
   , saveToURL_ofType_forSaveOperation_completionHandlerSelector
@@ -326,7 +317,6 @@ module ObjC.AppKit.NSDocument
   , setFileURLSelector
   , setHasUndoManagerSelector
   , setLastComponentOfFileNameSelector
-  , setPreviewRepresentableActivityItemsSelector
   , setPrintInfoSelector
   , setUndoManagerSelector
   , setUserActivitySelector
@@ -1089,14 +1079,14 @@ keepBackupFile nsDocument =
   sendMessage nsDocument keepBackupFileSelector
 
 -- | @- backupFileURL@
-backupFileURL :: IsNSDocument nsDocument => nsDocument -> IO (Id NSURL)
+backupFileURL :: IsNSDocument nsDocument => nsDocument -> IO RawId
 backupFileURL nsDocument =
   sendMessage nsDocument backupFileURLSelector
 
--- | @- savePanelShowsFileFormatsControl@
-savePanelShowsFileFormatsControl :: IsNSDocument nsDocument => nsDocument -> IO Bool
-savePanelShowsFileFormatsControl nsDocument =
-  sendMessage nsDocument savePanelShowsFileFormatsControlSelector
+-- | @- shouldRunSavePanelWithAccessoryView@
+shouldRunSavePanelWithAccessoryView :: IsNSDocument nsDocument => nsDocument -> IO Bool
+shouldRunSavePanelWithAccessoryView nsDocument =
+  sendMessage nsDocument shouldRunSavePanelWithAccessoryViewSelector
 
 -- | @- fileNameExtensionWasHiddenInLastRunSavePanel@
 fileNameExtensionWasHiddenInLastRunSavePanel :: IsNSDocument nsDocument => nsDocument -> IO Bool
@@ -1170,7 +1160,7 @@ setPrintInfo nsDocument value =
   sendMessage nsDocument setPrintInfoSelector (toNSPrintInfo value)
 
 -- | @- PDFPrintOperation@
-pdfPrintOperation :: IsNSDocument nsDocument => nsDocument -> IO (Id NSPrintOperation)
+pdfPrintOperation :: IsNSDocument nsDocument => nsDocument -> IO RawId
 pdfPrintOperation nsDocument =
   sendMessage nsDocument pdfPrintOperationSelector
 
@@ -1178,16 +1168,6 @@ pdfPrintOperation nsDocument =
 allowsDocumentSharing :: IsNSDocument nsDocument => nsDocument -> IO Bool
 allowsDocumentSharing nsDocument =
   sendMessage nsDocument allowsDocumentSharingSelector
-
--- | @- previewRepresentableActivityItems@
-previewRepresentableActivityItems :: IsNSDocument nsDocument => nsDocument -> IO (Id NSArray)
-previewRepresentableActivityItems nsDocument =
-  sendMessage nsDocument previewRepresentableActivityItemsSelector
-
--- | @- setPreviewRepresentableActivityItems:@
-setPreviewRepresentableActivityItems :: (IsNSDocument nsDocument, IsNSArray value) => nsDocument -> value -> IO ()
-setPreviewRepresentableActivityItems nsDocument value =
-  sendMessage nsDocument setPreviewRepresentableActivityItemsSelector (toNSArray value)
 
 -- | @- documentEdited@
 documentEdited :: IsNSDocument nsDocument => nsDocument -> IO Bool
@@ -1261,21 +1241,9 @@ usesUbiquitousStorage  =
     sendClassMessage cls' usesUbiquitousStorageSelector
 
 -- | @- presentedItemURL@
-presentedItemURL :: IsNSDocument nsDocument => nsDocument -> IO (Id NSURL)
+presentedItemURL :: IsNSDocument nsDocument => nsDocument -> IO RawId
 presentedItemURL nsDocument =
   sendMessage nsDocument presentedItemURLSelector
-
--- | @- observedPresentedItemUbiquityAttributes@
-observedPresentedItemUbiquityAttributes :: IsNSDocument nsDocument => nsDocument -> IO (Id NSSet)
-observedPresentedItemUbiquityAttributes nsDocument =
-  sendMessage nsDocument observedPresentedItemUbiquityAttributesSelector
-
--- | @+ restorableStateKeyPaths@
-restorableStateKeyPaths :: IO (Id NSArray)
-restorableStateKeyPaths  =
-  do
-    cls' <- getRequiredClass "NSDocument"
-    sendClassMessage cls' restorableStateKeyPathsSelector
 
 -- | @- lastComponentOfFileName@
 lastComponentOfFileName :: IsNSDocument nsDocument => nsDocument -> IO (Id NSString)
@@ -1293,19 +1261,14 @@ objectSpecifier nsDocument =
   sendMessage nsDocument objectSpecifierSelector
 
 -- | @- userActivity@
-userActivity :: IsNSDocument nsDocument => nsDocument -> IO (Id NSUserActivity)
+userActivity :: IsNSDocument nsDocument => nsDocument -> IO RawId
 userActivity nsDocument =
   sendMessage nsDocument userActivitySelector
 
 -- | @- setUserActivity:@
-setUserActivity :: (IsNSDocument nsDocument, IsNSUserActivity value) => nsDocument -> value -> IO ()
+setUserActivity :: IsNSDocument nsDocument => nsDocument -> RawId -> IO ()
 setUserActivity nsDocument value =
-  sendMessage nsDocument setUserActivitySelector (toNSUserActivity value)
-
--- | @- shouldRunSavePanelWithAccessoryView@
-shouldRunSavePanelWithAccessoryView :: IsNSDocument nsDocument => nsDocument -> IO Bool
-shouldRunSavePanelWithAccessoryView nsDocument =
-  sendMessage nsDocument shouldRunSavePanelWithAccessoryViewSelector
+  sendMessage nsDocument setUserActivitySelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -1860,12 +1823,12 @@ keepBackupFileSelector :: Selector '[] Bool
 keepBackupFileSelector = mkSelector "keepBackupFile"
 
 -- | @Selector@ for @backupFileURL@
-backupFileURLSelector :: Selector '[] (Id NSURL)
+backupFileURLSelector :: Selector '[] RawId
 backupFileURLSelector = mkSelector "backupFileURL"
 
--- | @Selector@ for @savePanelShowsFileFormatsControl@
-savePanelShowsFileFormatsControlSelector :: Selector '[] Bool
-savePanelShowsFileFormatsControlSelector = mkSelector "savePanelShowsFileFormatsControl"
+-- | @Selector@ for @shouldRunSavePanelWithAccessoryView@
+shouldRunSavePanelWithAccessoryViewSelector :: Selector '[] Bool
+shouldRunSavePanelWithAccessoryViewSelector = mkSelector "shouldRunSavePanelWithAccessoryView"
 
 -- | @Selector@ for @fileNameExtensionWasHiddenInLastRunSavePanel@
 fileNameExtensionWasHiddenInLastRunSavePanelSelector :: Selector '[] Bool
@@ -1920,20 +1883,12 @@ setPrintInfoSelector :: Selector '[Id NSPrintInfo] ()
 setPrintInfoSelector = mkSelector "setPrintInfo:"
 
 -- | @Selector@ for @PDFPrintOperation@
-pdfPrintOperationSelector :: Selector '[] (Id NSPrintOperation)
+pdfPrintOperationSelector :: Selector '[] RawId
 pdfPrintOperationSelector = mkSelector "PDFPrintOperation"
 
 -- | @Selector@ for @allowsDocumentSharing@
 allowsDocumentSharingSelector :: Selector '[] Bool
 allowsDocumentSharingSelector = mkSelector "allowsDocumentSharing"
-
--- | @Selector@ for @previewRepresentableActivityItems@
-previewRepresentableActivityItemsSelector :: Selector '[] (Id NSArray)
-previewRepresentableActivityItemsSelector = mkSelector "previewRepresentableActivityItems"
-
--- | @Selector@ for @setPreviewRepresentableActivityItems:@
-setPreviewRepresentableActivityItemsSelector :: Selector '[Id NSArray] ()
-setPreviewRepresentableActivityItemsSelector = mkSelector "setPreviewRepresentableActivityItems:"
 
 -- | @Selector@ for @documentEdited@
 documentEditedSelector :: Selector '[] Bool
@@ -1988,16 +1943,8 @@ usesUbiquitousStorageSelector :: Selector '[] Bool
 usesUbiquitousStorageSelector = mkSelector "usesUbiquitousStorage"
 
 -- | @Selector@ for @presentedItemURL@
-presentedItemURLSelector :: Selector '[] (Id NSURL)
+presentedItemURLSelector :: Selector '[] RawId
 presentedItemURLSelector = mkSelector "presentedItemURL"
-
--- | @Selector@ for @observedPresentedItemUbiquityAttributes@
-observedPresentedItemUbiquityAttributesSelector :: Selector '[] (Id NSSet)
-observedPresentedItemUbiquityAttributesSelector = mkSelector "observedPresentedItemUbiquityAttributes"
-
--- | @Selector@ for @restorableStateKeyPaths@
-restorableStateKeyPathsSelector :: Selector '[] (Id NSArray)
-restorableStateKeyPathsSelector = mkSelector "restorableStateKeyPaths"
 
 -- | @Selector@ for @lastComponentOfFileName@
 lastComponentOfFileNameSelector :: Selector '[] (Id NSString)
@@ -2012,14 +1959,10 @@ objectSpecifierSelector :: Selector '[] (Id NSScriptObjectSpecifier)
 objectSpecifierSelector = mkSelector "objectSpecifier"
 
 -- | @Selector@ for @userActivity@
-userActivitySelector :: Selector '[] (Id NSUserActivity)
+userActivitySelector :: Selector '[] RawId
 userActivitySelector = mkSelector "userActivity"
 
 -- | @Selector@ for @setUserActivity:@
-setUserActivitySelector :: Selector '[Id NSUserActivity] ()
+setUserActivitySelector :: Selector '[RawId] ()
 setUserActivitySelector = mkSelector "setUserActivity:"
-
--- | @Selector@ for @shouldRunSavePanelWithAccessoryView@
-shouldRunSavePanelWithAccessoryViewSelector :: Selector '[] Bool
-shouldRunSavePanelWithAccessoryViewSelector = mkSelector "shouldRunSavePanelWithAccessoryView"
 

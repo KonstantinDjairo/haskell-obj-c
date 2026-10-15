@@ -7,16 +7,18 @@
 module ObjC.Matter.MTRGeneralCommissioningClusterArmFailSafeResponseParams
   ( MTRGeneralCommissioningClusterArmFailSafeResponseParams
   , IsMTRGeneralCommissioningClusterArmFailSafeResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , errorCode
   , setErrorCode
   , debugText
   , setDebugText
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , debugTextSelector
   , errorCodeSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , setDebugTextSelector
   , setErrorCodeSelector
   , setTimedInvokeTimeoutMsSelector
@@ -36,16 +38,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRGeneralCommissioningClusterArmFailSafeResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRGeneralCommissioningClusterArmFailSafeResponseParams mtrGeneralCommissioningClusterArmFailSafeResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrGeneralCommissioningClusterArmFailSafeResponseParams -> responseValue -> error_ -> IO (Id MTRGeneralCommissioningClusterArmFailSafeResponseParams)
-initWithResponseValue_error mtrGeneralCommissioningClusterArmFailSafeResponseParams responseValue error_ =
-  sendOwnedMessage mtrGeneralCommissioningClusterArmFailSafeResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRGeneralCommissioningClusterArmFailSafeResponseParams mtrGeneralCommissioningClusterArmFailSafeResponseParams => mtrGeneralCommissioningClusterArmFailSafeResponseParams -> IO (Id MTRGeneralCommissioningClusterArmFailSafeResponseParams)
+init_ mtrGeneralCommissioningClusterArmFailSafeResponseParams =
+  sendOwnedMessage mtrGeneralCommissioningClusterArmFailSafeResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGeneralCommissioningClusterArmFailSafeResponseParams mtrGeneralCommissioningClusterArmFailSafeResponseParams => mtrGeneralCommissioningClusterArmFailSafeResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrGeneralCommissioningClusterArmFailSafeResponseParams zone =
+  sendOwnedMessage mtrGeneralCommissioningClusterArmFailSafeResponseParams copyWithZoneSelector zone
 
 -- | @- errorCode@
 errorCode :: IsMTRGeneralCommissioningClusterArmFailSafeResponseParams mtrGeneralCommissioningClusterArmFailSafeResponseParams => mtrGeneralCommissioningClusterArmFailSafeResponseParams -> IO (Id NSNumber)
@@ -93,9 +94,13 @@ setTimedInvokeTimeoutMs mtrGeneralCommissioningClusterArmFailSafeResponseParams 
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRGeneralCommissioningClusterArmFailSafeResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGeneralCommissioningClusterArmFailSafeResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @errorCode@
 errorCodeSelector :: Selector '[] (Id NSNumber)

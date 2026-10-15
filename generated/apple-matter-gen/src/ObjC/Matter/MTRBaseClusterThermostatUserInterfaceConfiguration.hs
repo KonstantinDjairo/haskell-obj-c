@@ -3,46 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Thermostat User Interface Configuration
---
--- An interface for configuring the user interface of a thermostat (which may be remote from the thermostat).
+-- | Cluster Thermostat User Interface Configuration    An interface for configuring the user interface of a thermostat (which may be remote from the thermostat).
 --
 -- Generated bindings for @MTRBaseClusterThermostatUserInterfaceConfiguration@.
 module ObjC.Matter.MTRBaseClusterThermostatUserInterfaceConfiguration
   ( MTRBaseClusterThermostatUserInterfaceConfiguration
   , IsMTRBaseClusterThermostatUserInterfaceConfiguration(..)
-  , readAttributeTemperatureDisplayModeWithCompletion
-  , writeAttributeTemperatureDisplayModeWithValue_completion
-  , writeAttributeTemperatureDisplayModeWithValue_params_completion
-  , subscribeAttributeTemperatureDisplayModeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeTemperatureDisplayModeWithClusterStateCache_endpoint_queue_completion
-  , readAttributeKeypadLockoutWithCompletion
-  , writeAttributeKeypadLockoutWithValue_completion
-  , writeAttributeKeypadLockoutWithValue_params_completion
-  , subscribeAttributeKeypadLockoutWithParams_subscriptionEstablished_reportHandler
-  , readAttributeKeypadLockoutWithClusterStateCache_endpoint_queue_completion
-  , readAttributeScheduleProgrammingVisibilityWithCompletion
-  , writeAttributeScheduleProgrammingVisibilityWithValue_completion
-  , writeAttributeScheduleProgrammingVisibilityWithValue_params_completion
-  , subscribeAttributeScheduleProgrammingVisibilityWithParams_subscriptionEstablished_reportHandler
-  , readAttributeScheduleProgrammingVisibilityWithClusterStateCache_endpoint_queue_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
-  , init_
-  , new
   , initWithDevice_endpoint_queue
   , readAttributeTemperatureDisplayModeWithCompletionHandler
   , writeAttributeTemperatureDisplayModeWithValue_completionHandler
@@ -74,71 +40,41 @@ module ObjC.Matter.MTRBaseClusterThermostatUserInterfaceConfiguration
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
-  , initWithDevice_endpointID_queue
+  , init_
+  , new
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAttributeListWithCompletionHandlerSelector
-  , readAttributeAttributeListWithCompletionSelector
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeClusterRevisionWithCompletionHandlerSelector
-  , readAttributeClusterRevisionWithCompletionSelector
   , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeFeatureMapWithCompletionHandlerSelector
-  , readAttributeFeatureMapWithCompletionSelector
   , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeGeneratedCommandListWithCompletionHandlerSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
   , readAttributeKeypadLockoutWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeKeypadLockoutWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeKeypadLockoutWithCompletionHandlerSelector
-  , readAttributeKeypadLockoutWithCompletionSelector
   , readAttributeScheduleProgrammingVisibilityWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeScheduleProgrammingVisibilityWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeScheduleProgrammingVisibilityWithCompletionHandlerSelector
-  , readAttributeScheduleProgrammingVisibilityWithCompletionSelector
   , readAttributeTemperatureDisplayModeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeTemperatureDisplayModeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeTemperatureDisplayModeWithCompletionHandlerSelector
-  , readAttributeTemperatureDisplayModeWithCompletionSelector
   , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeKeypadLockoutWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeKeypadLockoutWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeScheduleProgrammingVisibilityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeScheduleProgrammingVisibilityWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeTemperatureDisplayModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeTemperatureDisplayModeWithParams_subscriptionEstablished_reportHandlerSelector
   , writeAttributeKeypadLockoutWithValue_completionHandlerSelector
-  , writeAttributeKeypadLockoutWithValue_completionSelector
   , writeAttributeKeypadLockoutWithValue_params_completionHandlerSelector
-  , writeAttributeKeypadLockoutWithValue_params_completionSelector
   , writeAttributeScheduleProgrammingVisibilityWithValue_completionHandlerSelector
-  , writeAttributeScheduleProgrammingVisibilityWithValue_completionSelector
   , writeAttributeScheduleProgrammingVisibilityWithValue_params_completionHandlerSelector
-  , writeAttributeScheduleProgrammingVisibilityWithValue_params_completionSelector
   , writeAttributeTemperatureDisplayModeWithValue_completionHandlerSelector
-  , writeAttributeTemperatureDisplayModeWithValue_completionSelector
   , writeAttributeTemperatureDisplayModeWithValue_params_completionHandlerSelector
-  , writeAttributeTemperatureDisplayModeWithValue_params_completionSelector
 
 
   ) where
@@ -153,184 +89,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | @- readAttributeTemperatureDisplayModeWithCompletion:@
-readAttributeTemperatureDisplayModeWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeTemperatureDisplayModeWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeTemperatureDisplayModeWithCompletionSelector completion
-
--- | @- writeAttributeTemperatureDisplayModeWithValue:completion:@
-writeAttributeTemperatureDisplayModeWithValue_completion :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber value) => mtrBaseClusterThermostatUserInterfaceConfiguration -> value -> Ptr () -> IO ()
-writeAttributeTemperatureDisplayModeWithValue_completion mtrBaseClusterThermostatUserInterfaceConfiguration value completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeTemperatureDisplayModeWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeTemperatureDisplayModeWithValue:params:completion:@
-writeAttributeTemperatureDisplayModeWithValue_params_completion :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeTemperatureDisplayModeWithValue_params_completion mtrBaseClusterThermostatUserInterfaceConfiguration value params completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeTemperatureDisplayModeWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeTemperatureDisplayModeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTemperatureDisplayModeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeTemperatureDisplayModeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeTemperatureDisplayModeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeTemperatureDisplayModeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTemperatureDisplayModeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeTemperatureDisplayModeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeTemperatureDisplayModeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeKeypadLockoutWithCompletion:@
-readAttributeKeypadLockoutWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeKeypadLockoutWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeKeypadLockoutWithCompletionSelector completion
-
--- | @- writeAttributeKeypadLockoutWithValue:completion:@
-writeAttributeKeypadLockoutWithValue_completion :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber value) => mtrBaseClusterThermostatUserInterfaceConfiguration -> value -> Ptr () -> IO ()
-writeAttributeKeypadLockoutWithValue_completion mtrBaseClusterThermostatUserInterfaceConfiguration value completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeKeypadLockoutWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeKeypadLockoutWithValue:params:completion:@
-writeAttributeKeypadLockoutWithValue_params_completion :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeKeypadLockoutWithValue_params_completion mtrBaseClusterThermostatUserInterfaceConfiguration value params completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeKeypadLockoutWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeKeypadLockoutWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeKeypadLockoutWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeKeypadLockoutWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeKeypadLockoutWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeKeypadLockoutWithClusterStateCache:endpoint:queue:completion:@
-readAttributeKeypadLockoutWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeKeypadLockoutWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeKeypadLockoutWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeScheduleProgrammingVisibilityWithCompletion:@
-readAttributeScheduleProgrammingVisibilityWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeScheduleProgrammingVisibilityWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeScheduleProgrammingVisibilityWithCompletionSelector completion
-
--- | @- writeAttributeScheduleProgrammingVisibilityWithValue:completion:@
-writeAttributeScheduleProgrammingVisibilityWithValue_completion :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber value) => mtrBaseClusterThermostatUserInterfaceConfiguration -> value -> Ptr () -> IO ()
-writeAttributeScheduleProgrammingVisibilityWithValue_completion mtrBaseClusterThermostatUserInterfaceConfiguration value completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeScheduleProgrammingVisibilityWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeScheduleProgrammingVisibilityWithValue:params:completion:@
-writeAttributeScheduleProgrammingVisibilityWithValue_params_completion :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> value -> params -> Ptr () -> IO ()
-writeAttributeScheduleProgrammingVisibilityWithValue_params_completion mtrBaseClusterThermostatUserInterfaceConfiguration value params completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeScheduleProgrammingVisibilityWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeScheduleProgrammingVisibilityWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeScheduleProgrammingVisibilityWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeScheduleProgrammingVisibilityWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeScheduleProgrammingVisibilityWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeScheduleProgrammingVisibilityWithClusterStateCache:endpoint:queue:completion:@
-readAttributeScheduleProgrammingVisibilityWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeScheduleProgrammingVisibilityWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeScheduleProgrammingVisibilityWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeAcceptedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeAttributeListWithCompletionSelector completion
-
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeFeatureMapWithCompletionSelector completion
-
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterThermostatUserInterfaceConfiguration completion =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeClusterRevisionWithCompletionSelector completion
-
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- init@
-init_ :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> IO (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
-init_ mtrBaseClusterThermostatUserInterfaceConfiguration =
-  sendOwnedMessage mtrBaseClusterThermostatUserInterfaceConfiguration initSelector
-
--- | @+ new@
-new :: IO (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
-new  =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
-    sendOwnedClassMessage cls' newSelector
 
 -- | @- initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queue :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterThermostatUserInterfaceConfiguration -> device -> CUShort -> queue -> IO (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
@@ -352,7 +110,9 @@ writeAttributeTemperatureDisplayModeWithValue_params_completionHandler :: (IsMTR
 writeAttributeTemperatureDisplayModeWithValue_params_completionHandler mtrBaseClusterThermostatUserInterfaceConfiguration value params completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeTemperatureDisplayModeWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeTemperatureDisplayModeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeTemperatureDisplayModeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeTemperatureDisplayModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeTemperatureDisplayModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeTemperatureDisplayModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -379,7 +139,9 @@ writeAttributeKeypadLockoutWithValue_params_completionHandler :: (IsMTRBaseClust
 writeAttributeKeypadLockoutWithValue_params_completionHandler mtrBaseClusterThermostatUserInterfaceConfiguration value params completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeKeypadLockoutWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeKeypadLockoutWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeKeypadLockoutWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeKeypadLockoutWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeKeypadLockoutWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeKeypadLockoutWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -406,7 +168,9 @@ writeAttributeScheduleProgrammingVisibilityWithValue_params_completionHandler ::
 writeAttributeScheduleProgrammingVisibilityWithValue_params_completionHandler mtrBaseClusterThermostatUserInterfaceConfiguration value params completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration writeAttributeScheduleProgrammingVisibilityWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeScheduleProgrammingVisibilityWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeScheduleProgrammingVisibilityWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeScheduleProgrammingVisibilityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeScheduleProgrammingVisibilityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeScheduleProgrammingVisibilityWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -423,7 +187,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterThermo
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterThermostatUserInterfaceConfiguration completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -440,7 +206,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterThermos
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterThermostatUserInterfaceConfiguration completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -457,7 +225,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterThermostatUse
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterThermostatUserInterfaceConfiguration completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -474,7 +244,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterThermostatUserIn
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterThermostatUserInterfaceConfiguration completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -491,7 +263,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterThermostatU
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterThermostatUserInterfaceConfiguration completionHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterThermostatUserInterfaceConfiguration -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterThermostatUserInterfaceConfiguration minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterThermostatUserInterfaceConfiguration subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -503,144 +277,21 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
     cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterThermostatUserInterfaceConfiguration -> device -> endpointID -> queue -> IO (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
-initWithDevice_endpointID_queue mtrBaseClusterThermostatUserInterfaceConfiguration device endpointID queue =
-  sendOwnedMessage mtrBaseClusterThermostatUserInterfaceConfiguration initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
+-- | @- init@
+init_ :: IsMTRBaseClusterThermostatUserInterfaceConfiguration mtrBaseClusterThermostatUserInterfaceConfiguration => mtrBaseClusterThermostatUserInterfaceConfiguration -> IO (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
+init_ mtrBaseClusterThermostatUserInterfaceConfiguration =
+  sendOwnedMessage mtrBaseClusterThermostatUserInterfaceConfiguration initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterThermostatUserInterfaceConfiguration"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @readAttributeTemperatureDisplayModeWithCompletion:@
-readAttributeTemperatureDisplayModeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeTemperatureDisplayModeWithCompletionSelector = mkSelector "readAttributeTemperatureDisplayModeWithCompletion:"
-
--- | @Selector@ for @writeAttributeTemperatureDisplayModeWithValue:completion:@
-writeAttributeTemperatureDisplayModeWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeTemperatureDisplayModeWithValue_completionSelector = mkSelector "writeAttributeTemperatureDisplayModeWithValue:completion:"
-
--- | @Selector@ for @writeAttributeTemperatureDisplayModeWithValue:params:completion:@
-writeAttributeTemperatureDisplayModeWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeTemperatureDisplayModeWithValue_params_completionSelector = mkSelector "writeAttributeTemperatureDisplayModeWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeTemperatureDisplayModeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTemperatureDisplayModeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeTemperatureDisplayModeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeTemperatureDisplayModeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeTemperatureDisplayModeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTemperatureDisplayModeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeTemperatureDisplayModeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeTemperatureDisplayModeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeKeypadLockoutWithCompletion:@
-readAttributeKeypadLockoutWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeKeypadLockoutWithCompletionSelector = mkSelector "readAttributeKeypadLockoutWithCompletion:"
-
--- | @Selector@ for @writeAttributeKeypadLockoutWithValue:completion:@
-writeAttributeKeypadLockoutWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeKeypadLockoutWithValue_completionSelector = mkSelector "writeAttributeKeypadLockoutWithValue:completion:"
-
--- | @Selector@ for @writeAttributeKeypadLockoutWithValue:params:completion:@
-writeAttributeKeypadLockoutWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeKeypadLockoutWithValue_params_completionSelector = mkSelector "writeAttributeKeypadLockoutWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeKeypadLockoutWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeKeypadLockoutWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeKeypadLockoutWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeKeypadLockoutWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeKeypadLockoutWithClusterStateCache:endpoint:queue:completion:@
-readAttributeKeypadLockoutWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeKeypadLockoutWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeKeypadLockoutWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeScheduleProgrammingVisibilityWithCompletion:@
-readAttributeScheduleProgrammingVisibilityWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeScheduleProgrammingVisibilityWithCompletionSelector = mkSelector "readAttributeScheduleProgrammingVisibilityWithCompletion:"
-
--- | @Selector@ for @writeAttributeScheduleProgrammingVisibilityWithValue:completion:@
-writeAttributeScheduleProgrammingVisibilityWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeScheduleProgrammingVisibilityWithValue_completionSelector = mkSelector "writeAttributeScheduleProgrammingVisibilityWithValue:completion:"
-
--- | @Selector@ for @writeAttributeScheduleProgrammingVisibilityWithValue:params:completion:@
-writeAttributeScheduleProgrammingVisibilityWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeScheduleProgrammingVisibilityWithValue_params_completionSelector = mkSelector "writeAttributeScheduleProgrammingVisibilityWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeScheduleProgrammingVisibilityWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeScheduleProgrammingVisibilityWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeScheduleProgrammingVisibilityWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeScheduleProgrammingVisibilityWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeScheduleProgrammingVisibilityWithClusterStateCache:endpoint:queue:completion:@
-readAttributeScheduleProgrammingVisibilityWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeScheduleProgrammingVisibilityWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeScheduleProgrammingVisibilityWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
@@ -766,7 +417,11 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterThermostatUserInterfaceConfiguration)
+newSelector = mkSelector "new"
 

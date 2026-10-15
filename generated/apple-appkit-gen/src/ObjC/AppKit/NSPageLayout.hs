@@ -10,7 +10,6 @@ module ObjC.AppKit.NSPageLayout
   , pageLayout
   , addAccessoryController
   , removeAccessoryController
-  , beginSheetUsingPrintInfo_onWindow_completionHandler
   , beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo
   , runModalWithPrintInfo
   , runModal
@@ -18,12 +17,9 @@ module ObjC.AppKit.NSPageLayout
   , accessoryView
   , readPrintInfo
   , writePrintInfo
-  , accessoryControllers
   , printInfo
-  , accessoryControllersSelector
   , accessoryViewSelector
   , addAccessoryControllerSelector
-  , beginSheetUsingPrintInfo_onWindow_completionHandlerSelector
   , beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfoSelector
   , pageLayoutSelector
   , printInfoSelector
@@ -65,11 +61,6 @@ removeAccessoryController :: (IsNSPageLayout nsPageLayout, IsNSViewController ac
 removeAccessoryController nsPageLayout accessoryController =
   sendMessage nsPageLayout removeAccessoryControllerSelector (toNSViewController accessoryController)
 
--- | @- beginSheetUsingPrintInfo:onWindow:completionHandler:@
-beginSheetUsingPrintInfo_onWindow_completionHandler :: (IsNSPageLayout nsPageLayout, IsNSPrintInfo printInfo, IsNSWindow parentWindow) => nsPageLayout -> printInfo -> parentWindow -> Ptr () -> IO ()
-beginSheetUsingPrintInfo_onWindow_completionHandler nsPageLayout printInfo parentWindow handler =
-  sendMessage nsPageLayout beginSheetUsingPrintInfo_onWindow_completionHandlerSelector (toNSPrintInfo printInfo) (toNSWindow parentWindow) handler
-
 -- | @- beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:@
 beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo :: (IsNSPageLayout nsPageLayout, IsNSPrintInfo printInfo, IsNSWindow docWindow) => nsPageLayout -> printInfo -> docWindow -> RawId -> Sel -> Ptr () -> IO ()
 beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo nsPageLayout printInfo docWindow delegate didEndSelector contextInfo =
@@ -105,11 +96,6 @@ writePrintInfo :: IsNSPageLayout nsPageLayout => nsPageLayout -> IO ()
 writePrintInfo nsPageLayout =
   sendMessage nsPageLayout writePrintInfoSelector
 
--- | @- accessoryControllers@
-accessoryControllers :: IsNSPageLayout nsPageLayout => nsPageLayout -> IO (Id NSArray)
-accessoryControllers nsPageLayout =
-  sendMessage nsPageLayout accessoryControllersSelector
-
 -- | @- printInfo@
 printInfo :: IsNSPageLayout nsPageLayout => nsPageLayout -> IO (Id NSPrintInfo)
 printInfo nsPageLayout =
@@ -130,10 +116,6 @@ addAccessoryControllerSelector = mkSelector "addAccessoryController:"
 -- | @Selector@ for @removeAccessoryController:@
 removeAccessoryControllerSelector :: Selector '[Id NSViewController] ()
 removeAccessoryControllerSelector = mkSelector "removeAccessoryController:"
-
--- | @Selector@ for @beginSheetUsingPrintInfo:onWindow:completionHandler:@
-beginSheetUsingPrintInfo_onWindow_completionHandlerSelector :: Selector '[Id NSPrintInfo, Id NSWindow, Ptr ()] ()
-beginSheetUsingPrintInfo_onWindow_completionHandlerSelector = mkSelector "beginSheetUsingPrintInfo:onWindow:completionHandler:"
 
 -- | @Selector@ for @beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:@
 beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfoSelector :: Selector '[Id NSPrintInfo, Id NSWindow, RawId, Sel, Ptr ()] ()
@@ -162,10 +144,6 @@ readPrintInfoSelector = mkSelector "readPrintInfo"
 -- | @Selector@ for @writePrintInfo@
 writePrintInfoSelector :: Selector '[] ()
 writePrintInfoSelector = mkSelector "writePrintInfo"
-
--- | @Selector@ for @accessoryControllers@
-accessoryControllersSelector :: Selector '[] (Id NSArray)
-accessoryControllersSelector = mkSelector "accessoryControllers"
 
 -- | @Selector@ for @printInfo@
 printInfoSelector :: Selector '[] (Id NSPrintInfo)

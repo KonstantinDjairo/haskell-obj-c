@@ -14,11 +14,37 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | Constants indicating the Data Matrix code ECC version.
+-- | CIDataMatrixCodeECCVersion
 --
--- ECC 000 - 140 symbols offer five levels of error correction using convolutional code error correction.  Each successive level or error correction offers more protection for the message data but increases the  size of the symbol required to carry a given message. See the ISO/IEC 16022:2006 spec for other modes.
+-- Constants indicating the Data Matrix code ECC version.
 --
--- ECC 200 symbols utilize Reed-Solomon error correction.  The error correction capacity for any given Data Matrix symbol is fixed by the size (in rows and columns) of the symbol. See Table 7 of ISO/IEC 16022:2006(E) for more details.
+-- ECC 000 - 140 symbols offer five levels of error correction using convolutional code error correction. Each successive level of error correction offers more protection for the message data and increases the size of the symbol required to carry a specific message. ECC 000 symbols offer no data protection. The other modes are described in ISO/IEC 16022:2006 and enumerated in this list only for completeness.
+--
+-- ECC 200 symbols utilize Reed-Solomon error correction. The error correction capacity for any given Data Matrix symbol is fixed by the size (in rows and columns) of the symbol. See Table 7 of ISO/IEC 16022:2006(E) for more details.
+--
+-- CIDataMatrixCodeECCVersion000
+--
+-- Indicates error correction using convolutional code error correction with no data protection.
+--
+-- CIDataMatrixCodeECCVersion050
+--
+-- Indicates 1/4 of the symbol is dedicated to convolutional code error correction.
+--
+-- CIDataMatrixCodeECCVersion080
+--
+-- Indicates 1/3 of the symbol is dedicated to convolutional code error correction.
+--
+-- CIDataMatrixCodeECCVersion100
+--
+-- Indicates 1/2 of the symbol is dedicated to convolutional code error correction.
+--
+-- CIDataMatrixCodeECCVersion140
+--
+-- Indicates 3/4 of the symbol is dedicated to convolutional code error correction.
+--
+-- CIDataMatrixCodeECCVersion200
+--
+-- Indicates error correction using Reed-Solomon error correction. Data protection overhead varies based on symbol size.
 -- | @CIDataMatrixCodeECCVersion@
 newtype CIDataMatrixCodeECCVersion = CIDataMatrixCodeECCVersion CLong
   deriving stock (Eq, Ord, Show)
@@ -52,7 +78,25 @@ instance ObjCReturn CIDataMatrixCodeECCVersion where
   fromRetained x = pure (CIDataMatrixCodeECCVersion x)
   fromOwned x = pure (CIDataMatrixCodeECCVersion x)
 
--- | Constants indicating the percentage of the symbol that is dedicated to error correction.
+-- | CIQRCodeErrorCorrectionLevel
+--
+-- Constants indicating the percentage of the symbol that is dedicated to error correction.
+--
+-- CIQRCodeErrorCorrectionLevelL
+--
+-- Indicates that approximately 20% of the symbol data is dedicated to error correction.
+--
+-- CIQRCodeErrorCorrectionLevelM
+--
+-- Indicates that approximately 37% of the symbol data is dedicated to error correction.
+--
+-- CIQRCodeErrorCorrectionLevelQ
+--
+-- Indicates that approximately 55% of the symbol data is dedicated to error correction.
+--
+-- CIQRCodeErrorCorrectionLevelH
+--
+-- Indicates that approximately 65% of the symbol data is dedicated to error correction.
 -- | @CIQRCodeErrorCorrectionLevel@
 newtype CIQRCodeErrorCorrectionLevel = CIQRCodeErrorCorrectionLevel CLong
   deriving stock (Eq, Ord, Show)

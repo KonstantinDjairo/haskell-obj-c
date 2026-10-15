@@ -33,18 +33,12 @@ module ObjC.AVFoundation.AVCapturePhoto
   , resolvedSettings
   , photoCount
   , sourceDeviceType
-  , constantColorConfidenceMap
-  , constantColorCenterWeightedMeanConfidenceLevel
-  , constantColorFallbackPhoto
   , bracketSettings
   , sequenceCount
   , lensStabilizationStatus
   , bracketSettingsSelector
   , cameraCalibrationDataSelector
   , cgImageRepresentationSelector
-  , constantColorCenterWeightedMeanConfidenceLevelSelector
-  , constantColorConfidenceMapSelector
-  , constantColorFallbackPhotoSelector
   , depthDataSelector
   , embeddedThumbnailPhotoFormatSelector
   , fileDataRepresentationSelector
@@ -116,7 +110,7 @@ semanticSegmentationMatteForType avCapturePhoto semanticSegmentationMatteType =
 
 -- | fileDataRepresentation
 --
--- Flattens the AVCapturePhoto to an NSData using the file container format (processedFileType or rawFileType) specified in the AVCapturePhotoSettings (e.g. JFIF, HEIF, DNG, DICOM).
+-- Flattens the AVCapturePhoto to an NSData using the file container format (processedFileType or rawFileType) specified in the AVCapturePhotoSettings (e.g. JFIF, HEIF, DNG).
 --
 -- Returns: An NSData containing bits in the file container's format, or nil if the flattening process fails.
 --
@@ -127,7 +121,7 @@ fileDataRepresentation avCapturePhoto =
 
 -- | fileDataRepresentationWithCustomizer:
 --
--- Flattens the AVCapturePhoto to an NSData using the file container format (processedFileType or rawFileType) specified in the AVCapturePhotoSettings (e.g. JFIF, HEIF, DNG, DICOM), and allows you to strip or replace various pieces of metadata in the process.
+-- Flattens the AVCapturePhoto to an NSData using the file container format (processedFileType or rawFileType) specified in the AVCapturePhotoSettings (e.g. JFIF, HEIF, DNG), and allows you to strip or replace various pieces of metadata in the process.
 --
 -- @customizer@ — An object conforming to the AVCapturePhotoFileDataRepresentationCustomizer protocol that will be called synchronously to provide customization of metadata written to the container format. An NSInvalidArgumentException is thrown if you pass nil.
 --
@@ -140,7 +134,7 @@ fileDataRepresentationWithCustomizer avCapturePhoto customizer =
 
 -- | fileDataRepresentationWithReplacementMetadata:replacementEmbeddedThumbnailPhotoFormat:replacementEmbeddedThumbnailPixelBuffer:replacementDepthData:
 --
--- Flattens the AVCapturePhoto to an NSData using the file container format (processedFileType or rawFileType) specified in the AVCapturePhotoSettings (e.g. JFIF, HEIF, DNG, DICOM), and allows you to replace metadata, thumbnail, and depth data in the process.
+-- Flattens the AVCapturePhoto to an NSData using the file container format (processedFileType or rawFileType) specified in the AVCapturePhotoSettings (e.g. JFIF, HEIF, DNG), and allows you to replace metadata, thumbnail, and depth data in the process.
 --
 -- @replacementMetadata@ — A dictionary of keys and values from <ImageIO/CGImageProperties.h>. To preserve existing metadata to the file, pass self.metadata. To strip existing metadata, pass nil. To replace metadata, pass a replacement dictionary.
 --
@@ -304,41 +298,6 @@ sourceDeviceType :: IsAVCapturePhoto avCapturePhoto => avCapturePhoto -> IO (Id 
 sourceDeviceType avCapturePhoto =
   sendMessage avCapturePhoto sourceDeviceTypeSelector
 
--- | constantColorConfidenceMap
---
--- Returns a pixel buffer with the same aspect ratio as the constant color photo, where each pixel value (unsigned 8-bit integer) indicates how fully the constant color effect has been achieved in the corresponding region of the constant color photo -- 255 means full confidence, 0 means zero confidence.
---
--- NULL is returned for any non constant color photos.
---
--- ObjC selector: @- constantColorConfidenceMap@
-constantColorConfidenceMap :: IsAVCapturePhoto avCapturePhoto => avCapturePhoto -> IO (Ptr ())
-constantColorConfidenceMap avCapturePhoto =
-  sendMessage avCapturePhoto constantColorConfidenceMapSelector
-
--- | constantColorCenterWeightedMeanConfidenceLevel
---
--- Returns a score summarizing the overall confidence level of a constant color photo -- 1.0 means full confidence, 0.0 means zero confidence.
---
--- Default is 0.0.
---
--- In most use cases (document scanning for example), the central region of the photo is considered more important than the peripherals, therefore the confidence level of the central pixels are weighted more heavily than pixels on the edges of the photo.
---
--- Use constantColorConfidenceMap for more use case specific analyses of the confidence level.
---
--- ObjC selector: @- constantColorCenterWeightedMeanConfidenceLevel@
-constantColorCenterWeightedMeanConfidenceLevel :: IsAVCapturePhoto avCapturePhoto => avCapturePhoto -> IO CFloat
-constantColorCenterWeightedMeanConfidenceLevel avCapturePhoto =
-  sendMessage avCapturePhoto constantColorCenterWeightedMeanConfidenceLevelSelector
-
--- | constantColorFallbackPhoto
---
--- Indicates whether this photo is a fallback photo for a constant color capture.
---
--- ObjC selector: @- constantColorFallbackPhoto@
-constantColorFallbackPhoto :: IsAVCapturePhoto avCapturePhoto => avCapturePhoto -> IO Bool
-constantColorFallbackPhoto avCapturePhoto =
-  sendMessage avCapturePhoto constantColorFallbackPhotoSelector
-
 -- | bracketSettings
 --
 -- The AVCaptureBracketedStillImageSettings associated with this photo.
@@ -451,18 +410,6 @@ photoCountSelector = mkSelector "photoCount"
 -- | @Selector@ for @sourceDeviceType@
 sourceDeviceTypeSelector :: Selector '[] (Id NSString)
 sourceDeviceTypeSelector = mkSelector "sourceDeviceType"
-
--- | @Selector@ for @constantColorConfidenceMap@
-constantColorConfidenceMapSelector :: Selector '[] (Ptr ())
-constantColorConfidenceMapSelector = mkSelector "constantColorConfidenceMap"
-
--- | @Selector@ for @constantColorCenterWeightedMeanConfidenceLevel@
-constantColorCenterWeightedMeanConfidenceLevelSelector :: Selector '[] CFloat
-constantColorCenterWeightedMeanConfidenceLevelSelector = mkSelector "constantColorCenterWeightedMeanConfidenceLevel"
-
--- | @Selector@ for @constantColorFallbackPhoto@
-constantColorFallbackPhotoSelector :: Selector '[] Bool
-constantColorFallbackPhotoSelector = mkSelector "constantColorFallbackPhoto"
 
 -- | @Selector@ for @bracketSettings@
 bracketSettingsSelector :: Selector '[] (Id AVCaptureBracketedStillImageSettings)

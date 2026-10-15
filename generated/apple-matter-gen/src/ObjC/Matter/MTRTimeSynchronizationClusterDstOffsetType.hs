@@ -7,12 +7,16 @@
 module ObjC.Matter.MTRTimeSynchronizationClusterDstOffsetType
   ( MTRTimeSynchronizationClusterDstOffsetType
   , IsMTRTimeSynchronizationClusterDstOffsetType(..)
+  , init_
+  , copyWithZone
   , offset
   , setOffset
   , validStarting
   , setValidStarting
   , validUntil
   , setValidUntil
+  , copyWithZoneSelector
+  , initSelector
   , offsetSelector
   , setOffsetSelector
   , setValidStartingSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTimeSynchronizationClusterDstOffsetType mtrTimeSynchronizationClusterDstOffsetType => mtrTimeSynchronizationClusterDstOffsetType -> IO (Id MTRTimeSynchronizationClusterDstOffsetType)
+init_ mtrTimeSynchronizationClusterDstOffsetType =
+  sendOwnedMessage mtrTimeSynchronizationClusterDstOffsetType initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTimeSynchronizationClusterDstOffsetType mtrTimeSynchronizationClusterDstOffsetType => mtrTimeSynchronizationClusterDstOffsetType -> Ptr () -> IO RawId
+copyWithZone mtrTimeSynchronizationClusterDstOffsetType zone =
+  sendOwnedMessage mtrTimeSynchronizationClusterDstOffsetType copyWithZoneSelector zone
 
 -- | @- offset@
 offset :: IsMTRTimeSynchronizationClusterDstOffsetType mtrTimeSynchronizationClusterDstOffsetType => mtrTimeSynchronizationClusterDstOffsetType -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setValidUntil mtrTimeSynchronizationClusterDstOffsetType value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTimeSynchronizationClusterDstOffsetType)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @offset@
 offsetSelector :: Selector '[] (Id NSNumber)

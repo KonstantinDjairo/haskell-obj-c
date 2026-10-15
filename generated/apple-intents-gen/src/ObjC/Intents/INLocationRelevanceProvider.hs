@@ -3,7 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @INLocationRelevanceProvider@.
+-- | A relevance provider to indicate relevance at a specific location.
+--
+-- Note: Your app needs Always or When in Use location authorization to use this relevance provider.
+--
+-- Generated bindings for @INLocationRelevanceProvider@.
 module ObjC.Intents.INLocationRelevanceProvider
   ( INLocationRelevanceProvider
   , IsINLocationRelevanceProvider(..)

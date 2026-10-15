@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterBinaryInputBasic
   ( MTRClusterBinaryInputBasic
   , IsMTRClusterBinaryInputBasic(..)
+  , initWithDevice_endpoint_queue
   , readAttributeActiveTextWithParams
   , writeAttributeActiveTextWithValue_expectedValueInterval
   , writeAttributeActiveTextWithValue_expectedValueInterval_params
@@ -37,10 +38,7 @@ module ObjC.Matter.MTRClusterBinaryInputBasic
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -83,6 +81,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterBinaryInputBasic mtrClusterBinaryInputBasic, IsMTRDevice device, IsNSObject queue) => mtrClusterBinaryInputBasic -> device -> CUShort -> queue -> IO (Id MTRClusterBinaryInputBasic)
+initWithDevice_endpoint_queue mtrClusterBinaryInputBasic device endpoint queue =
+  sendOwnedMessage mtrClusterBinaryInputBasic initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeActiveTextWithParams:@
 readAttributeActiveTextWithParams :: (IsMTRClusterBinaryInputBasic mtrClusterBinaryInputBasic, IsMTRReadParams params) => mtrClusterBinaryInputBasic -> params -> IO (Id NSDictionary)
@@ -226,21 +229,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterBinaryInputBasic"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterBinaryInputBasic mtrClusterBinaryInputBasic, IsMTRDevice device, IsNSObject queue) => mtrClusterBinaryInputBasic -> device -> CUShort -> queue -> IO (Id MTRClusterBinaryInputBasic)
-initWithDevice_endpoint_queue mtrClusterBinaryInputBasic device endpoint queue =
-  sendOwnedMessage mtrClusterBinaryInputBasic initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterBinaryInputBasic mtrClusterBinaryInputBasic, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterBinaryInputBasic -> device -> endpointID -> queue -> IO (Id MTRClusterBinaryInputBasic)
-initWithDevice_endpointID_queue mtrClusterBinaryInputBasic device endpointID queue =
-  sendOwnedMessage mtrClusterBinaryInputBasic initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBinaryInputBasic)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeActiveTextWithParams:@
 readAttributeActiveTextWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -353,12 +348,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterBinaryInputBasic)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBinaryInputBasic)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterBinaryInputBasic)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

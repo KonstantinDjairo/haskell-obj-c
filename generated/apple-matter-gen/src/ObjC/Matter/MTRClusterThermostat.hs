@@ -9,16 +9,12 @@
 module ObjC.Matter.MTRClusterThermostat
   ( MTRClusterThermostat
   , IsMTRClusterThermostat(..)
-  , setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completion
-  , setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion
-  , getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion
-  , clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion
-  , clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completion
-  , setActiveScheduleRequestWithParams_expectedValues_expectedValueInterval_completion
-  , setActivePresetRequestWithParams_expectedValues_expectedValueInterval_completion
-  , addThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completion
-  , removeThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completion
-  , atomicRequestWithParams_expectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandler
+  , setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler
+  , getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler
+  , clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler
+  , clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandler
   , readAttributeLocalTemperatureWithParams
   , readAttributeOutdoorTemperatureWithParams
   , readAttributeOccupancyWithParams
@@ -122,25 +118,6 @@ module ObjC.Matter.MTRClusterThermostat
   , readAttributeACCapacityformatWithParams
   , writeAttributeACCapacityformatWithValue_expectedValueInterval
   , writeAttributeACCapacityformatWithValue_expectedValueInterval_params
-  , readAttributePresetTypesWithParams
-  , readAttributeScheduleTypesWithParams
-  , readAttributeNumberOfPresetsWithParams
-  , readAttributeNumberOfSchedulesWithParams
-  , readAttributeNumberOfScheduleTransitionsWithParams
-  , readAttributeNumberOfScheduleTransitionPerDayWithParams
-  , readAttributeActivePresetHandleWithParams
-  , readAttributeActiveScheduleHandleWithParams
-  , readAttributePresetsWithParams
-  , writeAttributePresetsWithValue_expectedValueInterval
-  , writeAttributePresetsWithValue_expectedValueInterval_params
-  , readAttributeSchedulesWithParams
-  , writeAttributeSchedulesWithValue_expectedValueInterval
-  , writeAttributeSchedulesWithValue_expectedValueInterval_params
-  , readAttributeSetpointHoldExpiryTimestampWithParams
-  , readAttributeMaxThermostatSuggestionsWithParams
-  , readAttributeThermostatSuggestionsWithParams
-  , readAttributeCurrentThermostatSuggestionWithParams
-  , readAttributeThermostatSuggestionNotFollowingReasonWithParams
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
   , readAttributeAttributeListWithParams
@@ -148,23 +125,10 @@ module ObjC.Matter.MTRClusterThermostat
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandler
-  , setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler
-  , getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler
-  , clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler
-  , clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
-  , addThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector
-  , atomicRequestWithParams_expectedValues_expectedValueInterval_completionSelector
   , clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionSelector
   , clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector
   , getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeACCapacityWithParamsSelector
@@ -180,12 +144,9 @@ module ObjC.Matter.MTRClusterThermostat
   , readAttributeAbsMinCoolSetpointLimitWithParamsSelector
   , readAttributeAbsMinHeatSetpointLimitWithParamsSelector
   , readAttributeAcceptedCommandListWithParamsSelector
-  , readAttributeActivePresetHandleWithParamsSelector
-  , readAttributeActiveScheduleHandleWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
   , readAttributeClusterRevisionWithParamsSelector
   , readAttributeControlSequenceOfOperationWithParamsSelector
-  , readAttributeCurrentThermostatSuggestionWithParamsSelector
   , readAttributeEmergencyHeatDeltaWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
@@ -194,15 +155,10 @@ module ObjC.Matter.MTRClusterThermostat
   , readAttributeLocalTemperatureWithParamsSelector
   , readAttributeMaxCoolSetpointLimitWithParamsSelector
   , readAttributeMaxHeatSetpointLimitWithParamsSelector
-  , readAttributeMaxThermostatSuggestionsWithParamsSelector
   , readAttributeMinCoolSetpointLimitWithParamsSelector
   , readAttributeMinHeatSetpointLimitWithParamsSelector
   , readAttributeMinSetpointDeadBandWithParamsSelector
   , readAttributeNumberOfDailyTransitionsWithParamsSelector
-  , readAttributeNumberOfPresetsWithParamsSelector
-  , readAttributeNumberOfScheduleTransitionPerDayWithParamsSelector
-  , readAttributeNumberOfScheduleTransitionsWithParamsSelector
-  , readAttributeNumberOfSchedulesWithParamsSelector
   , readAttributeNumberOfWeeklyTransitionsWithParamsSelector
   , readAttributeOccupancyWithParamsSelector
   , readAttributeOccupiedCoolingSetpointWithParamsSelector
@@ -213,15 +169,10 @@ module ObjC.Matter.MTRClusterThermostat
   , readAttributeOutdoorTemperatureWithParamsSelector
   , readAttributePICoolingDemandWithParamsSelector
   , readAttributePIHeatingDemandWithParamsSelector
-  , readAttributePresetTypesWithParamsSelector
-  , readAttributePresetsWithParamsSelector
   , readAttributeRemoteSensingWithParamsSelector
-  , readAttributeScheduleTypesWithParamsSelector
-  , readAttributeSchedulesWithParamsSelector
   , readAttributeSetpointChangeAmountWithParamsSelector
   , readAttributeSetpointChangeSourceTimestampWithParamsSelector
   , readAttributeSetpointChangeSourceWithParamsSelector
-  , readAttributeSetpointHoldExpiryTimestampWithParamsSelector
   , readAttributeStartOfWeekWithParamsSelector
   , readAttributeSystemModeWithParamsSelector
   , readAttributeTemperatureSetpointHoldDurationWithParamsSelector
@@ -229,20 +180,13 @@ module ObjC.Matter.MTRClusterThermostat
   , readAttributeThermostatProgrammingOperationModeWithParamsSelector
   , readAttributeThermostatRunningModeWithParamsSelector
   , readAttributeThermostatRunningStateWithParamsSelector
-  , readAttributeThermostatSuggestionNotFollowingReasonWithParamsSelector
-  , readAttributeThermostatSuggestionsWithParamsSelector
   , readAttributeUnoccupiedCoolingSetpointWithParamsSelector
   , readAttributeUnoccupiedHeatingSetpointWithParamsSelector
   , readAttributeUnoccupiedSetbackMaxWithParamsSelector
   , readAttributeUnoccupiedSetbackMinWithParamsSelector
   , readAttributeUnoccupiedSetbackWithParamsSelector
-  , removeThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector
-  , setActivePresetRequestWithParams_expectedValues_expectedValueInterval_completionSelector
-  , setActiveScheduleRequestWithParams_expectedValues_expectedValueInterval_completionSelector
   , setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector
   , setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionSelector
   , writeAttributeACCapacityWithValue_expectedValueIntervalSelector
   , writeAttributeACCapacityWithValue_expectedValueInterval_paramsSelector
   , writeAttributeACCapacityformatWithValue_expectedValueIntervalSelector
@@ -281,12 +225,8 @@ module ObjC.Matter.MTRClusterThermostat
   , writeAttributeOccupiedHeatingSetpointWithValue_expectedValueInterval_paramsSelector
   , writeAttributeOccupiedSetbackWithValue_expectedValueIntervalSelector
   , writeAttributeOccupiedSetbackWithValue_expectedValueInterval_paramsSelector
-  , writeAttributePresetsWithValue_expectedValueIntervalSelector
-  , writeAttributePresetsWithValue_expectedValueInterval_paramsSelector
   , writeAttributeRemoteSensingWithValue_expectedValueIntervalSelector
   , writeAttributeRemoteSensingWithValue_expectedValueInterval_paramsSelector
-  , writeAttributeSchedulesWithValue_expectedValueIntervalSelector
-  , writeAttributeSchedulesWithValue_expectedValueInterval_paramsSelector
   , writeAttributeSystemModeWithValue_expectedValueIntervalSelector
   , writeAttributeSystemModeWithValue_expectedValueInterval_paramsSelector
   , writeAttributeTemperatureSetpointHoldDurationWithValue_expectedValueIntervalSelector
@@ -316,55 +256,35 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completion:@
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetpointRaiseLowerParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterSetpointRaiseLowerParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRDevice device, IsNSObject queue) => mtrClusterThermostat -> device -> CUShort -> queue -> IO (Id MTRClusterThermostat)
+initWithDevice_endpoint_queue mtrClusterThermostat device endpoint queue =
+  sendOwnedMessage mtrClusterThermostat initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:@
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterSetWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completionHandler:@
+setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetpointRaiseLowerParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterThermostat setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterSetpointRaiseLowerParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:@
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterGetWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterGetWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
+setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterThermostat setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterSetWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:@
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterClearWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterClearWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
+getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterGetWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterThermostat getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterGetWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completion:@
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completion mtrClusterThermostat expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
+clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterClearWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterThermostat clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterClearWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- setActiveScheduleRequestWithParams:expectedValues:expectedValueInterval:completion:@
-setActiveScheduleRequestWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetActiveScheduleRequestParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-setActiveScheduleRequestWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat setActiveScheduleRequestWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterSetActiveScheduleRequestParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
-
--- | @- setActivePresetRequestWithParams:expectedValues:expectedValueInterval:completion:@
-setActivePresetRequestWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetActivePresetRequestParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-setActivePresetRequestWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat setActivePresetRequestWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterSetActivePresetRequestParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
-
--- | @- addThermostatSuggestionWithParams:expectedValues:expectedValueInterval:completion:@
-addThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterAddThermostatSuggestionParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-addThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat addThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterAddThermostatSuggestionParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
-
--- | @- removeThermostatSuggestionWithParams:expectedValues:expectedValueInterval:completion:@
-removeThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterRemoveThermostatSuggestionParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-removeThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat removeThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterRemoveThermostatSuggestionParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
-
--- | @- atomicRequestWithParams:expectedValues:expectedValueInterval:completion:@
-atomicRequestWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterAtomicRequestParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-atomicRequestWithParams_expectedValues_expectedValueInterval_completion mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterThermostat atomicRequestWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRThermostatClusterAtomicRequestParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completionHandler:@
+clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandler mtrClusterThermostat expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterThermostat clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeLocalTemperatureWithParams:@
 readAttributeLocalTemperatureWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
@@ -881,101 +801,6 @@ writeAttributeACCapacityformatWithValue_expectedValueInterval_params :: (IsMTRCl
 writeAttributeACCapacityformatWithValue_expectedValueInterval_params mtrClusterThermostat dataValueDictionary expectedValueIntervalMs params =
   sendMessage mtrClusterThermostat writeAttributeACCapacityformatWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
--- | @- readAttributePresetTypesWithParams:@
-readAttributePresetTypesWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributePresetTypesWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributePresetTypesWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeScheduleTypesWithParams:@
-readAttributeScheduleTypesWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeScheduleTypesWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeScheduleTypesWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeNumberOfPresetsWithParams:@
-readAttributeNumberOfPresetsWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeNumberOfPresetsWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeNumberOfPresetsWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeNumberOfSchedulesWithParams:@
-readAttributeNumberOfSchedulesWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeNumberOfSchedulesWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeNumberOfSchedulesWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeNumberOfScheduleTransitionsWithParams:@
-readAttributeNumberOfScheduleTransitionsWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeNumberOfScheduleTransitionsWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeNumberOfScheduleTransitionsWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeNumberOfScheduleTransitionPerDayWithParams:@
-readAttributeNumberOfScheduleTransitionPerDayWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeNumberOfScheduleTransitionPerDayWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeNumberOfScheduleTransitionPerDayWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeActivePresetHandleWithParams:@
-readAttributeActivePresetHandleWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeActivePresetHandleWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeActivePresetHandleWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeActiveScheduleHandleWithParams:@
-readAttributeActiveScheduleHandleWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeActiveScheduleHandleWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeActiveScheduleHandleWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributePresetsWithParams:@
-readAttributePresetsWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributePresetsWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributePresetsWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributePresetsWithValue:expectedValueInterval:@
-writeAttributePresetsWithValue_expectedValueInterval :: (IsMTRClusterThermostat mtrClusterThermostat, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributePresetsWithValue_expectedValueInterval mtrClusterThermostat dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterThermostat writeAttributePresetsWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributePresetsWithValue:expectedValueInterval:params:@
-writeAttributePresetsWithValue_expectedValueInterval_params :: (IsMTRClusterThermostat mtrClusterThermostat, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterThermostat -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributePresetsWithValue_expectedValueInterval_params mtrClusterThermostat dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterThermostat writeAttributePresetsWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | @- readAttributeSchedulesWithParams:@
-readAttributeSchedulesWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeSchedulesWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeSchedulesWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributeSchedulesWithValue:expectedValueInterval:@
-writeAttributeSchedulesWithValue_expectedValueInterval :: (IsMTRClusterThermostat mtrClusterThermostat, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributeSchedulesWithValue_expectedValueInterval mtrClusterThermostat dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterThermostat writeAttributeSchedulesWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributeSchedulesWithValue:expectedValueInterval:params:@
-writeAttributeSchedulesWithValue_expectedValueInterval_params :: (IsMTRClusterThermostat mtrClusterThermostat, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterThermostat -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributeSchedulesWithValue_expectedValueInterval_params mtrClusterThermostat dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterThermostat writeAttributeSchedulesWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | @- readAttributeSetpointHoldExpiryTimestampWithParams:@
-readAttributeSetpointHoldExpiryTimestampWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeSetpointHoldExpiryTimestampWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeSetpointHoldExpiryTimestampWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeMaxThermostatSuggestionsWithParams:@
-readAttributeMaxThermostatSuggestionsWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeMaxThermostatSuggestionsWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeMaxThermostatSuggestionsWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeThermostatSuggestionsWithParams:@
-readAttributeThermostatSuggestionsWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeThermostatSuggestionsWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeThermostatSuggestionsWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeCurrentThermostatSuggestionWithParams:@
-readAttributeCurrentThermostatSuggestionWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeCurrentThermostatSuggestionWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeCurrentThermostatSuggestionWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeThermostatSuggestionNotFollowingReasonWithParams:@
-readAttributeThermostatSuggestionNotFollowingReasonWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
-readAttributeThermostatSuggestionNotFollowingReasonWithParams mtrClusterThermostat params =
-  sendMessage mtrClusterThermostat readAttributeThermostatSuggestionNotFollowingReasonWithParamsSelector (toMTRReadParams params)
-
 -- | @- readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParams :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRReadParams params) => mtrClusterThermostat -> params -> IO (Id NSDictionary)
 readAttributeGeneratedCommandListWithParams mtrClusterThermostat params =
@@ -1013,86 +838,33 @@ new  =
     cls' <- getRequiredClass "MTRClusterThermostat"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRDevice device, IsNSObject queue) => mtrClusterThermostat -> device -> CUShort -> queue -> IO (Id MTRClusterThermostat)
-initWithDevice_endpoint_queue mtrClusterThermostat device endpoint queue =
-  sendOwnedMessage mtrClusterThermostat initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completionHandler:@
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetpointRaiseLowerParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterThermostat setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterSetpointRaiseLowerParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterSetWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterThermostat setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterSetWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterGetWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterThermostat getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterGetWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRThermostatClusterClearWeeklyScheduleParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterThermostat params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterThermostat clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRThermostatClusterClearWeeklyScheduleParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completionHandler:@
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterThermostat mtrClusterThermostat, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterThermostat -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandler mtrClusterThermostat expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterThermostat clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterThermostat mtrClusterThermostat, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterThermostat -> device -> endpointID -> queue -> IO (Id MTRClusterThermostat)
-initWithDevice_endpointID_queue mtrClusterThermostat device endpointID queue =
-  sendOwnedMessage mtrClusterThermostat initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completion:@
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterSetpointRaiseLowerParams, Id NSArray, Id NSNumber, Ptr ()] ()
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterThermostat)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:@
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterSetWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completionHandler:@
+setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterSetpointRaiseLowerParams, Id NSArray, Id NSNumber, Ptr ()] ()
+setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:@
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterGetWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
+setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterSetWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
+setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:@
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterClearWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
+getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterGetWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
+getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completion:@
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
+clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterClearWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
+clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @setActiveScheduleRequestWithParams:expectedValues:expectedValueInterval:completion:@
-setActiveScheduleRequestWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterSetActiveScheduleRequestParams, Id NSArray, Id NSNumber, Ptr ()] ()
-setActiveScheduleRequestWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "setActiveScheduleRequestWithParams:expectedValues:expectedValueInterval:completion:"
-
--- | @Selector@ for @setActivePresetRequestWithParams:expectedValues:expectedValueInterval:completion:@
-setActivePresetRequestWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterSetActivePresetRequestParams, Id NSArray, Id NSNumber, Ptr ()] ()
-setActivePresetRequestWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "setActivePresetRequestWithParams:expectedValues:expectedValueInterval:completion:"
-
--- | @Selector@ for @addThermostatSuggestionWithParams:expectedValues:expectedValueInterval:completion:@
-addThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterAddThermostatSuggestionParams, Id NSArray, Id NSNumber, Ptr ()] ()
-addThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "addThermostatSuggestionWithParams:expectedValues:expectedValueInterval:completion:"
-
--- | @Selector@ for @removeThermostatSuggestionWithParams:expectedValues:expectedValueInterval:completion:@
-removeThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterRemoveThermostatSuggestionParams, Id NSArray, Id NSNumber, Ptr ()] ()
-removeThermostatSuggestionWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "removeThermostatSuggestionWithParams:expectedValues:expectedValueInterval:completion:"
-
--- | @Selector@ for @atomicRequestWithParams:expectedValues:expectedValueInterval:completion:@
-atomicRequestWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRThermostatClusterAtomicRequestParams, Id NSArray, Id NSNumber, Ptr ()] ()
-atomicRequestWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "atomicRequestWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completionHandler:@
+clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeLocalTemperatureWithParams:@
 readAttributeLocalTemperatureWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -1506,82 +1278,6 @@ writeAttributeACCapacityformatWithValue_expectedValueIntervalSelector = mkSelect
 writeAttributeACCapacityformatWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
 writeAttributeACCapacityformatWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeACCapacityformatWithValue:expectedValueInterval:params:"
 
--- | @Selector@ for @readAttributePresetTypesWithParams:@
-readAttributePresetTypesWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePresetTypesWithParamsSelector = mkSelector "readAttributePresetTypesWithParams:"
-
--- | @Selector@ for @readAttributeScheduleTypesWithParams:@
-readAttributeScheduleTypesWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeScheduleTypesWithParamsSelector = mkSelector "readAttributeScheduleTypesWithParams:"
-
--- | @Selector@ for @readAttributeNumberOfPresetsWithParams:@
-readAttributeNumberOfPresetsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeNumberOfPresetsWithParamsSelector = mkSelector "readAttributeNumberOfPresetsWithParams:"
-
--- | @Selector@ for @readAttributeNumberOfSchedulesWithParams:@
-readAttributeNumberOfSchedulesWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeNumberOfSchedulesWithParamsSelector = mkSelector "readAttributeNumberOfSchedulesWithParams:"
-
--- | @Selector@ for @readAttributeNumberOfScheduleTransitionsWithParams:@
-readAttributeNumberOfScheduleTransitionsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeNumberOfScheduleTransitionsWithParamsSelector = mkSelector "readAttributeNumberOfScheduleTransitionsWithParams:"
-
--- | @Selector@ for @readAttributeNumberOfScheduleTransitionPerDayWithParams:@
-readAttributeNumberOfScheduleTransitionPerDayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeNumberOfScheduleTransitionPerDayWithParamsSelector = mkSelector "readAttributeNumberOfScheduleTransitionPerDayWithParams:"
-
--- | @Selector@ for @readAttributeActivePresetHandleWithParams:@
-readAttributeActivePresetHandleWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeActivePresetHandleWithParamsSelector = mkSelector "readAttributeActivePresetHandleWithParams:"
-
--- | @Selector@ for @readAttributeActiveScheduleHandleWithParams:@
-readAttributeActiveScheduleHandleWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeActiveScheduleHandleWithParamsSelector = mkSelector "readAttributeActiveScheduleHandleWithParams:"
-
--- | @Selector@ for @readAttributePresetsWithParams:@
-readAttributePresetsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePresetsWithParamsSelector = mkSelector "readAttributePresetsWithParams:"
-
--- | @Selector@ for @writeAttributePresetsWithValue:expectedValueInterval:@
-writeAttributePresetsWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributePresetsWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePresetsWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributePresetsWithValue:expectedValueInterval:params:@
-writeAttributePresetsWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributePresetsWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePresetsWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @readAttributeSchedulesWithParams:@
-readAttributeSchedulesWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeSchedulesWithParamsSelector = mkSelector "readAttributeSchedulesWithParams:"
-
--- | @Selector@ for @writeAttributeSchedulesWithValue:expectedValueInterval:@
-writeAttributeSchedulesWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributeSchedulesWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeSchedulesWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributeSchedulesWithValue:expectedValueInterval:params:@
-writeAttributeSchedulesWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributeSchedulesWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeSchedulesWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @readAttributeSetpointHoldExpiryTimestampWithParams:@
-readAttributeSetpointHoldExpiryTimestampWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeSetpointHoldExpiryTimestampWithParamsSelector = mkSelector "readAttributeSetpointHoldExpiryTimestampWithParams:"
-
--- | @Selector@ for @readAttributeMaxThermostatSuggestionsWithParams:@
-readAttributeMaxThermostatSuggestionsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeMaxThermostatSuggestionsWithParamsSelector = mkSelector "readAttributeMaxThermostatSuggestionsWithParams:"
-
--- | @Selector@ for @readAttributeThermostatSuggestionsWithParams:@
-readAttributeThermostatSuggestionsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeThermostatSuggestionsWithParamsSelector = mkSelector "readAttributeThermostatSuggestionsWithParams:"
-
--- | @Selector@ for @readAttributeCurrentThermostatSuggestionWithParams:@
-readAttributeCurrentThermostatSuggestionWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeCurrentThermostatSuggestionWithParamsSelector = mkSelector "readAttributeCurrentThermostatSuggestionWithParams:"
-
--- | @Selector@ for @readAttributeThermostatSuggestionNotFollowingReasonWithParams:@
-readAttributeThermostatSuggestionNotFollowingReasonWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeThermostatSuggestionNotFollowingReasonWithParamsSelector = mkSelector "readAttributeThermostatSuggestionNotFollowingReasonWithParams:"
-
 -- | @Selector@ for @readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributeGeneratedCommandListWithParamsSelector = mkSelector "readAttributeGeneratedCommandListWithParams:"
@@ -1609,32 +1305,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterThermostat)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterThermostat)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completionHandler:@
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterSetpointRaiseLowerParams, Id NSArray, Id NSNumber, Ptr ()] ()
-setpointRaiseLowerWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "setpointRaiseLowerWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterSetWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
-setWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "setWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterGetWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
-getWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "getWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:@
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRThermostatClusterClearWeeklyScheduleParams, Id NSArray, Id NSNumber, Ptr ()] ()
-clearWeeklyScheduleWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "clearWeeklyScheduleWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completionHandler:@
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-clearWeeklyScheduleWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "clearWeeklyScheduleWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterThermostat)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

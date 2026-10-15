@@ -11,22 +11,14 @@ module ObjC.CoreSpotlight.CSUserQueryContext
   , userQueryContextWithCurrentSuggestion
   , enableRankedResults
   , setEnableRankedResults
-  , disableSemanticSearch
-  , setDisableSemanticSearch
   , maxResultCount
   , setMaxResultCount
   , maxSuggestionCount
   , setMaxSuggestionCount
-  , maxRankedResultCount
-  , setMaxRankedResultCount
-  , disableSemanticSearchSelector
   , enableRankedResultsSelector
-  , maxRankedResultCountSelector
   , maxResultCountSelector
   , maxSuggestionCountSelector
-  , setDisableSemanticSearchSelector
   , setEnableRankedResultsSelector
-  , setMaxRankedResultCountSelector
   , setMaxResultCountSelector
   , setMaxSuggestionCountSelector
   , userQueryContextSelector
@@ -70,16 +62,6 @@ setEnableRankedResults :: IsCSUserQueryContext csUserQueryContext => csUserQuery
 setEnableRankedResults csUserQueryContext value =
   sendMessage csUserQueryContext setEnableRankedResultsSelector value
 
--- | @- disableSemanticSearch@
-disableSemanticSearch :: IsCSUserQueryContext csUserQueryContext => csUserQueryContext -> IO Bool
-disableSemanticSearch csUserQueryContext =
-  sendMessage csUserQueryContext disableSemanticSearchSelector
-
--- | @- setDisableSemanticSearch:@
-setDisableSemanticSearch :: IsCSUserQueryContext csUserQueryContext => csUserQueryContext -> Bool -> IO ()
-setDisableSemanticSearch csUserQueryContext value =
-  sendMessage csUserQueryContext setDisableSemanticSearchSelector value
-
 -- | @- maxResultCount@
 maxResultCount :: IsCSUserQueryContext csUserQueryContext => csUserQueryContext -> IO CLong
 maxResultCount csUserQueryContext =
@@ -99,16 +81,6 @@ maxSuggestionCount csUserQueryContext =
 setMaxSuggestionCount :: IsCSUserQueryContext csUserQueryContext => csUserQueryContext -> CLong -> IO ()
 setMaxSuggestionCount csUserQueryContext value =
   sendMessage csUserQueryContext setMaxSuggestionCountSelector value
-
--- | @- maxRankedResultCount@
-maxRankedResultCount :: IsCSUserQueryContext csUserQueryContext => csUserQueryContext -> IO CLong
-maxRankedResultCount csUserQueryContext =
-  sendMessage csUserQueryContext maxRankedResultCountSelector
-
--- | @- setMaxRankedResultCount:@
-setMaxRankedResultCount :: IsCSUserQueryContext csUserQueryContext => csUserQueryContext -> CLong -> IO ()
-setMaxRankedResultCount csUserQueryContext value =
-  sendMessage csUserQueryContext setMaxRankedResultCountSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -130,14 +102,6 @@ enableRankedResultsSelector = mkSelector "enableRankedResults"
 setEnableRankedResultsSelector :: Selector '[Bool] ()
 setEnableRankedResultsSelector = mkSelector "setEnableRankedResults:"
 
--- | @Selector@ for @disableSemanticSearch@
-disableSemanticSearchSelector :: Selector '[] Bool
-disableSemanticSearchSelector = mkSelector "disableSemanticSearch"
-
--- | @Selector@ for @setDisableSemanticSearch:@
-setDisableSemanticSearchSelector :: Selector '[Bool] ()
-setDisableSemanticSearchSelector = mkSelector "setDisableSemanticSearch:"
-
 -- | @Selector@ for @maxResultCount@
 maxResultCountSelector :: Selector '[] CLong
 maxResultCountSelector = mkSelector "maxResultCount"
@@ -153,12 +117,4 @@ maxSuggestionCountSelector = mkSelector "maxSuggestionCount"
 -- | @Selector@ for @setMaxSuggestionCount:@
 setMaxSuggestionCountSelector :: Selector '[CLong] ()
 setMaxSuggestionCountSelector = mkSelector "setMaxSuggestionCount:"
-
--- | @Selector@ for @maxRankedResultCount@
-maxRankedResultCountSelector :: Selector '[] CLong
-maxRankedResultCountSelector = mkSelector "maxRankedResultCount"
-
--- | @Selector@ for @setMaxRankedResultCount:@
-setMaxRankedResultCountSelector :: Selector '[CLong] ()
-setMaxRankedResultCountSelector = mkSelector "setMaxRankedResultCount:"
 

@@ -66,14 +66,12 @@ module ObjC.Metal.MTLRenderPipelineColorAttachmentDescriptor
   , pattern MTLBlendFactorOneMinusSource1Color
   , pattern MTLBlendFactorSource1Alpha
   , pattern MTLBlendFactorOneMinusSource1Alpha
-  , pattern MTLBlendFactorUnspecialized
   , MTLBlendOperation(MTLBlendOperation)
   , pattern MTLBlendOperationAdd
   , pattern MTLBlendOperationSubtract
   , pattern MTLBlendOperationReverseSubtract
   , pattern MTLBlendOperationMin
   , pattern MTLBlendOperationMax
-  , pattern MTLBlendOperationUnspecialized
   , MTLColorWriteMask(MTLColorWriteMask)
   , pattern MTLColorWriteMaskNone
   , pattern MTLColorWriteMaskRed
@@ -81,7 +79,6 @@ module ObjC.Metal.MTLRenderPipelineColorAttachmentDescriptor
   , pattern MTLColorWriteMaskBlue
   , pattern MTLColorWriteMaskAlpha
   , pattern MTLColorWriteMaskAll
-  , pattern MTLColorWriteMaskUnspecialized
   , MTLPixelFormat(MTLPixelFormat)
   , pattern MTLPixelFormatInvalid
   , pattern MTLPixelFormatA8Unorm
@@ -222,7 +219,6 @@ module ObjC.Metal.MTLRenderPipelineColorAttachmentDescriptor
   , pattern MTLPixelFormatDepth32Float_Stencil8
   , pattern MTLPixelFormatX32_Stencil8
   , pattern MTLPixelFormatX24_Stencil8
-  , pattern MTLPixelFormatUnspecialized
 
   ) where
 

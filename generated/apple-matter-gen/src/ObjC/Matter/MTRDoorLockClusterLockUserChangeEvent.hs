@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterLockUserChangeEvent
   ( MTRDoorLockClusterLockUserChangeEvent
   , IsMTRDoorLockClusterLockUserChangeEvent(..)
+  , init_
+  , copyWithZone
   , lockDataType
   , setLockDataType
   , dataOperationType
@@ -21,9 +23,11 @@ module ObjC.Matter.MTRDoorLockClusterLockUserChangeEvent
   , setSourceNode
   , dataIndex
   , setDataIndex
+  , copyWithZoneSelector
   , dataIndexSelector
   , dataOperationTypeSelector
   , fabricIndexSelector
+  , initSelector
   , lockDataTypeSelector
   , operationSourceSelector
   , setDataIndexSelector
@@ -49,6 +53,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRDoorLockClusterLockUserChangeEvent mtrDoorLockClusterLockUserChangeEvent => mtrDoorLockClusterLockUserChangeEvent -> IO (Id MTRDoorLockClusterLockUserChangeEvent)
+init_ mtrDoorLockClusterLockUserChangeEvent =
+  sendOwnedMessage mtrDoorLockClusterLockUserChangeEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterLockUserChangeEvent mtrDoorLockClusterLockUserChangeEvent => mtrDoorLockClusterLockUserChangeEvent -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterLockUserChangeEvent zone =
+  sendOwnedMessage mtrDoorLockClusterLockUserChangeEvent copyWithZoneSelector zone
 
 -- | @- lockDataType@
 lockDataType :: IsMTRDoorLockClusterLockUserChangeEvent mtrDoorLockClusterLockUserChangeEvent => mtrDoorLockClusterLockUserChangeEvent -> IO (Id NSNumber)
@@ -123,6 +137,14 @@ setDataIndex mtrDoorLockClusterLockUserChangeEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterLockUserChangeEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @lockDataType@
 lockDataTypeSelector :: Selector '[] (Id NSNumber)

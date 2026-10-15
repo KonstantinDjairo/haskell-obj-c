@@ -19,17 +19,25 @@ module ObjC.StoreKit.SKOverlayAppClipConfiguration
   , setCampaignToken
   , providerToken
   , setProviderToken
+  , customProductPageIdentifier
+  , setCustomProductPageIdentifier
+  , latestReleaseID
+  , setLatestReleaseID
   , position
   , setPosition
   , additionalValueForKeySelector
   , campaignTokenSelector
+  , customProductPageIdentifierSelector
   , initSelector
   , initWithPositionSelector
+  , latestReleaseIDSelector
   , newSelector
   , positionSelector
   , providerTokenSelector
   , setAdditionalValue_forKeySelector
   , setCampaignTokenSelector
+  , setCustomProductPageIdentifierSelector
+  , setLatestReleaseIDSelector
   , setPositionSelector
   , setProviderTokenSelector
 
@@ -111,6 +119,34 @@ setProviderToken :: (IsSKOverlayAppClipConfiguration skOverlayAppClipConfigurati
 setProviderToken skOverlayAppClipConfiguration value =
   sendMessage skOverlayAppClipConfiguration setProviderTokenSelector (toNSString value)
 
+-- | An optional identifier for a parent app's custom product page.
+--
+-- ObjC selector: @- customProductPageIdentifier@
+customProductPageIdentifier :: IsSKOverlayAppClipConfiguration skOverlayAppClipConfiguration => skOverlayAppClipConfiguration -> IO RawId
+customProductPageIdentifier skOverlayAppClipConfiguration =
+  sendMessage skOverlayAppClipConfiguration customProductPageIdentifierSelector
+
+-- | An optional identifier for a parent app's custom product page.
+--
+-- ObjC selector: @- setCustomProductPageIdentifier:@
+setCustomProductPageIdentifier :: IsSKOverlayAppClipConfiguration skOverlayAppClipConfiguration => skOverlayAppClipConfiguration -> RawId -> IO ()
+setCustomProductPageIdentifier skOverlayAppClipConfiguration value =
+  sendMessage skOverlayAppClipConfiguration setCustomProductPageIdentifierSelector value
+
+-- | An optional extra parameter for specifying the version of your app that will be shown to the user.
+--
+-- ObjC selector: @- latestReleaseID@
+latestReleaseID :: IsSKOverlayAppClipConfiguration skOverlayAppClipConfiguration => skOverlayAppClipConfiguration -> IO RawId
+latestReleaseID skOverlayAppClipConfiguration =
+  sendMessage skOverlayAppClipConfiguration latestReleaseIDSelector
+
+-- | An optional extra parameter for specifying the version of your app that will be shown to the user.
+--
+-- ObjC selector: @- setLatestReleaseID:@
+setLatestReleaseID :: IsSKOverlayAppClipConfiguration skOverlayAppClipConfiguration => skOverlayAppClipConfiguration -> RawId -> IO ()
+setLatestReleaseID skOverlayAppClipConfiguration value =
+  sendMessage skOverlayAppClipConfiguration setLatestReleaseIDSelector value
+
 -- | The position an overlay will show at on screen.
 --
 -- ObjC selector: @- position@
@@ -164,6 +200,22 @@ providerTokenSelector = mkSelector "providerToken"
 -- | @Selector@ for @setProviderToken:@
 setProviderTokenSelector :: Selector '[Id NSString] ()
 setProviderTokenSelector = mkSelector "setProviderToken:"
+
+-- | @Selector@ for @customProductPageIdentifier@
+customProductPageIdentifierSelector :: Selector '[] RawId
+customProductPageIdentifierSelector = mkSelector "customProductPageIdentifier"
+
+-- | @Selector@ for @setCustomProductPageIdentifier:@
+setCustomProductPageIdentifierSelector :: Selector '[RawId] ()
+setCustomProductPageIdentifierSelector = mkSelector "setCustomProductPageIdentifier:"
+
+-- | @Selector@ for @latestReleaseID@
+latestReleaseIDSelector :: Selector '[] RawId
+latestReleaseIDSelector = mkSelector "latestReleaseID"
+
+-- | @Selector@ for @setLatestReleaseID:@
+setLatestReleaseIDSelector :: Selector '[RawId] ()
+setLatestReleaseIDSelector = mkSelector "setLatestReleaseID:"
 
 -- | @Selector@ for @position@
 positionSelector :: Selector '[] SKOverlayPosition

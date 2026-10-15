@@ -7,20 +7,20 @@
 module ObjC.Matter.MTRTestClusterClusterTestEnumsRequestParams
   ( MTRTestClusterClusterTestEnumsRequestParams
   , IsMTRTestClusterClusterTestEnumsRequestParams(..)
+  , init_
+  , copyWithZone
   , arg1
   , setArg1
   , arg2
   , setArg2
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , arg1Selector
   , arg2Selector
-  , serverSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setArg1Selector
   , setArg2Selector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -37,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestEnumsRequestParams mtrTestClusterClusterTestEnumsRequestParams => mtrTestClusterClusterTestEnumsRequestParams -> IO (Id MTRTestClusterClusterTestEnumsRequestParams)
+init_ mtrTestClusterClusterTestEnumsRequestParams =
+  sendOwnedMessage mtrTestClusterClusterTestEnumsRequestParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestEnumsRequestParams mtrTestClusterClusterTestEnumsRequestParams => mtrTestClusterClusterTestEnumsRequestParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestEnumsRequestParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestEnumsRequestParams copyWithZoneSelector zone
 
 -- | @- arg1@
 arg1 :: IsMTRTestClusterClusterTestEnumsRequestParams mtrTestClusterClusterTestEnumsRequestParams => mtrTestClusterClusterTestEnumsRequestParams -> IO (Id NSNumber)
@@ -80,31 +90,17 @@ setTimedInvokeTimeoutMs :: (IsMTRTestClusterClusterTestEnumsRequestParams mtrTes
 setTimedInvokeTimeoutMs mtrTestClusterClusterTestEnumsRequestParams value =
   sendMessage mtrTestClusterClusterTestEnumsRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRTestClusterClusterTestEnumsRequestParams mtrTestClusterClusterTestEnumsRequestParams => mtrTestClusterClusterTestEnumsRequestParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrTestClusterClusterTestEnumsRequestParams =
-  sendMessage mtrTestClusterClusterTestEnumsRequestParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRTestClusterClusterTestEnumsRequestParams mtrTestClusterClusterTestEnumsRequestParams, IsNSNumber value) => mtrTestClusterClusterTestEnumsRequestParams -> value -> IO ()
-setServerSideProcessingTimeout mtrTestClusterClusterTestEnumsRequestParams value =
-  sendMessage mtrTestClusterClusterTestEnumsRequestParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestEnumsRequestParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @arg1@
 arg1Selector :: Selector '[] (Id NSNumber)
@@ -129,12 +125,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

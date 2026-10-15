@@ -120,7 +120,7 @@ localizedDescription phProjectTypeDescription =
   sendMessage phProjectTypeDescription localizedDescriptionSelector
 
 -- | @- localizedAttributedDescription@
-localizedAttributedDescription :: IsPHProjectTypeDescription phProjectTypeDescription => phProjectTypeDescription -> IO (Id NSAttributedString)
+localizedAttributedDescription :: IsPHProjectTypeDescription phProjectTypeDescription => phProjectTypeDescription -> IO RawId
 localizedAttributedDescription phProjectTypeDescription =
   sendMessage phProjectTypeDescription localizedAttributedDescriptionSelector
 
@@ -190,7 +190,7 @@ localizedDescriptionSelector :: Selector '[] (Id NSString)
 localizedDescriptionSelector = mkSelector "localizedDescription"
 
 -- | @Selector@ for @localizedAttributedDescription@
-localizedAttributedDescriptionSelector :: Selector '[] (Id NSAttributedString)
+localizedAttributedDescriptionSelector :: Selector '[] RawId
 localizedAttributedDescriptionSelector = mkSelector "localizedAttributedDescription"
 
 -- | @Selector@ for @image@

@@ -3,7 +3,15 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @DRMSF@.
+-- | DRMSF
+--
+-- Representation of a time interval expressed in minutes, seconds and frames.
+--
+-- On CDs, minutes/seconds/frames are used to identify positioning on a disc (which is 				most useful on an audio disc), but applies to any position on a disc no matter what type of 				data is present.
+--
+-- A frame is equivalent to a sector or block in normal disk parlance. 75 frames make up one				second, so a 2 second pause (typical pregap size) is 150 frames.
+--
+-- Generated bindings for @DRMSF@.
 module ObjC.DiscRecording.DRMSF
   ( DRMSF
   , IsDRMSF(..)

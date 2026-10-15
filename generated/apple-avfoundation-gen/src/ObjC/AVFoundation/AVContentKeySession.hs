@@ -3,19 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVContentKeySession is used to create and track decryption keys for media data. Objects conforming to the AVContentKeyRecipient protocol, such as AVURLAssets, can be added to an AVContentKeySession to employ the services of the AVContentKeySession in handling new key requests and to obtain access to the session's already existing keys.
---
--- Its secondary purpose is to provide a report of expired sessions to assist a controlling entity that wishes to track the set of sessions that are still active. If initialized with a location at which to store them, AVContentKeySession maintains a global collection of pending "expired session reports", each associated with an identifier for the app that created the session. The contents of this identifier are specified by the controlling entity that provides media data or that grants permission for its use.
---
--- Expired sessions are tracked as follows: a stream processing session is considered to be started after an instance of AVContentKeySession is created and the first object conforming to the AVContentKeyRecipient protocol is added to it. If an instance of AVContentKeySession that has reached this state does not receive an expire message before it's deallocated or the process in which it's running is terminated, an "expired session report" will subsequently be added to the pending list of expired session reports that indicates that the session expired abnormally. In contrast, for AVContentKeySessions that reach the state of having at least one object conforming to the AVContentKeyRecipient protocol added to them and later receive an expire message, "expired session reports" will be generated that indicate that the session expired normally.
---
--- To obtain the collection of pending expired session reports in order to provide them to the controlling entity associated with a specific app identifier, use +pendingExpiredSessionReportsWithAppIdentifier:.
---
--- After pending expired session reports have been sent to the controlling entity and their receipt has been acknowledged, they can be removed from the collection of pending expired session reports maintained by AVContentKeySession by using +removePendingExpiredSessionReports:withAppIdentifier:.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVContentKeySession@.
+-- | Generated bindings for @AVContentKeySession@.
 module ObjC.AVFoundation.AVContentKeySession
   ( AVContentKeySession
   , IsAVContentKeySession(..)
@@ -88,13 +76,15 @@ new  =
     cls' <- getRequiredClass "AVContentKeySession"
     sendOwnedClassMessage cls' newSelector
 
--- | Creates a new instance of AVContentKeySession to manage a collection of media content keys.
+-- | contentKeySessionWithKeySystem:
+--
+-- Creates a new instance of AVContentKeySession to manage a collection of media content keys.
+--
+-- @keySystem@ — A valid key system for retrieving keys.
+--
+-- Returns: A new AVContentKeySession.
 --
 -- This method returns an AVContentKeySession instance that is capable of managing collection of media content keys corresponding to the input keySystem. An NSInvalidArgumentException will be raised if the value of keySystem is unsupported.
---
--- - Parameter keySystem: A valid key system for retrieving keys.
---
--- - Returns: A new AVContentKeySession.
 --
 -- ObjC selector: @+ contentKeySessionWithKeySystem:@
 contentKeySessionWithKeySystem :: IsNSString keySystem => keySystem -> IO (Id AVContentKeySession)
@@ -103,13 +93,17 @@ contentKeySessionWithKeySystem keySystem =
     cls' <- getRequiredClass "AVContentKeySession"
     sendClassMessage cls' contentKeySessionWithKeySystemSelector (toNSString keySystem)
 
--- | Creates a new instance of AVContentKeySession to manage a collection of media content keys.
+-- | contentKeySessionWithKeySystem:storageDirectoryAtURL:
+--
+-- Creates a new instance of AVContentKeySession to manage a collection of media content keys.
+--
+-- @keySystem@ — A valid key system for retrieving keys.
+--
+-- @storageURL@ — URL to a writable directory that the session will use to facilitate expired session reports after abnormal session termination.
+--
+-- Returns: A new AVContentKeySession.
 --
 -- This method returns an AVContentKeySession instance that is capable of managing collection of media content keys corresponding to the input keySystem. An NSInvalidArgumentException will be raised if the value of keySystem is unsupported.
---
--- - Parameter keySystem: A valid key system for retrieving keys. - Parameter storageURL: URL to a writable directory that the session will use to facilitate expired session reports after abnormal session termination.
---
--- - Returns: A new AVContentKeySession.
 --
 -- ObjC selector: @+ contentKeySessionWithKeySystem:storageDirectoryAtURL:@
 contentKeySessionWithKeySystem_storageDirectoryAtURL :: (IsNSString keySystem, IsNSURL storageURL) => keySystem -> storageURL -> IO (Id AVContentKeySession)
@@ -118,16 +112,22 @@ contentKeySessionWithKeySystem_storageDirectoryAtURL keySystem storageURL =
     cls' <- getRequiredClass "AVContentKeySession"
     sendClassMessage cls' contentKeySessionWithKeySystem_storageDirectoryAtURLSelector (toNSString keySystem) (toNSURL storageURL)
 
--- | Sets the receiver's delegate. A delegate is required to handle content key initialization.
+-- | setDelegate:queue:
 --
--- - Parameter delegate: An object conforming to the AVContentKeySessionDelegate protocol. - Parameter delegateQueue: A dispatch queue on which delegate methods will be invoked whenever processes requiring content keys are executed asynchronously. Passing a value of nil for the delegateQueue parameter along with a non-nil value for the delegate parameter will result in an invalid argument exception.
+-- Sets the receiver's delegate. A delegate is required to handle content key initialization.
+--
+-- @delegate@ — An object conforming to the AVContentKeySessionDelegate protocol.
+--
+-- @delegateQueue@ — A dispatch queue on which delegate methods will be invoked whenever processes requiring content keys are executed asynchronously. Passing a value of nil for the delegateQueue parameter along with a non-nil value for the delegate parameter will result in an invalid argument exception.
 --
 -- ObjC selector: @- setDelegate:queue:@
 setDelegate_queue :: (IsAVContentKeySession avContentKeySession, IsNSObject delegateQueue) => avContentKeySession -> RawId -> delegateQueue -> IO ()
 setDelegate_queue avContentKeySession delegate delegateQueue =
   sendMessage avContentKeySession setDelegate_queueSelector delegate (toNSObject delegateQueue)
 
--- | Tells the receiver to treat the session as having been intentionally and normally expired.
+-- | expire
+--
+-- Tells the receiver to treat the session as having been intentionally and normally expired.
 --
 -- When an instance of AVContentKeySession receives an expire message, all of its associated objects conforming to the AVContentKeyRecipient protocol will become inoperable. Send this message only after you have finished operating on the media data.
 --
@@ -136,18 +136,26 @@ expire :: IsAVContentKeySession avContentKeySession => avContentKeySession -> IO
 expire avContentKeySession =
   sendMessage avContentKeySession expireSelector
 
--- | Informs the receiver that it should attempt to instantiate a content decryption key using the specified initialization data.
+-- | processContentKeyRequestWithIdentifier:initializationData:options:
+--
+-- Informs the receiver that it should attempt to instantiate a content decryption key using the specified initialization data.
+--
+-- @identifier@ — Container- and protocol-specific identifier to be used to obtain a key response. Either identifier or initializationData must be non-nil. Both can be non-nil, if the content protection protocol requires both.
+--
+-- @initializationData@ — Container- and protocol-specific data to be used to obtain a key response. Either identifier or initializationData must be non-nil. Both can be non-nil, if the content protection protocol requires both.
+--
+-- @options@ — Additional information necessary to obtain the key, or nil if none. See AVContentKeyRequest*Key below.
 --
 -- May be used to generate an AVContentKeyRequest from request initialization data already in hand, without awaiting such data during the processing of media data of an associated recipient.
---
--- - Parameter identifier: Container- and protocol-specific identifier to be used to obtain a key response. Either identifier or initializationData must be non-nil. Both can be non-nil, if the content protection protocol requires both. - Parameter initializationData: Container- and protocol-specific data to be used to obtain a key response. Either identifier or initializationData must be non-nil. Both can be non-nil, if the content protection protocol requires both. - Parameter options: Additional information necessary to obtain the key, or nil if none. See AVContentKeyRequest*Key below.
 --
 -- ObjC selector: @- processContentKeyRequestWithIdentifier:initializationData:options:@
 processContentKeyRequestWithIdentifier_initializationData_options :: (IsAVContentKeySession avContentKeySession, IsNSData initializationData, IsNSDictionary options) => avContentKeySession -> RawId -> initializationData -> options -> IO ()
 processContentKeyRequestWithIdentifier_initializationData_options avContentKeySession identifier initializationData options =
   sendMessage avContentKeySession processContentKeyRequestWithIdentifier_initializationData_optionsSelector identifier (toNSData initializationData) (toNSDictionary options)
 
--- | Informs the receiver that the already provided response data for an earlier AVContentKeyRequest will imminently expire.
+-- | renewExpiringResponseDataForContentKeyRequest:
+--
+-- Informs the receiver that the already provided response data for an earlier AVContentKeyRequest will imminently expire.
 --
 -- In response the receiver will invoke your delegate with a new content key request entreating it to renew the expiring response data, via -contentKeySession:didProvideRenewingContentKeyRequest:.
 --
@@ -156,44 +164,64 @@ renewExpiringResponseDataForContentKeyRequest :: (IsAVContentKeySession avConten
 renewExpiringResponseDataForContentKeyRequest avContentKeySession contentKeyRequest =
   sendMessage avContentKeySession renewExpiringResponseDataForContentKeyRequestSelector (toAVContentKeyRequest contentKeyRequest)
 
--- | Creates a secure server playback context (SPC) that the client could send to the key server to obtain an expiration date for the provided persistable content key data.
+-- | makeSecureTokenForExpirationDateOfPersistableContentKey:completionHandler:
 --
--- - Parameter persistableContentKeyData: Persistable content key data that was previously created using -[AVContentKeyRequest persistableContentKeyFromKeyVendorResponse:options:error:] or obtained via AVContentKeySessionDelegate callback -contentKeySession:didUpdatePersistableContentKey:forContentKeyIdentifier:. - Parameter handler: Once the secure token is ready, this block will be called with the token or an error describing the failure.
+-- Creates a secure server playback context (SPC) that the client could send to the key server to obtain an expiration date for the provided persistable content key data.
+--
+-- @persistableContentKeyData@ — Persistable content key data that was previously created using -[AVContentKeyRequest persistableContentKeyFromKeyVendorResponse:options:error:] or obtained via AVContentKeySessionDelegate callback -contentKeySession:didUpdatePersistableContentKey:forContentKeyIdentifier:.
+--
+-- @handler@ — Once the secure token is ready, this block will be called with the token or an error describing the failure.
 --
 -- ObjC selector: @- makeSecureTokenForExpirationDateOfPersistableContentKey:completionHandler:@
 makeSecureTokenForExpirationDateOfPersistableContentKey_completionHandler :: (IsAVContentKeySession avContentKeySession, IsNSData persistableContentKeyData) => avContentKeySession -> persistableContentKeyData -> Ptr () -> IO ()
 makeSecureTokenForExpirationDateOfPersistableContentKey_completionHandler avContentKeySession persistableContentKeyData handler =
   sendMessage avContentKeySession makeSecureTokenForExpirationDateOfPersistableContentKey_completionHandlerSelector (toNSData persistableContentKeyData) handler
 
--- | Invalidates the persistable content key and creates a secure server playback context (SPC) that the client could send to the key server to verify the outcome of invalidation request.
+-- | invalidatePersistableContentKey:options:completionHandler:
+--
+-- Invalidates the persistable content key and creates a secure server playback context (SPC) that the client could send to the key server to verify the outcome of invalidation request.
+--
+-- @persistableContentKeyData@ — Persistable content key data that was previously created using -[AVContentKeyRequest persistableContentKeyFromKeyVendorResponse:options:error:] or obtained via AVContentKeySessionDelegate callback -contentKeySession:didUpdatePersistableContentKey:forContentKeyIdentifier:.
+--
+-- @options@ — Additional information necessary to generate the server playback context, or nil if none. See AVContentKeySessionServerPlaybackContextOption for supported options.
+--
+-- @handler@ — Once the server playback context is ready, this block will be called with the data or an error describing the failure.
 --
 -- Once invalidated, a persistable content key cannot be used to answer key requests during later playback sessions.
---
--- - Parameter persistableContentKeyData: Persistable content key data that was previously created using -[AVContentKeyRequest persistableContentKeyFromKeyVendorResponse:options:error:] or obtained via AVContentKeySessionDelegate callback -contentKeySession:didUpdatePersistableContentKey:forContentKeyIdentifier:. - Parameter options: Additional information necessary to generate the server playback context, or nil if none. See AVContentKeySessionServerPlaybackContextOption for supported options. - Parameter handler: Once the server playback context is ready, this block will be called with the data or an error describing the failure.
 --
 -- ObjC selector: @- invalidatePersistableContentKey:options:completionHandler:@
 invalidatePersistableContentKey_options_completionHandler :: (IsAVContentKeySession avContentKeySession, IsNSData persistableContentKeyData, IsNSDictionary options) => avContentKeySession -> persistableContentKeyData -> options -> Ptr () -> IO ()
 invalidatePersistableContentKey_options_completionHandler avContentKeySession persistableContentKeyData options handler =
   sendMessage avContentKeySession invalidatePersistableContentKey_options_completionHandlerSelector (toNSData persistableContentKeyData) (toNSDictionary options) handler
 
--- | Invalidates all persistable content keys associated with the application and creates a secure server playback context (SPC) that the client could send to the key server to verify the outcome of invalidation request.
+-- | invalidateAllPersistableContentKeysForApp:options:completionHandler:
+--
+-- Invalidates all persistable content keys associated with the application and creates a secure server playback context (SPC) that the client could send to the key server to verify the outcome of invalidation request.
+--
+-- @appIdentifier@ — An opaque identifier for the application. The contents of this identifier depend on the particular protocol in use by the entity that controls the use of the media data.
+--
+-- @options@ — Additional information necessary to generate the server playback context, or nil if none. See AVContentKeySessionServerPlaybackContextOption for supported options.
+--
+-- @handler@ — Once the server playback context is ready, this block will be called with the data or an error describing the failure.
 --
 -- Once invalidated, persistable content keys cannot be used to answer key requests during later playback sessions.
---
--- - Parameter appIdentifier: An opaque identifier for the application. The contents of this identifier depend on the particular protocol in use by the entity that controls the use of the media data. - Parameter options: Additional information necessary to generate the server playback context, or nil if none. See AVContentKeySessionServerPlaybackContextOption for supported options. - Parameter handler: Once the server playback context is ready, this block will be called with the data or an error describing the failure.
 --
 -- ObjC selector: @- invalidateAllPersistableContentKeysForApp:options:completionHandler:@
 invalidateAllPersistableContentKeysForApp_options_completionHandler :: (IsAVContentKeySession avContentKeySession, IsNSData appIdentifier, IsNSDictionary options) => avContentKeySession -> appIdentifier -> options -> Ptr () -> IO ()
 invalidateAllPersistableContentKeysForApp_options_completionHandler avContentKeySession appIdentifier options handler =
   sendMessage avContentKeySession invalidateAllPersistableContentKeysForApp_options_completionHandlerSelector (toNSData appIdentifier) (toNSDictionary options) handler
 
--- | Provides "expired session reports" for prior AVContentKeySessions created with the specified app identifier that have expired either normally or abnormally.
+-- | pendingExpiredSessionReportsWithAppIdentifier:storageDirectoryAtURL:
+--
+-- Provides "expired session reports" for prior AVContentKeySessions created with the specified app identifier that have expired either normally or abnormally.
+--
+-- @appIdentifier@ — An opaque identifier for the application. The contents of this identifier depend on the particular protocol in use by the entity that controls the use of the media data.
+--
+-- @storageURL@ — URL to a directory previously used with one or more instances of AVContentKeySession for the storage of expired session reports.
+--
+-- Returns: An NSArray containing instances of NSData, each containing a pending expired session report as a property-list serialization of an NSDictionary object. The contents of expired session reports depend on the particular protocol in use by the entity that controls the use of the media data.
 --
 -- Note that no reports for sessions still in progress will be included.
---
--- - Parameter appIdentifier: An opaque identifier for the application. The contents of this identifier depend on the particular protocol in use by the entity that controls the use of the media data. - Parameter storageURL: URL to a directory previously used with one or more instances of AVContentKeySession for the storage of expired session reports.
---
--- - Returns: An NSArray containing instances of NSData, each containing a pending expired session report as a property-list serialization of an NSDictionary object. The contents of expired session reports depend on the particular protocol in use by the entity that controls the use of the media data.
 --
 -- ObjC selector: @+ pendingExpiredSessionReportsWithAppIdentifier:storageDirectoryAtURL:@
 pendingExpiredSessionReportsWithAppIdentifier_storageDirectoryAtURL :: (IsNSData appIdentifier, IsNSURL storageURL) => appIdentifier -> storageURL -> IO (Id NSArray)
@@ -202,11 +230,17 @@ pendingExpiredSessionReportsWithAppIdentifier_storageDirectoryAtURL appIdentifie
     cls' <- getRequiredClass "AVContentKeySession"
     sendClassMessage cls' pendingExpiredSessionReportsWithAppIdentifier_storageDirectoryAtURLSelector (toNSData appIdentifier) (toNSURL storageURL)
 
--- | Removes expired session reports for prior AVContentKeySessions from storage. Once they have been removed, they will no longer be available via subsequent invocations of +pendingExpiredSessionReportsWithAppIdentifier:.
+-- | removePendingExpiredSessionReports:withAppIdentifier:storageDirectoryAtURL:
+--
+-- Removes expired session reports for prior AVContentKeySessions from storage. Once they have been removed, they will no longer be available via subsequent invocations of +pendingExpiredSessionReportsWithAppIdentifier:.
+--
+-- @expiredSessionReports@ — An array of expired session reports to be discarded.
+--
+-- @appIdentifier@ — An opaque identifier for the application. The contents of this identifier depend on the particular protocol in use by the entity that controls the use of the media data.
+--
+-- @storageURL@ — URL to a writable folder.
 --
 -- This method is most suitable for use only after the specified expired session reports have been sent to the entity that controls the use of the media data and the entity has acknowledged their receipt.
---
--- - Parameter expiredSessionReports: An array of expired session reports to be discarded. - Parameter appIdentifier: An opaque identifier for the application. The contents of this identifier depend on the particular protocol in use by the entity that controls the use of the media data. - Parameter storageURL: URL to a writable folder.
 --
 -- ObjC selector: @+ removePendingExpiredSessionReports:withAppIdentifier:storageDirectoryAtURL:@
 removePendingExpiredSessionReports_withAppIdentifier_storageDirectoryAtURL :: (IsNSArray expiredSessionReports, IsNSData appIdentifier, IsNSURL storageURL) => expiredSessionReports -> appIdentifier -> storageURL -> IO ()
@@ -215,7 +249,9 @@ removePendingExpiredSessionReports_withAppIdentifier_storageDirectoryAtURL expir
     cls' <- getRequiredClass "AVContentKeySession"
     sendClassMessage cls' removePendingExpiredSessionReports_withAppIdentifier_storageDirectoryAtURLSelector (toNSArray expiredSessionReports) (toNSData appIdentifier) (toNSURL storageURL)
 
--- | Informs the receiver that the specified recipient will be used for the session.
+-- | addContentKeyRecipient:
+--
+-- Informs the receiver that the specified recipient will be used for the session.
 --
 -- It is an error to add recipient to sessions that have received an expire message. It is also an error to add recipients after they have already begun to process media data (e.g. after an AVURLAsset has loaded the values of any of its keys). Such errors will result in NSInternalInconsistencyExceptions. Sending this message to an AVContentKeySession is atomic.
 --
@@ -224,7 +260,9 @@ addContentKeyRecipient :: IsAVContentKeySession avContentKeySession => avContent
 addContentKeyRecipient avContentKeySession recipient =
   sendMessage avContentKeySession addContentKeyRecipientSelector recipient
 
--- | Informs the receiver that the specified recipient will no longer be used.
+-- | removeContentKeyRecipient:
+--
+-- Informs the receiver that the specified recipient will no longer be used.
 --
 -- After the specified recipient is removed from the receiver it will become inoperable. Remove the recipient only after you have finished operating on the media data associated with it. Sending this message to an AVContentKeySession is atomic.
 --
@@ -233,7 +271,9 @@ removeContentKeyRecipient :: IsAVContentKeySession avContentKeySession => avCont
 removeContentKeyRecipient avContentKeySession recipient =
   sendMessage avContentKeySession removeContentKeyRecipientSelector recipient
 
--- | The receiver's delegate.
+-- | delegate
+--
+-- The receiver's delegate.
 --
 -- The value of this property is an object conforming to the AVContentKeySessionDelegate protocol. The delegate is set using the setDelegate:queue: method.
 --
@@ -242,7 +282,9 @@ delegate :: IsAVContentKeySession avContentKeySession => avContentKeySession -> 
 delegate avContentKeySession =
   sendMessage avContentKeySession delegateSelector
 
--- | The dispatch queue on which all delegate methods will be invoked whenever processes requiring content keys are executed asynchronously.
+-- | delegateQueue
+--
+-- The dispatch queue on which all delegate methods will be invoked whenever processes requiring content keys are executed asynchronously.
 --
 -- The value of this property is a dispatch_queue_t. The queue is set using the setDelegate:queue: method.
 --
@@ -251,7 +293,9 @@ delegateQueue :: IsAVContentKeySession avContentKeySession => avContentKeySessio
 delegateQueue avContentKeySession =
   sendMessage avContentKeySession delegateQueueSelector
 
--- | The storage URL provided when the AVContentKeySession was created. May be nil.
+-- | storageURL
+--
+-- The storage URL provided when the AVContentKeySession was created. May be nil.
 --
 -- URL to a writable directory; may be nil. The session will use this to facilitate expired session reports after abnormal session termination.
 --
@@ -260,14 +304,18 @@ storageURL :: IsAVContentKeySession avContentKeySession => avContentKeySession -
 storageURL avContentKeySession =
   sendMessage avContentKeySession storageURLSelector
 
--- | The key system used for retrieving keys
+-- | keySystem
+--
+-- The key system used for retrieving keys
 --
 -- ObjC selector: @- keySystem@
 keySystem :: IsAVContentKeySession avContentKeySession => avContentKeySession -> IO (Id NSString)
 keySystem avContentKeySession =
   sendMessage avContentKeySession keySystemSelector
 
--- | An opaque identifier for the current content protection session.
+-- | contentProtectionSessionIdentifier
+--
+-- An opaque identifier for the current content protection session.
 --
 -- May be nil. Will call the delegate's contentKeySessionContentProtectionSessionIdentifierDidChange: when the identifier changes. The protection session ID is a unique string identifier generated by the AVContentKeySession that can be used by the application to identify content key session objects.
 --
@@ -276,7 +324,9 @@ contentProtectionSessionIdentifier :: IsAVContentKeySession avContentKeySession 
 contentProtectionSessionIdentifier avContentKeySession =
   sendMessage avContentKeySession contentProtectionSessionIdentifierSelector
 
--- | The array of recipients of content keys currently associated with the AVContentKeySession.
+-- | contentKeyRecipients
+--
+-- The array of recipients of content keys currently associated with the AVContentKeySession.
 --
 -- ObjC selector: @- contentKeyRecipients@
 contentKeyRecipients :: IsAVContentKeySession avContentKeySession => avContentKeySession -> IO (Id NSArray)

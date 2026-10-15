@@ -9,8 +9,10 @@ module ObjC.CoreLocation.CLVisit
   , IsCLVisit(..)
   , arrivalDate
   , departureDate
+  , coordinate
   , horizontalAccuracy
   , arrivalDateSelector
+  , coordinateSelector
   , departureDateSelector
   , horizontalAccuracySelector
 
@@ -26,6 +28,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.CoreLocation.Internal.Classes
+import ObjC.CoreLocation.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
 -- | @- arrivalDate@
@@ -37,6 +40,11 @@ arrivalDate clVisit =
 departureDate :: IsCLVisit clVisit => clVisit -> IO (Id NSDate)
 departureDate clVisit =
   sendMessage clVisit departureDateSelector
+
+-- | @- coordinate@
+coordinate :: IsCLVisit clVisit => clVisit -> IO CLLocationCoordinate2D
+coordinate clVisit =
+  sendMessage clVisit coordinateSelector
 
 -- | @- horizontalAccuracy@
 horizontalAccuracy :: IsCLVisit clVisit => clVisit -> IO CDouble
@@ -54,6 +62,10 @@ arrivalDateSelector = mkSelector "arrivalDate"
 -- | @Selector@ for @departureDate@
 departureDateSelector :: Selector '[] (Id NSDate)
 departureDateSelector = mkSelector "departureDate"
+
+-- | @Selector@ for @coordinate@
+coordinateSelector :: Selector '[] CLLocationCoordinate2D
+coordinateSelector = mkSelector "coordinate"
 
 -- | @Selector@ for @horizontalAccuracy@
 horizontalAccuracySelector :: Selector '[] CDouble

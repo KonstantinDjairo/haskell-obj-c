@@ -14,10 +14,6 @@ module ObjC.PassKit.PKPaymentAuthorizationController
   , initWithPaymentRequest
   , presentWithCompletion
   , dismissWithCompletion
-  , supportsDisbursements
-  , supportsDisbursementsUsingNetworks
-  , supportsDisbursementsUsingNetworks_capabilities
-  , initWithDisbursementRequest
   , delegate
   , setDelegate
   , canMakePaymentsSelector
@@ -25,13 +21,9 @@ module ObjC.PassKit.PKPaymentAuthorizationController
   , canMakePaymentsUsingNetworks_capabilitiesSelector
   , delegateSelector
   , dismissWithCompletionSelector
-  , initWithDisbursementRequestSelector
   , initWithPaymentRequestSelector
   , presentWithCompletionSelector
   , setDelegateSelector
-  , supportsDisbursementsSelector
-  , supportsDisbursementsUsingNetworksSelector
-  , supportsDisbursementsUsingNetworks_capabilitiesSelector
 
   -- * Enum types
   , PKMerchantCapability(PKMerchantCapability)
@@ -39,7 +31,6 @@ module ObjC.PassKit.PKPaymentAuthorizationController
   , pattern PKMerchantCapabilityEMV
   , pattern PKMerchantCapabilityCredit
   , pattern PKMerchantCapabilityDebit
-  , pattern PKMerchantCapabilityInstantFundsOut
 
   ) where
 
@@ -91,32 +82,6 @@ dismissWithCompletion :: IsPKPaymentAuthorizationController pkPaymentAuthorizati
 dismissWithCompletion pkPaymentAuthorizationController completion =
   sendMessage pkPaymentAuthorizationController dismissWithCompletionSelector completion
 
--- | @+ supportsDisbursements@
-supportsDisbursements :: IO Bool
-supportsDisbursements  =
-  do
-    cls' <- getRequiredClass "PKPaymentAuthorizationController"
-    sendClassMessage cls' supportsDisbursementsSelector
-
--- | @+ supportsDisbursementsUsingNetworks:@
-supportsDisbursementsUsingNetworks :: IsNSArray supportedNetworks => supportedNetworks -> IO Bool
-supportsDisbursementsUsingNetworks supportedNetworks =
-  do
-    cls' <- getRequiredClass "PKPaymentAuthorizationController"
-    sendClassMessage cls' supportsDisbursementsUsingNetworksSelector (toNSArray supportedNetworks)
-
--- | @+ supportsDisbursementsUsingNetworks:capabilities:@
-supportsDisbursementsUsingNetworks_capabilities :: IsNSArray supportedNetworks => supportedNetworks -> PKMerchantCapability -> IO Bool
-supportsDisbursementsUsingNetworks_capabilities supportedNetworks capabilties =
-  do
-    cls' <- getRequiredClass "PKPaymentAuthorizationController"
-    sendClassMessage cls' supportsDisbursementsUsingNetworks_capabilitiesSelector (toNSArray supportedNetworks) capabilties
-
--- | @- initWithDisbursementRequest:@
-initWithDisbursementRequest :: (IsPKPaymentAuthorizationController pkPaymentAuthorizationController, IsPKDisbursementRequest request) => pkPaymentAuthorizationController -> request -> IO (Id PKPaymentAuthorizationController)
-initWithDisbursementRequest pkPaymentAuthorizationController request =
-  sendOwnedMessage pkPaymentAuthorizationController initWithDisbursementRequestSelector (toPKDisbursementRequest request)
-
 -- | @- delegate@
 delegate :: IsPKPaymentAuthorizationController pkPaymentAuthorizationController => pkPaymentAuthorizationController -> IO RawId
 delegate pkPaymentAuthorizationController =
@@ -154,22 +119,6 @@ presentWithCompletionSelector = mkSelector "presentWithCompletion:"
 -- | @Selector@ for @dismissWithCompletion:@
 dismissWithCompletionSelector :: Selector '[Ptr ()] ()
 dismissWithCompletionSelector = mkSelector "dismissWithCompletion:"
-
--- | @Selector@ for @supportsDisbursements@
-supportsDisbursementsSelector :: Selector '[] Bool
-supportsDisbursementsSelector = mkSelector "supportsDisbursements"
-
--- | @Selector@ for @supportsDisbursementsUsingNetworks:@
-supportsDisbursementsUsingNetworksSelector :: Selector '[Id NSArray] Bool
-supportsDisbursementsUsingNetworksSelector = mkSelector "supportsDisbursementsUsingNetworks:"
-
--- | @Selector@ for @supportsDisbursementsUsingNetworks:capabilities:@
-supportsDisbursementsUsingNetworks_capabilitiesSelector :: Selector '[Id NSArray, PKMerchantCapability] Bool
-supportsDisbursementsUsingNetworks_capabilitiesSelector = mkSelector "supportsDisbursementsUsingNetworks:capabilities:"
-
--- | @Selector@ for @initWithDisbursementRequest:@
-initWithDisbursementRequestSelector :: Selector '[Id PKDisbursementRequest] (Id PKPaymentAuthorizationController)
-initWithDisbursementRequestSelector = mkSelector "initWithDisbursementRequest:"
 
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId

@@ -3,7 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @AttestationInfo@.
+-- | Represents information relating to product attestation.
+--
+-- Generated bindings for @AttestationInfo@.
 module ObjC.Matter.AttestationInfo
   ( AttestationInfo
   , IsAttestationInfo(..)

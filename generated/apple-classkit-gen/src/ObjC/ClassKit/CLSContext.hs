@@ -416,13 +416,7 @@ setAssignable clsContext value =
 
 -- | Suggested age range of students, expressed in years, for whom this context is suitable. This information is intended to help teachers to choose age-appropriate activities for their students.
 --
--- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound to 0 to specify no minimum age limit and set the upper bound to NSIntegerMax - 1 to specify no maximum age limit.
---
--- An age range of 4 to 6 years is expressed by @em NSRange(4...6) in @em Swift or by @em NSMakeRange(4,3) in @Objective-C.
---
--- An age range of up 10 years is expressed by @em NSRange(0...10) in @em Swift or by @em NSMakeRange(0,11) in @Objective-C.
---
--- An age range of 18 years or above is expressed by @em NSRange(18...Int.max-1) in @em Swift or by @em NSMakeRange(18,NSIntegerMax-18) in @Objective-C.
+-- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound to 0 to specify no minimum age limit and set the upper bound to NSIntegerMax - 1 to specify no maximum age limit.        An age range of 4 to 6 years is expressed by /NSRange(4...6)/ in /Swift/ or by /NSMakeRange(4,3)/ in -C.        An age range of up 10 years is expressed by /NSRange(0...10)/ in /Swift/ or by /NSMakeRange(0,11)/ in -C.        An age range of 18 years or above is expressed by /NSRange(18...Int.max-1)/ in /Swift/ or by /NSMakeRange(18,NSIntegerMax-18)/ in -C.
 --
 -- ObjC selector: @- suggestedAge@
 suggestedAge :: IsCLSContext clsContext => clsContext -> IO NSRange
@@ -431,13 +425,7 @@ suggestedAge clsContext =
 
 -- | Suggested age range of students, expressed in years, for whom this context is suitable. This information is intended to help teachers to choose age-appropriate activities for their students.
 --
--- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound to 0 to specify no minimum age limit and set the upper bound to NSIntegerMax - 1 to specify no maximum age limit.
---
--- An age range of 4 to 6 years is expressed by @em NSRange(4...6) in @em Swift or by @em NSMakeRange(4,3) in @Objective-C.
---
--- An age range of up 10 years is expressed by @em NSRange(0...10) in @em Swift or by @em NSMakeRange(0,11) in @Objective-C.
---
--- An age range of 18 years or above is expressed by @em NSRange(18...Int.max-1) in @em Swift or by @em NSMakeRange(18,NSIntegerMax-18) in @Objective-C.
+-- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound to 0 to specify no minimum age limit and set the upper bound to NSIntegerMax - 1 to specify no maximum age limit.        An age range of 4 to 6 years is expressed by /NSRange(4...6)/ in /Swift/ or by /NSMakeRange(4,3)/ in -C.        An age range of up 10 years is expressed by /NSRange(0...10)/ in /Swift/ or by /NSMakeRange(0,11)/ in -C.        An age range of 18 years or above is expressed by /NSRange(18...Int.max-1)/ in /Swift/ or by /NSMakeRange(18,NSIntegerMax-18)/ in -C.
 --
 -- ObjC selector: @- setSuggestedAge:@
 setSuggestedAge :: IsCLSContext clsContext => clsContext -> NSRange -> IO ()
@@ -446,13 +434,7 @@ setSuggestedAge clsContext value =
 
 -- | Suggested time range, expressed in minutes, to complete the activity. This information will help teachers as they choose activities for their students.
 --
--- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound value to 0 to specify no minimum time limit and set the upper bound to NSIntegerMax - 1 to specify no maximum time limit.
---
--- An time range of 10 to 15 minutes is expressed by @em NSRange(10...15) in @em Swift or by @em NSMakeRange(10,6) in @Objective-C.
---
--- An time range of up to 10 minutes is expressed by @em NSRange(0...10) in @em Swift or by @em NSMakeRange(0,11) in @Objective-C.
---
--- An time range of at least 20 minutes is expressed by @em NSRange(20...Int.max-1) in @em Swift or by @em NSMakeRange(20,NSIntegerMax-20) in @Objective-C.
+-- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound value to 0 to specify no minimum time limit and set the upper bound to NSIntegerMax - 1 to specify no maximum time limit.        An time range of 10 to 15 minutes is expressed by /NSRange(10...15)/ in /Swift/ or by /NSMakeRange(10,6)/ in -C.        An time range of up to 10 minutes is expressed by /NSRange(0...10)/ in /Swift/ or by /NSMakeRange(0,11)/ in -C.        An time range of at least 20 minutes is expressed by /NSRange(20...Int.max-1)/ in /Swift/ or by /NSMakeRange(20,NSIntegerMax-20)/ in -C.
 --
 -- ObjC selector: @- suggestedCompletionTime@
 suggestedCompletionTime :: IsCLSContext clsContext => clsContext -> IO NSRange
@@ -461,13 +443,7 @@ suggestedCompletionTime clsContext =
 
 -- | Suggested time range, expressed in minutes, to complete the activity. This information will help teachers as they choose activities for their students.
 --
--- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound value to 0 to specify no minimum time limit and set the upper bound to NSIntegerMax - 1 to specify no maximum time limit.
---
--- An time range of 10 to 15 minutes is expressed by @em NSRange(10...15) in @em Swift or by @em NSMakeRange(10,6) in @Objective-C.
---
--- An time range of up to 10 minutes is expressed by @em NSRange(0...10) in @em Swift or by @em NSMakeRange(0,11) in @Objective-C.
---
--- An time range of at least 20 minutes is expressed by @em NSRange(20...Int.max-1) in @em Swift or by @em NSMakeRange(20,NSIntegerMax-20) in @Objective-C.
+-- The default value is [0, NSIntegerMax - 1]. This is /NSRange(0...Int.max-1)/ in /Swift/ or /NSMakeRange(0,NSIntegerMax)/ in /Objective-C./ Set the lower bound value to 0 to specify no minimum time limit and set the upper bound to NSIntegerMax - 1 to specify no maximum time limit.        An time range of 10 to 15 minutes is expressed by /NSRange(10...15)/ in /Swift/ or by /NSMakeRange(10,6)/ in -C.        An time range of up to 10 minutes is expressed by /NSRange(0...10)/ in /Swift/ or by /NSMakeRange(0,11)/ in -C.        An time range of at least 20 minutes is expressed by /NSRange(20...Int.max-1)/ in /Swift/ or by /NSMakeRange(20,NSIntegerMax-20)/ in -C.
 --
 -- ObjC selector: @- setSuggestedCompletionTime:@
 setSuggestedCompletionTime :: IsCLSContext clsContext => clsContext -> NSRange -> IO ()

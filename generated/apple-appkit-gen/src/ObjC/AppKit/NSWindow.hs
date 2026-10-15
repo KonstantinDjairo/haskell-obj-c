@@ -74,6 +74,7 @@ module ObjC.AppKit.NSWindow
   , print_
   , setDynamicDepthLimit
   , invalidateShadow
+  , disableScreenUpdatesUntilFlush
   , toggleFullScreen
   , setFrameFromString
   , saveFrameUsingName
@@ -110,9 +111,6 @@ module ObjC.AppKit.NSWindow
   , toggleTabBar
   , toggleTabOverview
   , addTabbedWindow_ordered
-  , transferWindowSharingToWindow_completionHandler
-  , requestSharingOfWindow_completionHandler
-  , requestSharingOfWindowUsingPreview_title_completionHandler
   , disableSnapshotRestoration
   , enableSnapshotRestoration
   , setIsMiniaturized
@@ -141,9 +139,6 @@ module ObjC.AppKit.NSWindow
   , flushWindow
   , flushWindowIfNeeded
   , initWithWindowRef
-  , disableScreenUpdatesUntilFlush
-  , displayLinkWithTarget_selector
-  , beginDraggingSessionWithItems_event_source
   , dragImage_at_offset_event_pasteboard_source_slideBack
   , registerForDraggedTypes
   , unregisterDraggedTypes
@@ -171,8 +166,6 @@ module ObjC.AppKit.NSWindow
   , setToolbarStyle
   , contentLayoutRect
   , contentLayoutGuide
-  , titlebarAccessoryViewControllers
-  , setTitlebarAccessoryViewControllers
   , representedURL
   , setRepresentedURL
   , representedFilename
@@ -186,7 +179,6 @@ module ObjC.AppKit.NSWindow
   , windowNumber
   , styleMask
   , setStyleMask
-  , cascadingReferenceFrame
   , frame
   , inLiveResize
   , resizeIncrements
@@ -280,15 +272,12 @@ module ObjC.AppKit.NSWindow
   , deviceDescription
   , windowController
   , setWindowController
-  , sheets
   , attachedSheet
   , sheet
   , sheetParent
   , childWindows
   , parentWindow
   , setParentWindow
-  , appearanceSource
-  , setAppearanceSource
   , colorSpace
   , setColorSpace
   , occlusionState
@@ -314,15 +303,11 @@ module ObjC.AppKit.NSWindow
   , setTabbingMode
   , tabbingIdentifier
   , setTabbingIdentifier
-  , tabbedWindows
   , tab
   , tabGroup
-  , hasActiveWindowSharingSession
   , windowTitlebarLayoutDirection
   , restorable
   , setRestorable
-  , restorationClass
-  , setRestorationClass
   , hasCloseBox
   , hasTitleBar
   , floatingPanel
@@ -332,7 +317,6 @@ module ObjC.AppKit.NSWindow
   , zoomable
   , orderedIndex
   , setOrderedIndex
-  , drawers
   , flushWindowDisabled
   , autodisplay
   , setAutodisplay
@@ -363,7 +347,6 @@ module ObjC.AppKit.NSWindow
   , anchorAttributeForOrientationSelector
   , animationBehaviorSelector
   , animationResizeTimeSelector
-  , appearanceSourceSelector
   , areCursorRectsEnabledSelector
   , aspectRatioSelector
   , attachedSheetSelector
@@ -378,7 +361,6 @@ module ObjC.AppKit.NSWindow
   , becomeKeyWindowSelector
   , becomeMainWindowSelector
   , beginCriticalSheet_completionHandlerSelector
-  , beginDraggingSessionWithItems_event_sourceSelector
   , beginSheet_completionHandlerSelector
   , cacheImageInRectSelector
   , canBecomeKeyWindowSelector
@@ -388,7 +370,6 @@ module ObjC.AppKit.NSWindow
   , canRepresentDisplayGamutSelector
   , canStoreColorSelector
   , cascadeTopLeftFromPointSelector
-  , cascadingReferenceFrameSelector
   , centerSelector
   , childWindowsSelector
   , closeSelector
@@ -435,13 +416,11 @@ module ObjC.AppKit.NSWindow
   , discardCursorRectsSelector
   , discardEventsMatchingMask_beforeEventSelector
   , displayIfNeededSelector
-  , displayLinkWithTarget_selectorSelector
   , displaySelector
   , displaysWhenScreenProfileChangesSelector
   , dockTileSelector
   , documentEditedSelector
   , dragImage_at_offset_event_pasteboard_source_slideBackSelector
-  , drawersSelector
   , enableCursorRectsSelector
   , enableFlushWindowSelector
   , enableKeyEquivalentForDefaultButtonCellSelector
@@ -465,7 +444,6 @@ module ObjC.AppKit.NSWindow
   , handleCloseScriptCommandSelector
   , handlePrintScriptCommandSelector
   , handleSaveScriptCommandSelector
-  , hasActiveWindowSharingSessionSelector
   , hasCloseBoxSelector
   , hasDynamicDepthLimitSelector
   , hasShadowSelector
@@ -537,8 +515,6 @@ module ObjC.AppKit.NSWindow
   , removeTitlebarAccessoryViewControllerAtIndexSelector
   , representedFilenameSelector
   , representedURLSelector
-  , requestSharingOfWindowUsingPreview_title_completionHandlerSelector
-  , requestSharingOfWindow_completionHandlerSelector
   , resetCursorRectsSelector
   , resignKeyWindowSelector
   , resignMainWindowSelector
@@ -546,7 +522,6 @@ module ObjC.AppKit.NSWindow
   , resizeFlagsSelector
   , resizeIncrementsSelector
   , restorableSelector
-  , restorationClassSelector
   , restoreCachedImageSelector
   , runToolbarCustomizationPaletteSelector
   , saveFrameUsingNameSelector
@@ -565,7 +540,6 @@ module ObjC.AppKit.NSWindow
   , setAlphaValueSelector
   , setAnchorAttribute_forOrientationSelector
   , setAnimationBehaviorSelector
-  , setAppearanceSourceSelector
   , setAspectRatioSelector
   , setAutodisplaySelector
   , setAutorecalculatesContentBorderThickness_forEdgeSelector
@@ -627,7 +601,6 @@ module ObjC.AppKit.NSWindow
   , setRepresentedURLSelector
   , setResizeIncrementsSelector
   , setRestorableSelector
-  , setRestorationClassSelector
   , setSharingTypeSelector
   , setShowsResizeIndicatorSelector
   , setShowsToolbarButtonSelector
@@ -638,7 +611,6 @@ module ObjC.AppKit.NSWindow
   , setTitleSelector
   , setTitleVisibilitySelector
   , setTitleWithRepresentedFilenameSelector
-  , setTitlebarAccessoryViewControllersSelector
   , setTitlebarAppearsTransparentSelector
   , setTitlebarSeparatorStyleSelector
   , setToolbarSelector
@@ -648,7 +620,6 @@ module ObjC.AppKit.NSWindow
   , sharingTypeSelector
   , sheetParentSelector
   , sheetSelector
-  , sheetsSelector
   , showsResizeIndicatorSelector
   , showsToolbarButtonSelector
   , standardWindowButtonSelector
@@ -658,12 +629,10 @@ module ObjC.AppKit.NSWindow
   , subtitleSelector
   , tabGroupSelector
   , tabSelector
-  , tabbedWindowsSelector
   , tabbingIdentifierSelector
   , tabbingModeSelector
   , titleSelector
   , titleVisibilitySelector
-  , titlebarAccessoryViewControllersSelector
   , titlebarAppearsTransparentSelector
   , titlebarSeparatorStyleSelector
   , toggleFullScreenSelector
@@ -673,7 +642,6 @@ module ObjC.AppKit.NSWindow
   , toolbarSelector
   , toolbarStyleSelector
   , trackEventsMatchingMask_timeout_mode_handlerSelector
-  , transferWindowSharingToWindow_completionHandlerSelector
   , tryToPerform_withSelector
   , unregisterDraggedTypesSelector
   , updateConstraintsIfNeededSelector
@@ -762,7 +730,6 @@ module ObjC.AppKit.NSWindow
   , pattern NSEventMaskPressure
   , pattern NSEventMaskDirectTouch
   , pattern NSEventMaskChangeMode
-  , pattern NSEventMaskMouseCancelled
   , pattern NSEventMaskAny
   , NSEventModifierFlags(NSEventModifierFlags)
   , pattern NSEventModifierFlagCapsLock
@@ -863,6 +830,7 @@ module ObjC.AppKit.NSWindow
   , NSWindowSharingType(NSWindowSharingType)
   , pattern NSWindowSharingNone
   , pattern NSWindowSharingReadOnly
+  , pattern NSWindowSharingReadWrite
   , NSWindowStyleMask(NSWindowStyleMask)
   , pattern NSWindowStyleMaskBorderless
   , pattern NSWindowStyleMaskTitled
@@ -910,7 +878,6 @@ import ObjC.Foundation.Internal.Structs
 import ObjC.AppKit.Internal.Enums
 import ObjC.Foundation.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-import ObjC.QuartzCore.Internal.Classes
 
 -- | @+ frameRectForContentRect:styleMask:@
 frameRectForContentRect_styleMask :: NSRect -> NSWindowStyleMask -> IO NSRect
@@ -1137,44 +1104,32 @@ orderFrontRegardless :: IsNSWindow nsWindow => nsWindow -> IO ()
 orderFrontRegardless nsWindow =
   sendMessage nsWindow orderFrontRegardlessSelector
 
--- | Makes the window key and main if eligible, updating NSApplication's @-keyWindow@ and @-mainWindow@ properties.
---
--- ObjC selector: @- makeKeyWindow@
+-- | @- makeKeyWindow@
 makeKeyWindow :: IsNSWindow nsWindow => nsWindow -> IO ()
 makeKeyWindow nsWindow =
   sendMessage nsWindow makeKeyWindowSelector
 
--- | Makes the window main if eligible. Updates NSApplication's @-mainWindow@ property.
---
--- ObjC selector: @- makeMainWindow@
+-- | @- makeMainWindow@
 makeMainWindow :: IsNSWindow nsWindow => nsWindow -> IO ()
 makeMainWindow nsWindow =
   sendMessage nsWindow makeMainWindowSelector
 
--- | Informs the window that it has become the key window. This method exists as an override point. Do not invoke directly. Instead, invoke @-makeKeyWindow@.
---
--- ObjC selector: @- becomeKeyWindow@
+-- | @- becomeKeyWindow@
 becomeKeyWindow :: IsNSWindow nsWindow => nsWindow -> IO ()
 becomeKeyWindow nsWindow =
   sendMessage nsWindow becomeKeyWindowSelector
 
--- | Informs the window that it has stopped being the key window. This method exists as an override point. Do not invoke directly. Windows automatically receive this message when deactivating or when another window has become key.
---
--- ObjC selector: @- resignKeyWindow@
+-- | @- resignKeyWindow@
 resignKeyWindow :: IsNSWindow nsWindow => nsWindow -> IO ()
 resignKeyWindow nsWindow =
   sendMessage nsWindow resignKeyWindowSelector
 
--- | Informs the window that it has become the main window. This method exists as an override point. Do not invoke directly. Instead, invoke @-makeMainWindow@.
---
--- ObjC selector: @- becomeMainWindow@
+-- | @- becomeMainWindow@
 becomeMainWindow :: IsNSWindow nsWindow => nsWindow -> IO ()
 becomeMainWindow nsWindow =
   sendMessage nsWindow becomeMainWindowSelector
 
--- | Informs the window that it has stopped being the main window. This method exists as an override point. Do not invoke directly. Windows automatically receive this message when deactivating or when another window has become main.
---
--- ObjC selector: @- resignMainWindow@
+-- | @- resignMainWindow@
 resignMainWindow :: IsNSWindow nsWindow => nsWindow -> IO ()
 resignMainWindow nsWindow =
   sendMessage nsWindow resignMainWindowSelector
@@ -1265,6 +1220,13 @@ setDynamicDepthLimit nsWindow flag =
 invalidateShadow :: IsNSWindow nsWindow => nsWindow -> IO ()
 invalidateShadow nsWindow =
   sendMessage nsWindow invalidateShadowSelector
+
+-- | In recent macOS versions this method does not do anything and should not be called.
+--
+-- ObjC selector: @- disableScreenUpdatesUntilFlush@
+disableScreenUpdatesUntilFlush :: IsNSWindow nsWindow => nsWindow -> IO ()
+disableScreenUpdatesUntilFlush nsWindow =
+  sendMessage nsWindow disableScreenUpdatesUntilFlushSelector
 
 -- | @-toggleFullScreen:@ enters or exits for full screen. A window must have @NSWindowCollectionBehaviorFullScreenAuxiliary@ or @NSWindowCollectionBehaviorFullScreenPrimary@ included in the @collectionBehavior@ property; if it does not, this method may simply do nothing.
 --
@@ -1474,41 +1436,6 @@ addTabbedWindow_ordered :: (IsNSWindow nsWindow, IsNSWindow window) => nsWindow 
 addTabbedWindow_ordered nsWindow window ordered =
   sendMessage nsWindow addTabbedWindow_orderedSelector (toNSWindow window) ordered
 
--- | Attempt to move window sharing (i.e. within a SharePlay session) from the receiver to another window. In response to this request, the user may choose to transfer sharing to the new window, or simply stop sharing the content.
---
--- @window@ — A window that is replacing the reciever in representing the user's current activity.
---
--- @completionHandler@ — A completion block that is called after the request finishes.        @error@            In the event of a failed transfer request, a non-nil error contains details about the failure.
---
--- ObjC selector: @- transferWindowSharingToWindow:completionHandler:@
-transferWindowSharingToWindow_completionHandler :: (IsNSWindow nsWindow, IsNSWindow window) => nsWindow -> window -> Ptr () -> IO ()
-transferWindowSharingToWindow_completionHandler nsWindow window completionHandler =
-  sendMessage nsWindow transferWindowSharingToWindow_completionHandlerSelector (toNSWindow window) completionHandler
-
--- | Request sharing of window.  If there is an available ScreenCaptureKit sharing session, an alert will be presented asking the user to confirm the share
---
--- @window@ — The window to share
---
--- @completionHandler@ — A completion block that is called after the request finishes. @error@ The error will be non-nil if the request does not result in a window being shared.  The error will be NSUserCancelledError if there is no ScreenCaptureKit session, or if the user rejects the offer to share.  If sharing fails for some other reason, the error will provide the details.
---
--- ObjC selector: @- requestSharingOfWindow:completionHandler:@
-requestSharingOfWindow_completionHandler :: (IsNSWindow nsWindow, IsNSWindow window) => nsWindow -> window -> Ptr () -> IO ()
-requestSharingOfWindow_completionHandler nsWindow window completionHandler =
-  sendMessage nsWindow requestSharingOfWindow_completionHandlerSelector (toNSWindow window) completionHandler
-
--- | Request sharing of window to be provided later.  If there is an available ScreenCaptureKit sharing session, an alert will be presented asking the user to confirm the share.  The delegate will be asked to provide the window to share via windowForSharingRequestFromWindow:
---
--- @image@ — An image showing a preview of the window to share
---
--- @title@ — The title to show in a confirmation dialog
---
--- @completionHandler@ — A completion block that is called after the request finishes. @error@ The error will be non-nil if the request does not result in a window being shared.  The error will be NSUserCancelledError if there is no ScreenCaptureKit session, or if the user rejects the offer to share.  If sharing fails for some other reason, the error will provide the details.
---
--- ObjC selector: @- requestSharingOfWindowUsingPreview:title:completionHandler:@
-requestSharingOfWindowUsingPreview_title_completionHandler :: (IsNSWindow nsWindow, IsNSImage image, IsNSString title) => nsWindow -> image -> title -> Ptr () -> IO ()
-requestSharingOfWindowUsingPreview_title_completionHandler nsWindow image title completionHandler =
-  sendMessage nsWindow requestSharingOfWindowUsingPreview_title_completionHandlerSelector (toNSImage image) (toNSString title) completionHandler
-
 -- | @- disableSnapshotRestoration@
 disableSnapshotRestoration :: IsNSWindow nsWindow => nsWindow -> IO ()
 disableSnapshotRestoration nsWindow =
@@ -1646,25 +1573,12 @@ flushWindowIfNeeded :: IsNSWindow nsWindow => nsWindow -> IO ()
 flushWindowIfNeeded nsWindow =
   sendMessage nsWindow flushWindowIfNeededSelector
 
--- | @- initWithWindowRef:@
+-- | Create an @NSWindow@ for a Carbon window - @windowRef@ must be a Carbon @WindowRef@ - see @MacWindows.h@. This method can only be called on @NSWindow,@ and not subclasses of @NSWindow.@ On 10.11, it will throw an exception if this is done.
+--
+-- ObjC selector: @- initWithWindowRef:@
 initWithWindowRef :: IsNSWindow nsWindow => nsWindow -> Ptr () -> IO (Id NSWindow)
 initWithWindowRef nsWindow windowRef =
   sendOwnedMessage nsWindow initWithWindowRefSelector windowRef
-
--- | @- disableScreenUpdatesUntilFlush@
-disableScreenUpdatesUntilFlush :: IsNSWindow nsWindow => nsWindow -> IO ()
-disableScreenUpdatesUntilFlush nsWindow =
-  sendMessage nsWindow disableScreenUpdatesUntilFlushSelector
-
--- | @- displayLinkWithTarget:selector:@
-displayLinkWithTarget_selector :: IsNSWindow nsWindow => nsWindow -> RawId -> Sel -> IO (Id CADisplayLink)
-displayLinkWithTarget_selector nsWindow target selector =
-  sendMessage nsWindow displayLinkWithTarget_selectorSelector target selector
-
--- | @- beginDraggingSessionWithItems:event:source:@
-beginDraggingSessionWithItems_event_source :: (IsNSWindow nsWindow, IsNSArray items, IsNSEvent event) => nsWindow -> items -> event -> RawId -> IO (Id NSDraggingSession)
-beginDraggingSessionWithItems_event_source nsWindow items event source =
-  sendMessage nsWindow beginDraggingSessionWithItems_event_sourceSelector (toNSArray items) (toNSEvent event) source
 
 -- | @- dragImage:at:offset:event:pasteboard:source:slideBack:@
 dragImage_at_offset_event_pasteboard_source_slideBack :: (IsNSWindow nsWindow, IsNSImage image, IsNSEvent event, IsNSPasteboard pboard) => nsWindow -> image -> NSPoint -> NSSize -> event -> pboard -> RawId -> Bool -> IO ()
@@ -1758,16 +1672,16 @@ setTitle nsWindow value =
 -- | Secondary text that may be displayed adjacent to or below the primary title depending on the configuration of the window. A value of empty string will remove the subtitle from the window layout.
 --
 -- ObjC selector: @- subtitle@
-subtitle :: IsNSWindow nsWindow => nsWindow -> IO (Id NSString)
+subtitle :: IsNSWindow nsWindow => nsWindow -> IO RawId
 subtitle nsWindow =
   sendMessage nsWindow subtitleSelector
 
 -- | Secondary text that may be displayed adjacent to or below the primary title depending on the configuration of the window. A value of empty string will remove the subtitle from the window layout.
 --
 -- ObjC selector: @- setSubtitle:@
-setSubtitle :: (IsNSWindow nsWindow, IsNSString value) => nsWindow -> value -> IO ()
+setSubtitle :: IsNSWindow nsWindow => nsWindow -> RawId -> IO ()
 setSubtitle nsWindow value =
-  sendMessage nsWindow setSubtitleSelector (toNSString value)
+  sendMessage nsWindow setSubtitleSelector value
 
 -- | See the enum values for how this property works.
 --
@@ -1825,29 +1739,19 @@ contentLayoutGuide :: IsNSWindow nsWindow => nsWindow -> IO RawId
 contentLayoutGuide nsWindow =
   sendMessage nsWindow contentLayoutGuideSelector
 
--- | @- titlebarAccessoryViewControllers@
-titlebarAccessoryViewControllers :: IsNSWindow nsWindow => nsWindow -> IO (Id NSArray)
-titlebarAccessoryViewControllers nsWindow =
-  sendMessage nsWindow titlebarAccessoryViewControllersSelector
-
--- | @- setTitlebarAccessoryViewControllers:@
-setTitlebarAccessoryViewControllers :: (IsNSWindow nsWindow, IsNSArray value) => nsWindow -> value -> IO ()
-setTitlebarAccessoryViewControllers nsWindow value =
-  sendMessage nsWindow setTitlebarAccessoryViewControllersSelector (toNSArray value)
-
 -- | If url is not nil and its path is not empty, the window will show a document icon in the titlebar. If the url represents a filename or other resource with a known icon, that icon will be used as the document icon.  Otherwise the default document icon will be used.  The icon can be customized using @-[[NSWindow standardWindowButton:NSWindowDocumentIconButton] setImage:customImage]@.  If url is not nil and its path is not empty, the window will have a pop-up menu which can be shown via command-click on the area containing the document icon and title.  By default, this menu will display the path components of the url.  The presence and contents of this menu can be controlled by the delegate method @-[window:shouldPopUpDocumentPathMenu:]@ If the url is nil or has an empty path, the window will not show a document icon and will not have a pop-up menu available via command-click.
 --
 -- ObjC selector: @- representedURL@
-representedURL :: IsNSWindow nsWindow => nsWindow -> IO (Id NSURL)
+representedURL :: IsNSWindow nsWindow => nsWindow -> IO RawId
 representedURL nsWindow =
   sendMessage nsWindow representedURLSelector
 
 -- | If url is not nil and its path is not empty, the window will show a document icon in the titlebar. If the url represents a filename or other resource with a known icon, that icon will be used as the document icon.  Otherwise the default document icon will be used.  The icon can be customized using @-[[NSWindow standardWindowButton:NSWindowDocumentIconButton] setImage:customImage]@.  If url is not nil and its path is not empty, the window will have a pop-up menu which can be shown via command-click on the area containing the document icon and title.  By default, this menu will display the path components of the url.  The presence and contents of this menu can be controlled by the delegate method @-[window:shouldPopUpDocumentPathMenu:]@ If the url is nil or has an empty path, the window will not show a document icon and will not have a pop-up menu available via command-click.
 --
 -- ObjC selector: @- setRepresentedURL:@
-setRepresentedURL :: (IsNSWindow nsWindow, IsNSURL value) => nsWindow -> value -> IO ()
+setRepresentedURL :: IsNSWindow nsWindow => nsWindow -> RawId -> IO ()
 setRepresentedURL nsWindow value =
-  sendMessage nsWindow setRepresentedURLSelector (toNSURL value)
+  sendMessage nsWindow setRepresentedURLSelector value
 
 -- | @- representedFilename@
 representedFilename :: IsNSWindow nsWindow => nsWindow -> IO (Id NSString)
@@ -1907,13 +1811,6 @@ styleMask nsWindow =
 setStyleMask :: IsNSWindow nsWindow => nsWindow -> NSWindowStyleMask -> IO ()
 setStyleMask nsWindow value =
   sendMessage nsWindow setStyleMaskSelector value
-
--- | The frame to use when cascading or sizing a new window based on the receiver's position or size. This may be different from @frame@ when the receiver is positioned by the system.
---
--- ObjC selector: @- cascadingReferenceFrame@
-cascadingReferenceFrame :: IsNSWindow nsWindow => nsWindow -> IO NSRect
-cascadingReferenceFrame nsWindow =
-  sendMessage nsWindow cascadingReferenceFrameSelector
 
 -- | @- frame@
 frame :: IsNSWindow nsWindow => nsWindow -> IO NSRect
@@ -2090,7 +1987,7 @@ setMiniwindowTitle nsWindow value =
   sendMessage nsWindow setMiniwindowTitleSelector (toNSString value)
 
 -- | @- dockTile@
-dockTile :: IsNSWindow nsWindow => nsWindow -> IO (Id NSDockTile)
+dockTile :: IsNSWindow nsWindow => nsWindow -> IO RawId
 dockTile nsWindow =
   sendMessage nsWindow dockTileSelector
 
@@ -2134,14 +2031,14 @@ worksWhenModal :: IsNSWindow nsWindow => nsWindow -> IO Bool
 worksWhenModal nsWindow =
   sendMessage nsWindow worksWhenModalSelector
 
--- | A Boolean value that indicates whether or not to prevent application termination when the receiving window is presented modally. The value of this property is @YES@ if the window should prevent application termination when modal; otherwise, @NO@. The default value is @YES@. However, note that some window subclasses and some windows created indirectly (like those created by UI frameworks like AppKit and SwiftUI), may have different default values. For example, the Open panel and toolbar customization sheets should not prevent application termination, so those windows have @preventsApplicationTerminationWhenModal@ set to @NO@. Some @NSAlert@s, like those that are simply informational, have windows that do not prevent application termination by default. Setting this property overrides the default behavior.
+-- | Normally, application termination is prohibited when a modal window or sheet is open, without consulting the application delegate.  Some windows like the open panel or toolbar customization sheet should not prevent application termination.  @-setPreventsApplicationTerminationWhenModal:NO@ on a modal window or sheet will override the default behavior and allow application termination to proceed, either through the sudden termination path if enabled, or on to the next step of consulting the application delegate.  By default, @-preventsApplicationTerminationWhenModal@ returns @YES@
 --
 -- ObjC selector: @- preventsApplicationTerminationWhenModal@
 preventsApplicationTerminationWhenModal :: IsNSWindow nsWindow => nsWindow -> IO Bool
 preventsApplicationTerminationWhenModal nsWindow =
   sendMessage nsWindow preventsApplicationTerminationWhenModalSelector
 
--- | A Boolean value that indicates whether or not to prevent application termination when the receiving window is presented modally. The value of this property is @YES@ if the window should prevent application termination when modal; otherwise, @NO@. The default value is @YES@. However, note that some window subclasses and some windows created indirectly (like those created by UI frameworks like AppKit and SwiftUI), may have different default values. For example, the Open panel and toolbar customization sheets should not prevent application termination, so those windows have @preventsApplicationTerminationWhenModal@ set to @NO@. Some @NSAlert@s, like those that are simply informational, have windows that do not prevent application termination by default. Setting this property overrides the default behavior.
+-- | Normally, application termination is prohibited when a modal window or sheet is open, without consulting the application delegate.  Some windows like the open panel or toolbar customization sheet should not prevent application termination.  @-setPreventsApplicationTerminationWhenModal:NO@ on a modal window or sheet will override the default behavior and allow application termination to proceed, either through the sudden termination path if enabled, or on to the next step of consulting the application delegate.  By default, @-preventsApplicationTerminationWhenModal@ returns @YES@
 --
 -- ObjC selector: @- setPreventsApplicationTerminationWhenModal:@
 setPreventsApplicationTerminationWhenModal :: IsNSWindow nsWindow => nsWindow -> Bool -> IO ()
@@ -2246,14 +2143,14 @@ setOpaque :: IsNSWindow nsWindow => nsWindow -> Bool -> IO ()
 setOpaque nsWindow value =
   sendMessage nsWindow setOpaqueSelector value
 
--- | @-setSharingType:@ specifies whether the window content can be read from another process.  The default sharing type is @NSWindowSharingReadOnly,@ which means other processes can read the window content (eg. for window capture) but cannot modify it.  If you set your window sharing type to @NSWindowSharingNone,@ so that the content cannot be captured, your window will also not be able to participate in a number of system services, so this setting should be used with caution.
+-- | @-setSharingType:@ specifies whether the window content can be read and/or written from another process.  The default sharing type is @NSWindowSharingReadOnly,@ which means other processes can read the window content (eg. for window capture) but cannot modify it.  If you set your window sharing type to @NSWindowSharingNone,@ so that the content cannot be captured, your window will also not be able to participate in a number of system services, so this setting should be used with caution.  If you set your window sharing type to @NSWindowSharingReadWrite,@ other processes can both read and modify the window content.
 --
 -- ObjC selector: @- sharingType@
 sharingType :: IsNSWindow nsWindow => nsWindow -> IO NSWindowSharingType
 sharingType nsWindow =
   sendMessage nsWindow sharingTypeSelector
 
--- | @-setSharingType:@ specifies whether the window content can be read from another process.  The default sharing type is @NSWindowSharingReadOnly,@ which means other processes can read the window content (eg. for window capture) but cannot modify it.  If you set your window sharing type to @NSWindowSharingNone,@ so that the content cannot be captured, your window will also not be able to participate in a number of system services, so this setting should be used with caution.
+-- | @-setSharingType:@ specifies whether the window content can be read and/or written from another process.  The default sharing type is @NSWindowSharingReadOnly,@ which means other processes can read the window content (eg. for window capture) but cannot modify it.  If you set your window sharing type to @NSWindowSharingNone,@ so that the content cannot be captured, your window will also not be able to participate in a number of system services, so this setting should be used with caution.  If you set your window sharing type to @NSWindowSharingReadWrite,@ other processes can both read and modify the window content.
 --
 -- ObjC selector: @- setSharingType:@
 setSharingType :: IsNSWindow nsWindow => nsWindow -> NSWindowSharingType -> IO ()
@@ -2414,13 +2311,6 @@ setWindowController :: (IsNSWindow nsWindow, IsNSWindowController value) => nsWi
 setWindowController nsWindow value =
   sendMessage nsWindow setWindowControllerSelector (toNSWindowController value)
 
--- | An ordered array of the sheets on the window. This consists of the presented sheets in top-to-bottom order, followed by queued sheets in the order they were queued. This does not include nested/sub-sheets.
---
--- ObjC selector: @- sheets@
-sheets :: IsNSWindow nsWindow => nsWindow -> IO (Id NSArray)
-sheets nsWindow =
-  sendMessage nsWindow sheetsSelector
-
 -- | Returns the top-most sheet if there is one or more sheets, or nil if there is no sheet.
 --
 -- ObjC selector: @- attachedSheet@
@@ -2436,7 +2326,7 @@ sheet nsWindow =
 -- | Returns the window that the sheet is directly attached to. This is based on the logical attachment of the sheet, not visual attachment. This relationship exists starting when the sheet is begun (using @NSApplication's@ @-beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo: or NSWindow's -beginSheet:completionHandler:@), and ending once it is ordered out. Returns nil if the window is not a sheet or has no sheet parent.
 --
 -- ObjC selector: @- sheetParent@
-sheetParent :: IsNSWindow nsWindow => nsWindow -> IO (Id NSWindow)
+sheetParent :: IsNSWindow nsWindow => nsWindow -> IO RawId
 sheetParent nsWindow =
   sendMessage nsWindow sheetParentSelector
 
@@ -2455,29 +2345,15 @@ setParentWindow :: (IsNSWindow nsWindow, IsNSWindow value) => nsWindow -> value 
 setParentWindow nsWindow value =
   sendMessage nsWindow setParentWindowSelector (toNSWindow value)
 
--- | If set, the receiver will inherit the appearance of that object, as well as use KVO to observe its effectiveAppearance for changes. Typically this is used for child windows that are shown from a parent window or specific view. Defaults to NSApp.
---
--- ObjC selector: @- appearanceSource@
-appearanceSource :: IsNSWindow nsWindow => nsWindow -> IO (Id NSObject)
-appearanceSource nsWindow =
-  sendMessage nsWindow appearanceSourceSelector
-
--- | If set, the receiver will inherit the appearance of that object, as well as use KVO to observe its effectiveAppearance for changes. Typically this is used for child windows that are shown from a parent window or specific view. Defaults to NSApp.
---
--- ObjC selector: @- setAppearanceSource:@
-setAppearanceSource :: (IsNSWindow nsWindow, IsNSObject value) => nsWindow -> value -> IO ()
-setAppearanceSource nsWindow value =
-  sendMessage nsWindow setAppearanceSourceSelector (toNSObject value)
-
 -- | @- colorSpace@
-colorSpace :: IsNSWindow nsWindow => nsWindow -> IO (Id NSColorSpace)
+colorSpace :: IsNSWindow nsWindow => nsWindow -> IO RawId
 colorSpace nsWindow =
   sendMessage nsWindow colorSpaceSelector
 
 -- | @- setColorSpace:@
-setColorSpace :: (IsNSWindow nsWindow, IsNSColorSpace value) => nsWindow -> value -> IO ()
+setColorSpace :: IsNSWindow nsWindow => nsWindow -> RawId -> IO ()
 setColorSpace nsWindow value =
-  sendMessage nsWindow setColorSpaceSelector (toNSColorSpace value)
+  sendMessage nsWindow setColorSpaceSelector value
 
 -- | @- occlusionState@
 occlusionState :: IsNSWindow nsWindow => nsWindow -> IO NSWindowOcclusionState
@@ -2505,16 +2381,16 @@ setTitlebarSeparatorStyle nsWindow value =
 -- | The main content view controller for the window. This provides the contentView of the window. Assigning this value will remove the existing contentView and will make the contentViewController.view the main contentView for the window. The default value is nil. The contentViewController only controls the contentView, and not the title of the window. The window title can easily be bound to the contentViewController with the following: [window bind:NSTitleBinding toObject:contentViewController withKeyPath:"title" options:nil]. Setting the contentViewController will cause the window to resize based on the current size of the contentViewController. Autolayout should be used to restrict the size of the window. The value of the contentViewController is encoded in the NIB. Directly assigning a contentView will clear out the contentViewController.
 --
 -- ObjC selector: @- contentViewController@
-contentViewController :: IsNSWindow nsWindow => nsWindow -> IO (Id NSViewController)
+contentViewController :: IsNSWindow nsWindow => nsWindow -> IO RawId
 contentViewController nsWindow =
   sendMessage nsWindow contentViewControllerSelector
 
 -- | The main content view controller for the window. This provides the contentView of the window. Assigning this value will remove the existing contentView and will make the contentViewController.view the main contentView for the window. The default value is nil. The contentViewController only controls the contentView, and not the title of the window. The window title can easily be bound to the contentViewController with the following: [window bind:NSTitleBinding toObject:contentViewController withKeyPath:"title" options:nil]. Setting the contentViewController will cause the window to resize based on the current size of the contentViewController. Autolayout should be used to restrict the size of the window. The value of the contentViewController is encoded in the NIB. Directly assigning a contentView will clear out the contentViewController.
 --
 -- ObjC selector: @- setContentViewController:@
-setContentViewController :: (IsNSWindow nsWindow, IsNSViewController value) => nsWindow -> value -> IO ()
+setContentViewController :: IsNSWindow nsWindow => nsWindow -> RawId -> IO ()
 setContentViewController nsWindow value =
-  sendMessage nsWindow setContentViewControllerSelector (toNSViewController value)
+  sendMessage nsWindow setContentViewControllerSelector value
 
 -- | @- initialFirstResponder@
 initialFirstResponder :: IsNSWindow nsWindow => nsWindow -> IO (Id NSView)
@@ -2626,33 +2502,19 @@ setTabbingIdentifier :: (IsNSWindow nsWindow, IsNSString value) => nsWindow -> v
 setTabbingIdentifier nsWindow value =
   sendMessage nsWindow setTabbingIdentifierSelector (toNSString value)
 
--- | This is now a cover for @self.tabGroup.windows@, but will return nil if the window is not showing a tab bar.
---
--- ObjC selector: @- tabbedWindows@
-tabbedWindows :: IsNSWindow nsWindow => nsWindow -> IO (Id NSArray)
-tabbedWindows nsWindow =
-  sendMessage nsWindow tabbedWindowsSelector
-
 -- | Access the properties for this window when it is a tabbed window environment. See the @NSWindowTab@ header and comments for more information.
 --
 -- ObjC selector: @- tab@
-tab :: IsNSWindow nsWindow => nsWindow -> IO (Id NSWindowTab)
+tab :: IsNSWindow nsWindow => nsWindow -> IO RawId
 tab nsWindow =
   sendMessage nsWindow tabSelector
 
 -- | Represents a tab group of windows. This @tabGroup@ is lazily created on demand.
 --
 -- ObjC selector: @- tabGroup@
-tabGroup :: IsNSWindow nsWindow => nsWindow -> IO (Id NSWindowTabGroup)
+tabGroup :: IsNSWindow nsWindow => nsWindow -> IO RawId
 tabGroup nsWindow =
   sendMessage nsWindow tabGroupSelector
-
--- | Indicates whether the receiver is the subject of an active SharePlay sharing session.
---
--- ObjC selector: @- hasActiveWindowSharingSession@
-hasActiveWindowSharingSession :: IsNSWindow nsWindow => nsWindow -> IO Bool
-hasActiveWindowSharingSession nsWindow =
-  sendMessage nsWindow hasActiveWindowSharingSessionSelector
 
 -- | Retrieve the layout direction of the window titlebar: this includes the standard window buttons (close/minimize/maximize buttons) and the title for this window. In general, this will return "right to left" (RTL) if the primary system language is RTL. The layout direction may be RTL even in applications that do not have a RTL language localization. This value should be utilized if an application uses titlebarAppearsTransparent and places controls underneath the titlebar.
 --
@@ -2670,16 +2532,6 @@ restorable nsWindow =
 setRestorable :: IsNSWindow nsWindow => nsWindow -> Bool -> IO ()
 setRestorable nsWindow value =
   sendMessage nsWindow setRestorableSelector value
-
--- | @- restorationClass@
-restorationClass :: IsNSWindow nsWindow => nsWindow -> IO Class
-restorationClass nsWindow =
-  sendMessage nsWindow restorationClassSelector
-
--- | @- setRestorationClass:@
-setRestorationClass :: IsNSWindow nsWindow => nsWindow -> Class -> IO ()
-setRestorationClass nsWindow value =
-  sendMessage nsWindow setRestorationClassSelector value
 
 -- | @- hasCloseBox@
 hasCloseBox :: IsNSWindow nsWindow => nsWindow -> IO Bool
@@ -2726,11 +2578,6 @@ setOrderedIndex :: IsNSWindow nsWindow => nsWindow -> CLong -> IO ()
 setOrderedIndex nsWindow value =
   sendMessage nsWindow setOrderedIndexSelector value
 
--- | @- drawers@
-drawers :: IsNSWindow nsWindow => nsWindow -> IO (Id NSArray)
-drawers nsWindow =
-  sendMessage nsWindow drawersSelector
-
 -- | @- flushWindowDisabled@
 flushWindowDisabled :: IsNSWindow nsWindow => nsWindow -> IO Bool
 flushWindowDisabled nsWindow =
@@ -2747,7 +2594,7 @@ setAutodisplay nsWindow value =
   sendMessage nsWindow setAutodisplaySelector value
 
 -- | @- graphicsContext@
-graphicsContext :: IsNSWindow nsWindow => nsWindow -> IO (Id NSGraphicsContext)
+graphicsContext :: IsNSWindow nsWindow => nsWindow -> IO RawId
 graphicsContext nsWindow =
   sendMessage nsWindow graphicsContextSelector
 
@@ -2786,7 +2633,9 @@ setShowsResizeIndicator :: IsNSWindow nsWindow => nsWindow -> Bool -> IO ()
 setShowsResizeIndicator nsWindow value =
   sendMessage nsWindow setShowsResizeIndicatorSelector value
 
--- | @- windowRef@
+-- | Return the Carbon @WindowRef@ for this window, creating if necessary: - see @MacWindows.h@.
+--
+-- ObjC selector: @- windowRef@
 windowRef :: IsNSWindow nsWindow => nsWindow -> IO (Ptr ())
 windowRef nsWindow =
   sendMessage nsWindow windowRefSelector
@@ -3094,6 +2943,10 @@ setDynamicDepthLimitSelector = mkSelector "setDynamicDepthLimit:"
 invalidateShadowSelector :: Selector '[] ()
 invalidateShadowSelector = mkSelector "invalidateShadow"
 
+-- | @Selector@ for @disableScreenUpdatesUntilFlush@
+disableScreenUpdatesUntilFlushSelector :: Selector '[] ()
+disableScreenUpdatesUntilFlushSelector = mkSelector "disableScreenUpdatesUntilFlush"
+
 -- | @Selector@ for @toggleFullScreen:@
 toggleFullScreenSelector :: Selector '[RawId] ()
 toggleFullScreenSelector = mkSelector "toggleFullScreen:"
@@ -3238,18 +3091,6 @@ toggleTabOverviewSelector = mkSelector "toggleTabOverview:"
 addTabbedWindow_orderedSelector :: Selector '[Id NSWindow, NSWindowOrderingMode] ()
 addTabbedWindow_orderedSelector = mkSelector "addTabbedWindow:ordered:"
 
--- | @Selector@ for @transferWindowSharingToWindow:completionHandler:@
-transferWindowSharingToWindow_completionHandlerSelector :: Selector '[Id NSWindow, Ptr ()] ()
-transferWindowSharingToWindow_completionHandlerSelector = mkSelector "transferWindowSharingToWindow:completionHandler:"
-
--- | @Selector@ for @requestSharingOfWindow:completionHandler:@
-requestSharingOfWindow_completionHandlerSelector :: Selector '[Id NSWindow, Ptr ()] ()
-requestSharingOfWindow_completionHandlerSelector = mkSelector "requestSharingOfWindow:completionHandler:"
-
--- | @Selector@ for @requestSharingOfWindowUsingPreview:title:completionHandler:@
-requestSharingOfWindowUsingPreview_title_completionHandlerSelector :: Selector '[Id NSImage, Id NSString, Ptr ()] ()
-requestSharingOfWindowUsingPreview_title_completionHandlerSelector = mkSelector "requestSharingOfWindowUsingPreview:title:completionHandler:"
-
 -- | @Selector@ for @disableSnapshotRestoration@
 disableSnapshotRestorationSelector :: Selector '[] ()
 disableSnapshotRestorationSelector = mkSelector "disableSnapshotRestoration"
@@ -3362,18 +3203,6 @@ flushWindowIfNeededSelector = mkSelector "flushWindowIfNeeded"
 initWithWindowRefSelector :: Selector '[Ptr ()] (Id NSWindow)
 initWithWindowRefSelector = mkSelector "initWithWindowRef:"
 
--- | @Selector@ for @disableScreenUpdatesUntilFlush@
-disableScreenUpdatesUntilFlushSelector :: Selector '[] ()
-disableScreenUpdatesUntilFlushSelector = mkSelector "disableScreenUpdatesUntilFlush"
-
--- | @Selector@ for @displayLinkWithTarget:selector:@
-displayLinkWithTarget_selectorSelector :: Selector '[RawId, Sel] (Id CADisplayLink)
-displayLinkWithTarget_selectorSelector = mkSelector "displayLinkWithTarget:selector:"
-
--- | @Selector@ for @beginDraggingSessionWithItems:event:source:@
-beginDraggingSessionWithItems_event_sourceSelector :: Selector '[Id NSArray, Id NSEvent, RawId] (Id NSDraggingSession)
-beginDraggingSessionWithItems_event_sourceSelector = mkSelector "beginDraggingSessionWithItems:event:source:"
-
 -- | @Selector@ for @dragImage:at:offset:event:pasteboard:source:slideBack:@
 dragImage_at_offset_event_pasteboard_source_slideBackSelector :: Selector '[Id NSImage, NSPoint, NSSize, Id NSEvent, Id NSPasteboard, RawId, Bool] ()
 dragImage_at_offset_event_pasteboard_source_slideBackSelector = mkSelector "dragImage:at:offset:event:pasteboard:source:slideBack:"
@@ -3443,11 +3272,11 @@ setTitleSelector :: Selector '[Id NSString] ()
 setTitleSelector = mkSelector "setTitle:"
 
 -- | @Selector@ for @subtitle@
-subtitleSelector :: Selector '[] (Id NSString)
+subtitleSelector :: Selector '[] RawId
 subtitleSelector = mkSelector "subtitle"
 
 -- | @Selector@ for @setSubtitle:@
-setSubtitleSelector :: Selector '[Id NSString] ()
+setSubtitleSelector :: Selector '[RawId] ()
 setSubtitleSelector = mkSelector "setSubtitle:"
 
 -- | @Selector@ for @titleVisibility@
@@ -3482,20 +3311,12 @@ contentLayoutRectSelector = mkSelector "contentLayoutRect"
 contentLayoutGuideSelector :: Selector '[] RawId
 contentLayoutGuideSelector = mkSelector "contentLayoutGuide"
 
--- | @Selector@ for @titlebarAccessoryViewControllers@
-titlebarAccessoryViewControllersSelector :: Selector '[] (Id NSArray)
-titlebarAccessoryViewControllersSelector = mkSelector "titlebarAccessoryViewControllers"
-
--- | @Selector@ for @setTitlebarAccessoryViewControllers:@
-setTitlebarAccessoryViewControllersSelector :: Selector '[Id NSArray] ()
-setTitlebarAccessoryViewControllersSelector = mkSelector "setTitlebarAccessoryViewControllers:"
-
 -- | @Selector@ for @representedURL@
-representedURLSelector :: Selector '[] (Id NSURL)
+representedURLSelector :: Selector '[] RawId
 representedURLSelector = mkSelector "representedURL"
 
 -- | @Selector@ for @setRepresentedURL:@
-setRepresentedURLSelector :: Selector '[Id NSURL] ()
+setRepresentedURLSelector :: Selector '[RawId] ()
 setRepresentedURLSelector = mkSelector "setRepresentedURL:"
 
 -- | @Selector@ for @representedFilename@
@@ -3541,10 +3362,6 @@ styleMaskSelector = mkSelector "styleMask"
 -- | @Selector@ for @setStyleMask:@
 setStyleMaskSelector :: Selector '[NSWindowStyleMask] ()
 setStyleMaskSelector = mkSelector "setStyleMask:"
-
--- | @Selector@ for @cascadingReferenceFrame@
-cascadingReferenceFrameSelector :: Selector '[] NSRect
-cascadingReferenceFrameSelector = mkSelector "cascadingReferenceFrame"
 
 -- | @Selector@ for @frame@
 frameSelector :: Selector '[] NSRect
@@ -3683,7 +3500,7 @@ setMiniwindowTitleSelector :: Selector '[Id NSString] ()
 setMiniwindowTitleSelector = mkSelector "setMiniwindowTitle:"
 
 -- | @Selector@ for @dockTile@
-dockTileSelector :: Selector '[] (Id NSDockTile)
+dockTileSelector :: Selector '[] RawId
 dockTileSelector = mkSelector "dockTile"
 
 -- | @Selector@ for @documentEdited@
@@ -3918,10 +3735,6 @@ windowControllerSelector = mkSelector "windowController"
 setWindowControllerSelector :: Selector '[Id NSWindowController] ()
 setWindowControllerSelector = mkSelector "setWindowController:"
 
--- | @Selector@ for @sheets@
-sheetsSelector :: Selector '[] (Id NSArray)
-sheetsSelector = mkSelector "sheets"
-
 -- | @Selector@ for @attachedSheet@
 attachedSheetSelector :: Selector '[] (Id NSWindow)
 attachedSheetSelector = mkSelector "attachedSheet"
@@ -3931,7 +3744,7 @@ sheetSelector :: Selector '[] Bool
 sheetSelector = mkSelector "sheet"
 
 -- | @Selector@ for @sheetParent@
-sheetParentSelector :: Selector '[] (Id NSWindow)
+sheetParentSelector :: Selector '[] RawId
 sheetParentSelector = mkSelector "sheetParent"
 
 -- | @Selector@ for @childWindows@
@@ -3946,20 +3759,12 @@ parentWindowSelector = mkSelector "parentWindow"
 setParentWindowSelector :: Selector '[Id NSWindow] ()
 setParentWindowSelector = mkSelector "setParentWindow:"
 
--- | @Selector@ for @appearanceSource@
-appearanceSourceSelector :: Selector '[] (Id NSObject)
-appearanceSourceSelector = mkSelector "appearanceSource"
-
--- | @Selector@ for @setAppearanceSource:@
-setAppearanceSourceSelector :: Selector '[Id NSObject] ()
-setAppearanceSourceSelector = mkSelector "setAppearanceSource:"
-
 -- | @Selector@ for @colorSpace@
-colorSpaceSelector :: Selector '[] (Id NSColorSpace)
+colorSpaceSelector :: Selector '[] RawId
 colorSpaceSelector = mkSelector "colorSpace"
 
 -- | @Selector@ for @setColorSpace:@
-setColorSpaceSelector :: Selector '[Id NSColorSpace] ()
+setColorSpaceSelector :: Selector '[RawId] ()
 setColorSpaceSelector = mkSelector "setColorSpace:"
 
 -- | @Selector@ for @occlusionState@
@@ -3975,11 +3780,11 @@ setTitlebarSeparatorStyleSelector :: Selector '[NSTitlebarSeparatorStyle] ()
 setTitlebarSeparatorStyleSelector = mkSelector "setTitlebarSeparatorStyle:"
 
 -- | @Selector@ for @contentViewController@
-contentViewControllerSelector :: Selector '[] (Id NSViewController)
+contentViewControllerSelector :: Selector '[] RawId
 contentViewControllerSelector = mkSelector "contentViewController"
 
 -- | @Selector@ for @setContentViewController:@
-setContentViewControllerSelector :: Selector '[Id NSViewController] ()
+setContentViewControllerSelector :: Selector '[RawId] ()
 setContentViewControllerSelector = mkSelector "setContentViewController:"
 
 -- | @Selector@ for @initialFirstResponder@
@@ -4054,21 +3859,13 @@ tabbingIdentifierSelector = mkSelector "tabbingIdentifier"
 setTabbingIdentifierSelector :: Selector '[Id NSString] ()
 setTabbingIdentifierSelector = mkSelector "setTabbingIdentifier:"
 
--- | @Selector@ for @tabbedWindows@
-tabbedWindowsSelector :: Selector '[] (Id NSArray)
-tabbedWindowsSelector = mkSelector "tabbedWindows"
-
 -- | @Selector@ for @tab@
-tabSelector :: Selector '[] (Id NSWindowTab)
+tabSelector :: Selector '[] RawId
 tabSelector = mkSelector "tab"
 
 -- | @Selector@ for @tabGroup@
-tabGroupSelector :: Selector '[] (Id NSWindowTabGroup)
+tabGroupSelector :: Selector '[] RawId
 tabGroupSelector = mkSelector "tabGroup"
-
--- | @Selector@ for @hasActiveWindowSharingSession@
-hasActiveWindowSharingSessionSelector :: Selector '[] Bool
-hasActiveWindowSharingSessionSelector = mkSelector "hasActiveWindowSharingSession"
 
 -- | @Selector@ for @windowTitlebarLayoutDirection@
 windowTitlebarLayoutDirectionSelector :: Selector '[] NSUserInterfaceLayoutDirection
@@ -4081,14 +3878,6 @@ restorableSelector = mkSelector "restorable"
 -- | @Selector@ for @setRestorable:@
 setRestorableSelector :: Selector '[Bool] ()
 setRestorableSelector = mkSelector "setRestorable:"
-
--- | @Selector@ for @restorationClass@
-restorationClassSelector :: Selector '[] Class
-restorationClassSelector = mkSelector "restorationClass"
-
--- | @Selector@ for @setRestorationClass:@
-setRestorationClassSelector :: Selector '[Class] ()
-setRestorationClassSelector = mkSelector "setRestorationClass:"
 
 -- | @Selector@ for @hasCloseBox@
 hasCloseBoxSelector :: Selector '[] Bool
@@ -4126,10 +3915,6 @@ orderedIndexSelector = mkSelector "orderedIndex"
 setOrderedIndexSelector :: Selector '[CLong] ()
 setOrderedIndexSelector = mkSelector "setOrderedIndex:"
 
--- | @Selector@ for @drawers@
-drawersSelector :: Selector '[] (Id NSArray)
-drawersSelector = mkSelector "drawers"
-
 -- | @Selector@ for @flushWindowDisabled@
 flushWindowDisabledSelector :: Selector '[] Bool
 flushWindowDisabledSelector = mkSelector "flushWindowDisabled"
@@ -4143,7 +3928,7 @@ setAutodisplaySelector :: Selector '[Bool] ()
 setAutodisplaySelector = mkSelector "setAutodisplay:"
 
 -- | @Selector@ for @graphicsContext@
-graphicsContextSelector :: Selector '[] (Id NSGraphicsContext)
+graphicsContextSelector :: Selector '[] RawId
 graphicsContextSelector = mkSelector "graphicsContext"
 
 -- | @Selector@ for @oneShot@

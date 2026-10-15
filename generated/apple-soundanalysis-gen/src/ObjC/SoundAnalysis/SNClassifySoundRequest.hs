@@ -45,7 +45,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Initializes a sound classification request with the provided MLModel
 --
--- - Parameter mlModel: The CoreML audio classification model to be used with this request
+-- @mlModel@ — The CoreML audio classification model to be used with this request
 --
 -- The provided model must accept audio data as input, and output a classification dictionary containing the probability of each category.
 --
@@ -56,13 +56,11 @@ initWithMLModel_error snClassifySoundRequest mlModel error_ =
 
 -- | Initializes a sound classification request with a known classifier.
 --
--- - Parameters:
+-- @classifierIdentifier@ — An identifier identifying the particular classifier to use for labeling sounds.
 --
--- - classifierIdentifier: An identifier identifying the particular classifier to use for labeling sounds.
+-- @error@ — An output parameter which, in the case of an error, will be populated with details about that error. Upon success, the contents of this output parameter are undefined. Please use the return value of this method to determine whether or not an error occurred before using the value assigned to this output parameter.
 --
--- - error: An output parameter which, in the case of an error, will be populated with details about that error. Upon success, the contents of this output parameter are undefined. Please use the return value of this method to determine whether or not an error occurred before using the value assigned to this output parameter.
---
--- - Returns Upon failure, @nil@; upon success, an @SNClassifySoundRequest@ instance which can be added to an analyzer to classify sounds using a recognized classifier.
+-- Returns: Upon failure, @nil@; upon success, an @SNClassifySoundRequest@ instance which can be added to an analyzer to classify sounds using a recognized classifier.
 --
 -- This initializer may be used to classify sounds using Apple-provided sound classifiers. Note that Apple may add new classifiers in the future, but it commits to ensuring the consistent performance of existing classifiers.
 --
@@ -112,7 +110,7 @@ windowDurationConstraint snClassifySoundRequest =
 
 -- | Lists all labels that can be produced by this request.
 --
--- - Returns: An array of strings containing all sound identifiers which can be produced by this request.
+-- Returns: An array of strings containing all sound identifiers which can be produced by this request.
 --
 -- ObjC selector: @- knownClassifications@
 knownClassifications :: IsSNClassifySoundRequest snClassifySoundRequest => snClassifySoundRequest -> IO (Id NSArray)

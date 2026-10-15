@@ -13,8 +13,6 @@ module ObjC.AutomaticAssessmentConfiguration.AEAssessmentSession
   , begin
   , end
   , updateToConfiguration
-  , supportsMultipleParticipants
-  , supportsConfigurationUpdates
   , delegate
   , setDelegate
   , configuration
@@ -28,8 +26,6 @@ module ObjC.AutomaticAssessmentConfiguration.AEAssessmentSession
   , initWithConfigurationSelector
   , newSelector
   , setDelegateSelector
-  , supportsConfigurationUpdatesSelector
-  , supportsMultipleParticipantsSelector
   , updateToConfigurationSelector
 
 
@@ -78,20 +74,6 @@ updateToConfiguration :: (IsAEAssessmentSession aeAssessmentSession, IsAEAssessm
 updateToConfiguration aeAssessmentSession configuration =
   sendMessage aeAssessmentSession updateToConfigurationSelector (toAEAssessmentConfiguration configuration)
 
--- | @+ supportsMultipleParticipants@
-supportsMultipleParticipants :: IO Bool
-supportsMultipleParticipants  =
-  do
-    cls' <- getRequiredClass "AEAssessmentSession"
-    sendClassMessage cls' supportsMultipleParticipantsSelector
-
--- | @+ supportsConfigurationUpdates@
-supportsConfigurationUpdates :: IO Bool
-supportsConfigurationUpdates  =
-  do
-    cls' <- getRequiredClass "AEAssessmentSession"
-    sendClassMessage cls' supportsConfigurationUpdatesSelector
-
 -- | @- delegate@
 delegate :: IsAEAssessmentSession aeAssessmentSession => aeAssessmentSession -> IO RawId
 delegate aeAssessmentSession =
@@ -139,14 +121,6 @@ endSelector = mkSelector "end"
 -- | @Selector@ for @updateToConfiguration:@
 updateToConfigurationSelector :: Selector '[Id AEAssessmentConfiguration] ()
 updateToConfigurationSelector = mkSelector "updateToConfiguration:"
-
--- | @Selector@ for @supportsMultipleParticipants@
-supportsMultipleParticipantsSelector :: Selector '[] Bool
-supportsMultipleParticipantsSelector = mkSelector "supportsMultipleParticipants"
-
--- | @Selector@ for @supportsConfigurationUpdates@
-supportsConfigurationUpdatesSelector :: Selector '[] Bool
-supportsConfigurationUpdatesSelector = mkSelector "supportsConfigurationUpdates"
 
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId

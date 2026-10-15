@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRNetworkCommissioningClusterConnectNetworkResponseParams
   ( MTRNetworkCommissioningClusterConnectNetworkResponseParams
   , IsMTRNetworkCommissioningClusterConnectNetworkResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , networkingStatus
   , setNetworkingStatus
   , debugText
@@ -16,9 +17,10 @@ module ObjC.Matter.MTRNetworkCommissioningClusterConnectNetworkResponseParams
   , setErrorValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , debugTextSelector
   , errorValueSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , networkingStatusSelector
   , setDebugTextSelector
   , setErrorValueSelector
@@ -40,16 +42,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRNetworkCommissioningClusterConnectNetworkResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRNetworkCommissioningClusterConnectNetworkResponseParams mtrNetworkCommissioningClusterConnectNetworkResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrNetworkCommissioningClusterConnectNetworkResponseParams -> responseValue -> error_ -> IO (Id MTRNetworkCommissioningClusterConnectNetworkResponseParams)
-initWithResponseValue_error mtrNetworkCommissioningClusterConnectNetworkResponseParams responseValue error_ =
-  sendOwnedMessage mtrNetworkCommissioningClusterConnectNetworkResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRNetworkCommissioningClusterConnectNetworkResponseParams mtrNetworkCommissioningClusterConnectNetworkResponseParams => mtrNetworkCommissioningClusterConnectNetworkResponseParams -> IO (Id MTRNetworkCommissioningClusterConnectNetworkResponseParams)
+init_ mtrNetworkCommissioningClusterConnectNetworkResponseParams =
+  sendOwnedMessage mtrNetworkCommissioningClusterConnectNetworkResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRNetworkCommissioningClusterConnectNetworkResponseParams mtrNetworkCommissioningClusterConnectNetworkResponseParams => mtrNetworkCommissioningClusterConnectNetworkResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrNetworkCommissioningClusterConnectNetworkResponseParams zone =
+  sendOwnedMessage mtrNetworkCommissioningClusterConnectNetworkResponseParams copyWithZoneSelector zone
 
 -- | @- networkingStatus@
 networkingStatus :: IsMTRNetworkCommissioningClusterConnectNetworkResponseParams mtrNetworkCommissioningClusterConnectNetworkResponseParams => mtrNetworkCommissioningClusterConnectNetworkResponseParams -> IO (Id NSNumber)
@@ -107,9 +108,13 @@ setTimedInvokeTimeoutMs mtrNetworkCommissioningClusterConnectNetworkResponsePara
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRNetworkCommissioningClusterConnectNetworkResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRNetworkCommissioningClusterConnectNetworkResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @networkingStatus@
 networkingStatusSelector :: Selector '[] (Id NSNumber)

@@ -92,8 +92,6 @@ module ObjC.SceneKit.SCNNode
   , setPhysicsBody
   , physicsField
   , setPhysicsField
-  , constraints
-  , setConstraints
   , presentationNode
   , paused
   , setPaused
@@ -101,10 +99,9 @@ module ObjC.SceneKit.SCNNode
   , setRendererDelegate
   , categoryBitMask
   , setCategoryBitMask
-  , audioPlayers
-  , particleSystems
   , focusBehavior
   , setFocusBehavior
+  , audioPlayers
   , localUp
   , localRight
   , localFront
@@ -122,7 +119,6 @@ module ObjC.SceneKit.SCNNode
   , childNodesPassingTestSelector
   , childNodesSelector
   , cloneSelector
-  , constraintsSelector
   , convertPosition_fromNodeSelector
   , convertPosition_toNodeSelector
   , convertTransform_fromNodeSelector
@@ -154,7 +150,6 @@ module ObjC.SceneKit.SCNNode
   , opacitySelector
   , orientationSelector
   , parentNodeSelector
-  , particleSystemsSelector
   , pausedSelector
   , physicsBodySelector
   , physicsFieldSelector
@@ -175,7 +170,6 @@ module ObjC.SceneKit.SCNNode
   , setCameraSelector
   , setCastsShadowSelector
   , setCategoryBitMaskSelector
-  , setConstraintsSelector
   , setEulerAnglesSelector
   , setFocusBehaviorSelector
   , setGeometrySelector
@@ -645,7 +639,7 @@ setGeometry scnNode value =
 -- Returns the skinner attached to the receiver.
 --
 -- ObjC selector: @- skinner@
-skinner :: IsSCNNode scnNode => scnNode -> IO (Id SCNSkinner)
+skinner :: IsSCNNode scnNode => scnNode -> IO RawId
 skinner scnNode =
   sendMessage scnNode skinnerSelector
 
@@ -654,16 +648,16 @@ skinner scnNode =
 -- Returns the skinner attached to the receiver.
 --
 -- ObjC selector: @- setSkinner:@
-setSkinner :: (IsSCNNode scnNode, IsSCNSkinner value) => scnNode -> value -> IO ()
+setSkinner :: IsSCNNode scnNode => scnNode -> RawId -> IO ()
 setSkinner scnNode value =
-  sendMessage scnNode setSkinnerSelector (toSCNSkinner value)
+  sendMessage scnNode setSkinnerSelector value
 
 -- | morpher
 --
 -- Returns the morpher attached to the receiver.
 --
 -- ObjC selector: @- morpher@
-morpher :: IsSCNNode scnNode => scnNode -> IO (Id SCNMorpher)
+morpher :: IsSCNNode scnNode => scnNode -> IO RawId
 morpher scnNode =
   sendMessage scnNode morpherSelector
 
@@ -672,9 +666,9 @@ morpher scnNode =
 -- Returns the morpher attached to the receiver.
 --
 -- ObjC selector: @- setMorpher:@
-setMorpher :: (IsSCNNode scnNode, IsSCNMorpher value) => scnNode -> value -> IO ()
+setMorpher :: IsSCNNode scnNode => scnNode -> RawId -> IO ()
 setMorpher scnNode value =
-  sendMessage scnNode setMorpherSelector (toSCNMorpher value)
+  sendMessage scnNode setMorpherSelector value
 
 -- | transform
 --
@@ -978,7 +972,7 @@ childNodes scnNode =
 -- Default is nil.
 --
 -- ObjC selector: @- physicsBody@
-physicsBody :: IsSCNNode scnNode => scnNode -> IO (Id SCNPhysicsBody)
+physicsBody :: IsSCNNode scnNode => scnNode -> IO RawId
 physicsBody scnNode =
   sendMessage scnNode physicsBodySelector
 
@@ -989,9 +983,9 @@ physicsBody scnNode =
 -- Default is nil.
 --
 -- ObjC selector: @- setPhysicsBody:@
-setPhysicsBody :: (IsSCNNode scnNode, IsSCNPhysicsBody value) => scnNode -> value -> IO ()
+setPhysicsBody :: IsSCNNode scnNode => scnNode -> RawId -> IO ()
 setPhysicsBody scnNode value =
-  sendMessage scnNode setPhysicsBodySelector (toSCNPhysicsBody value)
+  sendMessage scnNode setPhysicsBodySelector value
 
 -- | physicsField
 --
@@ -1000,7 +994,7 @@ setPhysicsBody scnNode value =
 -- Default is nil.
 --
 -- ObjC selector: @- physicsField@
-physicsField :: IsSCNNode scnNode => scnNode -> IO (Id SCNPhysicsField)
+physicsField :: IsSCNNode scnNode => scnNode -> IO RawId
 physicsField scnNode =
   sendMessage scnNode physicsFieldSelector
 
@@ -1011,31 +1005,9 @@ physicsField scnNode =
 -- Default is nil.
 --
 -- ObjC selector: @- setPhysicsField:@
-setPhysicsField :: (IsSCNNode scnNode, IsSCNPhysicsField value) => scnNode -> value -> IO ()
+setPhysicsField :: IsSCNNode scnNode => scnNode -> RawId -> IO ()
 setPhysicsField scnNode value =
-  sendMessage scnNode setPhysicsFieldSelector (toSCNPhysicsField value)
-
--- | constraints
---
--- An array of SCNConstraint that are applied to the receiver.
---
--- Adding or removing a constraint can be implicitly animated based on the current transaction.
---
--- ObjC selector: @- constraints@
-constraints :: IsSCNNode scnNode => scnNode -> IO (Id NSArray)
-constraints scnNode =
-  sendMessage scnNode constraintsSelector
-
--- | constraints
---
--- An array of SCNConstraint that are applied to the receiver.
---
--- Adding or removing a constraint can be implicitly animated based on the current transaction.
---
--- ObjC selector: @- setConstraints:@
-setConstraints :: (IsSCNNode scnNode, IsNSArray value) => scnNode -> value -> IO ()
-setConstraints scnNode value =
-  sendMessage scnNode setConstraintsSelector (toNSArray value)
+  sendMessage scnNode setPhysicsFieldSelector value
 
 -- | presentationNode
 --
@@ -1110,20 +1082,6 @@ setCategoryBitMask :: IsSCNNode scnNode => scnNode -> CULong -> IO ()
 setCategoryBitMask scnNode value =
   sendMessage scnNode setCategoryBitMaskSelector value
 
--- | audioPlayers
---
--- Get an array with all the audio players connected and playing on this node.
---
--- ObjC selector: @- audioPlayers@
-audioPlayers :: IsSCNNode scnNode => scnNode -> IO (Id NSArray)
-audioPlayers scnNode =
-  sendMessage scnNode audioPlayersSelector
-
--- | @- particleSystems@
-particleSystems :: IsSCNNode scnNode => scnNode -> IO (Id NSArray)
-particleSystems scnNode =
-  sendMessage scnNode particleSystemsSelector
-
 -- | focusBehavior
 --
 -- Controls the behavior of the receiver regarding the UIFocus system. Defaults to SCNNodeFocusBehaviorNone.
@@ -1141,6 +1099,15 @@ focusBehavior scnNode =
 setFocusBehavior :: IsSCNNode scnNode => scnNode -> SCNNodeFocusBehavior -> IO ()
 setFocusBehavior scnNode value =
   sendMessage scnNode setFocusBehaviorSelector value
+
+-- | audioPlayers
+--
+-- Get an array with all the audio players connected and playing on this node.
+--
+-- ObjC selector: @- audioPlayers@
+audioPlayers :: IsSCNNode scnNode => scnNode -> IO (Id NSArray)
+audioPlayers scnNode =
+  sendMessage scnNode audioPlayersSelector
 
 -- | localUp
 --
@@ -1363,19 +1330,19 @@ setGeometrySelector :: Selector '[Id SCNGeometry] ()
 setGeometrySelector = mkSelector "setGeometry:"
 
 -- | @Selector@ for @skinner@
-skinnerSelector :: Selector '[] (Id SCNSkinner)
+skinnerSelector :: Selector '[] RawId
 skinnerSelector = mkSelector "skinner"
 
 -- | @Selector@ for @setSkinner:@
-setSkinnerSelector :: Selector '[Id SCNSkinner] ()
+setSkinnerSelector :: Selector '[RawId] ()
 setSkinnerSelector = mkSelector "setSkinner:"
 
 -- | @Selector@ for @morpher@
-morpherSelector :: Selector '[] (Id SCNMorpher)
+morpherSelector :: Selector '[] RawId
 morpherSelector = mkSelector "morpher"
 
 -- | @Selector@ for @setMorpher:@
-setMorpherSelector :: Selector '[Id SCNMorpher] ()
+setMorpherSelector :: Selector '[RawId] ()
 setMorpherSelector = mkSelector "setMorpher:"
 
 -- | @Selector@ for @transform@
@@ -1503,28 +1470,20 @@ childNodesSelector :: Selector '[] (Id NSArray)
 childNodesSelector = mkSelector "childNodes"
 
 -- | @Selector@ for @physicsBody@
-physicsBodySelector :: Selector '[] (Id SCNPhysicsBody)
+physicsBodySelector :: Selector '[] RawId
 physicsBodySelector = mkSelector "physicsBody"
 
 -- | @Selector@ for @setPhysicsBody:@
-setPhysicsBodySelector :: Selector '[Id SCNPhysicsBody] ()
+setPhysicsBodySelector :: Selector '[RawId] ()
 setPhysicsBodySelector = mkSelector "setPhysicsBody:"
 
 -- | @Selector@ for @physicsField@
-physicsFieldSelector :: Selector '[] (Id SCNPhysicsField)
+physicsFieldSelector :: Selector '[] RawId
 physicsFieldSelector = mkSelector "physicsField"
 
 -- | @Selector@ for @setPhysicsField:@
-setPhysicsFieldSelector :: Selector '[Id SCNPhysicsField] ()
+setPhysicsFieldSelector :: Selector '[RawId] ()
 setPhysicsFieldSelector = mkSelector "setPhysicsField:"
-
--- | @Selector@ for @constraints@
-constraintsSelector :: Selector '[] (Id NSArray)
-constraintsSelector = mkSelector "constraints"
-
--- | @Selector@ for @setConstraints:@
-setConstraintsSelector :: Selector '[Id NSArray] ()
-setConstraintsSelector = mkSelector "setConstraints:"
 
 -- | @Selector@ for @presentationNode@
 presentationNodeSelector :: Selector '[] (Id SCNNode)
@@ -1554,14 +1513,6 @@ categoryBitMaskSelector = mkSelector "categoryBitMask"
 setCategoryBitMaskSelector :: Selector '[CULong] ()
 setCategoryBitMaskSelector = mkSelector "setCategoryBitMask:"
 
--- | @Selector@ for @audioPlayers@
-audioPlayersSelector :: Selector '[] (Id NSArray)
-audioPlayersSelector = mkSelector "audioPlayers"
-
--- | @Selector@ for @particleSystems@
-particleSystemsSelector :: Selector '[] (Id NSArray)
-particleSystemsSelector = mkSelector "particleSystems"
-
 -- | @Selector@ for @focusBehavior@
 focusBehaviorSelector :: Selector '[] SCNNodeFocusBehavior
 focusBehaviorSelector = mkSelector "focusBehavior"
@@ -1569,6 +1520,10 @@ focusBehaviorSelector = mkSelector "focusBehavior"
 -- | @Selector@ for @setFocusBehavior:@
 setFocusBehaviorSelector :: Selector '[SCNNodeFocusBehavior] ()
 setFocusBehaviorSelector = mkSelector "setFocusBehavior:"
+
+-- | @Selector@ for @audioPlayers@
+audioPlayersSelector :: Selector '[] (Id NSArray)
+audioPlayersSelector = mkSelector "audioPlayers"
 
 -- | @Selector@ for @localUp@
 localUpSelector :: Selector '[] SCNVector3

@@ -3,7 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVAssetVariant represents a bit rate variant. Each asset contains a collection of variants that represent a combination of audio, video, text, closed captions, and subtitles for a particular bit rate. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- | AVAssetVariant
+--
+-- An AVAssetVariant represents a bit rate variant.				Each asset contains a collection of variants that represent a combination of audio, video, text, closed captions, and subtitles for a particular bit rate.
 --
 -- Generated bindings for @AVAssetVariant@.
 module ObjC.AVFoundation.AVAssetVariant
@@ -15,13 +17,11 @@ module ObjC.AVFoundation.AVAssetVariant
   , averageBitRate
   , videoAttributes
   , audioAttributes
-  , url
   , audioAttributesSelector
   , averageBitRateSelector
   , initSelector
   , newSelector
   , peakBitRateSelector
-  , urlSelector
   , videoAttributesSelector
 
 
@@ -50,40 +50,41 @@ new  =
     cls' <- getRequiredClass "AVAssetVariant"
     sendOwnedClassMessage cls' newSelector
 
--- | If it is not declared, the value will be negative.
+-- | peakBitRate
+--
+-- If it is not declared, the value will be negative.
 --
 -- ObjC selector: @- peakBitRate@
 peakBitRate :: IsAVAssetVariant avAssetVariant => avAssetVariant -> IO CDouble
 peakBitRate avAssetVariant =
   sendMessage avAssetVariant peakBitRateSelector
 
--- | If it is not declared, the value will be negative.
+-- | averageBitRate
+--
+-- If it is not declared, the value will be negative.
 --
 -- ObjC selector: @- averageBitRate@
 averageBitRate :: IsAVAssetVariant avAssetVariant => avAssetVariant -> IO CDouble
 averageBitRate avAssetVariant =
   sendMessage avAssetVariant averageBitRateSelector
 
--- | Provides variant's video rendition attributes. If no video attributes are declared, it will be nil.
+-- | videoAttributes
+--
+-- Provides  variant's video rendition attributes. If no video attributes are declared, it will be nil.
 --
 -- ObjC selector: @- videoAttributes@
 videoAttributes :: IsAVAssetVariant avAssetVariant => avAssetVariant -> IO (Id AVAssetVariantVideoAttributes)
 videoAttributes avAssetVariant =
   sendMessage avAssetVariant videoAttributesSelector
 
--- | Provides variant's audio rendition attributes. If no audio attributes are declared, it will be nil.
+-- | audioAttributes
+--
+-- Provides  variant's audio rendition attributes. If no audio attributes are declared, it will be nil.
 --
 -- ObjC selector: @- audioAttributes@
 audioAttributes :: IsAVAssetVariant avAssetVariant => avAssetVariant -> IO (Id AVAssetVariantAudioAttributes)
 audioAttributes avAssetVariant =
   sendMessage avAssetVariant audioAttributesSelector
-
--- | Provides URL to media playlist corresponding to variant
---
--- ObjC selector: @- URL@
-url :: IsAVAssetVariant avAssetVariant => avAssetVariant -> IO (Id NSURL)
-url avAssetVariant =
-  sendMessage avAssetVariant urlSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -112,8 +113,4 @@ videoAttributesSelector = mkSelector "videoAttributes"
 -- | @Selector@ for @audioAttributes@
 audioAttributesSelector :: Selector '[] (Id AVAssetVariantAudioAttributes)
 audioAttributesSelector = mkSelector "audioAttributes"
-
--- | @Selector@ for @URL@
-urlSelector :: Selector '[] (Id NSURL)
-urlSelector = mkSelector "URL"
 

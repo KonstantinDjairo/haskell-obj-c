@@ -8,14 +8,12 @@
 -- Import the per-class modules for the public API.
 module ObjC.NetworkExtension.Internal.Classes (
     module ObjC.NetworkExtension.Internal.Classes,
-    module ObjC.AccessorySetupKit.Internal.Classes,
     module ObjC.Foundation.Internal.Classes,
   ) where
 
 import Data.Proxy (Proxy(..))
 import ObjC.Runtime.Types
 import ObjC.Runtime.Class (getRequiredClass)
-import ObjC.AccessorySetupKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- ---------- NEFilterPacketSet ----------
@@ -932,58 +930,6 @@ instance IsNEProxySettings (Id NEProxySettings) where
 instance IsNSObject (Id NEProxySettings) where
   toNSObject = unsafeCastId
 
--- ---------- NERelay ----------
-
--- | NERelay
---
--- The NERelay class declares the programmatic interface of an object that 			manages the details of a relay's configuration, such as authentication and URL details.
---
--- Instances of this class are thread safe.
--- 
--- Phantom type for @NERelay@.
-data NERelay
-
-instance IsObjCObject (Id NERelay) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NERelay"
-
-class IsNSObject a => IsNERelay a where
-  toNERelay :: a -> Id NERelay
-
-instance IsNERelay (Id NERelay) where
-  toNERelay = unsafeCastId
-
-instance IsNSObject (Id NERelay) where
-  toNSObject = unsafeCastId
-
--- ---------- NERelayManager ----------
-
--- | NERelayManager
---
--- The NERelayManager class declares the programmatic interface for an object that manages relay configurations.
---
--- NERelayManager declares methods and properties for configuring and controlling relay settings on the system.
---
--- Instances of this class are thread safe.
--- 
--- Phantom type for @NERelayManager@.
-data NERelayManager
-
-instance IsObjCObject (Id NERelayManager) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NERelayManager"
-
-class IsNSObject a => IsNERelayManager a where
-  toNERelayManager :: a -> Id NERelayManager
-
-instance IsNERelayManager (Id NERelayManager) where
-  toNERelayManager = unsafeCastId
-
-instance IsNSObject (Id NERelayManager) where
-  toNSObject = unsafeCastId
-
 -- ---------- NETunnelNetworkSettings ----------
 
 -- | NETunnelNetworkSettings
@@ -1011,25 +957,6 @@ instance IsNETunnelNetworkSettings (Id NETunnelNetworkSettings) where
 instance IsNSObject (Id NETunnelNetworkSettings) where
   toNSObject = unsafeCastId
 
--- ---------- NEURLFilter ----------
-
--- | Phantom type for @NEURLFilter@.
-data NEURLFilter
-
-instance IsObjCObject (Id NEURLFilter) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NEURLFilter"
-
-class IsNSObject a => IsNEURLFilter a where
-  toNEURLFilter :: a -> Id NEURLFilter
-
-instance IsNEURLFilter (Id NEURLFilter) where
-  toNEURLFilter = unsafeCastId
-
-instance IsNSObject (Id NEURLFilter) where
-  toNSObject = unsafeCastId
-
 -- ---------- NEVPNConnection ----------
 
 -- | NEVPNConnection
@@ -1053,31 +980,6 @@ instance IsNEVPNConnection (Id NEVPNConnection) where
   toNEVPNConnection = unsafeCastId
 
 instance IsNSObject (Id NEVPNConnection) where
-  toNSObject = unsafeCastId
-
--- ---------- NEVPNIKEv2PPKConfiguration ----------
-
--- | NEVPNIKEv2PPKConfiguration
---
--- The NEVPNIKEv2PPKConfiguration class declares the programmatic interface of an object that manages parameters for a Post-quantum Pre-shared Key (PPK)
---
--- Instances of this class conform to RFC 8784. Instances of this class are thread safe.
--- 
--- Phantom type for @NEVPNIKEv2PPKConfiguration@.
-data NEVPNIKEv2PPKConfiguration
-
-instance IsObjCObject (Id NEVPNIKEv2PPKConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NEVPNIKEv2PPKConfiguration"
-
-class IsNSObject a => IsNEVPNIKEv2PPKConfiguration a where
-  toNEVPNIKEv2PPKConfiguration :: a -> Id NEVPNIKEv2PPKConfiguration
-
-instance IsNEVPNIKEv2PPKConfiguration (Id NEVPNIKEv2PPKConfiguration) where
-  toNEVPNIKEv2PPKConfiguration = unsafeCastId
-
-instance IsNSObject (Id NEVPNIKEv2PPKConfiguration) where
   toNSObject = unsafeCastId
 
 -- ---------- NEVPNIKEv2SecurityAssociationParameters ----------
@@ -1228,11 +1130,7 @@ instance IsNSObject (Id NWTCPConnection) where
 
 -- ---------- NWTLSParameters ----------
 
--- | DEPRECATION NOTICE
---
--- NW object wrappers are hidden in Swift 6. To continue accessing them, you can prepend double underscores to the symbol name.
--- 
--- Phantom type for @NWTLSParameters@.
+-- | Phantom type for @NWTLSParameters@.
 data NWTLSParameters
 
 instance IsObjCObject (Id NWTLSParameters) where

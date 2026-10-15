@@ -25,7 +25,6 @@ module ObjC.AppKit.NSCell
   , imageRectForBounds
   , titleRectForBounds
   , drawingRectForBounds
-  , _bulletStringForString_bulletCharacter
   , cellSizeForBounds
   , highlightColorWithFrame_inView
   , calcDrawInfo
@@ -162,7 +161,6 @@ module ObjC.AppKit.NSCell
   , setFocusRingType
   , defaultFocusRingType
   , wantsNotificationForMarkedText
-  , _bulletStringForString_bulletCharacterSelector
   , acceptsFirstResponderSelector
   , actionSelector
   , alignmentSelector
@@ -359,7 +357,6 @@ module ObjC.AppKit.NSCell
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
   , NSControlTint(NSControlTint)
   , pattern NSDefaultControlTint
   , pattern NSBlueControlTint
@@ -399,7 +396,6 @@ module ObjC.AppKit.NSCell
   , pattern NSEventMaskPressure
   , pattern NSEventMaskDirectTouch
   , pattern NSEventMaskChangeMode
-  , pattern NSEventMaskMouseCancelled
   , pattern NSEventMaskAny
   , NSFocusRingType(NSFocusRingType)
   , pattern NSFocusRingTypeDefault
@@ -414,8 +410,8 @@ module ObjC.AppKit.NSCell
   , pattern NSLineBreakByTruncatingMiddle
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , NSUserInterfaceLayoutDirection(NSUserInterfaceLayoutDirection)
@@ -526,13 +522,6 @@ titleRectForBounds nsCell rect =
 drawingRectForBounds :: IsNSCell nsCell => nsCell -> NSRect -> IO NSRect
 drawingRectForBounds nsCell rect =
   sendMessage nsCell drawingRectForBoundsSelector rect
-
--- | @+ _bulletStringForString:bulletCharacter:@
-_bulletStringForString_bulletCharacter :: IsNSString string => string -> CUShort -> IO (Id NSString)
-_bulletStringForString_bulletCharacter string bulletChar =
-  do
-    cls' <- getRequiredClass "NSCell"
-    sendClassMessage cls' _bulletStringForString_bulletCharacterSelector (toNSString string) bulletChar
 
 -- | @- cellSizeForBounds:@
 cellSizeForBounds :: IsNSCell nsCell => nsCell -> NSRect -> IO NSSize
@@ -1291,10 +1280,6 @@ titleRectForBoundsSelector = mkSelector "titleRectForBounds:"
 -- | @Selector@ for @drawingRectForBounds:@
 drawingRectForBoundsSelector :: Selector '[NSRect] NSRect
 drawingRectForBoundsSelector = mkSelector "drawingRectForBounds:"
-
--- | @Selector@ for @_bulletStringForString:bulletCharacter:@
-_bulletStringForString_bulletCharacterSelector :: Selector '[Id NSString, CUShort] (Id NSString)
-_bulletStringForString_bulletCharacterSelector = mkSelector "_bulletStringForString:bulletCharacter:"
 
 -- | @Selector@ for @cellSizeForBounds:@
 cellSizeForBoundsSelector :: Selector '[NSRect] NSSize

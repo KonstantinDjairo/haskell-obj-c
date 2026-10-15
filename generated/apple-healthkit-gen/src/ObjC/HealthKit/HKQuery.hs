@@ -9,19 +9,6 @@ module ObjC.HealthKit.HKQuery
   ( HKQuery
   , IsHKQuery(..)
   , init_
-  , predicateForUserAnnotatedMedicationsWithIsArchived
-  , predicateForUserAnnotatedMedicationsWithHasSchedule
-  , predicateForMedicationDoseEventWithStatus
-  , predicateForMedicationDoseEventWithStatuses
-  , predicateForMedicationDoseEventWithScheduledDate
-  , predicateForMedicationDoseEventWithScheduledDates
-  , predicateForMedicationDoseEventWithScheduledStartDate_endDate
-  , predicateForMedicationDoseEventWithMedicationConceptIdentifier
-  , predicateForMedicationDoseEventWithMedicationConceptIdentifiers
-  , predicateForStatesOfMindWithValence_operatorType
-  , predicateForStatesOfMindWithKind
-  , predicateForStatesOfMindWithLabel
-  , predicateForStatesOfMindWithAssociation
   , predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateInterval
   , predicateForElectrocardiogramsWithClassification
   , predicateForElectrocardiogramsWithSymptomsStatus
@@ -64,7 +51,6 @@ module ObjC.HealthKit.HKQuery
   , predicateForObjectsWithNoCorrelation
   , predicateForObjectsFromWorkout
   , predicateForObjectsAssociatedWithElectrocardiogram
-  , predicateForWorkoutEffortSamplesRelatedToWorkout_activity
   , objectType
   , sampleType
   , predicate
@@ -78,13 +64,6 @@ module ObjC.HealthKit.HKQuery
   , predicateForClinicalRecordsWithFHIRResourceTypeSelector
   , predicateForElectrocardiogramsWithClassificationSelector
   , predicateForElectrocardiogramsWithSymptomsStatusSelector
-  , predicateForMedicationDoseEventWithMedicationConceptIdentifierSelector
-  , predicateForMedicationDoseEventWithMedicationConceptIdentifiersSelector
-  , predicateForMedicationDoseEventWithScheduledDateSelector
-  , predicateForMedicationDoseEventWithScheduledDatesSelector
-  , predicateForMedicationDoseEventWithScheduledStartDate_endDateSelector
-  , predicateForMedicationDoseEventWithStatusSelector
-  , predicateForMedicationDoseEventWithStatusesSelector
   , predicateForObjectWithUUIDSelector
   , predicateForObjectsAssociatedWithElectrocardiogramSelector
   , predicateForObjectsFromDevicesSelector
@@ -100,12 +79,6 @@ module ObjC.HealthKit.HKQuery
   , predicateForObjectsWithUUIDsSelector
   , predicateForQuantitySamplesWithOperatorType_quantitySelector
   , predicateForSamplesWithStartDate_endDate_optionsSelector
-  , predicateForStatesOfMindWithAssociationSelector
-  , predicateForStatesOfMindWithKindSelector
-  , predicateForStatesOfMindWithLabelSelector
-  , predicateForStatesOfMindWithValence_operatorTypeSelector
-  , predicateForUserAnnotatedMedicationsWithHasScheduleSelector
-  , predicateForUserAnnotatedMedicationsWithIsArchivedSelector
   , predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateIntervalSelector
   , predicateForWorkoutActivitiesWithOperatorType_durationSelector
   , predicateForWorkoutActivitiesWithOperatorType_quantityType_averageQuantitySelector
@@ -114,7 +87,6 @@ module ObjC.HealthKit.HKQuery
   , predicateForWorkoutActivitiesWithOperatorType_quantityType_sumQuantitySelector
   , predicateForWorkoutActivitiesWithStartDate_endDate_optionsSelector
   , predicateForWorkoutActivitiesWithWorkoutActivityTypeSelector
-  , predicateForWorkoutEffortSamplesRelatedToWorkout_activitySelector
   , predicateForWorkoutsWithActivityPredicateSelector
   , predicateForWorkoutsWithOperatorType_durationSelector
   , predicateForWorkoutsWithOperatorType_quantityType_averageQuantitySelector
@@ -143,78 +115,10 @@ module ObjC.HealthKit.HKQuery
   , pattern HKElectrocardiogramSymptomsStatusNotSet
   , pattern HKElectrocardiogramSymptomsStatusNone
   , pattern HKElectrocardiogramSymptomsStatusPresent
-  , HKMedicationDoseEventLogStatus(HKMedicationDoseEventLogStatus)
-  , pattern HKMedicationDoseEventLogStatusNotInteracted
-  , pattern HKMedicationDoseEventLogStatusNotificationNotSent
-  , pattern HKMedicationDoseEventLogStatusSnoozed
-  , pattern HKMedicationDoseEventLogStatusTaken
-  , pattern HKMedicationDoseEventLogStatusSkipped
-  , pattern HKMedicationDoseEventLogStatusNotLogged
   , HKQueryOptions(HKQueryOptions)
   , pattern HKQueryOptionNone
   , pattern HKQueryOptionStrictStartDate
   , pattern HKQueryOptionStrictEndDate
-  , HKStateOfMindAssociation(HKStateOfMindAssociation)
-  , pattern HKStateOfMindAssociationCommunity
-  , pattern HKStateOfMindAssociationCurrentEvents
-  , pattern HKStateOfMindAssociationDating
-  , pattern HKStateOfMindAssociationEducation
-  , pattern HKStateOfMindAssociationFamily
-  , pattern HKStateOfMindAssociationFitness
-  , pattern HKStateOfMindAssociationFriends
-  , pattern HKStateOfMindAssociationHealth
-  , pattern HKStateOfMindAssociationHobbies
-  , pattern HKStateOfMindAssociationIdentity
-  , pattern HKStateOfMindAssociationMoney
-  , pattern HKStateOfMindAssociationPartner
-  , pattern HKStateOfMindAssociationSelfCare
-  , pattern HKStateOfMindAssociationSpirituality
-  , pattern HKStateOfMindAssociationTasks
-  , pattern HKStateOfMindAssociationTravel
-  , pattern HKStateOfMindAssociationWork
-  , pattern HKStateOfMindAssociationWeather
-  , HKStateOfMindKind(HKStateOfMindKind)
-  , pattern HKStateOfMindKindMomentaryEmotion
-  , pattern HKStateOfMindKindDailyMood
-  , HKStateOfMindLabel(HKStateOfMindLabel)
-  , pattern HKStateOfMindLabelAmazed
-  , pattern HKStateOfMindLabelAmused
-  , pattern HKStateOfMindLabelAngry
-  , pattern HKStateOfMindLabelAnxious
-  , pattern HKStateOfMindLabelAshamed
-  , pattern HKStateOfMindLabelBrave
-  , pattern HKStateOfMindLabelCalm
-  , pattern HKStateOfMindLabelContent
-  , pattern HKStateOfMindLabelDisappointed
-  , pattern HKStateOfMindLabelDiscouraged
-  , pattern HKStateOfMindLabelDisgusted
-  , pattern HKStateOfMindLabelEmbarrassed
-  , pattern HKStateOfMindLabelExcited
-  , pattern HKStateOfMindLabelFrustrated
-  , pattern HKStateOfMindLabelGrateful
-  , pattern HKStateOfMindLabelGuilty
-  , pattern HKStateOfMindLabelHappy
-  , pattern HKStateOfMindLabelHopeless
-  , pattern HKStateOfMindLabelIrritated
-  , pattern HKStateOfMindLabelJealous
-  , pattern HKStateOfMindLabelJoyful
-  , pattern HKStateOfMindLabelLonely
-  , pattern HKStateOfMindLabelPassionate
-  , pattern HKStateOfMindLabelPeaceful
-  , pattern HKStateOfMindLabelProud
-  , pattern HKStateOfMindLabelRelieved
-  , pattern HKStateOfMindLabelSad
-  , pattern HKStateOfMindLabelScared
-  , pattern HKStateOfMindLabelStressed
-  , pattern HKStateOfMindLabelSurprised
-  , pattern HKStateOfMindLabelWorried
-  , pattern HKStateOfMindLabelAnnoyed
-  , pattern HKStateOfMindLabelConfident
-  , pattern HKStateOfMindLabelDrained
-  , pattern HKStateOfMindLabelHopeful
-  , pattern HKStateOfMindLabelIndifferent
-  , pattern HKStateOfMindLabelOverwhelmed
-  , pattern HKStateOfMindLabelSatisfied
   , HKWorkoutActivityType(HKWorkoutActivityType)
   , pattern HKWorkoutActivityTypeAmericanFootball
   , pattern HKWorkoutActivityTypeArchery
@@ -298,7 +202,6 @@ module ObjC.HealthKit.HKQuery
   , pattern HKWorkoutActivityTypeCooldown
   , pattern HKWorkoutActivityTypeSwimBikeRun
   , pattern HKWorkoutActivityTypeTransition
-  , pattern HKWorkoutActivityTypeUnderwaterDiving
   , pattern HKWorkoutActivityTypeOther
   , NSPredicateOperatorType(NSPredicateOperatorType)
   , pattern NSLessThanPredicateOperatorType
@@ -335,205 +238,6 @@ import ObjC.Foundation.Internal.Classes
 init_ :: IsHKQuery hkQuery => hkQuery -> IO (Id HKQuery)
 init_ hkQuery =
   sendOwnedMessage hkQuery initSelector
-
--- | predicateForUserAnnotatedMedicationsWithIsArchived:
---
--- Creates a predicate for use with HKUserAnnotatedMedicationQuery.
---
--- Creates a query predicate that matches HKUserAnnotatedMedication objects that have the archived status specified.
---
--- @isArchived@ — The archived status of the medication. Ex: True will match medications in the archived section in the Health App.
---
--- ObjC selector: @+ predicateForUserAnnotatedMedicationsWithIsArchived:@
-predicateForUserAnnotatedMedicationsWithIsArchived :: Bool -> IO (Id NSPredicate)
-predicateForUserAnnotatedMedicationsWithIsArchived isArchived =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForUserAnnotatedMedicationsWithIsArchivedSelector isArchived
-
--- | predicateForUserAnnotatedMedicationsWithHasSchedule:
---
--- Creates a predicate for use with HKUserAnnotatedMedicationQuery.
---
--- Creates a query predicate that matches HKUserAnnotatedMedication objects that match the schedule status specified.
---
--- @hasSchedule@ — The schedule status of the medication. Ex: True will match medications that have a reminders schedule set up in the Health App.
---
--- ObjC selector: @+ predicateForUserAnnotatedMedicationsWithHasSchedule:@
-predicateForUserAnnotatedMedicationsWithHasSchedule :: Bool -> IO (Id NSPredicate)
-predicateForUserAnnotatedMedicationsWithHasSchedule hasSchedule =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForUserAnnotatedMedicationsWithHasScheduleSelector hasSchedule
-
--- | predicateForMedicationDoseEventWithStatus:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches HKMedicationDoseEvent samples that have the status specified.
---
--- @status@ — The logged status of the medication dose event to match.
---
--- ObjC selector: @+ predicateForMedicationDoseEventWithStatus:@
-predicateForMedicationDoseEventWithStatus :: HKMedicationDoseEventLogStatus -> IO (Id NSPredicate)
-predicateForMedicationDoseEventWithStatus status =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForMedicationDoseEventWithStatusSelector status
-
--- | predicateForMedicationDoseEventWithStatuses:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches HKMedicationDoseEvent samples that have any of the statuses specified.
---
--- @statuses@ — The logged statuses of the medication dose event to match.
---
--- ObjC selector: @+ predicateForMedicationDoseEventWithStatuses:@
-predicateForMedicationDoseEventWithStatuses :: IsNSSet statuses => statuses -> IO (Id NSPredicate)
-predicateForMedicationDoseEventWithStatuses statuses =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForMedicationDoseEventWithStatusesSelector (toNSSet statuses)
-
--- | predicateForMedicationDoseEventWithScheduledDate:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches HKMedicationDoseEvent samples that have the exact scheduled date specified.
---
--- @scheduledDate@ — The exact scheduled date of the medication dose event to match.
---
--- ObjC selector: @+ predicateForMedicationDoseEventWithScheduledDate:@
-predicateForMedicationDoseEventWithScheduledDate :: IsNSDate scheduledDate => scheduledDate -> IO (Id NSPredicate)
-predicateForMedicationDoseEventWithScheduledDate scheduledDate =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForMedicationDoseEventWithScheduledDateSelector (toNSDate scheduledDate)
-
--- | predicateForMedicationDoseEventWithScheduledDates:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches HKMedicationDoseEvent samples that have any of the exact scheduled dates specified.
---
--- @scheduledDates@ — The exact scheduled dates of any medication dose event to match.
---
--- ObjC selector: @+ predicateForMedicationDoseEventWithScheduledDates:@
-predicateForMedicationDoseEventWithScheduledDates :: IsNSSet scheduledDates => scheduledDates -> IO (Id NSPredicate)
-predicateForMedicationDoseEventWithScheduledDates scheduledDates =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForMedicationDoseEventWithScheduledDatesSelector (toNSSet scheduledDates)
-
--- | predicateForMedicationDoseEventWithScheduledStartDate:endDate:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches HKMedicationDoseEvent samples that have a scheduled date within a window of scheduled times. If nil is provided to either parameter, the respective side of the window is unbound.
---
--- @startDate@ — The beginning of the window for scheduled dates of any medication dose event to match.
---
--- @endDate@ — The beginning of the window for scheduled dates of any medication dose event to match.
---
--- ObjC selector: @+ predicateForMedicationDoseEventWithScheduledStartDate:endDate:@
-predicateForMedicationDoseEventWithScheduledStartDate_endDate :: (IsNSDate startDate, IsNSDate endDate) => startDate -> endDate -> IO (Id NSPredicate)
-predicateForMedicationDoseEventWithScheduledStartDate_endDate startDate endDate =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForMedicationDoseEventWithScheduledStartDate_endDateSelector (toNSDate startDate) (toNSDate endDate)
-
--- | predicateForMedicationDoseEventWithMedicationConceptIdentifier:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches HKMedicationDoseEvent samples that match a medication's concept identifier.
---
--- @medicationConceptIdentifier@ — The identifier of the medication that a dose event was created for.
---
--- ObjC selector: @+ predicateForMedicationDoseEventWithMedicationConceptIdentifier:@
-predicateForMedicationDoseEventWithMedicationConceptIdentifier :: IsHKHealthConceptIdentifier medicationConceptIdentifier => medicationConceptIdentifier -> IO (Id NSPredicate)
-predicateForMedicationDoseEventWithMedicationConceptIdentifier medicationConceptIdentifier =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForMedicationDoseEventWithMedicationConceptIdentifierSelector (toHKHealthConceptIdentifier medicationConceptIdentifier)
-
--- | predicateForMedicationDoseEventWithMedicationConceptIdentifiers:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches HKMedicationDoseEvent samples generated by any medication in a set of medication concept identifiers.
---
--- @medicationConceptIdentifiers@ — Any identifier of a medication that a dose event was created for.
---
--- ObjC selector: @+ predicateForMedicationDoseEventWithMedicationConceptIdentifiers:@
-predicateForMedicationDoseEventWithMedicationConceptIdentifiers :: IsNSSet medicationConceptIdentifiers => medicationConceptIdentifiers -> IO (Id NSPredicate)
-predicateForMedicationDoseEventWithMedicationConceptIdentifiers medicationConceptIdentifiers =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForMedicationDoseEventWithMedicationConceptIdentifiersSelector (toNSSet medicationConceptIdentifiers)
-
--- | predicateForStatesOfMindWithValence:operatorType:
---
--- Creates a predicate for use with HKStateOfMind
---
--- Creates a query predicate that matches HKStateOfMind samples that have a valence property matching the operator type and valence.
---
--- @valence@ — The value to be compared against.
---
--- @operatorType@ — The comparison operator type for the expression.
---
--- ObjC selector: @+ predicateForStatesOfMindWithValence:operatorType:@
-predicateForStatesOfMindWithValence_operatorType :: CDouble -> NSPredicateOperatorType -> IO (Id NSPredicate)
-predicateForStatesOfMindWithValence_operatorType valence operatorType =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForStatesOfMindWithValence_operatorTypeSelector valence operatorType
-
--- | predicateForStatesOfMindWithKind:
---
--- Creates a predicate for use with HKStateOfMind
---
--- Creates a query predicate that matches HKStateOfMind samples that have the specified kind of feeling type.
---
--- @kind@ — The kind of feeling type to be compared against.
---
--- ObjC selector: @+ predicateForStatesOfMindWithKind:@
-predicateForStatesOfMindWithKind :: HKStateOfMindKind -> IO (Id NSPredicate)
-predicateForStatesOfMindWithKind kind =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForStatesOfMindWithKindSelector kind
-
--- | predicateForStatesOfMindWithLabel:
---
--- Creates a predicate for use with HKStateOfMind
---
--- Creates a query predicate that matches HKStateOfMind samples that have the specified label.
---
--- @label@ — The label to be compared against.
---
--- ObjC selector: @+ predicateForStatesOfMindWithLabel:@
-predicateForStatesOfMindWithLabel :: HKStateOfMindLabel -> IO (Id NSPredicate)
-predicateForStatesOfMindWithLabel label =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForStatesOfMindWithLabelSelector label
-
--- | predicateForStatesOfMindWithAssociation:
---
--- Creates a predicate for use with HKStateOfMind
---
--- Creates a query predicate that matches HKStateOfMind samples that have the specified association.
---
--- @association@ — The association to be compared against.
---
--- ObjC selector: @+ predicateForStatesOfMindWithAssociation:@
-predicateForStatesOfMindWithAssociation :: HKStateOfMindAssociation -> IO (Id NSPredicate)
-predicateForStatesOfMindWithAssociation association =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForStatesOfMindWithAssociationSelector association
 
 -- | predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateInterval:
 --
@@ -1221,23 +925,6 @@ predicateForObjectsAssociatedWithElectrocardiogram electrocardiogram =
     cls' <- getRequiredClass "HKQuery"
     sendClassMessage cls' predicateForObjectsAssociatedWithElectrocardiogramSelector (toHKElectrocardiogram electrocardiogram)
 
--- | predicateForWorkoutEffortSamplesRelatedToWorkout:
---
--- Creates a predicate for use with HKQuery subclasses.
---
--- Creates a query predicate that matches Workout Effort samples that have been related to the given workout
---
--- @workout@ — The HKWorkout that the object is related to.
---
--- @activity@ — The HKWorkoutActivity that the object is related to.
---
--- ObjC selector: @+ predicateForWorkoutEffortSamplesRelatedToWorkout:activity:@
-predicateForWorkoutEffortSamplesRelatedToWorkout_activity :: (IsHKWorkout workout, IsHKWorkoutActivity activity) => workout -> activity -> IO (Id NSPredicate)
-predicateForWorkoutEffortSamplesRelatedToWorkout_activity workout activity =
-  do
-    cls' <- getRequiredClass "HKQuery"
-    sendClassMessage cls' predicateForWorkoutEffortSamplesRelatedToWorkout_activitySelector (toHKWorkout workout) (toHKWorkoutActivity activity)
-
 -- | @- objectType@
 objectType :: IsHKQuery hkQuery => hkQuery -> IO (Id HKObjectType)
 objectType hkQuery =
@@ -1260,58 +947,6 @@ predicate hkQuery =
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id HKQuery)
 initSelector = mkSelector "init"
-
--- | @Selector@ for @predicateForUserAnnotatedMedicationsWithIsArchived:@
-predicateForUserAnnotatedMedicationsWithIsArchivedSelector :: Selector '[Bool] (Id NSPredicate)
-predicateForUserAnnotatedMedicationsWithIsArchivedSelector = mkSelector "predicateForUserAnnotatedMedicationsWithIsArchived:"
-
--- | @Selector@ for @predicateForUserAnnotatedMedicationsWithHasSchedule:@
-predicateForUserAnnotatedMedicationsWithHasScheduleSelector :: Selector '[Bool] (Id NSPredicate)
-predicateForUserAnnotatedMedicationsWithHasScheduleSelector = mkSelector "predicateForUserAnnotatedMedicationsWithHasSchedule:"
-
--- | @Selector@ for @predicateForMedicationDoseEventWithStatus:@
-predicateForMedicationDoseEventWithStatusSelector :: Selector '[HKMedicationDoseEventLogStatus] (Id NSPredicate)
-predicateForMedicationDoseEventWithStatusSelector = mkSelector "predicateForMedicationDoseEventWithStatus:"
-
--- | @Selector@ for @predicateForMedicationDoseEventWithStatuses:@
-predicateForMedicationDoseEventWithStatusesSelector :: Selector '[Id NSSet] (Id NSPredicate)
-predicateForMedicationDoseEventWithStatusesSelector = mkSelector "predicateForMedicationDoseEventWithStatuses:"
-
--- | @Selector@ for @predicateForMedicationDoseEventWithScheduledDate:@
-predicateForMedicationDoseEventWithScheduledDateSelector :: Selector '[Id NSDate] (Id NSPredicate)
-predicateForMedicationDoseEventWithScheduledDateSelector = mkSelector "predicateForMedicationDoseEventWithScheduledDate:"
-
--- | @Selector@ for @predicateForMedicationDoseEventWithScheduledDates:@
-predicateForMedicationDoseEventWithScheduledDatesSelector :: Selector '[Id NSSet] (Id NSPredicate)
-predicateForMedicationDoseEventWithScheduledDatesSelector = mkSelector "predicateForMedicationDoseEventWithScheduledDates:"
-
--- | @Selector@ for @predicateForMedicationDoseEventWithScheduledStartDate:endDate:@
-predicateForMedicationDoseEventWithScheduledStartDate_endDateSelector :: Selector '[Id NSDate, Id NSDate] (Id NSPredicate)
-predicateForMedicationDoseEventWithScheduledStartDate_endDateSelector = mkSelector "predicateForMedicationDoseEventWithScheduledStartDate:endDate:"
-
--- | @Selector@ for @predicateForMedicationDoseEventWithMedicationConceptIdentifier:@
-predicateForMedicationDoseEventWithMedicationConceptIdentifierSelector :: Selector '[Id HKHealthConceptIdentifier] (Id NSPredicate)
-predicateForMedicationDoseEventWithMedicationConceptIdentifierSelector = mkSelector "predicateForMedicationDoseEventWithMedicationConceptIdentifier:"
-
--- | @Selector@ for @predicateForMedicationDoseEventWithMedicationConceptIdentifiers:@
-predicateForMedicationDoseEventWithMedicationConceptIdentifiersSelector :: Selector '[Id NSSet] (Id NSPredicate)
-predicateForMedicationDoseEventWithMedicationConceptIdentifiersSelector = mkSelector "predicateForMedicationDoseEventWithMedicationConceptIdentifiers:"
-
--- | @Selector@ for @predicateForStatesOfMindWithValence:operatorType:@
-predicateForStatesOfMindWithValence_operatorTypeSelector :: Selector '[CDouble, NSPredicateOperatorType] (Id NSPredicate)
-predicateForStatesOfMindWithValence_operatorTypeSelector = mkSelector "predicateForStatesOfMindWithValence:operatorType:"
-
--- | @Selector@ for @predicateForStatesOfMindWithKind:@
-predicateForStatesOfMindWithKindSelector :: Selector '[HKStateOfMindKind] (Id NSPredicate)
-predicateForStatesOfMindWithKindSelector = mkSelector "predicateForStatesOfMindWithKind:"
-
--- | @Selector@ for @predicateForStatesOfMindWithLabel:@
-predicateForStatesOfMindWithLabelSelector :: Selector '[HKStateOfMindLabel] (Id NSPredicate)
-predicateForStatesOfMindWithLabelSelector = mkSelector "predicateForStatesOfMindWithLabel:"
-
--- | @Selector@ for @predicateForStatesOfMindWithAssociation:@
-predicateForStatesOfMindWithAssociationSelector :: Selector '[HKStateOfMindAssociation] (Id NSPredicate)
-predicateForStatesOfMindWithAssociationSelector = mkSelector "predicateForStatesOfMindWithAssociation:"
 
 -- | @Selector@ for @predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateInterval:@
 predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateIntervalSelector :: Selector '[Id NSDateInterval] (Id NSPredicate)
@@ -1480,10 +1115,6 @@ predicateForObjectsFromWorkoutSelector = mkSelector "predicateForObjectsFromWork
 -- | @Selector@ for @predicateForObjectsAssociatedWithElectrocardiogram:@
 predicateForObjectsAssociatedWithElectrocardiogramSelector :: Selector '[Id HKElectrocardiogram] (Id NSPredicate)
 predicateForObjectsAssociatedWithElectrocardiogramSelector = mkSelector "predicateForObjectsAssociatedWithElectrocardiogram:"
-
--- | @Selector@ for @predicateForWorkoutEffortSamplesRelatedToWorkout:activity:@
-predicateForWorkoutEffortSamplesRelatedToWorkout_activitySelector :: Selector '[Id HKWorkout, Id HKWorkoutActivity] (Id NSPredicate)
-predicateForWorkoutEffortSamplesRelatedToWorkout_activitySelector = mkSelector "predicateForWorkoutEffortSamplesRelatedToWorkout:activity:"
 
 -- | @Selector@ for @objectType@
 objectTypeSelector :: Selector '[] (Id HKObjectType)

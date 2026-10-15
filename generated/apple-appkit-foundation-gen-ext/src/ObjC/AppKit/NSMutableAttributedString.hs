@@ -17,12 +17,12 @@ module ObjC.AppKit.NSMutableAttributedString
   , applyFontTraits_range
   , setAlignment_range
   , setBaseWritingDirection_range
-  , fixFontAttributeInRange
-  , fixParagraphStyleAttributeInRange
-  , fixAttachmentAttributeInRange
   , readFromURL_options_documentAttributes_error
   , readFromData_options_documentAttributes_error
   , fixAttributesInRange
+  , fixFontAttributeInRange
+  , fixParagraphStyleAttributeInRange
+  , fixAttachmentAttributeInRange
   , applyFontTraits_rangeSelector
   , fixAttachmentAttributeInRangeSelector
   , fixAttributesInRangeSelector
@@ -55,8 +55,8 @@ module ObjC.AppKit.NSMutableAttributedString
   , pattern NSUnitalicFontMask
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , NSWritingDirection(NSWritingDirection)
@@ -124,21 +124,6 @@ setBaseWritingDirection_range :: IsNSMutableAttributedString nsMutableAttributed
 setBaseWritingDirection_range nsMutableAttributedString writingDirection range =
   sendMessage nsMutableAttributedString setBaseWritingDirection_rangeSelector writingDirection range
 
--- | @- fixFontAttributeInRange:@
-fixFontAttributeInRange :: IsNSMutableAttributedString nsMutableAttributedString => nsMutableAttributedString -> NSRange -> IO ()
-fixFontAttributeInRange nsMutableAttributedString range =
-  sendMessage nsMutableAttributedString fixFontAttributeInRangeSelector range
-
--- | @- fixParagraphStyleAttributeInRange:@
-fixParagraphStyleAttributeInRange :: IsNSMutableAttributedString nsMutableAttributedString => nsMutableAttributedString -> NSRange -> IO ()
-fixParagraphStyleAttributeInRange nsMutableAttributedString range =
-  sendMessage nsMutableAttributedString fixParagraphStyleAttributeInRangeSelector range
-
--- | @- fixAttachmentAttributeInRange:@
-fixAttachmentAttributeInRange :: IsNSMutableAttributedString nsMutableAttributedString => nsMutableAttributedString -> NSRange -> IO ()
-fixAttachmentAttributeInRange nsMutableAttributedString range =
-  sendMessage nsMutableAttributedString fixAttachmentAttributeInRangeSelector range
-
 -- | @- readFromURL:options:documentAttributes:error:@
 readFromURL_options_documentAttributes_error :: (IsNSMutableAttributedString nsMutableAttributedString, IsNSURL url, IsNSDictionary opts, IsNSDictionary dict, IsNSError error_) => nsMutableAttributedString -> url -> opts -> dict -> error_ -> IO Bool
 readFromURL_options_documentAttributes_error nsMutableAttributedString url opts dict error_ =
@@ -153,6 +138,21 @@ readFromData_options_documentAttributes_error nsMutableAttributedString data_ op
 fixAttributesInRange :: IsNSMutableAttributedString nsMutableAttributedString => nsMutableAttributedString -> NSRange -> IO ()
 fixAttributesInRange nsMutableAttributedString range =
   sendMessage nsMutableAttributedString fixAttributesInRangeSelector range
+
+-- | @- fixFontAttributeInRange:@
+fixFontAttributeInRange :: IsNSMutableAttributedString nsMutableAttributedString => nsMutableAttributedString -> NSRange -> IO ()
+fixFontAttributeInRange nsMutableAttributedString range =
+  sendMessage nsMutableAttributedString fixFontAttributeInRangeSelector range
+
+-- | @- fixParagraphStyleAttributeInRange:@
+fixParagraphStyleAttributeInRange :: IsNSMutableAttributedString nsMutableAttributedString => nsMutableAttributedString -> NSRange -> IO ()
+fixParagraphStyleAttributeInRange nsMutableAttributedString range =
+  sendMessage nsMutableAttributedString fixParagraphStyleAttributeInRangeSelector range
+
+-- | @- fixAttachmentAttributeInRange:@
+fixAttachmentAttributeInRange :: IsNSMutableAttributedString nsMutableAttributedString => nsMutableAttributedString -> NSRange -> IO ()
+fixAttachmentAttributeInRange nsMutableAttributedString range =
+  sendMessage nsMutableAttributedString fixAttachmentAttributeInRangeSelector range
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -194,18 +194,6 @@ setAlignment_rangeSelector = mkSelector "setAlignment:range:"
 setBaseWritingDirection_rangeSelector :: Selector '[NSWritingDirection, NSRange] ()
 setBaseWritingDirection_rangeSelector = mkSelector "setBaseWritingDirection:range:"
 
--- | @Selector@ for @fixFontAttributeInRange:@
-fixFontAttributeInRangeSelector :: Selector '[NSRange] ()
-fixFontAttributeInRangeSelector = mkSelector "fixFontAttributeInRange:"
-
--- | @Selector@ for @fixParagraphStyleAttributeInRange:@
-fixParagraphStyleAttributeInRangeSelector :: Selector '[NSRange] ()
-fixParagraphStyleAttributeInRangeSelector = mkSelector "fixParagraphStyleAttributeInRange:"
-
--- | @Selector@ for @fixAttachmentAttributeInRange:@
-fixAttachmentAttributeInRangeSelector :: Selector '[NSRange] ()
-fixAttachmentAttributeInRangeSelector = mkSelector "fixAttachmentAttributeInRange:"
-
 -- | @Selector@ for @readFromURL:options:documentAttributes:error:@
 readFromURL_options_documentAttributes_errorSelector :: Selector '[Id NSURL, Id NSDictionary, Id NSDictionary, Id NSError] Bool
 readFromURL_options_documentAttributes_errorSelector = mkSelector "readFromURL:options:documentAttributes:error:"
@@ -217,4 +205,16 @@ readFromData_options_documentAttributes_errorSelector = mkSelector "readFromData
 -- | @Selector@ for @fixAttributesInRange:@
 fixAttributesInRangeSelector :: Selector '[NSRange] ()
 fixAttributesInRangeSelector = mkSelector "fixAttributesInRange:"
+
+-- | @Selector@ for @fixFontAttributeInRange:@
+fixFontAttributeInRangeSelector :: Selector '[NSRange] ()
+fixFontAttributeInRangeSelector = mkSelector "fixFontAttributeInRange:"
+
+-- | @Selector@ for @fixParagraphStyleAttributeInRange:@
+fixParagraphStyleAttributeInRangeSelector :: Selector '[NSRange] ()
+fixParagraphStyleAttributeInRangeSelector = mkSelector "fixParagraphStyleAttributeInRange:"
+
+-- | @Selector@ for @fixAttachmentAttributeInRange:@
+fixAttachmentAttributeInRangeSelector :: Selector '[NSRange] ()
+fixAttachmentAttributeInRangeSelector = mkSelector "fixAttachmentAttributeInRange:"
 

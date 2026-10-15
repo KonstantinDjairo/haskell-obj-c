@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -21,33 +20,18 @@ module ObjC.GameKit.GKAchievementDescription
   , maximumPoints
   , hidden
   , replayable
-  , rarityPercent
-  , releaseState
-  , activityIdentifier
-  , activityProperties
-  , image
   , achievedDescriptionSelector
-  , activityIdentifierSelector
-  , activityPropertiesSelector
   , groupIdentifierSelector
   , hiddenSelector
   , identifierSelector
-  , imageSelector
   , incompleteAchievementImageSelector
   , loadImageWithCompletionHandlerSelector
   , maximumPointsSelector
   , placeholderCompletedAchievementImageSelector
-  , rarityPercentSelector
-  , releaseStateSelector
   , replayableSelector
   , titleSelector
   , unachievedDescriptionSelector
 
-  -- * Enum types
-  , GKReleaseState(GKReleaseState)
-  , pattern GKReleaseStateUnknown
-  , pattern GKReleaseStateReleased
-  , pattern GKReleaseStatePrereleased
 
   ) where
 
@@ -60,7 +44,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.GameKit.Internal.Classes
-import ObjC.GameKit.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
@@ -91,7 +74,7 @@ identifier gkAchievementDescription =
 -- | The group identifier for the achievement, if one exists.
 --
 -- ObjC selector: @- groupIdentifier@
-groupIdentifier :: IsGKAchievementDescription gkAchievementDescription => gkAchievementDescription -> IO (Id NSString)
+groupIdentifier :: IsGKAchievementDescription gkAchievementDescription => gkAchievementDescription -> IO RawId
 groupIdentifier gkAchievementDescription =
   sendMessage gkAchievementDescription groupIdentifierSelector
 
@@ -137,39 +120,6 @@ replayable :: IsGKAchievementDescription gkAchievementDescription => gkAchieveme
 replayable gkAchievementDescription =
   sendMessage gkAchievementDescription replayableSelector
 
--- | If present, the rarity of the achievement expressed as a percentage of players that earned it. Null if not enough data is available to compute it.
---
--- ObjC selector: @- rarityPercent@
-rarityPercent :: IsGKAchievementDescription gkAchievementDescription => gkAchievementDescription -> IO (Id NSNumber)
-rarityPercent gkAchievementDescription =
-  sendMessage gkAchievementDescription rarityPercentSelector
-
--- | The release state of the achievement in App Store Connect.
---
--- ObjC selector: @- releaseState@
-releaseState :: IsGKAchievementDescription gkAchievementDescription => gkAchievementDescription -> IO GKReleaseState
-releaseState gkAchievementDescription =
-  sendMessage gkAchievementDescription releaseStateSelector
-
--- | The identifier of the game activity associated with this achievement, as configured by the developer in App Store Connect.
---
--- ObjC selector: @- activityIdentifier@
-activityIdentifier :: IsGKAchievementDescription gkAchievementDescription => gkAchievementDescription -> IO (Id NSString)
-activityIdentifier gkAchievementDescription =
-  sendMessage gkAchievementDescription activityIdentifierSelector
-
--- | The properties when associating this achievement with a game activity, as configured by the developer in App Store Connect.
---
--- ObjC selector: @- activityProperties@
-activityProperties :: IsGKAchievementDescription gkAchievementDescription => gkAchievementDescription -> IO (Id NSDictionary)
-activityProperties gkAchievementDescription =
-  sendMessage gkAchievementDescription activityPropertiesSelector
-
--- | @- image@
-image :: IsGKAchievementDescription gkAchievementDescription => gkAchievementDescription -> IO (Id NSImage)
-image gkAchievementDescription =
-  sendMessage gkAchievementDescription imageSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -191,7 +141,7 @@ identifierSelector :: Selector '[] (Id NSString)
 identifierSelector = mkSelector "identifier"
 
 -- | @Selector@ for @groupIdentifier@
-groupIdentifierSelector :: Selector '[] (Id NSString)
+groupIdentifierSelector :: Selector '[] RawId
 groupIdentifierSelector = mkSelector "groupIdentifier"
 
 -- | @Selector@ for @title@
@@ -217,24 +167,4 @@ hiddenSelector = mkSelector "hidden"
 -- | @Selector@ for @replayable@
 replayableSelector :: Selector '[] Bool
 replayableSelector = mkSelector "replayable"
-
--- | @Selector@ for @rarityPercent@
-rarityPercentSelector :: Selector '[] (Id NSNumber)
-rarityPercentSelector = mkSelector "rarityPercent"
-
--- | @Selector@ for @releaseState@
-releaseStateSelector :: Selector '[] GKReleaseState
-releaseStateSelector = mkSelector "releaseState"
-
--- | @Selector@ for @activityIdentifier@
-activityIdentifierSelector :: Selector '[] (Id NSString)
-activityIdentifierSelector = mkSelector "activityIdentifier"
-
--- | @Selector@ for @activityProperties@
-activityPropertiesSelector :: Selector '[] (Id NSDictionary)
-activityPropertiesSelector = mkSelector "activityProperties"
-
--- | @Selector@ for @image@
-imageSelector :: Selector '[] (Id NSImage)
-imageSelector = mkSelector "image"
 

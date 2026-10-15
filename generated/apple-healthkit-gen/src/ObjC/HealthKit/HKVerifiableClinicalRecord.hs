@@ -148,7 +148,7 @@ dataRepresentation hkVerifiableClinicalRecord =
 -- The record's entirety as JSON Web Signature (JWS) data.
 --
 -- ObjC selector: @- JWSRepresentation@
-jwsRepresentation :: IsHKVerifiableClinicalRecord hkVerifiableClinicalRecord => hkVerifiableClinicalRecord -> IO (Id NSData)
+jwsRepresentation :: IsHKVerifiableClinicalRecord hkVerifiableClinicalRecord => hkVerifiableClinicalRecord -> IO RawId
 jwsRepresentation hkVerifiableClinicalRecord =
   sendMessage hkVerifiableClinicalRecord jwsRepresentationSelector
 
@@ -201,6 +201,6 @@ dataRepresentationSelector :: Selector '[] (Id NSData)
 dataRepresentationSelector = mkSelector "dataRepresentation"
 
 -- | @Selector@ for @JWSRepresentation@
-jwsRepresentationSelector :: Selector '[] (Id NSData)
+jwsRepresentationSelector :: Selector '[] RawId
 jwsRepresentationSelector = mkSelector "JWSRepresentation"
 

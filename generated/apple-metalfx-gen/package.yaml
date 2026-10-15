@@ -12,24 +12,15 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
-  - ObjC.MetalFX.Delegate.MTL4FXFrameInterpolator
-  - ObjC.MetalFX.Delegate.MTL4FXSpatialScaler
-  - ObjC.MetalFX.Delegate.MTL4FXTemporalDenoisedScaler
-  - ObjC.MetalFX.Delegate.MTL4FXTemporalScaler
-  - ObjC.MetalFX.Delegate.MTLFXFrameInterpolator
-  - ObjC.MetalFX.Delegate.MTLFXFrameInterpolatorBase
   - ObjC.MetalFX.Delegate.MTLFXSpatialScaler
-  - ObjC.MetalFX.Delegate.MTLFXSpatialScalerBase
-  - ObjC.MetalFX.Delegate.MTLFXTemporalDenoisedScalerBase
-  - ObjC.MetalFX.Delegate.MTLFXTemporalScalerBase
+  - ObjC.MetalFX.Delegate.MTLFXTemporalScaler
   - ObjC.MetalFX.Enums
   - ObjC.MetalFX.Internal.Classes
   - ObjC.MetalFX.Internal.Enums
-  - ObjC.MetalFX.MTLFXFrameInterpolatorDescriptor
   - ObjC.MetalFX.MTLFXSpatialScalerDescriptor
-  - ObjC.MetalFX.MTLFXTemporalDenoisedScalerDescriptor
   - ObjC.MetalFX.MTLFXTemporalScalerDescriptor

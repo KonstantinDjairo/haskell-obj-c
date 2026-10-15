@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An abstract base class for storing reference signatures and their associated metadata.
+-- | An abstract base class for storing signatures
 --
--- This is the base class of your custom catalog.
+-- You should not create instances of this class directly, instead use subclasses to provide the functionality that you need
 --
 -- Generated bindings for @SHCatalog@.
 module ObjC.ShazamKit.SHCatalog
@@ -46,14 +46,20 @@ init_ :: IsSHCatalog shCatalog => shCatalog -> IO (Id SHCatalog)
 init_ shCatalog =
   sendOwnedMessage shCatalog initSelector
 
--- | The minimum duration of a query signature that you use to match reference signatures in the catalog.
+-- | The minimum @SHSignature@ duration that can be used to perform searches against this Catalog
+--
+-- A @SHSignature@ that contains less than the minimum duration in seconds will be discarded without matching.
+--
+-- Note: A @SHSignature@ under this duration does not have enough entropy to provide accurate matches.
 --
 -- ObjC selector: @- minimumQuerySignatureDuration@
 minimumQuerySignatureDuration :: IsSHCatalog shCatalog => shCatalog -> IO CDouble
 minimumQuerySignatureDuration shCatalog =
   sendMessage shCatalog minimumQuerySignatureDurationSelector
 
--- | The maximum duration of a query signature that you use to match reference signatures in the catalog.
+-- | The maximum @SHSignature@ duration that can be used to perform searches against this Catalog
+--
+-- A @SHSignature@ over this duration will be rejected without matching. A well scoped @SHSignature@ is more likely to provide accurate matches.
 --
 -- ObjC selector: @- maximumQuerySignatureDuration@
 maximumQuerySignatureDuration :: IsSHCatalog shCatalog => shCatalog -> IO CDouble

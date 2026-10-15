@@ -12,16 +12,13 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
   - ObjC.BackgroundTasks.BGAppRefreshTask
   - ObjC.BackgroundTasks.BGAppRefreshTaskRequest
-  - ObjC.BackgroundTasks.BGContinuedProcessingTask
-  - ObjC.BackgroundTasks.BGContinuedProcessingTaskRequest
-  - ObjC.BackgroundTasks.BGHealthResearchTask
-  - ObjC.BackgroundTasks.BGHealthResearchTaskRequest
   - ObjC.BackgroundTasks.BGProcessingTask
   - ObjC.BackgroundTasks.BGProcessingTaskRequest
   - ObjC.BackgroundTasks.BGTask

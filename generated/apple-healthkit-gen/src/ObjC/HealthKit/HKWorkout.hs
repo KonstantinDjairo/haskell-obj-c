@@ -131,7 +131,6 @@ module ObjC.HealthKit.HKWorkout
   , pattern HKWorkoutActivityTypeCooldown
   , pattern HKWorkoutActivityTypeSwimBikeRun
   , pattern HKWorkoutActivityTypeTransition
-  , pattern HKWorkoutActivityTypeUnderwaterDiving
   , pattern HKWorkoutActivityTypeOther
 
   ) where

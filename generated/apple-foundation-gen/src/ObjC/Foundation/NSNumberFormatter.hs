@@ -16,8 +16,6 @@ module ObjC.Foundation.NSNumberFormatter
   , setDefaultFormatterBehavior
   , formattingContext
   , setFormattingContext
-  , minimumGroupingDigits
-  , setMinimumGroupingDigits
   , numberStyle
   , setNumberStyle
   , locale
@@ -177,7 +175,6 @@ module ObjC.Foundation.NSNumberFormatter
   , maximumSelector
   , maximumSignificantDigitsSelector
   , minimumFractionDigitsSelector
-  , minimumGroupingDigitsSelector
   , minimumIntegerDigitsSelector
   , minimumSelector
   , minimumSignificantDigitsSelector
@@ -234,7 +231,6 @@ module ObjC.Foundation.NSNumberFormatter
   , setMaximumSelector
   , setMaximumSignificantDigitsSelector
   , setMinimumFractionDigitsSelector
-  , setMinimumGroupingDigitsSelector
   , setMinimumIntegerDigitsSelector
   , setMinimumSelector
   , setMinimumSignificantDigitsSelector
@@ -381,16 +377,6 @@ formattingContext nsNumberFormatter =
 setFormattingContext :: IsNSNumberFormatter nsNumberFormatter => nsNumberFormatter -> NSFormattingContext -> IO ()
 setFormattingContext nsNumberFormatter value =
   sendMessage nsNumberFormatter setFormattingContextSelector value
-
--- | @- minimumGroupingDigits@
-minimumGroupingDigits :: IsNSNumberFormatter nsNumberFormatter => nsNumberFormatter -> IO CLong
-minimumGroupingDigits nsNumberFormatter =
-  sendMessage nsNumberFormatter minimumGroupingDigitsSelector
-
--- | @- setMinimumGroupingDigits:@
-setMinimumGroupingDigits :: IsNSNumberFormatter nsNumberFormatter => nsNumberFormatter -> CLong -> IO ()
-setMinimumGroupingDigits nsNumberFormatter value =
-  sendMessage nsNumberFormatter setMinimumGroupingDigitsSelector value
 
 -- | @- numberStyle@
 numberStyle :: IsNSNumberFormatter nsNumberFormatter => nsNumberFormatter -> IO NSNumberFormatterStyle
@@ -1067,14 +1053,6 @@ formattingContextSelector = mkSelector "formattingContext"
 -- | @Selector@ for @setFormattingContext:@
 setFormattingContextSelector :: Selector '[NSFormattingContext] ()
 setFormattingContextSelector = mkSelector "setFormattingContext:"
-
--- | @Selector@ for @minimumGroupingDigits@
-minimumGroupingDigitsSelector :: Selector '[] CLong
-minimumGroupingDigitsSelector = mkSelector "minimumGroupingDigits"
-
--- | @Selector@ for @setMinimumGroupingDigits:@
-setMinimumGroupingDigitsSelector :: Selector '[CLong] ()
-setMinimumGroupingDigitsSelector = mkSelector "setMinimumGroupingDigits:"
 
 -- | @Selector@ for @numberStyle@
 numberStyleSelector :: Selector '[] NSNumberFormatterStyle

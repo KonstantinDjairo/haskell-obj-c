@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRDiagnosticLogsClusterRetrieveLogsRequestParams
   ( MTRDiagnosticLogsClusterRetrieveLogsRequestParams
   , IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams(..)
+  , init_
+  , copyWithZone
   , intent
   , setIntent
   , requestedProtocol
@@ -15,14 +17,12 @@ module ObjC.Matter.MTRDiagnosticLogsClusterRetrieveLogsRequestParams
   , setTransferFileDesignator
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , intentSelector
   , requestedProtocolSelector
-  , serverSideProcessingTimeoutSelector
   , setIntentSelector
   , setRequestedProtocolSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , setTransferFileDesignatorSelector
   , timedInvokeTimeoutMsSelector
@@ -41,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> IO (Id MTRDiagnosticLogsClusterRetrieveLogsRequestParams)
+init_ mtrDiagnosticLogsClusterRetrieveLogsRequestParams =
+  sendOwnedMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> Ptr () -> IO RawId
+copyWithZone mtrDiagnosticLogsClusterRetrieveLogsRequestParams zone =
+  sendOwnedMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams copyWithZoneSelector zone
 
 -- | @- intent@
 intent :: IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> IO (Id NSNumber)
@@ -63,14 +73,14 @@ setRequestedProtocol mtrDiagnosticLogsClusterRetrieveLogsRequestParams value =
   sendMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams setRequestedProtocolSelector (toNSNumber value)
 
 -- | @- transferFileDesignator@
-transferFileDesignator :: IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> IO (Id NSString)
+transferFileDesignator :: IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> IO (Id NSData)
 transferFileDesignator mtrDiagnosticLogsClusterRetrieveLogsRequestParams =
   sendMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams transferFileDesignatorSelector
 
 -- | @- setTransferFileDesignator:@
-setTransferFileDesignator :: (IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams, IsNSString value) => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> value -> IO ()
+setTransferFileDesignator :: (IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams, IsNSData value) => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> value -> IO ()
 setTransferFileDesignator mtrDiagnosticLogsClusterRetrieveLogsRequestParams value =
-  sendMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams setTransferFileDesignatorSelector (toNSString value)
+  sendMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams setTransferFileDesignatorSelector (toNSData value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -94,31 +104,17 @@ setTimedInvokeTimeoutMs :: (IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams 
 setTimedInvokeTimeoutMs mtrDiagnosticLogsClusterRetrieveLogsRequestParams value =
   sendMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrDiagnosticLogsClusterRetrieveLogsRequestParams =
-  sendMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRDiagnosticLogsClusterRetrieveLogsRequestParams mtrDiagnosticLogsClusterRetrieveLogsRequestParams, IsNSNumber value) => mtrDiagnosticLogsClusterRetrieveLogsRequestParams -> value -> IO ()
-setServerSideProcessingTimeout mtrDiagnosticLogsClusterRetrieveLogsRequestParams value =
-  sendMessage mtrDiagnosticLogsClusterRetrieveLogsRequestParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDiagnosticLogsClusterRetrieveLogsRequestParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @intent@
 intentSelector :: Selector '[] (Id NSNumber)
@@ -137,11 +133,11 @@ setRequestedProtocolSelector :: Selector '[Id NSNumber] ()
 setRequestedProtocolSelector = mkSelector "setRequestedProtocol:"
 
 -- | @Selector@ for @transferFileDesignator@
-transferFileDesignatorSelector :: Selector '[] (Id NSString)
+transferFileDesignatorSelector :: Selector '[] (Id NSData)
 transferFileDesignatorSelector = mkSelector "transferFileDesignator"
 
 -- | @Selector@ for @setTransferFileDesignator:@
-setTransferFileDesignatorSelector :: Selector '[Id NSString] ()
+setTransferFileDesignatorSelector :: Selector '[Id NSData] ()
 setTransferFileDesignatorSelector = mkSelector "setTransferFileDesignator:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
@@ -151,12 +147,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

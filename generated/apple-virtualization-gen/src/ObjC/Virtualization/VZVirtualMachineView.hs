@@ -17,11 +17,7 @@ module ObjC.Virtualization.VZVirtualMachineView
   , setVirtualMachine
   , capturesSystemKeys
   , setCapturesSystemKeys
-  , automaticallyReconfiguresDisplay
-  , setAutomaticallyReconfiguresDisplay
-  , automaticallyReconfiguresDisplaySelector
   , capturesSystemKeysSelector
-  , setAutomaticallyReconfiguresDisplaySelector
   , setCapturesSystemKeysSelector
   , setVirtualMachineSelector
   , virtualMachineSelector
@@ -69,28 +65,6 @@ setCapturesSystemKeys :: IsVZVirtualMachineView vzVirtualMachineView => vzVirtua
 setCapturesSystemKeys vzVirtualMachineView value =
   sendMessage vzVirtualMachineView setCapturesSystemKeysSelector value
 
--- | Automatically reconfigures the graphics display associated with this view with respect to view changes. Defaults to NO.
---
--- Automatically resize or reconfigure this graphics display when the view properties update.    For example, resizing the display when the view has a live resize operation. When enabled,    the graphics display will automatically be reconfigured to match the host display environment.
---
--- This property can only be set on a single VZVirtualMachineView targeting a particular VZGraphicsDisplay    at a time. If multiple VZVirtualMachineViews targeting the same VZGraphicsDisplay enable this property,    only one view will respect the property, and the other view will have had the property disabled.
---
--- ObjC selector: @- automaticallyReconfiguresDisplay@
-automaticallyReconfiguresDisplay :: IsVZVirtualMachineView vzVirtualMachineView => vzVirtualMachineView -> IO Bool
-automaticallyReconfiguresDisplay vzVirtualMachineView =
-  sendMessage vzVirtualMachineView automaticallyReconfiguresDisplaySelector
-
--- | Automatically reconfigures the graphics display associated with this view with respect to view changes. Defaults to NO.
---
--- Automatically resize or reconfigure this graphics display when the view properties update.    For example, resizing the display when the view has a live resize operation. When enabled,    the graphics display will automatically be reconfigured to match the host display environment.
---
--- This property can only be set on a single VZVirtualMachineView targeting a particular VZGraphicsDisplay    at a time. If multiple VZVirtualMachineViews targeting the same VZGraphicsDisplay enable this property,    only one view will respect the property, and the other view will have had the property disabled.
---
--- ObjC selector: @- setAutomaticallyReconfiguresDisplay:@
-setAutomaticallyReconfiguresDisplay :: IsVZVirtualMachineView vzVirtualMachineView => vzVirtualMachineView -> Bool -> IO ()
-setAutomaticallyReconfiguresDisplay vzVirtualMachineView value =
-  sendMessage vzVirtualMachineView setAutomaticallyReconfiguresDisplaySelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -110,12 +84,4 @@ capturesSystemKeysSelector = mkSelector "capturesSystemKeys"
 -- | @Selector@ for @setCapturesSystemKeys:@
 setCapturesSystemKeysSelector :: Selector '[Bool] ()
 setCapturesSystemKeysSelector = mkSelector "setCapturesSystemKeys:"
-
--- | @Selector@ for @automaticallyReconfiguresDisplay@
-automaticallyReconfiguresDisplaySelector :: Selector '[] Bool
-automaticallyReconfiguresDisplaySelector = mkSelector "automaticallyReconfiguresDisplay"
-
--- | @Selector@ for @setAutomaticallyReconfiguresDisplay:@
-setAutomaticallyReconfiguresDisplaySelector :: Selector '[Bool] ()
-setAutomaticallyReconfiguresDisplaySelector = mkSelector "setAutomaticallyReconfiguresDisplay:"
 

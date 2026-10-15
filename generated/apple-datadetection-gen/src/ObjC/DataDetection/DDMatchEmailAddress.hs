@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that contains an email address that the data detection system matches.
---
--- The DataDetection framework returns an email match in a @DDMatchEmailAddress@ object, which includes an email address, and optionally a label that categorizes the email address.
---
--- Generated bindings for @DDMatchEmailAddress@.
+-- | Generated bindings for @DDMatchEmailAddress@.
 module ObjC.DataDetection.DDMatchEmailAddress
   ( DDMatchEmailAddress
   , IsDDMatchEmailAddress(..)
@@ -30,16 +26,12 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.DataDetection.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | A string that represents an email address.
---
--- ObjC selector: @- emailAddress@
+-- | @- emailAddress@
 emailAddress :: IsDDMatchEmailAddress ddMatchEmailAddress => ddMatchEmailAddress -> IO (Id NSString)
 emailAddress ddMatchEmailAddress =
   sendMessage ddMatchEmailAddress emailAddressSelector
 
--- | A string that categorizes an email address, such as Home or Work.
---
--- ObjC selector: @- label@
+-- | @- label@
 label :: IsDDMatchEmailAddress ddMatchEmailAddress => ddMatchEmailAddress -> IO (Id NSString)
 label ddMatchEmailAddress =
   sendMessage ddMatchEmailAddress labelSelector

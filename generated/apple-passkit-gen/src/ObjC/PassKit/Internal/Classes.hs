@@ -18,44 +18,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- ---------- PKPass ----------
-
--- | Phantom type for @PKPass@.
-data PKPass
-
-instance IsObjCObject (Id PKPass) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKPass"
-
-class IsPKObject a => IsPKPass a where
-  toPKPass :: a -> Id PKPass
-
-instance IsPKPass (Id PKPass) where
-  toPKPass = unsafeCastId
-
-instance IsPKObject (Id PKPass) where
-  toPKObject = unsafeCastId
-
--- ---------- PKAddPassMetadataPreview ----------
-
--- | Phantom type for @PKAddPassMetadataPreview@.
-data PKAddPassMetadataPreview
-
-instance IsObjCObject (Id PKAddPassMetadataPreview) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKAddPassMetadataPreview"
-
-class IsNSObject a => IsPKAddPassMetadataPreview a where
-  toPKAddPassMetadataPreview :: a -> Id PKAddPassMetadataPreview
-
-instance IsPKAddPassMetadataPreview (Id PKAddPassMetadataPreview) where
-  toPKAddPassMetadataPreview = unsafeCastId
-
-instance IsNSObject (Id PKAddPassMetadataPreview) where
-  toNSObject = unsafeCastId
-
 -- ---------- PKAddPaymentPassRequest ----------
 
 -- | Phantom type for @PKAddPaymentPassRequest@.
@@ -265,23 +227,23 @@ instance IsPKDateComponentsRange (Id PKDateComponentsRange) where
 instance IsNSObject (Id PKDateComponentsRange) where
   toNSObject = unsafeCastId
 
--- ---------- PKDeferredPaymentRequest ----------
+-- ---------- PKDisbursementAuthorizationController ----------
 
--- | Phantom type for @PKDeferredPaymentRequest@.
-data PKDeferredPaymentRequest
+-- | Phantom type for @PKDisbursementAuthorizationController@.
+data PKDisbursementAuthorizationController
 
-instance IsObjCObject (Id PKDeferredPaymentRequest) where
+instance IsObjCObject (Id PKDisbursementAuthorizationController) where
   toRawId = idToRawId
   withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKDeferredPaymentRequest"
+  staticClass _ = getRequiredClass "PKDisbursementAuthorizationController"
 
-class IsNSObject a => IsPKDeferredPaymentRequest a where
-  toPKDeferredPaymentRequest :: a -> Id PKDeferredPaymentRequest
+class IsNSObject a => IsPKDisbursementAuthorizationController a where
+  toPKDisbursementAuthorizationController :: a -> Id PKDisbursementAuthorizationController
 
-instance IsPKDeferredPaymentRequest (Id PKDeferredPaymentRequest) where
-  toPKDeferredPaymentRequest = unsafeCastId
+instance IsPKDisbursementAuthorizationController (Id PKDisbursementAuthorizationController) where
+  toPKDisbursementAuthorizationController = unsafeCastId
 
-instance IsNSObject (Id PKDeferredPaymentRequest) where
+instance IsNSObject (Id PKDisbursementAuthorizationController) where
   toNSObject = unsafeCastId
 
 -- ---------- PKDisbursementRequest ----------
@@ -303,25 +265,23 @@ instance IsPKDisbursementRequest (Id PKDisbursementRequest) where
 instance IsNSObject (Id PKDisbursementRequest) where
   toNSObject = unsafeCastId
 
--- ---------- PKIdentityAnyOfDescriptor ----------
+-- ---------- PKDisbursementVoucher ----------
 
--- | Used to request information from multiple identity documents.
--- 
--- Phantom type for @PKIdentityAnyOfDescriptor@.
-data PKIdentityAnyOfDescriptor
+-- | Phantom type for @PKDisbursementVoucher@.
+data PKDisbursementVoucher
 
-instance IsObjCObject (Id PKIdentityAnyOfDescriptor) where
+instance IsObjCObject (Id PKDisbursementVoucher) where
   toRawId = idToRawId
   withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKIdentityAnyOfDescriptor"
+  staticClass _ = getRequiredClass "PKDisbursementVoucher"
 
-class IsNSObject a => IsPKIdentityAnyOfDescriptor a where
-  toPKIdentityAnyOfDescriptor :: a -> Id PKIdentityAnyOfDescriptor
+class IsNSObject a => IsPKDisbursementVoucher a where
+  toPKDisbursementVoucher :: a -> Id PKDisbursementVoucher
 
-instance IsPKIdentityAnyOfDescriptor (Id PKIdentityAnyOfDescriptor) where
-  toPKIdentityAnyOfDescriptor = unsafeCastId
+instance IsPKDisbursementVoucher (Id PKDisbursementVoucher) where
+  toPKDisbursementVoucher = unsafeCastId
 
-instance IsNSObject (Id PKIdentityAnyOfDescriptor) where
+instance IsNSObject (Id PKDisbursementVoucher) where
   toNSObject = unsafeCastId
 
 -- ---------- PKIdentityAuthorizationController ----------
@@ -364,25 +324,6 @@ instance IsPKIdentityDocument (Id PKIdentityDocument) where
   toPKIdentityDocument = unsafeCastId
 
 instance IsNSObject (Id PKIdentityDocument) where
-  toNSObject = unsafeCastId
-
--- ---------- PKIdentityDocumentMetadata ----------
-
--- | Phantom type for @PKIdentityDocumentMetadata@.
-data PKIdentityDocumentMetadata
-
-instance IsObjCObject (Id PKIdentityDocumentMetadata) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKIdentityDocumentMetadata"
-
-class IsNSObject a => IsPKIdentityDocumentMetadata a where
-  toPKIdentityDocumentMetadata :: a -> Id PKIdentityDocumentMetadata
-
-instance IsPKIdentityDocumentMetadata (Id PKIdentityDocumentMetadata) where
-  toPKIdentityDocumentMetadata = unsafeCastId
-
-instance IsNSObject (Id PKIdentityDocumentMetadata) where
   toNSObject = unsafeCastId
 
 -- ---------- PKIdentityDriversLicenseDescriptor ----------
@@ -446,48 +387,6 @@ instance IsPKIdentityIntentToStore (Id PKIdentityIntentToStore) where
   toPKIdentityIntentToStore = unsafeCastId
 
 instance IsNSObject (Id PKIdentityIntentToStore) where
-  toNSObject = unsafeCastId
-
--- ---------- PKIdentityNationalIDCardDescriptor ----------
-
--- | Used to request information from a user's national id card (or equivalent document).
--- 
--- Phantom type for @PKIdentityNationalIDCardDescriptor@.
-data PKIdentityNationalIDCardDescriptor
-
-instance IsObjCObject (Id PKIdentityNationalIDCardDescriptor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKIdentityNationalIDCardDescriptor"
-
-class IsNSObject a => IsPKIdentityNationalIDCardDescriptor a where
-  toPKIdentityNationalIDCardDescriptor :: a -> Id PKIdentityNationalIDCardDescriptor
-
-instance IsPKIdentityNationalIDCardDescriptor (Id PKIdentityNationalIDCardDescriptor) where
-  toPKIdentityNationalIDCardDescriptor = unsafeCastId
-
-instance IsNSObject (Id PKIdentityNationalIDCardDescriptor) where
-  toNSObject = unsafeCastId
-
--- ---------- PKIdentityPhotoIDDescriptor ----------
-
--- | Used to request information from a user's photo ID (or equivalent document).
--- 
--- Phantom type for @PKIdentityPhotoIDDescriptor@.
-data PKIdentityPhotoIDDescriptor
-
-instance IsObjCObject (Id PKIdentityPhotoIDDescriptor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKIdentityPhotoIDDescriptor"
-
-class IsNSObject a => IsPKIdentityPhotoIDDescriptor a where
-  toPKIdentityPhotoIDDescriptor :: a -> Id PKIdentityPhotoIDDescriptor
-
-instance IsPKIdentityPhotoIDDescriptor (Id PKIdentityPhotoIDDescriptor) where
-  toPKIdentityPhotoIDDescriptor = unsafeCastId
-
-instance IsNSObject (Id PKIdentityPhotoIDDescriptor) where
   toNSObject = unsafeCastId
 
 -- ---------- PKIdentityRequest ----------
@@ -587,6 +486,25 @@ instance IsPKLabeledValue (Id PKLabeledValue) where
 instance IsNSObject (Id PKLabeledValue) where
   toNSObject = unsafeCastId
 
+-- ---------- PKObject ----------
+
+-- | Phantom type for @PKObject@.
+data PKObject
+
+instance IsObjCObject (Id PKObject) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "PKObject"
+
+class IsNSObject a => IsPKObject a where
+  toPKObject :: a -> Id PKObject
+
+instance IsPKObject (Id PKObject) where
+  toPKObject = unsafeCastId
+
+instance IsNSObject (Id PKObject) where
+  toNSObject = unsafeCastId
+
 -- ---------- PKPassLibrary ----------
 
 -- | Phantom type for @PKPassLibrary@.
@@ -604,25 +522,6 @@ instance IsPKPassLibrary (Id PKPassLibrary) where
   toPKPassLibrary = unsafeCastId
 
 instance IsNSObject (Id PKPassLibrary) where
-  toNSObject = unsafeCastId
-
--- ---------- PKPassRelevantDate ----------
-
--- | Phantom type for @PKPassRelevantDate@.
-data PKPassRelevantDate
-
-instance IsObjCObject (Id PKPassRelevantDate) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKPassRelevantDate"
-
-class IsNSObject a => IsPKPassRelevantDate a where
-  toPKPassRelevantDate :: a -> Id PKPassRelevantDate
-
-instance IsPKPassRelevantDate (Id PKPassRelevantDate) where
-  toPKPassRelevantDate = unsafeCastId
-
-instance IsNSObject (Id PKPassRelevantDate) where
   toNSObject = unsafeCastId
 
 -- ---------- PKPayment ----------
@@ -910,6 +809,25 @@ instance IsPKShareablePassMetadata (Id PKShareablePassMetadata) where
 instance IsNSObject (Id PKShareablePassMetadata) where
   toNSObject = unsafeCastId
 
+-- ---------- PKShareablePassMetadataPreview ----------
+
+-- | Phantom type for @PKShareablePassMetadataPreview@.
+data PKShareablePassMetadataPreview
+
+instance IsObjCObject (Id PKShareablePassMetadataPreview) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "PKShareablePassMetadataPreview"
+
+class IsNSObject a => IsPKShareablePassMetadataPreview a where
+  toPKShareablePassMetadataPreview :: a -> Id PKShareablePassMetadataPreview
+
+instance IsPKShareablePassMetadataPreview (Id PKShareablePassMetadataPreview) where
+  toPKShareablePassMetadataPreview = unsafeCastId
+
+instance IsNSObject (Id PKShareablePassMetadataPreview) where
+  toNSObject = unsafeCastId
+
 -- ---------- PKStoredValuePassBalance ----------
 
 -- | Phantom type for @PKStoredValuePassBalance@.
@@ -967,50 +885,6 @@ instance IsPKVehicleConnectionSession (Id PKVehicleConnectionSession) where
 instance IsNSObject (Id PKVehicleConnectionSession) where
   toNSObject = unsafeCastId
 
--- ---------- PKSecureElementPass ----------
-
--- | Phantom type for @PKSecureElementPass@.
-data PKSecureElementPass
-
-instance IsObjCObject (Id PKSecureElementPass) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKSecureElementPass"
-
-class IsPKPass a => IsPKSecureElementPass a where
-  toPKSecureElementPass :: a -> Id PKSecureElementPass
-
-instance IsPKSecureElementPass (Id PKSecureElementPass) where
-  toPKSecureElementPass = unsafeCastId
-
-instance IsPKObject (Id PKSecureElementPass) where
-  toPKObject = unsafeCastId
-
-instance IsPKPass (Id PKSecureElementPass) where
-  toPKPass = unsafeCastId
-
--- ---------- PKShareablePassMetadataPreview ----------
-
--- | Phantom type for @PKShareablePassMetadataPreview@.
-data PKShareablePassMetadataPreview
-
-instance IsObjCObject (Id PKShareablePassMetadataPreview) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKShareablePassMetadataPreview"
-
-class IsPKAddPassMetadataPreview a => IsPKShareablePassMetadataPreview a where
-  toPKShareablePassMetadataPreview :: a -> Id PKShareablePassMetadataPreview
-
-instance IsPKShareablePassMetadataPreview (Id PKShareablePassMetadataPreview) where
-  toPKShareablePassMetadataPreview = unsafeCastId
-
-instance IsNSObject (Id PKShareablePassMetadataPreview) where
-  toNSObject = unsafeCastId
-
-instance IsPKAddPassMetadataPreview (Id PKShareablePassMetadataPreview) where
-  toPKAddPassMetadataPreview = unsafeCastId
-
 -- ---------- PKAddCarKeyPassConfiguration ----------
 
 -- | Phantom type for @PKAddCarKeyPassConfiguration@.
@@ -1031,28 +905,6 @@ instance IsNSObject (Id PKAddCarKeyPassConfiguration) where
   toNSObject = unsafeCastId
 
 instance IsPKAddSecureElementPassConfiguration (Id PKAddCarKeyPassConfiguration) where
-  toPKAddSecureElementPassConfiguration = unsafeCastId
-
--- ---------- PKAddIdentityDocumentConfiguration ----------
-
--- | Phantom type for @PKAddIdentityDocumentConfiguration@.
-data PKAddIdentityDocumentConfiguration
-
-instance IsObjCObject (Id PKAddIdentityDocumentConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKAddIdentityDocumentConfiguration"
-
-class IsPKAddSecureElementPassConfiguration a => IsPKAddIdentityDocumentConfiguration a where
-  toPKAddIdentityDocumentConfiguration :: a -> Id PKAddIdentityDocumentConfiguration
-
-instance IsPKAddIdentityDocumentConfiguration (Id PKAddIdentityDocumentConfiguration) where
-  toPKAddIdentityDocumentConfiguration = unsafeCastId
-
-instance IsNSObject (Id PKAddIdentityDocumentConfiguration) where
-  toNSObject = unsafeCastId
-
-instance IsPKAddSecureElementPassConfiguration (Id PKAddIdentityDocumentConfiguration) where
   toPKAddSecureElementPassConfiguration = unsafeCastId
 
 -- ---------- PKAddShareablePassConfiguration ----------
@@ -1077,50 +929,6 @@ instance IsNSObject (Id PKAddShareablePassConfiguration) where
 instance IsPKAddSecureElementPassConfiguration (Id PKAddShareablePassConfiguration) where
   toPKAddSecureElementPassConfiguration = unsafeCastId
 
--- ---------- PKAddIdentityDocumentMetadata ----------
-
--- | Phantom type for @PKAddIdentityDocumentMetadata@.
-data PKAddIdentityDocumentMetadata
-
-instance IsObjCObject (Id PKAddIdentityDocumentMetadata) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKAddIdentityDocumentMetadata"
-
-class IsPKIdentityDocumentMetadata a => IsPKAddIdentityDocumentMetadata a where
-  toPKAddIdentityDocumentMetadata :: a -> Id PKAddIdentityDocumentMetadata
-
-instance IsPKAddIdentityDocumentMetadata (Id PKAddIdentityDocumentMetadata) where
-  toPKAddIdentityDocumentMetadata = unsafeCastId
-
-instance IsNSObject (Id PKAddIdentityDocumentMetadata) where
-  toNSObject = unsafeCastId
-
-instance IsPKIdentityDocumentMetadata (Id PKAddIdentityDocumentMetadata) where
-  toPKIdentityDocumentMetadata = unsafeCastId
-
--- ---------- PKJapanIndividualNumberCardMetadata ----------
-
--- | Phantom type for @PKJapanIndividualNumberCardMetadata@.
-data PKJapanIndividualNumberCardMetadata
-
-instance IsObjCObject (Id PKJapanIndividualNumberCardMetadata) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKJapanIndividualNumberCardMetadata"
-
-class IsPKIdentityDocumentMetadata a => IsPKJapanIndividualNumberCardMetadata a where
-  toPKJapanIndividualNumberCardMetadata :: a -> Id PKJapanIndividualNumberCardMetadata
-
-instance IsPKJapanIndividualNumberCardMetadata (Id PKJapanIndividualNumberCardMetadata) where
-  toPKJapanIndividualNumberCardMetadata = unsafeCastId
-
-instance IsNSObject (Id PKJapanIndividualNumberCardMetadata) where
-  toNSObject = unsafeCastId
-
-instance IsPKIdentityDocumentMetadata (Id PKJapanIndividualNumberCardMetadata) where
-  toPKIdentityDocumentMetadata = unsafeCastId
-
 -- ---------- PKIssuerProvisioningExtensionPaymentPassEntry ----------
 
 -- | Phantom type for @PKIssuerProvisioningExtensionPaymentPassEntry@.
@@ -1142,6 +950,28 @@ instance IsNSObject (Id PKIssuerProvisioningExtensionPaymentPassEntry) where
 
 instance IsPKIssuerProvisioningExtensionPassEntry (Id PKIssuerProvisioningExtensionPaymentPassEntry) where
   toPKIssuerProvisioningExtensionPassEntry = unsafeCastId
+
+-- ---------- PKPass ----------
+
+-- | Phantom type for @PKPass@.
+data PKPass
+
+instance IsObjCObject (Id PKPass) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "PKPass"
+
+class IsPKObject a => IsPKPass a where
+  toPKPass :: a -> Id PKPass
+
+instance IsPKPass (Id PKPass) where
+  toPKPass = unsafeCastId
+
+instance IsNSObject (Id PKPass) where
+  toNSObject = unsafeCastId
+
+instance IsPKObject (Id PKPass) where
+  toPKObject = unsafeCastId
 
 -- ---------- PKPaymentRequestCouponCodeUpdate ----------
 
@@ -1275,50 +1105,6 @@ instance IsNSObject (Id PKDeferredPaymentSummaryItem) where
 instance IsPKPaymentSummaryItem (Id PKDeferredPaymentSummaryItem) where
   toPKPaymentSummaryItem = unsafeCastId
 
--- ---------- PKDisbursementSummaryItem ----------
-
--- | Phantom type for @PKDisbursementSummaryItem@.
-data PKDisbursementSummaryItem
-
-instance IsObjCObject (Id PKDisbursementSummaryItem) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKDisbursementSummaryItem"
-
-class IsPKPaymentSummaryItem a => IsPKDisbursementSummaryItem a where
-  toPKDisbursementSummaryItem :: a -> Id PKDisbursementSummaryItem
-
-instance IsPKDisbursementSummaryItem (Id PKDisbursementSummaryItem) where
-  toPKDisbursementSummaryItem = unsafeCastId
-
-instance IsNSObject (Id PKDisbursementSummaryItem) where
-  toNSObject = unsafeCastId
-
-instance IsPKPaymentSummaryItem (Id PKDisbursementSummaryItem) where
-  toPKPaymentSummaryItem = unsafeCastId
-
--- ---------- PKInstantFundsOutFeeSummaryItem ----------
-
--- | Phantom type for @PKInstantFundsOutFeeSummaryItem@.
-data PKInstantFundsOutFeeSummaryItem
-
-instance IsObjCObject (Id PKInstantFundsOutFeeSummaryItem) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKInstantFundsOutFeeSummaryItem"
-
-class IsPKPaymentSummaryItem a => IsPKInstantFundsOutFeeSummaryItem a where
-  toPKInstantFundsOutFeeSummaryItem :: a -> Id PKInstantFundsOutFeeSummaryItem
-
-instance IsPKInstantFundsOutFeeSummaryItem (Id PKInstantFundsOutFeeSummaryItem) where
-  toPKInstantFundsOutFeeSummaryItem = unsafeCastId
-
-instance IsNSObject (Id PKInstantFundsOutFeeSummaryItem) where
-  toNSObject = unsafeCastId
-
-instance IsPKPaymentSummaryItem (Id PKInstantFundsOutFeeSummaryItem) where
-  toPKPaymentSummaryItem = unsafeCastId
-
 -- ---------- PKRecurringPaymentSummaryItem ----------
 
 -- | Phantom type for @PKRecurringPaymentSummaryItem@.
@@ -1385,31 +1171,6 @@ instance IsNSObject (Id PKTransitPassProperties) where
 instance IsPKStoredValuePassProperties (Id PKTransitPassProperties) where
   toPKStoredValuePassProperties = unsafeCastId
 
--- ---------- PKPaymentPass ----------
-
--- | Phantom type for @PKPaymentPass@.
-data PKPaymentPass
-
-instance IsObjCObject (Id PKPaymentPass) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKPaymentPass"
-
-class IsPKSecureElementPass a => IsPKPaymentPass a where
-  toPKPaymentPass :: a -> Id PKPaymentPass
-
-instance IsPKPaymentPass (Id PKPaymentPass) where
-  toPKPaymentPass = unsafeCastId
-
-instance IsPKObject (Id PKPaymentPass) where
-  toPKObject = unsafeCastId
-
-instance IsPKPass (Id PKPaymentPass) where
-  toPKPass = unsafeCastId
-
-instance IsPKSecureElementPass (Id PKPaymentPass) where
-  toPKSecureElementPass = unsafeCastId
-
 -- ---------- PKPaymentAuthorizationViewController ----------
 
 -- | Phantom type for @PKPaymentAuthorizationViewController@.
@@ -1435,6 +1196,31 @@ instance IsNSResponder (Id PKPaymentAuthorizationViewController) where
 instance IsNSViewController (Id PKPaymentAuthorizationViewController) where
   toNSViewController = unsafeCastId
 
+-- ---------- PKSecureElementPass ----------
+
+-- | Phantom type for @PKSecureElementPass@.
+data PKSecureElementPass
+
+instance IsObjCObject (Id PKSecureElementPass) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "PKSecureElementPass"
+
+class IsPKPass a => IsPKSecureElementPass a where
+  toPKSecureElementPass :: a -> Id PKSecureElementPass
+
+instance IsPKSecureElementPass (Id PKSecureElementPass) where
+  toPKSecureElementPass = unsafeCastId
+
+instance IsNSObject (Id PKSecureElementPass) where
+  toNSObject = unsafeCastId
+
+instance IsPKObject (Id PKSecureElementPass) where
+  toPKObject = unsafeCastId
+
+instance IsPKPass (Id PKSecureElementPass) where
+  toPKPass = unsafeCastId
+
 -- ---------- PKSuicaPassProperties ----------
 
 -- | Phantom type for @PKSuicaPassProperties@.
@@ -1459,6 +1245,34 @@ instance IsPKStoredValuePassProperties (Id PKSuicaPassProperties) where
 
 instance IsPKTransitPassProperties (Id PKSuicaPassProperties) where
   toPKTransitPassProperties = unsafeCastId
+
+-- ---------- PKPaymentPass ----------
+
+-- | Phantom type for @PKPaymentPass@.
+data PKPaymentPass
+
+instance IsObjCObject (Id PKPaymentPass) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "PKPaymentPass"
+
+class IsPKSecureElementPass a => IsPKPaymentPass a where
+  toPKPaymentPass :: a -> Id PKPaymentPass
+
+instance IsPKPaymentPass (Id PKPaymentPass) where
+  toPKPaymentPass = unsafeCastId
+
+instance IsNSObject (Id PKPaymentPass) where
+  toNSObject = unsafeCastId
+
+instance IsPKObject (Id PKPaymentPass) where
+  toPKObject = unsafeCastId
+
+instance IsPKPass (Id PKPaymentPass) where
+  toPKPass = unsafeCastId
+
+instance IsPKSecureElementPass (Id PKPaymentPass) where
+  toPKSecureElementPass = unsafeCastId
 
 -- ---------- PKPaymentButton ----------
 

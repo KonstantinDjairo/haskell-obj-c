@@ -15,12 +15,8 @@ module ObjC.Vision.VNDetectBarcodesRequest
   , supportedSymbologies
   , symbologies
   , setSymbologies
-  , coalesceCompositeSymbologies
-  , setCoalesceCompositeSymbologies
   , results
-  , coalesceCompositeSymbologiesSelector
   , resultsSelector
-  , setCoalesceCompositeSymbologiesSelector
   , setSymbologiesSelector
   , supportedSymbologiesAndReturnErrorSelector
   , supportedSymbologiesSelector
@@ -78,20 +74,6 @@ setSymbologies :: (IsVNDetectBarcodesRequest vnDetectBarcodesRequest, IsNSArray 
 setSymbologies vnDetectBarcodesRequest value =
   sendMessage vnDetectBarcodesRequest setSymbologiesSelector (toNSArray value)
 
--- | An option to coalesce multiple codes if applicable based on the symbology
---
--- ObjC selector: @- coalesceCompositeSymbologies@
-coalesceCompositeSymbologies :: IsVNDetectBarcodesRequest vnDetectBarcodesRequest => vnDetectBarcodesRequest -> IO Bool
-coalesceCompositeSymbologies vnDetectBarcodesRequest =
-  sendMessage vnDetectBarcodesRequest coalesceCompositeSymbologiesSelector
-
--- | An option to coalesce multiple codes if applicable based on the symbology
---
--- ObjC selector: @- setCoalesceCompositeSymbologies:@
-setCoalesceCompositeSymbologies :: IsVNDetectBarcodesRequest vnDetectBarcodesRequest => vnDetectBarcodesRequest -> Bool -> IO ()
-setCoalesceCompositeSymbologies vnDetectBarcodesRequest value =
-  sendMessage vnDetectBarcodesRequest setCoalesceCompositeSymbologiesSelector value
-
 -- | VNBarcodeObservation results.
 --
 -- ObjC selector: @- results@
@@ -118,14 +100,6 @@ symbologiesSelector = mkSelector "symbologies"
 -- | @Selector@ for @setSymbologies:@
 setSymbologiesSelector :: Selector '[Id NSArray] ()
 setSymbologiesSelector = mkSelector "setSymbologies:"
-
--- | @Selector@ for @coalesceCompositeSymbologies@
-coalesceCompositeSymbologiesSelector :: Selector '[] Bool
-coalesceCompositeSymbologiesSelector = mkSelector "coalesceCompositeSymbologies"
-
--- | @Selector@ for @setCoalesceCompositeSymbologies:@
-setCoalesceCompositeSymbologiesSelector :: Selector '[Bool] ()
-setCoalesceCompositeSymbologiesSelector = mkSelector "setCoalesceCompositeSymbologies:"
 
 -- | @Selector@ for @results@
 resultsSelector :: Selector '[] (Id NSArray)

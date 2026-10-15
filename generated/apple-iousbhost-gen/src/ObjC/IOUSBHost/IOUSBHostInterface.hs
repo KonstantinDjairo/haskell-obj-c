@@ -35,7 +35,6 @@ module ObjC.IOUSBHost.IOUSBHostInterface
   , IOUSBHostObjectInitOptions(IOUSBHostObjectInitOptions)
   , pattern IOUSBHostObjectInitOptionsNone
   , pattern IOUSBHostObjectInitOptionsDeviceCapture
-  , pattern IOUSBHostObjectInitOptionsDeviceSeize
 
   ) where
 

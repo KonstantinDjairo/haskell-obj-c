@@ -393,7 +393,7 @@ setDelegate nsFontManager value =
   sendMessage nsFontManager setDelegateSelector value
 
 -- | @- collectionNames@
-collectionNames :: IsNSFontManager nsFontManager => nsFontManager -> IO (Id NSArray)
+collectionNames :: IsNSFontManager nsFontManager => nsFontManager -> IO RawId
 collectionNames nsFontManager =
   sendMessage nsFontManager collectionNamesSelector
 
@@ -605,7 +605,7 @@ setDelegateSelector :: Selector '[RawId] ()
 setDelegateSelector = mkSelector "setDelegate:"
 
 -- | @Selector@ for @collectionNames@
-collectionNamesSelector :: Selector '[] (Id NSArray)
+collectionNamesSelector :: Selector '[] RawId
 collectionNamesSelector = mkSelector "collectionNames"
 
 -- | @Selector@ for @currentFontAction@

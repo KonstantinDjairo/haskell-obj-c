@@ -5,12 +5,12 @@
 
 -- | Cluster Wake on LAN    This cluster provides an interface for managing low power mode on a device that supports the Wake On LAN protocol.
 --
--- Generated bindings for @MTRClusterWakeOnLAN@.
-module ObjC.Matter.MTRClusterWakeOnLAN
-  ( MTRClusterWakeOnLAN
-  , IsMTRClusterWakeOnLAN(..)
+-- Generated bindings for @MTRClusterWakeOnLan@.
+module ObjC.Matter.MTRClusterWakeOnLan
+  ( MTRClusterWakeOnLan
+  , IsMTRClusterWakeOnLan(..)
+  , initWithDevice_endpoint_queue
   , readAttributeMACAddressWithParams
-  , readAttributeLinkLocalAddressWithParams
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
   , readAttributeAttributeListWithParams
@@ -18,16 +18,14 @@ module ObjC.Matter.MTRClusterWakeOnLAN
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
+  , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
   , readAttributeClusterRevisionWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
-  , readAttributeLinkLocalAddressWithParamsSelector
   , readAttributeMACAddressWithParamsSelector
 
 
@@ -44,71 +42,64 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- readAttributeMACAddressWithParams:@
-readAttributeMACAddressWithParams :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRReadParams params) => mtrClusterWakeOnLAN -> params -> IO (Id NSDictionary)
-readAttributeMACAddressWithParams mtrClusterWakeOnLAN params =
-  sendMessage mtrClusterWakeOnLAN readAttributeMACAddressWithParamsSelector (toMTRReadParams params)
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterWakeOnLan mtrClusterWakeOnLan, IsMTRDevice device, IsNSObject queue) => mtrClusterWakeOnLan -> device -> CUShort -> queue -> IO (Id MTRClusterWakeOnLan)
+initWithDevice_endpoint_queue mtrClusterWakeOnLan device endpoint queue =
+  sendOwnedMessage mtrClusterWakeOnLan initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- readAttributeLinkLocalAddressWithParams:@
-readAttributeLinkLocalAddressWithParams :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRReadParams params) => mtrClusterWakeOnLAN -> params -> IO (Id NSDictionary)
-readAttributeLinkLocalAddressWithParams mtrClusterWakeOnLAN params =
-  sendMessage mtrClusterWakeOnLAN readAttributeLinkLocalAddressWithParamsSelector (toMTRReadParams params)
+-- | @- readAttributeMACAddressWithParams:@
+readAttributeMACAddressWithParams :: (IsMTRClusterWakeOnLan mtrClusterWakeOnLan, IsMTRReadParams params) => mtrClusterWakeOnLan -> params -> IO (Id NSDictionary)
+readAttributeMACAddressWithParams mtrClusterWakeOnLan params =
+  sendMessage mtrClusterWakeOnLan readAttributeMACAddressWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeGeneratedCommandListWithParams:@
-readAttributeGeneratedCommandListWithParams :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRReadParams params) => mtrClusterWakeOnLAN -> params -> IO (Id NSDictionary)
-readAttributeGeneratedCommandListWithParams mtrClusterWakeOnLAN params =
-  sendMessage mtrClusterWakeOnLAN readAttributeGeneratedCommandListWithParamsSelector (toMTRReadParams params)
+readAttributeGeneratedCommandListWithParams :: (IsMTRClusterWakeOnLan mtrClusterWakeOnLan, IsMTRReadParams params) => mtrClusterWakeOnLan -> params -> IO (Id NSDictionary)
+readAttributeGeneratedCommandListWithParams mtrClusterWakeOnLan params =
+  sendMessage mtrClusterWakeOnLan readAttributeGeneratedCommandListWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeAcceptedCommandListWithParams:@
-readAttributeAcceptedCommandListWithParams :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRReadParams params) => mtrClusterWakeOnLAN -> params -> IO (Id NSDictionary)
-readAttributeAcceptedCommandListWithParams mtrClusterWakeOnLAN params =
-  sendMessage mtrClusterWakeOnLAN readAttributeAcceptedCommandListWithParamsSelector (toMTRReadParams params)
+readAttributeAcceptedCommandListWithParams :: (IsMTRClusterWakeOnLan mtrClusterWakeOnLan, IsMTRReadParams params) => mtrClusterWakeOnLan -> params -> IO (Id NSDictionary)
+readAttributeAcceptedCommandListWithParams mtrClusterWakeOnLan params =
+  sendMessage mtrClusterWakeOnLan readAttributeAcceptedCommandListWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeAttributeListWithParams:@
-readAttributeAttributeListWithParams :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRReadParams params) => mtrClusterWakeOnLAN -> params -> IO (Id NSDictionary)
-readAttributeAttributeListWithParams mtrClusterWakeOnLAN params =
-  sendMessage mtrClusterWakeOnLAN readAttributeAttributeListWithParamsSelector (toMTRReadParams params)
+readAttributeAttributeListWithParams :: (IsMTRClusterWakeOnLan mtrClusterWakeOnLan, IsMTRReadParams params) => mtrClusterWakeOnLan -> params -> IO (Id NSDictionary)
+readAttributeAttributeListWithParams mtrClusterWakeOnLan params =
+  sendMessage mtrClusterWakeOnLan readAttributeAttributeListWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeFeatureMapWithParams:@
-readAttributeFeatureMapWithParams :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRReadParams params) => mtrClusterWakeOnLAN -> params -> IO (Id NSDictionary)
-readAttributeFeatureMapWithParams mtrClusterWakeOnLAN params =
-  sendMessage mtrClusterWakeOnLAN readAttributeFeatureMapWithParamsSelector (toMTRReadParams params)
+readAttributeFeatureMapWithParams :: (IsMTRClusterWakeOnLan mtrClusterWakeOnLan, IsMTRReadParams params) => mtrClusterWakeOnLan -> params -> IO (Id NSDictionary)
+readAttributeFeatureMapWithParams mtrClusterWakeOnLan params =
+  sendMessage mtrClusterWakeOnLan readAttributeFeatureMapWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeClusterRevisionWithParams:@
-readAttributeClusterRevisionWithParams :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRReadParams params) => mtrClusterWakeOnLAN -> params -> IO (Id NSDictionary)
-readAttributeClusterRevisionWithParams mtrClusterWakeOnLAN params =
-  sendMessage mtrClusterWakeOnLAN readAttributeClusterRevisionWithParamsSelector (toMTRReadParams params)
+readAttributeClusterRevisionWithParams :: (IsMTRClusterWakeOnLan mtrClusterWakeOnLan, IsMTRReadParams params) => mtrClusterWakeOnLan -> params -> IO (Id NSDictionary)
+readAttributeClusterRevisionWithParams mtrClusterWakeOnLan params =
+  sendMessage mtrClusterWakeOnLan readAttributeClusterRevisionWithParamsSelector (toMTRReadParams params)
 
 -- | @- init@
-init_ :: IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN => mtrClusterWakeOnLAN -> IO (Id MTRClusterWakeOnLAN)
-init_ mtrClusterWakeOnLAN =
-  sendOwnedMessage mtrClusterWakeOnLAN initSelector
+init_ :: IsMTRClusterWakeOnLan mtrClusterWakeOnLan => mtrClusterWakeOnLan -> IO (Id MTRClusterWakeOnLan)
+init_ mtrClusterWakeOnLan =
+  sendOwnedMessage mtrClusterWakeOnLan initSelector
 
 -- | @+ new@
-new :: IO (Id MTRClusterWakeOnLAN)
+new :: IO (Id MTRClusterWakeOnLan)
 new  =
   do
-    cls' <- getRequiredClass "MTRClusterWakeOnLAN"
+    cls' <- getRequiredClass "MTRClusterWakeOnLan"
     sendOwnedClassMessage cls' newSelector
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterWakeOnLAN mtrClusterWakeOnLAN, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterWakeOnLAN -> device -> endpointID -> queue -> IO (Id MTRClusterWakeOnLAN)
-initWithDevice_endpointID_queue mtrClusterWakeOnLAN device endpointID queue =
-  sendOwnedMessage mtrClusterWakeOnLAN initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterWakeOnLan)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
+
 -- | @Selector@ for @readAttributeMACAddressWithParams:@
 readAttributeMACAddressWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributeMACAddressWithParamsSelector = mkSelector "readAttributeMACAddressWithParams:"
-
--- | @Selector@ for @readAttributeLinkLocalAddressWithParams:@
-readAttributeLinkLocalAddressWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeLinkLocalAddressWithParamsSelector = mkSelector "readAttributeLinkLocalAddressWithParams:"
 
 -- | @Selector@ for @readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -131,14 +122,10 @@ readAttributeClusterRevisionWithParamsSelector :: Selector '[Id MTRReadParams] (
 readAttributeClusterRevisionWithParamsSelector = mkSelector "readAttributeClusterRevisionWithParams:"
 
 -- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRClusterWakeOnLAN)
+initSelector :: Selector '[] (Id MTRClusterWakeOnLan)
 initSelector = mkSelector "init"
 
 -- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRClusterWakeOnLAN)
+newSelector :: Selector '[] (Id MTRClusterWakeOnLan)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterWakeOnLAN)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

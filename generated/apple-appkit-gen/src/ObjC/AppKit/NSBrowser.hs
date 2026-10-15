@@ -108,8 +108,6 @@ module ObjC.AppKit.NSBrowser
   , selectedCells
   , selectionIndexPath
   , setSelectionIndexPath
-  , selectionIndexPaths
-  , setSelectionIndexPaths
   , lastColumn
   , setLastColumn
   , numberOfVisibleColumns
@@ -202,7 +200,6 @@ module ObjC.AppKit.NSBrowser
   , selectedRowInColumnSelector
   , selectedRowIndexesInColumnSelector
   , selectionIndexPathSelector
-  , selectionIndexPathsSelector
   , sendActionSelector
   , sendsActionOnArrowKeysSelector
   , separatesColumnsSelector
@@ -232,7 +229,6 @@ module ObjC.AppKit.NSBrowser
   , setReusesColumnsSelector
   , setRowHeightSelector
   , setSelectionIndexPathSelector
-  , setSelectionIndexPathsSelector
   , setSendsActionOnArrowKeysSelector
   , setSeparatesColumnsSelector
   , setTakesTitleFromPreviousColumnSelector
@@ -776,24 +772,14 @@ selectedCells nsBrowser =
   sendMessage nsBrowser selectedCellsSelector
 
 -- | @- selectionIndexPath@
-selectionIndexPath :: IsNSBrowser nsBrowser => nsBrowser -> IO (Id NSIndexPath)
+selectionIndexPath :: IsNSBrowser nsBrowser => nsBrowser -> IO RawId
 selectionIndexPath nsBrowser =
   sendMessage nsBrowser selectionIndexPathSelector
 
 -- | @- setSelectionIndexPath:@
-setSelectionIndexPath :: (IsNSBrowser nsBrowser, IsNSIndexPath value) => nsBrowser -> value -> IO ()
+setSelectionIndexPath :: IsNSBrowser nsBrowser => nsBrowser -> RawId -> IO ()
 setSelectionIndexPath nsBrowser value =
-  sendMessage nsBrowser setSelectionIndexPathSelector (toNSIndexPath value)
-
--- | @- selectionIndexPaths@
-selectionIndexPaths :: IsNSBrowser nsBrowser => nsBrowser -> IO (Id NSArray)
-selectionIndexPaths nsBrowser =
-  sendMessage nsBrowser selectionIndexPathsSelector
-
--- | @- setSelectionIndexPaths:@
-setSelectionIndexPaths :: (IsNSBrowser nsBrowser, IsNSArray value) => nsBrowser -> value -> IO ()
-setSelectionIndexPaths nsBrowser value =
-  sendMessage nsBrowser setSelectionIndexPathsSelector (toNSArray value)
+  sendMessage nsBrowser setSelectionIndexPathSelector value
 
 -- | @- lastColumn@
 lastColumn :: IsNSBrowser nsBrowser => nsBrowser -> IO CLong
@@ -876,14 +862,14 @@ setAllowsTypeSelect nsBrowser value =
   sendMessage nsBrowser setAllowsTypeSelectSelector value
 
 -- | @- backgroundColor@
-backgroundColor :: IsNSBrowser nsBrowser => nsBrowser -> IO (Id NSColor)
+backgroundColor :: IsNSBrowser nsBrowser => nsBrowser -> IO RawId
 backgroundColor nsBrowser =
   sendMessage nsBrowser backgroundColorSelector
 
 -- | @- setBackgroundColor:@
-setBackgroundColor :: (IsNSBrowser nsBrowser, IsNSColor value) => nsBrowser -> value -> IO ()
+setBackgroundColor :: IsNSBrowser nsBrowser => nsBrowser -> RawId -> IO ()
 setBackgroundColor nsBrowser value =
-  sendMessage nsBrowser setBackgroundColorSelector (toNSColor value)
+  sendMessage nsBrowser setBackgroundColorSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -1282,20 +1268,12 @@ selectedCellsSelector :: Selector '[] (Id NSArray)
 selectedCellsSelector = mkSelector "selectedCells"
 
 -- | @Selector@ for @selectionIndexPath@
-selectionIndexPathSelector :: Selector '[] (Id NSIndexPath)
+selectionIndexPathSelector :: Selector '[] RawId
 selectionIndexPathSelector = mkSelector "selectionIndexPath"
 
 -- | @Selector@ for @setSelectionIndexPath:@
-setSelectionIndexPathSelector :: Selector '[Id NSIndexPath] ()
+setSelectionIndexPathSelector :: Selector '[RawId] ()
 setSelectionIndexPathSelector = mkSelector "setSelectionIndexPath:"
-
--- | @Selector@ for @selectionIndexPaths@
-selectionIndexPathsSelector :: Selector '[] (Id NSArray)
-selectionIndexPathsSelector = mkSelector "selectionIndexPaths"
-
--- | @Selector@ for @setSelectionIndexPaths:@
-setSelectionIndexPathsSelector :: Selector '[Id NSArray] ()
-setSelectionIndexPathsSelector = mkSelector "setSelectionIndexPaths:"
 
 -- | @Selector@ for @lastColumn@
 lastColumnSelector :: Selector '[] CLong
@@ -1362,10 +1340,10 @@ setAllowsTypeSelectSelector :: Selector '[Bool] ()
 setAllowsTypeSelectSelector = mkSelector "setAllowsTypeSelect:"
 
 -- | @Selector@ for @backgroundColor@
-backgroundColorSelector :: Selector '[] (Id NSColor)
+backgroundColorSelector :: Selector '[] RawId
 backgroundColorSelector = mkSelector "backgroundColor"
 
 -- | @Selector@ for @setBackgroundColor:@
-setBackgroundColorSelector :: Selector '[Id NSColor] ()
+setBackgroundColorSelector :: Selector '[RawId] ()
 setBackgroundColorSelector = mkSelector "setBackgroundColor:"
 

@@ -53,7 +53,6 @@ module ObjC.MapKit.MKDirectionsRequest
   , pattern MKDirectionsTransportTypeAutomobile
   , pattern MKDirectionsTransportTypeWalking
   , pattern MKDirectionsTransportTypeTransit
-  , pattern MKDirectionsTransportTypeCycling
   , pattern MKDirectionsTransportTypeAny
 
   ) where

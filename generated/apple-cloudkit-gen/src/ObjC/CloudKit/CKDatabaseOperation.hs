@@ -32,7 +32,7 @@ import ObjC.Foundation.Internal.Classes
 --
 -- [self.container privateCloudDatabase]
 --
--- is used.  This will also set the container property of the operation's configuration to match the container of the passed-in database.
+-- is used. This will also set the container property of the operation's configuration to match the container of the passed-in database.
 --
 -- ObjC selector: @- database@
 database :: IsCKDatabaseOperation ckDatabaseOperation => ckDatabaseOperation -> IO (Id CKDatabase)
@@ -45,7 +45,7 @@ database ckDatabaseOperation =
 --
 -- [self.container privateCloudDatabase]
 --
--- is used.  This will also set the container property of the operation's configuration to match the container of the passed-in database.
+-- is used. This will also set the container property of the operation's configuration to match the container of the passed-in database.
 --
 -- ObjC selector: @- setDatabase:@
 setDatabase :: (IsCKDatabaseOperation ckDatabaseOperation, IsCKDatabase value) => ckDatabaseOperation -> value -> IO ()

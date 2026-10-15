@@ -10,22 +10,18 @@ module ObjC.QuickLookThumbnailing.QLThumbnailGenerationRequest
   , IsQLThumbnailGenerationRequest(..)
   , init_
   , new
-  , contentType
-  , setContentType
   , minimumDimension
   , setMinimumDimension
   , iconMode
   , setIconMode
   , scale
   , representationTypes
-  , contentTypeSelector
   , iconModeSelector
   , initSelector
   , minimumDimensionSelector
   , newSelector
   , representationTypesSelector
   , scaleSelector
-  , setContentTypeSelector
   , setIconModeSelector
   , setMinimumDimensionSelector
 
@@ -49,7 +45,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.QuickLookThumbnailing.Internal.Classes
 import ObjC.QuickLookThumbnailing.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- | @- init@
 init_ :: IsQLThumbnailGenerationRequest qlThumbnailGenerationRequest => qlThumbnailGenerationRequest -> IO (Id QLThumbnailGenerationRequest)
@@ -62,20 +57,6 @@ new  =
   do
     cls' <- getRequiredClass "QLThumbnailGenerationRequest"
     sendOwnedClassMessage cls' newSelector
-
--- | The content type of the file being thumbnailed is used to determine the provider of the thumbnail and the icon styles applied if iconMode is requested. By default the content type is derived from the file extension. Setting this property will override the derived content type. This is useful for files that don't have meaningful extensions but for which you may already know the content type.
---
--- ObjC selector: @- contentType@
-contentType :: IsQLThumbnailGenerationRequest qlThumbnailGenerationRequest => qlThumbnailGenerationRequest -> IO (Id UTType)
-contentType qlThumbnailGenerationRequest =
-  sendMessage qlThumbnailGenerationRequest contentTypeSelector
-
--- | The content type of the file being thumbnailed is used to determine the provider of the thumbnail and the icon styles applied if iconMode is requested. By default the content type is derived from the file extension. Setting this property will override the derived content type. This is useful for files that don't have meaningful extensions but for which you may already know the content type.
---
--- ObjC selector: @- setContentType:@
-setContentType :: (IsQLThumbnailGenerationRequest qlThumbnailGenerationRequest, IsUTType value) => qlThumbnailGenerationRequest -> value -> IO ()
-setContentType qlThumbnailGenerationRequest value =
-  sendMessage qlThumbnailGenerationRequest setContentTypeSelector (toUTType value)
 
 -- | Defaults to 0. If set, the thumbnail will have a width and height greater or equal to minimumDimension * scale. If set and it is not possible to generate thumbnails of minimumDimension for any of the requested QLThumbnailGenerationRequestRepresentationTypes, no thumbnail will be provided.
 --
@@ -126,14 +107,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id QLThumbnailGenerationRequest)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @contentType@
-contentTypeSelector :: Selector '[] (Id UTType)
-contentTypeSelector = mkSelector "contentType"
-
--- | @Selector@ for @setContentType:@
-setContentTypeSelector :: Selector '[Id UTType] ()
-setContentTypeSelector = mkSelector "setContentType:"
 
 -- | @Selector@ for @minimumDimension@
 minimumDimensionSelector :: Selector '[] CDouble

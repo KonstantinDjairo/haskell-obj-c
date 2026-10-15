@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterFixedLabel
   ( MTRClusterFixedLabel
   , IsMTRClusterFixedLabel(..)
+  , initWithDevice_endpoint_queue
   , readAttributeLabelListWithParams
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
@@ -17,10 +18,7 @@ module ObjC.Matter.MTRClusterFixedLabel
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -43,6 +41,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterFixedLabel mtrClusterFixedLabel, IsMTRDevice device, IsNSObject queue) => mtrClusterFixedLabel -> device -> CUShort -> queue -> IO (Id MTRClusterFixedLabel)
+initWithDevice_endpoint_queue mtrClusterFixedLabel device endpoint queue =
+  sendOwnedMessage mtrClusterFixedLabel initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeLabelListWithParams:@
 readAttributeLabelListWithParams :: (IsMTRClusterFixedLabel mtrClusterFixedLabel, IsMTRReadParams params) => mtrClusterFixedLabel -> params -> IO (Id NSDictionary)
@@ -86,21 +89,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterFixedLabel"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterFixedLabel mtrClusterFixedLabel, IsMTRDevice device, IsNSObject queue) => mtrClusterFixedLabel -> device -> CUShort -> queue -> IO (Id MTRClusterFixedLabel)
-initWithDevice_endpoint_queue mtrClusterFixedLabel device endpoint queue =
-  sendOwnedMessage mtrClusterFixedLabel initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterFixedLabel mtrClusterFixedLabel, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterFixedLabel -> device -> endpointID -> queue -> IO (Id MTRClusterFixedLabel)
-initWithDevice_endpointID_queue mtrClusterFixedLabel device endpointID queue =
-  sendOwnedMessage mtrClusterFixedLabel initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterFixedLabel)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeLabelListWithParams:@
 readAttributeLabelListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -133,12 +128,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterFixedLabel)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterFixedLabel)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterFixedLabel)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

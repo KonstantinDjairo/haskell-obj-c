@@ -21,14 +21,12 @@ module ObjC.AVFoundation.AVCaptureMetadataOutput
   , availableMetadataObjectTypes
   , metadataObjectTypes
   , setMetadataObjectTypes
-  , requiredMetadataObjectTypesForCinematicVideoCapture
   , availableMetadataObjectTypesSelector
   , initSelector
   , metadataObjectTypesSelector
   , metadataObjectsCallbackQueueSelector
   , metadataObjectsDelegateSelector
   , newSelector
-  , requiredMetadataObjectTypesForCinematicVideoCaptureSelector
   , setMetadataObjectTypesSelector
   , setMetadataObjectsDelegate_queueSelector
 
@@ -70,7 +68,7 @@ new  =
 --
 -- Clients that need to minimize the chances of metadata being dropped should specify a queue on which a sufficiently small amount of processing is performed along with receiving metadata objects.
 --
--- A serial dispatch queue must be used to guarantee that metadata objects will be delivered in order. The objectsCallbackQueue parameter may not be NULL, except when setting the objectsDelegate to nil otherwise -setMetadataObjectsDelegate:queue: throws an NSInvalidArgumentException.
+-- A serial dispatch queue must be used to guarantee that metadata objects will be delivered in order. The objectsCallbackQueue parameter may not be NULL, except when setting the objectsDelegate to nil.
 --
 -- ObjC selector: @- setMetadataObjectsDelegate:queue:@
 setMetadataObjectsDelegate_queue :: (IsAVCaptureMetadataOutput avCaptureMetadataOutput, IsNSObject objectsCallbackQueue) => avCaptureMetadataOutput -> RawId -> objectsCallbackQueue -> IO ()
@@ -116,8 +114,6 @@ availableMetadataObjectTypes avCaptureMetadataOutput =
 --
 -- AVCaptureMetadataOutput may detect and emit multiple metadata object types. For apps linked before iOS 7.0, the receiver defaults to capturing face metadata objects if supported (see -availableMetadataObjectTypes). For apps linked on or after iOS 7.0, the receiver captures no metadata objects by default. -setMetadataObjectTypes: throws an NSInvalidArgumentException if any elements in the array are not present in the -availableMetadataObjectTypes array.
 --
--- If you've set your AVCaptureMetadataOutput's connected input's @cinematicVideoCaptureEnabled@ property to YES, you must set your @metadataObjectTypes@ property to @requiredMetadataObjectTypesForCinematicVideoCapture@ or an NSInvalidArgumentException is thrown.
---
 -- ObjC selector: @- metadataObjectTypes@
 metadataObjectTypes :: IsAVCaptureMetadataOutput avCaptureMetadataOutput => avCaptureMetadataOutput -> IO (Id NSArray)
 metadataObjectTypes avCaptureMetadataOutput =
@@ -129,21 +125,10 @@ metadataObjectTypes avCaptureMetadataOutput =
 --
 -- AVCaptureMetadataOutput may detect and emit multiple metadata object types. For apps linked before iOS 7.0, the receiver defaults to capturing face metadata objects if supported (see -availableMetadataObjectTypes). For apps linked on or after iOS 7.0, the receiver captures no metadata objects by default. -setMetadataObjectTypes: throws an NSInvalidArgumentException if any elements in the array are not present in the -availableMetadataObjectTypes array.
 --
--- If you've set your AVCaptureMetadataOutput's connected input's @cinematicVideoCaptureEnabled@ property to YES, you must set your @metadataObjectTypes@ property to @requiredMetadataObjectTypesForCinematicVideoCapture@ or an NSInvalidArgumentException is thrown.
---
 -- ObjC selector: @- setMetadataObjectTypes:@
 setMetadataObjectTypes :: (IsAVCaptureMetadataOutput avCaptureMetadataOutput, IsNSArray value) => avCaptureMetadataOutput -> value -> IO ()
 setMetadataObjectTypes avCaptureMetadataOutput value =
   sendMessage avCaptureMetadataOutput setMetadataObjectTypesSelector (toNSArray value)
-
--- | The required metadata object types when Cinematic Video capture is enabled.
---
--- Since the Cinematic Video algorithm requires a particular set of metadata objects to function optimally, you must set your ``metadataObjectTypes`` property to this property's returned value if you've set ``AVCaptureDeviceInput/cinematicVideoCaptureEnabled`` to @true@ on the connected device input, otherwise an @NSInvalidArgumentException@ is thrown.
---
--- ObjC selector: @- requiredMetadataObjectTypesForCinematicVideoCapture@
-requiredMetadataObjectTypesForCinematicVideoCapture :: IsAVCaptureMetadataOutput avCaptureMetadataOutput => avCaptureMetadataOutput -> IO (Id NSArray)
-requiredMetadataObjectTypesForCinematicVideoCapture avCaptureMetadataOutput =
-  sendMessage avCaptureMetadataOutput requiredMetadataObjectTypesForCinematicVideoCaptureSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -180,8 +165,4 @@ metadataObjectTypesSelector = mkSelector "metadataObjectTypes"
 -- | @Selector@ for @setMetadataObjectTypes:@
 setMetadataObjectTypesSelector :: Selector '[Id NSArray] ()
 setMetadataObjectTypesSelector = mkSelector "setMetadataObjectTypes:"
-
--- | @Selector@ for @requiredMetadataObjectTypesForCinematicVideoCapture@
-requiredMetadataObjectTypesForCinematicVideoCaptureSelector :: Selector '[] (Id NSArray)
-requiredMetadataObjectTypesForCinematicVideoCaptureSelector = mkSelector "requiredMetadataObjectTypesForCinematicVideoCapture"
 

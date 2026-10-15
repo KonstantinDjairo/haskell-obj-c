@@ -214,48 +214,9 @@ instance ObjCReturn GCMicroGamepadSnapshotDataVersion where
   fromRetained x = pure (GCMicroGamepadSnapshotDataVersion x)
   fromOwned x = pure (GCMicroGamepadSnapshotDataVersion x)
 
--- | One or more directions associated with a @GCPhysicalInputSource.@
--- | @GCPhysicalInputSourceDirection@ (bitmask)
-newtype GCPhysicalInputSourceDirection = GCPhysicalInputSourceDirection CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup GCPhysicalInputSourceDirection where
-  (<>) = (.|.)
-
-instance Monoid GCPhysicalInputSourceDirection where
-  mempty = GCPhysicalInputSourceDirection 0
-
-pattern GCPhysicalInputSourceDirectionNotApplicable :: GCPhysicalInputSourceDirection
-pattern GCPhysicalInputSourceDirectionNotApplicable = GCPhysicalInputSourceDirection 0
-
-pattern GCPhysicalInputSourceDirectionUp :: GCPhysicalInputSourceDirection
-pattern GCPhysicalInputSourceDirectionUp = GCPhysicalInputSourceDirection 1
-
-pattern GCPhysicalInputSourceDirectionRight :: GCPhysicalInputSourceDirection
-pattern GCPhysicalInputSourceDirectionRight = GCPhysicalInputSourceDirection 2
-
-pattern GCPhysicalInputSourceDirectionDown :: GCPhysicalInputSourceDirection
-pattern GCPhysicalInputSourceDirectionDown = GCPhysicalInputSourceDirection 4
-
-pattern GCPhysicalInputSourceDirectionLeft :: GCPhysicalInputSourceDirection
-pattern GCPhysicalInputSourceDirectionLeft = GCPhysicalInputSourceDirection 8
-
-instance ObjCArgument GCPhysicalInputSourceDirection where
-  withObjCArg (GCPhysicalInputSourceDirection x) k = k (argCULong x)
-
-instance ObjCReturn GCPhysicalInputSourceDirection where
-  type RawReturn GCPhysicalInputSourceDirection = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (GCPhysicalInputSourceDirection x)
-  fromOwned x = pure (GCPhysicalInputSourceDirection x)
-
 -- | Elements on a GCDevice can be used for system gestures. The system gesture state represents how input is handled in the app for a controller element that is bound to a system gesture.
 --
--- The Options button on an extended gamepad can be bound to take a screenshot with a long press. This occurs outside of
---
--- the control of the app. If a user presses the Options button, the system gesture recognizer will run by default. If a long press is detected, input will not be forwarded to your app (your application won't see the Options button was pressed at all). If a long press is not detected, input will be forwared to your app, with a delay.
+-- The Options button on an extended gamepad can be bound to take a screenshot with a long press. This occurs outside of the control of the app. If a user presses the Options button, the system gesture recognizer will run by default. If a long press is detected, input will not be forwarded to your app (your application won't see the Options button was pressed at all). If a long press is not detected, input will be forwared to your app, with a delay.
 --
 -- If you do not want any delay in receiving input for this element, you have two options - Set the preferred state of the element to GCSystemGestureStateAlwaysReceive. The system gesture recognize will run concurrently with input being sent to your app. This removes input delay, but can lead to system gestures being triggered simulatenously with in-app actions. - Set the preferred state of the element to GCSystemGestureStateDisabled. This will disable the system gesture recognizer - your app will receive full control of the input for this element.
 --

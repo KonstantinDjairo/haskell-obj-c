@@ -39,28 +39,28 @@ import ObjC.Foundation.Internal.Classes
 -- | The file URL locating an indicating the extension bundle these properties were retreived from.
 --
 -- ObjC selector: @- URL@
-url :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO (Id NSURL)
+url :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO RawId
 url osSystemExtensionProperties =
   sendMessage osSystemExtensionProperties urlSelector
 
 -- | The bundle identifier of the extension (CFBundleIdentifier)
 --
 -- ObjC selector: @- bundleIdentifier@
-bundleIdentifier :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO (Id NSString)
+bundleIdentifier :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO RawId
 bundleIdentifier osSystemExtensionProperties =
   sendMessage osSystemExtensionProperties bundleIdentifierSelector
 
 -- | The bundle version of the extension (CFBundleVersion)
 --
 -- ObjC selector: @- bundleVersion@
-bundleVersion :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO (Id NSString)
+bundleVersion :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO RawId
 bundleVersion osSystemExtensionProperties =
   sendMessage osSystemExtensionProperties bundleVersionSelector
 
 -- | The bundle short version string of the extension (CFBundleShortVersionString)
 --
 -- ObjC selector: @- bundleShortVersion@
-bundleShortVersion :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO (Id NSString)
+bundleShortVersion :: IsOSSystemExtensionProperties osSystemExtensionProperties => osSystemExtensionProperties -> IO RawId
 bundleShortVersion osSystemExtensionProperties =
   sendMessage osSystemExtensionProperties bundleShortVersionSelector
 
@@ -90,19 +90,19 @@ isUninstalling osSystemExtensionProperties =
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @URL@
-urlSelector :: Selector '[] (Id NSURL)
+urlSelector :: Selector '[] RawId
 urlSelector = mkSelector "URL"
 
 -- | @Selector@ for @bundleIdentifier@
-bundleIdentifierSelector :: Selector '[] (Id NSString)
+bundleIdentifierSelector :: Selector '[] RawId
 bundleIdentifierSelector = mkSelector "bundleIdentifier"
 
 -- | @Selector@ for @bundleVersion@
-bundleVersionSelector :: Selector '[] (Id NSString)
+bundleVersionSelector :: Selector '[] RawId
 bundleVersionSelector = mkSelector "bundleVersion"
 
 -- | @Selector@ for @bundleShortVersion@
-bundleShortVersionSelector :: Selector '[] (Id NSString)
+bundleShortVersionSelector :: Selector '[] RawId
 bundleShortVersionSelector = mkSelector "bundleShortVersion"
 
 -- | @Selector@ for @isEnabled@

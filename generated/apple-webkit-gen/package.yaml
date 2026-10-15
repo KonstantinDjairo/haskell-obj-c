@@ -14,6 +14,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -136,7 +137,6 @@ library:
   - ObjC.WebKit.Delegate.WKNavigationDelegate
   - ObjC.WebKit.Delegate.WKUIDelegate
   - ObjC.WebKit.Delegate.WKURLSchemeTask
-  - ObjC.WebKit.Delegate.WKWebExtensionControllerDelegate
   - ObjC.WebKit.Delegate.WebDocumentRepresentation
   - ObjC.WebKit.Delegate.WebDocumentSearching
   - ObjC.WebKit.Delegate.WebDocumentText
@@ -167,17 +167,6 @@ library:
   - ObjC.WebKit.WKSnapshotConfiguration
   - ObjC.WebKit.WKUserContentController
   - ObjC.WebKit.WKUserScript
-  - ObjC.WebKit.WKWebExtension
-  - ObjC.WebKit.WKWebExtensionAction
-  - ObjC.WebKit.WKWebExtensionCommand
-  - ObjC.WebKit.WKWebExtensionContext
-  - ObjC.WebKit.WKWebExtensionController
-  - ObjC.WebKit.WKWebExtensionControllerConfiguration
-  - ObjC.WebKit.WKWebExtensionDataRecord
-  - ObjC.WebKit.WKWebExtensionMatchPattern
-  - ObjC.WebKit.WKWebExtensionMessagePort
-  - ObjC.WebKit.WKWebExtensionTabConfiguration
-  - ObjC.WebKit.WKWebExtensionWindowConfiguration
   - ObjC.WebKit.WKWebView
   - ObjC.WebKit.WKWebViewConfiguration
   - ObjC.WebKit.WKWebpagePreferences

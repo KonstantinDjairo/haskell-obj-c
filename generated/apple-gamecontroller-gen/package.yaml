@@ -14,20 +14,19 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
-  - ObjC.GameController.Delegate.GCAxis2DInput
   - ObjC.GameController.Delegate.GCAxisElement
   - ObjC.GameController.Delegate.GCAxisInput
   - ObjC.GameController.Delegate.GCButtonElement
+  - ObjC.GameController.Delegate.GCDevicePhysicalInput
   - ObjC.GameController.Delegate.GCDevicePhysicalInputState
   - ObjC.GameController.Delegate.GCDevicePhysicalInputStateDiff
   - ObjC.GameController.Delegate.GCDirectionPadElement
   - ObjC.GameController.Delegate.GCLinearInput
-  - ObjC.GameController.Delegate.GCPhysicalInputExtents
-  - ObjC.GameController.Delegate.GCPhysicalInputSource
   - ObjC.GameController.Delegate.GCPressedStateInput
   - ObjC.GameController.Delegate.GCRelativeInput
   - ObjC.GameController.Delegate.GCSwitchElement
@@ -40,8 +39,6 @@ library:
   - ObjC.GameController.GCControllerButtonInput
   - ObjC.GameController.GCControllerDirectionPad
   - ObjC.GameController.GCControllerElement
-  - ObjC.GameController.GCControllerInputState
-  - ObjC.GameController.GCControllerLiveInput
   - ObjC.GameController.GCControllerTouchpad
   - ObjC.GameController.GCDeviceBattery
   - ObjC.GameController.GCDeviceCursor
@@ -70,7 +67,6 @@ library:
   - ObjC.GameController.GCRacingWheelInput
   - ObjC.GameController.GCRacingWheelInputState
   - ObjC.GameController.GCSteeringWheelElement
-  - ObjC.GameController.GCStylus
   - ObjC.GameController.GCXboxGamepad
   - ObjC.GameController.Internal.Classes
   - ObjC.GameController.Internal.Enums

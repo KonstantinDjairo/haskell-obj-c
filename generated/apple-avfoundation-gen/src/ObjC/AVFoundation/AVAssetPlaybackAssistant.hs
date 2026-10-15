@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVAssetPlaybackAssistant provides playback information for an asset.
+-- | AVAssetPlaybackAssistant
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- AVAssetPlaybackAssistant provides playback information for an asset.
 --
 -- Generated bindings for @AVAssetPlaybackAssistant@.
 module ObjC.AVFoundation.AVAssetPlaybackAssistant
@@ -44,11 +44,13 @@ new  =
     cls' <- getRequiredClass "AVAssetPlaybackAssistant"
     sendOwnedClassMessage cls' newSelector
 
--- | Returns an instance of AVAssetPlaybackAssistant for inspection of an AVAsset object.
+-- | assetPlaybackAssistantWithAsset:
 --
--- - Parameter asset: An instance of AVAsset.
+-- Returns an instance of AVAssetPlaybackAssistant for inspection of an AVAsset object.
 --
--- - Returns: An instance of AVAssetPlaybackAssistant.
+-- @asset@ — An instance of AVAsset.
+--
+-- Returns: An instance of AVAssetPlaybackAssistant.
 --
 -- ObjC selector: @+ assetPlaybackAssistantWithAsset:@
 assetPlaybackAssistantWithAsset :: IsAVAsset asset => asset -> IO (Id AVAssetPlaybackAssistant)

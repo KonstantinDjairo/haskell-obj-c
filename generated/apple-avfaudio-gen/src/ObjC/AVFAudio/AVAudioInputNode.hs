@@ -21,7 +21,6 @@ module ObjC.AVFAudio.AVAudioInputNode
   , IsAVAudioInputNode(..)
   , init_
   , setManualRenderingInputPCMFormat_inputBlock
-  , setMutedSpeechActivityEventListener
   , voiceProcessingBypassed
   , setVoiceProcessingBypassed
   , voiceProcessingAGCEnabled
@@ -30,7 +29,6 @@ module ObjC.AVFAudio.AVAudioInputNode
   , setVoiceProcessingInputMuted
   , initSelector
   , setManualRenderingInputPCMFormat_inputBlockSelector
-  , setMutedSpeechActivityEventListenerSelector
   , setVoiceProcessingAGCEnabledSelector
   , setVoiceProcessingBypassedSelector
   , setVoiceProcessingInputMutedSelector
@@ -50,7 +48,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.AVFAudio.Internal.Classes
-import ObjC.AVFAudio.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
 -- | @- init@
@@ -75,24 +72,9 @@ setManualRenderingInputPCMFormat_inputBlock :: (IsAVAudioInputNode avAudioInputN
 setManualRenderingInputPCMFormat_inputBlock avAudioInputNode format block =
   sendMessage avAudioInputNode setManualRenderingInputPCMFormat_inputBlockSelector (toAVAudioFormat format) block
 
--- | setMutedSpeechActivityEventListener
---
--- Register a listener to be notified when speech activity event occurs while the input is muted.
---
--- @listenerBlock@ — The block the engine will call when speech activity event occurs while the input is muted.		Passing nil will remove an already set block.
---
--- Returns: YES for success
---
--- Continuous presence of or lack of speech activity during mute will not cause redundant notification.		In order to use this API, it's expected to implement the mute via the voiceProcessingInputMuted.
---
--- ObjC selector: @- setMutedSpeechActivityEventListener:@
-setMutedSpeechActivityEventListener :: IsAVAudioInputNode avAudioInputNode => avAudioInputNode -> Ptr () -> IO Bool
-setMutedSpeechActivityEventListener avAudioInputNode listenerBlock =
-  sendMessage avAudioInputNode setMutedSpeechActivityEventListenerSelector listenerBlock
-
 -- | voiceProcessingBypassed
 --
--- Bypass all processing for microphone uplink done by the voice processing unit.
+-- Bypass all processing done by the voice processing unit.
 --
 -- Querying this property when voice processing is disabled will return false.
 --
@@ -103,7 +85,7 @@ voiceProcessingBypassed avAudioInputNode =
 
 -- | voiceProcessingBypassed
 --
--- Bypass all processing for microphone uplink done by the voice processing unit.
+-- Bypass all processing done by the voice processing unit.
 --
 -- Querying this property when voice processing is disabled will return false.
 --
@@ -114,7 +96,7 @@ setVoiceProcessingBypassed avAudioInputNode value =
 
 -- | voiceProcessingAGCEnabled
 --
--- Enable automatic gain control on the processed microphone uplink.        signal. Enabled by default.
+-- Enable automatic gain control on the processed microphone/uplink        signal. Enabled by default.
 --
 -- Querying this property when voice processing is disabled will return false.
 --
@@ -125,7 +107,7 @@ voiceProcessingAGCEnabled avAudioInputNode =
 
 -- | voiceProcessingAGCEnabled
 --
--- Enable automatic gain control on the processed microphone uplink.        signal. Enabled by default.
+-- Enable automatic gain control on the processed microphone/uplink        signal. Enabled by default.
 --
 -- Querying this property when voice processing is disabled will return false.
 --
@@ -167,10 +149,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @setManualRenderingInputPCMFormat:inputBlock:@
 setManualRenderingInputPCMFormat_inputBlockSelector :: Selector '[Id AVAudioFormat, Ptr ()] Bool
 setManualRenderingInputPCMFormat_inputBlockSelector = mkSelector "setManualRenderingInputPCMFormat:inputBlock:"
-
--- | @Selector@ for @setMutedSpeechActivityEventListener:@
-setMutedSpeechActivityEventListenerSelector :: Selector '[Ptr ()] Bool
-setMutedSpeechActivityEventListenerSelector = mkSelector "setMutedSpeechActivityEventListener:"
 
 -- | @Selector@ for @voiceProcessingBypassed@
 voiceProcessingBypassedSelector :: Selector '[] Bool

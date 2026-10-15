@@ -30,7 +30,6 @@ module ObjC.AppKit.NSSpellChecker
   , recordResponse_toCorrection_forWord_language_inSpellDocumentWithTag
   , showCorrectionIndicatorOfType_primaryString_alternativeStrings_forStringInRect_view_completionHandler
   , dismissCorrectionIndicatorForView
-  , showInlinePredictionForCandidates_client
   , preventsAutocorrectionBeforeString_language
   , deletesAutospaceBetweenString_andString_language
   , setWordFieldStringValue
@@ -43,15 +42,12 @@ module ObjC.AppKit.NSSpellChecker
   , forgetWord
   , sharedSpellChecker
   , sharedSpellCheckerExists
-  , userReplacementsDictionary
   , spellingPanel
   , accessoryView
   , setAccessoryView
   , substitutionsPanel
   , substitutionsPanelAccessoryViewController
   , setSubstitutionsPanelAccessoryViewController
-  , availableLanguages
-  , userPreferredLanguages
   , automaticallyIdentifiesLanguages
   , setAutomaticallyIdentifiesLanguages
   , automaticTextReplacementEnabled
@@ -61,18 +57,15 @@ module ObjC.AppKit.NSSpellChecker
   , automaticCapitalizationEnabled
   , automaticPeriodSubstitutionEnabled
   , automaticTextCompletionEnabled
-  , automaticInlinePredictionEnabled
   , accessoryViewSelector
   , automaticCapitalizationEnabledSelector
   , automaticDashSubstitutionEnabledSelector
-  , automaticInlinePredictionEnabledSelector
   , automaticPeriodSubstitutionEnabledSelector
   , automaticQuoteSubstitutionEnabledSelector
   , automaticSpellingCorrectionEnabledSelector
   , automaticTextCompletionEnabledSelector
   , automaticTextReplacementEnabledSelector
   , automaticallyIdentifiesLanguagesSelector
-  , availableLanguagesSelector
   , checkGrammarOfString_startingAt_language_wrap_inSpellDocumentWithTag_detailsSelector
   , checkSpellingOfString_startingAtSelector
   , checkSpellingOfString_startingAt_language_wrap_inSpellDocumentWithTag_wordCountSelector
@@ -104,7 +97,6 @@ module ObjC.AppKit.NSSpellChecker
   , sharedSpellCheckerExistsSelector
   , sharedSpellCheckerSelector
   , showCorrectionIndicatorOfType_primaryString_alternativeStrings_forStringInRect_view_completionHandlerSelector
-  , showInlinePredictionForCandidates_clientSelector
   , spellingPanelSelector
   , substitutionsPanelAccessoryViewControllerSelector
   , substitutionsPanelSelector
@@ -113,9 +105,7 @@ module ObjC.AppKit.NSSpellChecker
   , updatePanelsSelector
   , updateSpellingPanelWithGrammarString_detailSelector
   , updateSpellingPanelWithMisspelledWordSelector
-  , userPreferredLanguagesSelector
   , userQuotesArrayForLanguageSelector
-  , userReplacementsDictionarySelector
 
   -- * Enum types
   , NSCorrectionIndicatorType(NSCorrectionIndicatorType)
@@ -257,11 +247,6 @@ dismissCorrectionIndicatorForView :: (IsNSSpellChecker nsSpellChecker, IsNSView 
 dismissCorrectionIndicatorForView nsSpellChecker view =
   sendMessage nsSpellChecker dismissCorrectionIndicatorForViewSelector (toNSView view)
 
--- | @- showInlinePredictionForCandidates:client:@
-showInlinePredictionForCandidates_client :: (IsNSSpellChecker nsSpellChecker, IsNSArray candidates) => nsSpellChecker -> candidates -> RawId -> IO ()
-showInlinePredictionForCandidates_client nsSpellChecker candidates client =
-  sendMessage nsSpellChecker showInlinePredictionForCandidates_clientSelector (toNSArray candidates) client
-
 -- | @- preventsAutocorrectionBeforeString:language:@
 preventsAutocorrectionBeforeString_language :: (IsNSSpellChecker nsSpellChecker, IsNSString string, IsNSString language) => nsSpellChecker -> string -> language -> IO Bool
 preventsAutocorrectionBeforeString_language nsSpellChecker string language =
@@ -326,11 +311,6 @@ sharedSpellCheckerExists  =
     cls' <- getRequiredClass "NSSpellChecker"
     sendClassMessage cls' sharedSpellCheckerExistsSelector
 
--- | @- userReplacementsDictionary@
-userReplacementsDictionary :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO (Id NSDictionary)
-userReplacementsDictionary nsSpellChecker =
-  sendMessage nsSpellChecker userReplacementsDictionarySelector
-
 -- | @- spellingPanel@
 spellingPanel :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO (Id NSPanel)
 spellingPanel nsSpellChecker =
@@ -347,29 +327,19 @@ setAccessoryView nsSpellChecker value =
   sendMessage nsSpellChecker setAccessoryViewSelector (toNSView value)
 
 -- | @- substitutionsPanel@
-substitutionsPanel :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO (Id NSPanel)
+substitutionsPanel :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO RawId
 substitutionsPanel nsSpellChecker =
   sendMessage nsSpellChecker substitutionsPanelSelector
 
 -- | @- substitutionsPanelAccessoryViewController@
-substitutionsPanelAccessoryViewController :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO (Id NSViewController)
+substitutionsPanelAccessoryViewController :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO RawId
 substitutionsPanelAccessoryViewController nsSpellChecker =
   sendMessage nsSpellChecker substitutionsPanelAccessoryViewControllerSelector
 
 -- | @- setSubstitutionsPanelAccessoryViewController:@
-setSubstitutionsPanelAccessoryViewController :: (IsNSSpellChecker nsSpellChecker, IsNSViewController value) => nsSpellChecker -> value -> IO ()
+setSubstitutionsPanelAccessoryViewController :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> RawId -> IO ()
 setSubstitutionsPanelAccessoryViewController nsSpellChecker value =
-  sendMessage nsSpellChecker setSubstitutionsPanelAccessoryViewControllerSelector (toNSViewController value)
-
--- | @- availableLanguages@
-availableLanguages :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO (Id NSArray)
-availableLanguages nsSpellChecker =
-  sendMessage nsSpellChecker availableLanguagesSelector
-
--- | @- userPreferredLanguages@
-userPreferredLanguages :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO (Id NSArray)
-userPreferredLanguages nsSpellChecker =
-  sendMessage nsSpellChecker userPreferredLanguagesSelector
+  sendMessage nsSpellChecker setSubstitutionsPanelAccessoryViewControllerSelector value
 
 -- | @- automaticallyIdentifiesLanguages@
 automaticallyIdentifiesLanguages :: IsNSSpellChecker nsSpellChecker => nsSpellChecker -> IO Bool
@@ -429,13 +399,6 @@ automaticTextCompletionEnabled  =
   do
     cls' <- getRequiredClass "NSSpellChecker"
     sendClassMessage cls' automaticTextCompletionEnabledSelector
-
--- | @+ automaticInlinePredictionEnabled@
-automaticInlinePredictionEnabled :: IO Bool
-automaticInlinePredictionEnabled  =
-  do
-    cls' <- getRequiredClass "NSSpellChecker"
-    sendClassMessage cls' automaticInlinePredictionEnabledSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -529,10 +492,6 @@ showCorrectionIndicatorOfType_primaryString_alternativeStrings_forStringInRect_v
 dismissCorrectionIndicatorForViewSelector :: Selector '[Id NSView] ()
 dismissCorrectionIndicatorForViewSelector = mkSelector "dismissCorrectionIndicatorForView:"
 
--- | @Selector@ for @showInlinePredictionForCandidates:client:@
-showInlinePredictionForCandidates_clientSelector :: Selector '[Id NSArray, RawId] ()
-showInlinePredictionForCandidates_clientSelector = mkSelector "showInlinePredictionForCandidates:client:"
-
 -- | @Selector@ for @preventsAutocorrectionBeforeString:language:@
 preventsAutocorrectionBeforeString_languageSelector :: Selector '[Id NSString, Id NSString] Bool
 preventsAutocorrectionBeforeString_languageSelector = mkSelector "preventsAutocorrectionBeforeString:language:"
@@ -581,10 +540,6 @@ sharedSpellCheckerSelector = mkSelector "sharedSpellChecker"
 sharedSpellCheckerExistsSelector :: Selector '[] Bool
 sharedSpellCheckerExistsSelector = mkSelector "sharedSpellCheckerExists"
 
--- | @Selector@ for @userReplacementsDictionary@
-userReplacementsDictionarySelector :: Selector '[] (Id NSDictionary)
-userReplacementsDictionarySelector = mkSelector "userReplacementsDictionary"
-
 -- | @Selector@ for @spellingPanel@
 spellingPanelSelector :: Selector '[] (Id NSPanel)
 spellingPanelSelector = mkSelector "spellingPanel"
@@ -598,24 +553,16 @@ setAccessoryViewSelector :: Selector '[Id NSView] ()
 setAccessoryViewSelector = mkSelector "setAccessoryView:"
 
 -- | @Selector@ for @substitutionsPanel@
-substitutionsPanelSelector :: Selector '[] (Id NSPanel)
+substitutionsPanelSelector :: Selector '[] RawId
 substitutionsPanelSelector = mkSelector "substitutionsPanel"
 
 -- | @Selector@ for @substitutionsPanelAccessoryViewController@
-substitutionsPanelAccessoryViewControllerSelector :: Selector '[] (Id NSViewController)
+substitutionsPanelAccessoryViewControllerSelector :: Selector '[] RawId
 substitutionsPanelAccessoryViewControllerSelector = mkSelector "substitutionsPanelAccessoryViewController"
 
 -- | @Selector@ for @setSubstitutionsPanelAccessoryViewController:@
-setSubstitutionsPanelAccessoryViewControllerSelector :: Selector '[Id NSViewController] ()
+setSubstitutionsPanelAccessoryViewControllerSelector :: Selector '[RawId] ()
 setSubstitutionsPanelAccessoryViewControllerSelector = mkSelector "setSubstitutionsPanelAccessoryViewController:"
-
--- | @Selector@ for @availableLanguages@
-availableLanguagesSelector :: Selector '[] (Id NSArray)
-availableLanguagesSelector = mkSelector "availableLanguages"
-
--- | @Selector@ for @userPreferredLanguages@
-userPreferredLanguagesSelector :: Selector '[] (Id NSArray)
-userPreferredLanguagesSelector = mkSelector "userPreferredLanguages"
 
 -- | @Selector@ for @automaticallyIdentifiesLanguages@
 automaticallyIdentifiesLanguagesSelector :: Selector '[] Bool
@@ -652,8 +599,4 @@ automaticPeriodSubstitutionEnabledSelector = mkSelector "automaticPeriodSubstitu
 -- | @Selector@ for @automaticTextCompletionEnabled@
 automaticTextCompletionEnabledSelector :: Selector '[] Bool
 automaticTextCompletionEnabledSelector = mkSelector "automaticTextCompletionEnabled"
-
--- | @Selector@ for @automaticInlinePredictionEnabled@
-automaticInlinePredictionEnabledSelector :: Selector '[] Bool
-automaticInlinePredictionEnabledSelector = mkSelector "automaticInlinePredictionEnabled"
 

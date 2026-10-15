@@ -24,7 +24,6 @@ module ObjC.AVFAudio.AVSpeechSynthesisVoice
   , quality
   , gender
   , audioFileSettings
-  , voiceTraits
   , audioFileSettingsSelector
   , currentLanguageCodeSelector
   , genderSelector
@@ -33,7 +32,6 @@ module ObjC.AVFAudio.AVSpeechSynthesisVoice
   , nameSelector
   , qualitySelector
   , speechVoicesSelector
-  , voiceTraitsSelector
   , voiceWithIdentifierSelector
   , voiceWithLanguageSelector
 
@@ -46,10 +44,6 @@ module ObjC.AVFAudio.AVSpeechSynthesisVoice
   , pattern AVSpeechSynthesisVoiceQualityDefault
   , pattern AVSpeechSynthesisVoiceQualityEnhanced
   , pattern AVSpeechSynthesisVoiceQualityPremium
-  , AVSpeechSynthesisVoiceTraits(AVSpeechSynthesisVoiceTraits)
-  , pattern AVSpeechSynthesisVoiceTraitNone
-  , pattern AVSpeechSynthesisVoiceTraitIsNoveltyVoice
-  , pattern AVSpeechSynthesisVoiceTraitIsPersonalVoice
 
   ) where
 
@@ -139,11 +133,6 @@ audioFileSettings :: IsAVSpeechSynthesisVoice avSpeechSynthesisVoice => avSpeech
 audioFileSettings avSpeechSynthesisVoice =
   sendMessage avSpeechSynthesisVoice audioFileSettingsSelector
 
--- | @- voiceTraits@
-voiceTraits :: IsAVSpeechSynthesisVoice avSpeechSynthesisVoice => avSpeechSynthesisVoice -> IO AVSpeechSynthesisVoiceTraits
-voiceTraits avSpeechSynthesisVoice =
-  sendMessage avSpeechSynthesisVoice voiceTraitsSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -187,8 +176,4 @@ genderSelector = mkSelector "gender"
 -- | @Selector@ for @audioFileSettings@
 audioFileSettingsSelector :: Selector '[] (Id NSDictionary)
 audioFileSettingsSelector = mkSelector "audioFileSettings"
-
--- | @Selector@ for @voiceTraits@
-voiceTraitsSelector :: Selector '[] AVSpeechSynthesisVoiceTraits
-voiceTraitsSelector = mkSelector "voiceTraits"
 

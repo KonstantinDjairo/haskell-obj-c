@@ -189,7 +189,7 @@ setTextureImageToPixelBuffer_colorBuffer nsOpenGLContext pixelBuffer source =
   sendMessage nsOpenGLContext setTextureImageToPixelBuffer_colorBufferSelector (toNSOpenGLPixelBuffer pixelBuffer) source
 
 -- | @- pixelFormat@
-pixelFormat :: IsNSOpenGLContext nsOpenGLContext => nsOpenGLContext -> IO (Id NSOpenGLPixelFormat)
+pixelFormat :: IsNSOpenGLContext nsOpenGLContext => nsOpenGLContext -> IO RawId
 pixelFormat nsOpenGLContext =
   sendMessage nsOpenGLContext pixelFormatSelector
 
@@ -301,7 +301,7 @@ setTextureImageToPixelBuffer_colorBufferSelector :: Selector '[Id NSOpenGLPixelB
 setTextureImageToPixelBuffer_colorBufferSelector = mkSelector "setTextureImageToPixelBuffer:colorBuffer:"
 
 -- | @Selector@ for @pixelFormat@
-pixelFormatSelector :: Selector '[] (Id NSOpenGLPixelFormat)
+pixelFormatSelector :: Selector '[] RawId
 pixelFormatSelector = mkSelector "pixelFormat"
 
 -- | @Selector@ for @view@

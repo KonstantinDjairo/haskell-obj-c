@@ -53,6 +53,26 @@ parseClangAST bs = case Aeson.eitherDecode bs of
 -- Top-level extraction
 -- ---------------------------------------------------------------------------
 
+extractSourceOffset :: Value -> Maybe Integer
+extractSourceOffset (Object o) =
+  case KM.lookup "offset" o of
+    Just (Number n) -> Just (floor n)
+    _ ->
+      (KM.lookup "expansionLoc" o >>= extractSourceOffset)
+        <|> (KM.lookup "spellingLoc" o >>= extractSourceOffset)
+extractSourceOffset _ = Nothing
+
+isInterfaceDefinition :: Value -> Bool
+isInterfaceDefinition (Object o) = fromMaybe False $ do
+  loc <- KM.lookup "loc" o
+  rangeValue <- KM.lookup "range" o
+  Object range <- pure rangeValue
+  ending <- KM.lookup "end" range
+  locOffset <- extractSourceOffset loc
+  endOffset <- extractSourceOffset ending
+  pure (endOffset > locOffset)
+isInterfaceDefinition _ = False
+
 extractDecls :: Value -> ParsedAST
 extractDecls root = ParsedAST
   { parsedInterfaces = mapMaybe extractIfaceWithFw annotated
@@ -438,16 +458,14 @@ extractLocFile _ = Nothing
 -- >>> frameworkFromPath "/usr/include/stdio.h"
 -- Nothing
 frameworkFromPath :: Text -> Maybe Text
-frameworkFromPath path = do
-  let (before, after) = T.breakOn ".framework/" path
-  guard (not (T.null after))
-  -- The framework name is the last path component before ".framework/"
-  -- e.g., ".../Foundation" -> "Foundation"
-  let (_, fwName) = T.breakOnEnd "/" before
-  guard (not (T.null fwName))
-  -- Ensure the first character is uppercase so the name is a valid
-  -- Haskell module component (e.g. vecLib -> VecLib).
-  pure (capitalizeFirst fwName)
+frameworkFromPath path
+  | "/usr/include/MacTypes.h" `T.isSuffixOf` path = Just "CoreServices"
+  | otherwise = do
+      let (before, after) = T.breakOn ".framework/" path
+      guard (not (T.null after))
+      let (_, fwName) = T.breakOnEnd "/" before
+      guard (not (T.null fwName))
+      pure (capitalizeFirst fwName)
 
 -- | Uppercase the first character of a 'Text' value.
 capitalizeFirst :: Text -> Text
@@ -465,8 +483,12 @@ extractInterface val = do
   guard (kind == "ObjCInterfaceDecl")
   name <- getName val
   let children = getInner val
-  -- Skip empty forward declarations
-  guard (not (null children))
+  -- Skip empty forward declarations, but retain real class definitions
+  -- that declare a superclass or protocol conformance.
+  guard (not (null children)
+         || ((extractSuperclass val /= Nothing
+              || not (null (extractProtocolsField val)))
+             && isInterfaceDefinition val))
   let methods = mapMaybe extractMethod children
       props   = mapMaybe extractProperty children
       -- Protocol conformance from inner children (older Clang format)

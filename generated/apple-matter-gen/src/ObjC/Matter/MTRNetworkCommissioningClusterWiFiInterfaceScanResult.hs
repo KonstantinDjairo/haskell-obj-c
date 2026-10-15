@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRNetworkCommissioningClusterWiFiInterfaceScanResult
   ( MTRNetworkCommissioningClusterWiFiInterfaceScanResult
   , IsMTRNetworkCommissioningClusterWiFiInterfaceScanResult(..)
+  , init_
+  , copyWithZone
   , security
   , setSecurity
   , ssid
@@ -21,6 +23,8 @@ module ObjC.Matter.MTRNetworkCommissioningClusterWiFiInterfaceScanResult
   , setRssi
   , bssidSelector
   , channelSelector
+  , copyWithZoneSelector
+  , initSelector
   , rssiSelector
   , securitySelector
   , setBssidSelector
@@ -45,6 +49,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRNetworkCommissioningClusterWiFiInterfaceScanResult mtrNetworkCommissioningClusterWiFiInterfaceScanResult => mtrNetworkCommissioningClusterWiFiInterfaceScanResult -> IO (Id MTRNetworkCommissioningClusterWiFiInterfaceScanResult)
+init_ mtrNetworkCommissioningClusterWiFiInterfaceScanResult =
+  sendOwnedMessage mtrNetworkCommissioningClusterWiFiInterfaceScanResult initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRNetworkCommissioningClusterWiFiInterfaceScanResult mtrNetworkCommissioningClusterWiFiInterfaceScanResult => mtrNetworkCommissioningClusterWiFiInterfaceScanResult -> Ptr () -> IO RawId
+copyWithZone mtrNetworkCommissioningClusterWiFiInterfaceScanResult zone =
+  sendOwnedMessage mtrNetworkCommissioningClusterWiFiInterfaceScanResult copyWithZoneSelector zone
 
 -- | @- security@
 security :: IsMTRNetworkCommissioningClusterWiFiInterfaceScanResult mtrNetworkCommissioningClusterWiFiInterfaceScanResult => mtrNetworkCommissioningClusterWiFiInterfaceScanResult -> IO (Id NSNumber)
@@ -109,6 +123,14 @@ setRssi mtrNetworkCommissioningClusterWiFiInterfaceScanResult value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRNetworkCommissioningClusterWiFiInterfaceScanResult)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @security@
 securitySelector :: Selector '[] (Id NSNumber)

@@ -12,8 +12,6 @@ module ObjC.MetricKit.MXAnimationMetric
   ( MXAnimationMetric
   , IsMXAnimationMetric(..)
   , scrollHitchTimeRatio
-  , hitchTimeRatio
-  , hitchTimeRatioSelector
   , scrollHitchTimeRatioSelector
 
 
@@ -45,25 +43,6 @@ scrollHitchTimeRatio :: IsMXAnimationMetric mxAnimationMetric => mxAnimationMetr
 scrollHitchTimeRatio mxAnimationMetric =
   sendMessage mxAnimationMetric scrollHitchTimeRatioSelector
 
--- | hitchTimeRatio
---
--- Ratio of time the application spent hitching during tracked animations.
---
--- Hitches are user perceptible frame delays that can occur during animations and scrolling.
---
--- This metric incorporates adjustments that optimize for user perception, and typically will be the most accurate representation of what hitches users experience during app usage.
---
--- This metric is normalized against total animation duration.
---
--- Many animations are tracked by default. You can track additional animations using the -[NSProcessInfo beginActivityWithOptions:reason:] method with the NSActivityAnimationTrackingEnabled option.
---
--- Dimensionless.
---
--- ObjC selector: @- hitchTimeRatio@
-hitchTimeRatio :: IsMXAnimationMetric mxAnimationMetric => mxAnimationMetric -> IO (Id NSMeasurement)
-hitchTimeRatio mxAnimationMetric =
-  sendMessage mxAnimationMetric hitchTimeRatioSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -71,8 +50,4 @@ hitchTimeRatio mxAnimationMetric =
 -- | @Selector@ for @scrollHitchTimeRatio@
 scrollHitchTimeRatioSelector :: Selector '[] (Id NSMeasurement)
 scrollHitchTimeRatioSelector = mkSelector "scrollHitchTimeRatio"
-
--- | @Selector@ for @hitchTimeRatio@
-hitchTimeRatioSelector :: Selector '[] (Id NSMeasurement)
-hitchTimeRatioSelector = mkSelector "hitchTimeRatio"
 

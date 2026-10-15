@@ -30,6 +30,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.MapKit.Internal.Classes
+import ObjC.CoreLocation.Internal.Structs
 import ObjC.Foundation.Internal.Structs
 import ObjC.Foundation.Internal.Classes
 
@@ -39,7 +40,7 @@ points mkMultiPoint =
   sendMessage mkMultiPoint pointsSelector
 
 -- | @- getCoordinates:range:@
-getCoordinates_range :: IsMKMultiPoint mkMultiPoint => mkMultiPoint -> RawId -> NSRange -> IO ()
+getCoordinates_range :: IsMKMultiPoint mkMultiPoint => mkMultiPoint -> Ptr CLLocationCoordinate2D -> NSRange -> IO ()
 getCoordinates_range mkMultiPoint coords range =
   sendMessage mkMultiPoint getCoordinates_rangeSelector coords range
 
@@ -67,7 +68,7 @@ pointsSelector :: Selector '[] RawId
 pointsSelector = mkSelector "points"
 
 -- | @Selector@ for @getCoordinates:range:@
-getCoordinates_rangeSelector :: Selector '[RawId, NSRange] ()
+getCoordinates_rangeSelector :: Selector '[Ptr CLLocationCoordinate2D, NSRange] ()
 getCoordinates_rangeSelector = mkSelector "getCoordinates:range:"
 
 -- | @Selector@ for @locationAtPointIndex:@

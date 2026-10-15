@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRThermostatClusterGetWeeklyScheduleResponseParams
   ( MTRThermostatClusterGetWeeklyScheduleResponseParams
   , IsMTRThermostatClusterGetWeeklyScheduleResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , numberOfTransitionsForSequence
   , setNumberOfTransitionsForSequence
   , dayOfWeekForSequence
@@ -18,8 +19,9 @@ module ObjC.Matter.MTRThermostatClusterGetWeeklyScheduleResponseParams
   , setTransitions
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
   , dayOfWeekForSequenceSelector
-  , initWithResponseValue_errorSelector
+  , initSelector
   , modeForSequenceSelector
   , numberOfTransitionsForSequenceSelector
   , setDayOfWeekForSequenceSelector
@@ -44,16 +46,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRThermostatClusterGetWeeklyScheduleResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRThermostatClusterGetWeeklyScheduleResponseParams mtrThermostatClusterGetWeeklyScheduleResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrThermostatClusterGetWeeklyScheduleResponseParams -> responseValue -> error_ -> IO (Id MTRThermostatClusterGetWeeklyScheduleResponseParams)
-initWithResponseValue_error mtrThermostatClusterGetWeeklyScheduleResponseParams responseValue error_ =
-  sendOwnedMessage mtrThermostatClusterGetWeeklyScheduleResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRThermostatClusterGetWeeklyScheduleResponseParams mtrThermostatClusterGetWeeklyScheduleResponseParams => mtrThermostatClusterGetWeeklyScheduleResponseParams -> IO (Id MTRThermostatClusterGetWeeklyScheduleResponseParams)
+init_ mtrThermostatClusterGetWeeklyScheduleResponseParams =
+  sendOwnedMessage mtrThermostatClusterGetWeeklyScheduleResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThermostatClusterGetWeeklyScheduleResponseParams mtrThermostatClusterGetWeeklyScheduleResponseParams => mtrThermostatClusterGetWeeklyScheduleResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrThermostatClusterGetWeeklyScheduleResponseParams zone =
+  sendOwnedMessage mtrThermostatClusterGetWeeklyScheduleResponseParams copyWithZoneSelector zone
 
 -- | @- numberOfTransitionsForSequence@
 numberOfTransitionsForSequence :: IsMTRThermostatClusterGetWeeklyScheduleResponseParams mtrThermostatClusterGetWeeklyScheduleResponseParams => mtrThermostatClusterGetWeeklyScheduleResponseParams -> IO (Id NSNumber)
@@ -121,9 +122,13 @@ setTimedInvokeTimeoutMs mtrThermostatClusterGetWeeklyScheduleResponseParams valu
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRThermostatClusterGetWeeklyScheduleResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThermostatClusterGetWeeklyScheduleResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @numberOfTransitionsForSequence@
 numberOfTransitionsForSequenceSelector :: Selector '[] (Id NSNumber)

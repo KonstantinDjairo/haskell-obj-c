@@ -77,11 +77,7 @@ setStateFromMotion :: (IsGCMotion gcMotion, IsGCMotion motion) => gcMotion -> mo
 setStateFromMotion gcMotion motion =
   sendMessage gcMotion setStateFromMotionSelector (toGCMotion motion)
 
--- | A profile keeps a reference to the controller that it is mapping input from.
---
--- See: GCController
---
--- ObjC selector: @- controller@
+-- | @- controller@
 controller :: IsGCMotion gcMotion => gcMotion -> IO (Id GCController)
 controller gcMotion =
   sendMessage gcMotion controllerSelector

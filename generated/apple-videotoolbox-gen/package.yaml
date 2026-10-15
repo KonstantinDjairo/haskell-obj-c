@@ -7,36 +7,17 @@ dependencies:
 - base >= 4.7 && < 5
 - haskell-obj-c
 - libffi
-- apple-foundation-gen
 
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
-  - ObjC.VideoToolbox.Delegate.VTFrameProcessorConfiguration
-  - ObjC.VideoToolbox.Delegate.VTFrameProcessorParameters
+  - ObjC.VideoToolbox
   - ObjC.VideoToolbox.Enums
-  - ObjC.VideoToolbox.Internal.Classes
   - ObjC.VideoToolbox.Internal.Enums
   - ObjC.VideoToolbox.Internal.Structs
   - ObjC.VideoToolbox.Structs
-  - ObjC.VideoToolbox.VTFrameProcessor
-  - ObjC.VideoToolbox.VTFrameProcessorFrame
-  - ObjC.VideoToolbox.VTFrameProcessorOpticalFlow
-  - ObjC.VideoToolbox.VTFrameRateConversionConfiguration
-  - ObjC.VideoToolbox.VTFrameRateConversionParameters
-  - ObjC.VideoToolbox.VTLowLatencyFrameInterpolationConfiguration
-  - ObjC.VideoToolbox.VTLowLatencyFrameInterpolationParameters
-  - ObjC.VideoToolbox.VTLowLatencySuperResolutionScalerConfiguration
-  - ObjC.VideoToolbox.VTLowLatencySuperResolutionScalerParameters
-  - ObjC.VideoToolbox.VTMotionBlurConfiguration
-  - ObjC.VideoToolbox.VTMotionBlurParameters
-  - ObjC.VideoToolbox.VTOpticalFlowConfiguration
-  - ObjC.VideoToolbox.VTOpticalFlowParameters
-  - ObjC.VideoToolbox.VTSuperResolutionScalerConfiguration
-  - ObjC.VideoToolbox.VTSuperResolutionScalerParameters
-  - ObjC.VideoToolbox.VTTemporalNoiseFilterConfiguration
-  - ObjC.VideoToolbox.VTTemporalNoiseFilterParameters

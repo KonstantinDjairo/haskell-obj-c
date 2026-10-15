@@ -12,7 +12,6 @@
 module ObjC.Vision.VNTrackingRequest
   ( VNTrackingRequest
   , IsVNTrackingRequest(..)
-  , supportedNumberOfTrackersAndReturnError
   , init_
   , initWithCompletionHandler
   , inputObservation
@@ -28,7 +27,6 @@ module ObjC.Vision.VNTrackingRequest
   , setInputObservationSelector
   , setLastFrameSelector
   , setTrackingLevelSelector
-  , supportedNumberOfTrackersAndReturnErrorSelector
   , trackingLevelSelector
 
   -- * Enum types
@@ -49,23 +47,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Vision.Internal.Classes
 import ObjC.Vision.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | This class method returns a maximum number of allowed simultaneously executed trackers for [request revision x tracking level] combination
---
--- The total number of simultaneously running trackes is limited due to performance concerns. There is a limit for each combination of          [request revision x tracking level] and this method could be used to query that limit
---
--- @revision@ — The revision of a specific tracking request (an object of a subclass of VNTrackingRequest).
---
--- @trackingLevel@ — Tracking level of a specific tracking request (an object of a subclass of VNTrackingRequest).
---
--- @error@ — The address of a variable that will be populated with an error upon failure. If the caller does not need this information, NULL can be passed.
---
--- Returns: Maximum number of trackers for a given combination [request revision x tracking level], or 0 if such combination doesn't exist
---
--- ObjC selector: @- supportedNumberOfTrackersAndReturnError:@
-supportedNumberOfTrackersAndReturnError :: (IsVNTrackingRequest vnTrackingRequest, IsNSError error_) => vnTrackingRequest -> error_ -> IO CULong
-supportedNumberOfTrackersAndReturnError vnTrackingRequest error_ =
-  sendMessage vnTrackingRequest supportedNumberOfTrackersAndReturnErrorSelector (toNSError error_)
 
 -- | @- init@
 init_ :: IsVNTrackingRequest vnTrackingRequest => vnTrackingRequest -> IO (Id VNTrackingRequest)
@@ -134,10 +115,6 @@ setLastFrame vnTrackingRequest value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @supportedNumberOfTrackersAndReturnError:@
-supportedNumberOfTrackersAndReturnErrorSelector :: Selector '[Id NSError] CULong
-supportedNumberOfTrackersAndReturnErrorSelector = mkSelector "supportedNumberOfTrackersAndReturnError:"
 
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id VNTrackingRequest)

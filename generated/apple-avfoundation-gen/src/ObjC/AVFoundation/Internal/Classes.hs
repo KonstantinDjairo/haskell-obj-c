@@ -22,6 +22,28 @@ import ObjC.Foundation.Internal.Classes
 import ObjC.QuartzCore.Internal.Classes
 import ObjC.UniformTypeIdentifiers.Internal.Classes
 
+-- ---------- AVAssetDownloadStorageManagementPolicyInternal ----------
+
+-- | AVAssetDownloadStorageManagementPolicy
+--
+-- A class to inform the system of a policy for automatic purging of downloaded AVAssets.
+--
+-- System will put in best-effort to evict all the assets based on expirationDate before evicting based on priority.
+-- 
+-- Phantom type for @AVAssetDownloadStorageManagementPolicyInternal@.
+data AVAssetDownloadStorageManagementPolicyInternal
+
+instance IsObjCObject (Id AVAssetDownloadStorageManagementPolicyInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVAssetDownloadStorageManagementPolicyInternal"
+
+class IsObjCObject a => IsAVAssetDownloadStorageManagementPolicyInternal a where
+  toAVAssetDownloadStorageManagementPolicyInternal :: a -> Id AVAssetDownloadStorageManagementPolicyInternal
+
+instance IsAVAssetDownloadStorageManagementPolicyInternal (Id AVAssetDownloadStorageManagementPolicyInternal) where
+  toAVAssetDownloadStorageManagementPolicyInternal = unsafeCastId
+
 -- ---------- AVAssetResourceLoadingContentInformationRequestInternal ----------
 
 -- | AVAssetResourceLoadingContentInformationRequest
@@ -94,6 +116,46 @@ class IsObjCObject a => IsAVAssetResourceLoadingRequestInternal a where
 instance IsAVAssetResourceLoadingRequestInternal (Id AVAssetResourceLoadingRequestInternal) where
   toAVAssetResourceLoadingRequestInternal = unsafeCastId
 
+-- ---------- AVAsynchronousCIImageFilteringRequestInternal ----------
+
+-- | AVAsynchronousCIImageFilteringRequest
+--
+-- An AVAsynchronousCIImageFilteringRequest instance contains the information necessary for a filter to render an output CIImage.
+-- 
+-- Phantom type for @AVAsynchronousCIImageFilteringRequestInternal@.
+data AVAsynchronousCIImageFilteringRequestInternal
+
+instance IsObjCObject (Id AVAsynchronousCIImageFilteringRequestInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVAsynchronousCIImageFilteringRequestInternal"
+
+class IsObjCObject a => IsAVAsynchronousCIImageFilteringRequestInternal a where
+  toAVAsynchronousCIImageFilteringRequestInternal :: a -> Id AVAsynchronousCIImageFilteringRequestInternal
+
+instance IsAVAsynchronousCIImageFilteringRequestInternal (Id AVAsynchronousCIImageFilteringRequestInternal) where
+  toAVAsynchronousCIImageFilteringRequestInternal = unsafeCastId
+
+-- ---------- AVAsynchronousVideoCompositionRequestInternal ----------
+
+-- | AVAsynchronousVideoCompositionRequest
+--
+-- An AVAsynchronousVideoCompositionRequest instance contains the information necessary for a video compositor to render an output pixel buffer. The video compositor must implement the AVVideoCompositing protocol.
+-- 
+-- Phantom type for @AVAsynchronousVideoCompositionRequestInternal@.
+data AVAsynchronousVideoCompositionRequestInternal
+
+instance IsObjCObject (Id AVAsynchronousVideoCompositionRequestInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVAsynchronousVideoCompositionRequestInternal"
+
+class IsObjCObject a => IsAVAsynchronousVideoCompositionRequestInternal a where
+  toAVAsynchronousVideoCompositionRequestInternal :: a -> Id AVAsynchronousVideoCompositionRequestInternal
+
+instance IsAVAsynchronousVideoCompositionRequestInternal (Id AVAsynchronousVideoCompositionRequestInternal) where
+  toAVAsynchronousVideoCompositionRequestInternal = unsafeCastId
+
 -- ---------- AVAudioMixInputParametersInternal ----------
 
 -- | AVAudioMixInputParameters
@@ -160,27 +222,89 @@ class IsObjCObject a => IsAVCompositionTrackInternal a where
 instance IsAVCompositionTrackInternal (Id AVCompositionTrackInternal) where
   toAVCompositionTrackInternal = unsafeCastId
 
--- ---------- AVCompositionTrackSegmentInternal ----------
+-- ---------- AVContentKeySessionInternal ----------
 
--- | AVCompositionTrackSegment
+-- | AVContentKeySession
 --
--- A track segment maps a time from the source media track to the composition track.
+-- An AVContentKeySession is used to create and track decryption keys for media data. Objects conforming to the AVContentKeyRecipient protocol, such as AVURLAssets, can be added to an AVContentKeySession to employ the services of the AVContentKeySession in handling new key requests and to obtain access to the session's already existing keys.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Its secondary purpose is to provide a report of expired sessions to assist a controlling entity that wishes to track the set of sessions that are still active. If initialized with a location at which to store them, AVContentKeySession maintains a global collection of pending "expired session reports", each associated with an identifier for the app that created the session. The contents of this identifier are specified by the controlling entity that provides media data or that grants permission for its use.    Expired sessions are tracked as follows: a stream processing session is considered to be started after an instance of AVContentKeySession is created and the first object conforming to the AVContentKeyRecipient protocol is added to it. If an instance of AVContentKeySession that has reached this state does not receive an expire message before it's deallocated or the process in which it's running is terminated, an "expired session report" will subsequently be added to the pending list of expired session reports that indicates that the session expired abnormally. In contrast, for AVContentKeySessions that reach the state of having at least one object conforming to the AVContentKeyRecipient protocol added to them and later receive an expire message, "expired session reports" will be generated that indicate that the session expired normally.    To obtain the collection of pending expired session reports in order to provide them to the controlling entity associated with a specific app identifier, use +pendingExpiredSessionReportsWithAppIdentifier:.    After pending expired session reports have been sent to the controlling entity and their receipt has been acknowledged, they can be removed from the collection of pending expired session reports maintained by AVContentKeySession by using +removePendingExpiredSessionReports:withAppIdentifier:.
 -- 
--- Phantom type for @AVCompositionTrackSegmentInternal@.
-data AVCompositionTrackSegmentInternal
+-- Phantom type for @AVContentKeySessionInternal@.
+data AVContentKeySessionInternal
 
-instance IsObjCObject (Id AVCompositionTrackSegmentInternal) where
+instance IsObjCObject (Id AVContentKeySessionInternal) where
   toRawId = idToRawId
   withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCompositionTrackSegmentInternal"
+  staticClass _ = getRequiredClass "AVContentKeySessionInternal"
 
-class IsObjCObject a => IsAVCompositionTrackSegmentInternal a where
-  toAVCompositionTrackSegmentInternal :: a -> Id AVCompositionTrackSegmentInternal
+class IsObjCObject a => IsAVContentKeySessionInternal a where
+  toAVContentKeySessionInternal :: a -> Id AVContentKeySessionInternal
 
-instance IsAVCompositionTrackSegmentInternal (Id AVCompositionTrackSegmentInternal) where
-  toAVCompositionTrackSegmentInternal = unsafeCastId
+instance IsAVContentKeySessionInternal (Id AVContentKeySessionInternal) where
+  toAVContentKeySessionInternal = unsafeCastId
+
+-- ---------- AVFragmentedAssetMinderInternal ----------
+
+-- | AVFragmentedAssetMinder
+--
+-- A class that periodically checks whether additional fragments have been appended to fragmented assets.
+-- 
+-- Phantom type for @AVFragmentedAssetMinderInternal@.
+data AVFragmentedAssetMinderInternal
+
+instance IsObjCObject (Id AVFragmentedAssetMinderInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVFragmentedAssetMinderInternal"
+
+class IsObjCObject a => IsAVFragmentedAssetMinderInternal a where
+  toAVFragmentedAssetMinderInternal :: a -> Id AVFragmentedAssetMinderInternal
+
+instance IsAVFragmentedAssetMinderInternal (Id AVFragmentedAssetMinderInternal) where
+  toAVFragmentedAssetMinderInternal = unsafeCastId
+
+-- ---------- AVFragmentedAssetTrackInternal ----------
+
+-- | AVFragmentedAssetTrack
+--
+-- A subclass of AVAssetTrack for handling tracks of fragmented assets. An AVFragmentedAssetTrack is capable of changing the values of certain of its properties, if its parent asset is associated with an instance of AVFragmentedAssetMinder when one or more fragments are appended to the underlying media resource.
+--
+-- While its parent asset is associated with an AVFragmentedAssetMinder, AVFragmentedAssetTrack posts AVAssetTrackTimeRangeDidChangeNotification and AVAssetTrackSegmentsDidChangeNotification whenever new fragments are detected, as appropriate.
+-- 
+-- Phantom type for @AVFragmentedAssetTrackInternal@.
+data AVFragmentedAssetTrackInternal
+
+instance IsObjCObject (Id AVFragmentedAssetTrackInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVFragmentedAssetTrackInternal"
+
+class IsObjCObject a => IsAVFragmentedAssetTrackInternal a where
+  toAVFragmentedAssetTrackInternal :: a -> Id AVFragmentedAssetTrackInternal
+
+instance IsAVFragmentedAssetTrackInternal (Id AVFragmentedAssetTrackInternal) where
+  toAVFragmentedAssetTrackInternal = unsafeCastId
+
+-- ---------- AVMediaSelectionOptionInternal ----------
+
+-- | AVMediaSelectionOption
+--
+-- AVMediaSelectionOption represents a specific option for the presentation of media within a group of options.
+-- 
+-- Phantom type for @AVMediaSelectionOptionInternal@.
+data AVMediaSelectionOptionInternal
+
+instance IsObjCObject (Id AVMediaSelectionOptionInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVMediaSelectionOptionInternal"
+
+class IsObjCObject a => IsAVMediaSelectionOptionInternal a where
+  toAVMediaSelectionOptionInternal :: a -> Id AVMediaSelectionOptionInternal
+
+instance IsAVMediaSelectionOptionInternal (Id AVMediaSelectionOptionInternal) where
+  toAVMediaSelectionOptionInternal = unsafeCastId
 
 -- ---------- AVMetadataItemFilterInternal ----------
 
@@ -314,6 +438,68 @@ class IsObjCObject a => IsAVMutableMovieTrackInternal a where
 instance IsAVMutableMovieTrackInternal (Id AVMutableMovieTrackInternal) where
   toAVMutableMovieTrackInternal = unsafeCastId
 
+-- ---------- AVMutableVideoCompositionInstructionInternal ----------
+
+-- | AVMutableVideoCompositionInstruction
+--
+-- An AVMutableVideoCompositionInstruction object represents an operation to be performed by a compositor.
+--
+-- An AVVideoComposition object maintains an array of instructions to perform its composition.
+-- 
+-- Phantom type for @AVMutableVideoCompositionInstructionInternal@.
+data AVMutableVideoCompositionInstructionInternal
+
+instance IsObjCObject (Id AVMutableVideoCompositionInstructionInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVMutableVideoCompositionInstructionInternal"
+
+class IsObjCObject a => IsAVMutableVideoCompositionInstructionInternal a where
+  toAVMutableVideoCompositionInstructionInternal :: a -> Id AVMutableVideoCompositionInstructionInternal
+
+instance IsAVMutableVideoCompositionInstructionInternal (Id AVMutableVideoCompositionInstructionInternal) where
+  toAVMutableVideoCompositionInstructionInternal = unsafeCastId
+
+-- ---------- AVMutableVideoCompositionInternal ----------
+
+-- | AVMutableVideoComposition
+--
+-- The AVMutableVideoComposition class is a mutable subclass of AVVideoComposition.
+-- 
+-- Phantom type for @AVMutableVideoCompositionInternal@.
+data AVMutableVideoCompositionInternal
+
+instance IsObjCObject (Id AVMutableVideoCompositionInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVMutableVideoCompositionInternal"
+
+class IsObjCObject a => IsAVMutableVideoCompositionInternal a where
+  toAVMutableVideoCompositionInternal :: a -> Id AVMutableVideoCompositionInternal
+
+instance IsAVMutableVideoCompositionInternal (Id AVMutableVideoCompositionInternal) where
+  toAVMutableVideoCompositionInternal = unsafeCastId
+
+-- ---------- AVMutableVideoCompositionLayerInstructionInternal ----------
+
+-- | AVMutableVideoCompositionLayerInstruction
+--
+-- AVMutableVideoCompositionLayerInstruction is a mutable subclass of AVVideoCompositionLayerInstruction that is used to modify the transform, cropping, and opacity ramps to apply to a given track in a composition.
+-- 
+-- Phantom type for @AVMutableVideoCompositionLayerInstructionInternal@.
+data AVMutableVideoCompositionLayerInstructionInternal
+
+instance IsObjCObject (Id AVMutableVideoCompositionLayerInstructionInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVMutableVideoCompositionLayerInstructionInternal"
+
+class IsObjCObject a => IsAVMutableVideoCompositionLayerInstructionInternal a where
+  toAVMutableVideoCompositionLayerInstructionInternal :: a -> Id AVMutableVideoCompositionLayerInstructionInternal
+
+instance IsAVMutableVideoCompositionLayerInstructionInternal (Id AVMutableVideoCompositionLayerInstructionInternal) where
+  toAVMutableVideoCompositionLayerInstructionInternal = unsafeCastId
+
 -- ---------- AVPlayerItemOutputInternal ----------
 
 -- | AVPlayerItemOutput
@@ -327,8 +513,6 @@ instance IsAVMutableMovieTrackInternal (Id AVMutableMovieTrackInternal) where
 -- • addOutput:		• removeOutput:
 --
 -- When an AVPlayerItemOutput is associated with an AVPlayerItem, samples are provided for a media type in accordance with the rules for mixing, composition, or exclusion that the AVPlayer honors among multiple enabled tracks of that media type for its own rendering purposes. For example, video media will be composed according to the instructions provided via AVPlayerItem.videoComposition, if present.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerItemOutputInternal@.
 data AVPlayerItemOutputInternal
@@ -344,13 +528,37 @@ class IsObjCObject a => IsAVPlayerItemOutputInternal a where
 instance IsAVPlayerItemOutputInternal (Id AVPlayerItemOutputInternal) where
   toAVPlayerItemOutputInternal = unsafeCastId
 
+-- ---------- AVQueuePlayerInternal ----------
+
+-- | AVQueuePlayer
+--
+-- AVQueuePlayer is a subclass of AVPlayer that offers an interface for multiple-item playback.
+--
+-- AVQueuePlayer extends AVPlayer with methods for managing a queue of items to be played in sequence.      It plays these items as gaplessly as possible in the current runtime environment, depending on       the timely availability of media data for the enqueued items.
+--
+-- For best performance clients should typically enqueue only as many AVPlayerItems as are necessary      to ensure smooth playback. Note that once an item is enqueued it becomes eligible to be loaded and      made ready for playback, with whatever I/O and processing overhead that entails.
+-- 
+-- Phantom type for @AVQueuePlayerInternal@.
+data AVQueuePlayerInternal
+
+instance IsObjCObject (Id AVQueuePlayerInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVQueuePlayerInternal"
+
+class IsObjCObject a => IsAVQueuePlayerInternal a where
+  toAVQueuePlayerInternal :: a -> Id AVQueuePlayerInternal
+
+instance IsAVQueuePlayerInternal (Id AVQueuePlayerInternal) where
+  toAVQueuePlayerInternal = unsafeCastId
+
 -- ---------- AVSampleCursorInternal ----------
 
 -- | AVSampleCursor
 --
 -- An AVSampleCursor is always positioned at a specific media sample in a sequence of media samples as defined by a higher-level construct, such as an AVAssetTrack. It can be moved to a new position in that sequence either backwards or forwards, either in decode order or in presentation order. Movement can be requested according to a count of samples or according to a delta in time.
 --
--- AVSampleCursors can be compared by position within the sample sequence.	  AVSampleCursors can be used synchronously to perform I/O in order to load media data of one or more media samples into memory.	  An AVSampleCursor can provide information about the media sample at its current position, such as its duration, its presentation and decode timestamps, whether it can be decoded independently of other media samples, its offset and length in its storage container, and whether the track signals that the sample is intended to be loaded with other contiguous media samples in a "chunk".	  Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- AVSampleCursors can be compared by position within the sample sequence.	  AVSampleCursors can be used synchronously to perform I/O in order to load media data of one or more media samples into memory.	  An AVSampleCursor can provide information about the media sample at its current position, such as its duration, its presentation and decode timestamps, whether it can be decoded independently of other media samples, its offset and length in its storage container, and whether the track signals that the sample is intended to be loaded with other contiguous media samples in a "chunk".
 -- 
 -- Phantom type for @AVSampleCursorInternal@.
 data AVSampleCursorInternal
@@ -386,29 +594,97 @@ class IsObjCObject a => IsAVTextStyleRuleInternal a where
 instance IsAVTextStyleRuleInternal (Id AVTextStyleRuleInternal) where
   toAVTextStyleRuleInternal = unsafeCastId
 
+-- ---------- AVURLAssetInternal ----------
+
+-- | AVURLAsset
+--
+-- AVURLAsset provides access to the AVAsset model for timed audiovisual media referenced by URL.
+--
+-- Note that although instances of AVURLAsset are immutable, values for its keys may not be immediately available without blocking. See the discussion of the class AVAsset above regarding the availability of values for keys and the use of AVAsynchronousKeyValueLoading.
+--
+-- Once an AVURLAsset's value for a key is available, it will not change.  AVPlayerItem provides access to information that can change dynamically during playback; see AVPlayerItem.duration and AVPlayerItem.tracks.
+--
+-- AVURLAssets can be initialized with NSURLs that refer to audiovisual media resources, such as streams (including HTTP live streams), QuickTime movie files, MP3 files, and files of other types.
+-- 
+-- Phantom type for @AVURLAssetInternal@.
+data AVURLAssetInternal
+
+instance IsObjCObject (Id AVURLAssetInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVURLAssetInternal"
+
+class IsObjCObject a => IsAVURLAssetInternal a where
+  toAVURLAssetInternal :: a -> Id AVURLAssetInternal
+
+instance IsAVURLAssetInternal (Id AVURLAssetInternal) where
+  toAVURLAssetInternal = unsafeCastId
+
+-- ---------- AVVideoCompositionInstructionInternal ----------
+
+-- | AVVideoCompositionInstruction
+--
+-- An AVVideoCompositionInstruction object represents an operation to be performed by a compositor.
+--
+-- An AVVideoComposition object maintains an array of instructions to perform its composition.
+-- 
+-- Phantom type for @AVVideoCompositionInstructionInternal@.
+data AVVideoCompositionInstructionInternal
+
+instance IsObjCObject (Id AVVideoCompositionInstructionInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVVideoCompositionInstructionInternal"
+
+class IsObjCObject a => IsAVVideoCompositionInstructionInternal a where
+  toAVVideoCompositionInstructionInternal :: a -> Id AVVideoCompositionInstructionInternal
+
+instance IsAVVideoCompositionInstructionInternal (Id AVVideoCompositionInstructionInternal) where
+  toAVVideoCompositionInstructionInternal = unsafeCastId
+
+-- ---------- AVVideoCompositionLayerInstructionInternal ----------
+
+-- | AVVideoCompositionLayerInstruction
+--
+-- An AVVideoCompositionLayerInstruction object represents the transform, opacity, and cropping ramps to apply to a given track.
+-- 
+-- Phantom type for @AVVideoCompositionLayerInstructionInternal@.
+data AVVideoCompositionLayerInstructionInternal
+
+instance IsObjCObject (Id AVVideoCompositionLayerInstructionInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVVideoCompositionLayerInstructionInternal"
+
+class IsObjCObject a => IsAVVideoCompositionLayerInstructionInternal a where
+  toAVVideoCompositionLayerInstructionInternal :: a -> Id AVVideoCompositionLayerInstructionInternal
+
+instance IsAVVideoCompositionLayerInstructionInternal (Id AVVideoCompositionLayerInstructionInternal) where
+  toAVVideoCompositionLayerInstructionInternal = unsafeCastId
+
+-- ---------- AVVideoCompositionRenderHintInternal ----------
+
+-- | AVVideoCompositionRenderHint
+--
+-- An AVVideoCompositionRenderHint instance contains the information necessary for announcing upcoming rendering request time ranges.
+-- 
+-- Phantom type for @AVVideoCompositionRenderHintInternal@.
+data AVVideoCompositionRenderHintInternal
+
+instance IsObjCObject (Id AVVideoCompositionRenderHintInternal) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "AVVideoCompositionRenderHintInternal"
+
+class IsObjCObject a => IsAVVideoCompositionRenderHintInternal a where
+  toAVVideoCompositionRenderHintInternal :: a -> Id AVVideoCompositionRenderHintInternal
+
+instance IsAVVideoCompositionRenderHintInternal (Id AVVideoCompositionRenderHintInternal) where
+  toAVVideoCompositionRenderHintInternal = unsafeCastId
+
 -- ---------- AVAsset ----------
 
--- | An AVAsset is an abstract class that defines AVFoundation's model for timed audiovisual media.
---
--- Each asset contains a collection of tracks that are intended to be presented or processed together, each of a uniform media type, including but not limited to audio, video, text, closed captions, and subtitles.
---
--- AVAssets are often instantiated via its concrete subclass AVURLAsset with NSURLs that refer to audiovisual media resources, such as streams (including HTTP live streams), QuickTime movie files, MP3 files, and files of other types.
---
--- They can also be instantiated using other concrete subclasses that extend the basic model for audiovisual media in useful ways, as AVComposition does for temporal editing.
---
--- Properties of assets as a whole are defined by AVAsset. Additionally, references to instances of AVAssetTracks representing tracks of the collection can be obtained, so that each of these can be examined independently.
---
--- Because of the nature of timed audiovisual media, upon successful initialization of an AVAsset some or all of the values for its keys may not be immediately available. The value of any key can be requested at any time, and AVAsset will always return its value synchronously, although it may have to block the calling thread in order to do so.
---
--- In order to avoid blocking, clients can register their interest in particular keys and to become notified when their values become available. For further details, see AVAsynchronousKeyValueLoading.h. For clients who want to examine a subset of the tracks, metadata, and other parts of the asset, asynchronous methods like -loadTracksWithMediaType:completionHandler: can be used to load this information without blocking. When using these asynchronous methods, it is not necessary to load the associated property beforehand. Swift clients can also use the load(:) method to load properties in a type safe manner.
---
--- On platforms other than macOS, it is particularly important to avoid blocking. To preserve responsiveness, a synchronous request that blocks for too long (eg, a property request on an asset on a slow HTTP server) may lead to media services being reset.
---
--- To play an instance of AVAsset, initialize an instance of AVPlayerItem with it, use the AVPlayerItem to set up its presentation state (such as whether only a limited timeRange of the asset should be played, etc.), and provide the AVPlayerItem to an AVPlayer according to whether the items is to be played by itself or together with a collection of other items. Full details available in AVPlayerItem.h and AVPlayer.h.
---
--- AVAssets can also be inserted into AVMutableCompositions in order to assemble audiovisual constructs from one or more source assets.
--- 
--- Phantom type for @AVAsset@.
+-- | Phantom type for @AVAsset@.
 data AVAsset
 
 instance IsObjCObject (Id AVAsset) where
@@ -427,11 +703,11 @@ instance IsNSObject (Id AVAsset) where
 
 -- ---------- AVAssetCache ----------
 
--- | AVAssetCache is a class vended by an AVAsset used for the inspection of locally available media data.
+-- | AVAssetCache
+--
+-- AVAssetCache is a class vended by an AVAsset used for the inspection of locally available media data.
 --
 -- AVAssetCaches are vended by AVURLAsset's assetCache property.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVAssetCache@.
 data AVAssetCache
@@ -452,9 +728,11 @@ instance IsNSObject (Id AVAssetCache) where
 
 -- ---------- AVAssetDownloadConfiguration ----------
 
--- | Configuration parameters for the download task.
+-- | AVAssetDownloadConfiguration
 --
--- Download configuration consists of primary and auxiliary content configurations. Primary content configuration represents the primary set of renditions essential for offline playback. Auxiliary content configurations represent additional configurations to complement the primary. For example, the primary content configuration may represent stereo audio renditions and auxiliary configuration may represent complementing multichannel audio renditions.
+-- Configuration parameters for the download task.
+--
+-- Download configuration consists of primary and auxiliary content configurations. Primary content configuration represents the primary set of renditions essential for offline playback. Auxiliary content configurations represent additional configurations to complement the primary.				For example, the primary content configuration may represent stereo audio renditions and auxiliary configuration may represent complementing multichannel audio renditions.
 --
 -- It is important to configure your download configuration object appropriately before using it to create a download task. Download task makes a copy of the configuration settings you provide and use those settings to configure the task. Once configured, the task object ignores any changes you make to the NSURLSessionConfiguration object. If you need to modify your settings, you must update the download configuration object and use it to create a new download task object.
 -- 
@@ -477,7 +755,9 @@ instance IsNSObject (Id AVAssetDownloadConfiguration) where
 
 -- ---------- AVAssetDownloadContentConfiguration ----------
 
--- | Represents the configuration consisting of variant and the variant's media options.
+-- | AVAssetDownloadContentConfiguration
+--
+-- Represents the configuration consisting of variant and the variant's media options.
 -- 
 -- Phantom type for @AVAssetDownloadContentConfiguration@.
 data AVAssetDownloadContentConfiguration
@@ -498,11 +778,7 @@ instance IsNSObject (Id AVAssetDownloadContentConfiguration) where
 
 -- ---------- AVAssetDownloadStorageManagementPolicy ----------
 
--- | A class to inform the system of a policy for automatic purging of downloaded AVAssets.
---
--- System will put in best-effort to evict all the assets based on expirationDate before evicting based on priority.
--- 
--- Phantom type for @AVAssetDownloadStorageManagementPolicy@.
+-- | Phantom type for @AVAssetDownloadStorageManagementPolicy@.
 data AVAssetDownloadStorageManagementPolicy
 
 instance IsObjCObject (Id AVAssetDownloadStorageManagementPolicy) where
@@ -521,11 +797,7 @@ instance IsNSObject (Id AVAssetDownloadStorageManagementPolicy) where
 
 -- ---------- AVAssetDownloadStorageManager ----------
 
--- | An AVAssetDownloadStorageManager manages the policy for automatic purging of downloaded AVAssets. The policy is vended as AVAssetDownloadStorageManagementPolicy object.
---
--- When a storage management policy needs to be set on an asset, sharedDownloadStorageManager singleton needs to be fetched.  The new policy can then be set by using setStorageManagementPolicy and the location of the downloaded asset.
--- 
--- Phantom type for @AVAssetDownloadStorageManager@.
+-- | Phantom type for @AVAssetDownloadStorageManager@.
 data AVAssetDownloadStorageManager
 
 instance IsObjCObject (Id AVAssetDownloadStorageManager) where
@@ -594,9 +866,9 @@ instance IsNSObject (Id AVAssetImageGenerator) where
 
 -- ---------- AVAssetPlaybackAssistant ----------
 
--- | AVAssetPlaybackAssistant provides playback information for an asset.
+-- | AVAssetPlaybackAssistant
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- AVAssetPlaybackAssistant provides playback information for an asset.
 -- 
 -- Phantom type for @AVAssetPlaybackAssistant@.
 data AVAssetPlaybackAssistant
@@ -675,7 +947,11 @@ instance IsNSObject (Id AVAssetReaderOutput) where
 
 -- ---------- AVAssetReaderOutputCaptionAdaptor ----------
 
--- | Phantom type for @AVAssetReaderOutputCaptionAdaptor@.
+-- | AVAssetReaderOutputCaptionAdaptor
+--
+-- An adaptor class for reading instances of AVCaptionGroup from a track containing timed text (i.e. subtitles or closed captions).
+-- 
+-- Phantom type for @AVAssetReaderOutputCaptionAdaptor@.
 data AVAssetReaderOutputCaptionAdaptor
 
 instance IsObjCObject (Id AVAssetReaderOutputCaptionAdaptor) where
@@ -694,7 +970,11 @@ instance IsNSObject (Id AVAssetReaderOutputCaptionAdaptor) where
 
 -- ---------- AVAssetReaderOutputMetadataAdaptor ----------
 
--- | Phantom type for @AVAssetReaderOutputMetadataAdaptor@.
+-- | AVAssetReaderOutputMetadataAdaptor
+--
+-- Defines an interface for reading metadata, packaged as instances of AVTimedMetadataGroup, from a single AVAssetReaderTrackOutput object.
+-- 
+-- Phantom type for @AVAssetReaderOutputMetadataAdaptor@.
 data AVAssetReaderOutputMetadataAdaptor
 
 instance IsObjCObject (Id AVAssetReaderOutputMetadataAdaptor) where
@@ -818,7 +1098,7 @@ instance IsNSObject (Id AVAssetResourceLoadingRequestor) where
 --
 -- This class provides information on a segment data.
 --
--- Clients may get an instance of AVAssetSegmentReport through the -assetWriter:didOutputSegmentData:segmentType:segmentReport: delegate method, which is defined in AVAssetWriter.h. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Clients may get an instance of AVAssetSegmentReport through the -assetWriter:didOutputSegmentData:segmentType:segmentReport: delegate method, which is defined in AVAssetWriter.h.
 -- 
 -- Phantom type for @AVAssetSegmentReport@.
 data AVAssetSegmentReport
@@ -842,8 +1122,6 @@ instance IsNSObject (Id AVAssetSegmentReport) where
 -- | AVAssetSegmentReportSampleInformation
 --
 -- This class is vended by AVAssetSegmentTrackReport. It will provide information on a sample in a track.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVAssetSegmentReportSampleInformation@.
 data AVAssetSegmentReportSampleInformation
@@ -867,8 +1145,6 @@ instance IsNSObject (Id AVAssetSegmentReportSampleInformation) where
 -- | AVAssetSegmentTrackReport
 --
 -- This class is vended by AVAssetSegmentReport. It will provide information on a track in a segment data.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVAssetSegmentTrackReport@.
 data AVAssetSegmentTrackReport
@@ -889,11 +1165,27 @@ instance IsNSObject (Id AVAssetSegmentTrackReport) where
 
 -- ---------- AVAssetTrack ----------
 
--- | An AVAssetTrack object provides provides the track-level inspection interface for all assets.
+-- | AVAsset
 --
--- AVAssetTrack adopts the AVAsynchronousKeyValueLoading protocol. Methods in the protocol should be used to access a track's properties without blocking the current thread. To cancel load requests for all keys of AVAssetTrack one must message the parent AVAsset object (for example, [track.asset cancelLoading]).
+-- An AVAsset is an abstract class that defines AVFoundation's model for timed audiovisual media.
 --
--- For clients who want to examine a subset of the metadata or other parts of the track, asynchronous methods like -loadMetadataForFormat:completionHandler: can be used to load this information without blocking. When using these asynchronous methods, it is not necessary to load the associated property beforehand. Swift clients can also use the load(:) method to load properties in a type safe manner.
+-- Each asset contains a collection of tracks that are intended to be presented or processed together, each of a uniform media type, including but not limited to audio, video, text, closed captions, and subtitles.
+--
+-- AVAssets are often instantiated via its concrete subclass AVURLAsset with NSURLs that refer to audiovisual media resources, such as streams (including HTTP live streams), QuickTime movie files, MP3 files, and files of other types.
+--
+-- They can also be instantiated using other concrete subclasses that extend the basic model for audiovisual media in useful ways, as AVComposition does for temporal editing.
+--
+-- Properties of assets as a whole are defined by AVAsset. Additionally, references to instances of AVAssetTracks representing tracks of the collection can be obtained, so that each of these can be examined independently.
+--
+-- Because of the nature of timed audiovisual media, upon successful initialization of an AVAsset some or all of the values for its keys may not be immediately available. The value of any key can be requested at any time, and AVAsset will always return its value synchronously, although it may have to block the calling thread in order to do so.
+--
+-- In order to avoid blocking, clients can register their interest in particular keys and to become notified when their values become available. For further details, see AVAsynchronousKeyValueLoading.h. For clients who want to examine a subset of the tracks, metadata, and other parts of the asset, asynchronous methods like -loadTracksWithMediaType:completionHandler: can be used to load this information without blocking. When using these asynchronous methods, it is not necessary to load the associated property beforehand. Swift clients can also use the load(:) method to load properties in a type safe manner.
+--
+-- On iOS, it is particularly important to avoid blocking.  To preserve responsiveness, a synchronous request that blocks for too long (eg, a property request on an asset on a slow HTTP server) may lead to media services being reset.
+--
+-- To play an instance of AVAsset, initialize an instance of AVPlayerItem with it, use the AVPlayerItem to set up its presentation state (such as whether only a limited timeRange of the asset should be played, etc.), and provide the AVPlayerItem to an AVPlayer according to whether the items is to be played by itself or together with a collection of other items. Full details available in AVPlayerItem.h and AVPlayer.h.
+--
+-- AVAssets can also be inserted into AVMutableCompositions in order to assemble audiovisual constructs from one or more source assets.
 -- 
 -- Phantom type for @AVAssetTrack@.
 data AVAssetTrack
@@ -921,8 +1213,6 @@ instance IsNSObject (Id AVAssetTrack) where
 -- Instances of AVAssetTrackGroup describe a single group of related tracks in an asset. For example, a track group can	describe a set of alternate tracks, which are tracks containing variations of the same content, such as content	translated into different languages, out of which only one track should be played at a time.
 --
 -- Clients can inspect the track groups contained in an AVAsset by loading and obtaining the value of its trackGroups property.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVAssetTrackGroup@.
 data AVAssetTrackGroup
@@ -962,7 +1252,9 @@ instance IsNSObject (Id AVAssetTrackSegment) where
 
 -- ---------- AVAssetVariant ----------
 
--- | An AVAssetVariant represents a bit rate variant. Each asset contains a collection of variants that represent a combination of audio, video, text, closed captions, and subtitles for a particular bit rate. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- | AVAssetVariant
+--
+-- An AVAssetVariant represents a bit rate variant.				Each asset contains a collection of variants that represent a combination of audio, video, text, closed captions, and subtitles for a particular bit rate.
 -- 
 -- Phantom type for @AVAssetVariant@.
 data AVAssetVariant
@@ -983,11 +1275,7 @@ instance IsNSObject (Id AVAssetVariant) where
 
 -- ---------- AVAssetVariantAudioAttributes ----------
 
--- | Audio attributes for an asset variant.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVAssetVariantAudioAttributes@.
+-- | Phantom type for @AVAssetVariantAudioAttributes@.
 data AVAssetVariantAudioAttributes
 
 instance IsObjCObject (Id AVAssetVariantAudioAttributes) where
@@ -1006,11 +1294,7 @@ instance IsNSObject (Id AVAssetVariantAudioAttributes) where
 
 -- ---------- AVAssetVariantAudioRenditionSpecificAttributes ----------
 
--- | Audio rendition attributes for an asset variant.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVAssetVariantAudioRenditionSpecificAttributes@.
+-- | Phantom type for @AVAssetVariantAudioRenditionSpecificAttributes@.
 data AVAssetVariantAudioRenditionSpecificAttributes
 
 instance IsObjCObject (Id AVAssetVariantAudioRenditionSpecificAttributes) where
@@ -1029,11 +1313,7 @@ instance IsNSObject (Id AVAssetVariantAudioRenditionSpecificAttributes) where
 
 -- ---------- AVAssetVariantQualifier ----------
 
--- | The qualifier of an asset variant.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVAssetVariantQualifier@.
+-- | Phantom type for @AVAssetVariantQualifier@.
 data AVAssetVariantQualifier
 
 instance IsObjCObject (Id AVAssetVariantQualifier) where
@@ -1052,11 +1332,7 @@ instance IsNSObject (Id AVAssetVariantQualifier) where
 
 -- ---------- AVAssetVariantVideoAttributes ----------
 
--- | Video attributes for an asset variant.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVAssetVariantVideoAttributes@.
+-- | Phantom type for @AVAssetVariantVideoAttributes@.
 data AVAssetVariantVideoAttributes
 
 instance IsObjCObject (Id AVAssetVariantVideoAttributes) where
@@ -1071,27 +1347,6 @@ instance IsAVAssetVariantVideoAttributes (Id AVAssetVariantVideoAttributes) wher
   toAVAssetVariantVideoAttributes = unsafeCastId
 
 instance IsNSObject (Id AVAssetVariantVideoAttributes) where
-  toNSObject = unsafeCastId
-
--- ---------- AVAssetVariantVideoLayoutAttributes ----------
-
--- | Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVAssetVariantVideoLayoutAttributes@.
-data AVAssetVariantVideoLayoutAttributes
-
-instance IsObjCObject (Id AVAssetVariantVideoLayoutAttributes) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVAssetVariantVideoLayoutAttributes"
-
-class IsNSObject a => IsAVAssetVariantVideoLayoutAttributes a where
-  toAVAssetVariantVideoLayoutAttributes :: a -> Id AVAssetVariantVideoLayoutAttributes
-
-instance IsAVAssetVariantVideoLayoutAttributes (Id AVAssetVariantVideoLayoutAttributes) where
-  toAVAssetVariantVideoLayoutAttributes = unsafeCastId
-
-instance IsNSObject (Id AVAssetVariantVideoLayoutAttributes) where
   toNSObject = unsafeCastId
 
 -- ---------- AVAssetWriter ----------
@@ -1125,13 +1380,15 @@ instance IsNSObject (Id AVAssetWriter) where
 
 -- ---------- AVAssetWriterInput ----------
 
--- | AVAssetWriterInput defines an interface for appending either new media samples or references to existing media samples packaged as CMSampleBuffer objects to a single track of the output file of an AVAssetWriter.
+-- | AVAssetWriterInput
+--
+-- AVAssetWriterInput defines an interface for appending either new media samples or references to existing media samples packaged as CMSampleBuffer objects to a single track of the output file of an AVAssetWriter.
 --
 -- Clients that need to write multiple concurrent tracks of media data should use one AVAssetWriterInput instance per track. In order to write multiple concurrent tracks with ideal interleaving of media data, clients should observe the value returned by the readyForMoreMediaData property of each AVAssetWriterInput instance.
 --
 -- AVAssetWriterInput also supports writing per-track metadata collections to the output file.
 --
--- As of macOS 10.10 and iOS 8.0 AVAssetWriterInput can also be used to create tracks that are not self-contained. Such tracks reference sample data that is located in another file. This is currently supported only for instances of AVAssetWriterInput attached to an instance of AVAssetWriter that writes files of type AVFileTypeQuickTimeMovie.
+-- As of OS X 10.10 and iOS 8.0 AVAssetWriterInput can also be used to create tracks that are not self-contained.  Such tracks reference sample data that is located in another file. This is currently supported only for instances of AVAssetWriterInput attached to an instance of AVAssetWriter that writes files of type AVFileTypeQuickTimeMovie.
 -- 
 -- Phantom type for @AVAssetWriterInput@.
 data AVAssetWriterInput
@@ -1152,7 +1409,11 @@ instance IsNSObject (Id AVAssetWriterInput) where
 
 -- ---------- AVAssetWriterInputCaptionAdaptor ----------
 
--- | Phantom type for @AVAssetWriterInputCaptionAdaptor@.
+-- | AVAssetWriterInputCaptionAdaptor
+--
+-- An adaptor class for appending instances of AVCaption to an asset writer input. -[AVAssetWriterInput -appendSampleBuffer:] will throw an exception if used when this adaptor is attached.
+-- 
+-- Phantom type for @AVAssetWriterInputCaptionAdaptor@.
 data AVAssetWriterInputCaptionAdaptor
 
 instance IsObjCObject (Id AVAssetWriterInputCaptionAdaptor) where
@@ -1171,7 +1432,11 @@ instance IsNSObject (Id AVAssetWriterInputCaptionAdaptor) where
 
 -- ---------- AVAssetWriterInputMetadataAdaptor ----------
 
--- | Phantom type for @AVAssetWriterInputMetadataAdaptor@.
+-- | AVAssetWriterInputMetadataAdaptor
+--
+-- Defines an interface for writing metadata, packaged as instances of AVTimedMetadataGroup, to a single AVAssetWriterInput object.
+-- 
+-- Phantom type for @AVAssetWriterInputMetadataAdaptor@.
 data AVAssetWriterInputMetadataAdaptor
 
 instance IsObjCObject (Id AVAssetWriterInputMetadataAdaptor) where
@@ -1190,9 +1455,9 @@ instance IsNSObject (Id AVAssetWriterInputMetadataAdaptor) where
 
 -- ---------- AVAssetWriterInputPassDescription ----------
 
--- | Defines an interface for querying information about the requirements of the current pass, such as the time ranges of media data to append.
+-- | AVAssetWriterInputPassDescription
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Defines an interface for querying information about the requirements of the current pass, such as the time ranges of media data to append.
 -- 
 -- Phantom type for @AVAssetWriterInputPassDescription@.
 data AVAssetWriterInputPassDescription
@@ -1213,7 +1478,13 @@ instance IsNSObject (Id AVAssetWriterInputPassDescription) where
 
 -- ---------- AVAssetWriterInputPixelBufferAdaptor ----------
 
--- | Phantom type for @AVAssetWriterInputPixelBufferAdaptor@.
+-- | AVAssetWriterInputPixelBufferAdaptor
+--
+-- Defines an interface for appending video samples packaged as CVPixelBuffer objects to a single AVAssetWriterInput object.
+--
+-- Instances of AVAssetWriterInputPixelBufferAdaptor provide a CVPixelBufferPool that can be used to allocate pixel buffers for writing to the output file.  Using the provided pixel buffer pool for buffer allocation is typically more efficient than appending pixel buffers allocated using a separate pool.
+-- 
+-- Phantom type for @AVAssetWriterInputPixelBufferAdaptor@.
 data AVAssetWriterInputPixelBufferAdaptor
 
 instance IsObjCObject (Id AVAssetWriterInputPixelBufferAdaptor) where
@@ -1228,25 +1499,6 @@ instance IsAVAssetWriterInputPixelBufferAdaptor (Id AVAssetWriterInputPixelBuffe
   toAVAssetWriterInputPixelBufferAdaptor = unsafeCastId
 
 instance IsNSObject (Id AVAssetWriterInputPixelBufferAdaptor) where
-  toNSObject = unsafeCastId
-
--- ---------- AVAssetWriterInputTaggedPixelBufferGroupAdaptor ----------
-
--- | Phantom type for @AVAssetWriterInputTaggedPixelBufferGroupAdaptor@.
-data AVAssetWriterInputTaggedPixelBufferGroupAdaptor
-
-instance IsObjCObject (Id AVAssetWriterInputTaggedPixelBufferGroupAdaptor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVAssetWriterInputTaggedPixelBufferGroupAdaptor"
-
-class IsNSObject a => IsAVAssetWriterInputTaggedPixelBufferGroupAdaptor a where
-  toAVAssetWriterInputTaggedPixelBufferGroupAdaptor :: a -> Id AVAssetWriterInputTaggedPixelBufferGroupAdaptor
-
-instance IsAVAssetWriterInputTaggedPixelBufferGroupAdaptor (Id AVAssetWriterInputTaggedPixelBufferGroupAdaptor) where
-  toAVAssetWriterInputTaggedPixelBufferGroupAdaptor = unsafeCastId
-
-instance IsNSObject (Id AVAssetWriterInputTaggedPixelBufferGroupAdaptor) where
   toNSObject = unsafeCastId
 
 -- ---------- AVAsynchronousCIImageFilteringRequest ----------
@@ -1270,11 +1522,7 @@ instance IsNSObject (Id AVAsynchronousCIImageFilteringRequest) where
 
 -- ---------- AVAsynchronousVideoCompositionRequest ----------
 
--- | An AVAsynchronousVideoCompositionRequest instance contains the information necessary for a video compositor to render an output pixel buffer. The video compositor must implement the AVVideoCompositing protocol.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVAsynchronousVideoCompositionRequest@.
+-- | Phantom type for @AVAsynchronousVideoCompositionRequest@.
 data AVAsynchronousVideoCompositionRequest
 
 instance IsObjCObject (Id AVAsynchronousVideoCompositionRequest) where
@@ -1384,8 +1632,6 @@ instance IsNSObject (Id AVCaption) where
 -- | AVCaptionConversionAdjustment
 --
 -- Describes an adjustment that can be performed in order to correct a problem encountered during the validation of a caption conversion.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVCaptionConversionAdjustment@.
 data AVCaptionConversionAdjustment
@@ -1432,8 +1678,6 @@ instance IsNSObject (Id AVCaptionConversionValidator) where
 -- | AVCaptionConversionWarning
 --
 -- Reports a specific problem encountered during the validation of a caption conversion.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVCaptionConversionWarning@.
 data AVCaptionConversionWarning
@@ -1590,8 +1834,6 @@ instance IsNSObject (Id AVCaptionRenderer) where
 -- In rendering the timeline established by the captions referenced by an AVCaptionRenderer, there are considerations such as temporal overlapping of captions, the existence of captions and other graphical elements like regions, and whether captions may be animated (e.g., scrolling in regions, character reveal in a caption). To communicate to the AVCaptionRenderer client the minimal set of time ranges where there are any visual differences, AVCaptionRendererScenes can be requested from -[AVCaptionRenderer captionSceneChangesInRange:]. A client wanting to optimize drawing performance may use this timing information to draw scenes only once per scene. Alternatively, clients can ignore scenes and repeatedly call renderInContext:atTime: but this may have additional performance impact.
 --
 -- Other information about the rendering of a caption scene can be communicated through the AVCaptionRendererScene. For example, if captions are animated, an AVCaptionRendererScene with the time range and an indication of the animation occurring will be returned. There should be no inference from the number of scenes to the number of captions. Even a single caption with internal animations in part of its duration could result in multiple AVCaptionRendererScenes being produced.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVCaptionRendererScene@.
 data AVCaptionRendererScene
@@ -1612,11 +1854,7 @@ instance IsNSObject (Id AVCaptionRendererScene) where
 
 -- ---------- AVCaptionRuby ----------
 
--- | AVCaptionRuby
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVCaptionRuby@.
+-- | Phantom type for @AVCaptionRuby@.
 data AVCaptionRuby
 
 instance IsObjCObject (Id AVCaptionRuby) where
@@ -1693,7 +1931,7 @@ instance IsNSObject (Id AVCaptureBracketedStillImageSettings) where
 --
 -- Connections involving audio expose an array of AVCaptureAudioChannel objects, which can be used for monitoring levels.
 --
--- Connections involving video expose video specific properties, such as videoMirrored and videoRotationAngle.
+-- Connections involving video expose video specific properties, such as videoMirrored and videoOrientation.
 -- 
 -- Phantom type for @AVCaptureConnection@.
 data AVCaptureConnection
@@ -1710,35 +1948,6 @@ instance IsAVCaptureConnection (Id AVCaptureConnection) where
   toAVCaptureConnection = unsafeCastId
 
 instance IsNSObject (Id AVCaptureConnection) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureControl ----------
-
--- | AVCaptureControl
---
--- AVCaptureControl is an abstract class that defines an interface for a unique type of control which allows deep integration with the camera system through AVCaptureSession.
---
--- Various concrete subclasses of @AVCaptureControl@ are provided by AVFoundation to allow your application to both leverage common system controls and define unique custom controls.
---
--- Controls may be added to an @AVCaptureSession@ using @-[AVCaptureSession addControl:]@.
---
--- For controls that use symbols to represent them, only SF Symbols may be used.
--- 
--- Phantom type for @AVCaptureControl@.
-data AVCaptureControl
-
-instance IsObjCObject (Id AVCaptureControl) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureControl"
-
-class IsNSObject a => IsAVCaptureControl a where
-  toAVCaptureControl :: a -> Id AVCaptureControl
-
-instance IsAVCaptureControl (Id AVCaptureControl) where
-  toAVCaptureControl = unsafeCastId
-
-instance IsNSObject (Id AVCaptureControl) where
   toNSObject = unsafeCastId
 
 -- ---------- AVCaptureDataOutputSynchronizer ----------
@@ -1922,102 +2131,6 @@ instance IsAVCaptureDeviceInputSource (Id AVCaptureDeviceInputSource) where
 instance IsNSObject (Id AVCaptureDeviceInputSource) where
   toNSObject = unsafeCastId
 
--- ---------- AVCaptureDeviceRotationCoordinator ----------
-
--- | AVCaptureDeviceRotationCoordinator
---
--- The AVCaptureDeviceRotationCoordinator allows clients to monitor rotations of a given AVCaptureDevice instance and be provided the video rotation angle that should be applied for horizon-level preview and capture relative to gravity.
---
--- Each instance of AVCaptureDeviceRotationCoordinator allows a client to coordinate with changes to the rotation of an AVCaptureDevice to ensure the camera's video preview and captured output are horizon-level. The coordinator delivers key-value updates on the main queue.
--- 
--- Phantom type for @AVCaptureDeviceRotationCoordinator@.
-data AVCaptureDeviceRotationCoordinator
-
-instance IsObjCObject (Id AVCaptureDeviceRotationCoordinator) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureDeviceRotationCoordinator"
-
-class IsNSObject a => IsAVCaptureDeviceRotationCoordinator a where
-  toAVCaptureDeviceRotationCoordinator :: a -> Id AVCaptureDeviceRotationCoordinator
-
-instance IsAVCaptureDeviceRotationCoordinator (Id AVCaptureDeviceRotationCoordinator) where
-  toAVCaptureDeviceRotationCoordinator = unsafeCastId
-
-instance IsNSObject (Id AVCaptureDeviceRotationCoordinator) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureExternalDisplayConfiguration ----------
-
--- | A class you use to specify a configuration to your external display configurator.
---
--- Using an ``AVCaptureExternalDisplayConfiguration``, you direct your ``AVCaptureExternalDisplayConfigurator`` how to configure an external display to match your device's active video format.
--- 
--- Phantom type for @AVCaptureExternalDisplayConfiguration@.
-data AVCaptureExternalDisplayConfiguration
-
-instance IsObjCObject (Id AVCaptureExternalDisplayConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureExternalDisplayConfiguration"
-
-class IsNSObject a => IsAVCaptureExternalDisplayConfiguration a where
-  toAVCaptureExternalDisplayConfiguration :: a -> Id AVCaptureExternalDisplayConfiguration
-
-instance IsAVCaptureExternalDisplayConfiguration (Id AVCaptureExternalDisplayConfiguration) where
-  toAVCaptureExternalDisplayConfiguration = unsafeCastId
-
-instance IsNSObject (Id AVCaptureExternalDisplayConfiguration) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureExternalDisplayConfigurator ----------
-
--- | A configurator class allowing you to configure properties of an external display to match the camera's active video format.
---
--- An ``AVCaptureExternalDisplayConfigurator`` allows you to configure a connected external display to output a clean feed using a ``CALayer``. Using the configurator, you can opt into automatic adjustment of the external display’s color space and / or frame rate to match your device’s capture configuration. These adjustments are only applied to the external display, not to the device.
---
--- - Note: Not all displays support the same configuration options as the device’s capture formats. Your adjustments to the external display are applied with utmost effort to accurately represent the capture device. When your capture device's ``AVCaptureDevice/activeFormat`` is unavailable on the external display, the configurator automatically chooses the closest available format.
--- 
--- Phantom type for @AVCaptureExternalDisplayConfigurator@.
-data AVCaptureExternalDisplayConfigurator
-
-instance IsObjCObject (Id AVCaptureExternalDisplayConfigurator) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureExternalDisplayConfigurator"
-
-class IsNSObject a => IsAVCaptureExternalDisplayConfigurator a where
-  toAVCaptureExternalDisplayConfigurator :: a -> Id AVCaptureExternalDisplayConfigurator
-
-instance IsAVCaptureExternalDisplayConfigurator (Id AVCaptureExternalDisplayConfigurator) where
-  toAVCaptureExternalDisplayConfigurator = unsafeCastId
-
-instance IsNSObject (Id AVCaptureExternalDisplayConfigurator) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureFraming ----------
-
--- | A framing, consisting of an aspect ratio and a zoom factor.
---
--- An ``AVCaptureSmartFramingMonitor`` provides framing recommendations using this object.
--- 
--- Phantom type for @AVCaptureFraming@.
-data AVCaptureFraming
-
-instance IsObjCObject (Id AVCaptureFraming) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureFraming"
-
-class IsNSObject a => IsAVCaptureFraming a where
-  toAVCaptureFraming :: a -> Id AVCaptureFraming
-
-instance IsAVCaptureFraming (Id AVCaptureFraming) where
-  toAVCaptureFraming = unsafeCastId
-
-instance IsNSObject (Id AVCaptureFraming) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVCaptureInput ----------
 
 -- | AVCaptureInput
@@ -2122,31 +2235,6 @@ instance IsAVCapturePhoto (Id AVCapturePhoto) where
 instance IsNSObject (Id AVCapturePhoto) where
   toNSObject = unsafeCastId
 
--- ---------- AVCapturePhotoOutputReadinessCoordinator ----------
-
--- | AVCapturePhotoOutputReadinessCoordinator
---
--- AVCapturePhotoOutputReadinessCoordinator notifies its delegate of changes in an AVCapturePhotoOutput's captureReadiness property and can be used to coordinate UI updates on the main queue with use of AVCapturePhotoOutput on a background queue.
---
--- AVCapturePhotoOutputReadinessCoordinator tracks its output's captureReadiness and incorporates additional requests registered via -startTrackingCaptureRequestUsingPhotoSettings:. This allows clients to synchronously update shutter button availability and appearance and on the main thread while calling -[AVCapturePhotoOutput capturePhotoWithSettings:delegate:] asynchronously on a background queue.
--- 
--- Phantom type for @AVCapturePhotoOutputReadinessCoordinator@.
-data AVCapturePhotoOutputReadinessCoordinator
-
-instance IsObjCObject (Id AVCapturePhotoOutputReadinessCoordinator) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCapturePhotoOutputReadinessCoordinator"
-
-class IsNSObject a => IsAVCapturePhotoOutputReadinessCoordinator a where
-  toAVCapturePhotoOutputReadinessCoordinator :: a -> Id AVCapturePhotoOutputReadinessCoordinator
-
-instance IsAVCapturePhotoOutputReadinessCoordinator (Id AVCapturePhotoOutputReadinessCoordinator) where
-  toAVCapturePhotoOutputReadinessCoordinator = unsafeCastId
-
-instance IsNSObject (Id AVCapturePhotoOutputReadinessCoordinator) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVCapturePhotoSettings ----------
 
 -- | AVCapturePhotoSettings
@@ -2170,31 +2258,6 @@ instance IsAVCapturePhotoSettings (Id AVCapturePhotoSettings) where
   toAVCapturePhotoSettings = unsafeCastId
 
 instance IsNSObject (Id AVCapturePhotoSettings) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureReactionEffectState ----------
-
--- | AVCaptureReactionEffectState
---
--- Reports the state of a reaction performed on an AVCaptureDevice.
---
--- AVCaptureReactionEffectState may be obtained by calling -[AVCaptureDevice reactionEffectsInProgress].  When -[AVCaptureDevice canPerformReactionEffects] returns YES, new entries are added either by calling -[AVCaptureDevice performEffectForReaction:], or by gesture detection in the capture stream when AVCaptureDevice.reactionEffectGesturesEnabled.  The effect rendering is done before frames are given to the capture client, and these status objects let you know when these effects are performed.
--- 
--- Phantom type for @AVCaptureReactionEffectState@.
-data AVCaptureReactionEffectState
-
-instance IsObjCObject (Id AVCaptureReactionEffectState) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureReactionEffectState"
-
-class IsNSObject a => IsAVCaptureReactionEffectState a where
-  toAVCaptureReactionEffectState :: a -> Id AVCaptureReactionEffectState
-
-instance IsAVCaptureReactionEffectState (Id AVCaptureReactionEffectState) where
-  toAVCaptureReactionEffectState = unsafeCastId
-
-instance IsNSObject (Id AVCaptureReactionEffectState) where
   toNSObject = unsafeCastId
 
 -- ---------- AVCaptureResolvedPhotoSettings ----------
@@ -2245,50 +2308,6 @@ instance IsAVCaptureSession (Id AVCaptureSession) where
   toAVCaptureSession = unsafeCastId
 
 instance IsNSObject (Id AVCaptureSession) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureSmartFramingMonitor ----------
-
--- | An object associated with a capture device that monitors the scene and suggests an optimal framing.
---
--- A smart framing monitor observes its associated device for objects of interest entering and exiting the camera's field of view and recommends an optimal framing for good photographic composition. This framing recommendation consists of an aspect ratio and zoom factor. You may respond to the device's framing recommendation by calling ``AVCaptureDevice/setDynamicAspectRatio:completionHandler:`` and setting ``AVCaptureDevice/videoZoomFactor`` on the associated device in whatever order best matches your animation between old and new framings.
--- 
--- Phantom type for @AVCaptureSmartFramingMonitor@.
-data AVCaptureSmartFramingMonitor
-
-instance IsObjCObject (Id AVCaptureSmartFramingMonitor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureSmartFramingMonitor"
-
-class IsNSObject a => IsAVCaptureSmartFramingMonitor a where
-  toAVCaptureSmartFramingMonitor :: a -> Id AVCaptureSmartFramingMonitor
-
-instance IsAVCaptureSmartFramingMonitor (Id AVCaptureSmartFramingMonitor) where
-  toAVCaptureSmartFramingMonitor = unsafeCastId
-
-instance IsNSObject (Id AVCaptureSmartFramingMonitor) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureSpatialAudioMetadataSampleGenerator ----------
-
--- | An interface for generating a spatial audio timed metadata sample.
--- 
--- Phantom type for @AVCaptureSpatialAudioMetadataSampleGenerator@.
-data AVCaptureSpatialAudioMetadataSampleGenerator
-
-instance IsObjCObject (Id AVCaptureSpatialAudioMetadataSampleGenerator) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureSpatialAudioMetadataSampleGenerator"
-
-class IsNSObject a => IsAVCaptureSpatialAudioMetadataSampleGenerator a where
-  toAVCaptureSpatialAudioMetadataSampleGenerator :: a -> Id AVCaptureSpatialAudioMetadataSampleGenerator
-
-instance IsAVCaptureSpatialAudioMetadataSampleGenerator (Id AVCaptureSpatialAudioMetadataSampleGenerator) where
-  toAVCaptureSpatialAudioMetadataSampleGenerator = unsafeCastId
-
-instance IsNSObject (Id AVCaptureSpatialAudioMetadataSampleGenerator) where
   toNSObject = unsafeCastId
 
 -- ---------- AVCaptureSynchronizedData ----------
@@ -2366,63 +2385,9 @@ instance IsAVCaptureSystemPressureState (Id AVCaptureSystemPressureState) where
 instance IsNSObject (Id AVCaptureSystemPressureState) where
   toNSObject = unsafeCastId
 
--- ---------- AVCaptureTimecodeGenerator ----------
-
--- | Generates and synchronizes timecode data from various sources for precise video and audio synchronization.
---
--- The ``AVCaptureTimecodeGenerator`` class supports multiple timecode sources, including frame counting, system clock synchronization, and MIDI timecode input (MTC). Suitable for playback, recording, or other time-sensitive operations where precise timecode metadata is required.
---
--- Use the ``startSynchronizationWithTimecodeSource:`` method to set up the desired timecode source.
--- 
--- Phantom type for @AVCaptureTimecodeGenerator@.
-data AVCaptureTimecodeGenerator
-
-instance IsObjCObject (Id AVCaptureTimecodeGenerator) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureTimecodeGenerator"
-
-class IsNSObject a => IsAVCaptureTimecodeGenerator a where
-  toAVCaptureTimecodeGenerator :: a -> Id AVCaptureTimecodeGenerator
-
-instance IsAVCaptureTimecodeGenerator (Id AVCaptureTimecodeGenerator) where
-  toAVCaptureTimecodeGenerator = unsafeCastId
-
-instance IsNSObject (Id AVCaptureTimecodeGenerator) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureTimecodeSource ----------
-
--- | Describes a timecode source that a timecode generator can synchronize to.
---
--- @AVCaptureTimecodeSource@ provides information about a specific timecode source available for synchronization in @AVCaptureTimecodeGenerator@. It includes metadata such as the source’s name, type, and unique identifier.
--- 
--- Phantom type for @AVCaptureTimecodeSource@.
-data AVCaptureTimecodeSource
-
-instance IsObjCObject (Id AVCaptureTimecodeSource) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureTimecodeSource"
-
-class IsNSObject a => IsAVCaptureTimecodeSource a where
-  toAVCaptureTimecodeSource :: a -> Id AVCaptureTimecodeSource
-
-instance IsAVCaptureTimecodeSource (Id AVCaptureTimecodeSource) where
-  toAVCaptureTimecodeSource = unsafeCastId
-
-instance IsNSObject (Id AVCaptureTimecodeSource) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVCompositionTrackFormatDescriptionReplacement ----------
 
--- | AVCompositionTrackFormatDescriptionReplacement
---
--- A format description and its replacement.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVCompositionTrackFormatDescriptionReplacement@.
+-- | Phantom type for @AVCompositionTrackFormatDescriptionReplacement@.
 data AVCompositionTrackFormatDescriptionReplacement
 
 instance IsObjCObject (Id AVCompositionTrackFormatDescriptionReplacement) where
@@ -2441,9 +2406,7 @@ instance IsNSObject (Id AVCompositionTrackFormatDescriptionReplacement) where
 
 -- ---------- AVContentKey ----------
 
--- | Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVContentKey@.
+-- | Phantom type for @AVContentKey@.
 data AVContentKey
 
 instance IsObjCObject (Id AVContentKey) where
@@ -2462,9 +2425,7 @@ instance IsNSObject (Id AVContentKey) where
 
 -- ---------- AVContentKeyRequest ----------
 
--- | Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVContentKeyRequest@.
+-- | Phantom type for @AVContentKeyRequest@.
 data AVContentKeyRequest
 
 instance IsObjCObject (Id AVContentKeyRequest) where
@@ -2483,9 +2444,9 @@ instance IsNSObject (Id AVContentKeyRequest) where
 
 -- ---------- AVContentKeyResponse ----------
 
--- | AVContentKeyResponse is used to represent the data returned from the key server when requesting a key for decrypting content.
+-- | AVContentKeyResponse
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- AVContentKeyResponse is used to represent the data returned from the key server when requesting a key for decrypting content.
 -- 
 -- Phantom type for @AVContentKeyResponse@.
 data AVContentKeyResponse
@@ -2506,19 +2467,7 @@ instance IsNSObject (Id AVContentKeyResponse) where
 
 -- ---------- AVContentKeySession ----------
 
--- | An AVContentKeySession is used to create and track decryption keys for media data. Objects conforming to the AVContentKeyRecipient protocol, such as AVURLAssets, can be added to an AVContentKeySession to employ the services of the AVContentKeySession in handling new key requests and to obtain access to the session's already existing keys.
---
--- Its secondary purpose is to provide a report of expired sessions to assist a controlling entity that wishes to track the set of sessions that are still active. If initialized with a location at which to store them, AVContentKeySession maintains a global collection of pending "expired session reports", each associated with an identifier for the app that created the session. The contents of this identifier are specified by the controlling entity that provides media data or that grants permission for its use.
---
--- Expired sessions are tracked as follows: a stream processing session is considered to be started after an instance of AVContentKeySession is created and the first object conforming to the AVContentKeyRecipient protocol is added to it. If an instance of AVContentKeySession that has reached this state does not receive an expire message before it's deallocated or the process in which it's running is terminated, an "expired session report" will subsequently be added to the pending list of expired session reports that indicates that the session expired abnormally. In contrast, for AVContentKeySessions that reach the state of having at least one object conforming to the AVContentKeyRecipient protocol added to them and later receive an expire message, "expired session reports" will be generated that indicate that the session expired normally.
---
--- To obtain the collection of pending expired session reports in order to provide them to the controlling entity associated with a specific app identifier, use +pendingExpiredSessionReportsWithAppIdentifier:.
---
--- After pending expired session reports have been sent to the controlling entity and their receipt has been acknowledged, they can be removed from the collection of pending expired session reports maintained by AVContentKeySession by using +removePendingExpiredSessionReports:withAppIdentifier:.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVContentKeySession@.
+-- | Phantom type for @AVContentKeySession@.
 data AVContentKeySession
 
 instance IsObjCObject (Id AVContentKeySession) where
@@ -2537,9 +2486,7 @@ instance IsNSObject (Id AVContentKeySession) where
 
 -- ---------- AVContentKeySpecifier ----------
 
--- | Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVContentKeySpecifier@.
+-- | Phantom type for @AVContentKeySpecifier@.
 data AVContentKeySpecifier
 
 instance IsObjCObject (Id AVContentKeySpecifier) where
@@ -2556,36 +2503,11 @@ instance IsAVContentKeySpecifier (Id AVContentKeySpecifier) where
 instance IsNSObject (Id AVContentKeySpecifier) where
   toNSObject = unsafeCastId
 
--- ---------- AVContinuityDevice ----------
-
--- | AVContinuityDevice
---
--- An AVContinuityDevice represents a physical iOS device that provides capture devices and audio session ports.
---
--- Each instance of AVContinuityDevice corresponds to a continuity device, such as an iPhone or iPad. Instances of AVContinuityDevice cannot be created directly.
--- 
--- Phantom type for @AVContinuityDevice@.
-data AVContinuityDevice
-
-instance IsObjCObject (Id AVContinuityDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVContinuityDevice"
-
-class IsNSObject a => IsAVContinuityDevice a where
-  toAVContinuityDevice :: a -> Id AVContinuityDevice
-
-instance IsAVContinuityDevice (Id AVContinuityDevice) where
-  toAVContinuityDevice = unsafeCastId
-
-instance IsNSObject (Id AVContinuityDevice) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVCoordinatedPlaybackParticipant ----------
 
--- | A participant in a coordinated playback group connected through AVPlaybackCoordinator.
+-- | AVCoordinatedPlaybackParticipant
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A participant in a coordinated playback group connected through AVPlaybackCoordinator.
 -- 
 -- Phantom type for @AVCoordinatedPlaybackParticipant@.
 data AVCoordinatedPlaybackParticipant
@@ -2606,11 +2528,11 @@ instance IsNSObject (Id AVCoordinatedPlaybackParticipant) where
 
 -- ---------- AVCoordinatedPlaybackSuspension ----------
 
--- | A representation of a temporary break in participation.
+-- | AVCoordinatedPlaybackSuspension
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A representation of a temporary break in participation.
 --
--- - NOTE: See AVPlaybackCoordinator's beginSuspensionForReason: method for details on use.
+-- Note: See AVPlaybackCoordinator's beginSuspensionForReason: method for details on use.
 -- 
 -- Phantom type for @AVCoordinatedPlaybackSuspension@.
 data AVCoordinatedPlaybackSuspension
@@ -2629,34 +2551,11 @@ instance IsAVCoordinatedPlaybackSuspension (Id AVCoordinatedPlaybackSuspension) 
 instance IsNSObject (Id AVCoordinatedPlaybackSuspension) where
   toNSObject = unsafeCastId
 
--- ---------- AVCustomMediaSelectionScheme ----------
-
--- | For content that has been authored with the express intent of offering an alternative selection interface for AVMediaSelectionOptions, AVCustomMediaSelectionScheme provides a collection of custom settings for controlling the presentation of the media.
---
--- Each selectable setting is associated with a media characteristic that one or more of the AVMediaSelectionOptions in the AVMediaSelectionGroup possesses. By selecting a setting in a user interface based on an AVCustomMediaSelectionScheme, users are essentially indicating a preference for the media characteristic of the selected setting. Selection of a specific AVMediaSelectionOption in the AVMediaSelectionGroup is then derived from the user's indicated preferences. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVCustomMediaSelectionScheme@.
-data AVCustomMediaSelectionScheme
-
-instance IsObjCObject (Id AVCustomMediaSelectionScheme) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCustomMediaSelectionScheme"
-
-class IsNSObject a => IsAVCustomMediaSelectionScheme a where
-  toAVCustomMediaSelectionScheme :: a -> Id AVCustomMediaSelectionScheme
-
-instance IsAVCustomMediaSelectionScheme (Id AVCustomMediaSelectionScheme) where
-  toAVCustomMediaSelectionScheme = unsafeCastId
-
-instance IsNSObject (Id AVCustomMediaSelectionScheme) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVDelegatingPlaybackCoordinatorPlaybackControlCommand ----------
 
--- | Abstract superclass for playback commands
+-- | AVDelegatingPlaybackCoordinatorPlaybackControlCommand
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Abstract superclass for playback commands
 -- 
 -- Phantom type for @AVDelegatingPlaybackCoordinatorPlaybackControlCommand@.
 data AVDelegatingPlaybackCoordinatorPlaybackControlCommand
@@ -2706,134 +2605,9 @@ instance IsAVDepthData (Id AVDepthData) where
 instance IsNSObject (Id AVDepthData) where
   toNSObject = unsafeCastId
 
--- ---------- AVExposureBiasRange ----------
-
--- | AVExposureBiasRange
---
--- An AVExposureBiasRange expresses an inclusive range of supported exposure bias values, in EV units.
---
--- This is used by AVCaptureSystemExposureBiasSlider for the range the slider uses.
--- 
--- Phantom type for @AVExposureBiasRange@.
-data AVExposureBiasRange
-
-instance IsObjCObject (Id AVExposureBiasRange) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVExposureBiasRange"
-
-class IsNSObject a => IsAVExposureBiasRange a where
-  toAVExposureBiasRange :: a -> Id AVExposureBiasRange
-
-instance IsAVExposureBiasRange (Id AVExposureBiasRange) where
-  toAVExposureBiasRange = unsafeCastId
-
-instance IsNSObject (Id AVExposureBiasRange) where
-  toNSObject = unsafeCastId
-
--- ---------- AVExternalStorageDevice ----------
-
--- | AVExternalStorageDevice
---
--- An AVExternalStorageDevice represents a physical external storage device connected to the device that can be used to store captured media assets.
---
--- Each instance of AVExternalStorageDevice corresponds to a physical external storage device where captured media assets can be stored. Instances of AVExternalStorageDevice cannot be created directly. An array of all currently available external storage devices can be obtained using AVExternalStorageDeviceDiscoverySession.
---
--- Instances of AVExternalStorageDevice can be used with AVCaptureFileOutput subclasses for writing media files.
--- 
--- Phantom type for @AVExternalStorageDevice@.
-data AVExternalStorageDevice
-
-instance IsObjCObject (Id AVExternalStorageDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVExternalStorageDevice"
-
-class IsNSObject a => IsAVExternalStorageDevice a where
-  toAVExternalStorageDevice :: a -> Id AVExternalStorageDevice
-
-instance IsAVExternalStorageDevice (Id AVExternalStorageDevice) where
-  toAVExternalStorageDevice = unsafeCastId
-
-instance IsNSObject (Id AVExternalStorageDevice) where
-  toNSObject = unsafeCastId
-
--- ---------- AVExternalStorageDeviceDiscoverySession ----------
-
--- | AVExternalStorageDeviceDiscoverySession
---
--- AVExternalStorageDeviceDiscoverySession is used to monitor connection / disconnection of external storage devices to the device.
---
--- AVExternalStorageDeviceDiscoverySession is a singleton that lists the external storage devices connected to this device. The client is expected to key-value observe the externalStorageDevices property for changes to the external storage devices list.
--- 
--- Phantom type for @AVExternalStorageDeviceDiscoverySession@.
-data AVExternalStorageDeviceDiscoverySession
-
-instance IsObjCObject (Id AVExternalStorageDeviceDiscoverySession) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVExternalStorageDeviceDiscoverySession"
-
-class IsNSObject a => IsAVExternalStorageDeviceDiscoverySession a where
-  toAVExternalStorageDeviceDiscoverySession :: a -> Id AVExternalStorageDeviceDiscoverySession
-
-instance IsAVExternalStorageDeviceDiscoverySession (Id AVExternalStorageDeviceDiscoverySession) where
-  toAVExternalStorageDeviceDiscoverySession = unsafeCastId
-
-instance IsNSObject (Id AVExternalStorageDeviceDiscoverySession) where
-  toNSObject = unsafeCastId
-
--- ---------- AVExternalSyncDevice ----------
-
--- | An external sync device connected to a host device that can be used to drive the timing of an internal component, such as a camera sensor.
---
--- Each instance of ``AVExternalSyncDevice`` corresponds to a physical external device that can drive an internal component, like a camera readout. You cannot create instances of ``AVExternalSyncDevice``. Instead, you obtain an array of all currently available external sync devices using ``AVExternalSyncDeviceDiscoverySession``.
--- 
--- Phantom type for @AVExternalSyncDevice@.
-data AVExternalSyncDevice
-
-instance IsObjCObject (Id AVExternalSyncDevice) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVExternalSyncDevice"
-
-class IsNSObject a => IsAVExternalSyncDevice a where
-  toAVExternalSyncDevice :: a -> Id AVExternalSyncDevice
-
-instance IsAVExternalSyncDevice (Id AVExternalSyncDevice) where
-  toAVExternalSyncDevice = unsafeCastId
-
-instance IsNSObject (Id AVExternalSyncDevice) where
-  toNSObject = unsafeCastId
-
--- ---------- AVExternalSyncDeviceDiscoverySession ----------
-
--- | A means of discovering and monitoring connection / disconnection of external sync devices to the host.
---
--- ``AVExternalSyncDeviceDiscoverySession`` is a singleton that lists the external sync devices connected to the host. The client is expected to key-value observe the ``AVExternalSyncDeviceDiscoverySession/devices`` property for changes to the external sync devices list.
--- 
--- Phantom type for @AVExternalSyncDeviceDiscoverySession@.
-data AVExternalSyncDeviceDiscoverySession
-
-instance IsObjCObject (Id AVExternalSyncDeviceDiscoverySession) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVExternalSyncDeviceDiscoverySession"
-
-class IsNSObject a => IsAVExternalSyncDeviceDiscoverySession a where
-  toAVExternalSyncDeviceDiscoverySession :: a -> Id AVExternalSyncDeviceDiscoverySession
-
-instance IsAVExternalSyncDeviceDiscoverySession (Id AVExternalSyncDeviceDiscoverySession) where
-  toAVExternalSyncDeviceDiscoverySession = unsafeCastId
-
-instance IsNSObject (Id AVExternalSyncDeviceDiscoverySession) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVFragmentedAssetMinder ----------
 
--- | A class that periodically checks whether additional fragments have been appended to fragmented assets.
--- 
--- Phantom type for @AVFragmentedAssetMinder@.
+-- | Phantom type for @AVFragmentedAssetMinder@.
 data AVFragmentedAssetMinder
 
 instance IsObjCObject (Id AVFragmentedAssetMinder) where
@@ -2877,13 +2651,7 @@ instance IsNSObject (Id AVFrameRateRange) where
 
 -- ---------- AVMediaDataStorage ----------
 
--- | AVMediaDataStorage
---
--- Media sample data storage file.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMediaDataStorage@.
+-- | Phantom type for @AVMediaDataStorage@.
 data AVMediaDataStorage
 
 instance IsObjCObject (Id AVMediaDataStorage) where
@@ -2898,75 +2666,6 @@ instance IsAVMediaDataStorage (Id AVMediaDataStorage) where
   toAVMediaDataStorage = unsafeCastId
 
 instance IsNSObject (Id AVMediaDataStorage) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMediaExtensionProperties ----------
-
--- | A class incorporating properties for a MediaExtension
---
--- AVMediaExtensionProperties objects are returned from property queries on AVAsset, AVPlayerItemTrack, AVSampleBufferDisplayLayer, or AVSampleBufferVideoRenderer. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMediaExtensionProperties@.
-data AVMediaExtensionProperties
-
-instance IsObjCObject (Id AVMediaExtensionProperties) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMediaExtensionProperties"
-
-class IsNSObject a => IsAVMediaExtensionProperties a where
-  toAVMediaExtensionProperties :: a -> Id AVMediaExtensionProperties
-
-instance IsAVMediaExtensionProperties (Id AVMediaExtensionProperties) where
-  toAVMediaExtensionProperties = unsafeCastId
-
-instance IsNSObject (Id AVMediaExtensionProperties) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMediaPresentationSelector ----------
-
--- | For content that has been authored with the express intent of offering an alternative selection interface for AVMediaSelectionOptions, AVMediaPresentationSelector represents a collection of mutually exclusive settings.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMediaPresentationSelector@.
-data AVMediaPresentationSelector
-
-instance IsObjCObject (Id AVMediaPresentationSelector) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMediaPresentationSelector"
-
-class IsNSObject a => IsAVMediaPresentationSelector a where
-  toAVMediaPresentationSelector :: a -> Id AVMediaPresentationSelector
-
-instance IsAVMediaPresentationSelector (Id AVMediaPresentationSelector) where
-  toAVMediaPresentationSelector = unsafeCastId
-
-instance IsNSObject (Id AVMediaPresentationSelector) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMediaPresentationSetting ----------
-
--- | For content that has been authored with the express intent of offering an alternative selection interface for AVMediaSelectionOptions, AVMediaPresentationSetting represents a selectable setting for controlling the presentation of the media.
---
--- Each selectable setting is associated with a media characteristic that one or more of the AVMediaSelectionOptions in the AVMediaSelectionGroup possesses. By selecting a setting in a user interface that offers AVMediaPresentationSettings, users are essentially indicating a preference for the media characteristic of the selected setting. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMediaPresentationSetting@.
-data AVMediaPresentationSetting
-
-instance IsObjCObject (Id AVMediaPresentationSetting) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMediaPresentationSetting"
-
-class IsNSObject a => IsAVMediaPresentationSetting a where
-  toAVMediaPresentationSetting :: a -> Id AVMediaPresentationSetting
-
-instance IsAVMediaPresentationSetting (Id AVMediaPresentationSetting) where
-  toAVMediaPresentationSetting = unsafeCastId
-
-instance IsNSObject (Id AVMediaPresentationSetting) where
   toNSObject = unsafeCastId
 
 -- ---------- AVMediaSelection ----------
@@ -2990,9 +2689,7 @@ instance IsNSObject (Id AVMediaSelection) where
 
 -- ---------- AVMediaSelectionGroup ----------
 
--- | AVMediaSelectionGroup provides a collection of mutually exclusive options for the presentation of media within an asset.
--- 
--- Phantom type for @AVMediaSelectionGroup@.
+-- | Phantom type for @AVMediaSelectionGroup@.
 data AVMediaSelectionGroup
 
 instance IsObjCObject (Id AVMediaSelectionGroup) where
@@ -3011,9 +2708,7 @@ instance IsNSObject (Id AVMediaSelectionGroup) where
 
 -- ---------- AVMediaSelectionOption ----------
 
--- | AVMediaSelectionOption represents a specific option for the presentation of media within a group of options.
--- 
--- Phantom type for @AVMediaSelectionOption@.
+-- | Phantom type for @AVMediaSelectionOption@.
 data AVMediaSelectionOption
 
 instance IsObjCObject (Id AVMediaSelectionOption) where
@@ -3074,13 +2769,7 @@ instance IsNSObject (Id AVMetadataItem) where
 
 -- ---------- AVMetadataItemFilter ----------
 
--- | AVMetadataItemFilter
---
--- Filters selected information from a metadata item.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetadataItemFilter@.
+-- | Phantom type for @AVMetadataItemFilter@.
 data AVMetadataItemFilter
 
 instance IsObjCObject (Id AVMetadataItemFilter) where
@@ -3143,69 +2832,6 @@ instance IsAVMetadataObject (Id AVMetadataObject) where
 instance IsNSObject (Id AVMetadataObject) where
   toNSObject = unsafeCastId
 
--- ---------- AVMetricEvent ----------
-
--- | An abstract base class representing metric events.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricEvent@.
-data AVMetricEvent
-
-instance IsObjCObject (Id AVMetricEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricEvent"
-
-class IsNSObject a => IsAVMetricEvent a where
-  toAVMetricEvent :: a -> Id AVMetricEvent
-
-instance IsAVMetricEvent (Id AVMetricEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricEventStream ----------
-
--- | AVMetricEventStream allows clients to add publishers and then subscribe to specific metric event classes from those publishers. Publishers are AVFoundation instances implementing AVMetricEventStreamPublisher. The interface allows clients to receive metric events via a subscriber delegate which implements AVMetricEventStreamSubscriber.
--- 
--- Phantom type for @AVMetricEventStream@.
-data AVMetricEventStream
-
-instance IsObjCObject (Id AVMetricEventStream) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricEventStream"
-
-class IsNSObject a => IsAVMetricEventStream a where
-  toAVMetricEventStream :: a -> Id AVMetricEventStream
-
-instance IsAVMetricEventStream (Id AVMetricEventStream) where
-  toAVMetricEventStream = unsafeCastId
-
-instance IsNSObject (Id AVMetricEventStream) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricMediaRendition ----------
-
--- | Phantom type for @AVMetricMediaRendition@.
-data AVMetricMediaRendition
-
-instance IsObjCObject (Id AVMetricMediaRendition) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricMediaRendition"
-
-class IsNSObject a => IsAVMetricMediaRendition a where
-  toAVMetricMediaRendition :: a -> Id AVMetricMediaRendition
-
-instance IsAVMetricMediaRendition (Id AVMetricMediaRendition) where
-  toAVMetricMediaRendition = unsafeCastId
-
-instance IsNSObject (Id AVMetricMediaRendition) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVOutputSettingsAssistant ----------
 
 -- | AVOutputSettingsAssistant
@@ -3233,30 +2859,13 @@ instance IsAVOutputSettingsAssistant (Id AVOutputSettingsAssistant) where
 instance IsNSObject (Id AVOutputSettingsAssistant) where
   toNSObject = unsafeCastId
 
--- ---------- AVPlaybackCoordinationMedium ----------
-
--- | Phantom type for @AVPlaybackCoordinationMedium@.
-data AVPlaybackCoordinationMedium
-
-instance IsObjCObject (Id AVPlaybackCoordinationMedium) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVPlaybackCoordinationMedium"
-
-class IsNSObject a => IsAVPlaybackCoordinationMedium a where
-  toAVPlaybackCoordinationMedium :: a -> Id AVPlaybackCoordinationMedium
-
-instance IsAVPlaybackCoordinationMedium (Id AVPlaybackCoordinationMedium) where
-  toAVPlaybackCoordinationMedium = unsafeCastId
-
-instance IsNSObject (Id AVPlaybackCoordinationMedium) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVPlaybackCoordinator ----------
 
--- | The playback coordinator negotiates playback state between a player, such as AVPlayer or a custom playback object represented by an implementation of the AVPlaybackCoordinatorPlaybackControlDelegate protocol, and a group of other connected players.
+-- | AVPlaybackCoordinator
 --
--- AVPlaybackCoordinator will match rate and time of all connected players. This means that a local rate change or seek will be reflected in all connected players. Equally, a rate change or seek in any of the connected players will be reflected locally. AVPlaybackCoordinator does not manage the items in the play queue of the connected players, so it is up to player's owner to share and match the play queue across participants. The coordinator does, however, keep track of the identity of items enqueued in each player. This means that for one player's current time and rate to be applied on another player, both players must be playing the same item. If two players are playing different items, they each have independent playback states. When one of the two players transitions to the other's item later, it will match the time and rate of that other player.
+-- The playback coordinator negotiates playback state between a player, such as AVPlayer or a custom playback object represented by an implementation of the AVPlaybackCoordinatorPlaybackControlDelegate protocol, and a group of other connected players.
+--
+-- AVPlaybackCoordinator will match rate and time of all connected players. This means that a local rate change or seek will be reflected in all connected players. Equally, a rate change or seek in any of the connected players will be reflected locally.				AVPlaybackCoordinator does not manage the items in the play queue of the connected players, so it is up to player's owner to share and match the play queue across participants.				The coordinator does, however, keep track of the identity of items enqueued in each player. This means that for one player's current time and rate to be applied on another player, both players must be playing the same item. If two players are playing different items, they each have independent playback states. When one of the two players transitions to the other's item later, it will match the time and rate of that other player.
 -- 
 -- Phantom type for @AVPlaybackCoordinator@.
 data AVPlaybackCoordinator
@@ -3277,13 +2886,9 @@ instance IsNSObject (Id AVPlaybackCoordinator) where
 
 -- ---------- AVPlayer ----------
 
--- | AVPlayer offers a playback interface for single-item playback that's sufficient for the implementation of playback controllers and playback user interfaces.
+-- | Node that can play a video file
 --
--- AVPlayer works equally well with local and remote media files, providing clients with appropriate information about readiness to play or about the need to await additional data before continuing.
---
--- Visual content of items played by an instance of AVPlayer can be displayed in a CoreAnimation layer of class AVPlayerLayer.
---
--- To allow clients to add and remove their objects as key-value observers safely, AVPlayer serializes notifications of changes that occur dynamically during playback on a dispatch queue. By default, this queue is the main queue. See dispatch_get_main_queue().
+-- 2011 Apple, Inc. All rights reserved.
 -- 
 -- Phantom type for @AVPlayer@.
 data AVPlayer
@@ -3304,7 +2909,9 @@ instance IsNSObject (Id AVPlayer) where
 
 -- ---------- AVPlayerInterstitialEvent ----------
 
--- | An AVPlayerInterstitialEvent provides instructions for temporarily suspending the playback of primary content in order to play alternative interstitial content instead, resuming playback of the primary content when playback of the interstitial content is complete or is canceled.
+-- | AVPlayerInterstitialEvent
+--
+-- An AVPlayerInterstitialEvent provides instructions for temporarily suspending the playback of primary content in order to play alternative interstitial content instead, resuming playback of the primary content when playback of the interstitial content is complete or is canceled.
 --
 -- The primary content is specified as an instance of AVPlayerItem, designated as the primary item of the interstitial event.
 --
@@ -3335,11 +2942,11 @@ instance IsNSObject (Id AVPlayerInterstitialEvent) where
 
 -- ---------- AVPlayerInterstitialEventMonitor ----------
 
--- | An AVPlayerInterstitialEventMonitor allows you to observe the scheduling and progress of interstitial events, specified either intrinsically within the content of primary items, such as via use of directives carried by HLS media playlists, or via use of an AVPlayerInterstitialEventController.
+-- | AVPlayerInterstitialEventMonitor
+--
+-- An AVPlayerInterstitialEventMonitor allows you to observe the scheduling and progress of interstitial events, specified either intrinsically within the content of primary items, such as via use of directives carried by HLS media playlists, or via use of an AVPlayerInterstitialEventController.
 --
 -- The schedule of interstitial events is provided as an array of AVPlayerInterstitialEvents. For each AVPlayerInterstitialEvent, when the primary player's current item is the primary item of the interstitial event and its currentDate reaches the date of the event, playback of the primary item by the primary player is temporarily suspended, i.e. its timeControlStatus changes to AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate and its reasonForWaitingToPlay will change to AVPlayerWaitingDuringInterstitialEventReason. During this suspension, playback of items that replicate the interstitial template items of the event are played by the interstitial player, which temporarily assumes the output configuration of the primary player; for example, its visual content will be routed to AVPlayerLayers that reference the primary player. Once the interstitial player has advanced through playback of the interstitial items specified by the event or its current item otherwise becomes nil, playback of the primary content will resume, at an offset from the time at which it was suspended as specified by the event.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerInterstitialEventMonitor@.
 data AVPlayerInterstitialEventMonitor
@@ -3360,15 +2967,7 @@ instance IsNSObject (Id AVPlayerInterstitialEventMonitor) where
 
 -- ---------- AVPlayerItem ----------
 
--- | An AVPlayerItem carries a reference to an AVAsset as well as presentation settings for that asset.
---
--- Note that inspection of media assets is provided by AVAsset. This class is intended to represent presentation state for an asset that's played by an AVPlayer and to permit observation of that state.
---
--- It is important to avoid key-value observation with a key path containing the asset's property. Observe the AVPlayerItem's property instead. For example, use the "duration" key path instead of the "asset.duration" key path.
---
--- To allow clients to add and remove their objects as key-value observers safely, AVPlayerItem serializes notifications of changes that occur dynamically during playback on the same dispatch queue on which notifications of playback state changes are serialized by its associated AVPlayer. By default, this queue is the main queue. See dispatch_get_main_queue().
--- 
--- Phantom type for @AVPlayerItem@.
+-- | Phantom type for @AVPlayerItem@.
 data AVPlayerItem
 
 instance IsObjCObject (Id AVPlayerItem) where
@@ -3387,11 +2986,11 @@ instance IsNSObject (Id AVPlayerItem) where
 
 -- ---------- AVPlayerItemAccessLog ----------
 
--- | An AVPlayerItemAccessLog provides methods to retrieve the access log in a format suitable for serialization.
+-- | AVPlayerItemAccessLog
 --
--- An AVPlayerItemAccessLog acculumulates key metrics about network playback and presents them as a collection  of AVPlayerItemAccessLogEvent instances. Each AVPlayerItemAccessLogEvent instance collates the data  that relates to each uninterrupted period of playback.
+-- An AVPlayerItemAccessLog provides methods to retrieve the access log in a format suitable for serialization.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- An AVPlayerItemAccessLog acculumulates key metrics about network playback and presents them as a collection  				of AVPlayerItemAccessLogEvent instances. Each AVPlayerItemAccessLogEvent instance collates the data  				that relates to each uninterrupted period of playback.
 -- 
 -- Phantom type for @AVPlayerItemAccessLog@.
 data AVPlayerItemAccessLog
@@ -3412,11 +3011,11 @@ instance IsNSObject (Id AVPlayerItemAccessLog) where
 
 -- ---------- AVPlayerItemAccessLogEvent ----------
 
--- | An AVPlayerItemAccessLogEvent represents a single log entry.
+-- | AVPlayerItemAccessLogEvent
 --
--- An AVPlayerItemAccessLogEvent provides named properties for accessing the data fields of each log event. None of the properties of this class are observable.
+-- An AVPlayerItemAccessLogEvent represents a single log entry.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- An AVPlayerItemAccessLogEvent provides named properties for accessing the data				fields of each log event. None of the properties of this class are observable.
 -- 
 -- Phantom type for @AVPlayerItemAccessLogEvent@.
 data AVPlayerItemAccessLogEvent
@@ -3437,11 +3036,11 @@ instance IsNSObject (Id AVPlayerItemAccessLogEvent) where
 
 -- ---------- AVPlayerItemErrorLog ----------
 
--- | An AVPlayerItemErrorLog provides methods to retrieve the error log in a format suitable for serialization.
+-- | AVPlayerItemErrorLog
+--
+-- An AVPlayerItemErrorLog provides methods to retrieve the error log in a format suitable for serialization.
 --
 -- An AVPlayerItemErrorLog provides data to identify if, and when, network resource playback failures occured.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerItemErrorLog@.
 data AVPlayerItemErrorLog
@@ -3462,11 +3061,11 @@ instance IsNSObject (Id AVPlayerItemErrorLog) where
 
 -- ---------- AVPlayerItemErrorLogEvent ----------
 
--- | An AVPlayerItemErrorLogEvent represents a single log entry.
+-- | AVPlayerItemErrorLogEvent
 --
--- An AVPlayerItemErrorLogEvent provides named properties for accessing the data fields of each log event. None of the properties of this class are observable.
+-- An AVPlayerItemErrorLogEvent represents a single log entry.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- An AVPlayerItemErrorLogEvent provides named properties for accessing the data				fields of each log event. None of the properties of this class are observable.
 -- 
 -- Phantom type for @AVPlayerItemErrorLogEvent@.
 data AVPlayerItemErrorLogEvent
@@ -3485,56 +3084,6 @@ instance IsAVPlayerItemErrorLogEvent (Id AVPlayerItemErrorLogEvent) where
 instance IsNSObject (Id AVPlayerItemErrorLogEvent) where
   toNSObject = unsafeCastId
 
--- ---------- AVPlayerItemIntegratedTimeline ----------
-
--- | AVPlayerItemIntegratedTimeline
---
--- An AVPlayerItemIntegratedTimeline provides detailed timing information and control for the sequence of playback of a primary AVPlayerItem and scheduled AVPlayerInterstitialEvents.
---
--- An object that models the timeline and sequence of playback of primary AVPlayerItem and scheduled AVPlayerInterstitialEvents. The timeline models all regions expected to be traversed during playback. Notably portions of the primary item may not be presented when exiting an interstitial event with a positive resumption offset.	Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPlayerItemIntegratedTimeline@.
-data AVPlayerItemIntegratedTimeline
-
-instance IsObjCObject (Id AVPlayerItemIntegratedTimeline) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVPlayerItemIntegratedTimeline"
-
-class IsNSObject a => IsAVPlayerItemIntegratedTimeline a where
-  toAVPlayerItemIntegratedTimeline :: a -> Id AVPlayerItemIntegratedTimeline
-
-instance IsAVPlayerItemIntegratedTimeline (Id AVPlayerItemIntegratedTimeline) where
-  toAVPlayerItemIntegratedTimeline = unsafeCastId
-
-instance IsNSObject (Id AVPlayerItemIntegratedTimeline) where
-  toNSObject = unsafeCastId
-
--- ---------- AVPlayerItemIntegratedTimelineSnapshot ----------
-
--- | AVPlayerItemIntegratedTimelineSnapshot
---
--- AVPlayerItemIntegratedTimelineSnapshot provides an immutable representation of inspectable details from an AVPlayerItemIntegratedTimeline.
---
--- An instance of AVPlayerItemIntegratedTimelineSnapshot is an immutable snapshot representation of inspectable details from an AVPlayerItemIntegratedTimeline. As playback progresses,AVPlayerItemIntegratedTimelineSnapshot will not reflect the new timeline state. One can request a new snapshot instance from an AVPlayerItemIntegratedTimeline to reflect the latest timeline state.	Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPlayerItemIntegratedTimelineSnapshot@.
-data AVPlayerItemIntegratedTimelineSnapshot
-
-instance IsObjCObject (Id AVPlayerItemIntegratedTimelineSnapshot) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVPlayerItemIntegratedTimelineSnapshot"
-
-class IsNSObject a => IsAVPlayerItemIntegratedTimelineSnapshot a where
-  toAVPlayerItemIntegratedTimelineSnapshot :: a -> Id AVPlayerItemIntegratedTimelineSnapshot
-
-instance IsAVPlayerItemIntegratedTimelineSnapshot (Id AVPlayerItemIntegratedTimelineSnapshot) where
-  toAVPlayerItemIntegratedTimelineSnapshot = unsafeCastId
-
-instance IsNSObject (Id AVPlayerItemIntegratedTimelineSnapshot) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVPlayerItemMediaDataCollector ----------
 
 -- | AVPlayerItemMediaDataCollector
@@ -3546,8 +3095,6 @@ instance IsNSObject (Id AVPlayerItemIntegratedTimelineSnapshot) where
 -- You manage an association of an AVPlayerItemMediaDataCollector instance with an AVPlayerItem as the source input using the AVPlayerItem methods:
 --
 -- • addMediaDataCollector:		• removeMediaDataCollector:
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerItemMediaDataCollector@.
 data AVPlayerItemMediaDataCollector
@@ -3583,31 +3130,6 @@ instance IsAVPlayerItemOutput (Id AVPlayerItemOutput) where
   toAVPlayerItemOutput = unsafeCastId
 
 instance IsNSObject (Id AVPlayerItemOutput) where
-  toNSObject = unsafeCastId
-
--- ---------- AVPlayerItemSegment ----------
-
--- | AVPlayerItemSegment
---
--- Representing a segment of time on the integrated timeline. Segments are immutable objects.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPlayerItemSegment@.
-data AVPlayerItemSegment
-
-instance IsObjCObject (Id AVPlayerItemSegment) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVPlayerItemSegment"
-
-class IsNSObject a => IsAVPlayerItemSegment a where
-  toAVPlayerItemSegment :: a -> Id AVPlayerItemSegment
-
-instance IsAVPlayerItemSegment (Id AVPlayerItemSegment) where
-  toAVPlayerItemSegment = unsafeCastId
-
-instance IsNSObject (Id AVPlayerItemSegment) where
   toNSObject = unsafeCastId
 
 -- ---------- AVPlayerItemTrack ----------
@@ -3656,13 +3178,7 @@ instance IsNSObject (Id AVPlayerLooper) where
 
 -- ---------- AVPlayerMediaSelectionCriteria ----------
 
--- | AVPlayerMediaSelectionCriteria
---
--- The preferred languages and media characteristics for a player.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPlayerMediaSelectionCriteria@.
+-- | Phantom type for @AVPlayerMediaSelectionCriteria@.
 data AVPlayerMediaSelectionCriteria
 
 instance IsObjCObject (Id AVPlayerMediaSelectionCriteria) where
@@ -3677,56 +3193,6 @@ instance IsAVPlayerMediaSelectionCriteria (Id AVPlayerMediaSelectionCriteria) wh
   toAVPlayerMediaSelectionCriteria = unsafeCastId
 
 instance IsNSObject (Id AVPlayerMediaSelectionCriteria) where
-  toNSObject = unsafeCastId
-
--- ---------- AVPlayerVideoOutput ----------
-
--- | AVPlayerVideoOutput
---
--- AVPlayerVideoOutput offers a way to attach to an AVPlayer and receive video frames and video-related data vended through CMTaggedBufferGroups.
---
--- AVPlayerVideoOutput can be attached to an AVPlayer using AVPlayer's method addVideoOutput:				Note:  An AVPlayerVideoOutput can only be attached to a single player at a time, attempting to attach to multiple player will result in an exception being thrown.				Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPlayerVideoOutput@.
-data AVPlayerVideoOutput
-
-instance IsObjCObject (Id AVPlayerVideoOutput) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVPlayerVideoOutput"
-
-class IsNSObject a => IsAVPlayerVideoOutput a where
-  toAVPlayerVideoOutput :: a -> Id AVPlayerVideoOutput
-
-instance IsAVPlayerVideoOutput (Id AVPlayerVideoOutput) where
-  toAVPlayerVideoOutput = unsafeCastId
-
-instance IsNSObject (Id AVPlayerVideoOutput) where
-  toNSObject = unsafeCastId
-
--- ---------- AVPlayerVideoOutputConfiguration ----------
-
--- | AVPlayerVideoOutputConfiguration
---
--- An AVPlayerVideoOutputConfiguration carries an identifier for the AVPlayerItem the configuration is associated with as well as presentation settings for that item.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPlayerVideoOutputConfiguration@.
-data AVPlayerVideoOutputConfiguration
-
-instance IsObjCObject (Id AVPlayerVideoOutputConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVPlayerVideoOutputConfiguration"
-
-class IsNSObject a => IsAVPlayerVideoOutputConfiguration a where
-  toAVPlayerVideoOutputConfiguration :: a -> Id AVPlayerVideoOutputConfiguration
-
-instance IsAVPlayerVideoOutputConfiguration (Id AVPlayerVideoOutputConfiguration) where
-  toAVPlayerVideoOutputConfiguration = unsafeCastId
-
-instance IsNSObject (Id AVPlayerVideoOutputConfiguration) where
   toNSObject = unsafeCastId
 
 -- ---------- AVPortraitEffectsMatte ----------
@@ -3754,33 +3220,6 @@ instance IsAVPortraitEffectsMatte (Id AVPortraitEffectsMatte) where
 instance IsNSObject (Id AVPortraitEffectsMatte) where
   toNSObject = unsafeCastId
 
--- ---------- AVRenderedCaptionImage ----------
-
--- | AVRenderedCaptionImage
---
--- AVRenderedCaptionImage is a wrapper class vended out to the client for reading a rendered caption image (CVPixelBuffer) and its associated position (in pixels). The position is relative to the videoDisplaySize (in pixels) provided by the client during the initialization of AVPlayerItemRenderedLegibleOutput, and accordinging to the upper-left-origin coordinate system (ULO). The CVPixelBuffer will be backed by an IOSurface enabling it to be converted to MTLTexture using CVMetalTextureCache.
---
--- Display scale is a property of the screen on which the client UI elements are displayed. This value defines the mapping between the logical coordinate space (measured in points) and the physical coordinate space (measured in pixels). Higher scale factors indicate that each point is represented by more than one pixel at render time. For example, if the display scale factor is 2.0 and the bounds of caption rectangle are 50 x 50 points, the size of the CVPixelBufferRef for the caption is 100 x 100 pixels. The client shall provide videoDisplaySize value in pixels only and the position value of the caption image shall also be returned in pixels only.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVRenderedCaptionImage@.
-data AVRenderedCaptionImage
-
-instance IsObjCObject (Id AVRenderedCaptionImage) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVRenderedCaptionImage"
-
-class IsNSObject a => IsAVRenderedCaptionImage a where
-  toAVRenderedCaptionImage :: a -> Id AVRenderedCaptionImage
-
-instance IsAVRenderedCaptionImage (Id AVRenderedCaptionImage) where
-  toAVRenderedCaptionImage = unsafeCastId
-
-instance IsNSObject (Id AVRenderedCaptionImage) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVRouteDetector ----------
 
 -- | AVRouteDetector
@@ -3788,8 +3227,6 @@ instance IsNSObject (Id AVRenderedCaptionImage) where
 -- AVRouteDetector detects the presence of media playback routes.
 --
 -- If route detection is enabled (it is disabled by default), AVRouteDetector reports whether or not multiple playback routes have been detected. If this is the case, AVKit's AVRoutePickerView can be used to allow users to pick from the set of available routes.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVRouteDetector@.
 data AVRouteDetector
@@ -3852,7 +3289,7 @@ instance IsNSObject (Id AVSampleBufferGenerator) where
 --
 -- An AVSampleBufferGeneratorBatch provides an optimized way to load sample data asynchronously for multiple CMSampleBuffers in an asset.
 --
--- The AVSampleBufferGeneratorBatch loads sample data asynchronously, by aggregating adjacent I/O requests and overlapping them when possible for all CMSampleBuffers within a batch.		An AVSampleBufferGeneratorBatch is associated with an AVSampleBufferGenerator. See -[AVSampleBufferGenerator makeBatch] to create an AVSampleBufferGeneratorBatch.		See -[AVSampleBufferGeneratorBatch createSampleBufferForRequest: addingToBatch: error:] to create a CMSampleBuffer, defer I/O for its data, and build up a batch.		Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- The AVSampleBufferGeneratorBatch loads sample data asynchronously, by aggregating adjacent I/O requests and overlapping them when possible for all CMSampleBuffers within a batch.		An AVSampleBufferGeneratorBatch is associated with an AVSampleBufferGenerator. See -[AVSampleBufferGenerator makeBatch] to create an AVSampleBufferGeneratorBatch.		See -[AVSampleBufferGeneratorBatch createSampleBufferForRequest: addingToBatch: error:] to create a CMSampleBuffer, defer I/O for its data, and build up a batch.
 -- 
 -- Phantom type for @AVSampleBufferGeneratorBatch@.
 data AVSampleBufferGeneratorBatch
@@ -3873,7 +3310,9 @@ instance IsNSObject (Id AVSampleBufferGeneratorBatch) where
 
 -- ---------- AVSampleBufferRenderSynchronizer ----------
 
--- | AVSampleBufferRenderSynchronizer can synchronize multiple objects conforming to AVQueuedSampleBufferRendering to a single timebase.
+-- | AVSampleBufferRenderSynchronizer
+--
+-- AVSampleBufferRenderSynchronizer can synchronize multiple objects conforming to AVQueuedSampleBufferRendering to a single timebase.
 -- 
 -- Phantom type for @AVSampleBufferRenderSynchronizer@.
 data AVSampleBufferRenderSynchronizer
@@ -3913,25 +3352,6 @@ instance IsAVSampleBufferRequest (Id AVSampleBufferRequest) where
   toAVSampleBufferRequest = unsafeCastId
 
 instance IsNSObject (Id AVSampleBufferRequest) where
-  toNSObject = unsafeCastId
-
--- ---------- AVSampleBufferVideoRenderer ----------
-
--- | Phantom type for @AVSampleBufferVideoRenderer@.
-data AVSampleBufferVideoRenderer
-
-instance IsObjCObject (Id AVSampleBufferVideoRenderer) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVSampleBufferVideoRenderer"
-
-class IsNSObject a => IsAVSampleBufferVideoRenderer a where
-  toAVSampleBufferVideoRenderer :: a -> Id AVSampleBufferVideoRenderer
-
-instance IsAVSampleBufferVideoRenderer (Id AVSampleBufferVideoRenderer) where
-  toAVSampleBufferVideoRenderer = unsafeCastId
-
-instance IsNSObject (Id AVSampleBufferVideoRenderer) where
   toNSObject = unsafeCastId
 
 -- ---------- AVSampleCursor ----------
@@ -3978,27 +3398,6 @@ instance IsAVSemanticSegmentationMatte (Id AVSemanticSegmentationMatte) where
 instance IsNSObject (Id AVSemanticSegmentationMatte) where
   toNSObject = unsafeCastId
 
--- ---------- AVSpatialVideoConfiguration ----------
-
--- | An AVSpatialVideoConfiguration specifies spatial video properties.
--- 
--- Phantom type for @AVSpatialVideoConfiguration@.
-data AVSpatialVideoConfiguration
-
-instance IsObjCObject (Id AVSpatialVideoConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVSpatialVideoConfiguration"
-
-class IsNSObject a => IsAVSpatialVideoConfiguration a where
-  toAVSpatialVideoConfiguration :: a -> Id AVSpatialVideoConfiguration
-
-instance IsAVSpatialVideoConfiguration (Id AVSpatialVideoConfiguration) where
-  toAVSpatialVideoConfiguration = unsafeCastId
-
-instance IsNSObject (Id AVSpatialVideoConfiguration) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVTextStyleRule ----------
 
 -- | Phantom type for @AVTextStyleRule@.
@@ -4020,13 +3419,11 @@ instance IsNSObject (Id AVTextStyleRule) where
 
 -- ---------- AVVideoComposition ----------
 
--- | An AVVideoComposition object represents an immutable video composition.
+-- | AVVideoCompositionRenderContext
 --
--- A video composition describes, for any time in the aggregate time range of its instructions, the number and IDs of video tracks that are to be used in order to produce a composed video frame corresponding to that time. When AVFoundation's built-in video compositor is used, the instructions an AVVideoComposition contain can specify a spatial transformation, an opacity value, and a cropping rectangle for each video source, and these can vary over time via simple linear ramping functions.
+-- The AVVideoCompositionRenderContext class defines the context within which custom compositors render new output pixels buffers.
 --
--- A client can implement their own custom video compositor by implementing the AVVideoCompositing protocol; a custom video compositor is provided with pixel buffers for each of its video sources during playback and other operations and can perform arbitrary graphical operations on them in order to produce visual output.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- An instance of AVVideoCompositionRenderContext provides size and scaling information and offers a service for efficiently providing pixel buffers from a managed pool of buffers.
 -- 
 -- Phantom type for @AVVideoComposition@.
 data AVVideoComposition
@@ -4047,13 +3444,13 @@ instance IsNSObject (Id AVVideoComposition) where
 
 -- ---------- AVVideoCompositionCoreAnimationTool ----------
 
--- | A tool for using Core Animation in a video composition.
+-- | AVVideoComposition
 --
--- Instances of AVVideoCompositionCoreAnimationTool are for use with offline rendering (AVAssetExportSession and AVAssetReader), not with AVPlayer. To synchronize real-time playback with other CoreAnimation layers, use AVSynchronizedLayer.
+-- An AVVideoComposition object represents an immutable video composition.
 --
--- Any animations will be interpreted on the video's timeline, not real-time, so (a) set animation beginTimes to small positive value such as AVCoreAnimationBeginTimeAtZero rather than 0, because CoreAnimation will replace a value of 0 with CACurrentMediaTime();  (b) set removedOnCompletion to NO on animations so they are not automatically removed; (c) do not use layers associated with UIViews.
+-- A video composition describes, for any time in the aggregate time range of its instructions, the number and IDs of video tracks that are to be used in order to produce a composed video frame corresponding to that time. When AVFoundation's built-in video compositor is used, the instructions an AVVideoComposition contain can specify a spatial transformation, an opacity value, and a cropping rectangle for each video source, and these can vary over time via simple linear ramping functions.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A client can implement their own custom video compositor by implementing the AVVideoCompositing protocol; a custom video compositor is provided with pixel buffers for each of its video sources during playback and other operations and can perform arbitrary graphical operations on them in order to produce visual output.
 -- 
 -- Phantom type for @AVVideoCompositionCoreAnimationTool@.
 data AVVideoCompositionCoreAnimationTool
@@ -4074,11 +3471,7 @@ instance IsNSObject (Id AVVideoCompositionCoreAnimationTool) where
 
 -- ---------- AVVideoCompositionInstruction ----------
 
--- | An AVVideoCompositionInstruction object represents an operation to be performed by a compositor.
---
--- An AVVideoComposition object maintains an array of instructions to perform its composition. This class is not intended to be subclassed; instead, conform to AVVideoCompositionInstructionProtocol ("AVVideoCompositionInstruction" in Objective-C). Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVVideoCompositionInstruction@.
+-- | Phantom type for @AVVideoCompositionInstruction@.
 data AVVideoCompositionInstruction
 
 instance IsObjCObject (Id AVVideoCompositionInstruction) where
@@ -4097,9 +3490,7 @@ instance IsNSObject (Id AVVideoCompositionInstruction) where
 
 -- ---------- AVVideoCompositionLayerInstruction ----------
 
--- | An AVVideoCompositionLayerInstruction object represents the transform, opacity, and cropping ramps to apply to a given track. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVVideoCompositionLayerInstruction@.
+-- | Phantom type for @AVVideoCompositionLayerInstruction@.
 data AVVideoCompositionLayerInstruction
 
 instance IsObjCObject (Id AVVideoCompositionLayerInstruction) where
@@ -4118,13 +3509,7 @@ instance IsNSObject (Id AVVideoCompositionLayerInstruction) where
 
 -- ---------- AVVideoCompositionRenderContext ----------
 
--- | The AVVideoCompositionRenderContext class defines the context within which custom compositors render new output pixels buffers.
---
--- An instance of AVVideoCompositionRenderContext provides size and scaling information and offers a service for efficiently providing pixel buffers from a managed pool of buffers.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVVideoCompositionRenderContext@.
+-- | Phantom type for @AVVideoCompositionRenderContext@.
 data AVVideoCompositionRenderContext
 
 instance IsObjCObject (Id AVVideoCompositionRenderContext) where
@@ -4143,11 +3528,7 @@ instance IsNSObject (Id AVVideoCompositionRenderContext) where
 
 -- ---------- AVVideoCompositionRenderHint ----------
 
--- | An AVVideoCompositionRenderHint instance contains the information necessary for announcing upcoming rendering request time ranges.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVVideoCompositionRenderHint@.
+-- | Phantom type for @AVVideoCompositionRenderHint@.
 data AVVideoCompositionRenderHint
 
 instance IsObjCObject (Id AVVideoCompositionRenderHint) where
@@ -4162,81 +3543,6 @@ instance IsAVVideoCompositionRenderHint (Id AVVideoCompositionRenderHint) where
   toAVVideoCompositionRenderHint = unsafeCastId
 
 instance IsNSObject (Id AVVideoCompositionRenderHint) where
-  toNSObject = unsafeCastId
-
--- ---------- AVVideoOutputSpecification ----------
-
--- | AVVideoOutputSpecification
---
--- AVVideoOutputSpecification offers a way to package CMTagCollections together with output settings. Allowing for direct association between output settings and specific tag collections, as well as default output settings which can be associated with all tag collections which do not have a specified mapping.
---
--- For more information about working with CMTagCollections and CMTags first look at <CoreMedia/CMTagCollection.h>
--- 
--- Phantom type for @AVVideoOutputSpecification@.
-data AVVideoOutputSpecification
-
-instance IsObjCObject (Id AVVideoOutputSpecification) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVVideoOutputSpecification"
-
-class IsNSObject a => IsAVVideoOutputSpecification a where
-  toAVVideoOutputSpecification :: a -> Id AVVideoOutputSpecification
-
-instance IsAVVideoOutputSpecification (Id AVVideoOutputSpecification) where
-  toAVVideoOutputSpecification = unsafeCastId
-
-instance IsNSObject (Id AVVideoOutputSpecification) where
-  toNSObject = unsafeCastId
-
--- ---------- AVVideoPerformanceMetrics ----------
-
--- | AVVideoPerformanceMetrics
---
--- [SPI] An instance of AVVideoPerformanceMetrics provides current performance metrics.
---
--- An instance of AVVideoPerformanceMetrics provides named properties for accessing the video playback quality metrics.				Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVVideoPerformanceMetrics@.
-data AVVideoPerformanceMetrics
-
-instance IsObjCObject (Id AVVideoPerformanceMetrics) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVVideoPerformanceMetrics"
-
-class IsNSObject a => IsAVVideoPerformanceMetrics a where
-  toAVVideoPerformanceMetrics :: a -> Id AVVideoPerformanceMetrics
-
-instance IsAVVideoPerformanceMetrics (Id AVVideoPerformanceMetrics) where
-  toAVVideoPerformanceMetrics = unsafeCastId
-
-instance IsNSObject (Id AVVideoPerformanceMetrics) where
-  toNSObject = unsafeCastId
-
--- ---------- AVZoomRange ----------
-
--- | AVZoomRange
---
--- An AVZoomRange expresses an inclusive range of supported zoom factors.
---
--- This is used by features that have requirements on zoom factors falling within certain ranges.
--- 
--- Phantom type for @AVZoomRange@.
-data AVZoomRange
-
-instance IsObjCObject (Id AVZoomRange) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVZoomRange"
-
-class IsNSObject a => IsAVZoomRange a where
-  toAVZoomRange :: a -> Id AVZoomRange
-
-instance IsAVZoomRange (Id AVZoomRange) where
-  toAVZoomRange = unsafeCastId
-
-instance IsNSObject (Id AVZoomRange) where
   toNSObject = unsafeCastId
 
 -- ---------- AVComposition ----------
@@ -4285,17 +3591,7 @@ instance IsNSObject (Id AVMovie) where
 
 -- ---------- AVURLAsset ----------
 
--- | AVURLAsset provides access to the AVAsset model for timed audiovisual media referenced by URL.
---
--- Note that although instances of AVURLAsset are immutable, values for its keys may not be immediately available without blocking. See the discussion of the class AVAsset above regarding the availability of values for keys and the use of AVAsynchronousKeyValueLoading.
---
--- Once an AVURLAsset's value for a key is available, it will not change. AVPlayerItem provides access to information that can change dynamically during playback; see AVPlayerItem.duration and AVPlayerItem.tracks.
---
--- AVURLAssets can be initialized with NSURLs that refer to audiovisual media resources, such as streams (including HTTP live streams), QuickTime movie files, MP3 files, and files of other types.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVURLAsset@.
+-- | Phantom type for @AVURLAsset@.
 data AVURLAsset
 
 instance IsObjCObject (Id AVURLAsset) where
@@ -4317,7 +3613,9 @@ instance IsNSObject (Id AVURLAsset) where
 
 -- ---------- AVMutableAssetDownloadStorageManagementPolicy ----------
 
--- | A mutable subclass of AVAssetDownloadStorageManagementPolicy.
+-- | AVMutableAssetDownloadStorageManagementPolicy
+--
+-- A mutable subclass of AVAssetDownloadStorageManagementPolicy.
 --
 -- System will put in best-effort to evict all the assets based on expirationDate before evicting based on priority.
 -- 
@@ -4509,11 +3807,7 @@ instance IsNSObject (Id AVCompositionTrack) where
 
 -- ---------- AVFragmentedAssetTrack ----------
 
--- | A subclass of AVAssetTrack for handling tracks of fragmented assets. An AVFragmentedAssetTrack is capable of changing the values of certain of its properties, if its parent asset is associated with an instance of AVFragmentedAssetMinder when one or more fragments are appended to the underlying media resource.
---
--- While its parent asset is associated with an AVFragmentedAssetMinder, AVFragmentedAssetTrack posts AVAssetTrackTimeRangeDidChangeNotification and AVAssetTrackSegmentsDidChangeNotification whenever new fragments are detected, as appropriate. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVFragmentedAssetTrack@.
+-- | Phantom type for @AVFragmentedAssetTrack@.
 data AVFragmentedAssetTrack
 
 instance IsObjCObject (Id AVFragmentedAssetTrack) where
@@ -4652,8 +3946,6 @@ instance IsNSObject (Id AVMutableCaption) where
 -- | AVCaptionConversionTimeRangeAdjustment
 --
 -- Describes an adjustment to the timeRange of one or more captions.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVCaptionConversionTimeRangeAdjustment@.
 data AVCaptionConversionTimeRangeAdjustment
@@ -4755,124 +4047,6 @@ instance IsAVCaptureBracketedStillImageSettings (Id AVCaptureManualExposureBrack
   toAVCaptureBracketedStillImageSettings = unsafeCastId
 
 instance IsNSObject (Id AVCaptureManualExposureBracketedStillImageSettings) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureIndexPicker ----------
-
--- | AVCaptureIndexPicker
---
--- An @AVCaptureControl@ for selecting from a set of mutually exclusive values by index.
---
--- @AVCaptureIndexPicker@ is ideal when the set of values is provided by an indexed container like @NSArray@, @Array@, or @Sequence@. Controls may be added to an @AVCaptureSession@ using @-[AVCaptureSession addControl:]@.
---
--- @AVCaptureIndexPicker@ uses zero-based indexing.
--- 
--- Phantom type for @AVCaptureIndexPicker@.
-data AVCaptureIndexPicker
-
-instance IsObjCObject (Id AVCaptureIndexPicker) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureIndexPicker"
-
-class IsAVCaptureControl a => IsAVCaptureIndexPicker a where
-  toAVCaptureIndexPicker :: a -> Id AVCaptureIndexPicker
-
-instance IsAVCaptureIndexPicker (Id AVCaptureIndexPicker) where
-  toAVCaptureIndexPicker = unsafeCastId
-
-instance IsAVCaptureControl (Id AVCaptureIndexPicker) where
-  toAVCaptureControl = unsafeCastId
-
-instance IsNSObject (Id AVCaptureIndexPicker) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureSlider ----------
-
--- | AVCaptureSlider
---
--- An @AVCaptureControl@ for selecting a value from a bounded range of values.
---
--- @AVCaptureSlider@ is ideal when your control only needs a single float value. Controls may be added to an @AVCaptureSession@ using @-[AVCaptureSession addControl:]@.
--- 
--- Phantom type for @AVCaptureSlider@.
-data AVCaptureSlider
-
-instance IsObjCObject (Id AVCaptureSlider) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureSlider"
-
-class IsAVCaptureControl a => IsAVCaptureSlider a where
-  toAVCaptureSlider :: a -> Id AVCaptureSlider
-
-instance IsAVCaptureSlider (Id AVCaptureSlider) where
-  toAVCaptureSlider = unsafeCastId
-
-instance IsAVCaptureControl (Id AVCaptureSlider) where
-  toAVCaptureControl = unsafeCastId
-
-instance IsNSObject (Id AVCaptureSlider) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureSystemExposureBiasSlider ----------
-
--- | AVCaptureSystemExposureBiasSlider
---
--- The system's recommended continuous exposure bias control for @-[AVCaptureDevice exposureTargetBias]@.
---
--- @AVCaptureSystemExposureBiasSlider@ uses the range specified by @systemRecommendedExposureBiasRange@ on the @activeFormat@ from the @AVCaptureDevice@ specified during initialization. As the device's @activeFormat@ changes, the slider updates its range with the new format's @systemRecommendedExposureBiasRange@.
---
--- Controls may be added to an @AVCaptureSession@ using @-[AVCaptureSession addControl:]@.
--- 
--- Phantom type for @AVCaptureSystemExposureBiasSlider@.
-data AVCaptureSystemExposureBiasSlider
-
-instance IsObjCObject (Id AVCaptureSystemExposureBiasSlider) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureSystemExposureBiasSlider"
-
-class IsAVCaptureControl a => IsAVCaptureSystemExposureBiasSlider a where
-  toAVCaptureSystemExposureBiasSlider :: a -> Id AVCaptureSystemExposureBiasSlider
-
-instance IsAVCaptureSystemExposureBiasSlider (Id AVCaptureSystemExposureBiasSlider) where
-  toAVCaptureSystemExposureBiasSlider = unsafeCastId
-
-instance IsAVCaptureControl (Id AVCaptureSystemExposureBiasSlider) where
-  toAVCaptureControl = unsafeCastId
-
-instance IsNSObject (Id AVCaptureSystemExposureBiasSlider) where
-  toNSObject = unsafeCastId
-
--- ---------- AVCaptureSystemZoomSlider ----------
-
--- | AVCaptureSystemZoomSlider
---
--- The system's recommended continuous zoom control for @-[AVCaptureDevice videoZoomFactor]@.
---
--- @AVCaptureSystemZoomSlider@ uses the range specified by the @systemRecommendedVideoZoomRange@ on the @activeFormat@ from the @AVCaptureDevice@ specified during initialization. As the device's @activeFormat@ changes, the slider updates its range with the new format's @systemRecommendedVideoZoomRange@.
---
--- Controls may be added to an @AVCaptureSession@ using @-[AVCaptureSession addControl:]@.
--- 
--- Phantom type for @AVCaptureSystemZoomSlider@.
-data AVCaptureSystemZoomSlider
-
-instance IsObjCObject (Id AVCaptureSystemZoomSlider) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureSystemZoomSlider"
-
-class IsAVCaptureControl a => IsAVCaptureSystemZoomSlider a where
-  toAVCaptureSystemZoomSlider :: a -> Id AVCaptureSystemZoomSlider
-
-instance IsAVCaptureSystemZoomSlider (Id AVCaptureSystemZoomSlider) where
-  toAVCaptureSystemZoomSlider = unsafeCastId
-
-instance IsAVCaptureControl (Id AVCaptureSystemZoomSlider) where
-  toAVCaptureControl = unsafeCastId
-
-instance IsNSObject (Id AVCaptureSystemZoomSlider) where
   toNSObject = unsafeCastId
 
 -- ---------- AVCaptureDeviceInput ----------
@@ -5199,88 +4373,6 @@ instance IsAVCaptureOutput (Id AVCaptureVideoDataOutput) where
 instance IsNSObject (Id AVCaptureVideoDataOutput) where
   toNSObject = unsafeCastId
 
--- ---------- AVCaptureDeferredPhotoProxy ----------
-
--- | AVCaptureDeferredPhotoProxy
---
--- A lightly-processed photo whose data may be used to process and fetch a higher-resolution asset at a later time.
---
--- An AVCaptureDeferredPhotoProxy behaves like a normal AVCapturePhoto, and approximates the look of the final rendered image.  This object represents intermediate data that can be rendered into a final image and ingested into the user's photo library via PHAsset APIs.  The intermediate data are not accessible by the calling process.
---
--- Use a PHAssetCreationRequest with a resourceType of PHAssetResourceTypePhotoProxy using the fileDataRepresentation of this object.  Image processing to finalize the asset will occur either on-demand when accessing the image data via PHImageManager or PHAssetResource, or will execute in the background when the system has determined that it's a good time to process based on thermals, battery level, and other conditions.  If the data provided to the PHAssetCreationRequest does not come from an AVCaptureDeferredPhotoProxy, then PHAssetCreationRequest will fail and a PHPhotosErrorInvalidResource error will be returned.
---
--- Below is a discussion of how the superclass properties behave on an AVCaptureDeferredPhotoProxy.
---
--- (readonly) CMTime timestamp;
---
--- The time of the capture; proxy and final photos will have the same timestamp.
---
--- (readonly) NSDictionary<NSString *, id> *metadata;
---
--- The metadata of the proxy image may differ slightly from the final photo's metadata where some fields may be updated.
---
--- (readonly, getter=isRawPhoto) BOOL rawPhoto;
---
--- Always NO, as deferred processing isn't available for raw photos.
---
--- (nullable, readonly) NSDictionary<NSString *, id> *embeddedThumbnailPhotoFormat;
---
--- Describes the embedded thumbnail format of both the proxy and the final photo which have the same dimensions and codec.
---
--- (readonly) AVCaptureResolvedPhotoSettings *resolvedSettings;
---
--- Describes the resolved settings of the whole capture, including the proxy and final photo. See AVCaptureResolvedPhotoSettings.deferredPhotoProxyDimensions.
---
--- (readonly) NSInteger photoCount;
---
--- Same for both proxy and final.
---
--- (nullable, readonly) AVCaptureDeviceType sourceDeviceType;
---
--- Same for both proxy and final.
---
--- (nullable, readonly) AVCaptureBracketedStillImageSettings *bracketSettings;
---
--- Same for both proxy and final.
---
--- (readonly) NSInteger sequenceCount;
---
--- Same for both proxy and final.
---
--- (readonly) AVCaptureLensStabilizationStatus lensStabilizationStatus;
---
--- Same for both proxy and final.
---
--- Superclass properties/methods that behave differently than a typical AVCapturePhoto:
---
--- (nullable, readonly) CVPixelBufferRef pixelBuffer NS_RETURNS_INNER_POINTER;
---
--- (nullable, readonly) CVPixelBufferRef previewPixelBuffer NS_RETURNS_INNER_POINTER;
---
--- - (nullable CGImageRef)CGImageRepresentation;         - (nullable CGImageRef)previewCGImageRepresentation;            All of the above properties return the same proxy image, either as a pixel buffer or CGImageRef.
---
--- - (nullable NSData *)fileDataRepresentation;         - (nullable NSData *)fileDataRepresentationWithCustomizer:(id<AVCapturePhotoFileDataRepresentationCustomizer>)customizer;             You may call either of the above two methods to create a NSData representation of the image, but note that it is only the proxy image quality being packaged.
--- 
--- Phantom type for @AVCaptureDeferredPhotoProxy@.
-data AVCaptureDeferredPhotoProxy
-
-instance IsObjCObject (Id AVCaptureDeferredPhotoProxy) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVCaptureDeferredPhotoProxy"
-
-class IsAVCapturePhoto a => IsAVCaptureDeferredPhotoProxy a where
-  toAVCaptureDeferredPhotoProxy :: a -> Id AVCaptureDeferredPhotoProxy
-
-instance IsAVCaptureDeferredPhotoProxy (Id AVCaptureDeferredPhotoProxy) where
-  toAVCaptureDeferredPhotoProxy = unsafeCastId
-
-instance IsAVCapturePhoto (Id AVCaptureDeferredPhotoProxy) where
-  toAVCapturePhoto = unsafeCastId
-
-instance IsNSObject (Id AVCaptureDeferredPhotoProxy) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVCapturePhotoBracketSettings ----------
 
 -- | AVCapturePhotoBracketSettings
@@ -5320,8 +4412,6 @@ instance IsNSObject (Id AVCapturePhotoBracketSettings) where
 -- AVCaptureMultiCamSession's sessionPreset is always AVCaptureSessionPresetInputPriority and may not be set to any other value. Each input's device.activeFormat must be set manually to achieve the desired quality of service.
 --
 -- AVCaptureMultiCamSession supports dynamic enabling and disabling of individual camera inputs without interrupting preview. In order to stop an individual camera input, set the enabled property on all of its connections or connected ports to NO. When the last active connection or port is disabled, the source camera stops streaming to save power and bandwidth. Other inputs streaming data through the session are unaffected.
---
--- Prior to iOS 26, AVCaptureMultiCamSession requires all input devices to have an activeFormat where multiCamSupported returns YES. In applications linked on or after iOS 26, this requirement is not enforced when only a single input device is used.
 -- 
 -- Phantom type for @AVCaptureMultiCamSession@.
 data AVCaptureMultiCamSession
@@ -5429,9 +4519,7 @@ instance IsNSObject (Id AVCaptureSynchronizedSampleBufferData) where
 
 -- ---------- AVPersistableContentKeyRequest ----------
 
--- | Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPersistableContentKeyRequest@.
+-- | Phantom type for @AVPersistableContentKeyRequest@.
 data AVPersistableContentKeyRequest
 
 instance IsObjCObject (Id AVPersistableContentKeyRequest) where
@@ -5453,11 +4541,11 @@ instance IsNSObject (Id AVPersistableContentKeyRequest) where
 
 -- ---------- AVDelegatingPlaybackCoordinatorBufferingCommand ----------
 
--- | A playback command requesting buffering in anticipation of playback.
+-- | AVDelegatingPlaybackCoordinatorBufferingCommand
 --
--- Receiving this command should be reflected to the user as playback in a buffering state. To cancel the group intent to begin playback and move back into a paused state, call [AVDelegatingPlaybackCoordinator coordinateRateChangeToRate:0 options: 0]
+-- A playback command requesting buffering in anticipation of playback.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- Receiving this command should be reflected to the user as playback in a buffering state.				To cancel the group intent to begin playback and move back into a paused state, call [AVDelegatingPlaybackCoordinator coordinateRateChangeToRate:0 options: 0]
 -- 
 -- Phantom type for @AVDelegatingPlaybackCoordinatorBufferingCommand@.
 data AVDelegatingPlaybackCoordinatorBufferingCommand
@@ -5481,9 +4569,9 @@ instance IsNSObject (Id AVDelegatingPlaybackCoordinatorBufferingCommand) where
 
 -- ---------- AVDelegatingPlaybackCoordinatorPauseCommand ----------
 
--- | A playback command requesting a pause
+-- | AVDelegatingPlaybackCoordinatorPauseCommand
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A playback command requesting a pause
 -- 
 -- Phantom type for @AVDelegatingPlaybackCoordinatorPauseCommand@.
 data AVDelegatingPlaybackCoordinatorPauseCommand
@@ -5507,9 +4595,9 @@ instance IsNSObject (Id AVDelegatingPlaybackCoordinatorPauseCommand) where
 
 -- ---------- AVDelegatingPlaybackCoordinatorPlayCommand ----------
 
--- | A playback command requesting playback with specific timing.
+-- | AVDelegatingPlaybackCoordinatorPlayCommand
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A playback command requesting playback with specific timing.
 -- 
 -- Phantom type for @AVDelegatingPlaybackCoordinatorPlayCommand@.
 data AVDelegatingPlaybackCoordinatorPlayCommand
@@ -5533,9 +4621,11 @@ instance IsNSObject (Id AVDelegatingPlaybackCoordinatorPlayCommand) where
 
 -- ---------- AVDelegatingPlaybackCoordinatorSeekCommand ----------
 
--- | A playback command requesting a seek.
+-- | AVDelegatingPlaybackCoordinatorSeekCommand
 --
--- If the current playback rate is non-zero, playback should not automatically resume after the seek. Instead the delegate should pause and wait for the coordinator to issue another PlayCommand. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A playback command requesting a seek.
+--
+-- If the current playback rate is non-zero, playback should not automatically resume after the seek. Instead the delegate should pause and wait for the coordinator to issue another PlayCommand.
 -- 
 -- Phantom type for @AVDelegatingPlaybackCoordinatorSeekCommand@.
 data AVDelegatingPlaybackCoordinatorSeekCommand
@@ -5731,58 +4821,6 @@ instance IsAVMetadataObject (Id AVMetadataBodyObject) where
 instance IsNSObject (Id AVMetadataBodyObject) where
   toNSObject = unsafeCastId
 
--- ---------- AVMetadataCatHeadObject ----------
-
--- | A concrete metadata object subclass representing a cat head.
---
--- ``AVMetadataCatHeadObject`` is a concrete subclass of ``AVMetadataObject`` representing a cat head.
--- 
--- Phantom type for @AVMetadataCatHeadObject@.
-data AVMetadataCatHeadObject
-
-instance IsObjCObject (Id AVMetadataCatHeadObject) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetadataCatHeadObject"
-
-class IsAVMetadataObject a => IsAVMetadataCatHeadObject a where
-  toAVMetadataCatHeadObject :: a -> Id AVMetadataCatHeadObject
-
-instance IsAVMetadataCatHeadObject (Id AVMetadataCatHeadObject) where
-  toAVMetadataCatHeadObject = unsafeCastId
-
-instance IsAVMetadataObject (Id AVMetadataCatHeadObject) where
-  toAVMetadataObject = unsafeCastId
-
-instance IsNSObject (Id AVMetadataCatHeadObject) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetadataDogHeadObject ----------
-
--- | A concrete metadata object subclass representing a dog head.
---
--- ``AVMetadataDogHeadObject`` is a concrete subclass of ``AVMetadataObject`` representing a dog head.
--- 
--- Phantom type for @AVMetadataDogHeadObject@.
-data AVMetadataDogHeadObject
-
-instance IsObjCObject (Id AVMetadataDogHeadObject) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetadataDogHeadObject"
-
-class IsAVMetadataObject a => IsAVMetadataDogHeadObject a where
-  toAVMetadataDogHeadObject :: a -> Id AVMetadataDogHeadObject
-
-instance IsAVMetadataDogHeadObject (Id AVMetadataDogHeadObject) where
-  toAVMetadataDogHeadObject = unsafeCastId
-
-instance IsAVMetadataObject (Id AVMetadataDogHeadObject) where
-  toAVMetadataObject = unsafeCastId
-
-instance IsNSObject (Id AVMetadataDogHeadObject) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVMetadataFaceObject ----------
 
 -- | AVMetadataFaceObject
@@ -5873,297 +4911,13 @@ instance IsAVMetadataObject (Id AVMetadataSalientObject) where
 instance IsNSObject (Id AVMetadataSalientObject) where
   toNSObject = unsafeCastId
 
--- ---------- AVMetricContentKeyRequestEvent ----------
-
--- | Represents a metric event associated with a HLS content key resource request.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricContentKeyRequestEvent@.
-data AVMetricContentKeyRequestEvent
-
-instance IsObjCObject (Id AVMetricContentKeyRequestEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricContentKeyRequestEvent"
-
-class IsAVMetricEvent a => IsAVMetricContentKeyRequestEvent a where
-  toAVMetricContentKeyRequestEvent :: a -> Id AVMetricContentKeyRequestEvent
-
-instance IsAVMetricContentKeyRequestEvent (Id AVMetricContentKeyRequestEvent) where
-  toAVMetricContentKeyRequestEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricContentKeyRequestEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricContentKeyRequestEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricDownloadSummaryEvent ----------
-
--- | Represents a summary metric event with aggregated metrics for the entire download task.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricDownloadSummaryEvent@.
-data AVMetricDownloadSummaryEvent
-
-instance IsObjCObject (Id AVMetricDownloadSummaryEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricDownloadSummaryEvent"
-
-class IsAVMetricEvent a => IsAVMetricDownloadSummaryEvent a where
-  toAVMetricDownloadSummaryEvent :: a -> Id AVMetricDownloadSummaryEvent
-
-instance IsAVMetricDownloadSummaryEvent (Id AVMetricDownloadSummaryEvent) where
-  toAVMetricDownloadSummaryEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricDownloadSummaryEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricDownloadSummaryEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricErrorEvent ----------
-
--- | Represents a metric event when an error occurred.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricErrorEvent@.
-data AVMetricErrorEvent
-
-instance IsObjCObject (Id AVMetricErrorEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricErrorEvent"
-
-class IsAVMetricEvent a => IsAVMetricErrorEvent a where
-  toAVMetricErrorEvent :: a -> Id AVMetricErrorEvent
-
-instance IsAVMetricErrorEvent (Id AVMetricErrorEvent) where
-  toAVMetricErrorEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricErrorEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricErrorEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricHLSMediaSegmentRequestEvent ----------
-
--- | Represents a metric event associated with a HLS media segment resource request.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricHLSMediaSegmentRequestEvent@.
-data AVMetricHLSMediaSegmentRequestEvent
-
-instance IsObjCObject (Id AVMetricHLSMediaSegmentRequestEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricHLSMediaSegmentRequestEvent"
-
-class IsAVMetricEvent a => IsAVMetricHLSMediaSegmentRequestEvent a where
-  toAVMetricHLSMediaSegmentRequestEvent :: a -> Id AVMetricHLSMediaSegmentRequestEvent
-
-instance IsAVMetricHLSMediaSegmentRequestEvent (Id AVMetricHLSMediaSegmentRequestEvent) where
-  toAVMetricHLSMediaSegmentRequestEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricHLSMediaSegmentRequestEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricHLSMediaSegmentRequestEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricHLSPlaylistRequestEvent ----------
-
--- | Represents a metric event associated with a HLS playlist resource request.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricHLSPlaylistRequestEvent@.
-data AVMetricHLSPlaylistRequestEvent
-
-instance IsObjCObject (Id AVMetricHLSPlaylistRequestEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricHLSPlaylistRequestEvent"
-
-class IsAVMetricEvent a => IsAVMetricHLSPlaylistRequestEvent a where
-  toAVMetricHLSPlaylistRequestEvent :: a -> Id AVMetricHLSPlaylistRequestEvent
-
-instance IsAVMetricHLSPlaylistRequestEvent (Id AVMetricHLSPlaylistRequestEvent) where
-  toAVMetricHLSPlaylistRequestEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricHLSPlaylistRequestEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricHLSPlaylistRequestEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricMediaResourceRequestEvent ----------
-
--- | Represents a metric event associated with media resource requests.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricMediaResourceRequestEvent@.
-data AVMetricMediaResourceRequestEvent
-
-instance IsObjCObject (Id AVMetricMediaResourceRequestEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricMediaResourceRequestEvent"
-
-class IsAVMetricEvent a => IsAVMetricMediaResourceRequestEvent a where
-  toAVMetricMediaResourceRequestEvent :: a -> Id AVMetricMediaResourceRequestEvent
-
-instance IsAVMetricMediaResourceRequestEvent (Id AVMetricMediaResourceRequestEvent) where
-  toAVMetricMediaResourceRequestEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricMediaResourceRequestEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricMediaResourceRequestEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemLikelyToKeepUpEvent ----------
-
--- | Represents a metric event when playback was likely to play through without stalling.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemLikelyToKeepUpEvent@.
-data AVMetricPlayerItemLikelyToKeepUpEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemLikelyToKeepUpEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemLikelyToKeepUpEvent"
-
-class IsAVMetricEvent a => IsAVMetricPlayerItemLikelyToKeepUpEvent a where
-  toAVMetricPlayerItemLikelyToKeepUpEvent :: a -> Id AVMetricPlayerItemLikelyToKeepUpEvent
-
-instance IsAVMetricPlayerItemLikelyToKeepUpEvent (Id AVMetricPlayerItemLikelyToKeepUpEvent) where
-  toAVMetricPlayerItemLikelyToKeepUpEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemLikelyToKeepUpEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemLikelyToKeepUpEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemPlaybackSummaryEvent ----------
-
--- | Represents a summary metric event with aggregated metrics for the entire playback session.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemPlaybackSummaryEvent@.
-data AVMetricPlayerItemPlaybackSummaryEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemPlaybackSummaryEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemPlaybackSummaryEvent"
-
-class IsAVMetricEvent a => IsAVMetricPlayerItemPlaybackSummaryEvent a where
-  toAVMetricPlayerItemPlaybackSummaryEvent :: a -> Id AVMetricPlayerItemPlaybackSummaryEvent
-
-instance IsAVMetricPlayerItemPlaybackSummaryEvent (Id AVMetricPlayerItemPlaybackSummaryEvent) where
-  toAVMetricPlayerItemPlaybackSummaryEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemPlaybackSummaryEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemPlaybackSummaryEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemRateChangeEvent ----------
-
--- | Represents a metric event when playback rate change occurred.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemRateChangeEvent@.
-data AVMetricPlayerItemRateChangeEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemRateChangeEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemRateChangeEvent"
-
-class IsAVMetricEvent a => IsAVMetricPlayerItemRateChangeEvent a where
-  toAVMetricPlayerItemRateChangeEvent :: a -> Id AVMetricPlayerItemRateChangeEvent
-
-instance IsAVMetricPlayerItemRateChangeEvent (Id AVMetricPlayerItemRateChangeEvent) where
-  toAVMetricPlayerItemRateChangeEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemRateChangeEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemRateChangeEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemVariantSwitchEvent ----------
-
--- | Represents a metric event when variant switch was completed.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemVariantSwitchEvent@.
-data AVMetricPlayerItemVariantSwitchEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemVariantSwitchEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemVariantSwitchEvent"
-
-class IsAVMetricEvent a => IsAVMetricPlayerItemVariantSwitchEvent a where
-  toAVMetricPlayerItemVariantSwitchEvent :: a -> Id AVMetricPlayerItemVariantSwitchEvent
-
-instance IsAVMetricPlayerItemVariantSwitchEvent (Id AVMetricPlayerItemVariantSwitchEvent) where
-  toAVMetricPlayerItemVariantSwitchEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemVariantSwitchEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemVariantSwitchEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemVariantSwitchStartEvent ----------
-
--- | Represents a metric event when variant switch was attempted.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemVariantSwitchStartEvent@.
-data AVMetricPlayerItemVariantSwitchStartEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemVariantSwitchStartEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemVariantSwitchStartEvent"
-
-class IsAVMetricEvent a => IsAVMetricPlayerItemVariantSwitchStartEvent a where
-  toAVMetricPlayerItemVariantSwitchStartEvent :: a -> Id AVMetricPlayerItemVariantSwitchStartEvent
-
-instance IsAVMetricPlayerItemVariantSwitchStartEvent (Id AVMetricPlayerItemVariantSwitchStartEvent) where
-  toAVMetricPlayerItemVariantSwitchStartEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemVariantSwitchStartEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemVariantSwitchStartEvent) where
-  toNSObject = unsafeCastId
-
 -- ---------- AVDelegatingPlaybackCoordinator ----------
 
--- | An AVPlaybackCoordinator subclass for controlling a custom playback object.
+-- | AVDelegatingPlaybackCoordinator
 --
--- - NOTE: Use AVPlayer's playbackCoordinator property to get an AVPlaybackCoordinator for an AVPlayer.
+-- An AVPlaybackCoordinator subclass for controlling a custom playback object.
+--
+-- Note: Use AVPlayer's playbackCoordinator property to get an AVPlaybackCoordinator for an AVPlayer.
 -- 
 -- Phantom type for @AVDelegatingPlaybackCoordinator@.
 data AVDelegatingPlaybackCoordinator
@@ -6187,9 +4941,11 @@ instance IsNSObject (Id AVDelegatingPlaybackCoordinator) where
 
 -- ---------- AVPlayerPlaybackCoordinator ----------
 
--- | An AVPlaybackCoordinator subclass for controlling an AVPlayer
+-- | AVPlayerPlaybackCoordinator
 --
--- While the coordinator is connected to other participants, it will intercept rate changes and seeks issued to the player to share these with other participants if appropriate. Clients of AVPlayer can thus use the AVPlayer interfaces to modify the playback state of connected participants. When appropriate, the coordinator will also impose rate changes and seeks from other participants on the player. If this occurs, the corresponding notifications will carry an originating participant in their payload. See AVPlayer's playbackCoordinator property for more details about player behavior changes. AVPlayerPlaybackCoordinator may begin suspensions on behalf of the player when the player's timeControlStatus changes from AVPlayerTimeControlStatusPlaying to AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate or AVPlayerTimeControlStatusPaused. These suspensions will end when the player's timeControlStatus changes back to AVPlayerTimeControlStatusPlaying. This means that a suspension that begun because the player entered a waiting state, will end automatically when the player is done waiting. A suspension that begun because the player paused, will only end once the player's rate changes back to non-zero.
+-- An AVPlaybackCoordinator subclass for controlling an AVPlayer
+--
+-- While the coordinator is connected to other participants, it will intercept rate changes and seeks issued to the player to share these with other participants if appropriate.				Clients of AVPlayer can thus use the AVPlayer interfaces to modify the playback state of connected participants. When appropriate, the coordinator will also impose rate changes and seeks from other participants on the player. If this occurs, the corresponding notifications will carry an originating participant in their payload.				See AVPlayer's playbackCoordinator property for more details about player behavior changes.				AVPlayerPlaybackCoordinator may begin suspensions on behalf of the player when the player's timeControlStatus changes from AVPlayerTimeControlStatusPlaying to AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate or AVPlayerTimeControlStatusPaused. These suspensions will end when the player's timeControlStatus changes back to AVPlayerTimeControlStatusPlaying. This means that a suspension that begun because the player entered a waiting state, will end automatically when the player is done waiting. A suspension that begun because the player paused, will only end once the player's rate changes back to non-zero.
 -- 
 -- Phantom type for @AVPlayerPlaybackCoordinator@.
 data AVPlayerPlaybackCoordinator
@@ -6213,13 +4969,7 @@ instance IsNSObject (Id AVPlayerPlaybackCoordinator) where
 
 -- ---------- AVQueuePlayer ----------
 
--- | AVQueuePlayer is a subclass of AVPlayer that offers an interface for multiple-item playback.
---
--- AVQueuePlayer extends AVPlayer with methods for managing a queue of items to be played in sequence. It plays these items as gaplessly as possible in the current runtime environment, depending on  the timely availability of media data for the enqueued items.
---
--- For best performance clients should typically enqueue only as many AVPlayerItems as are necessary to ensure smooth playback. Note that once an item is enqueued it becomes eligible to be loaded and made ready for playback, with whatever I/O and processing overhead that entails.
--- 
--- Phantom type for @AVQueuePlayer@.
+-- | Phantom type for @AVQueuePlayer@.
 data AVQueuePlayer
 
 instance IsObjCObject (Id AVQueuePlayer) where
@@ -6241,11 +4991,11 @@ instance IsNSObject (Id AVQueuePlayer) where
 
 -- ---------- AVPlayerInterstitialEventController ----------
 
--- | An AVPlayerInterstitialEventController allows you to specify a schedule of interstitial events for items played by a primary player. By creating an instance of AVPlayerInterstitialEventController and setting a schedule of interstitial events, you pre-empt directives the are intrinsic to the items played by the primary player, if any exist, causing them to be ignored.
+-- | AVPlayerInterstitialEventController
+--
+-- An AVPlayerInterstitialEventController allows you to specify a schedule of interstitial events for items played by a primary player.    By creating an instance of AVPlayerInterstitialEventController and setting a schedule of interstitial events, you pre-empt directives the are intrinsic to the items played by the primary player, if any exist, causing them to be ignored.
 --
 -- The schedule of interstitial events is specified as an array of AVPlayerInterstitialEvents. For each AVPlayerInterstitialEvent, when the primary player's current item is the primary item of the interstitial event and its currentDate reaches the date of the event, playback of the primary item by the primary player is temporarily suspended, i.e. its timeControlStatus changes to AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate and its reasonForWaitingToPlay will change to AVPlayerWaitingDuringInterstitialEventReason. During this suspension, playback of items that replicate the interstitial template items of the event are played by the interstitial player, which temporarily assumes the output configuration of the primary player; for example, its visual content will be routed to AVPlayerLayers that reference the primary player. Once the interstitial player has advanced through playback of the interstitial items specified by the event or its current item otherwise becomes nil, playback of the primary content will resume, at an offset from the time at which it was suspended as specified by the event.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerInterstitialEventController@.
 data AVPlayerInterstitialEventController
@@ -6274,8 +5024,6 @@ instance IsNSObject (Id AVPlayerInterstitialEventController) where
 -- A subclass of AVPlayerItemMediaDataCollector that provides AVMetadataGroups for an AVPlayerItem.
 --
 -- This class can be used to inform clients of the current set of AVMetadataGroups on an AVPlayerItem, and when new AVMetadataGroups become available - e.g. in a Live HLS stream.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerItemMetadataCollector@.
 data AVPlayerItemMetadataCollector
@@ -6304,8 +5052,6 @@ instance IsNSObject (Id AVPlayerItemMetadataCollector) where
 -- A subclass of AVPlayerItemOutput that can vend media with a legible characteristic as NSAttributedStrings.
 --
 -- An instance of AVPlayerItemLegibleOutput is typically initialized using the -init method.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerItemLegibleOutput@.
 data AVPlayerItemLegibleOutput
@@ -6334,8 +5080,6 @@ instance IsNSObject (Id AVPlayerItemLegibleOutput) where
 -- A subclass of AVPlayerItemOutput that vends collections of metadata items carried in metadata tracks.
 --
 -- Setting the value of suppressesPlayerRendering on an instance of AVPlayerItemMetadataOutput has no effect.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVPlayerItemMetadataOutput@.
 data AVPlayerItemMetadataOutput
@@ -6355,36 +5099,6 @@ instance IsAVPlayerItemOutput (Id AVPlayerItemMetadataOutput) where
   toAVPlayerItemOutput = unsafeCastId
 
 instance IsNSObject (Id AVPlayerItemMetadataOutput) where
-  toNSObject = unsafeCastId
-
--- ---------- AVPlayerItemRenderedLegibleOutput ----------
-
--- | AVPlayerItemRenderedLegibleOutput
---
--- A subclass of AVPlayerItemOutput that can vend media with a legible characteristic as rendered CVPixelBufferRefs.
---
--- An instance of AVPlayerItemRenderedLegibleOutput is initialized using the -init method.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVPlayerItemRenderedLegibleOutput@.
-data AVPlayerItemRenderedLegibleOutput
-
-instance IsObjCObject (Id AVPlayerItemRenderedLegibleOutput) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVPlayerItemRenderedLegibleOutput"
-
-class IsAVPlayerItemOutput a => IsAVPlayerItemRenderedLegibleOutput a where
-  toAVPlayerItemRenderedLegibleOutput :: a -> Id AVPlayerItemRenderedLegibleOutput
-
-instance IsAVPlayerItemRenderedLegibleOutput (Id AVPlayerItemRenderedLegibleOutput) where
-  toAVPlayerItemRenderedLegibleOutput = unsafeCastId
-
-instance IsAVPlayerItemOutput (Id AVPlayerItemRenderedLegibleOutput) where
-  toAVPlayerItemOutput = unsafeCastId
-
-instance IsNSObject (Id AVPlayerItemRenderedLegibleOutput) where
   toNSObject = unsafeCastId
 
 -- ---------- AVPlayerItemVideoOutput ----------
@@ -6481,7 +5195,7 @@ instance IsNSObject (Id AVMutableVideoCompositionLayerInstruction) where
 --
 -- A CoreAnimation layer subclass for previewing the visual output of an AVCaptureSession.
 --
--- An AVCaptureVideoPreviewLayer instance is a subclass of CALayer and is therefore suitable for insertion in a layer hierarchy as part of a graphical interface. One creates an AVCaptureVideoPreviewLayer instance with the capture session to be previewed, using +layerWithSession: or -initWithSession:. Using the "videoGravity" property, one can influence how content is viewed relative to the layer bounds. On some hardware configurations, the orientation of the layer can be manipulated using \@"orientation" and \@"mirrored".
+-- An AVCaptureVideoPreviewLayer instance is a subclass of CALayer and is therefore suitable for insertion in a layer hierarchy as part of a graphical interface. One creates an AVCaptureVideoPreviewLayer instance with the capture session to be previewed, using +layerWithSession: or -initWithSession:. Using the "videoGravity" property, one can influence how content is viewed relative to the layer bounds. On some hardware configurations, the orientation of the layer can be manipulated using "orientation" and "mirrored".
 -- 
 -- Phantom type for @AVCaptureVideoPreviewLayer@.
 data AVCaptureVideoPreviewLayer
@@ -6571,7 +5285,9 @@ instance IsNSObject (Id AVSynchronizedLayer) where
 
 -- ---------- AVAssetDownloadURLSession ----------
 
--- | A subclass of NSURLSession to support AVAssetDownloadTask.
+-- | AVAssetDownloadURLSession
+--
+-- A subclass of NSURLSession to support AVAssetDownloadTask.
 -- 
 -- Phantom type for @AVAssetDownloadURLSession@.
 data AVAssetDownloadURLSession
@@ -6595,11 +5311,11 @@ instance IsNSURLSession (Id AVAssetDownloadURLSession) where
 
 -- ---------- AVAggregateAssetDownloadTask ----------
 
--- | An AVAssetDownloadTask used for downloading multiple AVMediaSelections for a single AVAsset, under the umbrella of a single download task.
+-- | AVAggregateAssetDownloadTask
+--
+-- An AVAssetDownloadTask used for downloading multiple AVMediaSelections for a single AVAsset, under the umbrella of a single download task.
 --
 -- Should be created with -[AVAssetDownloadURLSession aggregateAssetDownloadTaskWithURLAsset:mediaSelections:assetTitle:assetArtworkData:options:. For progress tracking, monitor the delegate callbacks for each childAssetDownloadTask.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
 -- 
 -- Phantom type for @AVAggregateAssetDownloadTask@.
 data AVAggregateAssetDownloadTask
@@ -6623,7 +5339,9 @@ instance IsNSURLSessionTask (Id AVAggregateAssetDownloadTask) where
 
 -- ---------- AVAssetDownloadTask ----------
 
--- | A NSURLSessionTask that accepts remote AVURLAssets to download locally.
+-- | AVAssetDownloadTask
+--
+-- A NSURLSessionTask that accepts remote AVURLAssets to download locally.
 --
 -- Should be created with -[AVAssetDownloadURLSession assetDownloadTaskWithURLAsset:assetTitle:assetArtworkData:options:]. To utilize local data for playback for downloads that are in-progress, re-use the URLAsset supplied in initialization. An AVAssetDownloadTask may be instantiated with a destinationURL pointing to an existing asset on disk, for the purpose of completing or augmenting a downloaded asset.
 -- 
@@ -6730,15 +5448,7 @@ instance IsNSObject (Id AVMutableMovie) where
 
 -- ---------- AVFragmentedAsset ----------
 
--- | A subclass of AVURLAsset that represents media resources that can be extended in total duration without modifying previously existing data structures.
---
--- Such media resources include QuickTime movie files and MPEG-4 files that indicate, via an 'mvex' box in their 'moov' box, that they accommodate additional fragments. Media resources of other types may also be supported. To check whether a given instance of AVFragmentedAsset can be used to monitor the addition of fragments, check the value of the AVURLAsset property canContainFragments.
---
--- An AVFragmentedAsset is capable of changing the values of certain of its properties and those of its tracks, while an operation that appends fragments to the underlying media resource in in progress, if the AVFragmentedAsset is associated with an instance of AVFragmentedAssetMinder.
---
--- While associated with an AVFragmentedAssetMinder, AVFragmentedAsset posts AVAssetDurationDidChangeNotification whenever new fragments are detected, as appropriate. It may also post AVAssetContainsFragmentsDidChangeNotification and AVAssetWasDefragmentedNotification, as discussed in documentation of those notifications. Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVFragmentedAsset@.
+-- | Phantom type for @AVFragmentedAsset@.
 data AVFragmentedAsset
 
 instance IsObjCObject (Id AVFragmentedAsset) where
@@ -7053,153 +5763,4 @@ instance IsAVMetadataObject (Id AVMetadataHumanBodyObject) where
   toAVMetadataObject = unsafeCastId
 
 instance IsNSObject (Id AVMetadataHumanBodyObject) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetadataHumanFullBodyObject ----------
-
--- | AVMetadataHumanFullBodyObject
---
--- AVMetadataHumanFullBodyObject is a concrete subclass of AVMetadataBodyObject defining a detected human full body.
---
--- AVMetadataHumanFullBodyObject represents a single detected human full body in a picture. It is an immutable object describing the various features found in the body.
---
--- On supported platforms, AVCaptureMetadataOutput outputs arrays of detected human full body objects. See AVCaptureOutput.h.
--- 
--- Phantom type for @AVMetadataHumanFullBodyObject@.
-data AVMetadataHumanFullBodyObject
-
-instance IsObjCObject (Id AVMetadataHumanFullBodyObject) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetadataHumanFullBodyObject"
-
-class IsAVMetadataBodyObject a => IsAVMetadataHumanFullBodyObject a where
-  toAVMetadataHumanFullBodyObject :: a -> Id AVMetadataHumanFullBodyObject
-
-instance IsAVMetadataHumanFullBodyObject (Id AVMetadataHumanFullBodyObject) where
-  toAVMetadataHumanFullBodyObject = unsafeCastId
-
-instance IsAVMetadataBodyObject (Id AVMetadataHumanFullBodyObject) where
-  toAVMetadataBodyObject = unsafeCastId
-
-instance IsAVMetadataObject (Id AVMetadataHumanFullBodyObject) where
-  toAVMetadataObject = unsafeCastId
-
-instance IsNSObject (Id AVMetadataHumanFullBodyObject) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemInitialLikelyToKeepUpEvent ----------
-
--- | Represents a metric event when playback was first likely to play through without stalling.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemInitialLikelyToKeepUpEvent@.
-data AVMetricPlayerItemInitialLikelyToKeepUpEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemInitialLikelyToKeepUpEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemInitialLikelyToKeepUpEvent"
-
-class IsAVMetricPlayerItemLikelyToKeepUpEvent a => IsAVMetricPlayerItemInitialLikelyToKeepUpEvent a where
-  toAVMetricPlayerItemInitialLikelyToKeepUpEvent :: a -> Id AVMetricPlayerItemInitialLikelyToKeepUpEvent
-
-instance IsAVMetricPlayerItemInitialLikelyToKeepUpEvent (Id AVMetricPlayerItemInitialLikelyToKeepUpEvent) where
-  toAVMetricPlayerItemInitialLikelyToKeepUpEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemInitialLikelyToKeepUpEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsAVMetricPlayerItemLikelyToKeepUpEvent (Id AVMetricPlayerItemInitialLikelyToKeepUpEvent) where
-  toAVMetricPlayerItemLikelyToKeepUpEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemInitialLikelyToKeepUpEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemSeekDidCompleteEvent ----------
-
--- | Represents a metric event when playback seek completed.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemSeekDidCompleteEvent@.
-data AVMetricPlayerItemSeekDidCompleteEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemSeekDidCompleteEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemSeekDidCompleteEvent"
-
-class IsAVMetricPlayerItemRateChangeEvent a => IsAVMetricPlayerItemSeekDidCompleteEvent a where
-  toAVMetricPlayerItemSeekDidCompleteEvent :: a -> Id AVMetricPlayerItemSeekDidCompleteEvent
-
-instance IsAVMetricPlayerItemSeekDidCompleteEvent (Id AVMetricPlayerItemSeekDidCompleteEvent) where
-  toAVMetricPlayerItemSeekDidCompleteEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemSeekDidCompleteEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsAVMetricPlayerItemRateChangeEvent (Id AVMetricPlayerItemSeekDidCompleteEvent) where
-  toAVMetricPlayerItemRateChangeEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemSeekDidCompleteEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemSeekEvent ----------
-
--- | Represents a metric event when playback seeked.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemSeekEvent@.
-data AVMetricPlayerItemSeekEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemSeekEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemSeekEvent"
-
-class IsAVMetricPlayerItemRateChangeEvent a => IsAVMetricPlayerItemSeekEvent a where
-  toAVMetricPlayerItemSeekEvent :: a -> Id AVMetricPlayerItemSeekEvent
-
-instance IsAVMetricPlayerItemSeekEvent (Id AVMetricPlayerItemSeekEvent) where
-  toAVMetricPlayerItemSeekEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemSeekEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsAVMetricPlayerItemRateChangeEvent (Id AVMetricPlayerItemSeekEvent) where
-  toAVMetricPlayerItemRateChangeEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemSeekEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- AVMetricPlayerItemStallEvent ----------
-
--- | Represents a metric event when playback stalled.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
--- 
--- Phantom type for @AVMetricPlayerItemStallEvent@.
-data AVMetricPlayerItemStallEvent
-
-instance IsObjCObject (Id AVMetricPlayerItemStallEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "AVMetricPlayerItemStallEvent"
-
-class IsAVMetricPlayerItemRateChangeEvent a => IsAVMetricPlayerItemStallEvent a where
-  toAVMetricPlayerItemStallEvent :: a -> Id AVMetricPlayerItemStallEvent
-
-instance IsAVMetricPlayerItemStallEvent (Id AVMetricPlayerItemStallEvent) where
-  toAVMetricPlayerItemStallEvent = unsafeCastId
-
-instance IsAVMetricEvent (Id AVMetricPlayerItemStallEvent) where
-  toAVMetricEvent = unsafeCastId
-
-instance IsAVMetricPlayerItemRateChangeEvent (Id AVMetricPlayerItemStallEvent) where
-  toAVMetricPlayerItemRateChangeEvent = unsafeCastId
-
-instance IsNSObject (Id AVMetricPlayerItemStallEvent) where
   toNSObject = unsafeCastId

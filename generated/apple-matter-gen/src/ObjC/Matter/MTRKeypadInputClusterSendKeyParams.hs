@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRKeypadInputClusterSendKeyParams
   ( MTRKeypadInputClusterSendKeyParams
   , IsMTRKeypadInputClusterSendKeyParams(..)
+  , init_
+  , copyWithZone
   , keyCode
   , setKeyCode
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , keyCodeSelector
-  , serverSideProcessingTimeoutSelector
   , setKeyCodeSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRKeypadInputClusterSendKeyParams mtrKeypadInputClusterSendKeyParams => mtrKeypadInputClusterSendKeyParams -> IO (Id MTRKeypadInputClusterSendKeyParams)
+init_ mtrKeypadInputClusterSendKeyParams =
+  sendOwnedMessage mtrKeypadInputClusterSendKeyParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRKeypadInputClusterSendKeyParams mtrKeypadInputClusterSendKeyParams => mtrKeypadInputClusterSendKeyParams -> Ptr () -> IO RawId
+copyWithZone mtrKeypadInputClusterSendKeyParams zone =
+  sendOwnedMessage mtrKeypadInputClusterSendKeyParams copyWithZoneSelector zone
 
 -- | @- keyCode@
 keyCode :: IsMTRKeypadInputClusterSendKeyParams mtrKeypadInputClusterSendKeyParams => mtrKeypadInputClusterSendKeyParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRKeypadInputClusterSendKeyParams mtrKeypadInputC
 setTimedInvokeTimeoutMs mtrKeypadInputClusterSendKeyParams value =
   sendMessage mtrKeypadInputClusterSendKeyParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRKeypadInputClusterSendKeyParams mtrKeypadInputClusterSendKeyParams => mtrKeypadInputClusterSendKeyParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrKeypadInputClusterSendKeyParams =
-  sendMessage mtrKeypadInputClusterSendKeyParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRKeypadInputClusterSendKeyParams mtrKeypadInputClusterSendKeyParams, IsNSNumber value) => mtrKeypadInputClusterSendKeyParams -> value -> IO ()
-setServerSideProcessingTimeout mtrKeypadInputClusterSendKeyParams value =
-  sendMessage mtrKeypadInputClusterSendKeyParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRKeypadInputClusterSendKeyParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @keyCode@
 keyCodeSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

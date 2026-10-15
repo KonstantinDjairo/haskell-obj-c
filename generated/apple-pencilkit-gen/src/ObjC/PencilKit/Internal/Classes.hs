@@ -163,27 +163,6 @@ instance IsPKTool (Id PKTool) where
 instance IsNSObject (Id PKTool) where
   toNSObject = unsafeCastId
 
--- ---------- PKToolPickerItem ----------
-
--- | A user interface for a tool item in PKToolPicker.
--- 
--- Phantom type for @PKToolPickerItem@.
-data PKToolPickerItem
-
-instance IsObjCObject (Id PKToolPickerItem) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKToolPickerItem"
-
-class IsNSObject a => IsPKToolPickerItem a where
-  toPKToolPickerItem :: a -> Id PKToolPickerItem
-
-instance IsPKToolPickerItem (Id PKToolPickerItem) where
-  toPKToolPickerItem = unsafeCastId
-
-instance IsNSObject (Id PKToolPickerItem) where
-  toNSObject = unsafeCastId
-
 -- ---------- PKEraserTool ----------
 
 -- | An eraser tool for erasing parts of a drawing.
@@ -234,7 +213,7 @@ instance IsPKTool (Id PKInkingTool) where
 
 -- ---------- PKLassoTool ----------
 
--- | A lasso tool for selecting parts of a drawing.
+-- | A lasso tool for selection parts of a drawing.
 -- 
 -- Phantom type for @PKLassoTool@.
 data PKLassoTool
@@ -255,51 +234,3 @@ instance IsNSObject (Id PKLassoTool) where
 
 instance IsPKTool (Id PKLassoTool) where
   toPKTool = unsafeCastId
-
--- ---------- PKToolPickerEraserItem ----------
-
--- | A user interface for an eraser tool item in PKToolPicker.
--- 
--- Phantom type for @PKToolPickerEraserItem@.
-data PKToolPickerEraserItem
-
-instance IsObjCObject (Id PKToolPickerEraserItem) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKToolPickerEraserItem"
-
-class IsPKToolPickerItem a => IsPKToolPickerEraserItem a where
-  toPKToolPickerEraserItem :: a -> Id PKToolPickerEraserItem
-
-instance IsPKToolPickerEraserItem (Id PKToolPickerEraserItem) where
-  toPKToolPickerEraserItem = unsafeCastId
-
-instance IsNSObject (Id PKToolPickerEraserItem) where
-  toNSObject = unsafeCastId
-
-instance IsPKToolPickerItem (Id PKToolPickerEraserItem) where
-  toPKToolPickerItem = unsafeCastId
-
--- ---------- PKToolPickerInkingItem ----------
-
--- | A user interface for an inking tool item in PKToolPicker.
--- 
--- Phantom type for @PKToolPickerInkingItem@.
-data PKToolPickerInkingItem
-
-instance IsObjCObject (Id PKToolPickerInkingItem) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PKToolPickerInkingItem"
-
-class IsPKToolPickerItem a => IsPKToolPickerInkingItem a where
-  toPKToolPickerInkingItem :: a -> Id PKToolPickerInkingItem
-
-instance IsPKToolPickerInkingItem (Id PKToolPickerInkingItem) where
-  toPKToolPickerInkingItem = unsafeCastId
-
-instance IsNSObject (Id PKToolPickerInkingItem) where
-  toNSObject = unsafeCastId
-
-instance IsPKToolPickerItem (Id PKToolPickerInkingItem) where
-  toPKToolPickerItem = unsafeCastId

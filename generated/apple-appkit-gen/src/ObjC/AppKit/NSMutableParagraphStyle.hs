@@ -15,6 +15,8 @@ module ObjC.AppKit.NSMutableParagraphStyle
   , setLineSpacing
   , paragraphSpacing
   , setParagraphSpacing
+  , alignment
+  , setAlignment
   , firstLineHeadIndent
   , setFirstLineHeadIndent
   , headIndent
@@ -43,18 +45,16 @@ module ObjC.AppKit.NSMutableParagraphStyle
   , setDefaultTabInterval
   , allowsDefaultTighteningForTruncation
   , setAllowsDefaultTighteningForTruncation
-  , lineBreakStrategy
-  , setLineBreakStrategy
-  , textLists
-  , setTextLists
-  , alignment
-  , setAlignment
   , tighteningFactorForTruncation
   , setTighteningFactorForTruncation
   , textBlocks
   , setTextBlocks
+  , textLists
+  , setTextLists
   , headerLevel
   , setHeaderLevel
+  , lineBreakStrategy
+  , setLineBreakStrategy
   , addTabStopSelector
   , alignmentSelector
   , allowsDefaultTighteningForTruncationSelector
@@ -118,8 +118,8 @@ module ObjC.AppKit.NSMutableParagraphStyle
   , pattern NSLineBreakStrategyStandard
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , NSWritingDirection(NSWritingDirection)
@@ -175,6 +175,16 @@ paragraphSpacing nsMutableParagraphStyle =
 setParagraphSpacing :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> CDouble -> IO ()
 setParagraphSpacing nsMutableParagraphStyle value =
   sendMessage nsMutableParagraphStyle setParagraphSpacingSelector value
+
+-- | @- alignment@
+alignment :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO NSTextAlignment
+alignment nsMutableParagraphStyle =
+  sendMessage nsMutableParagraphStyle alignmentSelector
+
+-- | @- setAlignment:@
+setAlignment :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> NSTextAlignment -> IO ()
+setAlignment nsMutableParagraphStyle value =
+  sendMessage nsMutableParagraphStyle setAlignmentSelector value
 
 -- | @- firstLineHeadIndent@
 firstLineHeadIndent :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO CDouble
@@ -316,36 +326,6 @@ setAllowsDefaultTighteningForTruncation :: IsNSMutableParagraphStyle nsMutablePa
 setAllowsDefaultTighteningForTruncation nsMutableParagraphStyle value =
   sendMessage nsMutableParagraphStyle setAllowsDefaultTighteningForTruncationSelector value
 
--- | @- lineBreakStrategy@
-lineBreakStrategy :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO NSLineBreakStrategy
-lineBreakStrategy nsMutableParagraphStyle =
-  sendMessage nsMutableParagraphStyle lineBreakStrategySelector
-
--- | @- setLineBreakStrategy:@
-setLineBreakStrategy :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> NSLineBreakStrategy -> IO ()
-setLineBreakStrategy nsMutableParagraphStyle value =
-  sendMessage nsMutableParagraphStyle setLineBreakStrategySelector value
-
--- | @- textLists@
-textLists :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO (Id NSArray)
-textLists nsMutableParagraphStyle =
-  sendMessage nsMutableParagraphStyle textListsSelector
-
--- | @- setTextLists:@
-setTextLists :: (IsNSMutableParagraphStyle nsMutableParagraphStyle, IsNSArray value) => nsMutableParagraphStyle -> value -> IO ()
-setTextLists nsMutableParagraphStyle value =
-  sendMessage nsMutableParagraphStyle setTextListsSelector (toNSArray value)
-
--- | @- alignment@
-alignment :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO NSTextAlignment
-alignment nsMutableParagraphStyle =
-  sendMessage nsMutableParagraphStyle alignmentSelector
-
--- | @- setAlignment:@
-setAlignment :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> NSTextAlignment -> IO ()
-setAlignment nsMutableParagraphStyle value =
-  sendMessage nsMutableParagraphStyle setAlignmentSelector value
-
 -- | @- tighteningFactorForTruncation@
 tighteningFactorForTruncation :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO CFloat
 tighteningFactorForTruncation nsMutableParagraphStyle =
@@ -366,6 +346,16 @@ setTextBlocks :: (IsNSMutableParagraphStyle nsMutableParagraphStyle, IsNSArray v
 setTextBlocks nsMutableParagraphStyle value =
   sendMessage nsMutableParagraphStyle setTextBlocksSelector (toNSArray value)
 
+-- | @- textLists@
+textLists :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO (Id NSArray)
+textLists nsMutableParagraphStyle =
+  sendMessage nsMutableParagraphStyle textListsSelector
+
+-- | @- setTextLists:@
+setTextLists :: (IsNSMutableParagraphStyle nsMutableParagraphStyle, IsNSArray value) => nsMutableParagraphStyle -> value -> IO ()
+setTextLists nsMutableParagraphStyle value =
+  sendMessage nsMutableParagraphStyle setTextListsSelector (toNSArray value)
+
 -- | @- headerLevel@
 headerLevel :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO CLong
 headerLevel nsMutableParagraphStyle =
@@ -375,6 +365,16 @@ headerLevel nsMutableParagraphStyle =
 setHeaderLevel :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> CLong -> IO ()
 setHeaderLevel nsMutableParagraphStyle value =
   sendMessage nsMutableParagraphStyle setHeaderLevelSelector value
+
+-- | @- lineBreakStrategy@
+lineBreakStrategy :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> IO NSLineBreakStrategy
+lineBreakStrategy nsMutableParagraphStyle =
+  sendMessage nsMutableParagraphStyle lineBreakStrategySelector
+
+-- | @- setLineBreakStrategy:@
+setLineBreakStrategy :: IsNSMutableParagraphStyle nsMutableParagraphStyle => nsMutableParagraphStyle -> NSLineBreakStrategy -> IO ()
+setLineBreakStrategy nsMutableParagraphStyle value =
+  sendMessage nsMutableParagraphStyle setLineBreakStrategySelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -407,6 +407,14 @@ paragraphSpacingSelector = mkSelector "paragraphSpacing"
 -- | @Selector@ for @setParagraphSpacing:@
 setParagraphSpacingSelector :: Selector '[CDouble] ()
 setParagraphSpacingSelector = mkSelector "setParagraphSpacing:"
+
+-- | @Selector@ for @alignment@
+alignmentSelector :: Selector '[] NSTextAlignment
+alignmentSelector = mkSelector "alignment"
+
+-- | @Selector@ for @setAlignment:@
+setAlignmentSelector :: Selector '[NSTextAlignment] ()
+setAlignmentSelector = mkSelector "setAlignment:"
 
 -- | @Selector@ for @firstLineHeadIndent@
 firstLineHeadIndentSelector :: Selector '[] CDouble
@@ -520,30 +528,6 @@ allowsDefaultTighteningForTruncationSelector = mkSelector "allowsDefaultTighteni
 setAllowsDefaultTighteningForTruncationSelector :: Selector '[Bool] ()
 setAllowsDefaultTighteningForTruncationSelector = mkSelector "setAllowsDefaultTighteningForTruncation:"
 
--- | @Selector@ for @lineBreakStrategy@
-lineBreakStrategySelector :: Selector '[] NSLineBreakStrategy
-lineBreakStrategySelector = mkSelector "lineBreakStrategy"
-
--- | @Selector@ for @setLineBreakStrategy:@
-setLineBreakStrategySelector :: Selector '[NSLineBreakStrategy] ()
-setLineBreakStrategySelector = mkSelector "setLineBreakStrategy:"
-
--- | @Selector@ for @textLists@
-textListsSelector :: Selector '[] (Id NSArray)
-textListsSelector = mkSelector "textLists"
-
--- | @Selector@ for @setTextLists:@
-setTextListsSelector :: Selector '[Id NSArray] ()
-setTextListsSelector = mkSelector "setTextLists:"
-
--- | @Selector@ for @alignment@
-alignmentSelector :: Selector '[] NSTextAlignment
-alignmentSelector = mkSelector "alignment"
-
--- | @Selector@ for @setAlignment:@
-setAlignmentSelector :: Selector '[NSTextAlignment] ()
-setAlignmentSelector = mkSelector "setAlignment:"
-
 -- | @Selector@ for @tighteningFactorForTruncation@
 tighteningFactorForTruncationSelector :: Selector '[] CFloat
 tighteningFactorForTruncationSelector = mkSelector "tighteningFactorForTruncation"
@@ -560,6 +544,14 @@ textBlocksSelector = mkSelector "textBlocks"
 setTextBlocksSelector :: Selector '[Id NSArray] ()
 setTextBlocksSelector = mkSelector "setTextBlocks:"
 
+-- | @Selector@ for @textLists@
+textListsSelector :: Selector '[] (Id NSArray)
+textListsSelector = mkSelector "textLists"
+
+-- | @Selector@ for @setTextLists:@
+setTextListsSelector :: Selector '[Id NSArray] ()
+setTextListsSelector = mkSelector "setTextLists:"
+
 -- | @Selector@ for @headerLevel@
 headerLevelSelector :: Selector '[] CLong
 headerLevelSelector = mkSelector "headerLevel"
@@ -567,4 +559,12 @@ headerLevelSelector = mkSelector "headerLevel"
 -- | @Selector@ for @setHeaderLevel:@
 setHeaderLevelSelector :: Selector '[CLong] ()
 setHeaderLevelSelector = mkSelector "setHeaderLevel:"
+
+-- | @Selector@ for @lineBreakStrategy@
+lineBreakStrategySelector :: Selector '[] NSLineBreakStrategy
+lineBreakStrategySelector = mkSelector "lineBreakStrategy"
+
+-- | @Selector@ for @setLineBreakStrategy:@
+setLineBreakStrategySelector :: Selector '[NSLineBreakStrategy] ()
+setLineBreakStrategySelector = mkSelector "setLineBreakStrategy:"
 

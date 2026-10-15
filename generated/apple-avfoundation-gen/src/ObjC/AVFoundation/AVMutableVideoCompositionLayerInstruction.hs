@@ -30,36 +30,26 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Returns a new instance of AVMutableVideoCompositionLayerInstruction with no transform or opacity ramps and a trackID set to the specified track's trackID.
---
--- - Parameter track: A reference to an AVAssetTrack.
---
--- ObjC selector: @+ videoCompositionLayerInstructionWithAssetTrack:@
+-- | @+ videoCompositionLayerInstructionWithAssetTrack:@
 videoCompositionLayerInstructionWithAssetTrack :: IsAVAssetTrack track => track -> IO (Id AVMutableVideoCompositionLayerInstruction)
 videoCompositionLayerInstructionWithAssetTrack track =
   do
     cls' <- getRequiredClass "AVMutableVideoCompositionLayerInstruction"
     sendClassMessage cls' videoCompositionLayerInstructionWithAssetTrackSelector (toAVAssetTrack track)
 
--- | Returns a new instance of AVMutableVideoCompositionLayerInstruction with no transform or opacity ramps and a trackID initialized to kCMPersistentTrackID_Invalid.
---
--- ObjC selector: @+ videoCompositionLayerInstruction@
+-- | @+ videoCompositionLayerInstruction@
 videoCompositionLayerInstruction :: IO (Id AVMutableVideoCompositionLayerInstruction)
 videoCompositionLayerInstruction  =
   do
     cls' <- getRequiredClass "AVMutableVideoCompositionLayerInstruction"
     sendClassMessage cls' videoCompositionLayerInstructionSelector
 
--- | Indicates the trackID of the source track to which the compositor will apply the instruction.
---
--- ObjC selector: @- trackID@
+-- | @- trackID@
 trackID :: IsAVMutableVideoCompositionLayerInstruction avMutableVideoCompositionLayerInstruction => avMutableVideoCompositionLayerInstruction -> IO CInt
 trackID avMutableVideoCompositionLayerInstruction =
   sendMessage avMutableVideoCompositionLayerInstruction trackIDSelector
 
--- | Indicates the trackID of the source track to which the compositor will apply the instruction.
---
--- ObjC selector: @- setTrackID:@
+-- | @- setTrackID:@
 setTrackID :: IsAVMutableVideoCompositionLayerInstruction avMutableVideoCompositionLayerInstruction => avMutableVideoCompositionLayerInstruction -> CInt -> IO ()
 setTrackID avMutableVideoCompositionLayerInstruction value =
   sendMessage avMutableVideoCompositionLayerInstruction setTrackIDSelector value

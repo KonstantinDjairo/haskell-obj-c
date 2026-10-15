@@ -16,18 +16,12 @@ module ObjC.NetworkExtension.NEAppPushProvider
   , start
   , stopWithReason_completionHandler
   , reportIncomingCallWithUserInfo
-  , reportPushToTalkMessageWithUserInfo
   , handleTimerEvent
-  , unmatchEthernet
-  , providerConfiguration
   , handleTimerEventSelector
-  , providerConfigurationSelector
   , reportIncomingCallWithUserInfoSelector
-  , reportPushToTalkMessageWithUserInfoSelector
   , startSelector
   , startWithCompletionHandlerSelector
   , stopWithReason_completionHandlerSelector
-  , unmatchEthernetSelector
 
   -- * Enum types
   , NEProviderStopReason(NEProviderStopReason)
@@ -48,7 +42,6 @@ module ObjC.NetworkExtension.NEAppPushProvider
   , pattern NEProviderStopReasonConnectionFailed
   , pattern NEProviderStopReasonSleep
   , pattern NEProviderStopReasonAppUpdate
-  , pattern NEProviderStopReasonInternalError
 
   ) where
 
@@ -108,17 +101,6 @@ reportIncomingCallWithUserInfo :: (IsNEAppPushProvider neAppPushProvider, IsNSDi
 reportIncomingCallWithUserInfo neAppPushProvider userInfo =
   sendMessage neAppPushProvider reportIncomingCallWithUserInfoSelector (toNSDictionary userInfo)
 
--- | reportPushToTalkMessageWithUserInfo:userinfo:
---
--- This function is called by the provider when it receives a Push to Talk message on the connection.
---
--- @userInfo@ — A dictionary of custom information associated with the Push to Talk message, such as the active remote participant. This dictionary is passed to the PTChannelManagerDelegate of the containing app if the user is joined to a Push to Talk channel.
---
--- ObjC selector: @- reportPushToTalkMessageWithUserInfo:@
-reportPushToTalkMessageWithUserInfo :: (IsNEAppPushProvider neAppPushProvider, IsNSDictionary userInfo) => neAppPushProvider -> userInfo -> IO ()
-reportPushToTalkMessageWithUserInfo neAppPushProvider userInfo =
-  sendMessage neAppPushProvider reportPushToTalkMessageWithUserInfoSelector (toNSDictionary userInfo)
-
 -- | handleTimerEvent
 --
 -- This method is called by the framework periodically after every 60 seconds. Subclasses must override this method to perform necessary tasks.
@@ -127,24 +109,6 @@ reportPushToTalkMessageWithUserInfo neAppPushProvider userInfo =
 handleTimerEvent :: IsNEAppPushProvider neAppPushProvider => neAppPushProvider -> IO ()
 handleTimerEvent neAppPushProvider =
   sendMessage neAppPushProvider handleTimerEventSelector
-
--- | unmatchEthernet
---
--- This method is called by the provider when it does not require runtime while the device is connected to the current Ethernet network. This method is applicable only when NEAppPushManager has set matchEthernet property to YES and the provider is running because the device is connected to an Ethernet network.
---
--- ObjC selector: @- unmatchEthernet@
-unmatchEthernet :: IsNEAppPushProvider neAppPushProvider => neAppPushProvider -> IO ()
-unmatchEthernet neAppPushProvider =
-  sendMessage neAppPushProvider unmatchEthernetSelector
-
--- | providerConfiguration
---
--- A dictionary containing current vendor-specific configuration parameters. This dictionary is provided by NEAppPushManager. Use KVO to watch for changes.
---
--- ObjC selector: @- providerConfiguration@
-providerConfiguration :: IsNEAppPushProvider neAppPushProvider => neAppPushProvider -> IO (Id NSDictionary)
-providerConfiguration neAppPushProvider =
-  sendMessage neAppPushProvider providerConfigurationSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -166,19 +130,7 @@ stopWithReason_completionHandlerSelector = mkSelector "stopWithReason:completion
 reportIncomingCallWithUserInfoSelector :: Selector '[Id NSDictionary] ()
 reportIncomingCallWithUserInfoSelector = mkSelector "reportIncomingCallWithUserInfo:"
 
--- | @Selector@ for @reportPushToTalkMessageWithUserInfo:@
-reportPushToTalkMessageWithUserInfoSelector :: Selector '[Id NSDictionary] ()
-reportPushToTalkMessageWithUserInfoSelector = mkSelector "reportPushToTalkMessageWithUserInfo:"
-
 -- | @Selector@ for @handleTimerEvent@
 handleTimerEventSelector :: Selector '[] ()
 handleTimerEventSelector = mkSelector "handleTimerEvent"
-
--- | @Selector@ for @unmatchEthernet@
-unmatchEthernetSelector :: Selector '[] ()
-unmatchEthernetSelector = mkSelector "unmatchEthernet"
-
--- | @Selector@ for @providerConfiguration@
-providerConfigurationSelector :: Selector '[] (Id NSDictionary)
-providerConfigurationSelector = mkSelector "providerConfiguration"
 

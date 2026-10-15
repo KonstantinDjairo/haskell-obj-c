@@ -8,12 +8,8 @@ module ObjC.PhotosUI.PHPickerViewController
   ( PHPickerViewController
   , IsPHPickerViewController(..)
   , initWithConfiguration
-  , updatePickerUsingConfiguration
   , deselectAssetsWithIdentifiers
   , moveAssetWithIdentifier_afterAssetWithIdentifier
-  , scrollToInitialPosition
-  , zoomIn
-  , zoomOut
   , new
   , init_
   , initWithNibName_bundle
@@ -30,11 +26,7 @@ module ObjC.PhotosUI.PHPickerViewController
   , initWithNibName_bundleSelector
   , moveAssetWithIdentifier_afterAssetWithIdentifierSelector
   , newSelector
-  , scrollToInitialPositionSelector
   , setDelegateSelector
-  , updatePickerUsingConfigurationSelector
-  , zoomInSelector
-  , zoomOutSelector
 
 
   ) where
@@ -58,13 +50,6 @@ initWithConfiguration :: (IsPHPickerViewController phPickerViewController, IsPHP
 initWithConfiguration phPickerViewController configuration =
   sendOwnedMessage phPickerViewController initWithConfigurationSelector (toPHPickerConfiguration configuration)
 
--- | Updates the picker using the configuration.
---
--- ObjC selector: @- updatePickerUsingConfiguration:@
-updatePickerUsingConfiguration :: (IsPHPickerViewController phPickerViewController, IsPHPickerUpdateConfiguration configuration) => phPickerViewController -> configuration -> IO ()
-updatePickerUsingConfiguration phPickerViewController configuration =
-  sendMessage phPickerViewController updatePickerUsingConfigurationSelector (toPHPickerUpdateConfiguration configuration)
-
 -- | Deselects selected assets in the picker.
 --
 -- Does nothing if asset identifiers are invalid or not selected, or @photoLibrary@ is not specified in the configuration.
@@ -82,27 +67,6 @@ deselectAssetsWithIdentifiers phPickerViewController identifiers =
 moveAssetWithIdentifier_afterAssetWithIdentifier :: (IsPHPickerViewController phPickerViewController, IsNSString identifier, IsNSString afterIdentifier) => phPickerViewController -> identifier -> afterIdentifier -> IO ()
 moveAssetWithIdentifier_afterAssetWithIdentifier phPickerViewController identifier afterIdentifier =
   sendMessage phPickerViewController moveAssetWithIdentifier_afterAssetWithIdentifierSelector (toNSString identifier) (toNSString afterIdentifier)
-
--- | Scrolls content to the initial position if possible.
---
--- ObjC selector: @- scrollToInitialPosition@
-scrollToInitialPosition :: IsPHPickerViewController phPickerViewController => phPickerViewController -> IO ()
-scrollToInitialPosition phPickerViewController =
-  sendMessage phPickerViewController scrollToInitialPositionSelector
-
--- | Zooms in content if possible.
---
--- ObjC selector: @- zoomIn@
-zoomIn :: IsPHPickerViewController phPickerViewController => phPickerViewController -> IO ()
-zoomIn phPickerViewController =
-  sendMessage phPickerViewController zoomInSelector
-
--- | Zooms out content if possible.
---
--- ObjC selector: @- zoomOut@
-zoomOut :: IsPHPickerViewController phPickerViewController => phPickerViewController -> IO ()
-zoomOut phPickerViewController =
-  sendMessage phPickerViewController zoomOutSelector
 
 -- | @+ new@
 new :: IO (Id PHPickerViewController)
@@ -155,10 +119,6 @@ setDelegate phPickerViewController value =
 initWithConfigurationSelector :: Selector '[Id PHPickerConfiguration] (Id PHPickerViewController)
 initWithConfigurationSelector = mkSelector "initWithConfiguration:"
 
--- | @Selector@ for @updatePickerUsingConfiguration:@
-updatePickerUsingConfigurationSelector :: Selector '[Id PHPickerUpdateConfiguration] ()
-updatePickerUsingConfigurationSelector = mkSelector "updatePickerUsingConfiguration:"
-
 -- | @Selector@ for @deselectAssetsWithIdentifiers:@
 deselectAssetsWithIdentifiersSelector :: Selector '[Id NSArray] ()
 deselectAssetsWithIdentifiersSelector = mkSelector "deselectAssetsWithIdentifiers:"
@@ -166,18 +126,6 @@ deselectAssetsWithIdentifiersSelector = mkSelector "deselectAssetsWithIdentifier
 -- | @Selector@ for @moveAssetWithIdentifier:afterAssetWithIdentifier:@
 moveAssetWithIdentifier_afterAssetWithIdentifierSelector :: Selector '[Id NSString, Id NSString] ()
 moveAssetWithIdentifier_afterAssetWithIdentifierSelector = mkSelector "moveAssetWithIdentifier:afterAssetWithIdentifier:"
-
--- | @Selector@ for @scrollToInitialPosition@
-scrollToInitialPositionSelector :: Selector '[] ()
-scrollToInitialPositionSelector = mkSelector "scrollToInitialPosition"
-
--- | @Selector@ for @zoomIn@
-zoomInSelector :: Selector '[] ()
-zoomInSelector = mkSelector "zoomIn"
-
--- | @Selector@ for @zoomOut@
-zoomOutSelector :: Selector '[] ()
-zoomOutSelector = mkSelector "zoomOut"
 
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id PHPickerViewController)

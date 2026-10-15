@@ -9,11 +9,11 @@ dependencies:
 - libffi
 - apple-corelocation-gen
 - apple-foundation-gen
-- apple-intents-gen
 
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -29,7 +29,6 @@ library:
   - ObjC.UserNotifications.UNNotificationAction
   - ObjC.UserNotifications.UNNotificationActionIcon
   - ObjC.UserNotifications.UNNotificationAttachment
-  - ObjC.UserNotifications.UNNotificationAttributedMessageContext
   - ObjC.UserNotifications.UNNotificationCategory
   - ObjC.UserNotifications.UNNotificationContent
   - ObjC.UserNotifications.UNNotificationRequest

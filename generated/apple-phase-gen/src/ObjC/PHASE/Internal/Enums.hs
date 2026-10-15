@@ -84,44 +84,6 @@ instance ObjCReturn PHASEAssetType where
   fromRetained x = pure (PHASEAssetType x)
   fromOwned x = pure (PHASEAssetType x)
 
--- | PHASEAutomaticHeadTrackingFlags
---
--- Automatic Head-Tracking flags.
---
--- PHASEAutomaticHeadTrackingFlagOrientation
---
--- On capable devices, listener orientation will be automatically rotated based on user's head-orientation.
---
--- PHASEAutomaticHeadTrackingFlagPosition
---
--- On capable devices, listener position will be automatically set based on user's position.
--- | @PHASEAutomaticHeadTrackingFlags@ (bitmask)
-newtype PHASEAutomaticHeadTrackingFlags = PHASEAutomaticHeadTrackingFlags CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup PHASEAutomaticHeadTrackingFlags where
-  (<>) = (.|.)
-
-instance Monoid PHASEAutomaticHeadTrackingFlags where
-  mempty = PHASEAutomaticHeadTrackingFlags 0
-
-pattern PHASEAutomaticHeadTrackingFlagOrientation :: PHASEAutomaticHeadTrackingFlags
-pattern PHASEAutomaticHeadTrackingFlagOrientation = PHASEAutomaticHeadTrackingFlags 1
-
-pattern PHASEAutomaticHeadTrackingFlagPosition :: PHASEAutomaticHeadTrackingFlags
-pattern PHASEAutomaticHeadTrackingFlagPosition = PHASEAutomaticHeadTrackingFlags 2
-
-instance ObjCArgument PHASEAutomaticHeadTrackingFlags where
-  withObjCArg (PHASEAutomaticHeadTrackingFlags x) k = k (argCULong x)
-
-instance ObjCReturn PHASEAutomaticHeadTrackingFlags where
-  type RawReturn PHASEAutomaticHeadTrackingFlags = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PHASEAutomaticHeadTrackingFlags x)
-  fromOwned x = pure (PHASEAutomaticHeadTrackingFlags x)
-
 -- | PHASECalibrationMode
 --
 -- Calibration mode.
@@ -541,38 +503,6 @@ instance ObjCReturn PHASEPushStreamCompletionCallbackCondition where
   fromRetained x = pure (PHASEPushStreamCompletionCallbackCondition x)
   fromOwned x = pure (PHASEPushStreamCompletionCallbackCondition x)
 
--- | PHASERenderingMode
---
--- Rendering Mode for a PHASE Engine.
---
--- PHASERenderingModeLocal
---
--- A local engine is connected to an audio device and renders audio in real-time in the application process.        In this mode the engine receives all its inputs from the client such as acoustic configuration.        Updating an engine configured with @PHASERenderingModeLocal@ executes any pending API commands locally.
---
--- PHASERenderingModeClient
---
--- A client engine is connected to an audio device and renders audio in real-time in a secure process.        In this mode the engine receives inputs from the client and renders in a server.        In supported platforms this allows the server to apply privacy sensitive effects such as room virtual acoustics, low latency head-tracking and personalized Spatial Audio.        Updating an engine configured with @PHASERenderingModeClient@ syncs any pending API commands to the server for processing.
--- | @PHASERenderingMode@
-newtype PHASERenderingMode = PHASERenderingMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern PHASERenderingModeLocal :: PHASERenderingMode
-pattern PHASERenderingModeLocal = PHASERenderingMode 0
-
-pattern PHASERenderingModeClient :: PHASERenderingMode
-pattern PHASERenderingModeClient = PHASERenderingMode 1
-
-instance ObjCArgument PHASERenderingMode where
-  withObjCArg (PHASERenderingMode x) k = k (argCLong x)
-
-instance ObjCReturn PHASERenderingMode where
-  type RawReturn PHASERenderingMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (PHASERenderingMode x)
-  fromOwned x = pure (PHASERenderingMode x)
-
 -- | PHASERenderingState
 --
 -- Rendering state for sound events.
@@ -870,7 +800,7 @@ instance ObjCReturn PHASESpatialPipelineFlags where
 --
 -- PHASESpatializationModeAlwaysUseBinaural
 --
--- Always use binaural rendering, whether playing back on headphones or speakers.        Note that when rendering binaural over built-in speakers, special filters are applied to achieve the expected behavior.
+-- Always use binaural rendering, whether playing back on headphones or speakers.        Note that when rendering binaural over speakers, special filters are applied to achieve the expected behavior.
 --
 -- PHASESpatializationModeAlwaysUseChannelBased
 --

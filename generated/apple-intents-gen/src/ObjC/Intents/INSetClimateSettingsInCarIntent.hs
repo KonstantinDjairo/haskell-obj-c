@@ -143,7 +143,7 @@ climateZone inSetClimateSettingsInCarIntent =
   sendMessage inSetClimateSettingsInCarIntent climateZoneSelector
 
 -- | @- carName@
-carName :: IsINSetClimateSettingsInCarIntent inSetClimateSettingsInCarIntent => inSetClimateSettingsInCarIntent -> IO (Id INSpeakableString)
+carName :: IsINSetClimateSettingsInCarIntent inSetClimateSettingsInCarIntent => inSetClimateSettingsInCarIntent -> IO RawId
 carName inSetClimateSettingsInCarIntent =
   sendMessage inSetClimateSettingsInCarIntent carNameSelector
 
@@ -204,6 +204,6 @@ climateZoneSelector :: Selector '[] INCarSeat
 climateZoneSelector = mkSelector "climateZone"
 
 -- | @Selector@ for @carName@
-carNameSelector :: Selector '[] (Id INSpeakableString)
+carNameSelector :: Selector '[] RawId
 carNameSelector = mkSelector "carName"
 

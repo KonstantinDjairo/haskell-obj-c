@@ -148,21 +148,6 @@ pattern ASAuthorizationErrorFailed = ASAuthorizationError 1004
 pattern ASAuthorizationErrorNotInteractive :: ASAuthorizationError
 pattern ASAuthorizationErrorNotInteractive = ASAuthorizationError 1005
 
-pattern ASAuthorizationErrorMatchedExcludedCredential :: ASAuthorizationError
-pattern ASAuthorizationErrorMatchedExcludedCredential = ASAuthorizationError 1006
-
-pattern ASAuthorizationErrorCredentialImport :: ASAuthorizationError
-pattern ASAuthorizationErrorCredentialImport = ASAuthorizationError 1007
-
-pattern ASAuthorizationErrorCredentialExport :: ASAuthorizationError
-pattern ASAuthorizationErrorCredentialExport = ASAuthorizationError 1008
-
-pattern ASAuthorizationErrorPreferSignInWithApple :: ASAuthorizationError
-pattern ASAuthorizationErrorPreferSignInWithApple = ASAuthorizationError 1009
-
-pattern ASAuthorizationErrorDeviceNotConfiguredForPasskeyCreation :: ASAuthorizationError
-pattern ASAuthorizationErrorDeviceNotConfiguredForPasskeyCreation = ASAuthorizationError 1010
-
 instance ObjCArgument ASAuthorizationError where
   withObjCArg (ASAuthorizationError x) k = k (argCLong x)
 
@@ -172,27 +157,6 @@ instance ObjCReturn ASAuthorizationError where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (ASAuthorizationError x)
   fromOwned x = pure (ASAuthorizationError x)
-
--- | @ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle@
-newtype ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle = ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyleStandard :: ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle
-pattern ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyleStandard = ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle 0
-
-pattern ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyleConditional :: ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle
-pattern ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyleConditional = ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle 1
-
-instance ObjCArgument ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle where
-  withObjCArg (ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle where
-  type RawReturn ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle x)
-  fromOwned x = pure (ASAuthorizationPlatformPublicKeyCredentialRegistrationRequestStyle x)
 
 -- | @ASAuthorizationProviderExtensionAuthenticationMethod@
 newtype ASAuthorizationProviderExtensionAuthenticationMethod = ASAuthorizationProviderExtensionAuthenticationMethod CLong
@@ -205,9 +169,6 @@ pattern ASAuthorizationProviderExtensionAuthenticationMethodPassword = ASAuthori
 pattern ASAuthorizationProviderExtensionAuthenticationMethodUserSecureEnclaveKey :: ASAuthorizationProviderExtensionAuthenticationMethod
 pattern ASAuthorizationProviderExtensionAuthenticationMethodUserSecureEnclaveKey = ASAuthorizationProviderExtensionAuthenticationMethod 2
 
-pattern ASAuthorizationProviderExtensionAuthenticationMethodSmartCard :: ASAuthorizationProviderExtensionAuthenticationMethod
-pattern ASAuthorizationProviderExtensionAuthenticationMethodSmartCard = ASAuthorizationProviderExtensionAuthenticationMethod 3
-
 instance ObjCArgument ASAuthorizationProviderExtensionAuthenticationMethod where
   withObjCArg (ASAuthorizationProviderExtensionAuthenticationMethod x) k = k (argCLong x)
 
@@ -217,30 +178,6 @@ instance ObjCReturn ASAuthorizationProviderExtensionAuthenticationMethod where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (ASAuthorizationProviderExtensionAuthenticationMethod x)
   fromOwned x = pure (ASAuthorizationProviderExtensionAuthenticationMethod x)
-
--- | @ASAuthorizationProviderExtensionFederationType@
-newtype ASAuthorizationProviderExtensionFederationType = ASAuthorizationProviderExtensionFederationType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASAuthorizationProviderExtensionFederationTypeNone :: ASAuthorizationProviderExtensionFederationType
-pattern ASAuthorizationProviderExtensionFederationTypeNone = ASAuthorizationProviderExtensionFederationType 0
-
-pattern ASAuthorizationProviderExtensionFederationTypeWSTrust :: ASAuthorizationProviderExtensionFederationType
-pattern ASAuthorizationProviderExtensionFederationTypeWSTrust = ASAuthorizationProviderExtensionFederationType 1
-
-pattern ASAuthorizationProviderExtensionFederationTypeDynamicWSTrust :: ASAuthorizationProviderExtensionFederationType
-pattern ASAuthorizationProviderExtensionFederationTypeDynamicWSTrust = ASAuthorizationProviderExtensionFederationType 2
-
-instance ObjCArgument ASAuthorizationProviderExtensionFederationType where
-  withObjCArg (ASAuthorizationProviderExtensionFederationType x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationProviderExtensionFederationType where
-  type RawReturn ASAuthorizationProviderExtensionFederationType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationProviderExtensionFederationType x)
-  fromOwned x = pure (ASAuthorizationProviderExtensionFederationType x)
 
 -- | @ASAuthorizationProviderExtensionKeyType@
 newtype ASAuthorizationProviderExtensionKeyType = ASAuthorizationProviderExtensionKeyType CLong
@@ -256,21 +193,6 @@ pattern ASAuthorizationProviderExtensionKeyTypeUserDeviceEncryption = ASAuthoriz
 pattern ASAuthorizationProviderExtensionKeyTypeUserSecureEnclaveKey :: ASAuthorizationProviderExtensionKeyType
 pattern ASAuthorizationProviderExtensionKeyTypeUserSecureEnclaveKey = ASAuthorizationProviderExtensionKeyType 3
 
-pattern ASAuthorizationProviderExtensionKeyTypeSharedDeviceSigning :: ASAuthorizationProviderExtensionKeyType
-pattern ASAuthorizationProviderExtensionKeyTypeSharedDeviceSigning = ASAuthorizationProviderExtensionKeyType 4
-
-pattern ASAuthorizationProviderExtensionKeyTypeSharedDeviceEncryption :: ASAuthorizationProviderExtensionKeyType
-pattern ASAuthorizationProviderExtensionKeyTypeSharedDeviceEncryption = ASAuthorizationProviderExtensionKeyType 5
-
-pattern ASAuthorizationProviderExtensionKeyTypeCurrentDeviceSigning :: ASAuthorizationProviderExtensionKeyType
-pattern ASAuthorizationProviderExtensionKeyTypeCurrentDeviceSigning = ASAuthorizationProviderExtensionKeyType 10
-
-pattern ASAuthorizationProviderExtensionKeyTypeCurrentDeviceEncryption :: ASAuthorizationProviderExtensionKeyType
-pattern ASAuthorizationProviderExtensionKeyTypeCurrentDeviceEncryption = ASAuthorizationProviderExtensionKeyType 11
-
-pattern ASAuthorizationProviderExtensionKeyTypeUserSmartCard :: ASAuthorizationProviderExtensionKeyType
-pattern ASAuthorizationProviderExtensionKeyTypeUserSmartCard = ASAuthorizationProviderExtensionKeyType 20
-
 instance ObjCArgument ASAuthorizationProviderExtensionKeyType where
   withObjCArg (ASAuthorizationProviderExtensionKeyType x) k = k (argCLong x)
 
@@ -280,27 +202,6 @@ instance ObjCReturn ASAuthorizationProviderExtensionKeyType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (ASAuthorizationProviderExtensionKeyType x)
   fromOwned x = pure (ASAuthorizationProviderExtensionKeyType x)
-
--- | @ASAuthorizationProviderExtensionPlatformSSOProtocolVersion@
-newtype ASAuthorizationProviderExtensionPlatformSSOProtocolVersion = ASAuthorizationProviderExtensionPlatformSSOProtocolVersion CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASAuthorizationProviderExtensionPlatformSSOProtocolVersion1_0 :: ASAuthorizationProviderExtensionPlatformSSOProtocolVersion
-pattern ASAuthorizationProviderExtensionPlatformSSOProtocolVersion1_0 = ASAuthorizationProviderExtensionPlatformSSOProtocolVersion 0
-
-pattern ASAuthorizationProviderExtensionPlatformSSOProtocolVersion2_0 :: ASAuthorizationProviderExtensionPlatformSSOProtocolVersion
-pattern ASAuthorizationProviderExtensionPlatformSSOProtocolVersion2_0 = ASAuthorizationProviderExtensionPlatformSSOProtocolVersion 1
-
-instance ObjCArgument ASAuthorizationProviderExtensionPlatformSSOProtocolVersion where
-  withObjCArg (ASAuthorizationProviderExtensionPlatformSSOProtocolVersion x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationProviderExtensionPlatformSSOProtocolVersion where
-  type RawReturn ASAuthorizationProviderExtensionPlatformSSOProtocolVersion = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationProviderExtensionPlatformSSOProtocolVersion x)
-  fromOwned x = pure (ASAuthorizationProviderExtensionPlatformSSOProtocolVersion x)
 
 -- | @ASAuthorizationProviderExtensionRegistrationResult@
 newtype ASAuthorizationProviderExtensionRegistrationResult = ASAuthorizationProviderExtensionRegistrationResult CLong
@@ -349,21 +250,6 @@ pattern ASAuthorizationProviderExtensionRequestOptionsUserInteractionEnabled = A
 pattern ASAuthorizationProviderExtensionRequestOptionsRegistrationRepair :: ASAuthorizationProviderExtensionRequestOptions
 pattern ASAuthorizationProviderExtensionRequestOptionsRegistrationRepair = ASAuthorizationProviderExtensionRequestOptions 2
 
-pattern ASAuthorizationProviderExtensionRequestOptionsRegistrationSharedDeviceKeys :: ASAuthorizationProviderExtensionRequestOptions
-pattern ASAuthorizationProviderExtensionRequestOptionsRegistrationSharedDeviceKeys = ASAuthorizationProviderExtensionRequestOptions 4
-
-pattern ASAuthorizationProviderExtensionRequestOptionsRegistrationDeviceKeyMigration :: ASAuthorizationProviderExtensionRequestOptions
-pattern ASAuthorizationProviderExtensionRequestOptionsRegistrationDeviceKeyMigration = ASAuthorizationProviderExtensionRequestOptions 8
-
-pattern ASAuthorizationProviderExtensionRequestOptionsStrongerKeyAvailable :: ASAuthorizationProviderExtensionRequestOptions
-pattern ASAuthorizationProviderExtensionRequestOptionsStrongerKeyAvailable = ASAuthorizationProviderExtensionRequestOptions 16
-
-pattern ASAuthorizationProviderExtensionRequestOptionsUserKeyInvalid :: ASAuthorizationProviderExtensionRequestOptions
-pattern ASAuthorizationProviderExtensionRequestOptionsUserKeyInvalid = ASAuthorizationProviderExtensionRequestOptions 32
-
-pattern ASAuthorizationProviderExtensionRequestOptionsSetupAssistant :: ASAuthorizationProviderExtensionRequestOptions
-pattern ASAuthorizationProviderExtensionRequestOptionsSetupAssistant = ASAuthorizationProviderExtensionRequestOptions 64
-
 instance ObjCArgument ASAuthorizationProviderExtensionRequestOptions where
   withObjCArg (ASAuthorizationProviderExtensionRequestOptions x) k = k (argCULong x)
 
@@ -373,165 +259,6 @@ instance ObjCReturn ASAuthorizationProviderExtensionRequestOptions where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (ASAuthorizationProviderExtensionRequestOptions x)
   fromOwned x = pure (ASAuthorizationProviderExtensionRequestOptions x)
-
--- | @ASAuthorizationProviderExtensionSupportedGrantTypes@ (bitmask)
-newtype ASAuthorizationProviderExtensionSupportedGrantTypes = ASAuthorizationProviderExtensionSupportedGrantTypes CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup ASAuthorizationProviderExtensionSupportedGrantTypes where
-  (<>) = (.|.)
-
-instance Monoid ASAuthorizationProviderExtensionSupportedGrantTypes where
-  mempty = ASAuthorizationProviderExtensionSupportedGrantTypes 0
-
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesNone :: ASAuthorizationProviderExtensionSupportedGrantTypes
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesNone = ASAuthorizationProviderExtensionSupportedGrantTypes 0
-
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesPassword :: ASAuthorizationProviderExtensionSupportedGrantTypes
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesPassword = ASAuthorizationProviderExtensionSupportedGrantTypes 1
-
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesJWTBearer :: ASAuthorizationProviderExtensionSupportedGrantTypes
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesJWTBearer = ASAuthorizationProviderExtensionSupportedGrantTypes 2
-
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesSAML1_1 :: ASAuthorizationProviderExtensionSupportedGrantTypes
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesSAML1_1 = ASAuthorizationProviderExtensionSupportedGrantTypes 4
-
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesSAML2_0 :: ASAuthorizationProviderExtensionSupportedGrantTypes
-pattern ASAuthorizationProviderExtensionSupportedGrantTypesSAML2_0 = ASAuthorizationProviderExtensionSupportedGrantTypes 8
-
-instance ObjCArgument ASAuthorizationProviderExtensionSupportedGrantTypes where
-  withObjCArg (ASAuthorizationProviderExtensionSupportedGrantTypes x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationProviderExtensionSupportedGrantTypes where
-  type RawReturn ASAuthorizationProviderExtensionSupportedGrantTypes = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationProviderExtensionSupportedGrantTypes x)
-  fromOwned x = pure (ASAuthorizationProviderExtensionSupportedGrantTypes x)
-
--- | @ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy@ (bitmask)
-newtype ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy = ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy where
-  (<>) = (.|.)
-
-instance Monoid ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy where
-  mempty = ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy 0
-
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyNone :: ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyNone = ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy 0
-
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyTouchIDOrWatchCurrentSet :: ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyTouchIDOrWatchCurrentSet = ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy 1
-
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyTouchIDOrWatchAny :: ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyTouchIDOrWatchAny = ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy 2
-
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyReuseDuringUnlock :: ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyReuseDuringUnlock = ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy 4
-
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyPasswordFallback :: ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy
-pattern ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicyPasswordFallback = ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy 8
-
-instance ObjCArgument ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy where
-  withObjCArg (ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy x) k = k (argCULong x)
-
-instance ObjCReturn ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy where
-  type RawReturn ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy x)
-  fromOwned x = pure (ASAuthorizationProviderExtensionUserSecureEnclaveKeyBiometricPolicy x)
-
--- | @ASAuthorizationPublicKeyCredentialAttachment@
-newtype ASAuthorizationPublicKeyCredentialAttachment = ASAuthorizationPublicKeyCredentialAttachment CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASAuthorizationPublicKeyCredentialAttachmentPlatform :: ASAuthorizationPublicKeyCredentialAttachment
-pattern ASAuthorizationPublicKeyCredentialAttachmentPlatform = ASAuthorizationPublicKeyCredentialAttachment 0
-
-pattern ASAuthorizationPublicKeyCredentialAttachmentCrossPlatform :: ASAuthorizationPublicKeyCredentialAttachment
-pattern ASAuthorizationPublicKeyCredentialAttachmentCrossPlatform = ASAuthorizationPublicKeyCredentialAttachment 1
-
-instance ObjCArgument ASAuthorizationPublicKeyCredentialAttachment where
-  withObjCArg (ASAuthorizationPublicKeyCredentialAttachment x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationPublicKeyCredentialAttachment where
-  type RawReturn ASAuthorizationPublicKeyCredentialAttachment = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationPublicKeyCredentialAttachment x)
-  fromOwned x = pure (ASAuthorizationPublicKeyCredentialAttachment x)
-
--- | @ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation@
-newtype ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation = ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperationRead :: ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation
-pattern ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperationRead = ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation 0
-
-pattern ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperationWrite :: ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation
-pattern ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperationWrite = ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation 1
-
-instance ObjCArgument ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation where
-  withObjCArg (ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation where
-  type RawReturn ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation x)
-  fromOwned x = pure (ASAuthorizationPublicKeyCredentialLargeBlobAssertionOperation x)
-
--- | @ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement@
-newtype ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement = ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirementRequired :: ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement
-pattern ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirementRequired = ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement 0
-
-pattern ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirementPreferred :: ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement
-pattern ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirementPreferred = ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement 1
-
-instance ObjCArgument ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement where
-  withObjCArg (ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement where
-  type RawReturn ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement x)
-  fromOwned x = pure (ASAuthorizationPublicKeyCredentialLargeBlobSupportRequirement x)
-
--- | @ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState@
-newtype ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState = ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationStateAuthorized :: ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState
-pattern ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationStateAuthorized = ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState 0
-
-pattern ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationStateDenied :: ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState
-pattern ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationStateDenied = ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState 1
-
-pattern ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationStateNotDetermined :: ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState
-pattern ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationStateNotDetermined = ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState 2
-
-instance ObjCArgument ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState where
-  withObjCArg (ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState x) k = k (argCLong x)
-
-instance ObjCReturn ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState where
-  type RawReturn ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState x)
-  fromOwned x = pure (ASAuthorizationWebBrowserPublicKeyCredentialManagerAuthorizationState x)
 
 -- | ASCredentialIdentityStoreErrorCode
 --
@@ -564,75 +291,6 @@ instance ObjCReturn ASCredentialIdentityStoreErrorCode where
   fromRetained x = pure (ASCredentialIdentityStoreErrorCode x)
   fromOwned x = pure (ASCredentialIdentityStoreErrorCode x)
 
--- | @ASCredentialIdentityTypes@ (bitmask)
-newtype ASCredentialIdentityTypes = ASCredentialIdentityTypes CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup ASCredentialIdentityTypes where
-  (<>) = (.|.)
-
-instance Monoid ASCredentialIdentityTypes where
-  mempty = ASCredentialIdentityTypes 0
-
-pattern ASCredentialIdentityTypesAll :: ASCredentialIdentityTypes
-pattern ASCredentialIdentityTypesAll = ASCredentialIdentityTypes 0
-
-pattern ASCredentialIdentityTypesPassword :: ASCredentialIdentityTypes
-pattern ASCredentialIdentityTypesPassword = ASCredentialIdentityTypes 1
-
-pattern ASCredentialIdentityTypesPasskey :: ASCredentialIdentityTypes
-pattern ASCredentialIdentityTypesPasskey = ASCredentialIdentityTypes 2
-
-pattern ASCredentialIdentityTypesOneTimeCode :: ASCredentialIdentityTypes
-pattern ASCredentialIdentityTypesOneTimeCode = ASCredentialIdentityTypes 4
-
-instance ObjCArgument ASCredentialIdentityTypes where
-  withObjCArg (ASCredentialIdentityTypes x) k = k (argCULong x)
-
-instance ObjCReturn ASCredentialIdentityTypes where
-  type RawReturn ASCredentialIdentityTypes = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASCredentialIdentityTypes x)
-  fromOwned x = pure (ASCredentialIdentityTypes x)
-
--- | ASCredentialRequestType
---
--- ASCredentialRequestTypePassword Password credential type.
---
--- ASCredentialRequestTypePasskeyAssertion Passkey assertion credential type.
---
--- ASCredentialRequestTypePasskeyRegistration Passkey registration credential type.
---
--- ASCredentialRequestTypeOneTimeCode One Time Code credential type.
--- | @ASCredentialRequestType@
-newtype ASCredentialRequestType = ASCredentialRequestType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASCredentialRequestTypePassword :: ASCredentialRequestType
-pattern ASCredentialRequestTypePassword = ASCredentialRequestType 0
-
-pattern ASCredentialRequestTypePasskeyAssertion :: ASCredentialRequestType
-pattern ASCredentialRequestTypePasskeyAssertion = ASCredentialRequestType 1
-
-pattern ASCredentialRequestTypePasskeyRegistration :: ASCredentialRequestType
-pattern ASCredentialRequestTypePasskeyRegistration = ASCredentialRequestType 2
-
-pattern ASCredentialRequestTypeOneTimeCode :: ASCredentialRequestType
-pattern ASCredentialRequestTypeOneTimeCode = ASCredentialRequestType 3
-
-instance ObjCArgument ASCredentialRequestType where
-  withObjCArg (ASCredentialRequestType x) k = k (argCLong x)
-
-instance ObjCReturn ASCredentialRequestType where
-  type RawReturn ASCredentialRequestType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASCredentialRequestType x)
-  fromOwned x = pure (ASCredentialRequestType x)
-
 -- | ASCredentialServiceIdentifierType
 --
 -- The type of value represented by the service identifier.
@@ -650,9 +308,6 @@ pattern ASCredentialServiceIdentifierTypeDomain = ASCredentialServiceIdentifierT
 
 pattern ASCredentialServiceIdentifierTypeURL :: ASCredentialServiceIdentifierType
 pattern ASCredentialServiceIdentifierTypeURL = ASCredentialServiceIdentifierType 1
-
-pattern ASCredentialServiceIdentifierTypeApp :: ASCredentialServiceIdentifierType
-pattern ASCredentialServiceIdentifierTypeApp = ASCredentialServiceIdentifierType 2
 
 instance ObjCArgument ASCredentialServiceIdentifierType where
   withObjCArg (ASCredentialServiceIdentifierType x) k = k (argCLong x)
@@ -681,9 +336,6 @@ pattern ASExtensionErrorCodeUserInteractionRequired = ASExtensionErrorCode 100
 pattern ASExtensionErrorCodeCredentialIdentityNotFound :: ASExtensionErrorCode
 pattern ASExtensionErrorCodeCredentialIdentityNotFound = ASExtensionErrorCode 101
 
-pattern ASExtensionErrorCodeMatchedExcludedCredential :: ASExtensionErrorCode
-pattern ASExtensionErrorCodeMatchedExcludedCredential = ASExtensionErrorCode 102
-
 instance ObjCArgument ASExtensionErrorCode where
   withObjCArg (ASExtensionErrorCode x) k = k (argCLong x)
 
@@ -693,85 +345,6 @@ instance ObjCReturn ASExtensionErrorCode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (ASExtensionErrorCode x)
   fromOwned x = pure (ASExtensionErrorCode x)
-
--- | @ASPublicKeyCredentialClientDataCrossOriginValue@
-newtype ASPublicKeyCredentialClientDataCrossOriginValue = ASPublicKeyCredentialClientDataCrossOriginValue CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASPublicKeyCredentialClientDataCrossOriginValueNotSet :: ASPublicKeyCredentialClientDataCrossOriginValue
-pattern ASPublicKeyCredentialClientDataCrossOriginValueNotSet = ASPublicKeyCredentialClientDataCrossOriginValue 0
-
-pattern ASPublicKeyCredentialClientDataCrossOriginValueCrossOrigin :: ASPublicKeyCredentialClientDataCrossOriginValue
-pattern ASPublicKeyCredentialClientDataCrossOriginValueCrossOrigin = ASPublicKeyCredentialClientDataCrossOriginValue 1
-
-pattern ASPublicKeyCredentialClientDataCrossOriginValueSameOriginWithAncestors :: ASPublicKeyCredentialClientDataCrossOriginValue
-pattern ASPublicKeyCredentialClientDataCrossOriginValueSameOriginWithAncestors = ASPublicKeyCredentialClientDataCrossOriginValue 2
-
-instance ObjCArgument ASPublicKeyCredentialClientDataCrossOriginValue where
-  withObjCArg (ASPublicKeyCredentialClientDataCrossOriginValue x) k = k (argCLong x)
-
-instance ObjCReturn ASPublicKeyCredentialClientDataCrossOriginValue where
-  type RawReturn ASPublicKeyCredentialClientDataCrossOriginValue = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASPublicKeyCredentialClientDataCrossOriginValue x)
-  fromOwned x = pure (ASPublicKeyCredentialClientDataCrossOriginValue x)
-
--- | @ASSavePasswordRequestEvent@
-newtype ASSavePasswordRequestEvent = ASSavePasswordRequestEvent CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASSavePasswordRequestEventUserInitiated :: ASSavePasswordRequestEvent
-pattern ASSavePasswordRequestEventUserInitiated = ASSavePasswordRequestEvent 0
-
-pattern ASSavePasswordRequestEventFormDidDisappear :: ASSavePasswordRequestEvent
-pattern ASSavePasswordRequestEventFormDidDisappear = ASSavePasswordRequestEvent 1
-
-pattern ASSavePasswordRequestEventGeneratedPasswordFilled :: ASSavePasswordRequestEvent
-pattern ASSavePasswordRequestEventGeneratedPasswordFilled = ASSavePasswordRequestEvent 2
-
-instance ObjCArgument ASSavePasswordRequestEvent where
-  withObjCArg (ASSavePasswordRequestEvent x) k = k (argCLong x)
-
-instance ObjCReturn ASSavePasswordRequestEvent where
-  type RawReturn ASSavePasswordRequestEvent = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASSavePasswordRequestEvent x)
-  fromOwned x = pure (ASSavePasswordRequestEvent x)
-
--- | ASUserAgeRange
---
--- ASUserAgeRangeUnknown This is returned if the project is missing the required entitlement to support child accounts.
---
--- ASUserAgeRangeChild The user is a child.
---
--- ASUserAgeRangeNotChild The user is not a child.
--- | @ASUserAgeRange@
-newtype ASUserAgeRange = ASUserAgeRange CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern ASUserAgeRangeUnknown :: ASUserAgeRange
-pattern ASUserAgeRangeUnknown = ASUserAgeRange 0
-
-pattern ASUserAgeRangeChild :: ASUserAgeRange
-pattern ASUserAgeRangeChild = ASUserAgeRange 1
-
-pattern ASUserAgeRangeNotChild :: ASUserAgeRange
-pattern ASUserAgeRangeNotChild = ASUserAgeRange 2
-
-instance ObjCArgument ASUserAgeRange where
-  withObjCArg (ASUserAgeRange x) k = k (argCLong x)
-
-instance ObjCReturn ASUserAgeRange where
-  type RawReturn ASUserAgeRange = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (ASUserAgeRange x)
-  fromOwned x = pure (ASUserAgeRange x)
 
 -- | ASUserDetectionStatus
 --

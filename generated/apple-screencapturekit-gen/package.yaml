@@ -12,28 +12,19 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
-  - ObjC.ScreenCaptureKit.Delegate.SCContentSharingPickerObserver
-  - ObjC.ScreenCaptureKit.Delegate.SCRecordingOutputDelegate
   - ObjC.ScreenCaptureKit.Delegate.SCStreamDelegate
   - ObjC.ScreenCaptureKit.Enums
   - ObjC.ScreenCaptureKit.Internal.Classes
   - ObjC.ScreenCaptureKit.Internal.Enums
   - ObjC.ScreenCaptureKit.SCContentFilter
-  - ObjC.ScreenCaptureKit.SCContentSharingPicker
-  - ObjC.ScreenCaptureKit.SCContentSharingPickerConfiguration
   - ObjC.ScreenCaptureKit.SCDisplay
-  - ObjC.ScreenCaptureKit.SCRecordingOutput
-  - ObjC.ScreenCaptureKit.SCRecordingOutputConfiguration
   - ObjC.ScreenCaptureKit.SCRunningApplication
-  - ObjC.ScreenCaptureKit.SCScreenshotConfiguration
-  - ObjC.ScreenCaptureKit.SCScreenshotManager
-  - ObjC.ScreenCaptureKit.SCScreenshotOutput
   - ObjC.ScreenCaptureKit.SCShareableContent
-  - ObjC.ScreenCaptureKit.SCShareableContentInfo
   - ObjC.ScreenCaptureKit.SCStream
   - ObjC.ScreenCaptureKit.SCStreamConfiguration
   - ObjC.ScreenCaptureKit.SCWindow

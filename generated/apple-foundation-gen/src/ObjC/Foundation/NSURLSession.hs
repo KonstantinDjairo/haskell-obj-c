@@ -17,7 +17,6 @@ module ObjC.Foundation.NSURLSession
   , dataTaskWithURL
   , uploadTaskWithRequest_fromFile
   , uploadTaskWithRequest_fromData
-  , uploadTaskWithResumeData
   , uploadTaskWithStreamedRequest
   , downloadTaskWithRequest
   , downloadTaskWithURL
@@ -33,7 +32,6 @@ module ObjC.Foundation.NSURLSession
   , dataTaskWithURL_completionHandler
   , uploadTaskWithRequest_fromFile_completionHandler
   , uploadTaskWithRequest_fromData_completionHandler
-  , uploadTaskWithResumeData_completionHandler
   , downloadTaskWithRequest_completionHandler
   , downloadTaskWithURL_completionHandler
   , downloadTaskWithResumeData_completionHandler
@@ -73,8 +71,6 @@ module ObjC.Foundation.NSURLSession
   , uploadTaskWithRequest_fromData_completionHandlerSelector
   , uploadTaskWithRequest_fromFileSelector
   , uploadTaskWithRequest_fromFile_completionHandlerSelector
-  , uploadTaskWithResumeDataSelector
-  , uploadTaskWithResumeData_completionHandlerSelector
   , uploadTaskWithStreamedRequestSelector
   , webSocketTaskWithRequestSelector
   , webSocketTaskWithURLSelector
@@ -146,15 +142,6 @@ uploadTaskWithRequest_fromFile nsurlSession request fileURL =
 uploadTaskWithRequest_fromData :: (IsNSURLSession nsurlSession, IsNSURLRequest request, IsNSData bodyData) => nsurlSession -> request -> bodyData -> IO (Id NSURLSessionUploadTask)
 uploadTaskWithRequest_fromData nsurlSession request bodyData =
   sendMessage nsurlSession uploadTaskWithRequest_fromDataSelector (toNSURLRequest request) (toNSData bodyData)
-
--- | Creates an upload task from a resume data blob. Requires the server to support the latest resumable uploads Internet-Draft from the HTTP Working Group, found at https://datatracker.ietf.org/doc/draft-ietf-httpbis-resumable-upload/ If resuming from an upload file, the file must still exist and be unmodified. If the upload cannot be successfully resumed, URLSession:task:didCompleteWithError: will be called.
---
--- - Parameter resumeData: Resume data blob from an incomplete upload, such as data returned by the cancelByProducingResumeData: method. - Returns: A new session upload task, or nil if the resumeData is invalid.
---
--- ObjC selector: @- uploadTaskWithResumeData:@
-uploadTaskWithResumeData :: (IsNSURLSession nsurlSession, IsNSData resumeData) => nsurlSession -> resumeData -> IO (Id NSURLSessionUploadTask)
-uploadTaskWithResumeData nsurlSession resumeData =
-  sendMessage nsurlSession uploadTaskWithResumeDataSelector (toNSData resumeData)
 
 -- | @- uploadTaskWithStreamedRequest:@
 uploadTaskWithStreamedRequest :: (IsNSURLSession nsurlSession, IsNSURLRequest request) => nsurlSession -> request -> IO (Id NSURLSessionUploadTask)
@@ -232,15 +219,6 @@ uploadTaskWithRequest_fromFile_completionHandler nsurlSession request fileURL co
 uploadTaskWithRequest_fromData_completionHandler :: (IsNSURLSession nsurlSession, IsNSURLRequest request, IsNSData bodyData) => nsurlSession -> request -> bodyData -> Ptr () -> IO (Id NSURLSessionUploadTask)
 uploadTaskWithRequest_fromData_completionHandler nsurlSession request bodyData completionHandler =
   sendMessage nsurlSession uploadTaskWithRequest_fromData_completionHandlerSelector (toNSURLRequest request) (toNSData bodyData) completionHandler
-
--- | Creates a URLSessionUploadTask from a resume data blob. If resuming from an upload file, the file must still exist and be unmodified.
---
--- - Parameter resumeData: Resume data blob from an incomplete upload, such as data returned by the cancelByProducingResumeData: method. - Parameter completionHandler: The completion handler to call when the load request is complete. - Returns: A new session upload task, or nil if the resumeData is invalid.
---
--- ObjC selector: @- uploadTaskWithResumeData:completionHandler:@
-uploadTaskWithResumeData_completionHandler :: (IsNSURLSession nsurlSession, IsNSData resumeData) => nsurlSession -> resumeData -> Ptr () -> IO (Id NSURLSessionUploadTask)
-uploadTaskWithResumeData_completionHandler nsurlSession resumeData completionHandler =
-  sendMessage nsurlSession uploadTaskWithResumeData_completionHandlerSelector (toNSData resumeData) completionHandler
 
 -- | @- downloadTaskWithRequest:completionHandler:@
 downloadTaskWithRequest_completionHandler :: (IsNSURLSession nsurlSession, IsNSURLRequest request) => nsurlSession -> request -> Ptr () -> IO (Id NSURLSessionDownloadTask)
@@ -333,10 +311,6 @@ uploadTaskWithRequest_fromFileSelector = mkSelector "uploadTaskWithRequest:fromF
 uploadTaskWithRequest_fromDataSelector :: Selector '[Id NSURLRequest, Id NSData] (Id NSURLSessionUploadTask)
 uploadTaskWithRequest_fromDataSelector = mkSelector "uploadTaskWithRequest:fromData:"
 
--- | @Selector@ for @uploadTaskWithResumeData:@
-uploadTaskWithResumeDataSelector :: Selector '[Id NSData] (Id NSURLSessionUploadTask)
-uploadTaskWithResumeDataSelector = mkSelector "uploadTaskWithResumeData:"
-
 -- | @Selector@ for @uploadTaskWithStreamedRequest:@
 uploadTaskWithStreamedRequestSelector :: Selector '[Id NSURLRequest] (Id NSURLSessionUploadTask)
 uploadTaskWithStreamedRequestSelector = mkSelector "uploadTaskWithStreamedRequest:"
@@ -396,10 +370,6 @@ uploadTaskWithRequest_fromFile_completionHandlerSelector = mkSelector "uploadTas
 -- | @Selector@ for @uploadTaskWithRequest:fromData:completionHandler:@
 uploadTaskWithRequest_fromData_completionHandlerSelector :: Selector '[Id NSURLRequest, Id NSData, Ptr ()] (Id NSURLSessionUploadTask)
 uploadTaskWithRequest_fromData_completionHandlerSelector = mkSelector "uploadTaskWithRequest:fromData:completionHandler:"
-
--- | @Selector@ for @uploadTaskWithResumeData:completionHandler:@
-uploadTaskWithResumeData_completionHandlerSelector :: Selector '[Id NSData, Ptr ()] (Id NSURLSessionUploadTask)
-uploadTaskWithResumeData_completionHandlerSelector = mkSelector "uploadTaskWithResumeData:completionHandler:"
 
 -- | @Selector@ for @downloadTaskWithRequest:completionHandler:@
 downloadTaskWithRequest_completionHandlerSelector :: Selector '[Id NSURLRequest, Ptr ()] (Id NSURLSessionDownloadTask)

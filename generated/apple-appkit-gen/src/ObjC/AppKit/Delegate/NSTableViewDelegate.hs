@@ -59,8 +59,6 @@ data NSTableViewDelegateOverrides = NSTableViewDelegateOverrides
   , _tableView_isGroupRow :: !(Maybe (RawId -> Int -> IO Bool))
   , _tableView_sizeToFitWidthOfColumn :: !(Maybe (RawId -> Int -> IO Double))
   , _tableView_shouldReorderColumn_toColumn :: !(Maybe (RawId -> Int -> Int -> IO Bool))
-  , _tableView_userCanChangeVisibilityOfTableColumn :: !(Maybe (RawId -> RawId -> IO Bool))
-  , _tableView_userDidChangeVisibilityOfTableColumns :: !(Maybe (RawId -> RawId -> IO ()))
   , _tableViewSelectionDidChange :: !(Maybe (RawId -> IO ()))
   , _tableViewColumnDidMove :: !(Maybe (RawId -> IO ()))
   , _tableViewColumnDidResize :: !(Maybe (RawId -> IO ()))
@@ -93,8 +91,6 @@ defaultNSTableViewDelegateOverrides = NSTableViewDelegateOverrides
   , _tableView_isGroupRow = Nothing
   , _tableView_sizeToFitWidthOfColumn = Nothing
   , _tableView_shouldReorderColumn_toColumn = Nothing
-  , _tableView_userCanChangeVisibilityOfTableColumn = Nothing
-  , _tableView_userDidChangeVisibilityOfTableColumns = Nothing
   , _tableViewSelectionDidChange = Nothing
   , _tableViewColumnDidMove = Nothing
   , _tableViewColumnDidResize = Nothing
@@ -218,8 +214,6 @@ nsTableViewDelegateDelegateClass = unsafePerformIO $ do
       sel_tableView_isGroupRow = unSelector (mkSelector "tableView:isGroupRow:")
       sel_tableView_sizeToFitWidthOfColumn = unSelector (mkSelector "tableView:sizeToFitWidthOfColumn:")
       sel_tableView_shouldReorderColumn_toColumn = unSelector (mkSelector "tableView:shouldReorderColumn:toColumn:")
-      sel_tableView_userCanChangeVisibilityOfTableColumn = unSelector (mkSelector "tableView:userCanChangeVisibilityOfTableColumn:")
-      sel_tableView_userDidChangeVisibilityOfTableColumns = unSelector (mkSelector "tableView:userDidChangeVisibilityOfTableColumns:")
       sel_tableViewSelectionDidChange = unSelector (mkSelector "tableViewSelectionDidChange:")
       sel_tableViewColumnDidMove = unSelector (mkSelector "tableViewColumnDidMove:")
       sel_tableViewColumnDidResize = unSelector (mkSelector "tableViewColumnDidResize:")
@@ -465,61 +459,41 @@ nsTableViewDelegateDelegateClass = unsafePerformIO $ do
         pure (if r then 1 else 0)
   addObjCMethod cls "tableView:shouldReorderColumn:toColumn:" "B@:@qq" stub_22
 
-  -- tableView:userCanChangeVisibilityOfTableColumn:
-  stub_23 <- wrap_at_at_B $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSTableViewDelegateOverrides
-    case _tableView_userCanChangeVisibilityOfTableColumn rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f (RawId arg0) (RawId arg1)
-        pure (if r then 1 else 0)
-  addObjCMethod cls "tableView:userCanChangeVisibilityOfTableColumn:" "B@:@@" stub_23
-
-  -- tableView:userDidChangeVisibilityOfTableColumns:
-  stub_24 <- wrap_at_at_v $ \self _cmd arg0 arg1 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSTableViewDelegateOverrides
-    case _tableView_userDidChangeVisibilityOfTableColumns rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1)
-  addObjCMethod cls "tableView:userDidChangeVisibilityOfTableColumns:" "v@:@@" stub_24
-
   -- tableViewSelectionDidChange:
-  stub_25 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_23 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSTableViewDelegateOverrides
     case _tableViewSelectionDidChange rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "tableViewSelectionDidChange:" "v@:@" stub_25
+  addObjCMethod cls "tableViewSelectionDidChange:" "v@:@" stub_23
 
   -- tableViewColumnDidMove:
-  stub_26 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_24 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSTableViewDelegateOverrides
     case _tableViewColumnDidMove rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "tableViewColumnDidMove:" "v@:@" stub_26
+  addObjCMethod cls "tableViewColumnDidMove:" "v@:@" stub_24
 
   -- tableViewColumnDidResize:
-  stub_27 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_25 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSTableViewDelegateOverrides
     case _tableViewColumnDidResize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "tableViewColumnDidResize:" "v@:@" stub_27
+  addObjCMethod cls "tableViewColumnDidResize:" "v@:@" stub_25
 
   -- tableViewSelectionIsChanging:
-  stub_28 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_26 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSTableViewDelegateOverrides
     case _tableViewSelectionIsChanging rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "tableViewSelectionIsChanging:" "v@:@" stub_28
+  addObjCMethod cls "tableViewSelectionIsChanging:" "v@:@" stub_26
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -548,8 +522,6 @@ nsTableViewDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_tableView_isGroupRow then pure (maybe 0 (const 1) (_tableView_isGroupRow rec_))
     else if queriedSel == sel_tableView_sizeToFitWidthOfColumn then pure (maybe 0 (const 1) (_tableView_sizeToFitWidthOfColumn rec_))
     else if queriedSel == sel_tableView_shouldReorderColumn_toColumn then pure (maybe 0 (const 1) (_tableView_shouldReorderColumn_toColumn rec_))
-    else if queriedSel == sel_tableView_userCanChangeVisibilityOfTableColumn then pure (maybe 0 (const 1) (_tableView_userCanChangeVisibilityOfTableColumn rec_))
-    else if queriedSel == sel_tableView_userDidChangeVisibilityOfTableColumns then pure (maybe 0 (const 1) (_tableView_userDidChangeVisibilityOfTableColumns rec_))
     else if queriedSel == sel_tableViewSelectionDidChange then pure (maybe 0 (const 1) (_tableViewSelectionDidChange rec_))
     else if queriedSel == sel_tableViewColumnDidMove then pure (maybe 0 (const 1) (_tableViewColumnDidMove rec_))
     else if queriedSel == sel_tableViewColumnDidResize then pure (maybe 0 (const 1) (_tableViewColumnDidResize rec_))

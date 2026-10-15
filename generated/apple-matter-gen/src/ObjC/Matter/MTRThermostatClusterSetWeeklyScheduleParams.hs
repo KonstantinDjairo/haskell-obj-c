@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRThermostatClusterSetWeeklyScheduleParams
   ( MTRThermostatClusterSetWeeklyScheduleParams
   , IsMTRThermostatClusterSetWeeklyScheduleParams(..)
+  , init_
+  , copyWithZone
   , numberOfTransitionsForSequence
   , setNumberOfTransitionsForSequence
   , dayOfWeekForSequence
@@ -17,16 +19,14 @@ module ObjC.Matter.MTRThermostatClusterSetWeeklyScheduleParams
   , setTransitions
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , dayOfWeekForSequenceSelector
+  , initSelector
   , modeForSequenceSelector
   , numberOfTransitionsForSequenceSelector
-  , serverSideProcessingTimeoutSelector
   , setDayOfWeekForSequenceSelector
   , setModeForSequenceSelector
   , setNumberOfTransitionsForSequenceSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , setTransitionsSelector
   , timedInvokeTimeoutMsSelector
@@ -45,6 +45,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRThermostatClusterSetWeeklyScheduleParams mtrThermostatClusterSetWeeklyScheduleParams => mtrThermostatClusterSetWeeklyScheduleParams -> IO (Id MTRThermostatClusterSetWeeklyScheduleParams)
+init_ mtrThermostatClusterSetWeeklyScheduleParams =
+  sendOwnedMessage mtrThermostatClusterSetWeeklyScheduleParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThermostatClusterSetWeeklyScheduleParams mtrThermostatClusterSetWeeklyScheduleParams => mtrThermostatClusterSetWeeklyScheduleParams -> Ptr () -> IO RawId
+copyWithZone mtrThermostatClusterSetWeeklyScheduleParams zone =
+  sendOwnedMessage mtrThermostatClusterSetWeeklyScheduleParams copyWithZoneSelector zone
 
 -- | @- numberOfTransitionsForSequence@
 numberOfTransitionsForSequence :: IsMTRThermostatClusterSetWeeklyScheduleParams mtrThermostatClusterSetWeeklyScheduleParams => mtrThermostatClusterSetWeeklyScheduleParams -> IO (Id NSNumber)
@@ -108,31 +118,17 @@ setTimedInvokeTimeoutMs :: (IsMTRThermostatClusterSetWeeklyScheduleParams mtrThe
 setTimedInvokeTimeoutMs mtrThermostatClusterSetWeeklyScheduleParams value =
   sendMessage mtrThermostatClusterSetWeeklyScheduleParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRThermostatClusterSetWeeklyScheduleParams mtrThermostatClusterSetWeeklyScheduleParams => mtrThermostatClusterSetWeeklyScheduleParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrThermostatClusterSetWeeklyScheduleParams =
-  sendMessage mtrThermostatClusterSetWeeklyScheduleParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRThermostatClusterSetWeeklyScheduleParams mtrThermostatClusterSetWeeklyScheduleParams, IsNSNumber value) => mtrThermostatClusterSetWeeklyScheduleParams -> value -> IO ()
-setServerSideProcessingTimeout mtrThermostatClusterSetWeeklyScheduleParams value =
-  sendMessage mtrThermostatClusterSetWeeklyScheduleParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThermostatClusterSetWeeklyScheduleParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @numberOfTransitionsForSequence@
 numberOfTransitionsForSequenceSelector :: Selector '[] (Id NSNumber)
@@ -173,12 +169,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

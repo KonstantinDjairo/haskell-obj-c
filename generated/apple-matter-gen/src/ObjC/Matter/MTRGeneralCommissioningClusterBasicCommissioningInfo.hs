@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRGeneralCommissioningClusterBasicCommissioningInfo
   ( MTRGeneralCommissioningClusterBasicCommissioningInfo
   , IsMTRGeneralCommissioningClusterBasicCommissioningInfo(..)
+  , init_
+  , copyWithZone
   , failSafeExpiryLengthSeconds
   , setFailSafeExpiryLengthSeconds
   , maxCumulativeFailsafeSeconds
   , setMaxCumulativeFailsafeSeconds
+  , copyWithZoneSelector
   , failSafeExpiryLengthSecondsSelector
+  , initSelector
   , maxCumulativeFailsafeSecondsSelector
   , setFailSafeExpiryLengthSecondsSelector
   , setMaxCumulativeFailsafeSecondsSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRGeneralCommissioningClusterBasicCommissioningInfo mtrGeneralCommissioningClusterBasicCommissioningInfo => mtrGeneralCommissioningClusterBasicCommissioningInfo -> IO (Id MTRGeneralCommissioningClusterBasicCommissioningInfo)
+init_ mtrGeneralCommissioningClusterBasicCommissioningInfo =
+  sendOwnedMessage mtrGeneralCommissioningClusterBasicCommissioningInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRGeneralCommissioningClusterBasicCommissioningInfo mtrGeneralCommissioningClusterBasicCommissioningInfo => mtrGeneralCommissioningClusterBasicCommissioningInfo -> Ptr () -> IO RawId
+copyWithZone mtrGeneralCommissioningClusterBasicCommissioningInfo zone =
+  sendOwnedMessage mtrGeneralCommissioningClusterBasicCommissioningInfo copyWithZoneSelector zone
 
 -- | @- failSafeExpiryLengthSeconds@
 failSafeExpiryLengthSeconds :: IsMTRGeneralCommissioningClusterBasicCommissioningInfo mtrGeneralCommissioningClusterBasicCommissioningInfo => mtrGeneralCommissioningClusterBasicCommissioningInfo -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setMaxCumulativeFailsafeSeconds mtrGeneralCommissioningClusterBasicCommissioning
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRGeneralCommissioningClusterBasicCommissioningInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @failSafeExpiryLengthSeconds@
 failSafeExpiryLengthSecondsSelector :: Selector '[] (Id NSNumber)

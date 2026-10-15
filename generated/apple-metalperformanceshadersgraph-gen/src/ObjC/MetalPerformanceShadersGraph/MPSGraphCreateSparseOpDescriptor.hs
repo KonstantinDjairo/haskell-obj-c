@@ -4,9 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A class that describes the properties of a create sparse operation.
---
--- Generated bindings for @MPSGraphCreateSparseOpDescriptor@.
+-- | Generated bindings for @MPSGraphCreateSparseOpDescriptor@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphCreateSparseOpDescriptor
   ( MPSGraphCreateSparseOpDescriptor
   , IsMPSGraphCreateSparseOpDescriptor(..)
@@ -32,21 +30,16 @@ module ObjC.MetalPerformanceShadersGraph.MPSGraphCreateSparseOpDescriptor
   , pattern MPSDataTypeComplexFloat16
   , pattern MPSDataTypeSignedBit
   , pattern MPSDataTypeIntBit
-  , pattern MPSDataTypeInt2
-  , pattern MPSDataTypeInt4
   , pattern MPSDataTypeInt8
   , pattern MPSDataTypeInt16
   , pattern MPSDataTypeInt32
   , pattern MPSDataTypeInt64
-  , pattern MPSDataTypeUInt2
-  , pattern MPSDataTypeUInt4
   , pattern MPSDataTypeUInt8
   , pattern MPSDataTypeUInt16
   , pattern MPSDataTypeUInt32
   , pattern MPSDataTypeUInt64
   , pattern MPSDataTypeAlternateEncodingBit
   , pattern MPSDataTypeBool
-  , pattern MPSDataTypeBFloat16
   , pattern MPSDataTypeNormalizedBit
   , pattern MPSDataTypeUnorm1
   , pattern MPSDataTypeUnorm8
@@ -70,41 +63,29 @@ import ObjC.MetalPerformanceShadersGraph.Internal.Enums
 import ObjC.MetalPerformanceShaders.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a descriptor for a sparse tensor.
---
--- - Parameters:   - sparseStorageType: A sparseStorageType.   - dataType: A dataType of the sparse tensor. - Returns: The descriptor.
---
--- ObjC selector: @+ descriptorWithStorageType:dataType:@
+-- | @+ descriptorWithStorageType:dataType:@
 descriptorWithStorageType_dataType :: MPSGraphSparseStorageType -> MPSDataType -> IO (Id MPSGraphCreateSparseOpDescriptor)
 descriptorWithStorageType_dataType sparseStorageType dataType =
   do
     cls' <- getRequiredClass "MPSGraphCreateSparseOpDescriptor"
     sendClassMessage cls' descriptorWithStorageType_dataTypeSelector sparseStorageType dataType
 
--- | Defines the storage format of the sparse tensor.
---
--- ObjC selector: @- sparseStorageType@
+-- | @- sparseStorageType@
 sparseStorageType :: IsMPSGraphCreateSparseOpDescriptor mpsGraphCreateSparseOpDescriptor => mpsGraphCreateSparseOpDescriptor -> IO MPSGraphSparseStorageType
 sparseStorageType mpsGraphCreateSparseOpDescriptor =
   sendMessage mpsGraphCreateSparseOpDescriptor sparseStorageTypeSelector
 
--- | Defines the storage format of the sparse tensor.
---
--- ObjC selector: @- setSparseStorageType:@
+-- | @- setSparseStorageType:@
 setSparseStorageType :: IsMPSGraphCreateSparseOpDescriptor mpsGraphCreateSparseOpDescriptor => mpsGraphCreateSparseOpDescriptor -> MPSGraphSparseStorageType -> IO ()
 setSparseStorageType mpsGraphCreateSparseOpDescriptor value =
   sendMessage mpsGraphCreateSparseOpDescriptor setSparseStorageTypeSelector value
 
--- | Defines the datatype of the sparse tensor.
---
--- ObjC selector: @- dataType@
+-- | @- dataType@
 dataType :: IsMPSGraphCreateSparseOpDescriptor mpsGraphCreateSparseOpDescriptor => mpsGraphCreateSparseOpDescriptor -> IO MPSDataType
 dataType mpsGraphCreateSparseOpDescriptor =
   sendMessage mpsGraphCreateSparseOpDescriptor dataTypeSelector
 
--- | Defines the datatype of the sparse tensor.
---
--- ObjC selector: @- setDataType:@
+-- | @- setDataType:@
 setDataType :: IsMPSGraphCreateSparseOpDescriptor mpsGraphCreateSparseOpDescriptor => mpsGraphCreateSparseOpDescriptor -> MPSDataType -> IO ()
 setDataType mpsGraphCreateSparseOpDescriptor value =
   sendMessage mpsGraphCreateSparseOpDescriptor setDataTypeSelector value

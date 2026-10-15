@@ -48,8 +48,6 @@ module ObjC.AVFAudio.AVAudioPlayer
   , setMeteringEnabled
   , channelAssignments
   , setChannelAssignments
-  , intendedSpatialExperience
-  , setIntendedSpatialExperience
   , averagePowerForChannelSelector
   , channelAssignmentsSelector
   , currentDeviceSelector
@@ -64,7 +62,6 @@ module ObjC.AVFAudio.AVAudioPlayer
   , initWithContentsOfURL_fileTypeHint_errorSelector
   , initWithData_errorSelector
   , initWithData_fileTypeHint_errorSelector
-  , intendedSpatialExperienceSelector
   , meteringEnabledSelector
   , numberOfChannelsSelector
   , numberOfLoopsSelector
@@ -81,7 +78,6 @@ module ObjC.AVFAudio.AVAudioPlayer
   , setCurrentTimeSelector
   , setDelegateSelector
   , setEnableRateSelector
-  , setIntendedSpatialExperienceSelector
   , setMeteringEnabledSelector
   , setNumberOfLoopsSelector
   , setPanSelector
@@ -189,14 +185,14 @@ duration avAudioPlayer =
   sendMessage avAudioPlayer durationSelector
 
 -- | @- currentDevice@
-currentDevice :: IsAVAudioPlayer avAudioPlayer => avAudioPlayer -> IO (Id NSString)
+currentDevice :: IsAVAudioPlayer avAudioPlayer => avAudioPlayer -> IO RawId
 currentDevice avAudioPlayer =
   sendMessage avAudioPlayer currentDeviceSelector
 
 -- | @- setCurrentDevice:@
-setCurrentDevice :: (IsAVAudioPlayer avAudioPlayer, IsNSString value) => avAudioPlayer -> value -> IO ()
+setCurrentDevice :: IsAVAudioPlayer avAudioPlayer => avAudioPlayer -> RawId -> IO ()
 setCurrentDevice avAudioPlayer value =
-  sendMessage avAudioPlayer setCurrentDeviceSelector (toNSString value)
+  sendMessage avAudioPlayer setCurrentDeviceSelector value
 
 -- | @- delegate@
 delegate :: IsAVAudioPlayer avAudioPlayer => avAudioPlayer -> IO RawId
@@ -313,16 +309,6 @@ setChannelAssignments :: (IsAVAudioPlayer avAudioPlayer, IsNSArray value) => avA
 setChannelAssignments avAudioPlayer value =
   sendMessage avAudioPlayer setChannelAssignmentsSelector (toNSArray value)
 
--- | @- intendedSpatialExperience@
-intendedSpatialExperience :: IsAVAudioPlayer avAudioPlayer => avAudioPlayer -> IO RawId
-intendedSpatialExperience avAudioPlayer =
-  sendMessage avAudioPlayer intendedSpatialExperienceSelector
-
--- | @- setIntendedSpatialExperience:@
-setIntendedSpatialExperience :: IsAVAudioPlayer avAudioPlayer => avAudioPlayer -> RawId -> IO ()
-setIntendedSpatialExperience avAudioPlayer value =
-  sendMessage avAudioPlayer setIntendedSpatialExperienceSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -392,11 +378,11 @@ durationSelector :: Selector '[] CDouble
 durationSelector = mkSelector "duration"
 
 -- | @Selector@ for @currentDevice@
-currentDeviceSelector :: Selector '[] (Id NSString)
+currentDeviceSelector :: Selector '[] RawId
 currentDeviceSelector = mkSelector "currentDevice"
 
 -- | @Selector@ for @setCurrentDevice:@
-setCurrentDeviceSelector :: Selector '[Id NSString] ()
+setCurrentDeviceSelector :: Selector '[RawId] ()
 setCurrentDeviceSelector = mkSelector "setCurrentDevice:"
 
 -- | @Selector@ for @delegate@
@@ -490,12 +476,4 @@ channelAssignmentsSelector = mkSelector "channelAssignments"
 -- | @Selector@ for @setChannelAssignments:@
 setChannelAssignmentsSelector :: Selector '[Id NSArray] ()
 setChannelAssignmentsSelector = mkSelector "setChannelAssignments:"
-
--- | @Selector@ for @intendedSpatialExperience@
-intendedSpatialExperienceSelector :: Selector '[] RawId
-intendedSpatialExperienceSelector = mkSelector "intendedSpatialExperience"
-
--- | @Selector@ for @setIntendedSpatialExperience:@
-setIntendedSpatialExperienceSelector :: Selector '[RawId] ()
-setIntendedSpatialExperienceSelector = mkSelector "setIntendedSpatialExperience:"
 

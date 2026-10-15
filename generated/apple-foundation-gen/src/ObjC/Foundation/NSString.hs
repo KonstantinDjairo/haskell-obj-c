@@ -111,13 +111,9 @@ module ObjC.Foundation.NSString
   , initWithUTF8String
   , initWithString
   , initWithFormat
-  , initWithFormat_arguments
   , initWithFormat_locale
-  , initWithFormat_locale_arguments
   , initWithValidatedFormat_validFormatSpecifiers_error
   , initWithValidatedFormat_validFormatSpecifiers_locale_error
-  , initWithValidatedFormat_validFormatSpecifiers_arguments_error
-  , initWithValidatedFormat_validFormatSpecifiers_locale_arguments_error
   , initWithData_encoding
   , initWithBytes_length_encoding
   , initWithBytesNoCopy_length_encoding_freeWhenDone
@@ -242,14 +238,10 @@ module ObjC.Foundation.NSString
   , initWithContentsOfURL_usedEncoding_errorSelector
   , initWithData_encodingSelector
   , initWithFormatSelector
-  , initWithFormat_argumentsSelector
   , initWithFormat_localeSelector
-  , initWithFormat_locale_argumentsSelector
   , initWithStringSelector
   , initWithUTF8StringSelector
-  , initWithValidatedFormat_validFormatSpecifiers_arguments_errorSelector
   , initWithValidatedFormat_validFormatSpecifiers_errorSelector
-  , initWithValidatedFormat_validFormatSpecifiers_locale_arguments_errorSelector
   , initWithValidatedFormat_validFormatSpecifiers_locale_errorSelector
   , intValueSelector
   , integerValueSelector
@@ -920,20 +912,10 @@ initWithFormat :: (IsNSString nsString, IsNSString format) => nsString -> format
 initWithFormat nsString format =
   sendOwnedMessage nsString initWithFormatSelector (toNSString format)
 
--- | @- initWithFormat:arguments:@
-initWithFormat_arguments :: (IsNSString nsString, IsNSString format) => nsString -> format -> RawId -> IO (Id NSString)
-initWithFormat_arguments nsString format argList =
-  sendOwnedMessage nsString initWithFormat_argumentsSelector (toNSString format) argList
-
 -- | @- initWithFormat:locale:@
 initWithFormat_locale :: (IsNSString nsString, IsNSString format) => nsString -> format -> RawId -> IO (Id NSString)
 initWithFormat_locale nsString format locale =
   sendOwnedMessage nsString initWithFormat_localeSelector (toNSString format) locale
-
--- | @- initWithFormat:locale:arguments:@
-initWithFormat_locale_arguments :: (IsNSString nsString, IsNSString format) => nsString -> format -> RawId -> RawId -> IO (Id NSString)
-initWithFormat_locale_arguments nsString format locale argList =
-  sendOwnedMessage nsString initWithFormat_locale_argumentsSelector (toNSString format) locale argList
 
 -- | @- initWithValidatedFormat:validFormatSpecifiers:error:@
 initWithValidatedFormat_validFormatSpecifiers_error :: (IsNSString nsString, IsNSString format, IsNSString validFormatSpecifiers, IsNSError error_) => nsString -> format -> validFormatSpecifiers -> error_ -> IO (Id NSString)
@@ -944,16 +926,6 @@ initWithValidatedFormat_validFormatSpecifiers_error nsString format validFormatS
 initWithValidatedFormat_validFormatSpecifiers_locale_error :: (IsNSString nsString, IsNSString format, IsNSString validFormatSpecifiers, IsNSError error_) => nsString -> format -> validFormatSpecifiers -> RawId -> error_ -> IO (Id NSString)
 initWithValidatedFormat_validFormatSpecifiers_locale_error nsString format validFormatSpecifiers locale error_ =
   sendOwnedMessage nsString initWithValidatedFormat_validFormatSpecifiers_locale_errorSelector (toNSString format) (toNSString validFormatSpecifiers) locale (toNSError error_)
-
--- | @- initWithValidatedFormat:validFormatSpecifiers:arguments:error:@
-initWithValidatedFormat_validFormatSpecifiers_arguments_error :: (IsNSString nsString, IsNSString format, IsNSString validFormatSpecifiers, IsNSError error_) => nsString -> format -> validFormatSpecifiers -> RawId -> error_ -> IO (Id NSString)
-initWithValidatedFormat_validFormatSpecifiers_arguments_error nsString format validFormatSpecifiers argList error_ =
-  sendOwnedMessage nsString initWithValidatedFormat_validFormatSpecifiers_arguments_errorSelector (toNSString format) (toNSString validFormatSpecifiers) argList (toNSError error_)
-
--- | @- initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:@
-initWithValidatedFormat_validFormatSpecifiers_locale_arguments_error :: (IsNSString nsString, IsNSString format, IsNSString validFormatSpecifiers, IsNSError error_) => nsString -> format -> validFormatSpecifiers -> RawId -> RawId -> error_ -> IO (Id NSString)
-initWithValidatedFormat_validFormatSpecifiers_locale_arguments_error nsString format validFormatSpecifiers locale argList error_ =
-  sendOwnedMessage nsString initWithValidatedFormat_validFormatSpecifiers_locale_arguments_errorSelector (toNSString format) (toNSString validFormatSpecifiers) locale argList (toNSError error_)
 
 -- | @- initWithData:encoding:@
 initWithData_encoding :: (IsNSString nsString, IsNSData data_) => nsString -> data_ -> CULong -> IO (Id NSString)
@@ -1694,17 +1666,9 @@ initWithStringSelector = mkSelector "initWithString:"
 initWithFormatSelector :: Selector '[Id NSString] (Id NSString)
 initWithFormatSelector = mkSelector "initWithFormat:"
 
--- | @Selector@ for @initWithFormat:arguments:@
-initWithFormat_argumentsSelector :: Selector '[Id NSString, RawId] (Id NSString)
-initWithFormat_argumentsSelector = mkSelector "initWithFormat:arguments:"
-
 -- | @Selector@ for @initWithFormat:locale:@
 initWithFormat_localeSelector :: Selector '[Id NSString, RawId] (Id NSString)
 initWithFormat_localeSelector = mkSelector "initWithFormat:locale:"
-
--- | @Selector@ for @initWithFormat:locale:arguments:@
-initWithFormat_locale_argumentsSelector :: Selector '[Id NSString, RawId, RawId] (Id NSString)
-initWithFormat_locale_argumentsSelector = mkSelector "initWithFormat:locale:arguments:"
 
 -- | @Selector@ for @initWithValidatedFormat:validFormatSpecifiers:error:@
 initWithValidatedFormat_validFormatSpecifiers_errorSelector :: Selector '[Id NSString, Id NSString, Id NSError] (Id NSString)
@@ -1713,14 +1677,6 @@ initWithValidatedFormat_validFormatSpecifiers_errorSelector = mkSelector "initWi
 -- | @Selector@ for @initWithValidatedFormat:validFormatSpecifiers:locale:error:@
 initWithValidatedFormat_validFormatSpecifiers_locale_errorSelector :: Selector '[Id NSString, Id NSString, RawId, Id NSError] (Id NSString)
 initWithValidatedFormat_validFormatSpecifiers_locale_errorSelector = mkSelector "initWithValidatedFormat:validFormatSpecifiers:locale:error:"
-
--- | @Selector@ for @initWithValidatedFormat:validFormatSpecifiers:arguments:error:@
-initWithValidatedFormat_validFormatSpecifiers_arguments_errorSelector :: Selector '[Id NSString, Id NSString, RawId, Id NSError] (Id NSString)
-initWithValidatedFormat_validFormatSpecifiers_arguments_errorSelector = mkSelector "initWithValidatedFormat:validFormatSpecifiers:arguments:error:"
-
--- | @Selector@ for @initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:@
-initWithValidatedFormat_validFormatSpecifiers_locale_arguments_errorSelector :: Selector '[Id NSString, Id NSString, RawId, RawId, Id NSError] (Id NSString)
-initWithValidatedFormat_validFormatSpecifiers_locale_arguments_errorSelector = mkSelector "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:"
 
 -- | @Selector@ for @initWithData:encoding:@
 initWithData_encodingSelector :: Selector '[Id NSData, CULong] (Id NSString)

@@ -3,7 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MIDICIDeviceInfo@.
+-- | MIDICIDeviceInfo
+--
+-- An NSObject containing basic information about a MIDI-CI-capable node.
+--
+-- Generated bindings for @MIDICIDeviceInfo@.
 module ObjC.CoreMIDI.MIDICIDeviceInfo
   ( MIDICIDeviceInfo
   , IsMIDICIDeviceInfo(..)
@@ -46,27 +50,37 @@ initWithDestination_manufacturer_family_model_revision :: (IsMIDICIDeviceInfo mi
 initWithDestination_manufacturer_family_model_revision midiciDeviceInfo midiDestination manufacturer family_ modelNumber revisionLevel =
   sendOwnedMessage midiciDeviceInfo initWithDestination_manufacturer_family_model_revisionSelector midiDestination (toNSData manufacturer) (toNSData family_) (toNSData modelNumber) (toNSData revisionLevel)
 
--- | @- manufacturerID@
+-- | The MIDI System Exclusive ID of the device manufacturer, 3 bytes long. One-byte SysEx IDs are padded with trailing zeroes (e.g., Apple's System Exclusive ID, 0x11, would be expressed as 0x110000).
+--
+-- ObjC selector: @- manufacturerID@
 manufacturerID :: IsMIDICIDeviceInfo midiciDeviceInfo => midiciDeviceInfo -> IO (Id NSData)
 manufacturerID midiciDeviceInfo =
   sendMessage midiciDeviceInfo manufacturerIDSelector
 
--- | @- family@
+-- | The group of models to which the device belongs, 2 bytes.
+--
+-- ObjC selector: @- family@
 family_ :: IsMIDICIDeviceInfo midiciDeviceInfo => midiciDeviceInfo -> IO (Id NSData)
 family_ midiciDeviceInfo =
   sendMessage midiciDeviceInfo familySelector
 
--- | @- modelNumber@
+-- | The specific model from the device manufacturer, 2 bytes.
+--
+-- ObjC selector: @- modelNumber@
 modelNumber :: IsMIDICIDeviceInfo midiciDeviceInfo => midiciDeviceInfo -> IO (Id NSData)
 modelNumber midiciDeviceInfo =
   sendMessage midiciDeviceInfo modelNumberSelector
 
--- | @- revisionLevel@
+-- | The version number of a device model number, 2 bytes.
+--
+-- ObjC selector: @- revisionLevel@
 revisionLevel :: IsMIDICIDeviceInfo midiciDeviceInfo => midiciDeviceInfo -> IO (Id NSData)
 revisionLevel midiciDeviceInfo =
   sendMessage midiciDeviceInfo revisionLevelSelector
 
--- | @- midiDestination@
+-- | The MIDI destination used by device's MIDI entity for capability inquiries.
+--
+-- ObjC selector: @- midiDestination@
 midiDestination :: IsMIDICIDeviceInfo midiciDeviceInfo => midiciDeviceInfo -> IO CUInt
 midiDestination midiciDeviceInfo =
   sendMessage midiciDeviceInfo midiDestinationSelector

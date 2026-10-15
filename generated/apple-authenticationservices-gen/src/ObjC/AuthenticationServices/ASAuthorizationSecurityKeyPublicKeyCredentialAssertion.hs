@@ -9,8 +9,6 @@ module ObjC.AuthenticationServices.ASAuthorizationSecurityKeyPublicKeyCredential
   , IsASAuthorizationSecurityKeyPublicKeyCredentialAssertion(..)
   , new
   , init_
-  , appID
-  , appIDSelector
   , initSelector
   , newSelector
 
@@ -40,13 +38,6 @@ init_ :: IsASAuthorizationSecurityKeyPublicKeyCredentialAssertion asAuthorizatio
 init_ asAuthorizationSecurityKeyPublicKeyCredentialAssertion =
   sendOwnedMessage asAuthorizationSecurityKeyPublicKeyCredentialAssertion initSelector
 
--- | Indicates that this assertion used the appid WebAuthn extension. This can only happen if the requesting app is a web browser and requested to use this extension.
---
--- ObjC selector: @- appID@
-appID :: IsASAuthorizationSecurityKeyPublicKeyCredentialAssertion asAuthorizationSecurityKeyPublicKeyCredentialAssertion => asAuthorizationSecurityKeyPublicKeyCredentialAssertion -> IO Bool
-appID asAuthorizationSecurityKeyPublicKeyCredentialAssertion =
-  sendMessage asAuthorizationSecurityKeyPublicKeyCredentialAssertion appIDSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -58,8 +49,4 @@ newSelector = mkSelector "new"
 -- | @Selector@ for @init@
 initSelector :: Selector '[] (Id ASAuthorizationSecurityKeyPublicKeyCredentialAssertion)
 initSelector = mkSelector "init"
-
--- | @Selector@ for @appID@
-appIDSelector :: Selector '[] Bool
-appIDSelector = mkSelector "appID"
 

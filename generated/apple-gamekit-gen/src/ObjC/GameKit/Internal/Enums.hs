@@ -13,6 +13,7 @@ import Foreign.C.Types
 import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
+import Data.Int (Int8)
 
 -- | @GKAccessPointLocation@
 newtype GKAccessPointLocation = GKAccessPointLocation CLong
@@ -196,18 +197,6 @@ pattern GKErrorConnectionTimeout = GKErrorCode 33
 pattern GKErrorAPIObsolete :: GKErrorCode
 pattern GKErrorAPIObsolete = GKErrorCode 34
 
-pattern GKErrorICloudUnavailable :: GKErrorCode
-pattern GKErrorICloudUnavailable = GKErrorCode 35
-
-pattern GKErrorLockdownMode :: GKErrorCode
-pattern GKErrorLockdownMode = GKErrorCode 36
-
-pattern GKErrorAppUnlisted :: GKErrorCode
-pattern GKErrorAppUnlisted = GKErrorCode 37
-
-pattern GKErrorDebugMode :: GKErrorCode
-pattern GKErrorDebugMode = GKErrorCode 38
-
 pattern GKErrorFriendListDescriptionMissing :: GKErrorCode
 pattern GKErrorFriendListDescriptionMissing = GKErrorCode 100
 
@@ -256,59 +245,6 @@ instance ObjCReturn GKFriendsAuthorizationStatus where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (GKFriendsAuthorizationStatus x)
   fromOwned x = pure (GKFriendsAuthorizationStatus x)
-
--- | Play Style of the game activity. It can be either Asynchronous or Synchronous.
--- | @GKGameActivityPlayStyle@
-newtype GKGameActivityPlayStyle = GKGameActivityPlayStyle CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern GKGameActivityPlayStyleUnspecified :: GKGameActivityPlayStyle
-pattern GKGameActivityPlayStyleUnspecified = GKGameActivityPlayStyle 0
-
-pattern GKGameActivityPlayStyleSynchronous :: GKGameActivityPlayStyle
-pattern GKGameActivityPlayStyleSynchronous = GKGameActivityPlayStyle 1
-
-pattern GKGameActivityPlayStyleAsynchronous :: GKGameActivityPlayStyle
-pattern GKGameActivityPlayStyleAsynchronous = GKGameActivityPlayStyle 2
-
-instance ObjCArgument GKGameActivityPlayStyle where
-  withObjCArg (GKGameActivityPlayStyle x) k = k (argCLong x)
-
-instance ObjCReturn GKGameActivityPlayStyle where
-  type RawReturn GKGameActivityPlayStyle = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (GKGameActivityPlayStyle x)
-  fromOwned x = pure (GKGameActivityPlayStyle x)
-
--- | The state of a game activity.
--- | @GKGameActivityState@
-newtype GKGameActivityState = GKGameActivityState CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern GKGameActivityStateInitialized :: GKGameActivityState
-pattern GKGameActivityStateInitialized = GKGameActivityState 0
-
-pattern GKGameActivityStateActive :: GKGameActivityState
-pattern GKGameActivityStateActive = GKGameActivityState 1
-
-pattern GKGameActivityStatePaused :: GKGameActivityState
-pattern GKGameActivityStatePaused = GKGameActivityState 2
-
-pattern GKGameActivityStateEnded :: GKGameActivityState
-pattern GKGameActivityStateEnded = GKGameActivityState 4
-
-instance ObjCArgument GKGameActivityState where
-  withObjCArg (GKGameActivityState x) k = k (argCULong x)
-
-instance ObjCReturn GKGameActivityState where
-  type RawReturn GKGameActivityState = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (GKGameActivityState x)
-  fromOwned x = pure (GKGameActivityState x)
 
 -- | @GKGameCenterViewControllerState@
 newtype GKGameCenterViewControllerState = GKGameCenterViewControllerState CLong
@@ -677,37 +613,6 @@ instance ObjCReturn GKPlayerConnectionState where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (GKPlayerConnectionState x)
   fromOwned x = pure (GKPlayerConnectionState x)
-
--- | Describes the release state of an App Store Connect resource, such as an Achievement or Leaderboard.
--- | @GKReleaseState@ (bitmask)
-newtype GKReleaseState = GKReleaseState CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup GKReleaseState where
-  (<>) = (.|.)
-
-instance Monoid GKReleaseState where
-  mempty = GKReleaseState 0
-
-pattern GKReleaseStateUnknown :: GKReleaseState
-pattern GKReleaseStateUnknown = GKReleaseState 0
-
-pattern GKReleaseStateReleased :: GKReleaseState
-pattern GKReleaseStateReleased = GKReleaseState 1
-
-pattern GKReleaseStatePrereleased :: GKReleaseState
-pattern GKReleaseStatePrereleased = GKReleaseState 2
-
-instance ObjCArgument GKReleaseState where
-  withObjCArg (GKReleaseState x) k = k (argCULong x)
-
-instance ObjCReturn GKReleaseState where
-  type RawReturn GKReleaseState = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (GKReleaseState x)
-  fromOwned x = pure (GKReleaseState x)
 
 -- | Delivery options for GKSession's -(BOOL)sendData... methods.
 -- | @GKSendDataMode@

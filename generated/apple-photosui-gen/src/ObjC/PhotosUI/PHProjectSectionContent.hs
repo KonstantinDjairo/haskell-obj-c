@@ -82,7 +82,7 @@ cloudAssetIdentifiers phProjectSectionContent =
 -- | Background color of the section content. This property is only used when the user creates a new project from an existing Apple Print Product
 --
 -- ObjC selector: @- backgroundColor@
-backgroundColor :: IsPHProjectSectionContent phProjectSectionContent => phProjectSectionContent -> IO (Id NSColor)
+backgroundColor :: IsPHProjectSectionContent phProjectSectionContent => phProjectSectionContent -> IO RawId
 backgroundColor phProjectSectionContent =
   sendMessage phProjectSectionContent backgroundColorSelector
 
@@ -115,6 +115,6 @@ cloudAssetIdentifiersSelector :: Selector '[] (Id NSArray)
 cloudAssetIdentifiersSelector = mkSelector "cloudAssetIdentifiers"
 
 -- | @Selector@ for @backgroundColor@
-backgroundColorSelector :: Selector '[] (Id NSColor)
+backgroundColorSelector :: Selector '[] RawId
 backgroundColorSelector = mkSelector "backgroundColor"
 

@@ -7,16 +7,16 @@
 module ObjC.Matter.MTROperationalCredentialsClusterRemoveFabricParams
   ( MTROperationalCredentialsClusterRemoveFabricParams
   , IsMTROperationalCredentialsClusterRemoveFabricParams(..)
+  , init_
+  , copyWithZone
   , fabricIndex
   , setFabricIndex
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , fabricIndexSelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setFabricIndexSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTROperationalCredentialsClusterRemoveFabricParams mtrOperationalCredentialsClusterRemoveFabricParams => mtrOperationalCredentialsClusterRemoveFabricParams -> IO (Id MTROperationalCredentialsClusterRemoveFabricParams)
+init_ mtrOperationalCredentialsClusterRemoveFabricParams =
+  sendOwnedMessage mtrOperationalCredentialsClusterRemoveFabricParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROperationalCredentialsClusterRemoveFabricParams mtrOperationalCredentialsClusterRemoveFabricParams => mtrOperationalCredentialsClusterRemoveFabricParams -> Ptr () -> IO RawId
+copyWithZone mtrOperationalCredentialsClusterRemoveFabricParams zone =
+  sendOwnedMessage mtrOperationalCredentialsClusterRemoveFabricParams copyWithZoneSelector zone
 
 -- | @- fabricIndex@
 fabricIndex :: IsMTROperationalCredentialsClusterRemoveFabricParams mtrOperationalCredentialsClusterRemoveFabricParams => mtrOperationalCredentialsClusterRemoveFabricParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTROperationalCredentialsClusterRemoveFabricParams
 setTimedInvokeTimeoutMs mtrOperationalCredentialsClusterRemoveFabricParams value =
   sendMessage mtrOperationalCredentialsClusterRemoveFabricParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTROperationalCredentialsClusterRemoveFabricParams mtrOperationalCredentialsClusterRemoveFabricParams => mtrOperationalCredentialsClusterRemoveFabricParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrOperationalCredentialsClusterRemoveFabricParams =
-  sendMessage mtrOperationalCredentialsClusterRemoveFabricParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTROperationalCredentialsClusterRemoveFabricParams mtrOperationalCredentialsClusterRemoveFabricParams, IsNSNumber value) => mtrOperationalCredentialsClusterRemoveFabricParams -> value -> IO ()
-setServerSideProcessingTimeout mtrOperationalCredentialsClusterRemoveFabricParams value =
-  sendMessage mtrOperationalCredentialsClusterRemoveFabricParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROperationalCredentialsClusterRemoveFabricParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @fabricIndex@
 fabricIndexSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

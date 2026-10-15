@@ -9,10 +9,10 @@
 module ObjC.Matter.MTRClusterUnitLocalization
   ( MTRClusterUnitLocalization
   , IsMTRClusterUnitLocalization(..)
+  , initWithDevice_endpoint_queue
   , readAttributeTemperatureUnitWithParams
   , writeAttributeTemperatureUnitWithValue_expectedValueInterval
   , writeAttributeTemperatureUnitWithValue_expectedValueInterval_params
-  , readAttributeSupportedTemperatureUnitsWithParams
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
   , readAttributeAttributeListWithParams
@@ -20,10 +20,7 @@ module ObjC.Matter.MTRClusterUnitLocalization
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -31,7 +28,6 @@ module ObjC.Matter.MTRClusterUnitLocalization
   , readAttributeClusterRevisionWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
-  , readAttributeSupportedTemperatureUnitsWithParamsSelector
   , readAttributeTemperatureUnitWithParamsSelector
   , writeAttributeTemperatureUnitWithValue_expectedValueIntervalSelector
   , writeAttributeTemperatureUnitWithValue_expectedValueInterval_paramsSelector
@@ -50,6 +46,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterUnitLocalization mtrClusterUnitLocalization, IsMTRDevice device, IsNSObject queue) => mtrClusterUnitLocalization -> device -> CUShort -> queue -> IO (Id MTRClusterUnitLocalization)
+initWithDevice_endpoint_queue mtrClusterUnitLocalization device endpoint queue =
+  sendOwnedMessage mtrClusterUnitLocalization initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
+
 -- | @- readAttributeTemperatureUnitWithParams:@
 readAttributeTemperatureUnitWithParams :: (IsMTRClusterUnitLocalization mtrClusterUnitLocalization, IsMTRReadParams params) => mtrClusterUnitLocalization -> params -> IO (Id NSDictionary)
 readAttributeTemperatureUnitWithParams mtrClusterUnitLocalization params =
@@ -64,11 +65,6 @@ writeAttributeTemperatureUnitWithValue_expectedValueInterval mtrClusterUnitLocal
 writeAttributeTemperatureUnitWithValue_expectedValueInterval_params :: (IsMTRClusterUnitLocalization mtrClusterUnitLocalization, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterUnitLocalization -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
 writeAttributeTemperatureUnitWithValue_expectedValueInterval_params mtrClusterUnitLocalization dataValueDictionary expectedValueIntervalMs params =
   sendMessage mtrClusterUnitLocalization writeAttributeTemperatureUnitWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | @- readAttributeSupportedTemperatureUnitsWithParams:@
-readAttributeSupportedTemperatureUnitsWithParams :: (IsMTRClusterUnitLocalization mtrClusterUnitLocalization, IsMTRReadParams params) => mtrClusterUnitLocalization -> params -> IO (Id NSDictionary)
-readAttributeSupportedTemperatureUnitsWithParams mtrClusterUnitLocalization params =
-  sendMessage mtrClusterUnitLocalization readAttributeSupportedTemperatureUnitsWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParams :: (IsMTRClusterUnitLocalization mtrClusterUnitLocalization, IsMTRReadParams params) => mtrClusterUnitLocalization -> params -> IO (Id NSDictionary)
@@ -107,21 +103,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterUnitLocalization"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterUnitLocalization mtrClusterUnitLocalization, IsMTRDevice device, IsNSObject queue) => mtrClusterUnitLocalization -> device -> CUShort -> queue -> IO (Id MTRClusterUnitLocalization)
-initWithDevice_endpoint_queue mtrClusterUnitLocalization device endpoint queue =
-  sendOwnedMessage mtrClusterUnitLocalization initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterUnitLocalization mtrClusterUnitLocalization, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterUnitLocalization -> device -> endpointID -> queue -> IO (Id MTRClusterUnitLocalization)
-initWithDevice_endpointID_queue mtrClusterUnitLocalization device endpointID queue =
-  sendOwnedMessage mtrClusterUnitLocalization initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterUnitLocalization)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeTemperatureUnitWithParams:@
 readAttributeTemperatureUnitWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -134,10 +122,6 @@ writeAttributeTemperatureUnitWithValue_expectedValueIntervalSelector = mkSelecto
 -- | @Selector@ for @writeAttributeTemperatureUnitWithValue:expectedValueInterval:params:@
 writeAttributeTemperatureUnitWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
 writeAttributeTemperatureUnitWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeTemperatureUnitWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @readAttributeSupportedTemperatureUnitsWithParams:@
-readAttributeSupportedTemperatureUnitsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeSupportedTemperatureUnitsWithParamsSelector = mkSelector "readAttributeSupportedTemperatureUnitsWithParams:"
 
 -- | @Selector@ for @readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -166,12 +150,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterUnitLocalization)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterUnitLocalization)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterUnitLocalization)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

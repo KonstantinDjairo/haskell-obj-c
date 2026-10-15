@@ -146,7 +146,7 @@ setAllowsCellularAccess ckOperationConfiguration value =
 
 -- | Long lived operations will continue running even if your process exits. If your process remains alive for the lifetime of the long lived operation its behavior is the same as a regular operation.
 --
--- Long lived operations can be fetched and replayed from the container via the @fetchAllLongLivedOperations:@ and @fetchLongLivedOperationsWithIDs:@ APIs. Your code should only fetch and re-enqueue long lived operations on app launch.
+-- Long lived operations can be fetched and replayed from the container via the @fetchAllLongLivedOperations:@ and @fetchLongLivedOperationsWithIDs:@ APIs.
 --
 -- Long lived operations persist until their -[NSOperation completionBlock] returns or until the operation is cancelled.  Long lived operations may be garbage collected 24 hours after they finish running if no client has replayed them.
 --
@@ -159,7 +159,7 @@ longLived ckOperationConfiguration =
 
 -- | Long lived operations will continue running even if your process exits. If your process remains alive for the lifetime of the long lived operation its behavior is the same as a regular operation.
 --
--- Long lived operations can be fetched and replayed from the container via the @fetchAllLongLivedOperations:@ and @fetchLongLivedOperationsWithIDs:@ APIs. Your code should only fetch and re-enqueue long lived operations on app launch.
+-- Long lived operations can be fetched and replayed from the container via the @fetchAllLongLivedOperations:@ and @fetchLongLivedOperationsWithIDs:@ APIs.
 --
 -- Long lived operations persist until their -[NSOperation completionBlock] returns or until the operation is cancelled.  Long lived operations may be garbage collected 24 hours after they finish running if no client has replayed them.
 --

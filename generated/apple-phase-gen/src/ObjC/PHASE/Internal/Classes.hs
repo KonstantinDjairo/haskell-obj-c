@@ -324,6 +324,31 @@ instance IsPHASEEnvelopeSegment (Id PHASEEnvelopeSegment) where
 instance IsNSObject (Id PHASEEnvelopeSegment) where
   toNSObject = unsafeCastId
 
+-- ---------- PHASEGeneratorParameters ----------
+
+-- | *************************************************************************************************
+--
+-- PHASEGeneratorParameters
+--
+-- An object that holds a standard set of audio parameters common to several objects
+-- 
+-- Phantom type for @PHASEGeneratorParameters@.
+data PHASEGeneratorParameters
+
+instance IsObjCObject (Id PHASEGeneratorParameters) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "PHASEGeneratorParameters"
+
+class IsNSObject a => IsPHASEGeneratorParameters a where
+  toPHASEGeneratorParameters :: a -> Id PHASEGeneratorParameters
+
+instance IsPHASEGeneratorParameters (Id PHASEGeneratorParameters) where
+  toPHASEGeneratorParameters = unsafeCastId
+
+instance IsNSObject (Id PHASEGeneratorParameters) where
+  toNSObject = unsafeCastId
+
 -- ---------- PHASEGroup ----------
 
 -- | *************************************************************************************************
@@ -578,6 +603,31 @@ instance IsPHASEObject (Id PHASEObject) where
 instance IsNSObject (Id PHASEObject) where
   toNSObject = unsafeCastId
 
+-- ---------- PHASEPushStreamNode ----------
+
+-- | *************************************************************************************************
+--
+-- PHASEPushStreamNode
+--
+-- An object for addessing an instance of a stream in an executing sound event
+-- 
+-- Phantom type for @PHASEPushStreamNode@.
+data PHASEPushStreamNode
+
+instance IsObjCObject (Id PHASEPushStreamNode) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "PHASEPushStreamNode"
+
+class IsNSObject a => IsPHASEPushStreamNode a where
+  toPHASEPushStreamNode :: a -> Id PHASEPushStreamNode
+
+instance IsPHASEPushStreamNode (Id PHASEPushStreamNode) where
+  toPHASEPushStreamNode = unsafeCastId
+
+instance IsNSObject (Id PHASEPushStreamNode) where
+  toNSObject = unsafeCastId
+
 -- ---------- PHASEShape ----------
 
 -- | *************************************************************************************************
@@ -701,31 +751,6 @@ instance IsPHASESpatialPipelineEntry (Id PHASESpatialPipelineEntry) where
   toPHASESpatialPipelineEntry = unsafeCastId
 
 instance IsNSObject (Id PHASESpatialPipelineEntry) where
-  toNSObject = unsafeCastId
-
--- ---------- PHASEStreamNode ----------
-
--- | *************************************************************************************************
---
--- PHASEStreamNode
---
--- The base class for stream nodes, exposing common elements.
--- 
--- Phantom type for @PHASEStreamNode@.
-data PHASEStreamNode
-
-instance IsObjCObject (Id PHASEStreamNode) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PHASEStreamNode"
-
-class IsNSObject a => IsPHASEStreamNode a where
-  toPHASEStreamNode :: a -> Id PHASEStreamNode
-
-instance IsPHASEStreamNode (Id PHASEStreamNode) where
-  toPHASEStreamNode = unsafeCastId
-
-instance IsNSObject (Id PHASEStreamNode) where
   toNSObject = unsafeCastId
 
 -- ---------- PHASEGlobalMetaParameterAsset ----------
@@ -878,7 +903,7 @@ instance IsPHASEDefinition (Id PHASEMixerDefinition) where
 --
 -- The base class for a sound event node definition.
 --
--- Sound event nodes are a hierarchical collection of objects that either generate or control playback of audio content in PHASE.        Generator nodes produce audio. They are always leaf nodes in a node hierarchy. These include samplers and stream nodes.        Control nodes set the logic for how generator nodes are selected, mixed and parameterized before downstream mixer processing.        Control nodes are always parent nodes, and can be organized into hierarchies for complex sound design scenarios.
+-- Sound event nodes are a hierarchical collection of objects that either generate or control playback of audio content in PHASE.        Generator nodes produce audio. They are always leaf nodes in a node hierarchy. These include samplers and push stream nodes.        Control nodes set the logic for how generator nodes are selected, mixed and parameterized before downstream mixer processing.        Control nodes are always parent nodes, and can be organized into hierarchies for complex sound design scenarios.
 -- 
 -- Phantom type for @PHASESoundEventNodeDefinition@.
 data PHASESoundEventNodeDefinition
@@ -1157,62 +1182,6 @@ instance IsNSObject (Id PHASESource) where
 
 instance IsPHASEObject (Id PHASESource) where
   toPHASEObject = unsafeCastId
-
--- ---------- PHASEPullStreamNode ----------
-
--- | *************************************************************************************************
---
--- PHASEPullStreamNode
---
--- An object for addessing an instance of a stream in an executing sound event
--- 
--- Phantom type for @PHASEPullStreamNode@.
-data PHASEPullStreamNode
-
-instance IsObjCObject (Id PHASEPullStreamNode) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PHASEPullStreamNode"
-
-class IsPHASEStreamNode a => IsPHASEPullStreamNode a where
-  toPHASEPullStreamNode :: a -> Id PHASEPullStreamNode
-
-instance IsPHASEPullStreamNode (Id PHASEPullStreamNode) where
-  toPHASEPullStreamNode = unsafeCastId
-
-instance IsNSObject (Id PHASEPullStreamNode) where
-  toNSObject = unsafeCastId
-
-instance IsPHASEStreamNode (Id PHASEPullStreamNode) where
-  toPHASEStreamNode = unsafeCastId
-
--- ---------- PHASEPushStreamNode ----------
-
--- | *************************************************************************************************
---
--- PHASEPushStreamNode
---
--- An object for addessing an instance of a stream in an executing sound event
--- 
--- Phantom type for @PHASEPushStreamNode@.
-data PHASEPushStreamNode
-
-instance IsObjCObject (Id PHASEPushStreamNode) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PHASEPushStreamNode"
-
-class IsPHASEStreamNode a => IsPHASEPushStreamNode a where
-  toPHASEPushStreamNode :: a -> Id PHASEPushStreamNode
-
-instance IsPHASEPushStreamNode (Id PHASEPushStreamNode) where
-  toPHASEPushStreamNode = unsafeCastId
-
-instance IsNSObject (Id PHASEPushStreamNode) where
-  toNSObject = unsafeCastId
-
-instance IsPHASEStreamNode (Id PHASEPushStreamNode) where
-  toPHASEStreamNode = unsafeCastId
 
 -- ---------- PHASENumberMetaParameterDefinition ----------
 
@@ -1573,40 +1542,6 @@ instance IsPHASEMetaParameterDefinition (Id PHASEMappedMetaParameterDefinition) 
 
 instance IsPHASENumberMetaParameterDefinition (Id PHASEMappedMetaParameterDefinition) where
   toPHASENumberMetaParameterDefinition = unsafeCastId
-
--- ---------- PHASEPullStreamNodeDefinition ----------
-
--- | *************************************************************************************************
---
--- PHASEPullStreamNodeDefinition
---
--- An object for defining a pull stream sound event node when building a sound event.
--- 
--- Phantom type for @PHASEPullStreamNodeDefinition@.
-data PHASEPullStreamNodeDefinition
-
-instance IsObjCObject (Id PHASEPullStreamNodeDefinition) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "PHASEPullStreamNodeDefinition"
-
-class IsPHASEGeneratorNodeDefinition a => IsPHASEPullStreamNodeDefinition a where
-  toPHASEPullStreamNodeDefinition :: a -> Id PHASEPullStreamNodeDefinition
-
-instance IsPHASEPullStreamNodeDefinition (Id PHASEPullStreamNodeDefinition) where
-  toPHASEPullStreamNodeDefinition = unsafeCastId
-
-instance IsNSObject (Id PHASEPullStreamNodeDefinition) where
-  toNSObject = unsafeCastId
-
-instance IsPHASEDefinition (Id PHASEPullStreamNodeDefinition) where
-  toPHASEDefinition = unsafeCastId
-
-instance IsPHASEGeneratorNodeDefinition (Id PHASEPullStreamNodeDefinition) where
-  toPHASEGeneratorNodeDefinition = unsafeCastId
-
-instance IsPHASESoundEventNodeDefinition (Id PHASEPullStreamNodeDefinition) where
-  toPHASESoundEventNodeDefinition = unsafeCastId
 
 -- ---------- PHASEPushStreamNodeDefinition ----------
 

@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterLocalizationConfiguration
   ( MTRClusterLocalizationConfiguration
   , IsMTRClusterLocalizationConfiguration(..)
+  , initWithDevice_endpoint_queue
   , readAttributeActiveLocaleWithParams
   , writeAttributeActiveLocaleWithValue_expectedValueInterval
   , writeAttributeActiveLocaleWithValue_expectedValueInterval_params
@@ -20,10 +21,7 @@ module ObjC.Matter.MTRClusterLocalizationConfiguration
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -49,6 +47,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterLocalizationConfiguration mtrClusterLocalizationConfiguration, IsMTRDevice device, IsNSObject queue) => mtrClusterLocalizationConfiguration -> device -> CUShort -> queue -> IO (Id MTRClusterLocalizationConfiguration)
+initWithDevice_endpoint_queue mtrClusterLocalizationConfiguration device endpoint queue =
+  sendOwnedMessage mtrClusterLocalizationConfiguration initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeActiveLocaleWithParams:@
 readAttributeActiveLocaleWithParams :: (IsMTRClusterLocalizationConfiguration mtrClusterLocalizationConfiguration, IsMTRReadParams params) => mtrClusterLocalizationConfiguration -> params -> IO (Id NSDictionary)
@@ -107,21 +110,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterLocalizationConfiguration"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterLocalizationConfiguration mtrClusterLocalizationConfiguration, IsMTRDevice device, IsNSObject queue) => mtrClusterLocalizationConfiguration -> device -> CUShort -> queue -> IO (Id MTRClusterLocalizationConfiguration)
-initWithDevice_endpoint_queue mtrClusterLocalizationConfiguration device endpoint queue =
-  sendOwnedMessage mtrClusterLocalizationConfiguration initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterLocalizationConfiguration mtrClusterLocalizationConfiguration, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterLocalizationConfiguration -> device -> endpointID -> queue -> IO (Id MTRClusterLocalizationConfiguration)
-initWithDevice_endpointID_queue mtrClusterLocalizationConfiguration device endpointID queue =
-  sendOwnedMessage mtrClusterLocalizationConfiguration initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterLocalizationConfiguration)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeActiveLocaleWithParams:@
 readAttributeActiveLocaleWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -166,12 +161,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterLocalizationConfiguration)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterLocalizationConfiguration)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterLocalizationConfiguration)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

@@ -7,12 +7,12 @@
 module ObjC.Matter.MTROnOffClusterOffParams
   ( MTROnOffClusterOffParams
   , IsMTROnOffClusterOffParams(..)
+  , init_
+  , copyWithZone
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , serverSideProcessingTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -29,6 +29,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTROnOffClusterOffParams mtrOnOffClusterOffParams => mtrOnOffClusterOffParams -> IO (Id MTROnOffClusterOffParams)
+init_ mtrOnOffClusterOffParams =
+  sendOwnedMessage mtrOnOffClusterOffParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROnOffClusterOffParams mtrOnOffClusterOffParams => mtrOnOffClusterOffParams -> Ptr () -> IO RawId
+copyWithZone mtrOnOffClusterOffParams zone =
+  sendOwnedMessage mtrOnOffClusterOffParams copyWithZoneSelector zone
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -52,31 +62,17 @@ setTimedInvokeTimeoutMs :: (IsMTROnOffClusterOffParams mtrOnOffClusterOffParams,
 setTimedInvokeTimeoutMs mtrOnOffClusterOffParams value =
   sendMessage mtrOnOffClusterOffParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTROnOffClusterOffParams mtrOnOffClusterOffParams => mtrOnOffClusterOffParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrOnOffClusterOffParams =
-  sendMessage mtrOnOffClusterOffParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTROnOffClusterOffParams mtrOnOffClusterOffParams, IsNSNumber value) => mtrOnOffClusterOffParams -> value -> IO ()
-setServerSideProcessingTimeout mtrOnOffClusterOffParams value =
-  sendMessage mtrOnOffClusterOffParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROnOffClusterOffParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
@@ -85,12 +81,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

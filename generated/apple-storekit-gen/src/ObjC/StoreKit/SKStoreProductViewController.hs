@@ -9,12 +9,8 @@ module ObjC.StoreKit.SKStoreProductViewController
   , IsSKStoreProductViewController(..)
   , loadProductWithParameters_completionBlock
   , loadProductWithParameters_impression_completionBlock
-  , delegate
-  , setDelegate
-  , delegateSelector
   , loadProductWithParameters_completionBlockSelector
   , loadProductWithParameters_impression_completionBlockSelector
-  , setDelegateSelector
 
 
   ) where
@@ -41,16 +37,6 @@ loadProductWithParameters_impression_completionBlock :: (IsSKStoreProductViewCon
 loadProductWithParameters_impression_completionBlock skStoreProductViewController parameters impression block =
   sendMessage skStoreProductViewController loadProductWithParameters_impression_completionBlockSelector (toNSDictionary parameters) (toSKAdImpression impression) block
 
--- | @- delegate@
-delegate :: IsSKStoreProductViewController skStoreProductViewController => skStoreProductViewController -> IO RawId
-delegate skStoreProductViewController =
-  sendMessage skStoreProductViewController delegateSelector
-
--- | @- setDelegate:@
-setDelegate :: IsSKStoreProductViewController skStoreProductViewController => skStoreProductViewController -> RawId -> IO ()
-setDelegate skStoreProductViewController value =
-  sendMessage skStoreProductViewController setDelegateSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -62,12 +48,4 @@ loadProductWithParameters_completionBlockSelector = mkSelector "loadProductWithP
 -- | @Selector@ for @loadProductWithParameters:impression:completionBlock:@
 loadProductWithParameters_impression_completionBlockSelector :: Selector '[Id NSDictionary, Id SKAdImpression, Ptr ()] ()
 loadProductWithParameters_impression_completionBlockSelector = mkSelector "loadProductWithParameters:impression:completionBlock:"
-
--- | @Selector@ for @delegate@
-delegateSelector :: Selector '[] RawId
-delegateSelector = mkSelector "delegate"
-
--- | @Selector@ for @setDelegate:@
-setDelegateSelector :: Selector '[RawId] ()
-setDelegateSelector = mkSelector "setDelegate:"
 

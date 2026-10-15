@@ -7,11 +7,13 @@ dependencies:
 - base >= 4.7 && < 5
 - haskell-obj-c
 - libffi
+- apple-corelocation-gen
 - apple-foundation-gen
 
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -64,44 +66,9 @@ library:
   - ObjC.CloudKit.CKReference
   - ObjC.CloudKit.CKServerChangeToken
   - ObjC.CloudKit.CKShare
-  - ObjC.CloudKit.CKShareAccessRequester
-  - ObjC.CloudKit.CKShareBlockedIdentity
   - ObjC.CloudKit.CKShareMetadata
   - ObjC.CloudKit.CKShareParticipant
-  - ObjC.CloudKit.CKShareRequestAccessOperation
   - ObjC.CloudKit.CKSubscription
-  - ObjC.CloudKit.CKSyncEngine
-  - ObjC.CloudKit.CKSyncEngineAccountChangeEvent
-  - ObjC.CloudKit.CKSyncEngineConfiguration
-  - ObjC.CloudKit.CKSyncEngineDidFetchChangesEvent
-  - ObjC.CloudKit.CKSyncEngineDidFetchRecordZoneChangesEvent
-  - ObjC.CloudKit.CKSyncEngineDidSendChangesEvent
-  - ObjC.CloudKit.CKSyncEngineEvent
-  - ObjC.CloudKit.CKSyncEngineFailedRecordSave
-  - ObjC.CloudKit.CKSyncEngineFailedZoneSave
-  - ObjC.CloudKit.CKSyncEngineFetchChangesContext
-  - ObjC.CloudKit.CKSyncEngineFetchChangesOptions
-  - ObjC.CloudKit.CKSyncEngineFetchChangesScope
-  - ObjC.CloudKit.CKSyncEngineFetchedDatabaseChangesEvent
-  - ObjC.CloudKit.CKSyncEngineFetchedRecordDeletion
-  - ObjC.CloudKit.CKSyncEngineFetchedRecordZoneChangesEvent
-  - ObjC.CloudKit.CKSyncEngineFetchedZoneDeletion
-  - ObjC.CloudKit.CKSyncEnginePendingDatabaseChange
-  - ObjC.CloudKit.CKSyncEnginePendingRecordZoneChange
-  - ObjC.CloudKit.CKSyncEnginePendingZoneDelete
-  - ObjC.CloudKit.CKSyncEnginePendingZoneSave
-  - ObjC.CloudKit.CKSyncEngineRecordZoneChangeBatch
-  - ObjC.CloudKit.CKSyncEngineSendChangesContext
-  - ObjC.CloudKit.CKSyncEngineSendChangesOptions
-  - ObjC.CloudKit.CKSyncEngineSendChangesScope
-  - ObjC.CloudKit.CKSyncEngineSentDatabaseChangesEvent
-  - ObjC.CloudKit.CKSyncEngineSentRecordZoneChangesEvent
-  - ObjC.CloudKit.CKSyncEngineState
-  - ObjC.CloudKit.CKSyncEngineStateSerialization
-  - ObjC.CloudKit.CKSyncEngineStateUpdateEvent
-  - ObjC.CloudKit.CKSyncEngineWillFetchChangesEvent
-  - ObjC.CloudKit.CKSyncEngineWillFetchRecordZoneChangesEvent
-  - ObjC.CloudKit.CKSyncEngineWillSendChangesEvent
   - ObjC.CloudKit.CKSystemSharingUIObserver
   - ObjC.CloudKit.CKUserIdentity
   - ObjC.CloudKit.CKUserIdentityLookupInfo

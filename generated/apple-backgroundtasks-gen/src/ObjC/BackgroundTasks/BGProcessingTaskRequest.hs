@@ -3,7 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A request to launch your app in the background to execute a processing task that can take minutes to complete.
+-- | A request to launch your app to perform deferrable processing tasks.
 --
 -- Schedule a processing task request to ask that the system launch your app when conditions are favorable for battery life to handle deferrable, longer-running processing, such as syncing, database maintenance, or similar tasks. The system will attempt to fulfill this request to the best of its ability within the next two days as long as the user has used your app within the past week.
 --
@@ -36,27 +36,23 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.BackgroundTasks.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Return a new processing task request for the specified identifier.
---
--- - Parameters:     - identifier: The string identifier of the processing task associated with the request.
---
--- ObjC selector: @- initWithIdentifier:@
+-- | @- initWithIdentifier:@
 initWithIdentifier :: (IsBGProcessingTaskRequest bgProcessingTaskRequest, IsNSString identifier) => bgProcessingTaskRequest -> identifier -> IO (Id BGProcessingTaskRequest)
 initWithIdentifier bgProcessingTaskRequest identifier =
   sendOwnedMessage bgProcessingTaskRequest initWithIdentifierSelector (toNSString identifier)
 
--- | A Boolean specifying if the processing task requires network connectivity.
+-- | Whether the background task represented by this request requires network connectivity.
 --
--- If this property is set to YES, the system will only launch your app to fulfill this request when the device has a network connection. If this is set to NO, your app may not have network access. - Note: The default value is @NO@.
+-- If this property is set to YES, the system will only launch your app to fulfill this request when the device has a network connection. If this is set to NO, your app may not have network access. The default value is NO.
 --
 -- ObjC selector: @- requiresNetworkConnectivity@
 requiresNetworkConnectivity :: IsBGProcessingTaskRequest bgProcessingTaskRequest => bgProcessingTaskRequest -> IO Bool
 requiresNetworkConnectivity bgProcessingTaskRequest =
   sendMessage bgProcessingTaskRequest requiresNetworkConnectivitySelector
 
--- | A Boolean specifying if the processing task requires network connectivity.
+-- | Whether the background task represented by this request requires network connectivity.
 --
--- If this property is set to YES, the system will only launch your app to fulfill this request when the device has a network connection. If this is set to NO, your app may not have network access. - Note: The default value is @NO@.
+-- If this property is set to YES, the system will only launch your app to fulfill this request when the device has a network connection. If this is set to NO, your app may not have network access. The default value is NO.
 --
 -- ObjC selector: @- setRequiresNetworkConnectivity:@
 setRequiresNetworkConnectivity :: IsBGProcessingTaskRequest bgProcessingTaskRequest => bgProcessingTaskRequest -> Bool -> IO ()
@@ -65,7 +61,7 @@ setRequiresNetworkConnectivity bgProcessingTaskRequest value =
 
 -- | Whether the background task represented by this request should only be done while the device is connected to external power.
 --
--- If this property is set to @YES@, the system will launch your app to fulfill this request only while the device is connected to external power. Setting this to @YES@ will also disable the CPU Monitor feature. Specify @YES@ if this task is resource intensive to minimize impact to battery life. Please note that, even if this value is @NO@, the system will not necessarily schedule this task while the device is on battery power, depending on the type of device and system conditions. - Note: The default value is @NO@.
+-- If this property is set to YES, the system will launch your app to fulfill this request only while the device is connected to external power. Setting this to YES will also disable the CPU Monitor feature. Specify YES if this task is resource intensive to minimize impact to battery life. Please note that, even if this value is NO, the system will not necessarily schedule this task while the device is on battery power, depending on the type of device and system conditions. The default value is NO.
 --
 -- ObjC selector: @- requiresExternalPower@
 requiresExternalPower :: IsBGProcessingTaskRequest bgProcessingTaskRequest => bgProcessingTaskRequest -> IO Bool
@@ -74,7 +70,7 @@ requiresExternalPower bgProcessingTaskRequest =
 
 -- | Whether the background task represented by this request should only be done while the device is connected to external power.
 --
--- If this property is set to @YES@, the system will launch your app to fulfill this request only while the device is connected to external power. Setting this to @YES@ will also disable the CPU Monitor feature. Specify @YES@ if this task is resource intensive to minimize impact to battery life. Please note that, even if this value is @NO@, the system will not necessarily schedule this task while the device is on battery power, depending on the type of device and system conditions. - Note: The default value is @NO@.
+-- If this property is set to YES, the system will launch your app to fulfill this request only while the device is connected to external power. Setting this to YES will also disable the CPU Monitor feature. Specify YES if this task is resource intensive to minimize impact to battery life. Please note that, even if this value is NO, the system will not necessarily schedule this task while the device is on battery power, depending on the type of device and system conditions. The default value is NO.
 --
 -- ObjC selector: @- setRequiresExternalPower:@
 setRequiresExternalPower :: IsBGProcessingTaskRequest bgProcessingTaskRequest => bgProcessingTaskRequest -> Bool -> IO ()

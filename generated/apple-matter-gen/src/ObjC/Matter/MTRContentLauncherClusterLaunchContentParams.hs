@@ -7,34 +7,26 @@
 module ObjC.Matter.MTRContentLauncherClusterLaunchContentParams
   ( MTRContentLauncherClusterLaunchContentParams
   , IsMTRContentLauncherClusterLaunchContentParams(..)
+  , init_
+  , copyWithZone
   , search
   , setSearch
   , autoPlay
   , setAutoPlay
   , data_
   , setData
-  , playbackPreferences
-  , setPlaybackPreferences
-  , useCurrentContext
-  , setUseCurrentContext
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
   , autoPlaySelector
+  , copyWithZoneSelector
   , dataSelector
-  , playbackPreferencesSelector
+  , initSelector
   , searchSelector
-  , serverSideProcessingTimeoutSelector
   , setAutoPlaySelector
   , setDataSelector
-  , setPlaybackPreferencesSelector
   , setSearchSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
-  , setUseCurrentContextSelector
   , timedInvokeTimeoutMsSelector
-  , useCurrentContextSelector
 
 
   ) where
@@ -50,15 +42,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> IO (Id MTRContentLauncherClusterLaunchContentParams)
+init_ mtrContentLauncherClusterLaunchContentParams =
+  sendOwnedMessage mtrContentLauncherClusterLaunchContentParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> Ptr () -> IO RawId
+copyWithZone mtrContentLauncherClusterLaunchContentParams zone =
+  sendOwnedMessage mtrContentLauncherClusterLaunchContentParams copyWithZoneSelector zone
+
 -- | @- search@
-search :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> IO (Id MTRContentLauncherClusterContentSearchStruct)
+search :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> IO (Id MTRContentLauncherClusterContentSearch)
 search mtrContentLauncherClusterLaunchContentParams =
   sendMessage mtrContentLauncherClusterLaunchContentParams searchSelector
 
 -- | @- setSearch:@
-setSearch :: (IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams, IsMTRContentLauncherClusterContentSearchStruct value) => mtrContentLauncherClusterLaunchContentParams -> value -> IO ()
+setSearch :: (IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams, IsMTRContentLauncherClusterContentSearch value) => mtrContentLauncherClusterLaunchContentParams -> value -> IO ()
 setSearch mtrContentLauncherClusterLaunchContentParams value =
-  sendMessage mtrContentLauncherClusterLaunchContentParams setSearchSelector (toMTRContentLauncherClusterContentSearchStruct value)
+  sendMessage mtrContentLauncherClusterLaunchContentParams setSearchSelector (toMTRContentLauncherClusterContentSearch value)
 
 -- | @- autoPlay@
 autoPlay :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> IO (Id NSNumber)
@@ -79,26 +81,6 @@ data_ mtrContentLauncherClusterLaunchContentParams =
 setData :: (IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams, IsNSString value) => mtrContentLauncherClusterLaunchContentParams -> value -> IO ()
 setData mtrContentLauncherClusterLaunchContentParams value =
   sendMessage mtrContentLauncherClusterLaunchContentParams setDataSelector (toNSString value)
-
--- | @- playbackPreferences@
-playbackPreferences :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> IO (Id MTRContentLauncherClusterPlaybackPreferencesStruct)
-playbackPreferences mtrContentLauncherClusterLaunchContentParams =
-  sendMessage mtrContentLauncherClusterLaunchContentParams playbackPreferencesSelector
-
--- | @- setPlaybackPreferences:@
-setPlaybackPreferences :: (IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams, IsMTRContentLauncherClusterPlaybackPreferencesStruct value) => mtrContentLauncherClusterLaunchContentParams -> value -> IO ()
-setPlaybackPreferences mtrContentLauncherClusterLaunchContentParams value =
-  sendMessage mtrContentLauncherClusterLaunchContentParams setPlaybackPreferencesSelector (toMTRContentLauncherClusterPlaybackPreferencesStruct value)
-
--- | @- useCurrentContext@
-useCurrentContext :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> IO (Id NSNumber)
-useCurrentContext mtrContentLauncherClusterLaunchContentParams =
-  sendMessage mtrContentLauncherClusterLaunchContentParams useCurrentContextSelector
-
--- | @- setUseCurrentContext:@
-setUseCurrentContext :: (IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams, IsNSNumber value) => mtrContentLauncherClusterLaunchContentParams -> value -> IO ()
-setUseCurrentContext mtrContentLauncherClusterLaunchContentParams value =
-  sendMessage mtrContentLauncherClusterLaunchContentParams setUseCurrentContextSelector (toNSNumber value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -122,38 +104,24 @@ setTimedInvokeTimeoutMs :: (IsMTRContentLauncherClusterLaunchContentParams mtrCo
 setTimedInvokeTimeoutMs mtrContentLauncherClusterLaunchContentParams value =
   sendMessage mtrContentLauncherClusterLaunchContentParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams => mtrContentLauncherClusterLaunchContentParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrContentLauncherClusterLaunchContentParams =
-  sendMessage mtrContentLauncherClusterLaunchContentParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRContentLauncherClusterLaunchContentParams mtrContentLauncherClusterLaunchContentParams, IsNSNumber value) => mtrContentLauncherClusterLaunchContentParams -> value -> IO ()
-setServerSideProcessingTimeout mtrContentLauncherClusterLaunchContentParams value =
-  sendMessage mtrContentLauncherClusterLaunchContentParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRContentLauncherClusterLaunchContentParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
 -- | @Selector@ for @search@
-searchSelector :: Selector '[] (Id MTRContentLauncherClusterContentSearchStruct)
+searchSelector :: Selector '[] (Id MTRContentLauncherClusterContentSearch)
 searchSelector = mkSelector "search"
 
 -- | @Selector@ for @setSearch:@
-setSearchSelector :: Selector '[Id MTRContentLauncherClusterContentSearchStruct] ()
+setSearchSelector :: Selector '[Id MTRContentLauncherClusterContentSearch] ()
 setSearchSelector = mkSelector "setSearch:"
 
 -- | @Selector@ for @autoPlay@
@@ -172,22 +140,6 @@ dataSelector = mkSelector "data"
 setDataSelector :: Selector '[Id NSString] ()
 setDataSelector = mkSelector "setData:"
 
--- | @Selector@ for @playbackPreferences@
-playbackPreferencesSelector :: Selector '[] (Id MTRContentLauncherClusterPlaybackPreferencesStruct)
-playbackPreferencesSelector = mkSelector "playbackPreferences"
-
--- | @Selector@ for @setPlaybackPreferences:@
-setPlaybackPreferencesSelector :: Selector '[Id MTRContentLauncherClusterPlaybackPreferencesStruct] ()
-setPlaybackPreferencesSelector = mkSelector "setPlaybackPreferences:"
-
--- | @Selector@ for @useCurrentContext@
-useCurrentContextSelector :: Selector '[] (Id NSNumber)
-useCurrentContextSelector = mkSelector "useCurrentContext"
-
--- | @Selector@ for @setUseCurrentContext:@
-setUseCurrentContextSelector :: Selector '[Id NSNumber] ()
-setUseCurrentContextSelector = mkSelector "setUseCurrentContext:"
-
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
 timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
@@ -195,12 +147,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

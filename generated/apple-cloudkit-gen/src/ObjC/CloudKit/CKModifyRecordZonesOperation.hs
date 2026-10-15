@@ -74,7 +74,7 @@ setRecordZoneIDsToDelete ckModifyRecordZonesOperation value =
 
 -- | Called on success or failure of a record zone save
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordZoneSaveBlock@
 perRecordZoneSaveBlock :: IsCKModifyRecordZonesOperation ckModifyRecordZonesOperation => ckModifyRecordZonesOperation -> IO (Ptr ())
@@ -83,7 +83,7 @@ perRecordZoneSaveBlock ckModifyRecordZonesOperation =
 
 -- | Called on success or failure of a record zone save
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordZoneSaveBlock:@
 setPerRecordZoneSaveBlock :: IsCKModifyRecordZonesOperation ckModifyRecordZonesOperation => ckModifyRecordZonesOperation -> Ptr () -> IO ()
@@ -92,7 +92,7 @@ setPerRecordZoneSaveBlock ckModifyRecordZonesOperation value =
 
 -- | Called on success or failure of a record zone deletion
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordZoneDeleteBlock@
 perRecordZoneDeleteBlock :: IsCKModifyRecordZonesOperation ckModifyRecordZonesOperation => ckModifyRecordZonesOperation -> IO (Ptr ())
@@ -101,7 +101,7 @@ perRecordZoneDeleteBlock ckModifyRecordZonesOperation =
 
 -- | Called on success or failure of a record zone deletion
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordZoneDeleteBlock:@
 setPerRecordZoneDeleteBlock :: IsCKModifyRecordZonesOperation ckModifyRecordZonesOperation => ckModifyRecordZonesOperation -> Ptr () -> IO ()

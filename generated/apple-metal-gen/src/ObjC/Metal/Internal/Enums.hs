@@ -14,387 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | Enumeration for controlling alpha-to-coverage state of a pipeline state object.
--- | @MTL4AlphaToCoverageState@
-newtype MTL4AlphaToCoverageState = MTL4AlphaToCoverageState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4AlphaToCoverageStateDisabled :: MTL4AlphaToCoverageState
-pattern MTL4AlphaToCoverageStateDisabled = MTL4AlphaToCoverageState 0
-
-pattern MTL4AlphaToCoverageStateEnabled :: MTL4AlphaToCoverageState
-pattern MTL4AlphaToCoverageStateEnabled = MTL4AlphaToCoverageState 1
-
-instance ObjCArgument MTL4AlphaToCoverageState where
-  withObjCArg (MTL4AlphaToCoverageState x) k = k (argCLong x)
-
-instance ObjCReturn MTL4AlphaToCoverageState where
-  type RawReturn MTL4AlphaToCoverageState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4AlphaToCoverageState x)
-  fromOwned x = pure (MTL4AlphaToCoverageState x)
-
--- | Enumeration for controlling alpha-to-one state of a pipeline state object.
--- | @MTL4AlphaToOneState@
-newtype MTL4AlphaToOneState = MTL4AlphaToOneState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4AlphaToOneStateDisabled :: MTL4AlphaToOneState
-pattern MTL4AlphaToOneStateDisabled = MTL4AlphaToOneState 0
-
-pattern MTL4AlphaToOneStateEnabled :: MTL4AlphaToOneState
-pattern MTL4AlphaToOneStateEnabled = MTL4AlphaToOneState 1
-
-instance ObjCArgument MTL4AlphaToOneState where
-  withObjCArg (MTL4AlphaToOneState x) k = k (argCLong x)
-
-instance ObjCReturn MTL4AlphaToOneState where
-  type RawReturn MTL4AlphaToOneState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4AlphaToOneState x)
-  fromOwned x = pure (MTL4AlphaToOneState x)
-
--- | Options for configuring the creation of binary functions.
--- | @MTL4BinaryFunctionOptions@ (bitmask)
-newtype MTL4BinaryFunctionOptions = MTL4BinaryFunctionOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTL4BinaryFunctionOptions where
-  (<>) = (.|.)
-
-instance Monoid MTL4BinaryFunctionOptions where
-  mempty = MTL4BinaryFunctionOptions 0
-
-pattern MTL4BinaryFunctionOptionNone :: MTL4BinaryFunctionOptions
-pattern MTL4BinaryFunctionOptionNone = MTL4BinaryFunctionOptions 0
-
-pattern MTL4BinaryFunctionOptionPipelineIndependent :: MTL4BinaryFunctionOptions
-pattern MTL4BinaryFunctionOptionPipelineIndependent = MTL4BinaryFunctionOptions 2
-
-instance ObjCArgument MTL4BinaryFunctionOptions where
-  withObjCArg (MTL4BinaryFunctionOptions x) k = k (argCULong x)
-
-instance ObjCReturn MTL4BinaryFunctionOptions where
-  type RawReturn MTL4BinaryFunctionOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4BinaryFunctionOptions x)
-  fromOwned x = pure (MTL4BinaryFunctionOptions x)
-
--- | Enumeration for controlling the blend state of a pipeline state object.
--- | @MTL4BlendState@
-newtype MTL4BlendState = MTL4BlendState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4BlendStateDisabled :: MTL4BlendState
-pattern MTL4BlendStateDisabled = MTL4BlendState 0
-
-pattern MTL4BlendStateEnabled :: MTL4BlendState
-pattern MTL4BlendStateEnabled = MTL4BlendState 1
-
-pattern MTL4BlendStateUnspecialized :: MTL4BlendState
-pattern MTL4BlendStateUnspecialized = MTL4BlendState 2
-
-instance ObjCArgument MTL4BlendState where
-  withObjCArg (MTL4BlendState x) k = k (argCLong x)
-
-instance ObjCReturn MTL4BlendState where
-  type RawReturn MTL4BlendState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4BlendState x)
-  fromOwned x = pure (MTL4BlendState x)
-
--- | Enumeration of kinds of errors that committing an array of command buffers instances can produce.
--- | @MTL4CommandQueueError@
-newtype MTL4CommandQueueError = MTL4CommandQueueError CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4CommandQueueErrorNone :: MTL4CommandQueueError
-pattern MTL4CommandQueueErrorNone = MTL4CommandQueueError 0
-
-pattern MTL4CommandQueueErrorTimeout :: MTL4CommandQueueError
-pattern MTL4CommandQueueErrorTimeout = MTL4CommandQueueError 1
-
-pattern MTL4CommandQueueErrorNotPermitted :: MTL4CommandQueueError
-pattern MTL4CommandQueueErrorNotPermitted = MTL4CommandQueueError 2
-
-pattern MTL4CommandQueueErrorOutOfMemory :: MTL4CommandQueueError
-pattern MTL4CommandQueueErrorOutOfMemory = MTL4CommandQueueError 3
-
-pattern MTL4CommandQueueErrorDeviceRemoved :: MTL4CommandQueueError
-pattern MTL4CommandQueueErrorDeviceRemoved = MTL4CommandQueueError 4
-
-pattern MTL4CommandQueueErrorAccessRevoked :: MTL4CommandQueueError
-pattern MTL4CommandQueueErrorAccessRevoked = MTL4CommandQueueError 5
-
-pattern MTL4CommandQueueErrorInternal :: MTL4CommandQueueError
-pattern MTL4CommandQueueErrorInternal = MTL4CommandQueueError 6
-
-instance ObjCArgument MTL4CommandQueueError where
-  withObjCArg (MTL4CommandQueueError x) k = k (argCLong x)
-
-instance ObjCReturn MTL4CommandQueueError where
-  type RawReturn MTL4CommandQueueError = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4CommandQueueError x)
-  fromOwned x = pure (MTL4CommandQueueError x)
-
--- | Represents the status of a compiler task.
--- | @MTL4CompilerTaskStatus@
-newtype MTL4CompilerTaskStatus = MTL4CompilerTaskStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4CompilerTaskStatusNone :: MTL4CompilerTaskStatus
-pattern MTL4CompilerTaskStatusNone = MTL4CompilerTaskStatus 0
-
-pattern MTL4CompilerTaskStatusScheduled :: MTL4CompilerTaskStatus
-pattern MTL4CompilerTaskStatusScheduled = MTL4CompilerTaskStatus 1
-
-pattern MTL4CompilerTaskStatusCompiling :: MTL4CompilerTaskStatus
-pattern MTL4CompilerTaskStatusCompiling = MTL4CompilerTaskStatus 2
-
-pattern MTL4CompilerTaskStatusFinished :: MTL4CompilerTaskStatus
-pattern MTL4CompilerTaskStatusFinished = MTL4CompilerTaskStatus 3
-
-instance ObjCArgument MTL4CompilerTaskStatus where
-  withObjCArg (MTL4CompilerTaskStatus x) k = k (argCLong x)
-
-instance ObjCReturn MTL4CompilerTaskStatus where
-  type RawReturn MTL4CompilerTaskStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4CompilerTaskStatus x)
-  fromOwned x = pure (MTL4CompilerTaskStatus x)
-
--- | Defines the type of a ``MTL4CounterHeap`` and the contents of its entries.
--- | @MTL4CounterHeapType@
-newtype MTL4CounterHeapType = MTL4CounterHeapType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4CounterHeapTypeInvalid :: MTL4CounterHeapType
-pattern MTL4CounterHeapTypeInvalid = MTL4CounterHeapType 0
-
-pattern MTL4CounterHeapTypeTimestamp :: MTL4CounterHeapType
-pattern MTL4CounterHeapTypeTimestamp = MTL4CounterHeapType 1
-
-instance ObjCArgument MTL4CounterHeapType where
-  withObjCArg (MTL4CounterHeapType x) k = k (argCLong x)
-
-instance ObjCReturn MTL4CounterHeapType where
-  type RawReturn MTL4CounterHeapType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4CounterHeapType x)
-  fromOwned x = pure (MTL4CounterHeapType x)
-
--- | Enumeration for controlling support for ``MTLIndirectCommandBuffer``.
--- | @MTL4IndirectCommandBufferSupportState@
-newtype MTL4IndirectCommandBufferSupportState = MTL4IndirectCommandBufferSupportState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4IndirectCommandBufferSupportStateDisabled :: MTL4IndirectCommandBufferSupportState
-pattern MTL4IndirectCommandBufferSupportStateDisabled = MTL4IndirectCommandBufferSupportState 0
-
-pattern MTL4IndirectCommandBufferSupportStateEnabled :: MTL4IndirectCommandBufferSupportState
-pattern MTL4IndirectCommandBufferSupportStateEnabled = MTL4IndirectCommandBufferSupportState 1
-
-instance ObjCArgument MTL4IndirectCommandBufferSupportState where
-  withObjCArg (MTL4IndirectCommandBufferSupportState x) k = k (argCLong x)
-
-instance ObjCReturn MTL4IndirectCommandBufferSupportState where
-  type RawReturn MTL4IndirectCommandBufferSupportState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4IndirectCommandBufferSupportState x)
-  fromOwned x = pure (MTL4IndirectCommandBufferSupportState x)
-
--- | Enumerates possible behaviors of how a pipeline maps its logical outputs to its color attachments.
--- | @MTL4LogicalToPhysicalColorAttachmentMappingState@
-newtype MTL4LogicalToPhysicalColorAttachmentMappingState = MTL4LogicalToPhysicalColorAttachmentMappingState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4LogicalToPhysicalColorAttachmentMappingStateIdentity :: MTL4LogicalToPhysicalColorAttachmentMappingState
-pattern MTL4LogicalToPhysicalColorAttachmentMappingStateIdentity = MTL4LogicalToPhysicalColorAttachmentMappingState 0
-
-pattern MTL4LogicalToPhysicalColorAttachmentMappingStateInherited :: MTL4LogicalToPhysicalColorAttachmentMappingState
-pattern MTL4LogicalToPhysicalColorAttachmentMappingStateInherited = MTL4LogicalToPhysicalColorAttachmentMappingState 1
-
-instance ObjCArgument MTL4LogicalToPhysicalColorAttachmentMappingState where
-  withObjCArg (MTL4LogicalToPhysicalColorAttachmentMappingState x) k = k (argCLong x)
-
-instance ObjCReturn MTL4LogicalToPhysicalColorAttachmentMappingState where
-  type RawReturn MTL4LogicalToPhysicalColorAttachmentMappingState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4LogicalToPhysicalColorAttachmentMappingState x)
-  fromOwned x = pure (MTL4LogicalToPhysicalColorAttachmentMappingState x)
-
--- | Configuration options for pipeline dataset serializer objects.
---
--- Use these options to enable different functionality in instances of ``MTL4PipelineDataSetSerializer``.
---
--- You can combine these values via a logical @OR@ and set it to ``MTL4PipelineDataSetSerializerDescriptor/configuration`` to specify desired level of serialization support for instances of ``MTL4PipelineDataSetSerializer``.
--- | @MTL4PipelineDataSetSerializerConfiguration@ (bitmask)
-newtype MTL4PipelineDataSetSerializerConfiguration = MTL4PipelineDataSetSerializerConfiguration CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTL4PipelineDataSetSerializerConfiguration where
-  (<>) = (.|.)
-
-instance Monoid MTL4PipelineDataSetSerializerConfiguration where
-  mempty = MTL4PipelineDataSetSerializerConfiguration 0
-
-pattern MTL4PipelineDataSetSerializerConfigurationCaptureDescriptors :: MTL4PipelineDataSetSerializerConfiguration
-pattern MTL4PipelineDataSetSerializerConfigurationCaptureDescriptors = MTL4PipelineDataSetSerializerConfiguration 1
-
-pattern MTL4PipelineDataSetSerializerConfigurationCaptureBinaries :: MTL4PipelineDataSetSerializerConfiguration
-pattern MTL4PipelineDataSetSerializerConfigurationCaptureBinaries = MTL4PipelineDataSetSerializerConfiguration 2
-
-instance ObjCArgument MTL4PipelineDataSetSerializerConfiguration where
-  withObjCArg (MTL4PipelineDataSetSerializerConfiguration x) k = k (argCULong x)
-
-instance ObjCReturn MTL4PipelineDataSetSerializerConfiguration where
-  type RawReturn MTL4PipelineDataSetSerializerConfiguration = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4PipelineDataSetSerializerConfiguration x)
-  fromOwned x = pure (MTL4PipelineDataSetSerializerConfiguration x)
-
--- | Custom render pass options you specify at encoder creation time.
---
--- Use these options to implement parallel encoding of render passes across multiple CPU threads by providing these values to the @options@ parameter of ``MTL4CommandBuffer/renderCommandEncoderWithDescriptor:options:`` and observing these requirements:
---
--- 1. Commit all command encoders together in an array you provide to ``MTL4CommandQueue/commit:count:`` or ``MTL4CommandQueue/commit:count:options:`` 2. The first command buffer in the array contains a render pass that you start with option ``MTL4RenderEncoderOptionSuspending`` 3. The last command buffer in the array contains the same render pass that you start with option ``MTL4RenderEncoderOptionResuming`` 4. All intermediate command buffers between the first and last in the array contain the same render pass that you start with both ``MTL4RenderEncoderOptionResuming`` and ``MTL4RenderEncoderOptionSuspending`` options. 5. The sequence of render passes, in submission order, doesn't intermix with compute, blit, acceleration structure or machine learning encoding. 6. A command buffer shouldn't contain a render pass that you start with option ``MTL4RenderEncoderOptionSuspending`` if it already contains a render pass that you start with option ``MTL4RenderEncoderOptionResuming``.
--- | @MTL4RenderEncoderOptions@ (bitmask)
-newtype MTL4RenderEncoderOptions = MTL4RenderEncoderOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTL4RenderEncoderOptions where
-  (<>) = (.|.)
-
-instance Monoid MTL4RenderEncoderOptions where
-  mempty = MTL4RenderEncoderOptions 0
-
-pattern MTL4RenderEncoderOptionNone :: MTL4RenderEncoderOptions
-pattern MTL4RenderEncoderOptionNone = MTL4RenderEncoderOptions 0
-
-pattern MTL4RenderEncoderOptionSuspending :: MTL4RenderEncoderOptions
-pattern MTL4RenderEncoderOptionSuspending = MTL4RenderEncoderOptions 1
-
-pattern MTL4RenderEncoderOptionResuming :: MTL4RenderEncoderOptions
-pattern MTL4RenderEncoderOptionResuming = MTL4RenderEncoderOptions 2
-
-instance ObjCArgument MTL4RenderEncoderOptions where
-  withObjCArg (MTL4RenderEncoderOptions x) k = k (argCULong x)
-
-instance ObjCReturn MTL4RenderEncoderOptions where
-  type RawReturn MTL4RenderEncoderOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4RenderEncoderOptions x)
-  fromOwned x = pure (MTL4RenderEncoderOptions x)
-
--- | Option mask for requesting reflection information at pipeline build time.
--- | @MTL4ShaderReflection@ (bitmask)
-newtype MTL4ShaderReflection = MTL4ShaderReflection CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTL4ShaderReflection where
-  (<>) = (.|.)
-
-instance Monoid MTL4ShaderReflection where
-  mempty = MTL4ShaderReflection 0
-
-pattern MTL4ShaderReflectionNone :: MTL4ShaderReflection
-pattern MTL4ShaderReflectionNone = MTL4ShaderReflection 0
-
-pattern MTL4ShaderReflectionBindingInfo :: MTL4ShaderReflection
-pattern MTL4ShaderReflectionBindingInfo = MTL4ShaderReflection 1
-
-pattern MTL4ShaderReflectionBufferTypeInfo :: MTL4ShaderReflection
-pattern MTL4ShaderReflectionBufferTypeInfo = MTL4ShaderReflection 2
-
-instance ObjCArgument MTL4ShaderReflection where
-  withObjCArg (MTL4ShaderReflection x) k = k (argCULong x)
-
-instance ObjCReturn MTL4ShaderReflection where
-  type RawReturn MTL4ShaderReflection = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4ShaderReflection x)
-  fromOwned x = pure (MTL4ShaderReflection x)
-
--- | Provides a hint to the system about the desired accuracy when writing GPU counter timestamps.
---
--- Pass these values to ``MTL4ComputeCommandEncoder/writeTimestampWithGranularity:intoHeap:atIndex:`` and ``MTL4RenderCommandEncoder/writeTimestampWithGranularity:afterStage:intoHeap:atIndex:`` to control the desired accurracy of the counter sampling operation.
--- | @MTL4TimestampGranularity@
-newtype MTL4TimestampGranularity = MTL4TimestampGranularity CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTL4TimestampGranularityRelaxed :: MTL4TimestampGranularity
-pattern MTL4TimestampGranularityRelaxed = MTL4TimestampGranularity 0
-
-pattern MTL4TimestampGranularityPrecise :: MTL4TimestampGranularity
-pattern MTL4TimestampGranularityPrecise = MTL4TimestampGranularity 1
-
-instance ObjCArgument MTL4TimestampGranularity where
-  withObjCArg (MTL4TimestampGranularity x) k = k (argCLong x)
-
-instance ObjCReturn MTL4TimestampGranularity where
-  type RawReturn MTL4TimestampGranularity = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4TimestampGranularity x)
-  fromOwned x = pure (MTL4TimestampGranularity x)
-
--- | Memory consistency options for synchronization commands.
--- | @MTL4VisibilityOptions@ (bitmask)
-newtype MTL4VisibilityOptions = MTL4VisibilityOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTL4VisibilityOptions where
-  (<>) = (.|.)
-
-instance Monoid MTL4VisibilityOptions where
-  mempty = MTL4VisibilityOptions 0
-
-pattern MTL4VisibilityOptionNone :: MTL4VisibilityOptions
-pattern MTL4VisibilityOptionNone = MTL4VisibilityOptions 0
-
-pattern MTL4VisibilityOptionDevice :: MTL4VisibilityOptions
-pattern MTL4VisibilityOptionDevice = MTL4VisibilityOptions 1
-
-pattern MTL4VisibilityOptionResourceAlias :: MTL4VisibilityOptions
-pattern MTL4VisibilityOptionResourceAlias = MTL4VisibilityOptions 2
-
-instance ObjCArgument MTL4VisibilityOptions where
-  withObjCArg (MTL4VisibilityOptions x) k = k (argCULong x)
-
-instance ObjCReturn MTL4VisibilityOptions where
-  type RawReturn MTL4VisibilityOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTL4VisibilityOptions x)
-  fromOwned x = pure (MTL4VisibilityOptions x)
-
 -- | @MTLAccelerationStructureInstanceDescriptorType@
 newtype MTLAccelerationStructureInstanceDescriptorType = MTLAccelerationStructureInstanceDescriptorType CULong
   deriving stock (Eq, Ord, Show)
@@ -408,12 +27,6 @@ pattern MTLAccelerationStructureInstanceDescriptorTypeUserID = MTLAccelerationSt
 
 pattern MTLAccelerationStructureInstanceDescriptorTypeMotion :: MTLAccelerationStructureInstanceDescriptorType
 pattern MTLAccelerationStructureInstanceDescriptorTypeMotion = MTLAccelerationStructureInstanceDescriptorType 2
-
-pattern MTLAccelerationStructureInstanceDescriptorTypeIndirect :: MTLAccelerationStructureInstanceDescriptorType
-pattern MTLAccelerationStructureInstanceDescriptorTypeIndirect = MTLAccelerationStructureInstanceDescriptorType 3
-
-pattern MTLAccelerationStructureInstanceDescriptorTypeIndirectMotion :: MTLAccelerationStructureInstanceDescriptorType
-pattern MTLAccelerationStructureInstanceDescriptorTypeIndirectMotion = MTLAccelerationStructureInstanceDescriptorType 4
 
 instance ObjCArgument MTLAccelerationStructureInstanceDescriptorType where
   withObjCArg (MTLAccelerationStructureInstanceDescriptorType x) k = k (argCULong x)
@@ -514,12 +127,6 @@ pattern MTLAccelerationStructureUsagePreferFastBuild = MTLAccelerationStructureU
 pattern MTLAccelerationStructureUsageExtendedLimits :: MTLAccelerationStructureUsage
 pattern MTLAccelerationStructureUsageExtendedLimits = MTLAccelerationStructureUsage 4
 
-pattern MTLAccelerationStructureUsagePreferFastIntersection :: MTLAccelerationStructureUsage
-pattern MTLAccelerationStructureUsagePreferFastIntersection = MTLAccelerationStructureUsage 16
-
-pattern MTLAccelerationStructureUsageMinimizeMemory :: MTLAccelerationStructureUsage
-pattern MTLAccelerationStructureUsageMinimizeMemory = MTLAccelerationStructureUsage 32
-
 instance ObjCArgument MTLAccelerationStructureUsage where
   withObjCArg (MTLAccelerationStructureUsage x) k = k (argCULong x)
 
@@ -529,6 +136,31 @@ instance ObjCReturn MTLAccelerationStructureUsage where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLAccelerationStructureUsage x)
   fromOwned x = pure (MTLAccelerationStructureUsage x)
+
+-- | MTLArgumentAccess
+-- | @MTLArgumentAccess@
+newtype MTLArgumentAccess = MTLArgumentAccess CULong
+  deriving stock (Eq, Ord, Show)
+  deriving newtype (Storable)
+
+pattern MTLArgumentAccessReadOnly :: MTLArgumentAccess
+pattern MTLArgumentAccessReadOnly = MTLArgumentAccess 0
+
+pattern MTLArgumentAccessReadWrite :: MTLArgumentAccess
+pattern MTLArgumentAccessReadWrite = MTLArgumentAccess 1
+
+pattern MTLArgumentAccessWriteOnly :: MTLArgumentAccess
+pattern MTLArgumentAccessWriteOnly = MTLArgumentAccess 2
+
+instance ObjCArgument MTLArgumentAccess where
+  withObjCArg (MTLArgumentAccess x) k = k (argCULong x)
+
+instance ObjCReturn MTLArgumentAccess where
+  type RawReturn MTLArgumentAccess = CULong
+  objcRetType = retCULong
+  msgSendVariant = MsgSendNormal
+  fromRetained x = pure (MTLArgumentAccess x)
+  fromOwned x = pure (MTLArgumentAccess x)
 
 -- | MTLArgumentBuffersTier
 --
@@ -779,12 +411,6 @@ pattern MTLAttributeFormatShortNormalized = MTLAttributeFormat 52
 pattern MTLAttributeFormatHalf :: MTLAttributeFormat
 pattern MTLAttributeFormatHalf = MTLAttributeFormat 53
 
-pattern MTLAttributeFormatFloatRG11B10 :: MTLAttributeFormat
-pattern MTLAttributeFormatFloatRG11B10 = MTLAttributeFormat 54
-
-pattern MTLAttributeFormatFloatRGB9E5 :: MTLAttributeFormat
-pattern MTLAttributeFormatFloatRGB9E5 = MTLAttributeFormat 55
-
 instance ObjCArgument MTLAttributeFormat where
   withObjCArg (MTLAttributeFormat x) k = k (argCULong x)
 
@@ -856,39 +482,6 @@ instance ObjCReturn MTLBinaryArchiveError where
   fromRetained x = pure (MTLBinaryArchiveError x)
   fromOwned x = pure (MTLBinaryArchiveError x)
 
--- | @MTLBindingAccess@
-newtype MTLBindingAccess = MTLBindingAccess CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLBindingAccessReadOnly :: MTLBindingAccess
-pattern MTLBindingAccessReadOnly = MTLBindingAccess 0
-
-pattern MTLBindingAccessReadWrite :: MTLBindingAccess
-pattern MTLBindingAccessReadWrite = MTLBindingAccess 1
-
-pattern MTLBindingAccessWriteOnly :: MTLBindingAccess
-pattern MTLBindingAccessWriteOnly = MTLBindingAccess 2
-
-pattern MTLArgumentAccessReadOnly :: MTLBindingAccess
-pattern MTLArgumentAccessReadOnly = MTLBindingAccess 0
-
-pattern MTLArgumentAccessReadWrite :: MTLBindingAccess
-pattern MTLArgumentAccessReadWrite = MTLBindingAccess 1
-
-pattern MTLArgumentAccessWriteOnly :: MTLBindingAccess
-pattern MTLArgumentAccessWriteOnly = MTLBindingAccess 2
-
-instance ObjCArgument MTLBindingAccess where
-  withObjCArg (MTLBindingAccess x) k = k (argCULong x)
-
-instance ObjCReturn MTLBindingAccess where
-  type RawReturn MTLBindingAccess = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLBindingAccess x)
-  fromOwned x = pure (MTLBindingAccess x)
-
 -- | MTLBindingsType
 --
 -- The type of a resource binding.
@@ -936,10 +529,6 @@ instance ObjCReturn MTLBindingAccess where
 -- MTLBindingTypeObjectPayload
 --
 -- This binding represents an object payload.
---
--- MTLBindingTypeTensor
---
--- This binding represents a tensor object.
 -- | @MTLBindingType@
 newtype MTLBindingType = MTLBindingType CLong
   deriving stock (Eq, Ord, Show)
@@ -977,9 +566,6 @@ pattern MTLBindingTypeIntersectionFunctionTable = MTLBindingType 27
 
 pattern MTLBindingTypeObjectPayload :: MTLBindingType
 pattern MTLBindingTypeObjectPayload = MTLBindingType 34
-
-pattern MTLBindingTypeTensor :: MTLBindingType
-pattern MTLBindingTypeTensor = MTLBindingType 37
 
 instance ObjCArgument MTLBindingType where
   withObjCArg (MTLBindingType x) k = k (argCLong x)
@@ -1053,9 +639,6 @@ pattern MTLBlendFactorSource1Alpha = MTLBlendFactor 17
 pattern MTLBlendFactorOneMinusSource1Alpha :: MTLBlendFactor
 pattern MTLBlendFactorOneMinusSource1Alpha = MTLBlendFactor 18
 
-pattern MTLBlendFactorUnspecialized :: MTLBlendFactor
-pattern MTLBlendFactorUnspecialized = MTLBlendFactor 19
-
 instance ObjCArgument MTLBlendFactor where
   withObjCArg (MTLBlendFactor x) k = k (argCULong x)
 
@@ -1085,9 +668,6 @@ pattern MTLBlendOperationMin = MTLBlendOperation 3
 
 pattern MTLBlendOperationMax :: MTLBlendOperation
 pattern MTLBlendOperationMax = MTLBlendOperation 4
-
-pattern MTLBlendOperationUnspecialized :: MTLBlendOperation
-pattern MTLBlendOperationUnspecialized = MTLBlendOperation 5
 
 instance ObjCArgument MTLBlendOperation where
   withObjCArg (MTLBlendOperation x) k = k (argCULong x)
@@ -1134,28 +714,6 @@ instance ObjCReturn MTLBlitOption where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLBlitOption x)
   fromOwned x = pure (MTLBlitOption x)
-
--- | Enumerates the different support levels for sparse buffers.
--- | @MTLBufferSparseTier@
-newtype MTLBufferSparseTier = MTLBufferSparseTier CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLBufferSparseTierNone :: MTLBufferSparseTier
-pattern MTLBufferSparseTierNone = MTLBufferSparseTier 0
-
-pattern MTLBufferSparseTier1 :: MTLBufferSparseTier
-pattern MTLBufferSparseTier1 = MTLBufferSparseTier 1
-
-instance ObjCArgument MTLBufferSparseTier where
-  withObjCArg (MTLBufferSparseTier x) k = k (argCLong x)
-
-instance ObjCReturn MTLBufferSparseTier where
-  type RawReturn MTLBufferSparseTier = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLBufferSparseTier x)
-  fromOwned x = pure (MTLBufferSparseTier x)
 
 -- | MTLCPUCacheMode
 --
@@ -1265,9 +823,6 @@ pattern MTLColorWriteMaskAlpha = MTLColorWriteMask 1
 
 pattern MTLColorWriteMaskAll :: MTLColorWriteMask
 pattern MTLColorWriteMaskAll = MTLColorWriteMask 15
-
-pattern MTLColorWriteMaskUnspecialized :: MTLColorWriteMask
-pattern MTLColorWriteMaskUnspecialized = MTLColorWriteMask 16
 
 instance ObjCArgument MTLColorWriteMask where
   withObjCArg (MTLColorWriteMask x) k = k (argCULong x)
@@ -1559,27 +1114,6 @@ instance ObjCReturn MTLCompareFunction where
   fromRetained x = pure (MTLCompareFunction x)
   fromOwned x = pure (MTLCompareFunction x)
 
--- | @MTLCompileSymbolVisibility@
-newtype MTLCompileSymbolVisibility = MTLCompileSymbolVisibility CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLCompileSymbolVisibilityDefault :: MTLCompileSymbolVisibility
-pattern MTLCompileSymbolVisibilityDefault = MTLCompileSymbolVisibility 0
-
-pattern MTLCompileSymbolVisibilityHidden :: MTLCompileSymbolVisibility
-pattern MTLCompileSymbolVisibilityHidden = MTLCompileSymbolVisibility 1
-
-instance ObjCArgument MTLCompileSymbolVisibility where
-  withObjCArg (MTLCompileSymbolVisibility x) k = k (argCLong x)
-
-instance ObjCReturn MTLCompileSymbolVisibility where
-  type RawReturn MTLCompileSymbolVisibility = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLCompileSymbolVisibility x)
-  fromOwned x = pure (MTLCompileSymbolVisibility x)
-
 -- | MTLCounterSampleBufferError
 --
 -- MTLCounterSampleBufferErrorOutOfMemory
@@ -1694,82 +1228,6 @@ instance ObjCReturn MTLCullMode where
   fromRetained x = pure (MTLCullMode x)
   fromOwned x = pure (MTLCullMode x)
 
--- | Basis function to use to interpolate curve control points
--- | @MTLCurveBasis@
-newtype MTLCurveBasis = MTLCurveBasis CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLCurveBasisBSpline :: MTLCurveBasis
-pattern MTLCurveBasisBSpline = MTLCurveBasis 0
-
-pattern MTLCurveBasisCatmullRom :: MTLCurveBasis
-pattern MTLCurveBasisCatmullRom = MTLCurveBasis 1
-
-pattern MTLCurveBasisLinear :: MTLCurveBasis
-pattern MTLCurveBasisLinear = MTLCurveBasis 2
-
-pattern MTLCurveBasisBezier :: MTLCurveBasis
-pattern MTLCurveBasisBezier = MTLCurveBasis 3
-
-instance ObjCArgument MTLCurveBasis where
-  withObjCArg (MTLCurveBasis x) k = k (argCLong x)
-
-instance ObjCReturn MTLCurveBasis where
-  type RawReturn MTLCurveBasis = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLCurveBasis x)
-  fromOwned x = pure (MTLCurveBasis x)
-
--- | Type of end cap to insert at the beginning and end of each connected sequence of curve segments.
--- | @MTLCurveEndCaps@
-newtype MTLCurveEndCaps = MTLCurveEndCaps CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLCurveEndCapsNone :: MTLCurveEndCaps
-pattern MTLCurveEndCapsNone = MTLCurveEndCaps 0
-
-pattern MTLCurveEndCapsDisk :: MTLCurveEndCaps
-pattern MTLCurveEndCapsDisk = MTLCurveEndCaps 1
-
-pattern MTLCurveEndCapsSphere :: MTLCurveEndCaps
-pattern MTLCurveEndCapsSphere = MTLCurveEndCaps 2
-
-instance ObjCArgument MTLCurveEndCaps where
-  withObjCArg (MTLCurveEndCaps x) k = k (argCLong x)
-
-instance ObjCReturn MTLCurveEndCaps where
-  type RawReturn MTLCurveEndCaps = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLCurveEndCaps x)
-  fromOwned x = pure (MTLCurveEndCaps x)
-
--- | Curve types
--- | @MTLCurveType@
-newtype MTLCurveType = MTLCurveType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLCurveTypeRound :: MTLCurveType
-pattern MTLCurveTypeRound = MTLCurveType 0
-
-pattern MTLCurveTypeFlat :: MTLCurveType
-pattern MTLCurveTypeFlat = MTLCurveType 1
-
-instance ObjCArgument MTLCurveType where
-  withObjCArg (MTLCurveType x) k = k (argCLong x)
-
-instance ObjCReturn MTLCurveType where
-  type RawReturn MTLCurveType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLCurveType x)
-  fromOwned x = pure (MTLCurveType x)
-
--- | An enumeration of the different data types in Metal.
 -- | @MTLDataType@
 newtype MTLDataType = MTLDataType CULong
   deriving stock (Eq, Ord, Show)
@@ -2048,24 +1506,6 @@ pattern MTLDataTypePrimitiveAccelerationStructure = MTLDataType 117
 pattern MTLDataTypeInstanceAccelerationStructure :: MTLDataType
 pattern MTLDataTypeInstanceAccelerationStructure = MTLDataType 118
 
-pattern MTLDataTypeBFloat :: MTLDataType
-pattern MTLDataTypeBFloat = MTLDataType 121
-
-pattern MTLDataTypeBFloat2 :: MTLDataType
-pattern MTLDataTypeBFloat2 = MTLDataType 122
-
-pattern MTLDataTypeBFloat3 :: MTLDataType
-pattern MTLDataTypeBFloat3 = MTLDataType 123
-
-pattern MTLDataTypeBFloat4 :: MTLDataType
-pattern MTLDataTypeBFloat4 = MTLDataType 124
-
-pattern MTLDataTypeDepthStencilState :: MTLDataType
-pattern MTLDataTypeDepthStencilState = MTLDataType 139
-
-pattern MTLDataTypeTensor :: MTLDataType
-pattern MTLDataTypeTensor = MTLDataType 140
-
 instance ObjCArgument MTLDataType where
   withObjCArg (MTLDataType x) k = k (argCULong x)
 
@@ -2341,18 +1781,6 @@ pattern MTLFunctionOptionNone = MTLFunctionOptions 0
 pattern MTLFunctionOptionCompileToBinary :: MTLFunctionOptions
 pattern MTLFunctionOptionCompileToBinary = MTLFunctionOptions 1
 
-pattern MTLFunctionOptionStoreFunctionInMetalPipelinesScript :: MTLFunctionOptions
-pattern MTLFunctionOptionStoreFunctionInMetalPipelinesScript = MTLFunctionOptions 2
-
-pattern MTLFunctionOptionStoreFunctionInMetalScript :: MTLFunctionOptions
-pattern MTLFunctionOptionStoreFunctionInMetalScript = MTLFunctionOptions 2
-
-pattern MTLFunctionOptionFailOnBinaryArchiveMiss :: MTLFunctionOptions
-pattern MTLFunctionOptionFailOnBinaryArchiveMiss = MTLFunctionOptions 4
-
-pattern MTLFunctionOptionPipelineIndependent :: MTLFunctionOptions
-pattern MTLFunctionOptionPipelineIndependent = MTLFunctionOptions 8
-
 instance ObjCArgument MTLFunctionOptions where
   withObjCArg (MTLFunctionOptions x) k = k (argCULong x)
 
@@ -2445,12 +1873,6 @@ pattern MTLGPUFamilyApple7 = MTLGPUFamily 1007
 pattern MTLGPUFamilyApple8 :: MTLGPUFamily
 pattern MTLGPUFamilyApple8 = MTLGPUFamily 1008
 
-pattern MTLGPUFamilyApple9 :: MTLGPUFamily
-pattern MTLGPUFamilyApple9 = MTLGPUFamily 1009
-
-pattern MTLGPUFamilyApple10 :: MTLGPUFamily
-pattern MTLGPUFamilyApple10 = MTLGPUFamily 1010
-
 pattern MTLGPUFamilyMac1 :: MTLGPUFamily
 pattern MTLGPUFamilyMac1 = MTLGPUFamily 2001
 
@@ -2474,9 +1896,6 @@ pattern MTLGPUFamilyMacCatalyst2 = MTLGPUFamily 4002
 
 pattern MTLGPUFamilyMetal3 :: MTLGPUFamily
 pattern MTLGPUFamilyMetal3 = MTLGPUFamily 5001
-
-pattern MTLGPUFamilyMetal4 :: MTLGPUFamily
-pattern MTLGPUFamilyMetal4 = MTLGPUFamily 5002
 
 instance ObjCArgument MTLGPUFamily where
   withObjCArg (MTLGPUFamily x) k = k (argCLong x)
@@ -2751,12 +2170,6 @@ pattern MTLIndirectCommandTypeConcurrentDispatch = MTLIndirectCommandType 32
 pattern MTLIndirectCommandTypeConcurrentDispatchThreads :: MTLIndirectCommandType
 pattern MTLIndirectCommandTypeConcurrentDispatchThreads = MTLIndirectCommandType 64
 
-pattern MTLIndirectCommandTypeDrawMeshThreadgroups :: MTLIndirectCommandType
-pattern MTLIndirectCommandTypeDrawMeshThreadgroups = MTLIndirectCommandType 128
-
-pattern MTLIndirectCommandTypeDrawMeshThreads :: MTLIndirectCommandType
-pattern MTLIndirectCommandTypeDrawMeshThreads = MTLIndirectCommandType 256
-
 instance ObjCArgument MTLIndirectCommandType where
   withObjCArg (MTLIndirectCommandType x) k = k (argCULong x)
 
@@ -2800,18 +2213,6 @@ pattern MTLIntersectionFunctionSignaturePrimitiveMotion = MTLIntersectionFunctio
 pattern MTLIntersectionFunctionSignatureExtendedLimits :: MTLIntersectionFunctionSignature
 pattern MTLIntersectionFunctionSignatureExtendedLimits = MTLIntersectionFunctionSignature 32
 
-pattern MTLIntersectionFunctionSignatureMaxLevels :: MTLIntersectionFunctionSignature
-pattern MTLIntersectionFunctionSignatureMaxLevels = MTLIntersectionFunctionSignature 64
-
-pattern MTLIntersectionFunctionSignatureCurveData :: MTLIntersectionFunctionSignature
-pattern MTLIntersectionFunctionSignatureCurveData = MTLIntersectionFunctionSignature 128
-
-pattern MTLIntersectionFunctionSignatureIntersectionFunctionBuffer :: MTLIntersectionFunctionSignature
-pattern MTLIntersectionFunctionSignatureIntersectionFunctionBuffer = MTLIntersectionFunctionSignature 256
-
-pattern MTLIntersectionFunctionSignatureUserData :: MTLIntersectionFunctionSignature
-pattern MTLIntersectionFunctionSignatureUserData = MTLIntersectionFunctionSignature 512
-
 instance ObjCArgument MTLIntersectionFunctionSignature where
   withObjCArg (MTLIntersectionFunctionSignature x) k = k (argCULong x)
 
@@ -2853,15 +2254,6 @@ pattern MTLLanguageVersion2_4 = MTLLanguageVersion 131076
 
 pattern MTLLanguageVersion3_0 :: MTLLanguageVersion
 pattern MTLLanguageVersion3_0 = MTLLanguageVersion 196608
-
-pattern MTLLanguageVersion3_1 :: MTLLanguageVersion
-pattern MTLLanguageVersion3_1 = MTLLanguageVersion 196609
-
-pattern MTLLanguageVersion3_2 :: MTLLanguageVersion
-pattern MTLLanguageVersion3_2 = MTLLanguageVersion 196610
-
-pattern MTLLanguageVersion4_0 :: MTLLanguageVersion
-pattern MTLLanguageVersion4_0 = MTLLanguageVersion 262144
 
 instance ObjCArgument MTLLanguageVersion where
   withObjCArg (MTLLanguageVersion x) k = k (argCULong x)
@@ -2985,156 +2377,6 @@ instance ObjCReturn MTLLoadAction where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLLoadAction x)
   fromOwned x = pure (MTLLoadAction x)
-
--- | MTLLogLevel
---
--- The level of the log entry.
--- | @MTLLogLevel@
-newtype MTLLogLevel = MTLLogLevel CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLLogLevelUndefined :: MTLLogLevel
-pattern MTLLogLevelUndefined = MTLLogLevel 0
-
-pattern MTLLogLevelDebug :: MTLLogLevel
-pattern MTLLogLevelDebug = MTLLogLevel 1
-
-pattern MTLLogLevelInfo :: MTLLogLevel
-pattern MTLLogLevelInfo = MTLLogLevel 2
-
-pattern MTLLogLevelNotice :: MTLLogLevel
-pattern MTLLogLevelNotice = MTLLogLevel 3
-
-pattern MTLLogLevelError :: MTLLogLevel
-pattern MTLLogLevelError = MTLLogLevel 4
-
-pattern MTLLogLevelFault :: MTLLogLevel
-pattern MTLLogLevelFault = MTLLogLevel 5
-
-instance ObjCArgument MTLLogLevel where
-  withObjCArg (MTLLogLevel x) k = k (argCLong x)
-
-instance ObjCReturn MTLLogLevel where
-  type RawReturn MTLLogLevel = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLLogLevel x)
-  fromOwned x = pure (MTLLogLevel x)
-
--- | NSErrors raised when creating a logstate.
--- | @MTLLogStateError@
-newtype MTLLogStateError = MTLLogStateError CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLLogStateErrorInvalidSize :: MTLLogStateError
-pattern MTLLogStateErrorInvalidSize = MTLLogStateError 1
-
-pattern MTLLogStateErrorInvalid :: MTLLogStateError
-pattern MTLLogStateErrorInvalid = MTLLogStateError 2
-
-instance ObjCArgument MTLLogStateError where
-  withObjCArg (MTLLogStateError x) k = k (argCULong x)
-
-instance ObjCReturn MTLLogStateError where
-  type RawReturn MTLLogStateError = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLLogStateError x)
-  fromOwned x = pure (MTLLogStateError x)
-
--- | MTLMathFloatingPointFunctions
---
--- An enum to indicate the default math functions for single precision floating-point
---
--- MTLMathFloatingPointFunctionsFast
---
--- Sets the default math functions for single precision floating-point to the corresponding functions in @metal::fast@ namespace
---
--- MTLMathFloatingPointFunctionsPrecise
---
--- Sets the default math functions for single precision floating-point to the corresponding functions in 'metal::precise' namespace
--- | @MTLMathFloatingPointFunctions@
-newtype MTLMathFloatingPointFunctions = MTLMathFloatingPointFunctions CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLMathFloatingPointFunctionsFast :: MTLMathFloatingPointFunctions
-pattern MTLMathFloatingPointFunctionsFast = MTLMathFloatingPointFunctions 0
-
-pattern MTLMathFloatingPointFunctionsPrecise :: MTLMathFloatingPointFunctions
-pattern MTLMathFloatingPointFunctionsPrecise = MTLMathFloatingPointFunctions 1
-
-instance ObjCArgument MTLMathFloatingPointFunctions where
-  withObjCArg (MTLMathFloatingPointFunctions x) k = k (argCLong x)
-
-instance ObjCReturn MTLMathFloatingPointFunctions where
-  type RawReturn MTLMathFloatingPointFunctions = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLMathFloatingPointFunctions x)
-  fromOwned x = pure (MTLMathFloatingPointFunctions x)
-
--- | MTLMathMode
---
--- An enum to indicate if the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard
---
--- MTLMathModeSafe
---
--- Disables unsafe floating-point optimizations
---
--- MTLMathModeRelaxed
---
--- Allows aggressive, unsafe floating-point optimizations but preserves infs and nans
---
--- MTLMathModeFast
---
--- Allows aggressive, unsafe floating-point optimizations
--- | @MTLMathMode@
-newtype MTLMathMode = MTLMathMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLMathModeSafe :: MTLMathMode
-pattern MTLMathModeSafe = MTLMathMode 0
-
-pattern MTLMathModeRelaxed :: MTLMathMode
-pattern MTLMathModeRelaxed = MTLMathMode 1
-
-pattern MTLMathModeFast :: MTLMathMode
-pattern MTLMathModeFast = MTLMathMode 2
-
-instance ObjCArgument MTLMathMode where
-  withObjCArg (MTLMathMode x) k = k (argCLong x)
-
-instance ObjCReturn MTLMathMode where
-  type RawReturn MTLMathMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLMathMode x)
-  fromOwned x = pure (MTLMathMode x)
-
--- | @MTLMatrixLayout@
-newtype MTLMatrixLayout = MTLMatrixLayout CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLMatrixLayoutColumnMajor :: MTLMatrixLayout
-pattern MTLMatrixLayoutColumnMajor = MTLMatrixLayout 0
-
-pattern MTLMatrixLayoutRowMajor :: MTLMatrixLayout
-pattern MTLMatrixLayoutRowMajor = MTLMatrixLayout 1
-
-instance ObjCArgument MTLMatrixLayout where
-  withObjCArg (MTLMatrixLayout x) k = k (argCLong x)
-
-instance ObjCReturn MTLMatrixLayout where
-  type RawReturn MTLMatrixLayout = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLMatrixLayout x)
-  fromOwned x = pure (MTLMatrixLayout x)
 
 -- | Describes what happens to the object before the first motion key and after the last motion key.
 -- | @MTLMotionBorderMode@
@@ -3279,9 +2521,6 @@ pattern MTLPipelineOptionNone = MTLPipelineOption 0
 
 pattern MTLPipelineOptionArgumentInfo :: MTLPipelineOption
 pattern MTLPipelineOptionArgumentInfo = MTLPipelineOption 1
-
-pattern MTLPipelineOptionBindingInfo :: MTLPipelineOption
-pattern MTLPipelineOptionBindingInfo = MTLPipelineOption 1
 
 pattern MTLPipelineOptionBufferTypeInfo :: MTLPipelineOption
 pattern MTLPipelineOptionBufferTypeInfo = MTLPipelineOption 2
@@ -3721,9 +2960,6 @@ pattern MTLPixelFormatX32_Stencil8 = MTLPixelFormat 261
 pattern MTLPixelFormatX24_Stencil8 :: MTLPixelFormat
 pattern MTLPixelFormatX24_Stencil8 = MTLPixelFormat 262
 
-pattern MTLPixelFormatUnspecialized :: MTLPixelFormat
-pattern MTLPixelFormatUnspecialized = MTLPixelFormat 263
-
 instance ObjCArgument MTLPixelFormat where
   withObjCArg (MTLPixelFormat x) k = k (argCULong x)
 
@@ -4156,55 +3392,6 @@ instance ObjCReturn MTLSamplerMipFilter where
   fromRetained x = pure (MTLSamplerMipFilter x)
   fromOwned x = pure (MTLSamplerMipFilter x)
 
--- | Configures how the sampler aggregates contributing samples to a final value.
--- | @MTLSamplerReductionMode@
-newtype MTLSamplerReductionMode = MTLSamplerReductionMode CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLSamplerReductionModeWeightedAverage :: MTLSamplerReductionMode
-pattern MTLSamplerReductionModeWeightedAverage = MTLSamplerReductionMode 0
-
-pattern MTLSamplerReductionModeMinimum :: MTLSamplerReductionMode
-pattern MTLSamplerReductionModeMinimum = MTLSamplerReductionMode 1
-
-pattern MTLSamplerReductionModeMaximum :: MTLSamplerReductionMode
-pattern MTLSamplerReductionModeMaximum = MTLSamplerReductionMode 2
-
-instance ObjCArgument MTLSamplerReductionMode where
-  withObjCArg (MTLSamplerReductionMode x) k = k (argCULong x)
-
-instance ObjCReturn MTLSamplerReductionMode where
-  type RawReturn MTLSamplerReductionMode = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLSamplerReductionMode x)
-  fromOwned x = pure (MTLSamplerReductionMode x)
-
--- | @MTLShaderValidation@
-newtype MTLShaderValidation = MTLShaderValidation CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLShaderValidationDefault :: MTLShaderValidation
-pattern MTLShaderValidationDefault = MTLShaderValidation 0
-
-pattern MTLShaderValidationEnabled :: MTLShaderValidation
-pattern MTLShaderValidationEnabled = MTLShaderValidation 1
-
-pattern MTLShaderValidationDisabled :: MTLShaderValidation
-pattern MTLShaderValidationDisabled = MTLShaderValidation 2
-
-instance ObjCArgument MTLShaderValidation where
-  withObjCArg (MTLShaderValidation x) k = k (argCLong x)
-
-instance ObjCReturn MTLShaderValidation where
-  type RawReturn MTLShaderValidation = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLShaderValidation x)
-  fromOwned x = pure (MTLShaderValidation x)
-
 -- | MTLSparsePageSize
 --
 -- Physical size of sparse resource page in KBs.
@@ -4279,65 +3466,6 @@ instance ObjCReturn MTLSparseTextureRegionAlignmentMode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLSparseTextureRegionAlignmentMode x)
   fromOwned x = pure (MTLSparseTextureRegionAlignmentMode x)
-
--- | Describes stages of GPU work.
---
--- All commands you encoder into command buffers relate to one or more shader stages, for example, a compute dispatch command from a compute command encoder relates to stage ``MTLStageDispatch``.
---
--- Use these stages to issue barriers between shader stages to ensure Metal correctly synchronizes GPU commands.
--- | @MTLStages@ (bitmask)
-newtype MTLStages = MTLStages CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTLStages where
-  (<>) = (.|.)
-
-instance Monoid MTLStages where
-  mempty = MTLStages 0
-
-pattern MTLStageVertex :: MTLStages
-pattern MTLStageVertex = MTLStages 1
-
-pattern MTLStageFragment :: MTLStages
-pattern MTLStageFragment = MTLStages 2
-
-pattern MTLStageTile :: MTLStages
-pattern MTLStageTile = MTLStages 4
-
-pattern MTLStageObject :: MTLStages
-pattern MTLStageObject = MTLStages 8
-
-pattern MTLStageMesh :: MTLStages
-pattern MTLStageMesh = MTLStages 16
-
-pattern MTLStageResourceState :: MTLStages
-pattern MTLStageResourceState = MTLStages 67108864
-
-pattern MTLStageDispatch :: MTLStages
-pattern MTLStageDispatch = MTLStages 134217728
-
-pattern MTLStageBlit :: MTLStages
-pattern MTLStageBlit = MTLStages 268435456
-
-pattern MTLStageAccelerationStructure :: MTLStages
-pattern MTLStageAccelerationStructure = MTLStages 536870912
-
-pattern MTLStageMachineLearning :: MTLStages
-pattern MTLStageMachineLearning = MTLStages 1073741824
-
-pattern MTLStageAll :: MTLStages
-pattern MTLStageAll = MTLStages 9223372036854775807
-
-instance ObjCArgument MTLStages where
-  withObjCArg (MTLStages x) k = k (argCULong x)
-
-instance ObjCReturn MTLStages where
-  type RawReturn MTLStages = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLStages x)
-  fromOwned x = pure (MTLStages x)
 
 -- | @MTLStencilOperation@
 newtype MTLStencilOperation = MTLStencilOperation CULong
@@ -4419,37 +3547,6 @@ instance ObjCReturn MTLStepFunction where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLStepFunction x)
   fromOwned x = pure (MTLStepFunction x)
-
--- | A bitfield of options to create a stitched library
--- | @MTLStitchedLibraryOptions@ (bitmask)
-newtype MTLStitchedLibraryOptions = MTLStitchedLibraryOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTLStitchedLibraryOptions where
-  (<>) = (.|.)
-
-instance Monoid MTLStitchedLibraryOptions where
-  mempty = MTLStitchedLibraryOptions 0
-
-pattern MTLStitchedLibraryOptionNone :: MTLStitchedLibraryOptions
-pattern MTLStitchedLibraryOptionNone = MTLStitchedLibraryOptions 0
-
-pattern MTLStitchedLibraryOptionFailOnBinaryArchiveMiss :: MTLStitchedLibraryOptions
-pattern MTLStitchedLibraryOptionFailOnBinaryArchiveMiss = MTLStitchedLibraryOptions 1
-
-pattern MTLStitchedLibraryOptionStoreLibraryInMetalPipelinesScript :: MTLStitchedLibraryOptions
-pattern MTLStitchedLibraryOptionStoreLibraryInMetalPipelinesScript = MTLStitchedLibraryOptions 2
-
-instance ObjCArgument MTLStitchedLibraryOptions where
-  withObjCArg (MTLStitchedLibraryOptions x) k = k (argCULong x)
-
-instance ObjCReturn MTLStitchedLibraryOptions where
-  type RawReturn MTLStitchedLibraryOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLStitchedLibraryOptions x)
-  fromOwned x = pure (MTLStitchedLibraryOptions x)
 
 -- | MTLStorageMode
 --
@@ -4556,108 +3653,6 @@ instance ObjCReturn MTLStoreActionOptions where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLStoreActionOptions x)
   fromOwned x = pure (MTLStoreActionOptions x)
-
--- | The possible data types for the elements of a tensor.
--- | @MTLTensorDataType@
-newtype MTLTensorDataType = MTLTensorDataType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLTensorDataTypeNone :: MTLTensorDataType
-pattern MTLTensorDataTypeNone = MTLTensorDataType 0
-
-pattern MTLTensorDataTypeFloat32 :: MTLTensorDataType
-pattern MTLTensorDataTypeFloat32 = MTLTensorDataType 3
-
-pattern MTLTensorDataTypeFloat16 :: MTLTensorDataType
-pattern MTLTensorDataTypeFloat16 = MTLTensorDataType 16
-
-pattern MTLTensorDataTypeBFloat16 :: MTLTensorDataType
-pattern MTLTensorDataTypeBFloat16 = MTLTensorDataType 121
-
-pattern MTLTensorDataTypeInt8 :: MTLTensorDataType
-pattern MTLTensorDataTypeInt8 = MTLTensorDataType 45
-
-pattern MTLTensorDataTypeUInt8 :: MTLTensorDataType
-pattern MTLTensorDataTypeUInt8 = MTLTensorDataType 49
-
-pattern MTLTensorDataTypeInt16 :: MTLTensorDataType
-pattern MTLTensorDataTypeInt16 = MTLTensorDataType 37
-
-pattern MTLTensorDataTypeUInt16 :: MTLTensorDataType
-pattern MTLTensorDataTypeUInt16 = MTLTensorDataType 41
-
-pattern MTLTensorDataTypeInt32 :: MTLTensorDataType
-pattern MTLTensorDataTypeInt32 = MTLTensorDataType 29
-
-pattern MTLTensorDataTypeUInt32 :: MTLTensorDataType
-pattern MTLTensorDataTypeUInt32 = MTLTensorDataType 33
-
-instance ObjCArgument MTLTensorDataType where
-  withObjCArg (MTLTensorDataType x) k = k (argCLong x)
-
-instance ObjCReturn MTLTensorDataType where
-  type RawReturn MTLTensorDataType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLTensorDataType x)
-  fromOwned x = pure (MTLTensorDataType x)
-
--- | The error codes that Metal can raise when you create a tensor.
--- | @MTLTensorError@
-newtype MTLTensorError = MTLTensorError CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLTensorErrorNone :: MTLTensorError
-pattern MTLTensorErrorNone = MTLTensorError 0
-
-pattern MTLTensorErrorInternalError :: MTLTensorError
-pattern MTLTensorErrorInternalError = MTLTensorError 1
-
-pattern MTLTensorErrorInvalidDescriptor :: MTLTensorError
-pattern MTLTensorErrorInvalidDescriptor = MTLTensorError 2
-
-instance ObjCArgument MTLTensorError where
-  withObjCArg (MTLTensorError x) k = k (argCLong x)
-
-instance ObjCReturn MTLTensorError where
-  type RawReturn MTLTensorError = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLTensorError x)
-  fromOwned x = pure (MTLTensorError x)
-
--- | The type that represents the different contexts for a tensor.
--- | @MTLTensorUsage@ (bitmask)
-newtype MTLTensorUsage = MTLTensorUsage CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup MTLTensorUsage where
-  (<>) = (.|.)
-
-instance Monoid MTLTensorUsage where
-  mempty = MTLTensorUsage 0
-
-pattern MTLTensorUsageCompute :: MTLTensorUsage
-pattern MTLTensorUsageCompute = MTLTensorUsage 1
-
-pattern MTLTensorUsageRender :: MTLTensorUsage
-pattern MTLTensorUsageRender = MTLTensorUsage 2
-
-pattern MTLTensorUsageMachineLearning :: MTLTensorUsage
-pattern MTLTensorUsageMachineLearning = MTLTensorUsage 4
-
-instance ObjCArgument MTLTensorUsage where
-  withObjCArg (MTLTensorUsage x) k = k (argCULong x)
-
-instance ObjCReturn MTLTensorUsage where
-  type RawReturn MTLTensorUsage = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLTensorUsage x)
-  fromOwned x = pure (MTLTensorUsage x)
 
 -- | @MTLTessellationControlPointIndexType@
 newtype MTLTessellationControlPointIndexType = MTLTessellationControlPointIndexType CULong
@@ -4776,31 +3771,6 @@ instance ObjCReturn MTLTextureCompressionType where
   fromRetained x = pure (MTLTextureCompressionType x)
   fromOwned x = pure (MTLTextureCompressionType x)
 
--- | Enumerates the different support levels for sparse textures.
--- | @MTLTextureSparseTier@
-newtype MTLTextureSparseTier = MTLTextureSparseTier CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLTextureSparseTierNone :: MTLTextureSparseTier
-pattern MTLTextureSparseTierNone = MTLTextureSparseTier 0
-
-pattern MTLTextureSparseTier1 :: MTLTextureSparseTier
-pattern MTLTextureSparseTier1 = MTLTextureSparseTier 1
-
-pattern MTLTextureSparseTier2 :: MTLTextureSparseTier
-pattern MTLTextureSparseTier2 = MTLTextureSparseTier 2
-
-instance ObjCArgument MTLTextureSparseTier where
-  withObjCArg (MTLTextureSparseTier x) k = k (argCLong x)
-
-instance ObjCReturn MTLTextureSparseTier where
-  type RawReturn MTLTextureSparseTier = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLTextureSparseTier x)
-  fromOwned x = pure (MTLTextureSparseTier x)
-
 -- | @MTLTextureSwizzle@
 newtype MTLTextureSwizzle = MTLTextureSwizzle CUChar
   deriving stock (Eq, Ord, Show)
@@ -4913,9 +3883,6 @@ pattern MTLTextureUsageRenderTarget = MTLTextureUsage 4
 pattern MTLTextureUsagePixelFormatView :: MTLTextureUsage
 pattern MTLTextureUsagePixelFormatView = MTLTextureUsage 16
 
-pattern MTLTextureUsageShaderAtomic :: MTLTextureUsage
-pattern MTLTextureUsageShaderAtomic = MTLTextureUsage 32
-
 instance ObjCArgument MTLTextureUsage where
   withObjCArg (MTLTextureUsage x) k = k (argCULong x)
 
@@ -4925,27 +3892,6 @@ instance ObjCReturn MTLTextureUsage where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLTextureUsage x)
   fromOwned x = pure (MTLTextureUsage x)
-
--- | @MTLTransformType@
-newtype MTLTransformType = MTLTransformType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLTransformTypePackedFloat4x3 :: MTLTransformType
-pattern MTLTransformTypePackedFloat4x3 = MTLTransformType 0
-
-pattern MTLTransformTypeComponent :: MTLTransformType
-pattern MTLTransformTypeComponent = MTLTransformType 1
-
-instance ObjCArgument MTLTransformType where
-  withObjCArg (MTLTransformType x) k = k (argCLong x)
-
-instance ObjCReturn MTLTransformType where
-  type RawReturn MTLTransformType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLTransformType x)
-  fromOwned x = pure (MTLTransformType x)
 
 -- | @MTLTriangleFillMode@
 newtype MTLTriangleFillMode = MTLTriangleFillMode CULong
@@ -5132,12 +4078,6 @@ pattern MTLVertexFormatShortNormalized = MTLVertexFormat 52
 pattern MTLVertexFormatHalf :: MTLVertexFormat
 pattern MTLVertexFormatHalf = MTLVertexFormat 53
 
-pattern MTLVertexFormatFloatRG11B10 :: MTLVertexFormat
-pattern MTLVertexFormatFloatRG11B10 = MTLVertexFormat 54
-
-pattern MTLVertexFormatFloatRGB9E5 :: MTLVertexFormat
-pattern MTLVertexFormatFloatRGB9E5 = MTLVertexFormat 55
-
 instance ObjCArgument MTLVertexFormat where
   withObjCArg (MTLVertexFormat x) k = k (argCULong x)
 
@@ -5201,30 +4141,6 @@ instance ObjCReturn MTLVisibilityResultMode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (MTLVisibilityResultMode x)
   fromOwned x = pure (MTLVisibilityResultMode x)
-
--- | This enumeration controls if Metal accumulates visibility results between render encoders or resets them.
---
--- You can specify this property for ``MTLRenderCommandEncoders`` and for ``MTL4RenderCommandEncoders`` through their descriptors' ``MTLRenderCommandEncoder/visibilityResultType`` and ``MTL4RenderCommandEncoder/visibilityResultType`` methods.
--- | @MTLVisibilityResultType@
-newtype MTLVisibilityResultType = MTLVisibilityResultType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern MTLVisibilityResultTypeReset :: MTLVisibilityResultType
-pattern MTLVisibilityResultTypeReset = MTLVisibilityResultType 0
-
-pattern MTLVisibilityResultTypeAccumulate :: MTLVisibilityResultType
-pattern MTLVisibilityResultTypeAccumulate = MTLVisibilityResultType 1
-
-instance ObjCArgument MTLVisibilityResultType where
-  withObjCArg (MTLVisibilityResultType x) k = k (argCLong x)
-
-instance ObjCReturn MTLVisibilityResultType where
-  type RawReturn MTLVisibilityResultType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (MTLVisibilityResultType x)
-  fromOwned x = pure (MTLVisibilityResultType x)
 
 -- | @MTLWinding@
 newtype MTLWinding = MTLWinding CULong

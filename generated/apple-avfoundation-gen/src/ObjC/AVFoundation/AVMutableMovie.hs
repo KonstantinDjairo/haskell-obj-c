@@ -326,7 +326,7 @@ mutableTrackCompatibleWithTrack avMutableMovie track =
 --
 -- Returns: An AVMutableMovieTrack object
 --
--- The trackID of the newly added track is a property of the returned instance of AVMutableMovieTrack.					This method throws an exception if media type is not equal to the track's media type, or if any option is invalid.					Note that metadata will not be automatically copied.
+-- The trackID of the newly added track is a property of the returned instance of AVMutableMovieTrack.					This method throws an exception if media type is not equal to the track's media type.					Note that metadata will not be automatically copied.
 --
 -- ObjC selector: @- addMutableTrackWithMediaType:copySettingsFromTrack:options:@
 addMutableTrackWithMediaType_copySettingsFromTrack_options :: (IsAVMutableMovie avMutableMovie, IsNSString mediaType, IsAVAssetTrack track, IsNSDictionary options) => avMutableMovie -> mediaType -> track -> options -> IO (Id AVMutableMovieTrack)
@@ -343,7 +343,7 @@ addMutableTrackWithMediaType_copySettingsFromTrack_options avMutableMovie mediaT
 --
 -- Returns: An array of AVMutableMovieTrack objects; the index of a track in this array is the same as the index of its source track in the existingTracks array.
 --
--- This method creates one or more empty tracks in the target movie and configures those tracks with settings (such as track userdata and metadata, width, height, and preferred volume) copied from the source tracks in the existingTracks array. Also, properties involving pairs of tracks (such as track references) are copied from the source tracks to the target tracks.					This method throws an exception if any option is invalid.
+-- This method creates one or more empty tracks in the target movie and configures those tracks with settings (such as track userdata and metadata, width, height, and preferred volume) copied from the source tracks in the existingTracks array. Also, properties involving pairs of tracks (such as track references) are copied from the source tracks to the target tracks.
 --
 -- ObjC selector: @- addMutableTracksCopyingSettingsFromTracks:options:@
 addMutableTracksCopyingSettingsFromTracks_options :: (IsAVMutableMovie avMutableMovie, IsNSArray existingTracks, IsNSDictionary options) => avMutableMovie -> existingTracks -> options -> IO (Id NSArray)

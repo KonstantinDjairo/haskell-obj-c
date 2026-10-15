@@ -212,7 +212,6 @@ module ObjC.AppKit.NSEvent
   , pattern NSEventMaskPressure
   , pattern NSEventMaskDirectTouch
   , pattern NSEventMaskChangeMode
-  , pattern NSEventMaskMouseCancelled
   , pattern NSEventMaskAny
   , NSEventModifierFlags(NSEventModifierFlags)
   , pattern NSEventModifierFlagCapsLock
@@ -281,7 +280,6 @@ module ObjC.AppKit.NSEvent
   , pattern NSEventTypePressure
   , pattern NSEventTypeDirectTouch
   , pattern NSEventTypeChangeMode
-  , pattern NSEventTypeMouseCancelled
   , NSPointingDeviceType(NSPointingDeviceType)
   , pattern NSPointingDeviceTypeUnknown
   , pattern NSPointingDeviceTypePen
@@ -452,7 +450,7 @@ windowNumber nsEvent =
   sendMessage nsEvent windowNumberSelector
 
 -- | @- context@
-context :: IsNSEvent nsEvent => nsEvent -> IO (Id NSGraphicsContext)
+context :: IsNSEvent nsEvent => nsEvent -> IO RawId
 context nsEvent =
   sendMessage nsEvent contextSelector
 
@@ -552,7 +550,7 @@ userData nsEvent =
   sendMessage nsEvent userDataSelector
 
 -- | @- trackingArea@
-trackingArea :: IsNSEvent nsEvent => nsEvent -> IO (Id NSTrackingArea)
+trackingArea :: IsNSEvent nsEvent => nsEvent -> IO RawId
 trackingArea nsEvent =
   sendMessage nsEvent trackingAreaSelector
 
@@ -862,7 +860,7 @@ windowNumberSelector :: Selector '[] CLong
 windowNumberSelector = mkSelector "windowNumber"
 
 -- | @Selector@ for @context@
-contextSelector :: Selector '[] (Id NSGraphicsContext)
+contextSelector :: Selector '[] RawId
 contextSelector = mkSelector "context"
 
 -- | @Selector@ for @clickCount@
@@ -942,7 +940,7 @@ userDataSelector :: Selector '[] (Ptr ())
 userDataSelector = mkSelector "userData"
 
 -- | @Selector@ for @trackingArea@
-trackingAreaSelector :: Selector '[] (Id NSTrackingArea)
+trackingAreaSelector :: Selector '[] RawId
 trackingAreaSelector = mkSelector "trackingArea"
 
 -- | @Selector@ for @subtype@

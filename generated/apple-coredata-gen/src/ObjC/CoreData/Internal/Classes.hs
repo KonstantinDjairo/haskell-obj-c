@@ -286,25 +286,6 @@ instance IsNSManagedObjectModel (Id NSManagedObjectModel) where
 instance IsNSObject (Id NSManagedObjectModel) where
   toNSObject = unsafeCastId
 
--- ---------- NSManagedObjectModelReference ----------
-
--- | Phantom type for @NSManagedObjectModelReference@.
-data NSManagedObjectModelReference
-
-instance IsObjCObject (Id NSManagedObjectModelReference) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSManagedObjectModelReference"
-
-class IsNSObject a => IsNSManagedObjectModelReference a where
-  toNSManagedObjectModelReference :: a -> Id NSManagedObjectModelReference
-
-instance IsNSManagedObjectModelReference (Id NSManagedObjectModelReference) where
-  toNSManagedObjectModelReference = unsafeCastId
-
-instance IsNSObject (Id NSManagedObjectModelReference) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSMappingModel ----------
 
 -- | Phantom type for @NSMappingModel@.
@@ -379,25 +360,6 @@ instance IsNSMigrationManager (Id NSMigrationManager) where
   toNSMigrationManager = unsafeCastId
 
 instance IsNSObject (Id NSMigrationManager) where
-  toNSObject = unsafeCastId
-
--- ---------- NSMigrationStage ----------
-
--- | Phantom type for @NSMigrationStage@.
-data NSMigrationStage
-
-instance IsObjCObject (Id NSMigrationStage) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSMigrationStage"
-
-class IsNSObject a => IsNSMigrationStage a where
-  toNSMigrationStage :: a -> Id NSMigrationStage
-
-instance IsNSMigrationStage (Id NSMigrationStage) where
-  toNSMigrationStage = unsafeCastId
-
-instance IsNSObject (Id NSMigrationStage) where
   toNSObject = unsafeCastId
 
 -- ---------- NSPersistentCloudKitContainerEvent ----------
@@ -668,25 +630,6 @@ instance IsNSQueryGenerationToken (Id NSQueryGenerationToken) where
 instance IsNSObject (Id NSQueryGenerationToken) where
   toNSObject = unsafeCastId
 
--- ---------- NSStagedMigrationManager ----------
-
--- | Phantom type for @NSStagedMigrationManager@.
-data NSStagedMigrationManager
-
-instance IsObjCObject (Id NSStagedMigrationManager) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSStagedMigrationManager"
-
-class IsNSObject a => IsNSStagedMigrationManager a where
-  toNSStagedMigrationManager :: a -> Id NSStagedMigrationManager
-
-instance IsNSStagedMigrationManager (Id NSStagedMigrationManager) where
-  toNSStagedMigrationManager = unsafeCastId
-
-instance IsNSObject (Id NSStagedMigrationManager) where
-  toNSObject = unsafeCastId
-
 -- ---------- NSFetchRequestExpression ----------
 
 -- | Phantom type for @NSFetchRequestExpression@.
@@ -707,50 +650,6 @@ instance IsNSExpression (Id NSFetchRequestExpression) where
   toNSExpression = unsafeCastId
 
 instance IsNSObject (Id NSFetchRequestExpression) where
-  toNSObject = unsafeCastId
-
--- ---------- NSCustomMigrationStage ----------
-
--- | Phantom type for @NSCustomMigrationStage@.
-data NSCustomMigrationStage
-
-instance IsObjCObject (Id NSCustomMigrationStage) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSCustomMigrationStage"
-
-class IsNSMigrationStage a => IsNSCustomMigrationStage a where
-  toNSCustomMigrationStage :: a -> Id NSCustomMigrationStage
-
-instance IsNSCustomMigrationStage (Id NSCustomMigrationStage) where
-  toNSCustomMigrationStage = unsafeCastId
-
-instance IsNSMigrationStage (Id NSCustomMigrationStage) where
-  toNSMigrationStage = unsafeCastId
-
-instance IsNSObject (Id NSCustomMigrationStage) where
-  toNSObject = unsafeCastId
-
--- ---------- NSLightweightMigrationStage ----------
-
--- | Phantom type for @NSLightweightMigrationStage@.
-data NSLightweightMigrationStage
-
-instance IsObjCObject (Id NSLightweightMigrationStage) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSLightweightMigrationStage"
-
-class IsNSMigrationStage a => IsNSLightweightMigrationStage a where
-  toNSLightweightMigrationStage :: a -> Id NSLightweightMigrationStage
-
-instance IsNSLightweightMigrationStage (Id NSLightweightMigrationStage) where
-  toNSLightweightMigrationStage = unsafeCastId
-
-instance IsNSMigrationStage (Id NSLightweightMigrationStage) where
-  toNSMigrationStage = unsafeCastId
-
-instance IsNSObject (Id NSLightweightMigrationStage) where
   toNSObject = unsafeCastId
 
 -- ---------- NSPersistentCloudKitContainer ----------
@@ -1239,31 +1138,6 @@ instance IsNSPersistentStoreAsynchronousResult (Id NSAsynchronousFetchResult) wh
 
 instance IsNSPersistentStoreResult (Id NSAsynchronousFetchResult) where
   toNSPersistentStoreResult = unsafeCastId
-
--- ---------- NSCompositeAttributeDescription ----------
-
--- | Phantom type for @NSCompositeAttributeDescription@.
-data NSCompositeAttributeDescription
-
-instance IsObjCObject (Id NSCompositeAttributeDescription) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "NSCompositeAttributeDescription"
-
-class IsNSAttributeDescription a => IsNSCompositeAttributeDescription a where
-  toNSCompositeAttributeDescription :: a -> Id NSCompositeAttributeDescription
-
-instance IsNSCompositeAttributeDescription (Id NSCompositeAttributeDescription) where
-  toNSCompositeAttributeDescription = unsafeCastId
-
-instance IsNSAttributeDescription (Id NSCompositeAttributeDescription) where
-  toNSAttributeDescription = unsafeCastId
-
-instance IsNSObject (Id NSCompositeAttributeDescription) where
-  toNSObject = unsafeCastId
-
-instance IsNSPropertyDescription (Id NSCompositeAttributeDescription) where
-  toNSPropertyDescription = unsafeCastId
 
 -- ---------- NSDerivedAttributeDescription ----------
 

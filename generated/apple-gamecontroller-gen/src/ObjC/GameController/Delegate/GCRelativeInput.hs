@@ -42,7 +42,6 @@ data GCRelativeInputOverrides = GCRelativeInputOverrides
   , _analog :: !(Maybe (IO Bool))
   , _lastDeltaTimestamp :: !(Maybe (IO Double))
   , _lastDeltaLatency :: !(Maybe (IO Double))
-  , _sources :: !(Maybe (IO RawId))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -54,7 +53,6 @@ defaultGCRelativeInputOverrides = GCRelativeInputOverrides
   , _analog = Nothing
   , _lastDeltaTimestamp = Nothing
   , _lastDeltaLatency = Nothing
-  , _sources = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -102,7 +100,6 @@ gcRelativeInputDelegateClass = unsafePerformIO $ do
       sel_analog = unSelector (mkSelector "analog")
       sel_lastDeltaTimestamp = unSelector (mkSelector "lastDeltaTimestamp")
       sel_lastDeltaLatency = unSelector (mkSelector "lastDeltaLatency")
-      sel_sources = unSelector (mkSelector "sources")
   -- deltaDidChangeHandler
   stub_0 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
@@ -167,17 +164,6 @@ gcRelativeInputDelegateClass = unsafePerformIO $ do
         pure (realToFrac r)
   addObjCMethod cls "lastDeltaLatency" "d@:" stub_5
 
-  -- sources
-  stub_6 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO GCRelativeInputOverrides
-    case _sources rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "sources" "@@:" stub_6
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -188,7 +174,6 @@ gcRelativeInputDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_analog then pure (maybe 0 (const 1) (_analog rec_))
     else if queriedSel == sel_lastDeltaTimestamp then pure (maybe 0 (const 1) (_lastDeltaTimestamp rec_))
     else if queriedSel == sel_lastDeltaLatency then pure (maybe 0 (const 1) (_lastDeltaLatency rec_))
-    else if queriedSel == sel_sources then pure (maybe 0 (const 1) (_sources rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

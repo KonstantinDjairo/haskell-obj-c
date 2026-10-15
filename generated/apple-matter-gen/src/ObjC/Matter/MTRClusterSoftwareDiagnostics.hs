@@ -9,8 +9,9 @@
 module ObjC.Matter.MTRClusterSoftwareDiagnostics
   ( MTRClusterSoftwareDiagnostics
   , IsMTRClusterSoftwareDiagnostics(..)
-  , resetWatermarksWithParams_expectedValues_expectedValueInterval_completion
-  , resetWatermarksWithExpectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandler
+  , resetWatermarksWithExpectedValues_expectedValueInterval_completionHandler
   , readAttributeThreadMetricsWithParams
   , readAttributeCurrentHeapFreeWithParams
   , readAttributeCurrentHeapUsedWithParams
@@ -22,12 +23,7 @@ module ObjC.Matter.MTRClusterSoftwareDiagnostics
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandler
-  , resetWatermarksWithExpectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -40,9 +36,7 @@ module ObjC.Matter.MTRClusterSoftwareDiagnostics
   , readAttributeGeneratedCommandListWithParamsSelector
   , readAttributeThreadMetricsWithParamsSelector
   , resetWatermarksWithExpectedValues_expectedValueInterval_completionHandlerSelector
-  , resetWatermarksWithExpectedValues_expectedValueInterval_completionSelector
   , resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , resetWatermarksWithParams_expectedValues_expectedValueInterval_completionSelector
 
 
   ) where
@@ -58,15 +52,20 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- resetWatermarksWithParams:expectedValues:expectedValueInterval:completion:@
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsMTRSoftwareDiagnosticsClusterResetWatermarksParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterSoftwareDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completion mtrClusterSoftwareDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterSoftwareDiagnostics resetWatermarksWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRSoftwareDiagnosticsClusterResetWatermarksParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsMTRDevice device, IsNSObject queue) => mtrClusterSoftwareDiagnostics -> device -> CUShort -> queue -> IO (Id MTRClusterSoftwareDiagnostics)
+initWithDevice_endpoint_queue mtrClusterSoftwareDiagnostics device endpoint queue =
+  sendOwnedMessage mtrClusterSoftwareDiagnostics initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- resetWatermarksWithExpectedValues:expectedValueInterval:completion:@
-resetWatermarksWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterSoftwareDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetWatermarksWithExpectedValues_expectedValueInterval_completion mtrClusterSoftwareDiagnostics expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterSoftwareDiagnostics resetWatermarksWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- resetWatermarksWithParams:expectedValues:expectedValueInterval:completionHandler:@
+resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsMTRSoftwareDiagnosticsClusterResetWatermarksParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterSoftwareDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterSoftwareDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterSoftwareDiagnostics resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRSoftwareDiagnosticsClusterResetWatermarksParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
+
+-- | @- resetWatermarksWithExpectedValues:expectedValueInterval:completionHandler:@
+resetWatermarksWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterSoftwareDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
+resetWatermarksWithExpectedValues_expectedValueInterval_completionHandler mtrClusterSoftwareDiagnostics expectedValues expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterSoftwareDiagnostics resetWatermarksWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeThreadMetricsWithParams:@
 readAttributeThreadMetricsWithParams :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsMTRReadParams params) => mtrClusterSoftwareDiagnostics -> params -> IO (Id NSDictionary)
@@ -125,39 +124,21 @@ new  =
     cls' <- getRequiredClass "MTRClusterSoftwareDiagnostics"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsMTRDevice device, IsNSObject queue) => mtrClusterSoftwareDiagnostics -> device -> CUShort -> queue -> IO (Id MTRClusterSoftwareDiagnostics)
-initWithDevice_endpoint_queue mtrClusterSoftwareDiagnostics device endpoint queue =
-  sendOwnedMessage mtrClusterSoftwareDiagnostics initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- resetWatermarksWithParams:expectedValues:expectedValueInterval:completionHandler:@
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsMTRSoftwareDiagnosticsClusterResetWatermarksParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterSoftwareDiagnostics -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterSoftwareDiagnostics params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterSoftwareDiagnostics resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRSoftwareDiagnosticsClusterResetWatermarksParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- resetWatermarksWithExpectedValues:expectedValueInterval:completionHandler:@
-resetWatermarksWithExpectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterSoftwareDiagnostics -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-resetWatermarksWithExpectedValues_expectedValueInterval_completionHandler mtrClusterSoftwareDiagnostics expectedValues expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterSoftwareDiagnostics resetWatermarksWithExpectedValues_expectedValueInterval_completionHandlerSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterSoftwareDiagnostics mtrClusterSoftwareDiagnostics, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterSoftwareDiagnostics -> device -> endpointID -> queue -> IO (Id MTRClusterSoftwareDiagnostics)
-initWithDevice_endpointID_queue mtrClusterSoftwareDiagnostics device endpointID queue =
-  sendOwnedMessage mtrClusterSoftwareDiagnostics initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @resetWatermarksWithParams:expectedValues:expectedValueInterval:completion:@
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRSoftwareDiagnosticsClusterResetWatermarksParams, Id NSArray, Id NSNumber, Ptr ()] ()
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "resetWatermarksWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterSoftwareDiagnostics)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @resetWatermarksWithExpectedValues:expectedValueInterval:completion:@
-resetWatermarksWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-resetWatermarksWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "resetWatermarksWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @resetWatermarksWithParams:expectedValues:expectedValueInterval:completionHandler:@
+resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRSoftwareDiagnosticsClusterResetWatermarksParams, Id NSArray, Id NSNumber, Ptr ()] ()
+resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetWatermarksWithParams:expectedValues:expectedValueInterval:completionHandler:"
+
+-- | @Selector@ for @resetWatermarksWithExpectedValues:expectedValueInterval:completionHandler:@
+resetWatermarksWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
+resetWatermarksWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetWatermarksWithExpectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeThreadMetricsWithParams:@
 readAttributeThreadMetricsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -202,20 +183,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterSoftwareDiagnostics)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterSoftwareDiagnostics)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @resetWatermarksWithParams:expectedValues:expectedValueInterval:completionHandler:@
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRSoftwareDiagnosticsClusterResetWatermarksParams, Id NSArray, Id NSNumber, Ptr ()] ()
-resetWatermarksWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetWatermarksWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @resetWatermarksWithExpectedValues:expectedValueInterval:completionHandler:@
-resetWatermarksWithExpectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-resetWatermarksWithExpectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "resetWatermarksWithExpectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterSoftwareDiagnostics)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

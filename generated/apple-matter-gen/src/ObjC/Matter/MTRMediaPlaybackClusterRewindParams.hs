@@ -7,16 +7,12 @@
 module ObjC.Matter.MTRMediaPlaybackClusterRewindParams
   ( MTRMediaPlaybackClusterRewindParams
   , IsMTRMediaPlaybackClusterRewindParams(..)
-  , audioAdvanceUnmuted
-  , setAudioAdvanceUnmuted
+  , init_
+  , copyWithZone
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , audioAdvanceUnmutedSelector
-  , serverSideProcessingTimeoutSelector
-  , setAudioAdvanceUnmutedSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -34,15 +30,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- audioAdvanceUnmuted@
-audioAdvanceUnmuted :: IsMTRMediaPlaybackClusterRewindParams mtrMediaPlaybackClusterRewindParams => mtrMediaPlaybackClusterRewindParams -> IO (Id NSNumber)
-audioAdvanceUnmuted mtrMediaPlaybackClusterRewindParams =
-  sendMessage mtrMediaPlaybackClusterRewindParams audioAdvanceUnmutedSelector
+-- | @- init@
+init_ :: IsMTRMediaPlaybackClusterRewindParams mtrMediaPlaybackClusterRewindParams => mtrMediaPlaybackClusterRewindParams -> IO (Id MTRMediaPlaybackClusterRewindParams)
+init_ mtrMediaPlaybackClusterRewindParams =
+  sendOwnedMessage mtrMediaPlaybackClusterRewindParams initSelector
 
--- | @- setAudioAdvanceUnmuted:@
-setAudioAdvanceUnmuted :: (IsMTRMediaPlaybackClusterRewindParams mtrMediaPlaybackClusterRewindParams, IsNSNumber value) => mtrMediaPlaybackClusterRewindParams -> value -> IO ()
-setAudioAdvanceUnmuted mtrMediaPlaybackClusterRewindParams value =
-  sendMessage mtrMediaPlaybackClusterRewindParams setAudioAdvanceUnmutedSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRMediaPlaybackClusterRewindParams mtrMediaPlaybackClusterRewindParams => mtrMediaPlaybackClusterRewindParams -> Ptr () -> IO RawId
+copyWithZone mtrMediaPlaybackClusterRewindParams zone =
+  sendOwnedMessage mtrMediaPlaybackClusterRewindParams copyWithZoneSelector zone
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -66,39 +62,17 @@ setTimedInvokeTimeoutMs :: (IsMTRMediaPlaybackClusterRewindParams mtrMediaPlayba
 setTimedInvokeTimeoutMs mtrMediaPlaybackClusterRewindParams value =
   sendMessage mtrMediaPlaybackClusterRewindParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRMediaPlaybackClusterRewindParams mtrMediaPlaybackClusterRewindParams => mtrMediaPlaybackClusterRewindParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrMediaPlaybackClusterRewindParams =
-  sendMessage mtrMediaPlaybackClusterRewindParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRMediaPlaybackClusterRewindParams mtrMediaPlaybackClusterRewindParams, IsNSNumber value) => mtrMediaPlaybackClusterRewindParams -> value -> IO ()
-setServerSideProcessingTimeout mtrMediaPlaybackClusterRewindParams value =
-  sendMessage mtrMediaPlaybackClusterRewindParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @audioAdvanceUnmuted@
-audioAdvanceUnmutedSelector :: Selector '[] (Id NSNumber)
-audioAdvanceUnmutedSelector = mkSelector "audioAdvanceUnmuted"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRMediaPlaybackClusterRewindParams)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setAudioAdvanceUnmuted:@
-setAudioAdvanceUnmutedSelector :: Selector '[Id NSNumber] ()
-setAudioAdvanceUnmutedSelector = mkSelector "setAudioAdvanceUnmuted:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@
 timedInvokeTimeoutMsSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +81,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

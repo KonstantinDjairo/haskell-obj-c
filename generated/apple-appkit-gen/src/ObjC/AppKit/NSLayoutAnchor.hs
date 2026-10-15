@@ -16,14 +16,12 @@ module ObjC.AppKit.NSLayoutAnchor
   , name
   , item
   , hasAmbiguousLayout
-  , constraintsAffectingLayout
   , constraintEqualToAnchorSelector
   , constraintEqualToAnchor_constantSelector
   , constraintGreaterThanOrEqualToAnchorSelector
   , constraintGreaterThanOrEqualToAnchor_constantSelector
   , constraintLessThanOrEqualToAnchorSelector
   , constraintLessThanOrEqualToAnchor_constantSelector
-  , constraintsAffectingLayoutSelector
   , hasAmbiguousLayoutSelector
   , itemSelector
   , nameSelector
@@ -73,7 +71,7 @@ constraintLessThanOrEqualToAnchor_constant nsLayoutAnchor anchor c =
   sendMessage nsLayoutAnchor constraintLessThanOrEqualToAnchor_constantSelector (toNSLayoutAnchor anchor) c
 
 -- | @- name@
-name :: IsNSLayoutAnchor nsLayoutAnchor => nsLayoutAnchor -> IO (Id NSString)
+name :: IsNSLayoutAnchor nsLayoutAnchor => nsLayoutAnchor -> IO RawId
 name nsLayoutAnchor =
   sendMessage nsLayoutAnchor nameSelector
 
@@ -86,11 +84,6 @@ item nsLayoutAnchor =
 hasAmbiguousLayout :: IsNSLayoutAnchor nsLayoutAnchor => nsLayoutAnchor -> IO Bool
 hasAmbiguousLayout nsLayoutAnchor =
   sendMessage nsLayoutAnchor hasAmbiguousLayoutSelector
-
--- | @- constraintsAffectingLayout@
-constraintsAffectingLayout :: IsNSLayoutAnchor nsLayoutAnchor => nsLayoutAnchor -> IO (Id NSArray)
-constraintsAffectingLayout nsLayoutAnchor =
-  sendMessage nsLayoutAnchor constraintsAffectingLayoutSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -121,7 +114,7 @@ constraintLessThanOrEqualToAnchor_constantSelector :: Selector '[Id NSLayoutAnch
 constraintLessThanOrEqualToAnchor_constantSelector = mkSelector "constraintLessThanOrEqualToAnchor:constant:"
 
 -- | @Selector@ for @name@
-nameSelector :: Selector '[] (Id NSString)
+nameSelector :: Selector '[] RawId
 nameSelector = mkSelector "name"
 
 -- | @Selector@ for @item@
@@ -131,8 +124,4 @@ itemSelector = mkSelector "item"
 -- | @Selector@ for @hasAmbiguousLayout@
 hasAmbiguousLayoutSelector :: Selector '[] Bool
 hasAmbiguousLayoutSelector = mkSelector "hasAmbiguousLayout"
-
--- | @Selector@ for @constraintsAffectingLayout@
-constraintsAffectingLayoutSelector :: Selector '[] (Id NSArray)
-constraintsAffectingLayoutSelector = mkSelector "constraintsAffectingLayout"
 

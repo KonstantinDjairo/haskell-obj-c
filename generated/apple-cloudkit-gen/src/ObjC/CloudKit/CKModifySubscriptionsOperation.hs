@@ -74,7 +74,7 @@ setSubscriptionIDsToDelete ckModifySubscriptionsOperation value =
 
 -- | Called on success or failure of a subscription save
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perSubscriptionSaveBlock@
 perSubscriptionSaveBlock :: IsCKModifySubscriptionsOperation ckModifySubscriptionsOperation => ckModifySubscriptionsOperation -> IO (Ptr ())
@@ -83,7 +83,7 @@ perSubscriptionSaveBlock ckModifySubscriptionsOperation =
 
 -- | Called on success or failure of a subscription save
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerSubscriptionSaveBlock:@
 setPerSubscriptionSaveBlock :: IsCKModifySubscriptionsOperation ckModifySubscriptionsOperation => ckModifySubscriptionsOperation -> Ptr () -> IO ()
@@ -92,7 +92,7 @@ setPerSubscriptionSaveBlock ckModifySubscriptionsOperation value =
 
 -- | Called on success or failure of a subscription deletion
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perSubscriptionDeleteBlock@
 perSubscriptionDeleteBlock :: IsCKModifySubscriptionsOperation ckModifySubscriptionsOperation => ckModifySubscriptionsOperation -> IO (Ptr ())
@@ -101,7 +101,7 @@ perSubscriptionDeleteBlock ckModifySubscriptionsOperation =
 
 -- | Called on success or failure of a subscription deletion
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerSubscriptionDeleteBlock:@
 setPerSubscriptionDeleteBlock :: IsCKModifySubscriptionsOperation ckModifySubscriptionsOperation => ckModifySubscriptionsOperation -> Ptr () -> IO ()

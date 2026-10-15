@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -142,7 +142,6 @@ library
       ObjC.AppKit.NSAccessibilityCustomRotorSearchParameters
       ObjC.AppKit.NSAccessibilityElement
       ObjC.AppKit.NSActionCell
-      ObjC.AppKit.NSAdaptiveImageGlyph
       ObjC.AppKit.NSAlert
       ObjC.AppKit.NSAlignmentFeedbackFilter
       ObjC.AppKit.NSAnimation
@@ -150,7 +149,6 @@ library
       ObjC.AppKit.NSAppearance
       ObjC.AppKit.NSApplication
       ObjC.AppKit.NSArrayController
-      ObjC.AppKit.NSBackgroundExtensionView
       ObjC.AppKit.NSBezierPath
       ObjC.AppKit.NSBindingSelectionMarker
       ObjC.AppKit.NSBitmapImageRep
@@ -233,8 +231,6 @@ library
       ObjC.AppKit.NSForm
       ObjC.AppKit.NSFormCell
       ObjC.AppKit.NSGestureRecognizer
-      ObjC.AppKit.NSGlassEffectContainerView
-      ObjC.AppKit.NSGlassEffectView
       ObjC.AppKit.NSGlyphGenerator
       ObjC.AppKit.NSGlyphInfo
       ObjC.AppKit.NSGradient
@@ -253,7 +249,6 @@ library
       ObjC.AppKit.NSImageView
       ObjC.AppKit.NSInputManager
       ObjC.AppKit.NSInputServer
-      ObjC.AppKit.NSItemBadge
       ObjC.AppKit.NSLayoutAnchor
       ObjC.AppKit.NSLayoutConstraint
       ObjC.AppKit.NSLayoutDimension
@@ -268,7 +263,6 @@ library
       ObjC.AppKit.NSMediaLibraryBrowserController
       ObjC.AppKit.NSMenu
       ObjC.AppKit.NSMenuItem
-      ObjC.AppKit.NSMenuItemBadge
       ObjC.AppKit.NSMenuItemCell
       ObjC.AppKit.NSMenuToolbarItem
       ObjC.AppKit.NSMovie
@@ -322,7 +316,6 @@ library
       ObjC.AppKit.NSRunningApplication
       ObjC.AppKit.NSSavePanel
       ObjC.AppKit.NSScreen
-      ObjC.AppKit.NSScrollEdgeEffectStyle
       ObjC.AppKit.NSScrollView
       ObjC.AppKit.NSScroller
       ObjC.AppKit.NSScrubber
@@ -344,7 +337,6 @@ library
       ObjC.AppKit.NSSegmentedCell
       ObjC.AppKit.NSSegmentedControl
       ObjC.AppKit.NSShadow
-      ObjC.AppKit.NSSharingCollaborationModeRestriction
       ObjC.AppKit.NSSharingService
       ObjC.AppKit.NSSharingServicePicker
       ObjC.AppKit.NSSharingServicePickerToolbarItem
@@ -361,7 +353,6 @@ library
       ObjC.AppKit.NSSplitView
       ObjC.AppKit.NSSplitViewController
       ObjC.AppKit.NSSplitViewItem
-      ObjC.AppKit.NSSplitViewItemAccessoryViewController
       ObjC.AppKit.NSStackView
       ObjC.AppKit.NSStatusBar
       ObjC.AppKit.NSStatusBarButton
@@ -399,14 +390,12 @@ library
       ObjC.AppKit.NSTextFieldCell
       ObjC.AppKit.NSTextFinder
       ObjC.AppKit.NSTextInputContext
-      ObjC.AppKit.NSTextInsertionIndicator
       ObjC.AppKit.NSTextLayoutFragment
       ObjC.AppKit.NSTextLayoutManager
       ObjC.AppKit.NSTextLineFragment
       ObjC.AppKit.NSTextList
       ObjC.AppKit.NSTextListElement
       ObjC.AppKit.NSTextParagraph
-      ObjC.AppKit.NSTextPreview
       ObjC.AppKit.NSTextRange
       ObjC.AppKit.NSTextSelection
       ObjC.AppKit.NSTextSelectionNavigation
@@ -436,7 +425,6 @@ library
       ObjC.AppKit.NSView
       ObjC.AppKit.NSViewAnimation
       ObjC.AppKit.NSViewController
-      ObjC.AppKit.NSViewLayoutRegion
       ObjC.AppKit.NSVisualEffectView
       ObjC.AppKit.NSWindow
       ObjC.AppKit.NSWindowController
@@ -445,9 +433,6 @@ library
       ObjC.AppKit.NSWorkspace
       ObjC.AppKit.NSWorkspaceAuthorization
       ObjC.AppKit.NSWorkspaceOpenConfiguration
-      ObjC.AppKit.NSWritingToolsCoordinator
-      ObjC.AppKit.NSWritingToolsCoordinatorAnimationParameters
-      ObjC.AppKit.NSWritingToolsCoordinatorContext
       ObjC.AppKit.Structs
   other-modules:
       Paths_apple_appkit_gen
@@ -455,13 +440,12 @@ library
       Paths_apple_appkit_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-coredata-gen
     , apple-coreimage-gen
     , apple-foundation-gen
     , apple-quartzcore-gen
-    , apple-symbols-gen
     , apple-uniformtypeidentifiers-gen
     , base >=4.7 && <5
     , haskell-obj-c

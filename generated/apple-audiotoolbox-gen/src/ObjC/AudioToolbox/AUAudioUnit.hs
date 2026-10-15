@@ -109,7 +109,6 @@ module ObjC.AudioToolbox.AUAudioUnit
   , setTransportStateBlock
   , contextName
   , setContextName
-  , migrateFromPlugin
   , supportsMPE
   , channelMap
   , setChannelMap
@@ -119,8 +118,6 @@ module ObjC.AudioToolbox.AUAudioUnit
   , renderContextObserver
   , midiOutputBufferSizeHint
   , setMIDIOutputBufferSizeHint
-  , intendedSpatialExperience
-  , setIntendedSpatialExperience
   , canPerformInput
   , canPerformOutput
   , inputEnabled
@@ -170,7 +167,6 @@ module ObjC.AudioToolbox.AUAudioUnit
   , inputEnabledSelector
   , inputHandlerSelector
   , instantiateWithComponentDescription_options_completionHandlerSelector
-  , intendedSpatialExperienceSelector
   , internalRenderBlockSelector
   , isLoadedInProcessSelector
   , latencySelector
@@ -181,7 +177,6 @@ module ObjC.AudioToolbox.AUAudioUnit
   , midiOutputEventBlockSelector
   , midiOutputEventListBlockSelector
   , midiOutputNamesSelector
-  , migrateFromPluginSelector
   , musicDeviceOrEffectSelector
   , musicalContextBlockSelector
   , osWorkgroupSelector
@@ -216,7 +211,6 @@ module ObjC.AudioToolbox.AUAudioUnit
   , setHostMIDIProtocolSelector
   , setInputEnabledSelector
   , setInputHandlerSelector
-  , setIntendedSpatialExperienceSelector
   , setMIDIOutputBufferSizeHintSelector
   , setMIDIOutputEventBlockSelector
   , setMIDIOutputEventListBlockSelector
@@ -949,7 +943,7 @@ setMIDIOutputEventBlock auAudioUnit value =
 --
 -- Note: This block is cross-compatible with Audio Units using MIDIOutputEventBlock and should be		preferred over MIDIOutputEventBlock by hosts going forward. The framework will provide the Audio Unit		with both a MIDIOutputEventBlock and MIDIOutputEventListBlock, the Audio Unit is free to call either		block as all messages will be translated as described above.
 --
--- Host should setup in the following order:		 - Set hostMIDIProtocol		 - Set MIDIOutputEventListBlock		 - Call allocateRenderResourcesAndReturnError
+-- Host should setup in the following order:		 - Set hostMIDIProtocol		 - Set MIDIOutputEventBlock		 - Call allocateRenderResourcesAndReturnError
 --
 -- This is bridged to the v2 API property kAudioUnitProperty_MIDIOutputEventListCallback.
 --
@@ -968,7 +962,7 @@ midiOutputEventListBlock auAudioUnit =
 --
 -- Note: This block is cross-compatible with Audio Units using MIDIOutputEventBlock and should be		preferred over MIDIOutputEventBlock by hosts going forward. The framework will provide the Audio Unit		with both a MIDIOutputEventBlock and MIDIOutputEventListBlock, the Audio Unit is free to call either		block as all messages will be translated as described above.
 --
--- Host should setup in the following order:		 - Set hostMIDIProtocol		 - Set MIDIOutputEventListBlock		 - Call allocateRenderResourcesAndReturnError
+-- Host should setup in the following order:		 - Set hostMIDIProtocol		 - Set MIDIOutputEventBlock		 - Call allocateRenderResourcesAndReturnError
 --
 -- This is bridged to the v2 API property kAudioUnitProperty_MIDIOutputEventListCallback.
 --
@@ -980,8 +974,6 @@ setMIDIOutputEventListBlock auAudioUnit value =
 -- | AudioUnitMIDIProtocol
 --
 -- The MIDI protocol used by the Audio Unit for receiving MIDIEventList data.
---
--- Subclassers should override to return the desired protocol in which the Audio Unit wants		to receive input MIDI data, otherwise the Audio Unit will default to receiving legacy MIDI.
 --
 -- All translatable messages will be converted (if necessary) to this protocol prior to delivery		to the Audio Unit.
 --
@@ -998,11 +990,7 @@ audioUnitMIDIProtocol auAudioUnit =
 --
 -- Hosts should set this property to the protocol they wish to receive MIDIEventList data		from the Audio Unit. This should be set prior to initialization, all translatable messages		will be converted  (if necessary) to this property's protocol prior to delivery to the host.
 --
--- Host should setup in the following order:		- Set hostMIDIProtocol		- Set MIDIOutputEventListBlock		- Call allocateRenderResourcesAndReturnError
---
 -- This is bridged to the v2 API property kAudioUnitProperty_HostMIDIProtocol.
---
--- Notes:		- If overriding this property, subclassers must call [super setHostMIDIProtocol:]		- hostMIDIProtocol should be set before attempting to query AudioUnitMIDIProtocol		or calling allocateRenderResourcesAndReturnError to allow Audio Units to		optionally match their input MIDI protocol to the desired host protocol and prevent		protocol conversion.
 --
 -- ObjC selector: @- hostMIDIProtocol@
 hostMIDIProtocol :: IsAUAudioUnit auAudioUnit => auAudioUnit -> IO MIDIProtocolID
@@ -1015,11 +1003,7 @@ hostMIDIProtocol auAudioUnit =
 --
 -- Hosts should set this property to the protocol they wish to receive MIDIEventList data		from the Audio Unit. This should be set prior to initialization, all translatable messages		will be converted  (if necessary) to this property's protocol prior to delivery to the host.
 --
--- Host should setup in the following order:		- Set hostMIDIProtocol		- Set MIDIOutputEventListBlock		- Call allocateRenderResourcesAndReturnError
---
 -- This is bridged to the v2 API property kAudioUnitProperty_HostMIDIProtocol.
---
--- Notes:		- If overriding this property, subclassers must call [super setHostMIDIProtocol:]		- hostMIDIProtocol should be set before attempting to query AudioUnitMIDIProtocol		or calling allocateRenderResourcesAndReturnError to allow Audio Units to		optionally match their input MIDI protocol to the desired host protocol and prevent		protocol conversion.
 --
 -- ObjC selector: @- setHostMIDIProtocol:@
 setHostMIDIProtocol :: IsAUAudioUnit auAudioUnit => auAudioUnit -> MIDIProtocolID -> IO ()
@@ -1388,19 +1372,6 @@ setContextName :: (IsAUAudioUnit auAudioUnit, IsNSString value) => auAudioUnit -
 setContextName auAudioUnit value =
   sendMessage auAudioUnit setContextNameSelector (toNSString value)
 
--- | migrateFromPlugin
---
--- Information for migrating data from other audio plug-ins to the v3 Audio Unit architecture.
---
--- This can be used to migrate settings from an older Audio Unit; this allows manufacturers		to deprecate older Audio Units and replace them with new ones. The data for the older Audio Unit is		an array of NSData representing byte encoded AudioUnitOtherPluginDescs to migrate from.		Can also be used to migrate from a v2 to a v3 Audio Unit.
---
--- Bridged to the v2 property kAudioUnitMigrateProperty_FromPlugin.
---
--- ObjC selector: @- migrateFromPlugin@
-migrateFromPlugin :: IsAUAudioUnit auAudioUnit => auAudioUnit -> IO (Id NSArray)
-migrateFromPlugin auAudioUnit =
-  sendMessage auAudioUnit migrateFromPluginSelector
-
 -- | supportsMPE
 --
 -- Specifies whether an audio unit supports Multi-dimensional Polyphonic Expression.
@@ -1527,24 +1498,6 @@ midiOutputBufferSizeHint auAudioUnit =
 setMIDIOutputBufferSizeHint :: IsAUAudioUnit auAudioUnit => auAudioUnit -> CLong -> IO ()
 setMIDIOutputBufferSizeHint auAudioUnit value =
   sendMessage auAudioUnit setMIDIOutputBufferSizeHintSelector value
-
--- | The AUAudioUnit's intended spatial experience.
---
--- Only useful for output AUAudioUnits - setting on a non-output AU is a no-op. The default value of CAAutomaticSpatialAudio means the output AUAudioUnit uses its AVAudioSession's spatial experience. See CASpatialAudioExperience for more details.
---
--- ObjC selector: @- intendedSpatialExperience@
-intendedSpatialExperience :: IsAUAudioUnit auAudioUnit => auAudioUnit -> IO RawId
-intendedSpatialExperience auAudioUnit =
-  sendMessage auAudioUnit intendedSpatialExperienceSelector
-
--- | The AUAudioUnit's intended spatial experience.
---
--- Only useful for output AUAudioUnits - setting on a non-output AU is a no-op. The default value of CAAutomaticSpatialAudio means the output AUAudioUnit uses its AVAudioSession's spatial experience. See CASpatialAudioExperience for more details.
---
--- ObjC selector: @- setIntendedSpatialExperience:@
-setIntendedSpatialExperience :: IsAUAudioUnit auAudioUnit => auAudioUnit -> RawId -> IO ()
-setIntendedSpatialExperience auAudioUnit value =
-  sendMessage auAudioUnit setIntendedSpatialExperienceSelector value
 
 -- | canPerformInput
 --
@@ -2025,10 +1978,6 @@ contextNameSelector = mkSelector "contextName"
 setContextNameSelector :: Selector '[Id NSString] ()
 setContextNameSelector = mkSelector "setContextName:"
 
--- | @Selector@ for @migrateFromPlugin@
-migrateFromPluginSelector :: Selector '[] (Id NSArray)
-migrateFromPluginSelector = mkSelector "migrateFromPlugin"
-
 -- | @Selector@ for @supportsMPE@
 supportsMPESelector :: Selector '[] Bool
 supportsMPESelector = mkSelector "supportsMPE"
@@ -2064,14 +2013,6 @@ midiOutputBufferSizeHintSelector = mkSelector "MIDIOutputBufferSizeHint"
 -- | @Selector@ for @setMIDIOutputBufferSizeHint:@
 setMIDIOutputBufferSizeHintSelector :: Selector '[CLong] ()
 setMIDIOutputBufferSizeHintSelector = mkSelector "setMIDIOutputBufferSizeHint:"
-
--- | @Selector@ for @intendedSpatialExperience@
-intendedSpatialExperienceSelector :: Selector '[] RawId
-intendedSpatialExperienceSelector = mkSelector "intendedSpatialExperience"
-
--- | @Selector@ for @setIntendedSpatialExperience:@
-setIntendedSpatialExperienceSelector :: Selector '[RawId] ()
-setIntendedSpatialExperienceSelector = mkSelector "setIntendedSpatialExperience:"
 
 -- | @Selector@ for @canPerformInput@
 canPerformInputSelector :: Selector '[] Bool

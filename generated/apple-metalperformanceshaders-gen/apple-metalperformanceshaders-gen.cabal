@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -277,8 +277,6 @@ library
       ObjC.MetalPerformanceShaders.MPSMatrixUnaryKernel
       ObjC.MetalPerformanceShaders.MPSMatrixVectorMultiplication
       ObjC.MetalPerformanceShaders.MPSNDArray
-      ObjC.MetalPerformanceShaders.MPSNDArrayAffineInt4Dequantize
-      ObjC.MetalPerformanceShaders.MPSNDArrayAffineQuantizationDescriptor
       ObjC.MetalPerformanceShaders.MPSNDArrayBinaryKernel
       ObjC.MetalPerformanceShaders.MPSNDArrayBinaryPrimaryGradientKernel
       ObjC.MetalPerformanceShaders.MPSNDArrayBinarySecondaryGradientKernel
@@ -287,20 +285,14 @@ library
       ObjC.MetalPerformanceShaders.MPSNDArrayGatherGradient
       ObjC.MetalPerformanceShaders.MPSNDArrayGatherGradientState
       ObjC.MetalPerformanceShaders.MPSNDArrayGradientState
-      ObjC.MetalPerformanceShaders.MPSNDArrayIdentity
-      ObjC.MetalPerformanceShaders.MPSNDArrayLUTDequantize
-      ObjC.MetalPerformanceShaders.MPSNDArrayLUTQuantizationDescriptor
       ObjC.MetalPerformanceShaders.MPSNDArrayMatrixMultiplication
       ObjC.MetalPerformanceShaders.MPSNDArrayMultiaryBase
       ObjC.MetalPerformanceShaders.MPSNDArrayMultiaryGradientKernel
       ObjC.MetalPerformanceShaders.MPSNDArrayMultiaryKernel
-      ObjC.MetalPerformanceShaders.MPSNDArrayQuantizationDescriptor
-      ObjC.MetalPerformanceShaders.MPSNDArrayQuantizedMatrixMultiplication
       ObjC.MetalPerformanceShaders.MPSNDArrayStridedSlice
       ObjC.MetalPerformanceShaders.MPSNDArrayStridedSliceGradient
       ObjC.MetalPerformanceShaders.MPSNDArrayUnaryGradientKernel
       ObjC.MetalPerformanceShaders.MPSNDArrayUnaryKernel
-      ObjC.MetalPerformanceShaders.MPSNDArrayVectorLUTDequantize
       ObjC.MetalPerformanceShaders.MPSNNAdditionGradientNode
       ObjC.MetalPerformanceShaders.MPSNNAdditionNode
       ObjC.MetalPerformanceShaders.MPSNNArithmeticGradientNode
@@ -429,7 +421,7 @@ library
       Paths_apple_metalperformanceshaders_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-foundation-gen
     , apple-metal-gen

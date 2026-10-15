@@ -22,7 +22,6 @@ module ObjC.Intents.INStartCallContactResolutionResult
   , pattern INStartCallContactUnsupportedReasonUnsupportedMmiUssd
   , pattern INStartCallContactUnsupportedReasonNoCallHistoryForRedial
   , pattern INStartCallContactUnsupportedReasonNoUsableHandleForRedial
-  , pattern INStartCallContactUnsupportedReasonRequiringInAppAuthentication
 
   ) where
 

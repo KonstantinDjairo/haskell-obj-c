@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterTimeFormatLocalization
   ( MTRClusterTimeFormatLocalization
   , IsMTRClusterTimeFormatLocalization(..)
+  , initWithDevice_endpoint_queue
   , readAttributeHourFormatWithParams
   , writeAttributeHourFormatWithValue_expectedValueInterval
   , writeAttributeHourFormatWithValue_expectedValueInterval_params
@@ -23,10 +24,7 @@ module ObjC.Matter.MTRClusterTimeFormatLocalization
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -55,6 +53,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterTimeFormatLocalization mtrClusterTimeFormatLocalization, IsMTRDevice device, IsNSObject queue) => mtrClusterTimeFormatLocalization -> device -> CUShort -> queue -> IO (Id MTRClusterTimeFormatLocalization)
+initWithDevice_endpoint_queue mtrClusterTimeFormatLocalization device endpoint queue =
+  sendOwnedMessage mtrClusterTimeFormatLocalization initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeHourFormatWithParams:@
 readAttributeHourFormatWithParams :: (IsMTRClusterTimeFormatLocalization mtrClusterTimeFormatLocalization, IsMTRReadParams params) => mtrClusterTimeFormatLocalization -> params -> IO (Id NSDictionary)
@@ -128,21 +131,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterTimeFormatLocalization"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterTimeFormatLocalization mtrClusterTimeFormatLocalization, IsMTRDevice device, IsNSObject queue) => mtrClusterTimeFormatLocalization -> device -> CUShort -> queue -> IO (Id MTRClusterTimeFormatLocalization)
-initWithDevice_endpoint_queue mtrClusterTimeFormatLocalization device endpoint queue =
-  sendOwnedMessage mtrClusterTimeFormatLocalization initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterTimeFormatLocalization mtrClusterTimeFormatLocalization, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterTimeFormatLocalization -> device -> endpointID -> queue -> IO (Id MTRClusterTimeFormatLocalization)
-initWithDevice_endpointID_queue mtrClusterTimeFormatLocalization device endpointID queue =
-  sendOwnedMessage mtrClusterTimeFormatLocalization initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterTimeFormatLocalization)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeHourFormatWithParams:@
 readAttributeHourFormatWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -199,12 +194,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterTimeFormatLocalization)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterTimeFormatLocalization)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterTimeFormatLocalization)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

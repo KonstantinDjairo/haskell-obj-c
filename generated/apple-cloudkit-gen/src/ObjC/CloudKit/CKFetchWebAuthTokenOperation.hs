@@ -68,7 +68,7 @@ setAPIToken ckFetchWebAuthTokenOperation value =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- fetchWebAuthTokenCompletionBlock@
 fetchWebAuthTokenCompletionBlock :: IsCKFetchWebAuthTokenOperation ckFetchWebAuthTokenOperation => ckFetchWebAuthTokenOperation -> IO (Ptr ())
@@ -81,7 +81,7 @@ fetchWebAuthTokenCompletionBlock ckFetchWebAuthTokenOperation =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setFetchWebAuthTokenCompletionBlock:@
 setFetchWebAuthTokenCompletionBlock :: IsCKFetchWebAuthTokenOperation ckFetchWebAuthTokenOperation => ckFetchWebAuthTokenOperation -> Ptr () -> IO ()

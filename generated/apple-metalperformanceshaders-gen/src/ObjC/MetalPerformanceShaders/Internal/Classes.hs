@@ -471,31 +471,6 @@ instance IsMPSNDArrayDescriptor (Id MPSNDArrayDescriptor) where
 instance IsNSObject (Id MPSNDArrayDescriptor) where
   toNSObject = unsafeCastId
 
--- ---------- MPSNDArrayQuantizationDescriptor ----------
-
--- | MPSNDArrayQuantizationDescriptor
---
--- This depends on Metal.framework.
---
--- Common methods for quantization descriptors
--- 
--- Phantom type for @MPSNDArrayQuantizationDescriptor@.
-data MPSNDArrayQuantizationDescriptor
-
-instance IsObjCObject (Id MPSNDArrayQuantizationDescriptor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayQuantizationDescriptor"
-
-class IsNSObject a => IsMPSNDArrayQuantizationDescriptor a where
-  toMPSNDArrayQuantizationDescriptor :: a -> Id MPSNDArrayQuantizationDescriptor
-
-instance IsMPSNDArrayQuantizationDescriptor (Id MPSNDArrayQuantizationDescriptor) where
-  toMPSNDArrayQuantizationDescriptor = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayQuantizationDescriptor) where
-  toNSObject = unsafeCastId
-
 -- ---------- MPSNNDefaultPadding ----------
 
 -- | This class provides some pre-rolled padding policies for common tasks
@@ -2299,62 +2274,6 @@ instance IsMPSNDArray (Id MPSTemporaryNDArray) where
   toMPSNDArray = unsafeCastId
 
 instance IsNSObject (Id MPSTemporaryNDArray) where
-  toNSObject = unsafeCastId
-
--- ---------- MPSNDArrayAffineQuantizationDescriptor ----------
-
--- | MPSNDArrayAffineQuantizationDescriptor
---
--- This depends on Metal.framework.
---
--- Describes an affine quantization scheme
--- 
--- Phantom type for @MPSNDArrayAffineQuantizationDescriptor@.
-data MPSNDArrayAffineQuantizationDescriptor
-
-instance IsObjCObject (Id MPSNDArrayAffineQuantizationDescriptor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayAffineQuantizationDescriptor"
-
-class IsMPSNDArrayQuantizationDescriptor a => IsMPSNDArrayAffineQuantizationDescriptor a where
-  toMPSNDArrayAffineQuantizationDescriptor :: a -> Id MPSNDArrayAffineQuantizationDescriptor
-
-instance IsMPSNDArrayAffineQuantizationDescriptor (Id MPSNDArrayAffineQuantizationDescriptor) where
-  toMPSNDArrayAffineQuantizationDescriptor = unsafeCastId
-
-instance IsMPSNDArrayQuantizationDescriptor (Id MPSNDArrayAffineQuantizationDescriptor) where
-  toMPSNDArrayQuantizationDescriptor = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayAffineQuantizationDescriptor) where
-  toNSObject = unsafeCastId
-
--- ---------- MPSNDArrayLUTQuantizationDescriptor ----------
-
--- | MPSNDArrayLUTQuantizationDescriptor
---
--- This depends on Metal.framework.
---
--- Describes a lookup-table based quantization scheme
--- 
--- Phantom type for @MPSNDArrayLUTQuantizationDescriptor@.
-data MPSNDArrayLUTQuantizationDescriptor
-
-instance IsObjCObject (Id MPSNDArrayLUTQuantizationDescriptor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayLUTQuantizationDescriptor"
-
-class IsMPSNDArrayQuantizationDescriptor a => IsMPSNDArrayLUTQuantizationDescriptor a where
-  toMPSNDArrayLUTQuantizationDescriptor :: a -> Id MPSNDArrayLUTQuantizationDescriptor
-
-instance IsMPSNDArrayLUTQuantizationDescriptor (Id MPSNDArrayLUTQuantizationDescriptor) where
-  toMPSNDArrayLUTQuantizationDescriptor = unsafeCastId
-
-instance IsMPSNDArrayQuantizationDescriptor (Id MPSNDArrayLUTQuantizationDescriptor) where
-  toMPSNDArrayQuantizationDescriptor = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayLUTQuantizationDescriptor) where
   toNSObject = unsafeCastId
 
 -- ---------- MPSCNNBatchNormalizationNode ----------
@@ -11411,42 +11330,6 @@ instance IsMPSNDArrayMultiaryGradientKernel (Id MPSNDArrayUnaryGradientKernel) w
 instance IsNSObject (Id MPSNDArrayUnaryGradientKernel) where
   toNSObject = unsafeCastId
 
--- ---------- MPSNDArrayAffineInt4Dequantize ----------
-
--- | MPSNDArrayAffineInt4Dequantize
---
--- This depends on Metal.framework.
---
--- A kernel which dequantizes an input with affine quantization scheme.
---
--- The kernel works with 2-4 inputs, order of inputs: 1) quantized input, 2) scale, 3) zeropoint, 4) minValue
--- 
--- Phantom type for @MPSNDArrayAffineInt4Dequantize@.
-data MPSNDArrayAffineInt4Dequantize
-
-instance IsObjCObject (Id MPSNDArrayAffineInt4Dequantize) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayAffineInt4Dequantize"
-
-class IsMPSNDArrayMultiaryKernel a => IsMPSNDArrayAffineInt4Dequantize a where
-  toMPSNDArrayAffineInt4Dequantize :: a -> Id MPSNDArrayAffineInt4Dequantize
-
-instance IsMPSNDArrayAffineInt4Dequantize (Id MPSNDArrayAffineInt4Dequantize) where
-  toMPSNDArrayAffineInt4Dequantize = unsafeCastId
-
-instance IsMPSKernel (Id MPSNDArrayAffineInt4Dequantize) where
-  toMPSKernel = unsafeCastId
-
-instance IsMPSNDArrayMultiaryBase (Id MPSNDArrayAffineInt4Dequantize) where
-  toMPSNDArrayMultiaryBase = unsafeCastId
-
-instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayAffineInt4Dequantize) where
-  toMPSNDArrayMultiaryKernel = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayAffineInt4Dequantize) where
-  toNSObject = unsafeCastId
-
 -- ---------- MPSNDArrayBinaryKernel ----------
 
 -- | Phantom type for @MPSNDArrayBinaryKernel@.
@@ -11473,42 +11356,6 @@ instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayBinaryKernel) where
   toMPSNDArrayMultiaryKernel = unsafeCastId
 
 instance IsNSObject (Id MPSNDArrayBinaryKernel) where
-  toNSObject = unsafeCastId
-
--- ---------- MPSNDArrayLUTDequantize ----------
-
--- | MPSNDArrayLUTDequantize
---
--- This depends on Metal.framework.
---
--- A kernel which dequantizes a lookup-table based NDArray.
---
--- The kernel works with 2 inputs: 1) The quantized input, 2) The LookUp table array.
--- 
--- Phantom type for @MPSNDArrayLUTDequantize@.
-data MPSNDArrayLUTDequantize
-
-instance IsObjCObject (Id MPSNDArrayLUTDequantize) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayLUTDequantize"
-
-class IsMPSNDArrayMultiaryKernel a => IsMPSNDArrayLUTDequantize a where
-  toMPSNDArrayLUTDequantize :: a -> Id MPSNDArrayLUTDequantize
-
-instance IsMPSNDArrayLUTDequantize (Id MPSNDArrayLUTDequantize) where
-  toMPSNDArrayLUTDequantize = unsafeCastId
-
-instance IsMPSKernel (Id MPSNDArrayLUTDequantize) where
-  toMPSKernel = unsafeCastId
-
-instance IsMPSNDArrayMultiaryBase (Id MPSNDArrayLUTDequantize) where
-  toMPSNDArrayMultiaryBase = unsafeCastId
-
-instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayLUTDequantize) where
-  toMPSNDArrayMultiaryKernel = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayLUTDequantize) where
   toNSObject = unsafeCastId
 
 -- ---------- MPSNDArrayMatrixMultiplication ----------
@@ -11579,42 +11426,6 @@ instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayUnaryKernel) where
   toMPSNDArrayMultiaryKernel = unsafeCastId
 
 instance IsNSObject (Id MPSNDArrayUnaryKernel) where
-  toNSObject = unsafeCastId
-
--- ---------- MPSNDArrayVectorLUTDequantize ----------
-
--- | MPSNDArrayVectorLUTDequantize
---
--- This depends on Metal.framework.
---
--- A kernel which dequantizes a lookup-table based NDArray with vector LUT support.
---
--- The kernel works with 2 inputs: 1) The quantized input, 2) The LookUp table array.
--- 
--- Phantom type for @MPSNDArrayVectorLUTDequantize@.
-data MPSNDArrayVectorLUTDequantize
-
-instance IsObjCObject (Id MPSNDArrayVectorLUTDequantize) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayVectorLUTDequantize"
-
-class IsMPSNDArrayMultiaryKernel a => IsMPSNDArrayVectorLUTDequantize a where
-  toMPSNDArrayVectorLUTDequantize :: a -> Id MPSNDArrayVectorLUTDequantize
-
-instance IsMPSNDArrayVectorLUTDequantize (Id MPSNDArrayVectorLUTDequantize) where
-  toMPSNDArrayVectorLUTDequantize = unsafeCastId
-
-instance IsMPSKernel (Id MPSNDArrayVectorLUTDequantize) where
-  toMPSKernel = unsafeCastId
-
-instance IsMPSNDArrayMultiaryBase (Id MPSNDArrayVectorLUTDequantize) where
-  toMPSNDArrayMultiaryBase = unsafeCastId
-
-instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayVectorLUTDequantize) where
-  toMPSNDArrayMultiaryKernel = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayVectorLUTDequantize) where
   toNSObject = unsafeCastId
 
 -- ---------- MPSImageAreaMin ----------
@@ -12717,13 +12528,17 @@ instance IsNSObject (Id MPSCNNDilatedPoolingMaxGradient) where
 --
 -- Average pooling forward pass is defined as:
 --
--- out(x) = sum_{dx  Window(x)} in(s*x+dx) / N(x), where
+-- out(x) = sum_{dx
+--
+-- Window(x)} in(s*x+dx) / N(x), where
 --
 -- the pooling window definition 'Window(x)' follows MPSCNNPooling specification,              'N(x)' is effective pooling window size in pixels as specified in MPSCNNPoolingAverage,              's' is the pixel stride and in() is the source input image.
 --
 -- Hence the partial derivative of the output value wrt. to the input value needed in the              gradient backpropagation in MPSCNNPoolingGradient is:
 --
--- d out(x)/d in(y) = sum_{dx  Window(x)} delta_{s*x+dx, y} / N(x), where
+-- d out(x)/d in(y) = sum_{dx
+--
+-- Window(x)} delta_{s*x+dx, y} / N(x), where
 --
 -- delta_{x,y} is the Kronecker delta symbol for which
 --
@@ -12772,13 +12587,17 @@ instance IsNSObject (Id MPSCNNPoolingAverageGradient) where
 --
 -- L2-Norm pooling forward pass is defined as:
 --
--- out(x) = sqrt( sum_{dx  Window(x)} in(s*x+dx) * in(s*x+dx) ), where
+-- out(x) = sqrt( sum_{dx
+--
+-- Window(x)} in(s*x+dx) * in(s*x+dx) ), where
 --
 -- the pooling window definition 'Window(x)' follows MPSCNNPooling specification and              's' is the pixel stride and in() is the source input image.
 --
 -- Hence the partial derivative of the output value wrt. to the input value needed in the              gradient backpropagation in MPSCNNPoolingGradient is:
 --
--- d out(x)/d in(y) = sum_{dx  Window(x)} delta_{s*x+dx, y} in(s*x+dx) / out(x), where
+-- d out(x)/d in(y) = sum_{dx
+--
+-- Window(x)} delta_{s*x+dx, y} in(s*x+dx) / out(x), where
 --
 -- delta_{x,y} is the Kronecker delta symbol for which
 --
@@ -12823,7 +12642,9 @@ instance IsNSObject (Id MPSCNNPoolingL2NormGradient) where
 --
 -- Dilated Max pooling forward pass is defined as:
 --
--- out(x) = max_{dx  Window(x)} in(s*x+D*dx), where
+-- out(x) = max_{dx
+--
+-- Window(x)} in(s*x+D*dx), where
 --
 -- the pooling window definition 'Window(x)' follows MPSCNNPooling specification,              's' is the pixel stride and in() is the source input image and D is the dilation factor.              For MPSCNNPoolingMaxGradient the dilationRate 'D' is one. NOTE: For even-sized pooling              windows with dilation rate greater than one the effective pooling window is centered              around s*x with non-even windows leaning towards top-left corner. For example if              kernel width = 2, dilation rate = 3, then the pooling considers positions '-2' and '+1'              relative to the pooling window center 's*x'.
 --
@@ -13051,82 +12872,6 @@ instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayGather) where
   toMPSNDArrayMultiaryKernel = unsafeCastId
 
 instance IsNSObject (Id MPSNDArrayGather) where
-  toNSObject = unsafeCastId
-
--- ---------- MPSNDArrayQuantizedMatrixMultiplication ----------
-
--- | MPSNDArrayQuantizedMatrixMultiplication
---
--- This depends on Metal.framework.
---
--- A quantized matrix multiplication kernel: C = AB, where each input A and B can be quantized.
---
--- The kernel works with 2-8 inputs, order of inputs: First all LHS inputs, then all RHS inputs.              The order of inputs for LUT based LHS or RHS: 1) quantized input 2) Lookup Table.              The order of inputs for affine LHS or RHS: 1) quantized input 2) scale 3) zeropoint 4) minValue.              The full order of inputs for the encode methods is:                   `[LHS, RHS, <LHS quantization inputs>, <RHS quantization inputs>]`,              where @LHS@ is the left input (quantized or float) @RHS@ is the right input (quantized or float) and              `<LHS quantization inputs>` are the auxiliary quantization inputs for the LHS array (scales, zeropoints etc).              and `<RHS quantization inputs>` are the auxiliary quantization input for the RHS array.              The inputs are provided as a compacted `NSArray<MPSNDArray *>`, for example for computing              @C = A * B^T@ where @A@ is quantized with a LUT and @B@ is quantized with affine quantization that              uses scale and minValue the array of inputs is:              @ [ Aq, Bq^T, ALUT, BScale^T, BMin^T ] @.              NOTE: For affine scale, zeropoint and minValue must have same transposes as quantized input.
--- 
--- Phantom type for @MPSNDArrayQuantizedMatrixMultiplication@.
-data MPSNDArrayQuantizedMatrixMultiplication
-
-instance IsObjCObject (Id MPSNDArrayQuantizedMatrixMultiplication) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayQuantizedMatrixMultiplication"
-
-class IsMPSNDArrayMatrixMultiplication a => IsMPSNDArrayQuantizedMatrixMultiplication a where
-  toMPSNDArrayQuantizedMatrixMultiplication :: a -> Id MPSNDArrayQuantizedMatrixMultiplication
-
-instance IsMPSNDArrayQuantizedMatrixMultiplication (Id MPSNDArrayQuantizedMatrixMultiplication) where
-  toMPSNDArrayQuantizedMatrixMultiplication = unsafeCastId
-
-instance IsMPSKernel (Id MPSNDArrayQuantizedMatrixMultiplication) where
-  toMPSKernel = unsafeCastId
-
-instance IsMPSNDArrayMatrixMultiplication (Id MPSNDArrayQuantizedMatrixMultiplication) where
-  toMPSNDArrayMatrixMultiplication = unsafeCastId
-
-instance IsMPSNDArrayMultiaryBase (Id MPSNDArrayQuantizedMatrixMultiplication) where
-  toMPSNDArrayMultiaryBase = unsafeCastId
-
-instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayQuantizedMatrixMultiplication) where
-  toMPSNDArrayMultiaryKernel = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayQuantizedMatrixMultiplication) where
-  toNSObject = unsafeCastId
-
--- ---------- MPSNDArrayIdentity ----------
-
--- | MPSNDArrayIdentityKernel
---
--- This depends on Metal.framework.
---
--- An efficient kernel to handle copies, transposed-copies and reshapes.
--- 
--- Phantom type for @MPSNDArrayIdentity@.
-data MPSNDArrayIdentity
-
-instance IsObjCObject (Id MPSNDArrayIdentity) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPSNDArrayIdentity"
-
-class IsMPSNDArrayUnaryKernel a => IsMPSNDArrayIdentity a where
-  toMPSNDArrayIdentity :: a -> Id MPSNDArrayIdentity
-
-instance IsMPSNDArrayIdentity (Id MPSNDArrayIdentity) where
-  toMPSNDArrayIdentity = unsafeCastId
-
-instance IsMPSKernel (Id MPSNDArrayIdentity) where
-  toMPSKernel = unsafeCastId
-
-instance IsMPSNDArrayMultiaryBase (Id MPSNDArrayIdentity) where
-  toMPSNDArrayMultiaryBase = unsafeCastId
-
-instance IsMPSNDArrayMultiaryKernel (Id MPSNDArrayIdentity) where
-  toMPSNDArrayMultiaryKernel = unsafeCastId
-
-instance IsMPSNDArrayUnaryKernel (Id MPSNDArrayIdentity) where
-  toMPSNDArrayUnaryKernel = unsafeCastId
-
-instance IsNSObject (Id MPSNDArrayIdentity) where
   toNSObject = unsafeCastId
 
 -- ---------- MPSNDArrayStridedSlice ----------

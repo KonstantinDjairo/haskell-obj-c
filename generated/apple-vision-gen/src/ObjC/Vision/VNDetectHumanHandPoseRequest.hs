@@ -12,18 +12,14 @@ module ObjC.Vision.VNDetectHumanHandPoseRequest
   ( VNDetectHumanHandPoseRequest
   , IsVNDetectHumanHandPoseRequest(..)
   , supportedJointNamesForRevision_error
-  , supportedJointNamesAndReturnError
   , supportedJointsGroupNamesForRevision_error
-  , supportedJointsGroupNamesAndReturnError
   , maximumHandCount
   , setMaximumHandCount
   , results
   , maximumHandCountSelector
   , resultsSelector
   , setMaximumHandCountSelector
-  , supportedJointNamesAndReturnErrorSelector
   , supportedJointNamesForRevision_errorSelector
-  , supportedJointsGroupNamesAndReturnErrorSelector
   , supportedJointsGroupNamesForRevision_errorSelector
 
 
@@ -55,17 +51,6 @@ supportedJointNamesForRevision_error revision error_ =
     cls' <- getRequiredClass "VNDetectHumanHandPoseRequest"
     sendClassMessage cls' supportedJointNamesForRevision_errorSelector revision (toNSError error_)
 
--- | Obtain the collection of human hand joint names that are supported by a given request object configured with a specific revision.
---
--- @error@ — The address of a variable that will be populated with an error upon failure.  If the caller does not need this information, NULL can be passed.
---
--- Returns: An array of VNHumanHandPoseObservationJointName symbols that are supported by the request revision, or nil if a failure occurs.
---
--- ObjC selector: @- supportedJointNamesAndReturnError:@
-supportedJointNamesAndReturnError :: (IsVNDetectHumanHandPoseRequest vnDetectHumanHandPoseRequest, IsNSError error_) => vnDetectHumanHandPoseRequest -> error_ -> IO (Id NSArray)
-supportedJointNamesAndReturnError vnDetectHumanHandPoseRequest error_ =
-  sendMessage vnDetectHumanHandPoseRequest supportedJointNamesAndReturnErrorSelector (toNSError error_)
-
 -- | Obtain the collection of human hand joints group names that are supported by a given request revision.
 --
 -- @revision@ — The revision of VNDetectHumanHandPoseRequest being queried.
@@ -80,17 +65,6 @@ supportedJointsGroupNamesForRevision_error revision error_ =
   do
     cls' <- getRequiredClass "VNDetectHumanHandPoseRequest"
     sendClassMessage cls' supportedJointsGroupNamesForRevision_errorSelector revision (toNSError error_)
-
--- | Obtain the collection of human hand joints group names that are supported by a given request object configured with a specific revision.
---
--- @error@ — The address of a variable that will be populated with an error upon failure.  If the caller does not need this information, NULL can be passed.
---
--- Returns: An array of VNHumanHandPoseObservationJointsGroupName symbols that are supported by the request revision, or nil if a failure occurs.
---
--- ObjC selector: @- supportedJointsGroupNamesAndReturnError:@
-supportedJointsGroupNamesAndReturnError :: (IsVNDetectHumanHandPoseRequest vnDetectHumanHandPoseRequest, IsNSError error_) => vnDetectHumanHandPoseRequest -> error_ -> IO (Id NSArray)
-supportedJointsGroupNamesAndReturnError vnDetectHumanHandPoseRequest error_ =
-  sendMessage vnDetectHumanHandPoseRequest supportedJointsGroupNamesAndReturnErrorSelector (toNSError error_)
 
 -- | Defines an upper bounds to the maximum number of hands that will be processed for key points in an image.
 --
@@ -125,17 +99,9 @@ results vnDetectHumanHandPoseRequest =
 supportedJointNamesForRevision_errorSelector :: Selector '[CULong, Id NSError] (Id NSArray)
 supportedJointNamesForRevision_errorSelector = mkSelector "supportedJointNamesForRevision:error:"
 
--- | @Selector@ for @supportedJointNamesAndReturnError:@
-supportedJointNamesAndReturnErrorSelector :: Selector '[Id NSError] (Id NSArray)
-supportedJointNamesAndReturnErrorSelector = mkSelector "supportedJointNamesAndReturnError:"
-
 -- | @Selector@ for @supportedJointsGroupNamesForRevision:error:@
 supportedJointsGroupNamesForRevision_errorSelector :: Selector '[CULong, Id NSError] (Id NSArray)
 supportedJointsGroupNamesForRevision_errorSelector = mkSelector "supportedJointsGroupNamesForRevision:error:"
-
--- | @Selector@ for @supportedJointsGroupNamesAndReturnError:@
-supportedJointsGroupNamesAndReturnErrorSelector :: Selector '[Id NSError] (Id NSArray)
-supportedJointsGroupNamesAndReturnErrorSelector = mkSelector "supportedJointsGroupNamesAndReturnError:"
 
 -- | @Selector@ for @maximumHandCount@
 maximumHandCountSelector :: Selector '[] CULong

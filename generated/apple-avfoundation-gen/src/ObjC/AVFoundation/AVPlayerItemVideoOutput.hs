@@ -42,6 +42,8 @@ import ObjC.Foundation.Internal.Classes
 --
 -- Returns: An instance of AVPlayerItemVideoOutput.
 --
+-- This method throws an exception if the pixel buffer attributes contain keys that are not pixel buffer attribute keys.
+--
 -- ObjC selector: @- initWithPixelBufferAttributes:@
 initWithPixelBufferAttributes :: (IsAVPlayerItemVideoOutput avPlayerItemVideoOutput, IsNSDictionary pixelBufferAttributes) => avPlayerItemVideoOutput -> pixelBufferAttributes -> IO (Id AVPlayerItemVideoOutput)
 initWithPixelBufferAttributes avPlayerItemVideoOutput pixelBufferAttributes =
@@ -87,7 +89,7 @@ setDelegate_queue avPlayerItemVideoOutput delegate delegateQueue =
 --
 -- @interval@ — A wall clock time interval.
 --
--- Message this method before you suspend your use of a CADisplayLink. The interval you provide will be used to message your delegate, in advance, that it should resume the display link. If the interval you provide is large, effectively requesting wakeup earlier than the AVPlayerItemVideoOutput is prepared to act, the delegate will be invoked as soon as possible. Do not use this method to force a delegate invocation for each sample.
+-- Message this method before you suspend your use of a CVDisplayLink or CADisplayLink. The interval you provide will be used to message your delegate, in advance, that it should resume the display link. If the interval you provide is large, effectively requesting wakeup earlier than the AVPlayerItemVideoOutput is prepared to act, the delegate will be invoked as soon as possible. Do not use this method to force a delegate invocation for each sample.
 --
 -- ObjC selector: @- requestNotificationOfMediaDataChangeWithAdvanceInterval:@
 requestNotificationOfMediaDataChangeWithAdvanceInterval :: IsAVPlayerItemVideoOutput avPlayerItemVideoOutput => avPlayerItemVideoOutput -> CDouble -> IO ()

@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -35,7 +35,6 @@ library
       ObjC.MediaPlayer.MPFeedbackCommandEvent
       ObjC.MediaPlayer.MPMediaEntity
       ObjC.MediaPlayer.MPMediaItem
-      ObjC.MediaPlayer.MPMediaItemAnimatedArtwork
       ObjC.MediaPlayer.MPMediaItemArtwork
       ObjC.MediaPlayer.MPMediaItemCollection
       ObjC.MediaPlayer.MPMediaLibrary
@@ -74,7 +73,7 @@ library
       Paths_apple_mediaplayer_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-appkit-gen
     , apple-avfoundation-gen

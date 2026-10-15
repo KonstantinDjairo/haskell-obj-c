@@ -22,7 +22,6 @@ module ObjC.FileProvider.NSFileProviderDomain
   , IsNSFileProviderDomain(..)
   , initWithIdentifier_displayName_pathRelativeToDocumentStorage
   , initWithIdentifier_displayName
-  , initWithDisplayName_userInfo_volumeURL
   , identifier
   , displayName
   , pathRelativeToDocumentStorage
@@ -36,46 +35,26 @@ module ObjC.FileProvider.NSFileProviderDomain
   , backingStoreIdentity
   , supportsSyncingTrash
   , setSupportsSyncingTrash
-  , volumeUUID
-  , userInfo
-  , setUserInfo
-  , replicatedKnownFolders
-  , supportedKnownFolders
-  , setSupportedKnownFolders
-  , supportsStringSearchRequest
-  , setSupportsStringSearchRequest
   , backingStoreIdentitySelector
   , disconnectedSelector
   , displayNameSelector
   , hiddenSelector
   , identifierSelector
-  , initWithDisplayName_userInfo_volumeURLSelector
   , initWithIdentifier_displayNameSelector
   , initWithIdentifier_displayName_pathRelativeToDocumentStorageSelector
   , pathRelativeToDocumentStorageSelector
-  , replicatedKnownFoldersSelector
   , replicatedSelector
   , setHiddenSelector
-  , setSupportedKnownFoldersSelector
-  , setSupportsStringSearchRequestSelector
   , setSupportsSyncingTrashSelector
   , setTestingModesSelector
-  , setUserInfoSelector
-  , supportedKnownFoldersSelector
-  , supportsStringSearchRequestSelector
   , supportsSyncingTrashSelector
   , testingModesSelector
   , userEnabledSelector
-  , userInfoSelector
-  , volumeUUIDSelector
 
   -- * Enum types
   , NSFileProviderDomainTestingModes(NSFileProviderDomainTestingModes)
   , pattern NSFileProviderDomainTestingModeAlwaysEnabled
   , pattern NSFileProviderDomainTestingModeInteractive
-  , NSFileProviderKnownFolders(NSFileProviderKnownFolders)
-  , pattern NSFileProviderDesktop
-  , pattern NSFileProviderDocuments
 
   ) where
 
@@ -124,17 +103,6 @@ initWithIdentifier_displayName_pathRelativeToDocumentStorage nsFileProviderDomai
 initWithIdentifier_displayName :: (IsNSFileProviderDomain nsFileProviderDomain, IsNSString identifier, IsNSString displayName) => nsFileProviderDomain -> identifier -> displayName -> IO (Id NSFileProviderDomain)
 initWithIdentifier_displayName nsFileProviderDomain identifier displayName =
   sendOwnedMessage nsFileProviderDomain initWithIdentifier_displayNameSelector (toNSString identifier) (toNSString displayName)
-
--- | Initialize a new replicated NSFileProviderDomain on a specific volume.
---
--- If a volumeURL is specified, and that volume is eligible, the domain will be located on this volume. The URL is used to designate a volume but doesn't influence where on this volume is the domain going to be stored.
---
--- In order to avoid domainID collisions between volumes, the NSFileProviderDomainIdentifier of external domains are generated randomly by FileProvider. The provider should therefore use the userInfo to associate all necessary information to map the created object to the corresponding account. The userInfo will be persisted on the volume where the domain was created. If that is an external volume, the userInfo can be used on other devices to assist in setting up the domain on those devices. See the@NSFileProviderExternalVolumeHandling@ protocol for more details.
---
--- ObjC selector: @- initWithDisplayName:userInfo:volumeURL:@
-initWithDisplayName_userInfo_volumeURL :: (IsNSFileProviderDomain nsFileProviderDomain, IsNSString displayName, IsNSDictionary userInfo, IsNSURL volumeURL) => nsFileProviderDomain -> displayName -> userInfo -> volumeURL -> IO (Id NSFileProviderDomain)
-initWithDisplayName_userInfo_volumeURL nsFileProviderDomain displayName userInfo volumeURL =
-  sendOwnedMessage nsFileProviderDomain initWithDisplayName_userInfo_volumeURLSelector (toNSString displayName) (toNSDictionary userInfo) (toNSURL volumeURL)
 
 -- | The identifier - as provided by the file provider extension.
 --
@@ -241,93 +209,27 @@ backingStoreIdentity :: IsNSFileProviderDomain nsFileProviderDomain => nsFilePro
 backingStoreIdentity nsFileProviderDomain =
   sendMessage nsFileProviderDomain backingStoreIdentitySelector
 
--- | Whether the domain supports syncing the trash.
+-- | If the domain supports syncing the trash.
 --
--- The system supports syncing a trash folder (NSFileProviderTrashContainerItemIdentifier) to the extension. On iOS, this is surfaced to the user as "Recently Deleted" in the Files app. On macOS, this is surfaced to the user as the Trash in Finder.
+-- This property only applies for extensions that implement NSFileProviderReplicatedExtension.
 --
--- If the domain is configured with supportsSyncingTrash=YES, the system will reparent trashed files (which were located in the extension's domain) to NSFileProviderTrashContainerItemIdentifier. If the domain is configured with supportsSyncingTrash=NO, the system will decide how to handle the trashing operation (not guaranteed by API contract).
---
--- This property is only applicable for NSFileProviderReplicatedExtension-based domains.
---
--- This property defaults to YES.
+-- Defaults to YES. Set this to NO to indicate that the domain cannot sync the trash. If this property is set to YES the system will move the trashed item to the domain trash. If this property is set to NO and the trashed item does not have the NSFileProviderItemCapabilitiesAllowsTrashing capability, the system will offer to permanently delete the item. If this property is set to NO and the trashed item does have the NSFileProviderItemCapabilitiesAllowsTrashing capability, then the system will behave differently based on whether the item is recursively materialized. If the item is fully materialized, it will be moved to the user's home trash and the operation will look like a delete to the extension. If the item is not fully materialized, the system will offer to permanently delete the item.
 --
 -- ObjC selector: @- supportsSyncingTrash@
 supportsSyncingTrash :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> IO Bool
 supportsSyncingTrash nsFileProviderDomain =
   sendMessage nsFileProviderDomain supportsSyncingTrashSelector
 
--- | Whether the domain supports syncing the trash.
+-- | If the domain supports syncing the trash.
 --
--- The system supports syncing a trash folder (NSFileProviderTrashContainerItemIdentifier) to the extension. On iOS, this is surfaced to the user as "Recently Deleted" in the Files app. On macOS, this is surfaced to the user as the Trash in Finder.
+-- This property only applies for extensions that implement NSFileProviderReplicatedExtension.
 --
--- If the domain is configured with supportsSyncingTrash=YES, the system will reparent trashed files (which were located in the extension's domain) to NSFileProviderTrashContainerItemIdentifier. If the domain is configured with supportsSyncingTrash=NO, the system will decide how to handle the trashing operation (not guaranteed by API contract).
---
--- This property is only applicable for NSFileProviderReplicatedExtension-based domains.
---
--- This property defaults to YES.
+-- Defaults to YES. Set this to NO to indicate that the domain cannot sync the trash. If this property is set to YES the system will move the trashed item to the domain trash. If this property is set to NO and the trashed item does not have the NSFileProviderItemCapabilitiesAllowsTrashing capability, the system will offer to permanently delete the item. If this property is set to NO and the trashed item does have the NSFileProviderItemCapabilitiesAllowsTrashing capability, then the system will behave differently based on whether the item is recursively materialized. If the item is fully materialized, it will be moved to the user's home trash and the operation will look like a delete to the extension. If the item is not fully materialized, the system will offer to permanently delete the item.
 --
 -- ObjC selector: @- setSupportsSyncingTrash:@
 setSupportsSyncingTrash :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> Bool -> IO ()
 setSupportsSyncingTrash nsFileProviderDomain value =
   sendMessage nsFileProviderDomain setSupportsSyncingTrashSelector value
-
--- | @- volumeUUID@
-volumeUUID :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> IO (Id NSUUID)
-volumeUUID nsFileProviderDomain =
-  sendMessage nsFileProviderDomain volumeUUIDSelector
-
--- | A dictionary set by the client app. Keys must be strings, values must be [String, Number, Date, Data]
---
--- ObjC selector: @- userInfo@
-userInfo :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> IO (Id NSDictionary)
-userInfo nsFileProviderDomain =
-  sendMessage nsFileProviderDomain userInfoSelector
-
--- | A dictionary set by the client app. Keys must be strings, values must be [String, Number, Date, Data]
---
--- ObjC selector: @- setUserInfo:@
-setUserInfo :: (IsNSFileProviderDomain nsFileProviderDomain, IsNSDictionary value) => nsFileProviderDomain -> value -> IO ()
-setUserInfo nsFileProviderDomain value =
-  sendMessage nsFileProviderDomain setUserInfoSelector (toNSDictionary value)
-
--- | List of known folders that are currently replicated by this domain.
---
--- ObjC selector: @- replicatedKnownFolders@
-replicatedKnownFolders :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> IO NSFileProviderKnownFolders
-replicatedKnownFolders nsFileProviderDomain =
-  sendMessage nsFileProviderDomain replicatedKnownFoldersSelector
-
--- | List known folders that can be replicated by this domain.
---
--- ObjC selector: @- supportedKnownFolders@
-supportedKnownFolders :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> IO NSFileProviderKnownFolders
-supportedKnownFolders nsFileProviderDomain =
-  sendMessage nsFileProviderDomain supportedKnownFoldersSelector
-
--- | List known folders that can be replicated by this domain.
---
--- ObjC selector: @- setSupportedKnownFolders:@
-setSupportedKnownFolders :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> NSFileProviderKnownFolders -> IO ()
-setSupportedKnownFolders nsFileProviderDomain value =
-  sendMessage nsFileProviderDomain setSupportedKnownFoldersSelector value
-
--- | Whether the system should use this domain's  @NSFileProviderSearching@ implementation to support  search experiences.
---
--- Defaults to NO.
---
--- ObjC selector: @- supportsStringSearchRequest@
-supportsStringSearchRequest :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> IO Bool
-supportsStringSearchRequest nsFileProviderDomain =
-  sendMessage nsFileProviderDomain supportsStringSearchRequestSelector
-
--- | Whether the system should use this domain's  @NSFileProviderSearching@ implementation to support  search experiences.
---
--- Defaults to NO.
---
--- ObjC selector: @- setSupportsStringSearchRequest:@
-setSupportsStringSearchRequest :: IsNSFileProviderDomain nsFileProviderDomain => nsFileProviderDomain -> Bool -> IO ()
-setSupportsStringSearchRequest nsFileProviderDomain value =
-  sendMessage nsFileProviderDomain setSupportsStringSearchRequestSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -340,10 +242,6 @@ initWithIdentifier_displayName_pathRelativeToDocumentStorageSelector = mkSelecto
 -- | @Selector@ for @initWithIdentifier:displayName:@
 initWithIdentifier_displayNameSelector :: Selector '[Id NSString, Id NSString] (Id NSFileProviderDomain)
 initWithIdentifier_displayNameSelector = mkSelector "initWithIdentifier:displayName:"
-
--- | @Selector@ for @initWithDisplayName:userInfo:volumeURL:@
-initWithDisplayName_userInfo_volumeURLSelector :: Selector '[Id NSString, Id NSDictionary, Id NSURL] (Id NSFileProviderDomain)
-initWithDisplayName_userInfo_volumeURLSelector = mkSelector "initWithDisplayName:userInfo:volumeURL:"
 
 -- | @Selector@ for @identifier@
 identifierSelector :: Selector '[] (Id NSString)
@@ -396,36 +294,4 @@ supportsSyncingTrashSelector = mkSelector "supportsSyncingTrash"
 -- | @Selector@ for @setSupportsSyncingTrash:@
 setSupportsSyncingTrashSelector :: Selector '[Bool] ()
 setSupportsSyncingTrashSelector = mkSelector "setSupportsSyncingTrash:"
-
--- | @Selector@ for @volumeUUID@
-volumeUUIDSelector :: Selector '[] (Id NSUUID)
-volumeUUIDSelector = mkSelector "volumeUUID"
-
--- | @Selector@ for @userInfo@
-userInfoSelector :: Selector '[] (Id NSDictionary)
-userInfoSelector = mkSelector "userInfo"
-
--- | @Selector@ for @setUserInfo:@
-setUserInfoSelector :: Selector '[Id NSDictionary] ()
-setUserInfoSelector = mkSelector "setUserInfo:"
-
--- | @Selector@ for @replicatedKnownFolders@
-replicatedKnownFoldersSelector :: Selector '[] NSFileProviderKnownFolders
-replicatedKnownFoldersSelector = mkSelector "replicatedKnownFolders"
-
--- | @Selector@ for @supportedKnownFolders@
-supportedKnownFoldersSelector :: Selector '[] NSFileProviderKnownFolders
-supportedKnownFoldersSelector = mkSelector "supportedKnownFolders"
-
--- | @Selector@ for @setSupportedKnownFolders:@
-setSupportedKnownFoldersSelector :: Selector '[NSFileProviderKnownFolders] ()
-setSupportedKnownFoldersSelector = mkSelector "setSupportedKnownFolders:"
-
--- | @Selector@ for @supportsStringSearchRequest@
-supportsStringSearchRequestSelector :: Selector '[] Bool
-supportsStringSearchRequestSelector = mkSelector "supportsStringSearchRequest"
-
--- | @Selector@ for @setSupportsStringSearchRequest:@
-setSupportsStringSearchRequestSelector :: Selector '[Bool] ()
-setSupportsStringSearchRequestSelector = mkSelector "setSupportsStringSearchRequest:"
 

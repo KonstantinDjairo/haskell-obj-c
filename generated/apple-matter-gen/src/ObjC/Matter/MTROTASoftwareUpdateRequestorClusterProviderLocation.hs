@@ -3,18 +3,22 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MTROTASoftwareUpdateRequestorClusterProviderLocation@.
-module ObjC.Matter.MTROTASoftwareUpdateRequestorClusterProviderLocation
-  ( MTROTASoftwareUpdateRequestorClusterProviderLocation
-  , IsMTROTASoftwareUpdateRequestorClusterProviderLocation(..)
+-- | Generated bindings for @MTROtaSoftwareUpdateRequestorClusterProviderLocation@.
+module ObjC.Matter.MTROtaSoftwareUpdateRequestorClusterProviderLocation
+  ( MTROtaSoftwareUpdateRequestorClusterProviderLocation
+  , IsMTROtaSoftwareUpdateRequestorClusterProviderLocation(..)
+  , init_
+  , copyWithZone
   , providerNodeID
   , setProviderNodeID
   , endpoint
   , setEndpoint
   , fabricIndex
   , setFabricIndex
+  , copyWithZoneSelector
   , endpointSelector
   , fabricIndexSelector
+  , initSelector
   , providerNodeIDSelector
   , setEndpointSelector
   , setFabricIndexSelector
@@ -34,39 +38,57 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> IO (Id MTROtaSoftwareUpdateRequestorClusterProviderLocation)
+init_ mtrOtaSoftwareUpdateRequestorClusterProviderLocation =
+  sendOwnedMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> Ptr () -> IO RawId
+copyWithZone mtrOtaSoftwareUpdateRequestorClusterProviderLocation zone =
+  sendOwnedMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation copyWithZoneSelector zone
+
 -- | @- providerNodeID@
-providerNodeID :: IsMTROTASoftwareUpdateRequestorClusterProviderLocation mtrotaSoftwareUpdateRequestorClusterProviderLocation => mtrotaSoftwareUpdateRequestorClusterProviderLocation -> IO (Id NSNumber)
-providerNodeID mtrotaSoftwareUpdateRequestorClusterProviderLocation =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterProviderLocation providerNodeIDSelector
+providerNodeID :: IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> IO (Id NSNumber)
+providerNodeID mtrOtaSoftwareUpdateRequestorClusterProviderLocation =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation providerNodeIDSelector
 
 -- | @- setProviderNodeID:@
-setProviderNodeID :: (IsMTROTASoftwareUpdateRequestorClusterProviderLocation mtrotaSoftwareUpdateRequestorClusterProviderLocation, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterProviderLocation -> value -> IO ()
-setProviderNodeID mtrotaSoftwareUpdateRequestorClusterProviderLocation value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterProviderLocation setProviderNodeIDSelector (toNSNumber value)
+setProviderNodeID :: (IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> value -> IO ()
+setProviderNodeID mtrOtaSoftwareUpdateRequestorClusterProviderLocation value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation setProviderNodeIDSelector (toNSNumber value)
 
 -- | @- endpoint@
-endpoint :: IsMTROTASoftwareUpdateRequestorClusterProviderLocation mtrotaSoftwareUpdateRequestorClusterProviderLocation => mtrotaSoftwareUpdateRequestorClusterProviderLocation -> IO (Id NSNumber)
-endpoint mtrotaSoftwareUpdateRequestorClusterProviderLocation =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterProviderLocation endpointSelector
+endpoint :: IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> IO (Id NSNumber)
+endpoint mtrOtaSoftwareUpdateRequestorClusterProviderLocation =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation endpointSelector
 
 -- | @- setEndpoint:@
-setEndpoint :: (IsMTROTASoftwareUpdateRequestorClusterProviderLocation mtrotaSoftwareUpdateRequestorClusterProviderLocation, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterProviderLocation -> value -> IO ()
-setEndpoint mtrotaSoftwareUpdateRequestorClusterProviderLocation value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterProviderLocation setEndpointSelector (toNSNumber value)
+setEndpoint :: (IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> value -> IO ()
+setEndpoint mtrOtaSoftwareUpdateRequestorClusterProviderLocation value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation setEndpointSelector (toNSNumber value)
 
 -- | @- fabricIndex@
-fabricIndex :: IsMTROTASoftwareUpdateRequestorClusterProviderLocation mtrotaSoftwareUpdateRequestorClusterProviderLocation => mtrotaSoftwareUpdateRequestorClusterProviderLocation -> IO (Id NSNumber)
-fabricIndex mtrotaSoftwareUpdateRequestorClusterProviderLocation =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterProviderLocation fabricIndexSelector
+fabricIndex :: IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> IO (Id NSNumber)
+fabricIndex mtrOtaSoftwareUpdateRequestorClusterProviderLocation =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation fabricIndexSelector
 
 -- | @- setFabricIndex:@
-setFabricIndex :: (IsMTROTASoftwareUpdateRequestorClusterProviderLocation mtrotaSoftwareUpdateRequestorClusterProviderLocation, IsNSNumber value) => mtrotaSoftwareUpdateRequestorClusterProviderLocation -> value -> IO ()
-setFabricIndex mtrotaSoftwareUpdateRequestorClusterProviderLocation value =
-  sendMessage mtrotaSoftwareUpdateRequestorClusterProviderLocation setFabricIndexSelector (toNSNumber value)
+setFabricIndex :: (IsMTROtaSoftwareUpdateRequestorClusterProviderLocation mtrOtaSoftwareUpdateRequestorClusterProviderLocation, IsNSNumber value) => mtrOtaSoftwareUpdateRequestorClusterProviderLocation -> value -> IO ()
+setFabricIndex mtrOtaSoftwareUpdateRequestorClusterProviderLocation value =
+  sendMessage mtrOtaSoftwareUpdateRequestorClusterProviderLocation setFabricIndexSelector (toNSNumber value)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROtaSoftwareUpdateRequestorClusterProviderLocation)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @providerNodeID@
 providerNodeIDSelector :: Selector '[] (Id NSNumber)

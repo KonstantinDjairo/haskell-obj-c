@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object representing a short task typically used to refresh content that’s run while the app is in the background.
---
--- Use app refresh tasks for updating your app with small bits of information, such as the latest stock values.
---
--- Executing app refresh tasks requires setting the @fetch@ <doc://com.apple.documentation/documentation/bundleresources/information_property_list/uibackgroundmodes> capability. For information on setting this capability, see ``BGTaskScheduler``.
+-- | A background task used to update your app's contents in the background.
 --
 -- Generated bindings for @BGAppRefreshTask@.
 module ObjC.BackgroundTasks.BGAppRefreshTask

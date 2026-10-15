@@ -62,7 +62,7 @@ init_ vzmacAddress =
 
 -- | Initialize the VZMACAddress from a string representation of a MAC address.
 --
--- @string@ — The string should be formatted representing the 6 bytes in hexadecimal separated by a colon character.    e.g. "01:23:45:ab:cd:ef"
+-- @string@ — The string should be formatted representing the 6 bytes in hexadecimal separated by a colon character.        e.g. "01:23:45:ab:cd:ef"
 --
 -- The alphabetical characters can appear lowercase or uppercase.
 --

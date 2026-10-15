@@ -36,26 +36,19 @@ import ObjC.Runtime.StableIvar
 -- method is not implemented (the object will not respond to that
 -- selector).  'Just' provides the Haskell implementation.
 data MTROTAProviderDelegateOverrides = MTROTAProviderDelegateOverrides
-  { _handleBDXTransferSessionEndForNodeID_controller_metrics_error :: !(Maybe (RawId -> RawId -> RawId -> RawId -> IO ()))
-  , _handleBDXTransferSessionEndForNodeID_controller_error :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
+  { _handleBDXTransferSessionEndForNodeID_controller_error :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   }
 
 -- | Default overrides with all methods unimplemented.
 defaultMTROTAProviderDelegateOverrides :: MTROTAProviderDelegateOverrides
 defaultMTROTAProviderDelegateOverrides = MTROTAProviderDelegateOverrides
-  { _handleBDXTransferSessionEndForNodeID_controller_metrics_error = Nothing
-  , _handleBDXTransferSessionEndForNodeID_controller_error = Nothing
+  { _handleBDXTransferSessionEndForNodeID_controller_error = Nothing
   }
 
 foreign import ccall "wrapper"
   wrap_at_at_at_v
     :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> IO ())
     -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> IO ()))
-
-foreign import ccall "wrapper"
-  wrap_at_at_at_at_v
-    :: (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> IO ())
-    -> IO (FunPtr (Ptr ObjCObject -> Ptr ObjCSel -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> Ptr ObjCObject -> IO ()))
 
 
 foreign import ccall "wrapper"
@@ -71,32 +64,21 @@ mtrotaProviderDelegateDelegateClass = unsafePerformIO $ do
   cls <- withCString "HsMTROTAProviderDelegate" $ \n ->
     objc_allocateClassPair superCls n 0
   addHsDataIvar cls
-  let sel_handleBDXTransferSessionEndForNodeID_controller_metrics_error = unSelector (mkSelector "handleBDXTransferSessionEndForNodeID:controller:metrics:error:")
-      sel_handleBDXTransferSessionEndForNodeID_controller_error = unSelector (mkSelector "handleBDXTransferSessionEndForNodeID:controller:error:")
-  -- handleBDXTransferSessionEndForNodeID:controller:metrics:error:
-  stub_0 <- wrap_at_at_at_at_v $ \self _cmd arg0 arg1 arg2 arg3 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO MTROTAProviderDelegateOverrides
-    case _handleBDXTransferSessionEndForNodeID_controller_metrics_error rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1) (RawId arg2) (RawId arg3)
-  addObjCMethod cls "handleBDXTransferSessionEndForNodeID:controller:metrics:error:" "v@:@@@@" stub_0
-
+  let sel_handleBDXTransferSessionEndForNodeID_controller_error = unSelector (mkSelector "handleBDXTransferSessionEndForNodeID:controller:error:")
   -- handleBDXTransferSessionEndForNodeID:controller:error:
-  stub_1 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_0 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTROTAProviderDelegateOverrides
     case _handleBDXTransferSessionEndForNodeID_controller_error rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "handleBDXTransferSessionEndForNodeID:controller:error:" "v@:@@@" stub_1
+  addObjCMethod cls "handleBDXTransferSessionEndForNodeID:controller:error:" "v@:@@@" stub_0
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO MTROTAProviderDelegateOverrides
-    if queriedSel == sel_handleBDXTransferSessionEndForNodeID_controller_metrics_error then pure (maybe 0 (const 1) (_handleBDXTransferSessionEndForNodeID_controller_metrics_error rec_))
-    else if queriedSel == sel_handleBDXTransferSessionEndForNodeID_controller_error then pure (maybe 0 (const 1) (_handleBDXTransferSessionEndForNodeID_controller_error rec_))
+    if queriedSel == sel_handleBDXTransferSessionEndForNodeID_controller_error then pure (maybe 0 (const 1) (_handleBDXTransferSessionEndForNodeID_controller_error rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

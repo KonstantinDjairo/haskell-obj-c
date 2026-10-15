@@ -16,25 +16,6 @@ import ObjC.Runtime.Types
 import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Foundation.Internal.Classes
 
--- ---------- OSSystemExtensionInfo ----------
-
--- | Phantom type for @OSSystemExtensionInfo@.
-data OSSystemExtensionInfo
-
-instance IsObjCObject (Id OSSystemExtensionInfo) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "OSSystemExtensionInfo"
-
-class IsNSObject a => IsOSSystemExtensionInfo a where
-  toOSSystemExtensionInfo :: a -> Id OSSystemExtensionInfo
-
-instance IsOSSystemExtensionInfo (Id OSSystemExtensionInfo) where
-  toOSSystemExtensionInfo = unsafeCastId
-
-instance IsNSObject (Id OSSystemExtensionInfo) where
-  toNSObject = unsafeCastId
-
 -- ---------- OSSystemExtensionManager ----------
 
 -- | Phantom type for @OSSystemExtensionManager@.
@@ -90,25 +71,4 @@ instance IsOSSystemExtensionRequest (Id OSSystemExtensionRequest) where
   toOSSystemExtensionRequest = unsafeCastId
 
 instance IsNSObject (Id OSSystemExtensionRequest) where
-  toNSObject = unsafeCastId
-
--- ---------- OSSystemExtensionsWorkspace ----------
-
--- | Note: Using the workspace API requires the system extension entitlement
--- 
--- Phantom type for @OSSystemExtensionsWorkspace@.
-data OSSystemExtensionsWorkspace
-
-instance IsObjCObject (Id OSSystemExtensionsWorkspace) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "OSSystemExtensionsWorkspace"
-
-class IsNSObject a => IsOSSystemExtensionsWorkspace a where
-  toOSSystemExtensionsWorkspace :: a -> Id OSSystemExtensionsWorkspace
-
-instance IsOSSystemExtensionsWorkspace (Id OSSystemExtensionsWorkspace) where
-  toOSSystemExtensionsWorkspace = unsafeCastId
-
-instance IsNSObject (Id OSSystemExtensionsWorkspace) where
   toNSObject = unsafeCastId

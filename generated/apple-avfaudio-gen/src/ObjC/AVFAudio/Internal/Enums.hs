@@ -141,93 +141,6 @@ instance ObjCReturn AVAudio3DMixingSourceMode where
   fromRetained x = pure (AVAudio3DMixingSourceMode x)
   fromOwned x = pure (AVAudio3DMixingSourceMode x)
 
--- | AVAudioApplicationMicrophoneInjectionPermission
---
--- These are the values returned by microphoneInjectionPermission.
---
--- AVAudioApplicationMicrophoneInjectionPermissionServiceDisabled
---
--- The user has disabled this service for all apps.
---
--- AVAudioApplicationMicrophoneInjectionUndetermined
---
--- The user has not yet been asked for permission.
---
--- AVAudioApplicationMicrophoneInjectionPermissionDenied
---
--- The user has been asked and has denied permission.
---
--- AVAudioApplicationMicrophoneInjectionPermissionGranted
---
--- The user has been asked and has granted permission.
---
--- Introduced: ios(18.2) visionos(2.2)
--- | @AVAudioApplicationMicrophoneInjectionPermission@
-newtype AVAudioApplicationMicrophoneInjectionPermission = AVAudioApplicationMicrophoneInjectionPermission CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioApplicationMicrophoneInjectionPermissionServiceDisabled :: AVAudioApplicationMicrophoneInjectionPermission
-pattern AVAudioApplicationMicrophoneInjectionPermissionServiceDisabled = AVAudioApplicationMicrophoneInjectionPermission 1936876659
-
-pattern AVAudioApplicationMicrophoneInjectionPermissionUndetermined :: AVAudioApplicationMicrophoneInjectionPermission
-pattern AVAudioApplicationMicrophoneInjectionPermissionUndetermined = AVAudioApplicationMicrophoneInjectionPermission 1970168948
-
-pattern AVAudioApplicationMicrophoneInjectionPermissionDenied :: AVAudioApplicationMicrophoneInjectionPermission
-pattern AVAudioApplicationMicrophoneInjectionPermissionDenied = AVAudioApplicationMicrophoneInjectionPermission 1684369017
-
-pattern AVAudioApplicationMicrophoneInjectionPermissionGranted :: AVAudioApplicationMicrophoneInjectionPermission
-pattern AVAudioApplicationMicrophoneInjectionPermissionGranted = AVAudioApplicationMicrophoneInjectionPermission 1735552628
-
-instance ObjCArgument AVAudioApplicationMicrophoneInjectionPermission where
-  withObjCArg (AVAudioApplicationMicrophoneInjectionPermission x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioApplicationMicrophoneInjectionPermission where
-  type RawReturn AVAudioApplicationMicrophoneInjectionPermission = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioApplicationMicrophoneInjectionPermission x)
-  fromOwned x = pure (AVAudioApplicationMicrophoneInjectionPermission x)
-
--- | AVAudioApplicationRecordPermission
---
--- These are the values returned by recordPermission.
---
--- AVAudioApplicationRecordPermissionUndetermined
---
--- The user has not yet been asked for permission.
---
--- AVAudioApplicationRecordPermissionDenied
---
--- The user has been asked and has denied permission.
---
--- AVAudioApplicationRecordPermissionGranted
---
--- The user has been asked and has granted permission.
--- | @AVAudioApplicationRecordPermission@
-newtype AVAudioApplicationRecordPermission = AVAudioApplicationRecordPermission CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioApplicationRecordPermissionUndetermined :: AVAudioApplicationRecordPermission
-pattern AVAudioApplicationRecordPermissionUndetermined = AVAudioApplicationRecordPermission 1970168948
-
-pattern AVAudioApplicationRecordPermissionDenied :: AVAudioApplicationRecordPermission
-pattern AVAudioApplicationRecordPermissionDenied = AVAudioApplicationRecordPermission 1684369017
-
-pattern AVAudioApplicationRecordPermissionGranted :: AVAudioApplicationRecordPermission
-pattern AVAudioApplicationRecordPermissionGranted = AVAudioApplicationRecordPermission 1735552628
-
-instance ObjCArgument AVAudioApplicationRecordPermission where
-  withObjCArg (AVAudioApplicationRecordPermission x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioApplicationRecordPermission where
-  type RawReturn AVAudioApplicationRecordPermission = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioApplicationRecordPermission x)
-  fromOwned x = pure (AVAudioApplicationRecordPermission x)
-
 -- | AVAudioCommonFormat
 --
 -- AVAudioOtherFormat
@@ -278,87 +191,6 @@ instance ObjCReturn AVAudioCommonFormat where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVAudioCommonFormat x)
   fromOwned x = pure (AVAudioCommonFormat x)
-
--- | @AVAudioContentSource@
-newtype AVAudioContentSource = AVAudioContentSource CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioContentSource_Unspecified :: AVAudioContentSource
-pattern AVAudioContentSource_Unspecified = AVAudioContentSource (-1)
-
-pattern AVAudioContentSource_Reserved :: AVAudioContentSource
-pattern AVAudioContentSource_Reserved = AVAudioContentSource 0
-
-pattern AVAudioContentSource_AppleCapture_Traditional :: AVAudioContentSource
-pattern AVAudioContentSource_AppleCapture_Traditional = AVAudioContentSource 1
-
-pattern AVAudioContentSource_AppleCapture_Spatial :: AVAudioContentSource
-pattern AVAudioContentSource_AppleCapture_Spatial = AVAudioContentSource 2
-
-pattern AVAudioContentSource_AppleCapture_Spatial_Enhanced :: AVAudioContentSource
-pattern AVAudioContentSource_AppleCapture_Spatial_Enhanced = AVAudioContentSource 3
-
-pattern AVAudioContentSource_AppleMusic_Traditional :: AVAudioContentSource
-pattern AVAudioContentSource_AppleMusic_Traditional = AVAudioContentSource 4
-
-pattern AVAudioContentSource_AppleMusic_Spatial :: AVAudioContentSource
-pattern AVAudioContentSource_AppleMusic_Spatial = AVAudioContentSource 5
-
-pattern AVAudioContentSource_AppleAV_Traditional_Offline :: AVAudioContentSource
-pattern AVAudioContentSource_AppleAV_Traditional_Offline = AVAudioContentSource 6
-
-pattern AVAudioContentSource_AppleAV_Spatial_Offline :: AVAudioContentSource
-pattern AVAudioContentSource_AppleAV_Spatial_Offline = AVAudioContentSource 7
-
-pattern AVAudioContentSource_AppleAV_Traditional_Live :: AVAudioContentSource
-pattern AVAudioContentSource_AppleAV_Traditional_Live = AVAudioContentSource 8
-
-pattern AVAudioContentSource_AppleAV_Spatial_Live :: AVAudioContentSource
-pattern AVAudioContentSource_AppleAV_Spatial_Live = AVAudioContentSource 9
-
-pattern AVAudioContentSource_ApplePassthrough :: AVAudioContentSource
-pattern AVAudioContentSource_ApplePassthrough = AVAudioContentSource 10
-
-pattern AVAudioContentSource_Capture_Traditional :: AVAudioContentSource
-pattern AVAudioContentSource_Capture_Traditional = AVAudioContentSource 33
-
-pattern AVAudioContentSource_Capture_Spatial :: AVAudioContentSource
-pattern AVAudioContentSource_Capture_Spatial = AVAudioContentSource 34
-
-pattern AVAudioContentSource_Capture_Spatial_Enhanced :: AVAudioContentSource
-pattern AVAudioContentSource_Capture_Spatial_Enhanced = AVAudioContentSource 35
-
-pattern AVAudioContentSource_Music_Traditional :: AVAudioContentSource
-pattern AVAudioContentSource_Music_Traditional = AVAudioContentSource 36
-
-pattern AVAudioContentSource_Music_Spatial :: AVAudioContentSource
-pattern AVAudioContentSource_Music_Spatial = AVAudioContentSource 37
-
-pattern AVAudioContentSource_AV_Traditional_Offline :: AVAudioContentSource
-pattern AVAudioContentSource_AV_Traditional_Offline = AVAudioContentSource 38
-
-pattern AVAudioContentSource_AV_Spatial_Offline :: AVAudioContentSource
-pattern AVAudioContentSource_AV_Spatial_Offline = AVAudioContentSource 39
-
-pattern AVAudioContentSource_AV_Traditional_Live :: AVAudioContentSource
-pattern AVAudioContentSource_AV_Traditional_Live = AVAudioContentSource 40
-
-pattern AVAudioContentSource_AV_Spatial_Live :: AVAudioContentSource
-pattern AVAudioContentSource_AV_Spatial_Live = AVAudioContentSource 41
-
-pattern AVAudioContentSource_Passthrough :: AVAudioContentSource
-pattern AVAudioContentSource_Passthrough = AVAudioContentSource 42
-
-instance ObjCArgument AVAudioContentSource where
-  withObjCArg (AVAudioContentSource x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioContentSource where
-  type RawReturn AVAudioContentSource = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioContentSource x)
-  fromOwned x = pure (AVAudioContentSource x)
 
 -- | AVAudioConverterInputStatus
 --
@@ -443,36 +275,6 @@ instance ObjCReturn AVAudioConverterPrimeMethod where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVAudioConverterPrimeMethod x)
   fromOwned x = pure (AVAudioConverterPrimeMethod x)
-
--- | @AVAudioDynamicRangeControlConfiguration@
-newtype AVAudioDynamicRangeControlConfiguration = AVAudioDynamicRangeControlConfiguration CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioDynamicRangeControlConfiguration_None :: AVAudioDynamicRangeControlConfiguration
-pattern AVAudioDynamicRangeControlConfiguration_None = AVAudioDynamicRangeControlConfiguration 0
-
-pattern AVAudioDynamicRangeControlConfiguration_Music :: AVAudioDynamicRangeControlConfiguration
-pattern AVAudioDynamicRangeControlConfiguration_Music = AVAudioDynamicRangeControlConfiguration 1
-
-pattern AVAudioDynamicRangeControlConfiguration_Speech :: AVAudioDynamicRangeControlConfiguration
-pattern AVAudioDynamicRangeControlConfiguration_Speech = AVAudioDynamicRangeControlConfiguration 2
-
-pattern AVAudioDynamicRangeControlConfiguration_Movie :: AVAudioDynamicRangeControlConfiguration
-pattern AVAudioDynamicRangeControlConfiguration_Movie = AVAudioDynamicRangeControlConfiguration 3
-
-pattern AVAudioDynamicRangeControlConfiguration_Capture :: AVAudioDynamicRangeControlConfiguration
-pattern AVAudioDynamicRangeControlConfiguration_Capture = AVAudioDynamicRangeControlConfiguration 4
-
-instance ObjCArgument AVAudioDynamicRangeControlConfiguration where
-  withObjCArg (AVAudioDynamicRangeControlConfiguration x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioDynamicRangeControlConfiguration where
-  type RawReturn AVAudioDynamicRangeControlConfiguration = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioDynamicRangeControlConfiguration x)
-  fromOwned x = pure (AVAudioDynamicRangeControlConfiguration x)
 
 -- | AVAudioEngineManualRenderingError
 --
@@ -840,9 +642,87 @@ instance ObjCReturn AVAudioSessionActivationOptions where
   fromRetained x = pure (AVAudioSessionActivationOptions x)
   fromOwned x = pure (AVAudioSessionActivationOptions x)
 
--- | Customization of various aspects of a category's behavior.		Use with ``AVAudioSession/setCategory:mode:options:error:``.
+-- | AVAudioSessionCategoryOptions
+--
+-- Customization of various aspects of a category's behavior. Use with                setCategory:mode:options:error:.
 --
 -- Applications must be prepared for changing category options to fail as behavior may change    in future releases. If an application changes its category, it should reassert the options,    since they are not sticky across category changes. Introduced in iOS 6.0 / watchOS 2.0 /    tvOS 9.0.
+--
+-- AVAudioSessionCategoryOptionMixWithOthers
+--
+-- Controls whether other active audio apps will be interrupted or mixed with when your app's        audio session goes active. Details depend on the category.
+--
+-- AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryMultiRoute:             MixWithOthers defaults to false, but can be set to true, allowing other applications to             play in the background while your app has both audio input and output enabled.
+--
+-- AVAudioSessionCategoryPlayback:             MixWithOthers defaults to false, but can be set to true, allowing other applications to             play in the background. Your app will still be able to play regardless of the setting             of the ringer switch.
+--
+-- Other categories:             MixWithOthers defaults to false and cannot be changed.
+--
+-- MixWithOthers is only valid with AVAudioSessionCategoryPlayAndRecord,        AVAudioSessionCategoryPlayback, and AVAudioSessionCategoryMultiRoute.
+--
+-- AVAudioSessionCategoryOptionDuckOthers
+--
+-- Controls whether or not other active audio apps will be ducked when when your app's audio        session goes active. An example of this is a workout app, which provides periodic updates to        the user. It reduces the volume of any music currently being played while it provides its        status.
+--
+-- Defaults to off. Note that the other audio will be ducked for as long as the current session        is active. You will need to deactivate your audio session when you want to restore full        volume playback (un-duck) other sessions.
+--
+-- Setting this option will also make your session mixable with others        (AVAudioSessionCategoryOptionMixWithOthers will be set).
+--
+-- DuckOthers is only valid with AVAudioSessionCategoryAmbient,        AVAudioSessionCategoryPlayAndRecord, AVAudioSessionCategoryPlayback, and        AVAudioSessionCategoryMultiRoute.
+--
+-- AVAudioSessionCategoryOptionAllowBluetooth
+--
+-- Allows an application to change the default behavior of some audio session categories with        regard to whether Bluetooth Hands-Free Profile (HFP) devices are available for routing. The        exact behavior depends on the category.
+--
+-- AVAudioSessionCategoryPlayAndRecord:            AllowBluetooth defaults to false, but can be set to true, allowing a paired bluetooth            HFP device to appear as an available route for input, while playing through the            category-appropriate output.
+--
+-- AVAudioSessionCategoryRecord:            AllowBluetooth defaults to false, but can be set to true, allowing a paired Bluetooth            HFP device to appear as an available route for input
+--
+-- Other categories:            AllowBluetooth defaults to false and cannot be changed. Enabling Bluetooth for input in            these categories is not allowed.
+--
+-- AVAudioSessionCategoryOptionDefaultToSpeaker
+--
+-- Allows an application to change the default behavior of some audio session categories with        regard to the audio route. The exact behavior depends on the category.
+--
+-- AVAudioSessionCategoryPlayAndRecord:            DefaultToSpeaker will default to false, but can be set to true, routing to Speaker            (instead of Receiver) when no other audio route is connected.
+--
+-- Other categories:            DefaultToSpeaker is always false and cannot be changed.
+--
+-- AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers
+--
+-- When a session with InterruptSpokenAudioAndMixWithOthers set goes active, then if there is        another playing app whose session mode is AVAudioSessionModeSpokenAudio (for podcast        playback in the background, for example), then the spoken-audio session will be        interrupted. A good use of this is for a navigation app that provides prompts to its user:        it pauses any spoken audio currently being played while it plays the prompt.
+--
+-- InterruptSpokenAudioAndMixWithOthers defaults to off. Note that the other app's audio will        be paused for as long as the current session is active. You will need to deactivate your        audio session to allow the other session to resume playback. Setting this option will also        make your category mixable with others (AVAudioSessionCategoryOptionMixWithOthers will be        set). If you want other non-spoken audio apps to duck their audio when your app's session        goes active, also set AVAudioSessionCategoryOptionDuckOthers.
+--
+-- Only valid with AVAudioSessionCategoryPlayAndRecord, AVAudioSessionCategoryPlayback, and        AVAudioSessionCategoryMultiRoute. Introduced in iOS 9.0 / watchOS 2.0 / tvOS 9.0.
+--
+-- AVAudioSessionCategoryOptionAllowBluetoothA2DP
+--
+-- Allows an application to change the default behavior of some audio session categories with        regard to whether Bluetooth Advanced Audio Distribution Profile (A2DP) devices are        available for routing. The exact behavior depends on the category.
+--
+-- AVAudioSessionCategoryPlayAndRecord:            AllowBluetoothA2DP defaults to false, but can be set to true, allowing a paired            Bluetooth A2DP device to appear as an available route for output, while recording            through the category-appropriate input.
+--
+-- AVAudioSessionCategoryMultiRoute and AVAudioSessionCategoryRecord:            AllowBluetoothA2DP is false, and cannot be set to true.
+--
+-- Other categories:            AllowBluetoothA2DP is always implicitly true and cannot be changed; Bluetooth A2DP ports            are always supported in output-only categories.
+--
+-- Setting both AVAudioSessionCategoryOptionAllowBluetooth and        AVAudioSessionCategoryOptionAllowBluetoothA2DP is allowed. In cases where a single        Bluetooth device supports both HFP and A2DP, the HFP ports will be given a higher priority        for routing. For HFP and A2DP ports on separate hardware devices, the last-in wins rule        applies.
+--
+-- Introduced in iOS 10.0 / watchOS 3.0 / tvOS 10.0.
+--
+-- AVAudioSessionCategoryOptionAllowAirPlay
+--
+-- Allows an application to change the default behavior of some audio session categories        with regard to showing AirPlay devices as available routes. This option applies to        various categories in the same way as AVAudioSessionCategoryOptionAllowBluetoothA2DP;        see above for details.
+--
+-- Only valid with AVAudioSessionCategoryPlayAndRecord. Introduced in iOS 10.0 / tvOS 10.0.
+--
+-- AVAudioSessionCategoryOptionOverrideMutedMicrophoneInterruption
+--
+-- Some devices include a privacy feature that mutes the built-in microphone at a hardware level        under certain conditions e.g. when the Smart Folio of an iPad is closed. The default behavior is        to interrupt the session using the built-in microphone when that microphone is muted in hardware.        This option allows an application to opt out of the default behavior if it is using a category that        supports both input and output, such as AVAudioSessionCategoryPlayAndRecord, and wants to        allow its session to stay activated even when the microphone has been muted. The result would be        that playback continues as normal, and microphone sample buffers would continue to be produced        but all microphone samples would have a value of zero.
+--
+-- This may be useful if an application knows that it wants to allow playback to continue and        recording/monitoring a muted microphone will not lead to a poor user experience. Attempting to use        this option with a session category that doesn't support the use of audio input will result in an error.
+--
+-- Note that under the default policy, a session will be interrupted if it is running input at the time when        the microphone is muted in hardware. Similarly, attempting to start input when the microphone is        muted will fail.        Note that this option has no relation to the recordPermission property, which indicates whether or        not the user has granted permission to use microphone input.
 -- | @AVAudioSessionCategoryOptions@ (bitmask)
 newtype AVAudioSessionCategoryOptions = AVAudioSessionCategoryOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -863,9 +743,6 @@ pattern AVAudioSessionCategoryOptionDuckOthers = AVAudioSessionCategoryOptions 2
 pattern AVAudioSessionCategoryOptionAllowBluetooth :: AVAudioSessionCategoryOptions
 pattern AVAudioSessionCategoryOptionAllowBluetooth = AVAudioSessionCategoryOptions 4
 
-pattern AVAudioSessionCategoryOptionAllowBluetoothHFP :: AVAudioSessionCategoryOptions
-pattern AVAudioSessionCategoryOptionAllowBluetoothHFP = AVAudioSessionCategoryOptions 4
-
 pattern AVAudioSessionCategoryOptionDefaultToSpeaker :: AVAudioSessionCategoryOptions
 pattern AVAudioSessionCategoryOptionDefaultToSpeaker = AVAudioSessionCategoryOptions 8
 
@@ -880,12 +757,6 @@ pattern AVAudioSessionCategoryOptionAllowAirPlay = AVAudioSessionCategoryOptions
 
 pattern AVAudioSessionCategoryOptionOverrideMutedMicrophoneInterruption :: AVAudioSessionCategoryOptions
 pattern AVAudioSessionCategoryOptionOverrideMutedMicrophoneInterruption = AVAudioSessionCategoryOptions 128
-
-pattern AVAudioSessionCategoryOptionFarFieldInput :: AVAudioSessionCategoryOptions
-pattern AVAudioSessionCategoryOptionFarFieldInput = AVAudioSessionCategoryOptions 262144
-
-pattern AVAudioSessionCategoryOptionBluetoothHighQualityRecording :: AVAudioSessionCategoryOptions
-pattern AVAudioSessionCategoryOptionBluetoothHighQualityRecording = AVAudioSessionCategoryOptions 524288
 
 instance ObjCArgument AVAudioSessionCategoryOptions where
   withObjCArg (AVAudioSessionCategoryOptions x) k = k (argCULong x)
@@ -981,14 +852,6 @@ instance ObjCReturn AVAudioSessionInterruptionOptions where
 -- AVAudioSessionInterruptionReasonBuiltInMicMuted
 --
 -- The audio session was interrupted due to the built-in mic being muted e.g. due to an iPad's Smart Folio being closed.
---
--- AVAudioSessionInterruptionReasonRouteDisconnected
---
--- The audio session was interrupted due to route getting disconnected.
---
--- AVAudioSessionInterruptionReasonDeviceUnauthenticated
---
--- The audio session was interrupted due to device being doffed or locked.
 -- | @AVAudioSessionInterruptionReason@
 newtype AVAudioSessionInterruptionReason = AVAudioSessionInterruptionReason CULong
   deriving stock (Eq, Ord, Show)
@@ -1002,9 +865,6 @@ pattern AVAudioSessionInterruptionReasonAppWasSuspended = AVAudioSessionInterrup
 
 pattern AVAudioSessionInterruptionReasonBuiltInMicMuted :: AVAudioSessionInterruptionReason
 pattern AVAudioSessionInterruptionReasonBuiltInMicMuted = AVAudioSessionInterruptionReason 2
-
-pattern AVAudioSessionInterruptionReasonRouteDisconnected :: AVAudioSessionInterruptionReason
-pattern AVAudioSessionInterruptionReasonRouteDisconnected = AVAudioSessionInterruptionReason 4
 
 instance ObjCArgument AVAudioSessionInterruptionReason where
   withObjCArg (AVAudioSessionInterruptionReason x) k = k (argCULong x)
@@ -1037,36 +897,6 @@ instance ObjCReturn AVAudioSessionInterruptionType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVAudioSessionInterruptionType x)
   fromOwned x = pure (AVAudioSessionInterruptionType x)
-
--- | AVAudioSessionMicrophoneInjectionMode
---
--- Various modes to inject audio coming from a session to another app’s input stream
---
--- Applications can state their intent to mix locally generated audio, which should consist primarily of    synthesized speech, to another app's input stream. This feature is intended to be used by accessibility apps    implementing augmentative and alternative communication systems that enable users with disabilities to    communicate with synthesized speech. When input is muted, microphone injection will also be muted.
---
--- AVAudioSessionMicrophoneInjectionModeNone
---
--- AVAudioSessionMicrophoneInjectionModeSpokenAudio
--- | @AVAudioSessionMicrophoneInjectionMode@
-newtype AVAudioSessionMicrophoneInjectionMode = AVAudioSessionMicrophoneInjectionMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioSessionMicrophoneInjectionModeNone :: AVAudioSessionMicrophoneInjectionMode
-pattern AVAudioSessionMicrophoneInjectionModeNone = AVAudioSessionMicrophoneInjectionMode 0
-
-pattern AVAudioSessionMicrophoneInjectionModeSpokenAudio :: AVAudioSessionMicrophoneInjectionMode
-pattern AVAudioSessionMicrophoneInjectionModeSpokenAudio = AVAudioSessionMicrophoneInjectionMode 1
-
-instance ObjCArgument AVAudioSessionMicrophoneInjectionMode where
-  withObjCArg (AVAudioSessionMicrophoneInjectionMode x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioSessionMicrophoneInjectionMode where
-  type RawReturn AVAudioSessionMicrophoneInjectionMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioSessionMicrophoneInjectionMode x)
-  fromOwned x = pure (AVAudioSessionMicrophoneInjectionMode x)
 
 -- | For use with overrideOutputAudioPort:error:
 -- | @AVAudioSessionPortOverride@
@@ -1169,52 +999,6 @@ instance ObjCReturn AVAudioSessionRecordPermission where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVAudioSessionRecordPermission x)
   fromOwned x = pure (AVAudioSessionRecordPermission x)
-
--- | AVAudioSessionRenderingMode
---
--- AVAudioSessionRenderingModeNotApplicable
---
--- AVAudioSessionRenderingModeMonoStereo
---
--- AVAudioSessionRenderingModeSurround
---
--- AVAudioSessionRenderingModeSpatialAudio
---
--- AVAudioSessionRenderingModeDolbyAudio
---
--- AVAudioSessionRenderingModeDolbyAtmos
--- | @AVAudioSessionRenderingMode@
-newtype AVAudioSessionRenderingMode = AVAudioSessionRenderingMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioSessionRenderingModeNotApplicable :: AVAudioSessionRenderingMode
-pattern AVAudioSessionRenderingModeNotApplicable = AVAudioSessionRenderingMode 0
-
-pattern AVAudioSessionRenderingModeMonoStereo :: AVAudioSessionRenderingMode
-pattern AVAudioSessionRenderingModeMonoStereo = AVAudioSessionRenderingMode 1
-
-pattern AVAudioSessionRenderingModeSurround :: AVAudioSessionRenderingMode
-pattern AVAudioSessionRenderingModeSurround = AVAudioSessionRenderingMode 2
-
-pattern AVAudioSessionRenderingModeSpatialAudio :: AVAudioSessionRenderingMode
-pattern AVAudioSessionRenderingModeSpatialAudio = AVAudioSessionRenderingMode 3
-
-pattern AVAudioSessionRenderingModeDolbyAudio :: AVAudioSessionRenderingMode
-pattern AVAudioSessionRenderingModeDolbyAudio = AVAudioSessionRenderingMode 4
-
-pattern AVAudioSessionRenderingModeDolbyAtmos :: AVAudioSessionRenderingMode
-pattern AVAudioSessionRenderingModeDolbyAtmos = AVAudioSessionRenderingMode 5
-
-instance ObjCArgument AVAudioSessionRenderingMode where
-  withObjCArg (AVAudioSessionRenderingMode x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioSessionRenderingMode where
-  type RawReturn AVAudioSessionRenderingMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioSessionRenderingMode x)
-  fromOwned x = pure (AVAudioSessionRenderingMode x)
 
 -- | Values for AVAudioSessionRouteChangeReasonKey in AVAudioSessionRouteChangeNotification's userInfo dictionary
 -- | @AVAudioSessionRouteChangeReason@
@@ -1619,70 +1403,6 @@ instance ObjCReturn AVAudioUnitReverbPreset where
   fromRetained x = pure (AVAudioUnitReverbPreset x)
   fromOwned x = pure (AVAudioUnitReverbPreset x)
 
--- | AVAudioVoiceProcessingOtherAudioDuckingLevel
---
--- Ducking level applied to other (i.e. non-voice) audio by AVAudio voice processing AU.
---
--- DuckingLevelDefault = Default ducking level to other audio for typical voice chat.			DuckingLevelMin = minimum ducking to other audio.			DuckingLevelMid = medium ducking to other audio.			DuckingLevelMax = maximum ducking to other audio.
--- | @AVAudioVoiceProcessingOtherAudioDuckingLevel@
-newtype AVAudioVoiceProcessingOtherAudioDuckingLevel = AVAudioVoiceProcessingOtherAudioDuckingLevel CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelDefault :: AVAudioVoiceProcessingOtherAudioDuckingLevel
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelDefault = AVAudioVoiceProcessingOtherAudioDuckingLevel 0
-
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelMin :: AVAudioVoiceProcessingOtherAudioDuckingLevel
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelMin = AVAudioVoiceProcessingOtherAudioDuckingLevel 10
-
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelMid :: AVAudioVoiceProcessingOtherAudioDuckingLevel
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelMid = AVAudioVoiceProcessingOtherAudioDuckingLevel 20
-
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelMax :: AVAudioVoiceProcessingOtherAudioDuckingLevel
-pattern AVAudioVoiceProcessingOtherAudioDuckingLevelMax = AVAudioVoiceProcessingOtherAudioDuckingLevel 30
-
-instance ObjCArgument AVAudioVoiceProcessingOtherAudioDuckingLevel where
-  withObjCArg (AVAudioVoiceProcessingOtherAudioDuckingLevel x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioVoiceProcessingOtherAudioDuckingLevel where
-  type RawReturn AVAudioVoiceProcessingOtherAudioDuckingLevel = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioVoiceProcessingOtherAudioDuckingLevel x)
-  fromOwned x = pure (AVAudioVoiceProcessingOtherAudioDuckingLevel x)
-
--- | AVAudioVoiceProcessingSpeechActivityEvent
---
--- Types of speech activity events.
---
--- AVAudioVoiceProcessingSpeechActivityStarted
---
--- Speech activity has started.
---
--- AVAudioVoiceProcessingSpeechActivityEnded
---
--- Speech activity has ended.
--- | @AVAudioVoiceProcessingSpeechActivityEvent@
-newtype AVAudioVoiceProcessingSpeechActivityEvent = AVAudioVoiceProcessingSpeechActivityEvent CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVAudioVoiceProcessingSpeechActivityStarted :: AVAudioVoiceProcessingSpeechActivityEvent
-pattern AVAudioVoiceProcessingSpeechActivityStarted = AVAudioVoiceProcessingSpeechActivityEvent 0
-
-pattern AVAudioVoiceProcessingSpeechActivityEnded :: AVAudioVoiceProcessingSpeechActivityEvent
-pattern AVAudioVoiceProcessingSpeechActivityEnded = AVAudioVoiceProcessingSpeechActivityEvent 1
-
-instance ObjCArgument AVAudioVoiceProcessingSpeechActivityEvent where
-  withObjCArg (AVAudioVoiceProcessingSpeechActivityEvent x) k = k (argCLong x)
-
-instance ObjCReturn AVAudioVoiceProcessingSpeechActivityEvent where
-  type RawReturn AVAudioVoiceProcessingSpeechActivityEvent = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVAudioVoiceProcessingSpeechActivityEvent x)
-  fromOwned x = pure (AVAudioVoiceProcessingSpeechActivityEvent x)
-
 -- | AVMIDIControlChangeMessageType
 --
 -- Types of MIDI control change events.  See the General MIDI Specification for details.
@@ -1965,9 +1685,6 @@ pattern AVSpeechSynthesisMarkerMarkSentence = AVSpeechSynthesisMarkerMark 2
 pattern AVSpeechSynthesisMarkerMarkParagraph :: AVSpeechSynthesisMarkerMark
 pattern AVSpeechSynthesisMarkerMarkParagraph = AVSpeechSynthesisMarkerMark 3
 
-pattern AVSpeechSynthesisMarkerMarkBookmark :: AVSpeechSynthesisMarkerMark
-pattern AVSpeechSynthesisMarkerMarkBookmark = AVSpeechSynthesisMarkerMark 4
-
 instance ObjCArgument AVSpeechSynthesisMarkerMark where
   withObjCArg (AVSpeechSynthesisMarkerMark x) k = k (argCLong x)
 
@@ -1977,33 +1694,6 @@ instance ObjCReturn AVSpeechSynthesisMarkerMark where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVSpeechSynthesisMarkerMark x)
   fromOwned x = pure (AVSpeechSynthesisMarkerMark x)
-
--- | @AVSpeechSynthesisPersonalVoiceAuthorizationStatus@
-newtype AVSpeechSynthesisPersonalVoiceAuthorizationStatus = AVSpeechSynthesisPersonalVoiceAuthorizationStatus CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusNotDetermined :: AVSpeechSynthesisPersonalVoiceAuthorizationStatus
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusNotDetermined = AVSpeechSynthesisPersonalVoiceAuthorizationStatus 0
-
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusDenied :: AVSpeechSynthesisPersonalVoiceAuthorizationStatus
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusDenied = AVSpeechSynthesisPersonalVoiceAuthorizationStatus 1
-
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusUnsupported :: AVSpeechSynthesisPersonalVoiceAuthorizationStatus
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusUnsupported = AVSpeechSynthesisPersonalVoiceAuthorizationStatus 2
-
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusAuthorized :: AVSpeechSynthesisPersonalVoiceAuthorizationStatus
-pattern AVSpeechSynthesisPersonalVoiceAuthorizationStatusAuthorized = AVSpeechSynthesisPersonalVoiceAuthorizationStatus 3
-
-instance ObjCArgument AVSpeechSynthesisPersonalVoiceAuthorizationStatus where
-  withObjCArg (AVSpeechSynthesisPersonalVoiceAuthorizationStatus x) k = k (argCULong x)
-
-instance ObjCReturn AVSpeechSynthesisPersonalVoiceAuthorizationStatus where
-  type RawReturn AVSpeechSynthesisPersonalVoiceAuthorizationStatus = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVSpeechSynthesisPersonalVoiceAuthorizationStatus x)
-  fromOwned x = pure (AVSpeechSynthesisPersonalVoiceAuthorizationStatus x)
 
 -- | @AVSpeechSynthesisVoiceGender@
 newtype AVSpeechSynthesisVoiceGender = AVSpeechSynthesisVoiceGender CLong
@@ -2052,33 +1742,3 @@ instance ObjCReturn AVSpeechSynthesisVoiceQuality where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVSpeechSynthesisVoiceQuality x)
   fromOwned x = pure (AVSpeechSynthesisVoiceQuality x)
-
--- | @AVSpeechSynthesisVoiceTraits@ (bitmask)
-newtype AVSpeechSynthesisVoiceTraits = AVSpeechSynthesisVoiceTraits CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup AVSpeechSynthesisVoiceTraits where
-  (<>) = (.|.)
-
-instance Monoid AVSpeechSynthesisVoiceTraits where
-  mempty = AVSpeechSynthesisVoiceTraits 0
-
-pattern AVSpeechSynthesisVoiceTraitNone :: AVSpeechSynthesisVoiceTraits
-pattern AVSpeechSynthesisVoiceTraitNone = AVSpeechSynthesisVoiceTraits 0
-
-pattern AVSpeechSynthesisVoiceTraitIsNoveltyVoice :: AVSpeechSynthesisVoiceTraits
-pattern AVSpeechSynthesisVoiceTraitIsNoveltyVoice = AVSpeechSynthesisVoiceTraits 1
-
-pattern AVSpeechSynthesisVoiceTraitIsPersonalVoice :: AVSpeechSynthesisVoiceTraits
-pattern AVSpeechSynthesisVoiceTraitIsPersonalVoice = AVSpeechSynthesisVoiceTraits 2
-
-instance ObjCArgument AVSpeechSynthesisVoiceTraits where
-  withObjCArg (AVSpeechSynthesisVoiceTraits x) k = k (argCULong x)
-
-instance ObjCReturn AVSpeechSynthesisVoiceTraits where
-  type RawReturn AVSpeechSynthesisVoiceTraits = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVSpeechSynthesisVoiceTraits x)
-  fromOwned x = pure (AVSpeechSynthesisVoiceTraits x)

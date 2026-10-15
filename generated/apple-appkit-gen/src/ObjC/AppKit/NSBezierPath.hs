@@ -12,7 +12,6 @@ module ObjC.AppKit.NSBezierPath
   , bezierPathWithRect
   , bezierPathWithOvalInRect
   , bezierPathWithRoundedRect_xRadius_yRadius
-  , bezierPathWithCGPath
   , fillRect
   , strokeRect
   , clipRect
@@ -21,13 +20,11 @@ module ObjC.AppKit.NSBezierPath
   , moveToPoint
   , lineToPoint
   , curveToPoint_controlPoint1_controlPoint2
-  , curveToPoint_controlPoint
   , closePath
   , removeAllPoints
   , relativeMoveToPoint
   , relativeLineToPoint
   , relativeCurveToPoint_controlPoint1_controlPoint2
-  , relativeCurveToPoint_controlPoint
   , getLineDash_count_phase
   , setLineDash_count_phase
   , stroke
@@ -54,8 +51,6 @@ module ObjC.AppKit.NSBezierPath
   , appendBezierPathWithGlyph_inFont
   , appendBezierPathWithGlyphs_count_inFont
   , appendBezierPathWithPackedGlyphs
-  , cgPath
-  , setCGPath
   , defaultMiterLimit
   , setDefaultMiterLimit
   , defaultFlatness
@@ -104,20 +99,17 @@ module ObjC.AppKit.NSBezierPath
   , bezierPathByFlatteningPathSelector
   , bezierPathByReversingPathSelector
   , bezierPathSelector
-  , bezierPathWithCGPathSelector
   , bezierPathWithOvalInRectSelector
   , bezierPathWithRectSelector
   , bezierPathWithRoundedRect_xRadius_yRadiusSelector
   , boundsSelector
   , cachesBezierPathSelector
-  , cgPathSelector
   , clipRectSelector
   , closePathSelector
   , containsPointSelector
   , controlPointBoundsSelector
   , currentPointSelector
   , curveToPoint_controlPoint1_controlPoint2Selector
-  , curveToPoint_controlPointSelector
   , defaultFlatnessSelector
   , defaultLineCapStyleSelector
   , defaultLineJoinStyleSelector
@@ -140,12 +132,10 @@ module ObjC.AppKit.NSBezierPath
   , miterLimitSelector
   , moveToPointSelector
   , relativeCurveToPoint_controlPoint1_controlPoint2Selector
-  , relativeCurveToPoint_controlPointSelector
   , relativeLineToPointSelector
   , relativeMoveToPointSelector
   , removeAllPointsSelector
   , setAssociatedPoints_atIndexSelector
-  , setCGPathSelector
   , setCachesBezierPathSelector
   , setClipSelector
   , setDefaultFlatnessSelector
@@ -171,10 +161,8 @@ module ObjC.AppKit.NSBezierPath
   , NSBezierPathElement(NSBezierPathElement)
   , pattern NSBezierPathElementMoveTo
   , pattern NSBezierPathElementLineTo
-  , pattern NSBezierPathElementCubicCurveTo
-  , pattern NSBezierPathElementClosePath
-  , pattern NSBezierPathElementQuadraticCurveTo
   , pattern NSBezierPathElementCurveTo
+  , pattern NSBezierPathElementClosePath
   , NSLineCapStyle(NSLineCapStyle)
   , pattern NSLineCapStyleButt
   , pattern NSLineCapStyleRound
@@ -230,13 +218,6 @@ bezierPathWithRoundedRect_xRadius_yRadius rect xRadius yRadius =
     cls' <- getRequiredClass "NSBezierPath"
     sendClassMessage cls' bezierPathWithRoundedRect_xRadius_yRadiusSelector rect xRadius yRadius
 
--- | @+ bezierPathWithCGPath:@
-bezierPathWithCGPath :: RawId -> IO (Id NSBezierPath)
-bezierPathWithCGPath cgPath =
-  do
-    cls' <- getRequiredClass "NSBezierPath"
-    sendClassMessage cls' bezierPathWithCGPathSelector cgPath
-
 -- | @+ fillRect:@
 fillRect :: NSRect -> IO ()
 fillRect rect =
@@ -287,11 +268,6 @@ curveToPoint_controlPoint1_controlPoint2 :: IsNSBezierPath nsBezierPath => nsBez
 curveToPoint_controlPoint1_controlPoint2 nsBezierPath endPoint controlPoint1 controlPoint2 =
   sendMessage nsBezierPath curveToPoint_controlPoint1_controlPoint2Selector endPoint controlPoint1 controlPoint2
 
--- | @- curveToPoint:controlPoint:@
-curveToPoint_controlPoint :: IsNSBezierPath nsBezierPath => nsBezierPath -> NSPoint -> NSPoint -> IO ()
-curveToPoint_controlPoint nsBezierPath endPoint controlPoint =
-  sendMessage nsBezierPath curveToPoint_controlPointSelector endPoint controlPoint
-
 -- | @- closePath@
 closePath :: IsNSBezierPath nsBezierPath => nsBezierPath -> IO ()
 closePath nsBezierPath =
@@ -316,11 +292,6 @@ relativeLineToPoint nsBezierPath point =
 relativeCurveToPoint_controlPoint1_controlPoint2 :: IsNSBezierPath nsBezierPath => nsBezierPath -> NSPoint -> NSPoint -> NSPoint -> IO ()
 relativeCurveToPoint_controlPoint1_controlPoint2 nsBezierPath endPoint controlPoint1 controlPoint2 =
   sendMessage nsBezierPath relativeCurveToPoint_controlPoint1_controlPoint2Selector endPoint controlPoint1 controlPoint2
-
--- | @- relativeCurveToPoint:controlPoint:@
-relativeCurveToPoint_controlPoint :: IsNSBezierPath nsBezierPath => nsBezierPath -> NSPoint -> NSPoint -> IO ()
-relativeCurveToPoint_controlPoint nsBezierPath endPoint controlPoint =
-  sendMessage nsBezierPath relativeCurveToPoint_controlPointSelector endPoint controlPoint
 
 -- | @- getLineDash:count:phase:@
 getLineDash_count_phase :: IsNSBezierPath nsBezierPath => nsBezierPath -> Ptr CDouble -> Ptr CLong -> Ptr CDouble -> IO ()
@@ -451,16 +422,6 @@ appendBezierPathWithGlyphs_count_inFont nsBezierPath glyphs count font =
 appendBezierPathWithPackedGlyphs :: IsNSBezierPath nsBezierPath => nsBezierPath -> Const (Ptr CChar) -> IO ()
 appendBezierPathWithPackedGlyphs nsBezierPath packedGlyphs =
   sendMessage nsBezierPath appendBezierPathWithPackedGlyphsSelector packedGlyphs
-
--- | @- CGPath@
-cgPath :: IsNSBezierPath nsBezierPath => nsBezierPath -> IO RawId
-cgPath nsBezierPath =
-  sendMessage nsBezierPath cgPathSelector
-
--- | @- setCGPath:@
-setCGPath :: IsNSBezierPath nsBezierPath => nsBezierPath -> RawId -> IO ()
-setCGPath nsBezierPath value =
-  sendMessage nsBezierPath setCGPathSelector value
 
 -- | @+ defaultMiterLimit@
 defaultMiterLimit :: IO CDouble
@@ -661,10 +622,6 @@ bezierPathWithOvalInRectSelector = mkSelector "bezierPathWithOvalInRect:"
 bezierPathWithRoundedRect_xRadius_yRadiusSelector :: Selector '[NSRect, CDouble, CDouble] (Id NSBezierPath)
 bezierPathWithRoundedRect_xRadius_yRadiusSelector = mkSelector "bezierPathWithRoundedRect:xRadius:yRadius:"
 
--- | @Selector@ for @bezierPathWithCGPath:@
-bezierPathWithCGPathSelector :: Selector '[RawId] (Id NSBezierPath)
-bezierPathWithCGPathSelector = mkSelector "bezierPathWithCGPath:"
-
 -- | @Selector@ for @fillRect:@
 fillRectSelector :: Selector '[NSRect] ()
 fillRectSelector = mkSelector "fillRect:"
@@ -697,10 +654,6 @@ lineToPointSelector = mkSelector "lineToPoint:"
 curveToPoint_controlPoint1_controlPoint2Selector :: Selector '[NSPoint, NSPoint, NSPoint] ()
 curveToPoint_controlPoint1_controlPoint2Selector = mkSelector "curveToPoint:controlPoint1:controlPoint2:"
 
--- | @Selector@ for @curveToPoint:controlPoint:@
-curveToPoint_controlPointSelector :: Selector '[NSPoint, NSPoint] ()
-curveToPoint_controlPointSelector = mkSelector "curveToPoint:controlPoint:"
-
 -- | @Selector@ for @closePath@
 closePathSelector :: Selector '[] ()
 closePathSelector = mkSelector "closePath"
@@ -720,10 +673,6 @@ relativeLineToPointSelector = mkSelector "relativeLineToPoint:"
 -- | @Selector@ for @relativeCurveToPoint:controlPoint1:controlPoint2:@
 relativeCurveToPoint_controlPoint1_controlPoint2Selector :: Selector '[NSPoint, NSPoint, NSPoint] ()
 relativeCurveToPoint_controlPoint1_controlPoint2Selector = mkSelector "relativeCurveToPoint:controlPoint1:controlPoint2:"
-
--- | @Selector@ for @relativeCurveToPoint:controlPoint:@
-relativeCurveToPoint_controlPointSelector :: Selector '[NSPoint, NSPoint] ()
-relativeCurveToPoint_controlPointSelector = mkSelector "relativeCurveToPoint:controlPoint:"
 
 -- | @Selector@ for @getLineDash:count:phase:@
 getLineDash_count_phaseSelector :: Selector '[Ptr CDouble, Ptr CLong, Ptr CDouble] ()
@@ -828,14 +777,6 @@ appendBezierPathWithGlyphs_count_inFontSelector = mkSelector "appendBezierPathWi
 -- | @Selector@ for @appendBezierPathWithPackedGlyphs:@
 appendBezierPathWithPackedGlyphsSelector :: Selector '[Const (Ptr CChar)] ()
 appendBezierPathWithPackedGlyphsSelector = mkSelector "appendBezierPathWithPackedGlyphs:"
-
--- | @Selector@ for @CGPath@
-cgPathSelector :: Selector '[] RawId
-cgPathSelector = mkSelector "CGPath"
-
--- | @Selector@ for @setCGPath:@
-setCGPathSelector :: Selector '[RawId] ()
-setCGPathSelector = mkSelector "setCGPath:"
 
 -- | @Selector@ for @defaultMiterLimit@
 defaultMiterLimitSelector :: Selector '[] CDouble

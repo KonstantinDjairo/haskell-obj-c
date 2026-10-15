@@ -21,8 +21,6 @@ module ObjC.AVFoundation.AVCaptureAudioDataOutput
   , sampleBufferCallbackQueue
   , audioSettings
   , setAudioSettings
-  , spatialAudioChannelLayoutTag
-  , setSpatialAudioChannelLayoutTag
   , audioSettingsSelector
   , initSelector
   , newSelector
@@ -31,8 +29,6 @@ module ObjC.AVFoundation.AVCaptureAudioDataOutput
   , sampleBufferDelegateSelector
   , setAudioSettingsSelector
   , setSampleBufferDelegate_queueSelector
-  , setSpatialAudioChannelLayoutTagSelector
-  , spatialAudioChannelLayoutTagSelector
 
 
   ) where
@@ -72,7 +68,7 @@ new  =
 --
 -- Clients that need to minimize the chances of samples being dropped should specify a queue on which a sufficiently small amount of processing is being done outside of receiving sample buffers. However, if such clients migrate extra processing to another queue, they are responsible for ensuring that memory usage does not grow without bound from samples that have not been processed.
 --
--- A serial dispatch queue must be used to guarantee that audio samples will be delivered in order. The sampleBufferCallbackQueue parameter may not be NULL, except when setting sampleBufferDelegate to nil otherwise -setSampleBufferDelegate:queue: throws an NSInvalidArgumentException.
+-- A serial dispatch queue must be used to guarantee that audio samples will be delivered in order. The sampleBufferCallbackQueue parameter may not be NULL, except when setting sampleBufferDelegate to nil.
 --
 -- ObjC selector: @- setSampleBufferDelegate:queue:@
 setSampleBufferDelegate_queue :: (IsAVCaptureAudioDataOutput avCaptureAudioDataOutput, IsNSObject sampleBufferCallbackQueue) => avCaptureAudioDataOutput -> RawId -> sampleBufferCallbackQueue -> IO ()
@@ -144,32 +140,6 @@ setAudioSettings :: (IsAVCaptureAudioDataOutput avCaptureAudioDataOutput, IsNSDi
 setAudioSettings avCaptureAudioDataOutput value =
   sendMessage avCaptureAudioDataOutput setAudioSettingsSelector (toNSDictionary value)
 
--- | The audio channel layout tag of the audio sample buffers produced by the audio data output.
---
--- When you set your audio data output's associated ``AVCaptureDeviceInput/multichannelAudioMode`` property to ``AVCaptureMultichannelAudioModeFirstOrderAmbisonics``, the ``AVCaptureSession`` allows up to two ``AVCaptureAudioDataOutput`` instances to be connected to the First-order Ambisonsics (FOA) input. If you connect a single ``AVCaptureAudioDataOutput`` instance, you must configure its ``AVCaptureAudioDataOutput/spatialAudioChannelLayoutTag`` property to produce either four channels of FOA audio or two channels of Stereo audio. If you connect two ``AVCaptureAudioDataOutput`` instances, you must configure one to output four channels of FOA audio and the other to output two channels of Stereo audio.
---
--- Thus, when you set your associated ``AVCaptureDeviceInput/multichannelAudioMode`` property to ``AVCaptureMultichannelAudioModeFirstOrderAmbisonics``, you must set your connected ``AVCaptureAudioDataOutput`` instance's ``AVCaptureAudioDataOutput/spatialAudioChannelLayoutTag`` property to either @kAudioChannelLayoutTag_Stereo@ for stereo, or @(kAudioChannelLayoutTag_HOA_ACN_SN3D | 4)@ for FOA (see <doc://com.apple.documentation/documentation/coreaudiotypes/audiochannellayouttag>). When you set your associated ``AVCaptureDeviceInput/multichannelAudioMode`` to any other value, the ``AVCaptureSession`` only supports one ``AVCaptureAudioDataOutput``, and you may only set ``AVCaptureAudioDataOutput/spatialAudioChannelLayoutTag`` to @kAudioChannelLayoutTag_Unknown@ (the default value).
---
--- Your ``AVCaptureSession`` validates your app's adherence to the the above rules when you call ``AVCaptureSession/startRunning:`` or ``AVCaptureSession/commitConfiguration`` and throws a @NSInvalidArgumentException@ if necessary.
---
--- ObjC selector: @- spatialAudioChannelLayoutTag@
-spatialAudioChannelLayoutTag :: IsAVCaptureAudioDataOutput avCaptureAudioDataOutput => avCaptureAudioDataOutput -> IO CUInt
-spatialAudioChannelLayoutTag avCaptureAudioDataOutput =
-  sendMessage avCaptureAudioDataOutput spatialAudioChannelLayoutTagSelector
-
--- | The audio channel layout tag of the audio sample buffers produced by the audio data output.
---
--- When you set your audio data output's associated ``AVCaptureDeviceInput/multichannelAudioMode`` property to ``AVCaptureMultichannelAudioModeFirstOrderAmbisonics``, the ``AVCaptureSession`` allows up to two ``AVCaptureAudioDataOutput`` instances to be connected to the First-order Ambisonsics (FOA) input. If you connect a single ``AVCaptureAudioDataOutput`` instance, you must configure its ``AVCaptureAudioDataOutput/spatialAudioChannelLayoutTag`` property to produce either four channels of FOA audio or two channels of Stereo audio. If you connect two ``AVCaptureAudioDataOutput`` instances, you must configure one to output four channels of FOA audio and the other to output two channels of Stereo audio.
---
--- Thus, when you set your associated ``AVCaptureDeviceInput/multichannelAudioMode`` property to ``AVCaptureMultichannelAudioModeFirstOrderAmbisonics``, you must set your connected ``AVCaptureAudioDataOutput`` instance's ``AVCaptureAudioDataOutput/spatialAudioChannelLayoutTag`` property to either @kAudioChannelLayoutTag_Stereo@ for stereo, or @(kAudioChannelLayoutTag_HOA_ACN_SN3D | 4)@ for FOA (see <doc://com.apple.documentation/documentation/coreaudiotypes/audiochannellayouttag>). When you set your associated ``AVCaptureDeviceInput/multichannelAudioMode`` to any other value, the ``AVCaptureSession`` only supports one ``AVCaptureAudioDataOutput``, and you may only set ``AVCaptureAudioDataOutput/spatialAudioChannelLayoutTag`` to @kAudioChannelLayoutTag_Unknown@ (the default value).
---
--- Your ``AVCaptureSession`` validates your app's adherence to the the above rules when you call ``AVCaptureSession/startRunning:`` or ``AVCaptureSession/commitConfiguration`` and throws a @NSInvalidArgumentException@ if necessary.
---
--- ObjC selector: @- setSpatialAudioChannelLayoutTag:@
-setSpatialAudioChannelLayoutTag :: IsAVCaptureAudioDataOutput avCaptureAudioDataOutput => avCaptureAudioDataOutput -> CUInt -> IO ()
-setSpatialAudioChannelLayoutTag avCaptureAudioDataOutput value =
-  sendMessage avCaptureAudioDataOutput setSpatialAudioChannelLayoutTagSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -205,12 +175,4 @@ audioSettingsSelector = mkSelector "audioSettings"
 -- | @Selector@ for @setAudioSettings:@
 setAudioSettingsSelector :: Selector '[Id NSDictionary] ()
 setAudioSettingsSelector = mkSelector "setAudioSettings:"
-
--- | @Selector@ for @spatialAudioChannelLayoutTag@
-spatialAudioChannelLayoutTagSelector :: Selector '[] CUInt
-spatialAudioChannelLayoutTagSelector = mkSelector "spatialAudioChannelLayoutTag"
-
--- | @Selector@ for @setSpatialAudioChannelLayoutTag:@
-setSpatialAudioChannelLayoutTagSelector :: Selector '[CUInt] ()
-setSpatialAudioChannelLayoutTagSelector = mkSelector "setSpatialAudioChannelLayoutTag:"
 

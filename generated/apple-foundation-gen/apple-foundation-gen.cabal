@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -83,6 +83,7 @@ library
       ObjC.Foundation.NSConditionLock
       ObjC.Foundation.NSConnection
       ObjC.Foundation.NSConstantString
+      ObjC.Foundation.NSCountCommand
       ObjC.Foundation.NSCountedSet
       ObjC.Foundation.NSCreateCommand
       ObjC.Foundation.NSData
@@ -107,6 +108,7 @@ library
       ObjC.Foundation.NSEnumerator
       ObjC.Foundation.NSError
       ObjC.Foundation.NSException
+      ObjC.Foundation.NSExistsCommand
       ObjC.Foundation.NSExpression
       ObjC.Foundation.NSExtensionContext
       ObjC.Foundation.NSExtensionItem
@@ -120,6 +122,7 @@ library
       ObjC.Foundation.NSFileWrapper
       ObjC.Foundation.NSFormatter
       ObjC.Foundation.NSGarbageCollector
+      ObjC.Foundation.NSGetCommand
       ObjC.Foundation.NSHTTPCookie
       ObjC.Foundation.NSHTTPCookieStorage
       ObjC.Foundation.NSHTTPURLResponse
@@ -136,15 +139,12 @@ library
       ObjC.Foundation.NSInvocationOperation
       ObjC.Foundation.NSItemProvider
       ObjC.Foundation.NSJSONSerialization
-      ObjC.Foundation.NSKeyValueSharedObservers
-      ObjC.Foundation.NSKeyValueSharedObserversSnapshot
       ObjC.Foundation.NSKeyedArchiver
       ObjC.Foundation.NSKeyedUnarchiver
       ObjC.Foundation.NSLengthFormatter
       ObjC.Foundation.NSLinguisticTagger
       ObjC.Foundation.NSListFormatter
       ObjC.Foundation.NSLocale
-      ObjC.Foundation.NSLocalizedNumberFormatRule
       ObjC.Foundation.NSLock
       ObjC.Foundation.NSLogicalTest
       ObjC.Foundation.NSMachBootstrapServer
@@ -160,9 +160,9 @@ library
       ObjC.Foundation.NSMetadataQueryAttributeValueTuple
       ObjC.Foundation.NSMetadataQueryResultGroup
       ObjC.Foundation.NSMethodSignature
+      ObjC.Foundation.NSMiddleSpecifier
       ObjC.Foundation.NSMorphology
       ObjC.Foundation.NSMorphologyCustomPronoun
-      ObjC.Foundation.NSMorphologyPronoun
       ObjC.Foundation.NSMoveCommand
       ObjC.Foundation.NSMutableArray
       ObjC.Foundation.NSMutableAttributedString
@@ -206,10 +206,12 @@ library
       ObjC.Foundation.NSProcessInfo
       ObjC.Foundation.NSProgress
       ObjC.Foundation.NSPropertyListSerialization
+      ObjC.Foundation.NSPropertySpecifier
       ObjC.Foundation.NSProtocolChecker
       ObjC.Foundation.NSProxy
       ObjC.Foundation.NSPurgeableData
       ObjC.Foundation.NSQuitCommand
+      ObjC.Foundation.NSRandomSpecifier
       ObjC.Foundation.NSRangeSpecifier
       ObjC.Foundation.NSRecursiveLock
       ObjC.Foundation.NSRegularExpression
@@ -237,7 +239,6 @@ library
       ObjC.Foundation.NSStream
       ObjC.Foundation.NSString
       ObjC.Foundation.NSTask
-      ObjC.Foundation.NSTermOfAddress
       ObjC.Foundation.NSTextCheckingResult
       ObjC.Foundation.NSThread
       ObjC.Foundation.NSTimeZone
@@ -331,7 +332,7 @@ library
       Paths_apple_foundation_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-corefoundation-gen
     , base >=4.7 && <5

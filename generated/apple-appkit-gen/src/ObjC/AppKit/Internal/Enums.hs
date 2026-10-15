@@ -283,7 +283,6 @@ instance ObjCReturn NSAccessibilityUnits where
   fromRetained x = pure (NSAccessibilityUnits x)
   fromOwned x = pure (NSAccessibilityUnits x)
 
--- | The alert styles used by the @alertStyle@ property on instances of @NSAlert@.
 -- | @NSAlertStyle@
 newtype NSAlertStyle = NSAlertStyle CULong
   deriving stock (Eq, Ord, Show)
@@ -380,7 +379,6 @@ instance ObjCReturn NSAnimationEffect where
   fromRetained x = pure (NSAnimationEffect x)
   fromOwned x = pure (NSAnimationEffect x)
 
--- | The following flags are for @-activateWithOptions:@ and equivalent.
 -- | @NSApplicationActivationOptions@ (bitmask)
 newtype NSApplicationActivationOptions = NSApplicationActivationOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -408,7 +406,6 @@ instance ObjCReturn NSApplicationActivationOptions where
   fromRetained x = pure (NSApplicationActivationOptions x)
   fromOwned x = pure (NSApplicationActivationOptions x)
 
--- | The following activation policies control whether and how an application may be activated. They are determined by the @Info.plist@.
 -- | @NSApplicationActivationPolicy@
 newtype NSApplicationActivationPolicy = NSApplicationActivationPolicy CLong
   deriving stock (Eq, Ord, Show)
@@ -481,7 +478,6 @@ instance ObjCReturn NSApplicationOcclusionState where
   fromRetained x = pure (NSApplicationOcclusionState x)
   fromOwned x = pure (NSApplicationOcclusionState x)
 
--- | Flags that comprise an application's @presentationOptions.@
 -- | @NSApplicationPresentationOptions@ (bitmask)
 newtype NSApplicationPresentationOptions = NSApplicationPresentationOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -545,7 +541,6 @@ instance ObjCReturn NSApplicationPresentationOptions where
   fromRetained x = pure (NSApplicationPresentationOptions x)
   fromOwned x = pure (NSApplicationPresentationOptions x)
 
--- | Return values for @-application:printFiles:withSettings:showPrintPanels:@.
 -- | @NSApplicationPrintReply@
 newtype NSApplicationPrintReply = NSApplicationPrintReply CULong
   deriving stock (Eq, Ord, Show)
@@ -557,11 +552,11 @@ pattern NSPrintingCancelled = NSApplicationPrintReply 0
 pattern NSPrintingSuccess :: NSApplicationPrintReply
 pattern NSPrintingSuccess = NSApplicationPrintReply 1
 
-pattern NSPrintingReplyLater :: NSApplicationPrintReply
-pattern NSPrintingReplyLater = NSApplicationPrintReply 2
-
 pattern NSPrintingFailure :: NSApplicationPrintReply
 pattern NSPrintingFailure = NSApplicationPrintReply 3
+
+pattern NSPrintingReplyLater :: NSApplicationPrintReply
+pattern NSPrintingReplyLater = NSApplicationPrintReply 2
 
 instance ObjCArgument NSApplicationPrintReply where
   withObjCArg (NSApplicationPrintReply x) k = k (argCULong x)
@@ -573,7 +568,6 @@ instance ObjCReturn NSApplicationPrintReply where
   fromRetained x = pure (NSApplicationPrintReply x)
   fromOwned x = pure (NSApplicationPrintReply x)
 
--- | Return values for @-applicationShouldTerminate:@.
 -- | @NSApplicationTerminateReply@
 newtype NSApplicationTerminateReply = NSApplicationTerminateReply CULong
   deriving stock (Eq, Ord, Show)
@@ -696,56 +690,29 @@ newtype NSBezelStyle = NSBezelStyle CULong
   deriving stock (Eq, Ord, Show)
   deriving newtype (Storable)
 
-pattern NSBezelStyleAutomatic :: NSBezelStyle
-pattern NSBezelStyleAutomatic = NSBezelStyle 0
+pattern NSBezelStyleRounded :: NSBezelStyle
+pattern NSBezelStyleRounded = NSBezelStyle 1
 
-pattern NSBezelStylePush :: NSBezelStyle
-pattern NSBezelStylePush = NSBezelStyle 1
-
-pattern NSBezelStyleFlexiblePush :: NSBezelStyle
-pattern NSBezelStyleFlexiblePush = NSBezelStyle 2
+pattern NSBezelStyleRegularSquare :: NSBezelStyle
+pattern NSBezelStyleRegularSquare = NSBezelStyle 2
 
 pattern NSBezelStyleDisclosure :: NSBezelStyle
 pattern NSBezelStyleDisclosure = NSBezelStyle 5
 
+pattern NSBezelStyleShadowlessSquare :: NSBezelStyle
+pattern NSBezelStyleShadowlessSquare = NSBezelStyle 6
+
 pattern NSBezelStyleCircular :: NSBezelStyle
 pattern NSBezelStyleCircular = NSBezelStyle 7
+
+pattern NSBezelStyleTexturedSquare :: NSBezelStyle
+pattern NSBezelStyleTexturedSquare = NSBezelStyle 8
 
 pattern NSBezelStyleHelpButton :: NSBezelStyle
 pattern NSBezelStyleHelpButton = NSBezelStyle 9
 
 pattern NSBezelStyleSmallSquare :: NSBezelStyle
 pattern NSBezelStyleSmallSquare = NSBezelStyle 10
-
-pattern NSBezelStyleToolbar :: NSBezelStyle
-pattern NSBezelStyleToolbar = NSBezelStyle 11
-
-pattern NSBezelStyleAccessoryBarAction :: NSBezelStyle
-pattern NSBezelStyleAccessoryBarAction = NSBezelStyle 12
-
-pattern NSBezelStyleAccessoryBar :: NSBezelStyle
-pattern NSBezelStyleAccessoryBar = NSBezelStyle 13
-
-pattern NSBezelStylePushDisclosure :: NSBezelStyle
-pattern NSBezelStylePushDisclosure = NSBezelStyle 14
-
-pattern NSBezelStyleBadge :: NSBezelStyle
-pattern NSBezelStyleBadge = NSBezelStyle 15
-
-pattern NSBezelStyleGlass :: NSBezelStyle
-pattern NSBezelStyleGlass = NSBezelStyle 16
-
-pattern NSBezelStyleShadowlessSquare :: NSBezelStyle
-pattern NSBezelStyleShadowlessSquare = NSBezelStyle 6
-
-pattern NSBezelStyleTexturedSquare :: NSBezelStyle
-pattern NSBezelStyleTexturedSquare = NSBezelStyle 8
-
-pattern NSBezelStyleRounded :: NSBezelStyle
-pattern NSBezelStyleRounded = NSBezelStyle 1
-
-pattern NSBezelStyleRegularSquare :: NSBezelStyle
-pattern NSBezelStyleRegularSquare = NSBezelStyle 2
 
 pattern NSBezelStyleTexturedRounded :: NSBezelStyle
 pattern NSBezelStyleTexturedRounded = NSBezelStyle 11
@@ -783,17 +750,11 @@ pattern NSBezierPathElementMoveTo = NSBezierPathElement 0
 pattern NSBezierPathElementLineTo :: NSBezierPathElement
 pattern NSBezierPathElementLineTo = NSBezierPathElement 1
 
-pattern NSBezierPathElementCubicCurveTo :: NSBezierPathElement
-pattern NSBezierPathElementCubicCurveTo = NSBezierPathElement 2
+pattern NSBezierPathElementCurveTo :: NSBezierPathElement
+pattern NSBezierPathElementCurveTo = NSBezierPathElement 2
 
 pattern NSBezierPathElementClosePath :: NSBezierPathElement
 pattern NSBezierPathElementClosePath = NSBezierPathElement 3
-
-pattern NSBezierPathElementQuadraticCurveTo :: NSBezierPathElement
-pattern NSBezierPathElementQuadraticCurveTo = NSBezierPathElement 4
-
-pattern NSBezierPathElementCurveTo :: NSBezierPathElement
-pattern NSBezierPathElementCurveTo = NSBezierPathElement 2
 
 instance ObjCArgument NSBezierPathElement where
   withObjCArg (NSBezierPathElement x) k = k (argCULong x)
@@ -1864,33 +1825,6 @@ instance ObjCReturn NSCompositingOperation where
   fromRetained x = pure (NSCompositingOperation x)
   fromOwned x = pure (NSCompositingOperation x)
 
--- | @NSControlBorderShape@
-newtype NSControlBorderShape = NSControlBorderShape CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSControlBorderShapeAutomatic :: NSControlBorderShape
-pattern NSControlBorderShapeAutomatic = NSControlBorderShape 0
-
-pattern NSControlBorderShapeCapsule :: NSControlBorderShape
-pattern NSControlBorderShapeCapsule = NSControlBorderShape 1
-
-pattern NSControlBorderShapeRoundedRectangle :: NSControlBorderShape
-pattern NSControlBorderShapeRoundedRectangle = NSControlBorderShape 2
-
-pattern NSControlBorderShapeCircle :: NSControlBorderShape
-pattern NSControlBorderShapeCircle = NSControlBorderShape 3
-
-instance ObjCArgument NSControlBorderShape where
-  withObjCArg (NSControlBorderShape x) k = k (argCLong x)
-
-instance ObjCReturn NSControlBorderShape where
-  type RawReturn NSControlBorderShape = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSControlBorderShape x)
-  fromOwned x = pure (NSControlBorderShape x)
-
 -- | @NSControlCharacterAction@ (bitmask)
 newtype NSControlCharacterAction = NSControlCharacterAction CLong
   deriving stock (Eq, Ord, Show)
@@ -1946,9 +1880,6 @@ pattern NSControlSizeMini = NSControlSize 2
 
 pattern NSControlSizeLarge :: NSControlSize
 pattern NSControlSizeLarge = NSControlSize 3
-
-pattern NSControlSizeExtraLarge :: NSControlSize
-pattern NSControlSizeExtraLarge = NSControlSize 4
 
 instance ObjCArgument NSControlSize where
   withObjCArg (NSControlSize x) k = k (argCULong x)
@@ -2043,77 +1974,6 @@ instance ObjCReturn NSCorrectionResponse where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSCorrectionResponse x)
   fromOwned x = pure (NSCorrectionResponse x)
-
--- | The directions in which a rectangular frame can be resized.
--- | @NSCursorFrameResizeDirections@ (bitmask)
-newtype NSCursorFrameResizeDirections = NSCursorFrameResizeDirections CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSCursorFrameResizeDirections where
-  (<>) = (.|.)
-
-instance Monoid NSCursorFrameResizeDirections where
-  mempty = NSCursorFrameResizeDirections 0
-
-pattern NSCursorFrameResizeDirectionsInward :: NSCursorFrameResizeDirections
-pattern NSCursorFrameResizeDirectionsInward = NSCursorFrameResizeDirections 1
-
-pattern NSCursorFrameResizeDirectionsOutward :: NSCursorFrameResizeDirections
-pattern NSCursorFrameResizeDirectionsOutward = NSCursorFrameResizeDirections 2
-
-pattern NSCursorFrameResizeDirectionsAll :: NSCursorFrameResizeDirections
-pattern NSCursorFrameResizeDirectionsAll = NSCursorFrameResizeDirections 3
-
-instance ObjCArgument NSCursorFrameResizeDirections where
-  withObjCArg (NSCursorFrameResizeDirections x) k = k (argCULong x)
-
-instance ObjCReturn NSCursorFrameResizeDirections where
-  type RawReturn NSCursorFrameResizeDirections = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSCursorFrameResizeDirections x)
-  fromOwned x = pure (NSCursorFrameResizeDirections x)
-
--- | The position along the perimeter of a rectangular frame (its edges and corners) from which it’s resized.
--- | @NSCursorFrameResizePosition@
-newtype NSCursorFrameResizePosition = NSCursorFrameResizePosition CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSCursorFrameResizePositionTop :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionTop = NSCursorFrameResizePosition 1
-
-pattern NSCursorFrameResizePositionLeft :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionLeft = NSCursorFrameResizePosition 2
-
-pattern NSCursorFrameResizePositionBottom :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionBottom = NSCursorFrameResizePosition 4
-
-pattern NSCursorFrameResizePositionRight :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionRight = NSCursorFrameResizePosition 8
-
-pattern NSCursorFrameResizePositionTopLeft :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionTopLeft = NSCursorFrameResizePosition 3
-
-pattern NSCursorFrameResizePositionTopRight :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionTopRight = NSCursorFrameResizePosition 9
-
-pattern NSCursorFrameResizePositionBottomLeft :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionBottomLeft = NSCursorFrameResizePosition 6
-
-pattern NSCursorFrameResizePositionBottomRight :: NSCursorFrameResizePosition
-pattern NSCursorFrameResizePositionBottomRight = NSCursorFrameResizePosition 12
-
-instance ObjCArgument NSCursorFrameResizePosition where
-  withObjCArg (NSCursorFrameResizePosition x) k = k (argCULong x)
-
-instance ObjCReturn NSCursorFrameResizePosition where
-  type RawReturn NSCursorFrameResizePosition = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSCursorFrameResizePosition x)
-  fromOwned x = pure (NSCursorFrameResizePosition x)
 
 -- | @NSDatePickerElementFlags@ (bitmask)
 newtype NSDatePickerElementFlags = NSDatePickerElementFlags CULong
@@ -2615,9 +2475,6 @@ pattern NSEventMaskDirectTouch = NSEventMask 137438953472
 pattern NSEventMaskChangeMode :: NSEventMask
 pattern NSEventMaskChangeMode = NSEventMask 274877906944
 
-pattern NSEventMaskMouseCancelled :: NSEventMask
-pattern NSEventMaskMouseCancelled = NSEventMask 1099511627776
-
 pattern NSEventMaskAny :: NSEventMask
 pattern NSEventMaskAny = NSEventMask 18446744073709551615
 
@@ -2899,9 +2756,6 @@ pattern NSEventTypeDirectTouch = NSEventType 37
 
 pattern NSEventTypeChangeMode :: NSEventType
 pattern NSEventTypeChangeMode = NSEventType 38
-
-pattern NSEventTypeMouseCancelled :: NSEventType
-pattern NSEventTypeMouseCancelled = NSEventType 40
 
 instance ObjCArgument NSEventType where
   withObjCArg (NSEventType x) k = k (argCULong x)
@@ -3412,27 +3266,6 @@ instance ObjCReturn NSGestureRecognizerState where
   fromRetained x = pure (NSGestureRecognizerState x)
   fromOwned x = pure (NSGestureRecognizerState x)
 
--- | @NSGlassEffectViewStyle@
-newtype NSGlassEffectViewStyle = NSGlassEffectViewStyle CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSGlassEffectViewStyleRegular :: NSGlassEffectViewStyle
-pattern NSGlassEffectViewStyleRegular = NSGlassEffectViewStyle 0
-
-pattern NSGlassEffectViewStyleClear :: NSGlassEffectViewStyle
-pattern NSGlassEffectViewStyleClear = NSGlassEffectViewStyle 1
-
-instance ObjCArgument NSGlassEffectViewStyle where
-  withObjCArg (NSGlassEffectViewStyle x) k = k (argCLong x)
-
-instance ObjCReturn NSGlassEffectViewStyle where
-  type RawReturn NSGlassEffectViewStyle = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSGlassEffectViewStyle x)
-  fromOwned x = pure (NSGlassEffectViewStyle x)
-
 -- | @NSGlyphInscription@
 newtype NSGlyphInscription = NSGlyphInscription CULong
   deriving stock (Eq, Ord, Show)
@@ -3667,37 +3500,6 @@ instance ObjCReturn NSHapticFeedbackPerformanceTime where
   fromRetained x = pure (NSHapticFeedbackPerformanceTime x)
   fromOwned x = pure (NSHapticFeedbackPerformanceTime x)
 
--- | The absolute directions on the horizontal axis.
--- | @NSHorizontalDirections@ (bitmask)
-newtype NSHorizontalDirections = NSHorizontalDirections CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSHorizontalDirections where
-  (<>) = (.|.)
-
-instance Monoid NSHorizontalDirections where
-  mempty = NSHorizontalDirections 0
-
-pattern NSHorizontalDirectionsLeft :: NSHorizontalDirections
-pattern NSHorizontalDirectionsLeft = NSHorizontalDirections 1
-
-pattern NSHorizontalDirectionsRight :: NSHorizontalDirections
-pattern NSHorizontalDirectionsRight = NSHorizontalDirections 2
-
-pattern NSHorizontalDirectionsAll :: NSHorizontalDirections
-pattern NSHorizontalDirectionsAll = NSHorizontalDirections 3
-
-instance ObjCArgument NSHorizontalDirections where
-  withObjCArg (NSHorizontalDirections x) k = k (argCULong x)
-
-instance ObjCReturn NSHorizontalDirections where
-  type RawReturn NSHorizontalDirections = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSHorizontalDirections x)
-  fromOwned x = pure (NSHorizontalDirections x)
-
 -- | @NSImageAlignment@
 newtype NSImageAlignment = NSImageAlignment CULong
   deriving stock (Eq, Ord, Show)
@@ -3766,34 +3568,6 @@ instance ObjCReturn NSImageCacheMode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSImageCacheMode x)
   fromOwned x = pure (NSImageCacheMode x)
-
--- | Values that can be used to enable or constrain display of High Dynamic Range (HDR) content in NSImageViews. Displaying HDR content in an NSImageView requires that the assigned NSImage has HDR content in the ITU-R 2100 color space and also that the output device has Extended Dynamic Range (EDR) capabilities.
--- | @NSImageDynamicRange@
-newtype NSImageDynamicRange = NSImageDynamicRange CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSImageDynamicRangeUnspecified :: NSImageDynamicRange
-pattern NSImageDynamicRangeUnspecified = NSImageDynamicRange (-1)
-
-pattern NSImageDynamicRangeStandard :: NSImageDynamicRange
-pattern NSImageDynamicRangeStandard = NSImageDynamicRange 0
-
-pattern NSImageDynamicRangeConstrainedHigh :: NSImageDynamicRange
-pattern NSImageDynamicRangeConstrainedHigh = NSImageDynamicRange 1
-
-pattern NSImageDynamicRangeHigh :: NSImageDynamicRange
-pattern NSImageDynamicRangeHigh = NSImageDynamicRange 2
-
-instance ObjCArgument NSImageDynamicRange where
-  withObjCArg (NSImageDynamicRange x) k = k (argCLong x)
-
-instance ObjCReturn NSImageDynamicRange where
-  type RawReturn NSImageDynamicRange = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSImageDynamicRange x)
-  fromOwned x = pure (NSImageDynamicRange x)
 
 -- | @NSImageFrameStyle@
 newtype NSImageFrameStyle = NSImageFrameStyle CULong
@@ -3947,11 +3721,11 @@ newtype NSImageResizingMode = NSImageResizingMode CLong
   deriving stock (Eq, Ord, Show)
   deriving newtype (Storable)
 
-pattern NSImageResizingModeTile :: NSImageResizingMode
-pattern NSImageResizingModeTile = NSImageResizingMode 0
-
 pattern NSImageResizingModeStretch :: NSImageResizingMode
-pattern NSImageResizingModeStretch = NSImageResizingMode 1
+pattern NSImageResizingModeStretch = NSImageResizingMode 0
+
+pattern NSImageResizingModeTile :: NSImageResizingMode
+pattern NSImageResizingModeTile = NSImageResizingMode 1
 
 instance ObjCArgument NSImageResizingMode where
   withObjCArg (NSImageResizingMode x) k = k (argCLong x)
@@ -3999,30 +3773,6 @@ instance ObjCReturn NSImageScaling where
   fromRetained x = pure (NSImageScaling x)
   fromOwned x = pure (NSImageScaling x)
 
--- | @NSImageSymbolColorRenderingMode@
-newtype NSImageSymbolColorRenderingMode = NSImageSymbolColorRenderingMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSImageSymbolColorRenderingModeAutomatic :: NSImageSymbolColorRenderingMode
-pattern NSImageSymbolColorRenderingModeAutomatic = NSImageSymbolColorRenderingMode 0
-
-pattern NSImageSymbolColorRenderingModeFlat :: NSImageSymbolColorRenderingMode
-pattern NSImageSymbolColorRenderingModeFlat = NSImageSymbolColorRenderingMode 1
-
-pattern NSImageSymbolColorRenderingModeGradient :: NSImageSymbolColorRenderingMode
-pattern NSImageSymbolColorRenderingModeGradient = NSImageSymbolColorRenderingMode 2
-
-instance ObjCArgument NSImageSymbolColorRenderingMode where
-  withObjCArg (NSImageSymbolColorRenderingMode x) k = k (argCLong x)
-
-instance ObjCReturn NSImageSymbolColorRenderingMode where
-  type RawReturn NSImageSymbolColorRenderingMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSImageSymbolColorRenderingMode x)
-  fromOwned x = pure (NSImageSymbolColorRenderingMode x)
-
 -- | @NSImageSymbolScale@
 newtype NSImageSymbolScale = NSImageSymbolScale CLong
   deriving stock (Eq, Ord, Show)
@@ -4046,30 +3796,6 @@ instance ObjCReturn NSImageSymbolScale where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSImageSymbolScale x)
   fromOwned x = pure (NSImageSymbolScale x)
-
--- | @NSImageSymbolVariableValueMode@
-newtype NSImageSymbolVariableValueMode = NSImageSymbolVariableValueMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSImageSymbolVariableValueModeAutomatic :: NSImageSymbolVariableValueMode
-pattern NSImageSymbolVariableValueModeAutomatic = NSImageSymbolVariableValueMode 0
-
-pattern NSImageSymbolVariableValueModeColor :: NSImageSymbolVariableValueMode
-pattern NSImageSymbolVariableValueModeColor = NSImageSymbolVariableValueMode 1
-
-pattern NSImageSymbolVariableValueModeDraw :: NSImageSymbolVariableValueMode
-pattern NSImageSymbolVariableValueModeDraw = NSImageSymbolVariableValueMode 2
-
-instance ObjCArgument NSImageSymbolVariableValueMode where
-  withObjCArg (NSImageSymbolVariableValueMode x) k = k (argCLong x)
-
-instance ObjCReturn NSImageSymbolVariableValueMode where
-  type RawReturn NSImageSymbolVariableValueMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSImageSymbolVariableValueMode x)
-  fromOwned x = pure (NSImageSymbolVariableValueMode x)
 
 -- | @NSLayoutAttribute@
 newtype NSLayoutAttribute = NSLayoutAttribute CLong
@@ -4492,11 +4218,6 @@ instance ObjCReturn NSMatrixMode where
   fromRetained x = pure (NSMatrixMode x)
   fromOwned x = pure (NSMatrixMode x)
 
--- | This type is used to configure a media browser for individual media types.
---
--- Warning: Though this type is declared as a set of mixable options -- and was originally intended to become that eventually -- you should treat it as an enum.
---
--- Warning: In other words, this type should be declared with NS_ENUM rather than NS_OPTIONS, but the latter has historical inertia not worth struggling against.
 -- | @NSMediaLibrary@ (bitmask)
 newtype NSMediaLibrary = NSMediaLibrary CULong
   deriving stock (Eq, Ord, Show)
@@ -4526,56 +4247,6 @@ instance ObjCReturn NSMediaLibrary where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSMediaLibrary x)
   fromOwned x = pure (NSMediaLibrary x)
-
--- | The badge type is used to specify one of the pre-defined or custom string portions of a menu item badge, ensuring appropriate localization and pluralization behaviors automatically when using a pre-defined type.
--- | @NSMenuItemBadgeType@
-newtype NSMenuItemBadgeType = NSMenuItemBadgeType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSMenuItemBadgeTypeNone :: NSMenuItemBadgeType
-pattern NSMenuItemBadgeTypeNone = NSMenuItemBadgeType 0
-
-pattern NSMenuItemBadgeTypeUpdates :: NSMenuItemBadgeType
-pattern NSMenuItemBadgeTypeUpdates = NSMenuItemBadgeType 1
-
-pattern NSMenuItemBadgeTypeNewItems :: NSMenuItemBadgeType
-pattern NSMenuItemBadgeTypeNewItems = NSMenuItemBadgeType 2
-
-pattern NSMenuItemBadgeTypeAlerts :: NSMenuItemBadgeType
-pattern NSMenuItemBadgeTypeAlerts = NSMenuItemBadgeType 3
-
-instance ObjCArgument NSMenuItemBadgeType where
-  withObjCArg (NSMenuItemBadgeType x) k = k (argCLong x)
-
-instance ObjCReturn NSMenuItemBadgeType where
-  type RawReturn NSMenuItemBadgeType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSMenuItemBadgeType x)
-  fromOwned x = pure (NSMenuItemBadgeType x)
-
--- | When set as a value on @NSMenu.presentationStyle@, determines how the given menu is presented.
--- | @NSMenuPresentationStyle@
-newtype NSMenuPresentationStyle = NSMenuPresentationStyle CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSMenuPresentationStyleRegular :: NSMenuPresentationStyle
-pattern NSMenuPresentationStyleRegular = NSMenuPresentationStyle 0
-
-pattern NSMenuPresentationStylePalette :: NSMenuPresentationStyle
-pattern NSMenuPresentationStylePalette = NSMenuPresentationStyle 1
-
-instance ObjCArgument NSMenuPresentationStyle where
-  withObjCArg (NSMenuPresentationStyle x) k = k (argCLong x)
-
-instance ObjCReturn NSMenuPresentationStyle where
-  type RawReturn NSMenuPresentationStyle = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSMenuPresentationStyle x)
-  fromOwned x = pure (NSMenuPresentationStyle x)
 
 -- | @NSMenuProperties@ (bitmask)
 newtype NSMenuProperties = NSMenuProperties CULong
@@ -4615,33 +4286,6 @@ instance ObjCReturn NSMenuProperties where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSMenuProperties x)
   fromOwned x = pure (NSMenuProperties x)
-
--- | When set as a value on @NSMenu.selectionMode@, determines how the menu manages selection states of the menu items that belong to the same selection group.
---
--- This does not apply to menu items that have distinct target/action values.
--- | @NSMenuSelectionMode@
-newtype NSMenuSelectionMode = NSMenuSelectionMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSMenuSelectionModeAutomatic :: NSMenuSelectionMode
-pattern NSMenuSelectionModeAutomatic = NSMenuSelectionMode 0
-
-pattern NSMenuSelectionModeSelectOne :: NSMenuSelectionMode
-pattern NSMenuSelectionModeSelectOne = NSMenuSelectionMode 1
-
-pattern NSMenuSelectionModeSelectAny :: NSMenuSelectionMode
-pattern NSMenuSelectionModeSelectAny = NSMenuSelectionMode 2
-
-instance ObjCArgument NSMenuSelectionMode where
-  withObjCArg (NSMenuSelectionMode x) k = k (argCLong x)
-
-instance ObjCReturn NSMenuSelectionMode where
-  type RawReturn NSMenuSelectionMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSMenuSelectionMode x)
-  fromOwned x = pure (NSMenuSelectionMode x)
 
 -- | @NSMultibyteGlyphPacking@
 newtype NSMultibyteGlyphPacking = NSMultibyteGlyphPacking CULong
@@ -4806,27 +4450,6 @@ instance ObjCReturn NSPageControllerTransitionStyle where
   fromRetained x = pure (NSPageControllerTransitionStyle x)
   fromOwned x = pure (NSPageControllerTransitionStyle x)
 
--- | @NSPageLayoutResult@
-newtype NSPageLayoutResult = NSPageLayoutResult CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSPageLayoutResultCancelled :: NSPageLayoutResult
-pattern NSPageLayoutResultCancelled = NSPageLayoutResult 0
-
-pattern NSPageLayoutResultChanged :: NSPageLayoutResult
-pattern NSPageLayoutResultChanged = NSPageLayoutResult 1
-
-instance ObjCArgument NSPageLayoutResult where
-  withObjCArg (NSPageLayoutResult x) k = k (argCLong x)
-
-instance ObjCReturn NSPageLayoutResult where
-  type RawReturn NSPageLayoutResult = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSPageLayoutResult x)
-  fromOwned x = pure (NSPageLayoutResult x)
-
 -- | @NSPaperOrientation@
 newtype NSPaperOrientation = NSPaperOrientation CLong
   deriving stock (Eq, Ord, Show)
@@ -4847,34 +4470,6 @@ instance ObjCReturn NSPaperOrientation where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSPaperOrientation x)
   fromOwned x = pure (NSPaperOrientation x)
-
--- | A value indicating pasteboard access behavior.
--- | @NSPasteboardAccessBehavior@
-newtype NSPasteboardAccessBehavior = NSPasteboardAccessBehavior CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSPasteboardAccessBehaviorDefault :: NSPasteboardAccessBehavior
-pattern NSPasteboardAccessBehaviorDefault = NSPasteboardAccessBehavior 0
-
-pattern NSPasteboardAccessBehaviorAsk :: NSPasteboardAccessBehavior
-pattern NSPasteboardAccessBehaviorAsk = NSPasteboardAccessBehavior 1
-
-pattern NSPasteboardAccessBehaviorAlwaysAllow :: NSPasteboardAccessBehavior
-pattern NSPasteboardAccessBehaviorAlwaysAllow = NSPasteboardAccessBehavior 2
-
-pattern NSPasteboardAccessBehaviorAlwaysDeny :: NSPasteboardAccessBehavior
-pattern NSPasteboardAccessBehaviorAlwaysDeny = NSPasteboardAccessBehavior 3
-
-instance ObjCArgument NSPasteboardAccessBehavior where
-  withObjCArg (NSPasteboardAccessBehavior x) k = k (argCLong x)
-
-instance ObjCReturn NSPasteboardAccessBehavior where
-  type RawReturn NSPasteboardAccessBehavior = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSPasteboardAccessBehavior x)
-  fromOwned x = pure (NSPasteboardAccessBehavior x)
 
 -- | @NSPasteboardContentsOptions@ (bitmask)
 newtype NSPasteboardContentsOptions = NSPasteboardContentsOptions CULong
@@ -5207,27 +4802,6 @@ instance ObjCReturn NSPrintPanelOptions where
   fromRetained x = pure (NSPrintPanelOptions x)
   fromOwned x = pure (NSPrintPanelOptions x)
 
--- | @NSPrintPanelResult@
-newtype NSPrintPanelResult = NSPrintPanelResult CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSPrintPanelResultCancelled :: NSPrintPanelResult
-pattern NSPrintPanelResultCancelled = NSPrintPanelResult 0
-
-pattern NSPrintPanelResultPrinted :: NSPrintPanelResult
-pattern NSPrintPanelResultPrinted = NSPrintPanelResult 1
-
-instance ObjCArgument NSPrintPanelResult where
-  withObjCArg (NSPrintPanelResult x) k = k (argCLong x)
-
-instance ObjCReturn NSPrintPanelResult where
-  type RawReturn NSPrintPanelResult = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSPrintPanelResult x)
-  fromOwned x = pure (NSPrintPanelResult x)
-
 -- | @NSPrintRenderingQuality@
 newtype NSPrintRenderingQuality = NSPrintRenderingQuality CLong
   deriving stock (Eq, Ord, Show)
@@ -5435,7 +5009,6 @@ instance ObjCReturn NSRectAlignment where
   fromRetained x = pure (NSRectAlignment x)
   fromOwned x = pure (NSRectAlignment x)
 
--- | Soft deprecated. Please use @NSApplication@'s @-registerForRemoteNotifications@ along with @-requestAuthorizationWithOptions:@ from the @UserNotifications.framework@ to specify allowable notification types.
 -- | @NSRemoteNotificationType@ (bitmask)
 newtype NSRemoteNotificationType = NSRemoteNotificationType CULong
   deriving stock (Eq, Ord, Show)
@@ -6000,28 +5573,6 @@ instance ObjCReturn NSSelectionGranularity where
   fromRetained x = pure (NSSelectionGranularity x)
   fromOwned x = pure (NSSelectionGranularity x)
 
--- | Represents the types of sharing (collaborating on an item vs. sending a copy of the item) The share picker supports up to two modes, each of which corresponds to one of these types
--- | @NSSharingCollaborationMode@
-newtype NSSharingCollaborationMode = NSSharingCollaborationMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSSharingCollaborationModeSendCopy :: NSSharingCollaborationMode
-pattern NSSharingCollaborationModeSendCopy = NSSharingCollaborationMode 0
-
-pattern NSSharingCollaborationModeCollaborate :: NSSharingCollaborationMode
-pattern NSSharingCollaborationModeCollaborate = NSSharingCollaborationMode 1
-
-instance ObjCArgument NSSharingCollaborationMode where
-  withObjCArg (NSSharingCollaborationMode x) k = k (argCLong x)
-
-instance ObjCReturn NSSharingCollaborationMode where
-  type RawReturn NSSharingCollaborationMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSSharingCollaborationMode x)
-  fromOwned x = pure (NSSharingCollaborationMode x)
-
 -- | Use the sharing scope to specify the nature of the things you are sharing.
 --
 -- The sharing scope can be modified from the default value of NSSharingContentScopeItem by setting a different value in the out parameter in sharingService:sourceWindowForShareItems:sharingContentScope:.
@@ -6152,9 +5703,6 @@ pattern NSSplitViewItemBehaviorSidebar = NSSplitViewItemBehavior 1
 
 pattern NSSplitViewItemBehaviorContentList :: NSSplitViewItemBehavior
 pattern NSSplitViewItemBehaviorContentList = NSSplitViewItemBehavior 2
-
-pattern NSSplitViewItemBehaviorInspector :: NSSplitViewItemBehavior
-pattern NSSplitViewItemBehaviorInspector = NSSplitViewItemBehavior 3
 
 instance ObjCArgument NSSplitViewItemBehavior where
   withObjCArg (NSSplitViewItemBehavior x) k = k (argCLong x)
@@ -6362,9 +5910,6 @@ pattern NSStringDrawingUsesDeviceMetrics = NSStringDrawingOptions 8
 
 pattern NSStringDrawingTruncatesLastVisibleLine :: NSStringDrawingOptions
 pattern NSStringDrawingTruncatesLastVisibleLine = NSStringDrawingOptions 32
-
-pattern NSStringDrawingOptionsResolvesNaturalAlignmentWithBaseWritingDirection :: NSStringDrawingOptions
-pattern NSStringDrawingOptionsResolvesNaturalAlignmentWithBaseWritingDirection = NSStringDrawingOptions 512
 
 pattern NSStringDrawingDisableScreenFontSubstitution :: NSStringDrawingOptions
 pattern NSStringDrawingDisableScreenFontSubstitution = NSStringDrawingOptions 4
@@ -6882,11 +6427,11 @@ newtype NSTextAlignment = NSTextAlignment CLong
 pattern NSTextAlignmentLeft :: NSTextAlignment
 pattern NSTextAlignmentLeft = NSTextAlignment 0
 
-pattern NSTextAlignmentCenter :: NSTextAlignment
-pattern NSTextAlignmentCenter = NSTextAlignment 1
-
 pattern NSTextAlignmentRight :: NSTextAlignment
-pattern NSTextAlignmentRight = NSTextAlignment 2
+pattern NSTextAlignmentRight = NSTextAlignment 1
+
+pattern NSTextAlignmentCenter :: NSTextAlignment
+pattern NSTextAlignmentCenter = NSTextAlignment 2
 
 pattern NSTextAlignmentJustified :: NSTextAlignment
 pattern NSTextAlignmentJustified = NSTextAlignment 3
@@ -7036,48 +6581,6 @@ instance ObjCReturn NSTextContentManagerEnumerationOptions where
   fromRetained x = pure (NSTextContentManagerEnumerationOptions x)
   fromOwned x = pure (NSTextContentManagerEnumerationOptions x)
 
--- | @NSTextCursorAccessoryPlacement@
-newtype NSTextCursorAccessoryPlacement = NSTextCursorAccessoryPlacement CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSTextCursorAccessoryPlacementUnspecified :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementUnspecified = NSTextCursorAccessoryPlacement 0
-
-pattern NSTextCursorAccessoryPlacementBackward :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementBackward = NSTextCursorAccessoryPlacement 1
-
-pattern NSTextCursorAccessoryPlacementForward :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementForward = NSTextCursorAccessoryPlacement 2
-
-pattern NSTextCursorAccessoryPlacementInvisible :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementInvisible = NSTextCursorAccessoryPlacement 3
-
-pattern NSTextCursorAccessoryPlacementCenter :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementCenter = NSTextCursorAccessoryPlacement 4
-
-pattern NSTextCursorAccessoryPlacementOffscreenLeft :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementOffscreenLeft = NSTextCursorAccessoryPlacement 5
-
-pattern NSTextCursorAccessoryPlacementOffscreenTop :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementOffscreenTop = NSTextCursorAccessoryPlacement 6
-
-pattern NSTextCursorAccessoryPlacementOffscreenRight :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementOffscreenRight = NSTextCursorAccessoryPlacement 7
-
-pattern NSTextCursorAccessoryPlacementOffscreenBottom :: NSTextCursorAccessoryPlacement
-pattern NSTextCursorAccessoryPlacementOffscreenBottom = NSTextCursorAccessoryPlacement 8
-
-instance ObjCArgument NSTextCursorAccessoryPlacement where
-  withObjCArg (NSTextCursorAccessoryPlacement x) k = k (argCLong x)
-
-instance ObjCReturn NSTextCursorAccessoryPlacement where
-  type RawReturn NSTextCursorAccessoryPlacement = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSTextCursorAccessoryPlacement x)
-  fromOwned x = pure (NSTextCursorAccessoryPlacement x)
-
 -- | @NSTextFieldBezelStyle@
 newtype NSTextFieldBezelStyle = NSTextFieldBezelStyle CULong
   deriving stock (Eq, Ord, Show)
@@ -7203,57 +6706,6 @@ instance ObjCReturn NSTextInputTraitType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSTextInputTraitType x)
   fromOwned x = pure (NSTextInputTraitType x)
-
--- | @NSTextInsertionIndicatorAutomaticModeOptions@ (bitmask)
-newtype NSTextInsertionIndicatorAutomaticModeOptions = NSTextInsertionIndicatorAutomaticModeOptions CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSTextInsertionIndicatorAutomaticModeOptions where
-  (<>) = (.|.)
-
-instance Monoid NSTextInsertionIndicatorAutomaticModeOptions where
-  mempty = NSTextInsertionIndicatorAutomaticModeOptions 0
-
-pattern NSTextInsertionIndicatorAutomaticModeOptionsShowEffectsView :: NSTextInsertionIndicatorAutomaticModeOptions
-pattern NSTextInsertionIndicatorAutomaticModeOptionsShowEffectsView = NSTextInsertionIndicatorAutomaticModeOptions 1
-
-pattern NSTextInsertionIndicatorAutomaticModeOptionsShowWhileTracking :: NSTextInsertionIndicatorAutomaticModeOptions
-pattern NSTextInsertionIndicatorAutomaticModeOptionsShowWhileTracking = NSTextInsertionIndicatorAutomaticModeOptions 2
-
-instance ObjCArgument NSTextInsertionIndicatorAutomaticModeOptions where
-  withObjCArg (NSTextInsertionIndicatorAutomaticModeOptions x) k = k (argCLong x)
-
-instance ObjCReturn NSTextInsertionIndicatorAutomaticModeOptions where
-  type RawReturn NSTextInsertionIndicatorAutomaticModeOptions = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSTextInsertionIndicatorAutomaticModeOptions x)
-  fromOwned x = pure (NSTextInsertionIndicatorAutomaticModeOptions x)
-
--- | @NSTextInsertionIndicatorDisplayMode@
-newtype NSTextInsertionIndicatorDisplayMode = NSTextInsertionIndicatorDisplayMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSTextInsertionIndicatorDisplayModeAutomatic :: NSTextInsertionIndicatorDisplayMode
-pattern NSTextInsertionIndicatorDisplayModeAutomatic = NSTextInsertionIndicatorDisplayMode 0
-
-pattern NSTextInsertionIndicatorDisplayModeHidden :: NSTextInsertionIndicatorDisplayMode
-pattern NSTextInsertionIndicatorDisplayModeHidden = NSTextInsertionIndicatorDisplayMode 1
-
-pattern NSTextInsertionIndicatorDisplayModeVisible :: NSTextInsertionIndicatorDisplayMode
-pattern NSTextInsertionIndicatorDisplayModeVisible = NSTextInsertionIndicatorDisplayMode 2
-
-instance ObjCArgument NSTextInsertionIndicatorDisplayMode where
-  withObjCArg (NSTextInsertionIndicatorDisplayMode x) k = k (argCLong x)
-
-instance ObjCReturn NSTextInsertionIndicatorDisplayMode where
-  type RawReturn NSTextInsertionIndicatorDisplayMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSTextInsertionIndicatorDisplayMode x)
-  fromOwned x = pure (NSTextInsertionIndicatorDisplayMode x)
 
 -- | @NSTextLayoutFragmentEnumerationOptions@ (bitmask)
 newtype NSTextLayoutFragmentEnumerationOptions = NSTextLayoutFragmentEnumerationOptions CULong
@@ -7784,36 +7236,6 @@ instance ObjCReturn NSTickMarkPosition where
   fromRetained x = pure (NSTickMarkPosition x)
   fromOwned x = pure (NSTickMarkPosition x)
 
--- | Controls how strongly the tint color applies in a view.
---
--- A tint prominence of @primary@ will use the app's tint color with full  saturation and brightness, while @secondary@ will apply it more subtly.  Using @none@ gives an untinted appearance.
--- | @NSTintProminence@
-newtype NSTintProminence = NSTintProminence CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSTintProminenceAutomatic :: NSTintProminence
-pattern NSTintProminenceAutomatic = NSTintProminence 0
-
-pattern NSTintProminenceNone :: NSTintProminence
-pattern NSTintProminenceNone = NSTintProminence 1
-
-pattern NSTintProminencePrimary :: NSTintProminence
-pattern NSTintProminencePrimary = NSTintProminence 2
-
-pattern NSTintProminenceSecondary :: NSTintProminence
-pattern NSTintProminenceSecondary = NSTintProminence 3
-
-instance ObjCArgument NSTintProminence where
-  withObjCArg (NSTintProminence x) k = k (argCLong x)
-
-instance ObjCReturn NSTintProminence where
-  type RawReturn NSTintProminence = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSTintProminence x)
-  fromOwned x = pure (NSTintProminence x)
-
 -- | @NSTitlePosition@
 newtype NSTitlePosition = NSTitlePosition CULong
   deriving stock (Eq, Ord, Show)
@@ -7958,7 +7380,6 @@ instance ObjCReturn NSToolbarItemGroupControlRepresentation where
   fromRetained x = pure (NSToolbarItemGroupControlRepresentation x)
   fromOwned x = pure (NSToolbarItemGroupControlRepresentation x)
 
--- | @NSToolbarItemGroup@ is a subclass of @NSToolbarItem@ which can be used to create sets of @NSToolbarItems@ that are always attached to one another and that are added, removed, or reordered as a single unit. Properties that get set on the parent toolbar item, such as label or view, apply to the entire item. Otherwise, the individual properties are displayed adjacent to one another. Subitems will inherit the group's action if no action is defined on the subitem and will validate based on that action when autovalidates is enabled.
 -- | @NSToolbarItemGroupSelectionMode@
 newtype NSToolbarItemGroupSelectionMode = NSToolbarItemGroupSelectionMode CLong
   deriving stock (Eq, Ord, Show)
@@ -7982,27 +7403,6 @@ instance ObjCReturn NSToolbarItemGroupSelectionMode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSToolbarItemGroupSelectionMode x)
   fromOwned x = pure (NSToolbarItemGroupSelectionMode x)
-
--- | @NSToolbarItemStyle@
-newtype NSToolbarItemStyle = NSToolbarItemStyle CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSToolbarItemStylePlain :: NSToolbarItemStyle
-pattern NSToolbarItemStylePlain = NSToolbarItemStyle 0
-
-pattern NSToolbarItemStyleProminent :: NSToolbarItemStyle
-pattern NSToolbarItemStyleProminent = NSToolbarItemStyle 1
-
-instance ObjCArgument NSToolbarItemStyle where
-  withObjCArg (NSToolbarItemStyle x) k = k (argCLong x)
-
-instance ObjCReturn NSToolbarItemStyle where
-  type RawReturn NSToolbarItemStyle = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSToolbarItemStyle x)
-  fromOwned x = pure (NSToolbarItemStyle x)
 
 -- | @NSToolbarSizeMode@
 newtype NSToolbarSizeMode = NSToolbarSizeMode CULong
@@ -8359,37 +7759,6 @@ instance ObjCReturn NSUserInterfaceLayoutOrientation where
   fromRetained x = pure (NSUserInterfaceLayoutOrientation x)
   fromOwned x = pure (NSUserInterfaceLayoutOrientation x)
 
--- | The directions on the vertical axis.
--- | @NSVerticalDirections@ (bitmask)
-newtype NSVerticalDirections = NSVerticalDirections CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSVerticalDirections where
-  (<>) = (.|.)
-
-instance Monoid NSVerticalDirections where
-  mempty = NSVerticalDirections 0
-
-pattern NSVerticalDirectionsUp :: NSVerticalDirections
-pattern NSVerticalDirectionsUp = NSVerticalDirections 1
-
-pattern NSVerticalDirectionsDown :: NSVerticalDirections
-pattern NSVerticalDirectionsDown = NSVerticalDirections 2
-
-pattern NSVerticalDirectionsAll :: NSVerticalDirections
-pattern NSVerticalDirectionsAll = NSVerticalDirections 3
-
-instance ObjCArgument NSVerticalDirections where
-  withObjCArg (NSVerticalDirections x) k = k (argCULong x)
-
-instance ObjCReturn NSVerticalDirections where
-  type RawReturn NSVerticalDirections = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSVerticalDirections x)
-  fromOwned x = pure (NSVerticalDirections x)
-
 -- | @NSViewControllerTransitionOptions@ (bitmask)
 newtype NSViewControllerTransitionOptions = NSViewControllerTransitionOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -8518,30 +7887,6 @@ instance ObjCReturn NSViewLayerContentsRedrawPolicy where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSViewLayerContentsRedrawPolicy x)
   fromOwned x = pure (NSViewLayerContentsRedrawPolicy x)
-
--- | @NSViewLayoutRegionAdaptivityAxis@
-newtype NSViewLayoutRegionAdaptivityAxis = NSViewLayoutRegionAdaptivityAxis CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSViewLayoutRegionAdaptivityAxisNone :: NSViewLayoutRegionAdaptivityAxis
-pattern NSViewLayoutRegionAdaptivityAxisNone = NSViewLayoutRegionAdaptivityAxis 0
-
-pattern NSViewLayoutRegionAdaptivityAxisHorizontal :: NSViewLayoutRegionAdaptivityAxis
-pattern NSViewLayoutRegionAdaptivityAxisHorizontal = NSViewLayoutRegionAdaptivityAxis 1
-
-pattern NSViewLayoutRegionAdaptivityAxisVertical :: NSViewLayoutRegionAdaptivityAxis
-pattern NSViewLayoutRegionAdaptivityAxisVertical = NSViewLayoutRegionAdaptivityAxis 2
-
-instance ObjCArgument NSViewLayoutRegionAdaptivityAxis where
-  withObjCArg (NSViewLayoutRegionAdaptivityAxis x) k = k (argCLong x)
-
-instance ObjCReturn NSViewLayoutRegionAdaptivityAxis where
-  type RawReturn NSViewLayoutRegionAdaptivityAxis = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSViewLayoutRegionAdaptivityAxis x)
-  fromOwned x = pure (NSViewLayoutRegionAdaptivityAxis x)
 
 -- | @NSVisualEffectBlendingMode@
 newtype NSVisualEffectBlendingMode = NSVisualEffectBlendingMode CLong
@@ -8785,13 +8130,13 @@ instance ObjCReturn NSWindowButton where
 
 -- | NSWindowCollectionBehavior
 --
--- You may specify at most one of @NSWindowCollectionBehaviorPrimary,@ @NSWindowCollectionBehaviorAuxiliary,@ or @NSWindowCollectionBehaviorCanJoinAllApplications.@ If unspecified, the window gets the default treatment determined by its other collection behaviors.
---
 -- NSWindowCollectionBehaviorPrimary Marks a window as primary. This collection behavior should commonly be used for document or viewer windows.
 --
 -- NSWindowCollectionBehaviorAuxiliary Marks a window as auxiliary. This collection behavior should commonly be used for About or Settings windows, as well as utility panes.
 --
 -- NSWindowCollectionBehaviorCanJoinAllApplications Marks a window as able to join all applications, allowing it to join other apps' sets and full screen spaces when eligible. This collection behavior should commonly be used for floating windows and system overlays.
+--
+-- You may specify at most one of @NSWindowCollectionBehaviorPrimary,@ @NSWindowCollectionBehaviorAuxiliary,@ or @NSWindowCollectionBehaviorCanJoinAllApplications.@ If unspecified, the window gets the default treatment determined by its other collection behaviors.
 --
 -- NSWindowCollectionBehaviorDefault
 --
@@ -8809,7 +8154,7 @@ instance ObjCReturn NSWindowButton where
 --
 -- You may specify at most one of @NSWindowCollectionBehaviorParticipatesInCycle@ or @NSWindowCollectionBehaviorIgnoresCycle.@  If unspecified, the window gets the default behavior determined by its window level.
 --
--- NSWindowCollectionBehaviorParticipatesInCycle Default behavior if `windowLevel == NSNormalWindowLevel`.
+-- NSWindowCollectionBehaviorParticipatesInCycle Default behavior if `windowLevel != NSNormalWindowLevel`.
 --
 -- NSWindowCollectionBehaviorIgnoresCycle Default behavior if `windowLevel != NSNormalWindowLevel`.
 --
@@ -9034,7 +8379,9 @@ instance ObjCReturn NSWindowOrderingMode where
 --
 -- NSWindowSharingNone          Window contents may not be read by another process.
 --
--- NSWindowSharingReadOnly   Window contents may be read by another process.
+-- NSWindowSharingReadOnly   Window contents may be read but not modified by another process.
+--
+-- NSWindowSharingReadWrite  Window contents may be read or modified by another process.
 -- | @NSWindowSharingType@
 newtype NSWindowSharingType = NSWindowSharingType CULong
   deriving stock (Eq, Ord, Show)
@@ -9045,6 +8392,9 @@ pattern NSWindowSharingNone = NSWindowSharingType 0
 
 pattern NSWindowSharingReadOnly :: NSWindowSharingType
 pattern NSWindowSharingReadOnly = NSWindowSharingType 1
+
+pattern NSWindowSharingReadWrite :: NSWindowSharingType
+pattern NSWindowSharingReadWrite = NSWindowSharingType 2
 
 instance ObjCArgument NSWindowSharingType where
   withObjCArg (NSWindowSharingType x) k = k (argCULong x)
@@ -9206,7 +8556,7 @@ instance ObjCReturn NSWindowTitleVisibility where
 --
 -- NSWindowToolbarStyleExpanded The toolbar will appear below the window title.
 --
--- NSWindowToolbarStylePreference For Settings windows only. The toolbar will appear below the window title and the items in the toolbar will attempt to have equal widths when possible.
+-- NSWindowToolbarStylePreference The toolbar will appear below the window title and the items in the toolbar will attempt to have equal widths when possible.
 --
 -- NSWindowToolbarStyleUnified The window title will appear inline with the toolbar when visible.
 --
@@ -9417,205 +8767,3 @@ instance ObjCReturn NSWritingDirectionFormatType where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSWritingDirectionFormatType x)
   fromOwned x = pure (NSWritingDirectionFormatType x)
-
--- | @NSWritingToolsBehavior@
-newtype NSWritingToolsBehavior = NSWritingToolsBehavior CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSWritingToolsBehaviorNone :: NSWritingToolsBehavior
-pattern NSWritingToolsBehaviorNone = NSWritingToolsBehavior (-1)
-
-pattern NSWritingToolsBehaviorDefault :: NSWritingToolsBehavior
-pattern NSWritingToolsBehaviorDefault = NSWritingToolsBehavior 0
-
-pattern NSWritingToolsBehaviorComplete :: NSWritingToolsBehavior
-pattern NSWritingToolsBehaviorComplete = NSWritingToolsBehavior 1
-
-pattern NSWritingToolsBehaviorLimited :: NSWritingToolsBehavior
-pattern NSWritingToolsBehaviorLimited = NSWritingToolsBehavior 2
-
-instance ObjCArgument NSWritingToolsBehavior where
-  withObjCArg (NSWritingToolsBehavior x) k = k (argCLong x)
-
-instance ObjCReturn NSWritingToolsBehavior where
-  type RawReturn NSWritingToolsBehavior = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSWritingToolsBehavior x)
-  fromOwned x = pure (NSWritingToolsBehavior x)
-
--- | Options that indicate how much of your content Writing Tools requested.
---
--- At the start of any Writing Tools interaction, you provide the text for the system to evaluate from your ``NS/UIWritingToolsCoordinator/Delegate`` object. The request for your content comes with a scope constant that indicates how much of your view’s text to provide.
--- | @NSWritingToolsCoordinatorContextScope@
-newtype NSWritingToolsCoordinatorContextScope = NSWritingToolsCoordinatorContextScope CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSWritingToolsCoordinatorContextScopeUserSelection :: NSWritingToolsCoordinatorContextScope
-pattern NSWritingToolsCoordinatorContextScopeUserSelection = NSWritingToolsCoordinatorContextScope 0
-
-pattern NSWritingToolsCoordinatorContextScopeFullDocument :: NSWritingToolsCoordinatorContextScope
-pattern NSWritingToolsCoordinatorContextScopeFullDocument = NSWritingToolsCoordinatorContextScope 1
-
-pattern NSWritingToolsCoordinatorContextScopeVisibleArea :: NSWritingToolsCoordinatorContextScope
-pattern NSWritingToolsCoordinatorContextScopeVisibleArea = NSWritingToolsCoordinatorContextScope 2
-
-instance ObjCArgument NSWritingToolsCoordinatorContextScope where
-  withObjCArg (NSWritingToolsCoordinatorContextScope x) k = k (argCLong x)
-
-instance ObjCReturn NSWritingToolsCoordinatorContextScope where
-  type RawReturn NSWritingToolsCoordinatorContextScope = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSWritingToolsCoordinatorContextScope x)
-  fromOwned x = pure (NSWritingToolsCoordinatorContextScope x)
-
--- | The states that indicate the current activity, if any, Writing Tools is performing in your view.
---
--- Making changes to your view requires several different levels of interaction. Initially, Writing Tools displays its UI and collects information about what the person wants to do. When the person selects an operation, Writing Tools sends the relevant details to a large language model (LLM) and processes the results. It then works with the custom view to integrate any changes into the view’s text storage. During each of these activities, the coordinator reflects what’s happening in its ``NSWritingToolsCoordinator/state`` property. You can use the current state as a guide to making decisions in other parts of your view.
--- | @NSWritingToolsCoordinatorState@
-newtype NSWritingToolsCoordinatorState = NSWritingToolsCoordinatorState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSWritingToolsCoordinatorStateInactive :: NSWritingToolsCoordinatorState
-pattern NSWritingToolsCoordinatorStateInactive = NSWritingToolsCoordinatorState 0
-
-pattern NSWritingToolsCoordinatorStateNoninteractive :: NSWritingToolsCoordinatorState
-pattern NSWritingToolsCoordinatorStateNoninteractive = NSWritingToolsCoordinatorState 1
-
-pattern NSWritingToolsCoordinatorStateInteractiveResting :: NSWritingToolsCoordinatorState
-pattern NSWritingToolsCoordinatorStateInteractiveResting = NSWritingToolsCoordinatorState 2
-
-pattern NSWritingToolsCoordinatorStateInteractiveStreaming :: NSWritingToolsCoordinatorState
-pattern NSWritingToolsCoordinatorStateInteractiveStreaming = NSWritingToolsCoordinatorState 3
-
-instance ObjCArgument NSWritingToolsCoordinatorState where
-  withObjCArg (NSWritingToolsCoordinatorState x) k = k (argCLong x)
-
-instance ObjCReturn NSWritingToolsCoordinatorState where
-  type RawReturn NSWritingToolsCoordinatorState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSWritingToolsCoordinatorState x)
-  fromOwned x = pure (NSWritingToolsCoordinatorState x)
-
--- | Use the @NSWritingToolsCoordinator.TextAnimation@ constants to determine the type of animation that is occurring. During an interactive change to your view, Writing Tools creates animations to provide feedback about what’s happening. During the setup for each animation, Writing Tools reports the type of animation to the coordinator’s delegate, so that you can perform additional actions related to that animation. For example, during an insertion animation, you might animate changes to other views in your interface.
--- | @NSWritingToolsCoordinatorTextAnimation@
-newtype NSWritingToolsCoordinatorTextAnimation = NSWritingToolsCoordinatorTextAnimation CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSWritingToolsCoordinatorTextAnimationAnticipate :: NSWritingToolsCoordinatorTextAnimation
-pattern NSWritingToolsCoordinatorTextAnimationAnticipate = NSWritingToolsCoordinatorTextAnimation 0
-
-pattern NSWritingToolsCoordinatorTextAnimationRemove :: NSWritingToolsCoordinatorTextAnimation
-pattern NSWritingToolsCoordinatorTextAnimationRemove = NSWritingToolsCoordinatorTextAnimation 1
-
-pattern NSWritingToolsCoordinatorTextAnimationInsert :: NSWritingToolsCoordinatorTextAnimation
-pattern NSWritingToolsCoordinatorTextAnimationInsert = NSWritingToolsCoordinatorTextAnimation 2
-
-pattern NSWritingToolsCoordinatorTextAnimationAnticipateInactive :: NSWritingToolsCoordinatorTextAnimation
-pattern NSWritingToolsCoordinatorTextAnimationAnticipateInactive = NSWritingToolsCoordinatorTextAnimation 8
-
-pattern NSWritingToolsCoordinatorTextAnimationTranslate :: NSWritingToolsCoordinatorTextAnimation
-pattern NSWritingToolsCoordinatorTextAnimationTranslate = NSWritingToolsCoordinatorTextAnimation 9
-
-instance ObjCArgument NSWritingToolsCoordinatorTextAnimation where
-  withObjCArg (NSWritingToolsCoordinatorTextAnimation x) k = k (argCLong x)
-
-instance ObjCReturn NSWritingToolsCoordinatorTextAnimation where
-  type RawReturn NSWritingToolsCoordinatorTextAnimation = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSWritingToolsCoordinatorTextAnimation x)
-  fromOwned x = pure (NSWritingToolsCoordinatorTextAnimation x)
-
--- | Options that indicate whether Writing Tools is animating changes to your view’s text.
---
--- During an operation, Writing Tools delivers replacement text to the delegate of the active ``NSWritingToolsCoordinator`` object. Depending on the configured experience for your view, it delivers these changes as either interactive or noninteractive replacements. For interactive replacements, Writing Tools animates the change automatically and provides you with the information you need to perform any related animations.
--- | @NSWritingToolsCoordinatorTextReplacementReason@
-newtype NSWritingToolsCoordinatorTextReplacementReason = NSWritingToolsCoordinatorTextReplacementReason CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSWritingToolsCoordinatorTextReplacementReasonInteractive :: NSWritingToolsCoordinatorTextReplacementReason
-pattern NSWritingToolsCoordinatorTextReplacementReasonInteractive = NSWritingToolsCoordinatorTextReplacementReason 0
-
-pattern NSWritingToolsCoordinatorTextReplacementReasonNoninteractive :: NSWritingToolsCoordinatorTextReplacementReason
-pattern NSWritingToolsCoordinatorTextReplacementReasonNoninteractive = NSWritingToolsCoordinatorTextReplacementReason 1
-
-instance ObjCArgument NSWritingToolsCoordinatorTextReplacementReason where
-  withObjCArg (NSWritingToolsCoordinatorTextReplacementReason x) k = k (argCLong x)
-
-instance ObjCReturn NSWritingToolsCoordinatorTextReplacementReason where
-  type RawReturn NSWritingToolsCoordinatorTextReplacementReason = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSWritingToolsCoordinatorTextReplacementReason x)
-  fromOwned x = pure (NSWritingToolsCoordinatorTextReplacementReason x)
-
--- | Constants that specify the reason you updated your view’s content outside of the Writing Tools workflow.
---
--- If you modify your view’s text storage while Writing Tools is active, report those changes to your ``NSWritingToolsCoordinator`` object so it can track them correctly. Call the ``NSWritingToolsCoordinator/updateRange(_:with:reason:forContextWithIdentifier:)`` method to report changes that occur inside one of your context objects. Call the ``NSWritingToolsCoordinator/updateForReflowedTextInContextWithIdentifier(_:)`` method for changes that affect the layout of your text, such as text insertions before a context object or changes to your view’s frame rectangle.
--- | @NSWritingToolsCoordinatorTextUpdateReason@
-newtype NSWritingToolsCoordinatorTextUpdateReason = NSWritingToolsCoordinatorTextUpdateReason CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSWritingToolsCoordinatorTextUpdateReasonTyping :: NSWritingToolsCoordinatorTextUpdateReason
-pattern NSWritingToolsCoordinatorTextUpdateReasonTyping = NSWritingToolsCoordinatorTextUpdateReason 0
-
-pattern NSWritingToolsCoordinatorTextUpdateReasonUndoRedo :: NSWritingToolsCoordinatorTextUpdateReason
-pattern NSWritingToolsCoordinatorTextUpdateReasonUndoRedo = NSWritingToolsCoordinatorTextUpdateReason 1
-
-instance ObjCArgument NSWritingToolsCoordinatorTextUpdateReason where
-  withObjCArg (NSWritingToolsCoordinatorTextUpdateReason x) k = k (argCLong x)
-
-instance ObjCReturn NSWritingToolsCoordinatorTextUpdateReason where
-  type RawReturn NSWritingToolsCoordinatorTextUpdateReason = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSWritingToolsCoordinatorTextUpdateReason x)
-  fromOwned x = pure (NSWritingToolsCoordinatorTextUpdateReason x)
-
--- | @NSWritingToolsResultOptions@ (bitmask)
-newtype NSWritingToolsResultOptions = NSWritingToolsResultOptions CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSWritingToolsResultOptions where
-  (<>) = (.|.)
-
-instance Monoid NSWritingToolsResultOptions where
-  mempty = NSWritingToolsResultOptions 0
-
-pattern NSWritingToolsResultDefault :: NSWritingToolsResultOptions
-pattern NSWritingToolsResultDefault = NSWritingToolsResultOptions 0
-
-pattern NSWritingToolsResultPlainText :: NSWritingToolsResultOptions
-pattern NSWritingToolsResultPlainText = NSWritingToolsResultOptions 1
-
-pattern NSWritingToolsResultRichText :: NSWritingToolsResultOptions
-pattern NSWritingToolsResultRichText = NSWritingToolsResultOptions 2
-
-pattern NSWritingToolsResultList :: NSWritingToolsResultOptions
-pattern NSWritingToolsResultList = NSWritingToolsResultOptions 4
-
-pattern NSWritingToolsResultTable :: NSWritingToolsResultOptions
-pattern NSWritingToolsResultTable = NSWritingToolsResultOptions 8
-
-pattern NSWritingToolsResultPresentationIntent :: NSWritingToolsResultOptions
-pattern NSWritingToolsResultPresentationIntent = NSWritingToolsResultOptions 16
-
-instance ObjCArgument NSWritingToolsResultOptions where
-  withObjCArg (NSWritingToolsResultOptions x) k = k (argCULong x)
-
-instance ObjCReturn NSWritingToolsResultOptions where
-  type RawReturn NSWritingToolsResultOptions = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSWritingToolsResultOptions x)
-  fromOwned x = pure (NSWritingToolsResultOptions x)

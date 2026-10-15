@@ -178,7 +178,7 @@ setFragmentShader scnProgram value =
 -- Determines the receiver's tessellation control shader. Tessellation shaders require OpenGL Core Profile.
 --
 -- ObjC selector: @- tessellationControlShader@
-tessellationControlShader :: IsSCNProgram scnProgram => scnProgram -> IO (Id NSString)
+tessellationControlShader :: IsSCNProgram scnProgram => scnProgram -> IO RawId
 tessellationControlShader scnProgram =
   sendMessage scnProgram tessellationControlShaderSelector
 
@@ -187,16 +187,16 @@ tessellationControlShader scnProgram =
 -- Determines the receiver's tessellation control shader. Tessellation shaders require OpenGL Core Profile.
 --
 -- ObjC selector: @- setTessellationControlShader:@
-setTessellationControlShader :: (IsSCNProgram scnProgram, IsNSString value) => scnProgram -> value -> IO ()
+setTessellationControlShader :: IsSCNProgram scnProgram => scnProgram -> RawId -> IO ()
 setTessellationControlShader scnProgram value =
-  sendMessage scnProgram setTessellationControlShaderSelector (toNSString value)
+  sendMessage scnProgram setTessellationControlShaderSelector value
 
 -- | tessellationEvaluationShader
 --
 -- Determines the receiver's tessellation evaluation shader. Tessellation shaders require OpenGL Core Profile.
 --
 -- ObjC selector: @- tessellationEvaluationShader@
-tessellationEvaluationShader :: IsSCNProgram scnProgram => scnProgram -> IO (Id NSString)
+tessellationEvaluationShader :: IsSCNProgram scnProgram => scnProgram -> IO RawId
 tessellationEvaluationShader scnProgram =
   sendMessage scnProgram tessellationEvaluationShaderSelector
 
@@ -205,16 +205,16 @@ tessellationEvaluationShader scnProgram =
 -- Determines the receiver's tessellation evaluation shader. Tessellation shaders require OpenGL Core Profile.
 --
 -- ObjC selector: @- setTessellationEvaluationShader:@
-setTessellationEvaluationShader :: (IsSCNProgram scnProgram, IsNSString value) => scnProgram -> value -> IO ()
+setTessellationEvaluationShader :: IsSCNProgram scnProgram => scnProgram -> RawId -> IO ()
 setTessellationEvaluationShader scnProgram value =
-  sendMessage scnProgram setTessellationEvaluationShaderSelector (toNSString value)
+  sendMessage scnProgram setTessellationEvaluationShaderSelector value
 
 -- | geometryShader
 --
 -- Determines the receiver's geometry shader. Geometry shaders require OpenGL Core Profile.
 --
 -- ObjC selector: @- geometryShader@
-geometryShader :: IsSCNProgram scnProgram => scnProgram -> IO (Id NSString)
+geometryShader :: IsSCNProgram scnProgram => scnProgram -> IO RawId
 geometryShader scnProgram =
   sendMessage scnProgram geometryShaderSelector
 
@@ -223,9 +223,9 @@ geometryShader scnProgram =
 -- Determines the receiver's geometry shader. Geometry shaders require OpenGL Core Profile.
 --
 -- ObjC selector: @- setGeometryShader:@
-setGeometryShader :: (IsSCNProgram scnProgram, IsNSString value) => scnProgram -> value -> IO ()
+setGeometryShader :: IsSCNProgram scnProgram => scnProgram -> RawId -> IO ()
 setGeometryShader scnProgram value =
-  sendMessage scnProgram setGeometryShaderSelector (toNSString value)
+  sendMessage scnProgram setGeometryShaderSelector value
 
 -- | vertexFunctionName
 --
@@ -366,27 +366,27 @@ setFragmentShaderSelector :: Selector '[Id NSString] ()
 setFragmentShaderSelector = mkSelector "setFragmentShader:"
 
 -- | @Selector@ for @tessellationControlShader@
-tessellationControlShaderSelector :: Selector '[] (Id NSString)
+tessellationControlShaderSelector :: Selector '[] RawId
 tessellationControlShaderSelector = mkSelector "tessellationControlShader"
 
 -- | @Selector@ for @setTessellationControlShader:@
-setTessellationControlShaderSelector :: Selector '[Id NSString] ()
+setTessellationControlShaderSelector :: Selector '[RawId] ()
 setTessellationControlShaderSelector = mkSelector "setTessellationControlShader:"
 
 -- | @Selector@ for @tessellationEvaluationShader@
-tessellationEvaluationShaderSelector :: Selector '[] (Id NSString)
+tessellationEvaluationShaderSelector :: Selector '[] RawId
 tessellationEvaluationShaderSelector = mkSelector "tessellationEvaluationShader"
 
 -- | @Selector@ for @setTessellationEvaluationShader:@
-setTessellationEvaluationShaderSelector :: Selector '[Id NSString] ()
+setTessellationEvaluationShaderSelector :: Selector '[RawId] ()
 setTessellationEvaluationShaderSelector = mkSelector "setTessellationEvaluationShader:"
 
 -- | @Selector@ for @geometryShader@
-geometryShaderSelector :: Selector '[] (Id NSString)
+geometryShaderSelector :: Selector '[] RawId
 geometryShaderSelector = mkSelector "geometryShader"
 
 -- | @Selector@ for @setGeometryShader:@
-setGeometryShaderSelector :: Selector '[Id NSString] ()
+setGeometryShaderSelector :: Selector '[RawId] ()
 setGeometryShaderSelector = mkSelector "setGeometryShader:"
 
 -- | @Selector@ for @vertexFunctionName@

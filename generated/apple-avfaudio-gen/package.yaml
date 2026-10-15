@@ -13,12 +13,12 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
   - ObjC.AVFAudio.AVAUPresetEvent
-  - ObjC.AVFAudio.AVAudioApplication
   - ObjC.AVFAudio.AVAudioBuffer
   - ObjC.AVFAudio.AVAudioChannelLayout
   - ObjC.AVFAudio.AVAudioCompressedBuffer
@@ -43,11 +43,9 @@ library:
   - ObjC.AVFAudio.AVAudioRoutingArbiter
   - ObjC.AVFAudio.AVAudioSequencer
   - ObjC.AVFAudio.AVAudioSession
-  - ObjC.AVFAudio.AVAudioSessionCapability
   - ObjC.AVFAudio.AVAudioSessionChannelDescription
   - ObjC.AVFAudio.AVAudioSessionDataSourceDescription
   - ObjC.AVFAudio.AVAudioSessionPortDescription
-  - ObjC.AVFAudio.AVAudioSessionPortExtensionBluetoothMicrophone
   - ObjC.AVFAudio.AVAudioSessionRouteDescription
   - ObjC.AVFAudio.AVAudioSinkNode
   - ObjC.AVFAudio.AVAudioSourceNode

@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterBooleanState
   ( MTRClusterBooleanState
   , IsMTRClusterBooleanState(..)
+  , initWithDevice_endpoint_queue
   , readAttributeStateValueWithParams
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
@@ -17,10 +18,7 @@ module ObjC.Matter.MTRClusterBooleanState
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -43,6 +41,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterBooleanState mtrClusterBooleanState, IsMTRDevice device, IsNSObject queue) => mtrClusterBooleanState -> device -> CUShort -> queue -> IO (Id MTRClusterBooleanState)
+initWithDevice_endpoint_queue mtrClusterBooleanState device endpoint queue =
+  sendOwnedMessage mtrClusterBooleanState initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeStateValueWithParams:@
 readAttributeStateValueWithParams :: (IsMTRClusterBooleanState mtrClusterBooleanState, IsMTRReadParams params) => mtrClusterBooleanState -> params -> IO (Id NSDictionary)
@@ -86,21 +89,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterBooleanState"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterBooleanState mtrClusterBooleanState, IsMTRDevice device, IsNSObject queue) => mtrClusterBooleanState -> device -> CUShort -> queue -> IO (Id MTRClusterBooleanState)
-initWithDevice_endpoint_queue mtrClusterBooleanState device endpoint queue =
-  sendOwnedMessage mtrClusterBooleanState initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterBooleanState mtrClusterBooleanState, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterBooleanState -> device -> endpointID -> queue -> IO (Id MTRClusterBooleanState)
-initWithDevice_endpointID_queue mtrClusterBooleanState device endpointID queue =
-  sendOwnedMessage mtrClusterBooleanState initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBooleanState)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeStateValueWithParams:@
 readAttributeStateValueWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -133,12 +128,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterBooleanState)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterBooleanState)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterBooleanState)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRLevelControlClusterMoveToClosestFrequencyParams
   ( MTRLevelControlClusterMoveToClosestFrequencyParams
   , IsMTRLevelControlClusterMoveToClosestFrequencyParams(..)
+  , init_
+  , copyWithZone
   , frequency
   , setFrequency
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , frequencySelector
-  , serverSideProcessingTimeoutSelector
+  , initSelector
   , setFrequencySelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRLevelControlClusterMoveToClosestFrequencyParams mtrLevelControlClusterMoveToClosestFrequencyParams => mtrLevelControlClusterMoveToClosestFrequencyParams -> IO (Id MTRLevelControlClusterMoveToClosestFrequencyParams)
+init_ mtrLevelControlClusterMoveToClosestFrequencyParams =
+  sendOwnedMessage mtrLevelControlClusterMoveToClosestFrequencyParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRLevelControlClusterMoveToClosestFrequencyParams mtrLevelControlClusterMoveToClosestFrequencyParams => mtrLevelControlClusterMoveToClosestFrequencyParams -> Ptr () -> IO RawId
+copyWithZone mtrLevelControlClusterMoveToClosestFrequencyParams zone =
+  sendOwnedMessage mtrLevelControlClusterMoveToClosestFrequencyParams copyWithZoneSelector zone
 
 -- | @- frequency@
 frequency :: IsMTRLevelControlClusterMoveToClosestFrequencyParams mtrLevelControlClusterMoveToClosestFrequencyParams => mtrLevelControlClusterMoveToClosestFrequencyParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRLevelControlClusterMoveToClosestFrequencyParams
 setTimedInvokeTimeoutMs mtrLevelControlClusterMoveToClosestFrequencyParams value =
   sendMessage mtrLevelControlClusterMoveToClosestFrequencyParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRLevelControlClusterMoveToClosestFrequencyParams mtrLevelControlClusterMoveToClosestFrequencyParams => mtrLevelControlClusterMoveToClosestFrequencyParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrLevelControlClusterMoveToClosestFrequencyParams =
-  sendMessage mtrLevelControlClusterMoveToClosestFrequencyParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRLevelControlClusterMoveToClosestFrequencyParams mtrLevelControlClusterMoveToClosestFrequencyParams, IsNSNumber value) => mtrLevelControlClusterMoveToClosestFrequencyParams -> value -> IO ()
-setServerSideProcessingTimeout mtrLevelControlClusterMoveToClosestFrequencyParams value =
-  sendMessage mtrLevelControlClusterMoveToClosestFrequencyParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRLevelControlClusterMoveToClosestFrequencyParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @frequency@
 frequencySelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterRouteTable
   ( MTRThreadNetworkDiagnosticsClusterRouteTable
   , IsMTRThreadNetworkDiagnosticsClusterRouteTable(..)
+  , init_
+  , copyWithZone
   , extAddress
   , setExtAddress
   , rloc16
@@ -29,7 +31,9 @@ module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterRouteTable
   , setLinkEstablished
   , ageSelector
   , allocatedSelector
+  , copyWithZoneSelector
   , extAddressSelector
+  , initSelector
   , linkEstablishedSelector
   , lqiInSelector
   , lqiOutSelector
@@ -61,6 +65,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRThreadNetworkDiagnosticsClusterRouteTable mtrThreadNetworkDiagnosticsClusterRouteTable => mtrThreadNetworkDiagnosticsClusterRouteTable -> IO (Id MTRThreadNetworkDiagnosticsClusterRouteTable)
+init_ mtrThreadNetworkDiagnosticsClusterRouteTable =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterRouteTable initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThreadNetworkDiagnosticsClusterRouteTable mtrThreadNetworkDiagnosticsClusterRouteTable => mtrThreadNetworkDiagnosticsClusterRouteTable -> Ptr () -> IO RawId
+copyWithZone mtrThreadNetworkDiagnosticsClusterRouteTable zone =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterRouteTable copyWithZoneSelector zone
 
 -- | @- extAddress@
 extAddress :: IsMTRThreadNetworkDiagnosticsClusterRouteTable mtrThreadNetworkDiagnosticsClusterRouteTable => mtrThreadNetworkDiagnosticsClusterRouteTable -> IO (Id NSNumber)
@@ -165,6 +179,14 @@ setLinkEstablished mtrThreadNetworkDiagnosticsClusterRouteTable value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThreadNetworkDiagnosticsClusterRouteTable)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @extAddress@
 extAddressSelector :: Selector '[] (Id NSNumber)

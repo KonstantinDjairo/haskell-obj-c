@@ -51,26 +51,12 @@ module ObjC.Metal.MTLMeshRenderPipelineDescriptor
   , setDepthAttachmentPixelFormat
   , stencilAttachmentPixelFormat
   , setStencilAttachmentPixelFormat
-  , supportIndirectCommandBuffers
-  , setSupportIndirectCommandBuffers
-  , binaryArchives
-  , setBinaryArchives
-  , objectLinkedFunctions
-  , setObjectLinkedFunctions
-  , meshLinkedFunctions
-  , setMeshLinkedFunctions
-  , fragmentLinkedFunctions
-  , setFragmentLinkedFunctions
-  , shaderValidation
-  , setShaderValidation
   , alphaToCoverageEnabledSelector
   , alphaToOneEnabledSelector
-  , binaryArchivesSelector
   , colorAttachmentsSelector
   , depthAttachmentPixelFormatSelector
   , fragmentBuffersSelector
   , fragmentFunctionSelector
-  , fragmentLinkedFunctionsSelector
   , labelSelector
   , maxTotalThreadgroupsPerMeshGridSelector
   , maxTotalThreadsPerMeshThreadgroupSelector
@@ -78,11 +64,9 @@ module ObjC.Metal.MTLMeshRenderPipelineDescriptor
   , maxVertexAmplificationCountSelector
   , meshBuffersSelector
   , meshFunctionSelector
-  , meshLinkedFunctionsSelector
   , meshThreadgroupSizeIsMultipleOfThreadExecutionWidthSelector
   , objectBuffersSelector
   , objectFunctionSelector
-  , objectLinkedFunctionsSelector
   , objectThreadgroupSizeIsMultipleOfThreadExecutionWidthSelector
   , payloadMemoryLengthSelector
   , rasterSampleCountSelector
@@ -90,30 +74,22 @@ module ObjC.Metal.MTLMeshRenderPipelineDescriptor
   , resetSelector
   , setAlphaToCoverageEnabledSelector
   , setAlphaToOneEnabledSelector
-  , setBinaryArchivesSelector
   , setDepthAttachmentPixelFormatSelector
   , setFragmentFunctionSelector
-  , setFragmentLinkedFunctionsSelector
   , setLabelSelector
   , setMaxTotalThreadgroupsPerMeshGridSelector
   , setMaxTotalThreadsPerMeshThreadgroupSelector
   , setMaxTotalThreadsPerObjectThreadgroupSelector
   , setMaxVertexAmplificationCountSelector
   , setMeshFunctionSelector
-  , setMeshLinkedFunctionsSelector
   , setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidthSelector
   , setObjectFunctionSelector
-  , setObjectLinkedFunctionsSelector
   , setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidthSelector
   , setPayloadMemoryLengthSelector
   , setRasterSampleCountSelector
   , setRasterizationEnabledSelector
-  , setShaderValidationSelector
   , setStencilAttachmentPixelFormatSelector
-  , setSupportIndirectCommandBuffersSelector
-  , shaderValidationSelector
   , stencilAttachmentPixelFormatSelector
-  , supportIndirectCommandBuffersSelector
 
   -- * Enum types
   , MTLPixelFormat(MTLPixelFormat)
@@ -256,11 +232,6 @@ module ObjC.Metal.MTLMeshRenderPipelineDescriptor
   , pattern MTLPixelFormatDepth32Float_Stencil8
   , pattern MTLPixelFormatX32_Stencil8
   , pattern MTLPixelFormatX24_Stencil8
-  , pattern MTLPixelFormatUnspecialized
-  , MTLShaderValidation(MTLShaderValidation)
-  , pattern MTLShaderValidationDefault
-  , pattern MTLShaderValidationEnabled
-  , pattern MTLShaderValidationDisabled
 
   ) where
 
@@ -657,142 +628,6 @@ setStencilAttachmentPixelFormat :: IsMTLMeshRenderPipelineDescriptor mtlMeshRend
 setStencilAttachmentPixelFormat mtlMeshRenderPipelineDescriptor value =
   sendMessage mtlMeshRenderPipelineDescriptor setStencilAttachmentPixelFormatSelector value
 
--- | supportIndirectCommandBuffers
---
--- Whether this pipeline will support being used by commands in an indirect command buffer.
---
--- The default value is NO.
---
--- ObjC selector: @- supportIndirectCommandBuffers@
-supportIndirectCommandBuffers :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> IO Bool
-supportIndirectCommandBuffers mtlMeshRenderPipelineDescriptor =
-  sendMessage mtlMeshRenderPipelineDescriptor supportIndirectCommandBuffersSelector
-
--- | supportIndirectCommandBuffers
---
--- Whether this pipeline will support being used by commands in an indirect command buffer.
---
--- The default value is NO.
---
--- ObjC selector: @- setSupportIndirectCommandBuffers:@
-setSupportIndirectCommandBuffers :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> Bool -> IO ()
-setSupportIndirectCommandBuffers mtlMeshRenderPipelineDescriptor value =
-  sendMessage mtlMeshRenderPipelineDescriptor setSupportIndirectCommandBuffersSelector value
-
--- | binaryArchives
---
--- The set of MTLBinaryArchive to search for compiled code when creating the pipeline state.
---
--- Accelerate pipeline state creation by providing archives of compiled code such that no compilation needs to happen on the fast path.
---
--- See: MTLBinaryArchive
---
--- ObjC selector: @- binaryArchives@
-binaryArchives :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> IO (Id NSArray)
-binaryArchives mtlMeshRenderPipelineDescriptor =
-  sendMessage mtlMeshRenderPipelineDescriptor binaryArchivesSelector
-
--- | binaryArchives
---
--- The set of MTLBinaryArchive to search for compiled code when creating the pipeline state.
---
--- Accelerate pipeline state creation by providing archives of compiled code such that no compilation needs to happen on the fast path.
---
--- See: MTLBinaryArchive
---
--- ObjC selector: @- setBinaryArchives:@
-setBinaryArchives :: (IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor, IsNSArray value) => mtlMeshRenderPipelineDescriptor -> value -> IO ()
-setBinaryArchives mtlMeshRenderPipelineDescriptor value =
-  sendMessage mtlMeshRenderPipelineDescriptor setBinaryArchivesSelector (toNSArray value)
-
--- | objectLinkedFunctions
---
--- The set of functions to be linked with the pipeline state and accessed from the object function.
---
--- See: MTLLinkedFunctions
---
--- ObjC selector: @- objectLinkedFunctions@
-objectLinkedFunctions :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> IO (Id MTLLinkedFunctions)
-objectLinkedFunctions mtlMeshRenderPipelineDescriptor =
-  sendMessage mtlMeshRenderPipelineDescriptor objectLinkedFunctionsSelector
-
--- | objectLinkedFunctions
---
--- The set of functions to be linked with the pipeline state and accessed from the object function.
---
--- See: MTLLinkedFunctions
---
--- ObjC selector: @- setObjectLinkedFunctions:@
-setObjectLinkedFunctions :: (IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor, IsMTLLinkedFunctions value) => mtlMeshRenderPipelineDescriptor -> value -> IO ()
-setObjectLinkedFunctions mtlMeshRenderPipelineDescriptor value =
-  sendMessage mtlMeshRenderPipelineDescriptor setObjectLinkedFunctionsSelector (toMTLLinkedFunctions value)
-
--- | meshLinkedFunctions
---
--- The set of functions to be linked with the pipeline state and accessed from the mesh function.
---
--- See: MTLLinkedFunctions
---
--- ObjC selector: @- meshLinkedFunctions@
-meshLinkedFunctions :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> IO (Id MTLLinkedFunctions)
-meshLinkedFunctions mtlMeshRenderPipelineDescriptor =
-  sendMessage mtlMeshRenderPipelineDescriptor meshLinkedFunctionsSelector
-
--- | meshLinkedFunctions
---
--- The set of functions to be linked with the pipeline state and accessed from the mesh function.
---
--- See: MTLLinkedFunctions
---
--- ObjC selector: @- setMeshLinkedFunctions:@
-setMeshLinkedFunctions :: (IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor, IsMTLLinkedFunctions value) => mtlMeshRenderPipelineDescriptor -> value -> IO ()
-setMeshLinkedFunctions mtlMeshRenderPipelineDescriptor value =
-  sendMessage mtlMeshRenderPipelineDescriptor setMeshLinkedFunctionsSelector (toMTLLinkedFunctions value)
-
--- | fragmentLinkedFunctions
---
--- The set of functions to be linked with the pipeline state and accessed from the fragment function.
---
--- See: MTLLinkedFunctions
---
--- ObjC selector: @- fragmentLinkedFunctions@
-fragmentLinkedFunctions :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> IO (Id MTLLinkedFunctions)
-fragmentLinkedFunctions mtlMeshRenderPipelineDescriptor =
-  sendMessage mtlMeshRenderPipelineDescriptor fragmentLinkedFunctionsSelector
-
--- | fragmentLinkedFunctions
---
--- The set of functions to be linked with the pipeline state and accessed from the fragment function.
---
--- See: MTLLinkedFunctions
---
--- ObjC selector: @- setFragmentLinkedFunctions:@
-setFragmentLinkedFunctions :: (IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor, IsMTLLinkedFunctions value) => mtlMeshRenderPipelineDescriptor -> value -> IO ()
-setFragmentLinkedFunctions mtlMeshRenderPipelineDescriptor value =
-  sendMessage mtlMeshRenderPipelineDescriptor setFragmentLinkedFunctionsSelector (toMTLLinkedFunctions value)
-
--- | shaderValidation
---
--- Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
---
--- The value can be overridden using @MTL_SHADER_VALIDATION_ENABLE_PIPELINES@ or @MTL_SHADER_VALIDATION_DISABLE_PIPELINES@ Environment Variables.
---
--- ObjC selector: @- shaderValidation@
-shaderValidation :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> IO MTLShaderValidation
-shaderValidation mtlMeshRenderPipelineDescriptor =
-  sendMessage mtlMeshRenderPipelineDescriptor shaderValidationSelector
-
--- | shaderValidation
---
--- Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
---
--- The value can be overridden using @MTL_SHADER_VALIDATION_ENABLE_PIPELINES@ or @MTL_SHADER_VALIDATION_DISABLE_PIPELINES@ Environment Variables.
---
--- ObjC selector: @- setShaderValidation:@
-setShaderValidation :: IsMTLMeshRenderPipelineDescriptor mtlMeshRenderPipelineDescriptor => mtlMeshRenderPipelineDescriptor -> MTLShaderValidation -> IO ()
-setShaderValidation mtlMeshRenderPipelineDescriptor value =
-  sendMessage mtlMeshRenderPipelineDescriptor setShaderValidationSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -952,52 +787,4 @@ stencilAttachmentPixelFormatSelector = mkSelector "stencilAttachmentPixelFormat"
 -- | @Selector@ for @setStencilAttachmentPixelFormat:@
 setStencilAttachmentPixelFormatSelector :: Selector '[MTLPixelFormat] ()
 setStencilAttachmentPixelFormatSelector = mkSelector "setStencilAttachmentPixelFormat:"
-
--- | @Selector@ for @supportIndirectCommandBuffers@
-supportIndirectCommandBuffersSelector :: Selector '[] Bool
-supportIndirectCommandBuffersSelector = mkSelector "supportIndirectCommandBuffers"
-
--- | @Selector@ for @setSupportIndirectCommandBuffers:@
-setSupportIndirectCommandBuffersSelector :: Selector '[Bool] ()
-setSupportIndirectCommandBuffersSelector = mkSelector "setSupportIndirectCommandBuffers:"
-
--- | @Selector@ for @binaryArchives@
-binaryArchivesSelector :: Selector '[] (Id NSArray)
-binaryArchivesSelector = mkSelector "binaryArchives"
-
--- | @Selector@ for @setBinaryArchives:@
-setBinaryArchivesSelector :: Selector '[Id NSArray] ()
-setBinaryArchivesSelector = mkSelector "setBinaryArchives:"
-
--- | @Selector@ for @objectLinkedFunctions@
-objectLinkedFunctionsSelector :: Selector '[] (Id MTLLinkedFunctions)
-objectLinkedFunctionsSelector = mkSelector "objectLinkedFunctions"
-
--- | @Selector@ for @setObjectLinkedFunctions:@
-setObjectLinkedFunctionsSelector :: Selector '[Id MTLLinkedFunctions] ()
-setObjectLinkedFunctionsSelector = mkSelector "setObjectLinkedFunctions:"
-
--- | @Selector@ for @meshLinkedFunctions@
-meshLinkedFunctionsSelector :: Selector '[] (Id MTLLinkedFunctions)
-meshLinkedFunctionsSelector = mkSelector "meshLinkedFunctions"
-
--- | @Selector@ for @setMeshLinkedFunctions:@
-setMeshLinkedFunctionsSelector :: Selector '[Id MTLLinkedFunctions] ()
-setMeshLinkedFunctionsSelector = mkSelector "setMeshLinkedFunctions:"
-
--- | @Selector@ for @fragmentLinkedFunctions@
-fragmentLinkedFunctionsSelector :: Selector '[] (Id MTLLinkedFunctions)
-fragmentLinkedFunctionsSelector = mkSelector "fragmentLinkedFunctions"
-
--- | @Selector@ for @setFragmentLinkedFunctions:@
-setFragmentLinkedFunctionsSelector :: Selector '[Id MTLLinkedFunctions] ()
-setFragmentLinkedFunctionsSelector = mkSelector "setFragmentLinkedFunctions:"
-
--- | @Selector@ for @shaderValidation@
-shaderValidationSelector :: Selector '[] MTLShaderValidation
-shaderValidationSelector = mkSelector "shaderValidation"
-
--- | @Selector@ for @setShaderValidation:@
-setShaderValidationSelector :: Selector '[MTLShaderValidation] ()
-setShaderValidationSelector = mkSelector "setShaderValidation:"
 

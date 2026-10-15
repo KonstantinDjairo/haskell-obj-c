@@ -54,21 +54,21 @@ defaultPlaceholderForMarker_onClass_withBinding marker objectClass binding =
     sendClassMessage cls' defaultPlaceholderForMarker_onClass_withBindingSelector (toNSBindingSelectionMarker marker) objectClass (toNSString binding)
 
 -- | @+ multipleValuesSelectionMarker@
-multipleValuesSelectionMarker :: IO (Id NSBindingSelectionMarker)
+multipleValuesSelectionMarker :: IO RawId
 multipleValuesSelectionMarker  =
   do
     cls' <- getRequiredClass "NSBindingSelectionMarker"
     sendClassMessage cls' multipleValuesSelectionMarkerSelector
 
 -- | @+ noSelectionMarker@
-noSelectionMarker :: IO (Id NSBindingSelectionMarker)
+noSelectionMarker :: IO RawId
 noSelectionMarker  =
   do
     cls' <- getRequiredClass "NSBindingSelectionMarker"
     sendClassMessage cls' noSelectionMarkerSelector
 
 -- | @+ notApplicableSelectionMarker@
-notApplicableSelectionMarker :: IO (Id NSBindingSelectionMarker)
+notApplicableSelectionMarker :: IO RawId
 notApplicableSelectionMarker  =
   do
     cls' <- getRequiredClass "NSBindingSelectionMarker"
@@ -91,14 +91,14 @@ defaultPlaceholderForMarker_onClass_withBindingSelector :: Selector '[Id NSBindi
 defaultPlaceholderForMarker_onClass_withBindingSelector = mkSelector "defaultPlaceholderForMarker:onClass:withBinding:"
 
 -- | @Selector@ for @multipleValuesSelectionMarker@
-multipleValuesSelectionMarkerSelector :: Selector '[] (Id NSBindingSelectionMarker)
+multipleValuesSelectionMarkerSelector :: Selector '[] RawId
 multipleValuesSelectionMarkerSelector = mkSelector "multipleValuesSelectionMarker"
 
 -- | @Selector@ for @noSelectionMarker@
-noSelectionMarkerSelector :: Selector '[] (Id NSBindingSelectionMarker)
+noSelectionMarkerSelector :: Selector '[] RawId
 noSelectionMarkerSelector = mkSelector "noSelectionMarker"
 
 -- | @Selector@ for @notApplicableSelectionMarker@
-notApplicableSelectionMarkerSelector :: Selector '[] (Id NSBindingSelectionMarker)
+notApplicableSelectionMarkerSelector :: Selector '[] RawId
 notApplicableSelectionMarkerSelector = mkSelector "notApplicableSelectionMarker"
 

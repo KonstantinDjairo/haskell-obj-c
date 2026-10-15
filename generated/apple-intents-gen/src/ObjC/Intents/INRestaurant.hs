@@ -8,6 +8,8 @@ module ObjC.Intents.INRestaurant
   ( INRestaurant
   , IsINRestaurant(..)
   , initWithLocation_name_vendorIdentifier_restaurantIdentifier
+  , location
+  , setLocation
   , name
   , setName
   , vendorIdentifier
@@ -15,8 +17,10 @@ module ObjC.Intents.INRestaurant
   , restaurantIdentifier
   , setRestaurantIdentifier
   , initWithLocation_name_vendorIdentifier_restaurantIdentifierSelector
+  , locationSelector
   , nameSelector
   , restaurantIdentifierSelector
+  , setLocationSelector
   , setNameSelector
   , setRestaurantIdentifierSelector
   , setVendorIdentifierSelector
@@ -34,12 +38,23 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Intents.Internal.Classes
+import ObjC.CoreLocation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | @- initWithLocation:name:vendorIdentifier:restaurantIdentifier:@
-initWithLocation_name_vendorIdentifier_restaurantIdentifier :: (IsINRestaurant inRestaurant, IsNSString name, IsNSString vendorIdentifier, IsNSString restaurantIdentifier) => inRestaurant -> RawId -> name -> vendorIdentifier -> restaurantIdentifier -> IO (Id INRestaurant)
+initWithLocation_name_vendorIdentifier_restaurantIdentifier :: (IsINRestaurant inRestaurant, IsCLLocation location, IsNSString name, IsNSString vendorIdentifier, IsNSString restaurantIdentifier) => inRestaurant -> location -> name -> vendorIdentifier -> restaurantIdentifier -> IO (Id INRestaurant)
 initWithLocation_name_vendorIdentifier_restaurantIdentifier inRestaurant location name vendorIdentifier restaurantIdentifier =
-  sendOwnedMessage inRestaurant initWithLocation_name_vendorIdentifier_restaurantIdentifierSelector location (toNSString name) (toNSString vendorIdentifier) (toNSString restaurantIdentifier)
+  sendOwnedMessage inRestaurant initWithLocation_name_vendorIdentifier_restaurantIdentifierSelector (toCLLocation location) (toNSString name) (toNSString vendorIdentifier) (toNSString restaurantIdentifier)
+
+-- | @- location@
+location :: IsINRestaurant inRestaurant => inRestaurant -> IO (Id CLLocation)
+location inRestaurant =
+  sendMessage inRestaurant locationSelector
+
+-- | @- setLocation:@
+setLocation :: (IsINRestaurant inRestaurant, IsCLLocation value) => inRestaurant -> value -> IO ()
+setLocation inRestaurant value =
+  sendMessage inRestaurant setLocationSelector (toCLLocation value)
 
 -- | @- name@
 name :: IsINRestaurant inRestaurant => inRestaurant -> IO (Id NSString)
@@ -76,8 +91,16 @@ setRestaurantIdentifier inRestaurant value =
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @initWithLocation:name:vendorIdentifier:restaurantIdentifier:@
-initWithLocation_name_vendorIdentifier_restaurantIdentifierSelector :: Selector '[RawId, Id NSString, Id NSString, Id NSString] (Id INRestaurant)
+initWithLocation_name_vendorIdentifier_restaurantIdentifierSelector :: Selector '[Id CLLocation, Id NSString, Id NSString, Id NSString] (Id INRestaurant)
 initWithLocation_name_vendorIdentifier_restaurantIdentifierSelector = mkSelector "initWithLocation:name:vendorIdentifier:restaurantIdentifier:"
+
+-- | @Selector@ for @location@
+locationSelector :: Selector '[] (Id CLLocation)
+locationSelector = mkSelector "location"
+
+-- | @Selector@ for @setLocation:@
+setLocationSelector :: Selector '[Id CLLocation] ()
+setLocationSelector = mkSelector "setLocation:"
 
 -- | @Selector@ for @name@
 nameSelector :: Selector '[] (Id NSString)

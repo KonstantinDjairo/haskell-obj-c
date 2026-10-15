@@ -9,6 +9,7 @@
 module ObjC.Matter.MTRClusterRelativeHumidityMeasurement
   ( MTRClusterRelativeHumidityMeasurement
   , IsMTRClusterRelativeHumidityMeasurement(..)
+  , initWithDevice_endpoint_queue
   , readAttributeMeasuredValueWithParams
   , readAttributeMinMeasuredValueWithParams
   , readAttributeMaxMeasuredValueWithParams
@@ -20,10 +21,7 @@ module ObjC.Matter.MTRClusterRelativeHumidityMeasurement
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -49,6 +47,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterRelativeHumidityMeasurement mtrClusterRelativeHumidityMeasurement, IsMTRDevice device, IsNSObject queue) => mtrClusterRelativeHumidityMeasurement -> device -> CUShort -> queue -> IO (Id MTRClusterRelativeHumidityMeasurement)
+initWithDevice_endpoint_queue mtrClusterRelativeHumidityMeasurement device endpoint queue =
+  sendOwnedMessage mtrClusterRelativeHumidityMeasurement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeMeasuredValueWithParams:@
 readAttributeMeasuredValueWithParams :: (IsMTRClusterRelativeHumidityMeasurement mtrClusterRelativeHumidityMeasurement, IsMTRReadParams params) => mtrClusterRelativeHumidityMeasurement -> params -> IO (Id NSDictionary)
@@ -107,21 +110,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterRelativeHumidityMeasurement"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterRelativeHumidityMeasurement mtrClusterRelativeHumidityMeasurement, IsMTRDevice device, IsNSObject queue) => mtrClusterRelativeHumidityMeasurement -> device -> CUShort -> queue -> IO (Id MTRClusterRelativeHumidityMeasurement)
-initWithDevice_endpoint_queue mtrClusterRelativeHumidityMeasurement device endpoint queue =
-  sendOwnedMessage mtrClusterRelativeHumidityMeasurement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterRelativeHumidityMeasurement mtrClusterRelativeHumidityMeasurement, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterRelativeHumidityMeasurement -> device -> endpointID -> queue -> IO (Id MTRClusterRelativeHumidityMeasurement)
-initWithDevice_endpointID_queue mtrClusterRelativeHumidityMeasurement device endpointID queue =
-  sendOwnedMessage mtrClusterRelativeHumidityMeasurement initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterRelativeHumidityMeasurement)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeMeasuredValueWithParams:@
 readAttributeMeasuredValueWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -166,12 +161,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterRelativeHumidityMeasurement)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterRelativeHumidityMeasurement)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterRelativeHumidityMeasurement)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

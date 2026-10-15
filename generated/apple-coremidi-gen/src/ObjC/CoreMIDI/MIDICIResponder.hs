@@ -3,7 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MIDICIResponder@.
+-- | MIDICIResponder
+--
+-- Responds to MIDI-CI inquiries from an initiator on behalf of a MIDIClient and handles profile and property change                operations for the Responder role.
+--
+-- Generated bindings for @MIDICIResponder@.
 module ObjC.CoreMIDI.MIDICIResponder
   ( MIDICIResponder
   , IsMIDICIResponder(..)

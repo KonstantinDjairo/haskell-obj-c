@@ -39,8 +39,6 @@ data NIDeviceCapabilityOverrides = NIDeviceCapabilityOverrides
   { _supportsPreciseDistanceMeasurement :: !(Maybe (IO Bool))
   , _supportsDirectionMeasurement :: !(Maybe (IO Bool))
   , _supportsCameraAssistance :: !(Maybe (IO Bool))
-  , _supportsExtendedDistanceMeasurement :: !(Maybe (IO Bool))
-  , _supportsDLTDOAMeasurement :: !(Maybe (IO Bool))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -49,8 +47,6 @@ defaultNIDeviceCapabilityOverrides = NIDeviceCapabilityOverrides
   { _supportsPreciseDistanceMeasurement = Nothing
   , _supportsDirectionMeasurement = Nothing
   , _supportsCameraAssistance = Nothing
-  , _supportsExtendedDistanceMeasurement = Nothing
-  , _supportsDLTDOAMeasurement = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -75,8 +71,6 @@ niDeviceCapabilityDelegateClass = unsafePerformIO $ do
   let sel_supportsPreciseDistanceMeasurement = unSelector (mkSelector "supportsPreciseDistanceMeasurement")
       sel_supportsDirectionMeasurement = unSelector (mkSelector "supportsDirectionMeasurement")
       sel_supportsCameraAssistance = unSelector (mkSelector "supportsCameraAssistance")
-      sel_supportsExtendedDistanceMeasurement = unSelector (mkSelector "supportsExtendedDistanceMeasurement")
-      sel_supportsDLTDOAMeasurement = unSelector (mkSelector "supportsDLTDOAMeasurement")
   -- supportsPreciseDistanceMeasurement
   stub_0 <- wrap_B $ \self _cmd -> do
     sp <- readHsData self
@@ -110,28 +104,6 @@ niDeviceCapabilityDelegateClass = unsafePerformIO $ do
         pure (if r then 1 else 0)
   addObjCMethod cls "supportsCameraAssistance" "B@:" stub_2
 
-  -- supportsExtendedDistanceMeasurement
-  stub_3 <- wrap_B $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NIDeviceCapabilityOverrides
-    case _supportsExtendedDistanceMeasurement rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f 
-        pure (if r then 1 else 0)
-  addObjCMethod cls "supportsExtendedDistanceMeasurement" "B@:" stub_3
-
-  -- supportsDLTDOAMeasurement
-  stub_4 <- wrap_B $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NIDeviceCapabilityOverrides
-    case _supportsDLTDOAMeasurement rec_ of
-      Nothing -> pure 0
-      Just f -> do
-        r <- f 
-        pure (if r then 1 else 0)
-  addObjCMethod cls "supportsDLTDOAMeasurement" "B@:" stub_4
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -139,8 +111,6 @@ niDeviceCapabilityDelegateClass = unsafePerformIO $ do
     if queriedSel == sel_supportsPreciseDistanceMeasurement then pure (maybe 0 (const 1) (_supportsPreciseDistanceMeasurement rec_))
     else if queriedSel == sel_supportsDirectionMeasurement then pure (maybe 0 (const 1) (_supportsDirectionMeasurement rec_))
     else if queriedSel == sel_supportsCameraAssistance then pure (maybe 0 (const 1) (_supportsCameraAssistance rec_))
-    else if queriedSel == sel_supportsExtendedDistanceMeasurement then pure (maybe 0 (const 1) (_supportsExtendedDistanceMeasurement rec_))
-    else if queriedSel == sel_supportsDLTDOAMeasurement then pure (maybe 0 (const 1) (_supportsDLTDOAMeasurement rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

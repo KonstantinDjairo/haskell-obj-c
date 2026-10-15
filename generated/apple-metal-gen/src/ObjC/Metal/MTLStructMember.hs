@@ -12,7 +12,6 @@ module ObjC.Metal.MTLStructMember
   , arrayType
   , textureReferenceType
   , pointerType
-  , tensorReferenceType
   , name
   , offset
   , dataType
@@ -24,7 +23,6 @@ module ObjC.Metal.MTLStructMember
   , offsetSelector
   , pointerTypeSelector
   , structTypeSelector
-  , tensorReferenceTypeSelector
   , textureReferenceTypeSelector
 
   -- * Enum types
@@ -120,12 +118,6 @@ module ObjC.Metal.MTLStructMember
   , pattern MTLDataTypeIntersectionFunctionTable
   , pattern MTLDataTypePrimitiveAccelerationStructure
   , pattern MTLDataTypeInstanceAccelerationStructure
-  , pattern MTLDataTypeBFloat
-  , pattern MTLDataTypeBFloat2
-  , pattern MTLDataTypeBFloat3
-  , pattern MTLDataTypeBFloat4
-  , pattern MTLDataTypeDepthStencilState
-  , pattern MTLDataTypeTensor
 
   ) where
 
@@ -160,15 +152,6 @@ textureReferenceType mtlStructMember =
 pointerType :: IsMTLStructMember mtlStructMember => mtlStructMember -> IO (Id MTLPointerType)
 pointerType mtlStructMember =
   sendMessage mtlStructMember pointerTypeSelector
-
--- | Provides a description of the underlying tensor type when this struct member holds a tensor.
---
--- - Returns: A description of the tensor type that this struct member holds, or @nil@ if this struct member doesn't hold a tensor.
---
--- ObjC selector: @- tensorReferenceType@
-tensorReferenceType :: IsMTLStructMember mtlStructMember => mtlStructMember -> IO (Id MTLTensorReferenceType)
-tensorReferenceType mtlStructMember =
-  sendMessage mtlStructMember tensorReferenceTypeSelector
 
 -- | @- name@
 name :: IsMTLStructMember mtlStructMember => mtlStructMember -> IO (Id NSString)
@@ -209,10 +192,6 @@ textureReferenceTypeSelector = mkSelector "textureReferenceType"
 -- | @Selector@ for @pointerType@
 pointerTypeSelector :: Selector '[] (Id MTLPointerType)
 pointerTypeSelector = mkSelector "pointerType"
-
--- | @Selector@ for @tensorReferenceType@
-tensorReferenceTypeSelector :: Selector '[] (Id MTLTensorReferenceType)
-tensorReferenceTypeSelector = mkSelector "tensorReferenceType"
 
 -- | @Selector@ for @name@
 nameSelector :: Selector '[] (Id NSString)

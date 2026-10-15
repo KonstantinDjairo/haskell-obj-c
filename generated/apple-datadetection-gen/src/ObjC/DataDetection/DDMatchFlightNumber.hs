@@ -3,11 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that contains a flight number that the data detection system matches.
---
--- The DataDetection framework returns a flight number match in a @DDMatchFlightNumber@ object, which contains an airline name and flight number.
---
--- Generated bindings for @DDMatchFlightNumber@.
+-- | Generated bindings for @DDMatchFlightNumber@.
 module ObjC.DataDetection.DDMatchFlightNumber
   ( DDMatchFlightNumber
   , IsDDMatchFlightNumber(..)
@@ -30,16 +26,12 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.DataDetection.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | The name of an airline.
---
--- ObjC selector: @- airline@
+-- | @- airline@
 airline :: IsDDMatchFlightNumber ddMatchFlightNumber => ddMatchFlightNumber -> IO (Id NSString)
 airline ddMatchFlightNumber =
   sendMessage ddMatchFlightNumber airlineSelector
 
--- | A string that represents a flight number.
---
--- ObjC selector: @- flightNumber@
+-- | @- flightNumber@
 flightNumber :: IsDDMatchFlightNumber ddMatchFlightNumber => ddMatchFlightNumber -> IO (Id NSString)
 flightNumber ddMatchFlightNumber =
   sendMessage ddMatchFlightNumber flightNumberSelector

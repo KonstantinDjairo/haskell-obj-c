@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents
   ( MTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents
   , IsMTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents(..)
+  , init_
+  , copyWithZone
   , activeTimestampPresent
   , setActiveTimestampPresent
   , pendingTimestampPresent
@@ -34,8 +36,10 @@ module ObjC.Matter.MTRThreadNetworkDiagnosticsClusterOperationalDatasetComponent
   , activeTimestampPresentSelector
   , channelMaskPresentSelector
   , channelPresentSelector
+  , copyWithZoneSelector
   , delayPresentSelector
   , extendedPanIdPresentSelector
+  , initSelector
   , masterKeyPresentSelector
   , meshLocalPrefixPresentSelector
   , networkNamePresentSelector
@@ -69,6 +73,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents => mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents -> IO (Id MTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents)
+init_ mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents => mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents -> Ptr () -> IO RawId
+copyWithZone mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents zone =
+  sendOwnedMessage mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents copyWithZoneSelector zone
 
 -- | @- activeTimestampPresent@
 activeTimestampPresent :: IsMTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents => mtrThreadNetworkDiagnosticsClusterOperationalDatasetComponents -> IO (Id NSNumber)
@@ -193,6 +207,14 @@ setChannelMaskPresent mtrThreadNetworkDiagnosticsClusterOperationalDatasetCompon
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRThreadNetworkDiagnosticsClusterOperationalDatasetComponents)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @activeTimestampPresent@
 activeTimestampPresentSelector :: Selector '[] (Id NSNumber)

@@ -7,13 +7,17 @@
 module ObjC.Matter.MTRAudioOutputClusterOutputInfo
   ( MTRAudioOutputClusterOutputInfo
   , IsMTRAudioOutputClusterOutputInfo(..)
+  , init_
+  , copyWithZone
   , index
   , setIndex
   , outputType
   , setOutputType
   , name
   , setName
+  , copyWithZoneSelector
   , indexSelector
+  , initSelector
   , nameSelector
   , outputTypeSelector
   , setIndexSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRAudioOutputClusterOutputInfo mtrAudioOutputClusterOutputInfo => mtrAudioOutputClusterOutputInfo -> IO (Id MTRAudioOutputClusterOutputInfo)
+init_ mtrAudioOutputClusterOutputInfo =
+  sendOwnedMessage mtrAudioOutputClusterOutputInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAudioOutputClusterOutputInfo mtrAudioOutputClusterOutputInfo => mtrAudioOutputClusterOutputInfo -> Ptr () -> IO RawId
+copyWithZone mtrAudioOutputClusterOutputInfo zone =
+  sendOwnedMessage mtrAudioOutputClusterOutputInfo copyWithZoneSelector zone
 
 -- | @- index@
 index :: IsMTRAudioOutputClusterOutputInfo mtrAudioOutputClusterOutputInfo => mtrAudioOutputClusterOutputInfo -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setName mtrAudioOutputClusterOutputInfo value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAudioOutputClusterOutputInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @index@
 indexSelector :: Selector '[] (Id NSNumber)

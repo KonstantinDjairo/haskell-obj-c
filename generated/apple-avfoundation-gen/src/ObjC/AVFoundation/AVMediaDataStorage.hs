@@ -3,13 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | AVMediaDataStorage
---
--- Media sample data storage file.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
--- Generated bindings for @AVMediaDataStorage@.
+-- | Generated bindings for @AVMediaDataStorage@.
 module ObjC.AVFoundation.AVMediaDataStorage
   ( AVMediaDataStorage
   , IsAVMediaDataStorage(..)

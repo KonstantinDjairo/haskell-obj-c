@@ -98,14 +98,14 @@ options unNotificationCategory =
   sendMessage unNotificationCategory optionsSelector
 
 -- | @- hiddenPreviewsBodyPlaceholder@
-hiddenPreviewsBodyPlaceholder :: IsUNNotificationCategory unNotificationCategory => unNotificationCategory -> IO (Id NSString)
+hiddenPreviewsBodyPlaceholder :: IsUNNotificationCategory unNotificationCategory => unNotificationCategory -> IO RawId
 hiddenPreviewsBodyPlaceholder unNotificationCategory =
   sendMessage unNotificationCategory hiddenPreviewsBodyPlaceholderSelector
 
--- | A format string for a summary description when notifications from this category are grouped together. It should contain descriptive text and format arguments that will be replaced with the information from the notifications that have been grouped together. The arguments are replaced with the number of notifications and the list created by joining the argument in each grouped notification. For example: "%u new messages from %\@". The arguments list is optional, "%u new messages" is also accepted.
+-- | A format string for a summary description when notifications from this category are grouped together. It should contain descriptive text and format arguments that will be replaced with the information from the notifications that have been grouped together. The arguments are replaced with the number of notifications and the list created by joining the argument in each grouped notification. For example: "%u new messages from %". The arguments list is optional, "%u new messages" is also accepted.
 --
 -- ObjC selector: @- categorySummaryFormat@
-categorySummaryFormat :: IsUNNotificationCategory unNotificationCategory => unNotificationCategory -> IO (Id NSString)
+categorySummaryFormat :: IsUNNotificationCategory unNotificationCategory => unNotificationCategory -> IO RawId
 categorySummaryFormat unNotificationCategory =
   sendMessage unNotificationCategory categorySummaryFormatSelector
 
@@ -146,10 +146,10 @@ optionsSelector :: Selector '[] UNNotificationCategoryOptions
 optionsSelector = mkSelector "options"
 
 -- | @Selector@ for @hiddenPreviewsBodyPlaceholder@
-hiddenPreviewsBodyPlaceholderSelector :: Selector '[] (Id NSString)
+hiddenPreviewsBodyPlaceholderSelector :: Selector '[] RawId
 hiddenPreviewsBodyPlaceholderSelector = mkSelector "hiddenPreviewsBodyPlaceholder"
 
 -- | @Selector@ for @categorySummaryFormat@
-categorySummaryFormatSelector :: Selector '[] (Id NSString)
+categorySummaryFormatSelector :: Selector '[] RawId
 categorySummaryFormatSelector = mkSelector "categorySummaryFormat"
 

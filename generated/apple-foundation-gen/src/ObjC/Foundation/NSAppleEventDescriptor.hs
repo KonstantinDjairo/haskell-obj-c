@@ -418,12 +418,12 @@ stringValue nsAppleEventDescriptor =
   sendMessage nsAppleEventDescriptor stringValueSelector
 
 -- | @- dateValue@
-dateValue :: IsNSAppleEventDescriptor nsAppleEventDescriptor => nsAppleEventDescriptor -> IO (Id NSDate)
+dateValue :: IsNSAppleEventDescriptor nsAppleEventDescriptor => nsAppleEventDescriptor -> IO RawId
 dateValue nsAppleEventDescriptor =
   sendMessage nsAppleEventDescriptor dateValueSelector
 
 -- | @- fileURLValue@
-fileURLValue :: IsNSAppleEventDescriptor nsAppleEventDescriptor => nsAppleEventDescriptor -> IO (Id NSURL)
+fileURLValue :: IsNSAppleEventDescriptor nsAppleEventDescriptor => nsAppleEventDescriptor -> IO RawId
 fileURLValue nsAppleEventDescriptor =
   sendMessage nsAppleEventDescriptor fileURLValueSelector
 
@@ -650,11 +650,11 @@ stringValueSelector :: Selector '[] (Id NSString)
 stringValueSelector = mkSelector "stringValue"
 
 -- | @Selector@ for @dateValue@
-dateValueSelector :: Selector '[] (Id NSDate)
+dateValueSelector :: Selector '[] RawId
 dateValueSelector = mkSelector "dateValue"
 
 -- | @Selector@ for @fileURLValue@
-fileURLValueSelector :: Selector '[] (Id NSURL)
+fileURLValueSelector :: Selector '[] RawId
 fileURLValueSelector = mkSelector "fileURLValue"
 
 -- | @Selector@ for @eventClass@

@@ -10,15 +10,11 @@ module ObjC.SystemExtensions.OSSystemExtensionRequest
   , activationRequestForExtension_queue
   , deactivationRequestForExtension_queue
   , propertiesRequestForExtension_queue
-  , delegate
-  , setDelegate
   , identifier
   , activationRequestForExtension_queueSelector
   , deactivationRequestForExtension_queueSelector
-  , delegateSelector
   , identifierSelector
   , propertiesRequestForExtension_queueSelector
-  , setDelegateSelector
 
 
   ) where
@@ -89,24 +85,10 @@ propertiesRequestForExtension_queue identifier queue =
     cls' <- getRequiredClass "OSSystemExtensionRequest"
     sendClassMessage cls' propertiesRequestForExtension_queueSelector (toNSString identifier) (toNSObject queue)
 
--- | A delegate to receive updates about the progress of a request
---
--- ObjC selector: @- delegate@
-delegate :: IsOSSystemExtensionRequest osSystemExtensionRequest => osSystemExtensionRequest -> IO RawId
-delegate osSystemExtensionRequest =
-  sendMessage osSystemExtensionRequest delegateSelector
-
--- | A delegate to receive updates about the progress of a request
---
--- ObjC selector: @- setDelegate:@
-setDelegate :: IsOSSystemExtensionRequest osSystemExtensionRequest => osSystemExtensionRequest -> RawId -> IO ()
-setDelegate osSystemExtensionRequest value =
-  sendMessage osSystemExtensionRequest setDelegateSelector value
-
 -- | The bundle identifier of the target extension
 --
 -- ObjC selector: @- identifier@
-identifier :: IsOSSystemExtensionRequest osSystemExtensionRequest => osSystemExtensionRequest -> IO (Id NSString)
+identifier :: IsOSSystemExtensionRequest osSystemExtensionRequest => osSystemExtensionRequest -> IO RawId
 identifier osSystemExtensionRequest =
   sendMessage osSystemExtensionRequest identifierSelector
 
@@ -126,15 +108,7 @@ deactivationRequestForExtension_queueSelector = mkSelector "deactivationRequestF
 propertiesRequestForExtension_queueSelector :: Selector '[Id NSString, Id NSObject] (Id OSSystemExtensionRequest)
 propertiesRequestForExtension_queueSelector = mkSelector "propertiesRequestForExtension:queue:"
 
--- | @Selector@ for @delegate@
-delegateSelector :: Selector '[] RawId
-delegateSelector = mkSelector "delegate"
-
--- | @Selector@ for @setDelegate:@
-setDelegateSelector :: Selector '[RawId] ()
-setDelegateSelector = mkSelector "setDelegate:"
-
 -- | @Selector@ for @identifier@
-identifierSelector :: Selector '[] (Id NSString)
+identifierSelector :: Selector '[] RawId
 identifierSelector = mkSelector "identifier"
 

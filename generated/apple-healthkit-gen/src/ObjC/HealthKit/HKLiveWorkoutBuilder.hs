@@ -130,7 +130,7 @@ elapsedTime hkLiveWorkoutBuilder =
 -- When an activity is in progress it will be returned by this property. The end date of this activity will always                be nil. When the activity is ended, the property would be set to nil until a new activity begins.
 --
 -- ObjC selector: @- currentWorkoutActivity@
-currentWorkoutActivity :: IsHKLiveWorkoutBuilder hkLiveWorkoutBuilder => hkLiveWorkoutBuilder -> IO (Id HKWorkoutActivity)
+currentWorkoutActivity :: IsHKLiveWorkoutBuilder hkLiveWorkoutBuilder => hkLiveWorkoutBuilder -> IO RawId
 currentWorkoutActivity hkLiveWorkoutBuilder =
   sendMessage hkLiveWorkoutBuilder currentWorkoutActivitySelector
 
@@ -175,6 +175,6 @@ elapsedTimeSelector :: Selector '[] CDouble
 elapsedTimeSelector = mkSelector "elapsedTime"
 
 -- | @Selector@ for @currentWorkoutActivity@
-currentWorkoutActivitySelector :: Selector '[] (Id HKWorkoutActivity)
+currentWorkoutActivitySelector :: Selector '[] RawId
 currentWorkoutActivitySelector = mkSelector "currentWorkoutActivity"
 

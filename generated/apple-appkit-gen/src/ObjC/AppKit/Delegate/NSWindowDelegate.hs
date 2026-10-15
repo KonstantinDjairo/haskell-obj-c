@@ -50,8 +50,6 @@ data NSWindowDelegateOverrides = NSWindowDelegateOverrides
   , _windowDidFailToExitFullScreen :: !(Maybe (RawId -> IO ()))
   , _window_willEncodeRestorableState :: !(Maybe (RawId -> RawId -> IO ()))
   , _window_didDecodeRestorableState :: !(Maybe (RawId -> RawId -> IO ()))
-  , _previewRepresentableActivityItemsForWindow :: !(Maybe (RawId -> IO RawId))
-  , _windowForSharingRequestFromWindow :: !(Maybe (RawId -> IO RawId))
   , _windowDidResize :: !(Maybe (RawId -> IO ()))
   , _windowDidExpose :: !(Maybe (RawId -> IO ()))
   , _windowWillMove :: !(Maybe (RawId -> IO ()))
@@ -100,8 +98,6 @@ defaultNSWindowDelegateOverrides = NSWindowDelegateOverrides
   , _windowDidFailToExitFullScreen = Nothing
   , _window_willEncodeRestorableState = Nothing
   , _window_didDecodeRestorableState = Nothing
-  , _previewRepresentableActivityItemsForWindow = Nothing
-  , _windowForSharingRequestFromWindow = Nothing
   , _windowDidResize = Nothing
   , _windowDidExpose = Nothing
   , _windowWillMove = Nothing
@@ -201,8 +197,6 @@ nsWindowDelegateDelegateClass = unsafePerformIO $ do
       sel_windowDidFailToExitFullScreen = unSelector (mkSelector "windowDidFailToExitFullScreen:")
       sel_window_willEncodeRestorableState = unSelector (mkSelector "window:willEncodeRestorableState:")
       sel_window_didDecodeRestorableState = unSelector (mkSelector "window:didDecodeRestorableState:")
-      sel_previewRepresentableActivityItemsForWindow = unSelector (mkSelector "previewRepresentableActivityItemsForWindow:")
-      sel_windowForSharingRequestFromWindow = unSelector (mkSelector "windowForSharingRequestFromWindow:")
       sel_windowDidResize = unSelector (mkSelector "windowDidResize:")
       sel_windowDidExpose = unSelector (mkSelector "windowDidExpose:")
       sel_windowWillMove = unSelector (mkSelector "windowWillMove:")
@@ -372,288 +366,266 @@ nsWindowDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1)
   addObjCMethod cls "window:didDecodeRestorableState:" "v@:@@" stub_13
 
-  -- previewRepresentableActivityItemsForWindow:
-  stub_14 <- wrap_at_at $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
-    case _previewRepresentableActivityItemsForWindow rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f (RawId arg0)
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "previewRepresentableActivityItemsForWindow:" "@@:@" stub_14
-
-  -- windowForSharingRequestFromWindow:
-  stub_15 <- wrap_at_at $ \self _cmd arg0 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
-    case _windowForSharingRequestFromWindow rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f (RawId arg0)
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "windowForSharingRequestFromWindow:" "@@:@" stub_15
-
   -- windowDidResize:
-  stub_16 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_14 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidResize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidResize:" "v@:@" stub_16
+  addObjCMethod cls "windowDidResize:" "v@:@" stub_14
 
   -- windowDidExpose:
-  stub_17 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_15 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidExpose rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidExpose:" "v@:@" stub_17
+  addObjCMethod cls "windowDidExpose:" "v@:@" stub_15
 
   -- windowWillMove:
-  stub_18 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_16 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillMove rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillMove:" "v@:@" stub_18
+  addObjCMethod cls "windowWillMove:" "v@:@" stub_16
 
   -- windowDidMove:
-  stub_19 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_17 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidMove rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidMove:" "v@:@" stub_19
+  addObjCMethod cls "windowDidMove:" "v@:@" stub_17
 
   -- windowDidBecomeKey:
-  stub_20 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_18 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidBecomeKey rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidBecomeKey:" "v@:@" stub_20
+  addObjCMethod cls "windowDidBecomeKey:" "v@:@" stub_18
 
   -- windowDidResignKey:
-  stub_21 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_19 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidResignKey rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidResignKey:" "v@:@" stub_21
+  addObjCMethod cls "windowDidResignKey:" "v@:@" stub_19
 
   -- windowDidBecomeMain:
-  stub_22 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_20 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidBecomeMain rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidBecomeMain:" "v@:@" stub_22
+  addObjCMethod cls "windowDidBecomeMain:" "v@:@" stub_20
 
   -- windowDidResignMain:
-  stub_23 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_21 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidResignMain rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidResignMain:" "v@:@" stub_23
+  addObjCMethod cls "windowDidResignMain:" "v@:@" stub_21
 
   -- windowWillClose:
-  stub_24 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_22 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillClose rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillClose:" "v@:@" stub_24
+  addObjCMethod cls "windowWillClose:" "v@:@" stub_22
 
   -- windowWillMiniaturize:
-  stub_25 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_23 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillMiniaturize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillMiniaturize:" "v@:@" stub_25
+  addObjCMethod cls "windowWillMiniaturize:" "v@:@" stub_23
 
   -- windowDidMiniaturize:
-  stub_26 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_24 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidMiniaturize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidMiniaturize:" "v@:@" stub_26
+  addObjCMethod cls "windowDidMiniaturize:" "v@:@" stub_24
 
   -- windowDidDeminiaturize:
-  stub_27 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_25 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidDeminiaturize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidDeminiaturize:" "v@:@" stub_27
+  addObjCMethod cls "windowDidDeminiaturize:" "v@:@" stub_25
 
   -- windowDidUpdate:
-  stub_28 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_26 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidUpdate rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidUpdate:" "v@:@" stub_28
+  addObjCMethod cls "windowDidUpdate:" "v@:@" stub_26
 
   -- windowDidChangeScreen:
-  stub_29 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_27 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidChangeScreen rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidChangeScreen:" "v@:@" stub_29
+  addObjCMethod cls "windowDidChangeScreen:" "v@:@" stub_27
 
   -- windowDidChangeScreenProfile:
-  stub_30 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_28 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidChangeScreenProfile rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidChangeScreenProfile:" "v@:@" stub_30
+  addObjCMethod cls "windowDidChangeScreenProfile:" "v@:@" stub_28
 
   -- windowDidChangeBackingProperties:
-  stub_31 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_29 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidChangeBackingProperties rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidChangeBackingProperties:" "v@:@" stub_31
+  addObjCMethod cls "windowDidChangeBackingProperties:" "v@:@" stub_29
 
   -- windowWillBeginSheet:
-  stub_32 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_30 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillBeginSheet rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillBeginSheet:" "v@:@" stub_32
+  addObjCMethod cls "windowWillBeginSheet:" "v@:@" stub_30
 
   -- windowDidEndSheet:
-  stub_33 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_31 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidEndSheet rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidEndSheet:" "v@:@" stub_33
+  addObjCMethod cls "windowDidEndSheet:" "v@:@" stub_31
 
   -- windowWillStartLiveResize:
-  stub_34 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_32 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillStartLiveResize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillStartLiveResize:" "v@:@" stub_34
+  addObjCMethod cls "windowWillStartLiveResize:" "v@:@" stub_32
 
   -- windowDidEndLiveResize:
-  stub_35 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_33 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidEndLiveResize rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidEndLiveResize:" "v@:@" stub_35
+  addObjCMethod cls "windowDidEndLiveResize:" "v@:@" stub_33
 
   -- windowWillEnterFullScreen:
-  stub_36 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_34 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillEnterFullScreen rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillEnterFullScreen:" "v@:@" stub_36
+  addObjCMethod cls "windowWillEnterFullScreen:" "v@:@" stub_34
 
   -- windowDidEnterFullScreen:
-  stub_37 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_35 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidEnterFullScreen rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidEnterFullScreen:" "v@:@" stub_37
+  addObjCMethod cls "windowDidEnterFullScreen:" "v@:@" stub_35
 
   -- windowWillExitFullScreen:
-  stub_38 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_36 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillExitFullScreen rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillExitFullScreen:" "v@:@" stub_38
+  addObjCMethod cls "windowWillExitFullScreen:" "v@:@" stub_36
 
   -- windowDidExitFullScreen:
-  stub_39 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_37 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidExitFullScreen rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidExitFullScreen:" "v@:@" stub_39
+  addObjCMethod cls "windowDidExitFullScreen:" "v@:@" stub_37
 
   -- windowWillEnterVersionBrowser:
-  stub_40 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_38 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillEnterVersionBrowser rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillEnterVersionBrowser:" "v@:@" stub_40
+  addObjCMethod cls "windowWillEnterVersionBrowser:" "v@:@" stub_38
 
   -- windowDidEnterVersionBrowser:
-  stub_41 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_39 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidEnterVersionBrowser rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidEnterVersionBrowser:" "v@:@" stub_41
+  addObjCMethod cls "windowDidEnterVersionBrowser:" "v@:@" stub_39
 
   -- windowWillExitVersionBrowser:
-  stub_42 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_40 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowWillExitVersionBrowser rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowWillExitVersionBrowser:" "v@:@" stub_42
+  addObjCMethod cls "windowWillExitVersionBrowser:" "v@:@" stub_40
 
   -- windowDidExitVersionBrowser:
-  stub_43 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_41 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidExitVersionBrowser rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidExitVersionBrowser:" "v@:@" stub_43
+  addObjCMethod cls "windowDidExitVersionBrowser:" "v@:@" stub_41
 
   -- windowDidChangeOcclusionState:
-  stub_44 <- wrap_at_v $ \self _cmd arg0 -> do
+  stub_42 <- wrap_at_v $ \self _cmd arg0 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSWindowDelegateOverrides
     case _windowDidChangeOcclusionState rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0)
-  addObjCMethod cls "windowDidChangeOcclusionState:" "v@:@" stub_44
+  addObjCMethod cls "windowDidChangeOcclusionState:" "v@:@" stub_42
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -673,8 +645,6 @@ nsWindowDelegateDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_windowDidFailToExitFullScreen then pure (maybe 0 (const 1) (_windowDidFailToExitFullScreen rec_))
     else if queriedSel == sel_window_willEncodeRestorableState then pure (maybe 0 (const 1) (_window_willEncodeRestorableState rec_))
     else if queriedSel == sel_window_didDecodeRestorableState then pure (maybe 0 (const 1) (_window_didDecodeRestorableState rec_))
-    else if queriedSel == sel_previewRepresentableActivityItemsForWindow then pure (maybe 0 (const 1) (_previewRepresentableActivityItemsForWindow rec_))
-    else if queriedSel == sel_windowForSharingRequestFromWindow then pure (maybe 0 (const 1) (_windowForSharingRequestFromWindow rec_))
     else if queriedSel == sel_windowDidResize then pure (maybe 0 (const 1) (_windowDidResize rec_))
     else if queriedSel == sel_windowDidExpose then pure (maybe 0 (const 1) (_windowDidExpose rec_))
     else if queriedSel == sel_windowWillMove then pure (maybe 0 (const 1) (_windowWillMove rec_))

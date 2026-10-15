@@ -17,7 +17,6 @@ module ObjC.PHASE.PHASEEngine
   , init_
   , new
   , initWithUpdateMode
-  , initWithUpdateMode_renderingMode
   , startAndReturnError
   , pause
   , stop
@@ -39,7 +38,6 @@ module ObjC.PHASE.PHASEEngine
   , groups
   , duckers
   , activeGroupPreset
-  , lastRenderTime
   , activeGroupPresetSelector
   , assetRegistrySelector
   , defaultMediumSelector
@@ -48,8 +46,6 @@ module ObjC.PHASE.PHASEEngine
   , groupsSelector
   , initSelector
   , initWithUpdateModeSelector
-  , initWithUpdateMode_renderingModeSelector
-  , lastRenderTimeSelector
   , newSelector
   , outputSpatializationModeSelector
   , pauseSelector
@@ -68,9 +64,6 @@ module ObjC.PHASE.PHASEEngine
   , updateSelector
 
   -- * Enum types
-  , PHASERenderingMode(PHASERenderingMode)
-  , pattern PHASERenderingModeLocal
-  , pattern PHASERenderingModeClient
   , PHASERenderingState(PHASERenderingState)
   , pattern PHASERenderingStateStopped
   , pattern PHASERenderingStateStarted
@@ -133,19 +126,6 @@ new  =
 initWithUpdateMode :: IsPHASEEngine phaseEngine => phaseEngine -> PHASEUpdateMode -> IO (Id PHASEEngine)
 initWithUpdateMode phaseEngine updateMode =
   sendOwnedMessage phaseEngine initWithUpdateModeSelector updateMode
-
--- | initWithUpdateMode:
---
--- Initialize a new engine with an update mode.
---
--- @updateMode@ — Defines how the engine will be updated.
---
--- @renderingMode@ — Defines where the engine applies rendering. See PHASERenderingMode for more info.
---
--- ObjC selector: @- initWithUpdateMode:renderingMode:@
-initWithUpdateMode_renderingMode :: IsPHASEEngine phaseEngine => phaseEngine -> PHASEUpdateMode -> PHASERenderingMode -> IO (Id PHASEEngine)
-initWithUpdateMode_renderingMode phaseEngine updateMode renderingMode =
-  sendOwnedMessage phaseEngine initWithUpdateMode_renderingModeSelector updateMode renderingMode
 
 -- | startAndReturnError:
 --
@@ -378,17 +358,6 @@ activeGroupPreset :: IsPHASEEngine phaseEngine => phaseEngine -> IO (Id PHASEGro
 activeGroupPreset phaseEngine =
   sendMessage phaseEngine activeGroupPresetSelector
 
--- | lastRenderTime
---
--- Obtain the time for which the engine most recently rendered.
---
--- Will return nil if the engine is not running
---
--- ObjC selector: @- lastRenderTime@
-lastRenderTime :: IsPHASEEngine phaseEngine => phaseEngine -> IO (Id AVAudioTime)
-lastRenderTime phaseEngine =
-  sendMessage phaseEngine lastRenderTimeSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -404,10 +373,6 @@ newSelector = mkSelector "new"
 -- | @Selector@ for @initWithUpdateMode:@
 initWithUpdateModeSelector :: Selector '[PHASEUpdateMode] (Id PHASEEngine)
 initWithUpdateModeSelector = mkSelector "initWithUpdateMode:"
-
--- | @Selector@ for @initWithUpdateMode:renderingMode:@
-initWithUpdateMode_renderingModeSelector :: Selector '[PHASEUpdateMode, PHASERenderingMode] (Id PHASEEngine)
-initWithUpdateMode_renderingModeSelector = mkSelector "initWithUpdateMode:renderingMode:"
 
 -- | @Selector@ for @startAndReturnError:@
 startAndReturnErrorSelector :: Selector '[Id NSError] Bool
@@ -492,8 +457,4 @@ duckersSelector = mkSelector "duckers"
 -- | @Selector@ for @activeGroupPreset@
 activeGroupPresetSelector :: Selector '[] (Id PHASEGroupPreset)
 activeGroupPresetSelector = mkSelector "activeGroupPreset"
-
--- | @Selector@ for @lastRenderTime@
-lastRenderTimeSelector :: Selector '[] (Id AVAudioTime)
-lastRenderTimeSelector = mkSelector "lastRenderTime"
 

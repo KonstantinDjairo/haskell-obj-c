@@ -3,109 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Window Covering
---
--- Provides an interface for controlling and adjusting automatic window coverings.
+-- | Cluster Window Covering    Provides an interface for controlling and adjusting automatic window coverings.
 --
 -- Generated bindings for @MTRBaseClusterWindowCovering@.
 module ObjC.Matter.MTRBaseClusterWindowCovering
   ( MTRBaseClusterWindowCovering
   , IsMTRBaseClusterWindowCovering(..)
-  , upOrOpenWithParams_completion
-  , upOrOpenWithCompletion
-  , downOrCloseWithParams_completion
-  , downOrCloseWithCompletion
-  , stopMotionWithParams_completion
-  , stopMotionWithCompletion
-  , goToLiftValueWithParams_completion
-  , goToLiftPercentageWithParams_completion
-  , goToTiltValueWithParams_completion
-  , goToTiltPercentageWithParams_completion
-  , readAttributeTypeWithCompletion
-  , subscribeAttributeTypeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeTypeWithClusterStateCache_endpoint_queue_completion
-  , readAttributePhysicalClosedLimitLiftWithCompletion
-  , subscribeAttributePhysicalClosedLimitLiftWithParams_subscriptionEstablished_reportHandler
-  , readAttributePhysicalClosedLimitLiftWithClusterStateCache_endpoint_queue_completion
-  , readAttributePhysicalClosedLimitTiltWithCompletion
-  , subscribeAttributePhysicalClosedLimitTiltWithParams_subscriptionEstablished_reportHandler
-  , readAttributePhysicalClosedLimitTiltWithClusterStateCache_endpoint_queue_completion
-  , readAttributeCurrentPositionLiftWithCompletion
-  , subscribeAttributeCurrentPositionLiftWithParams_subscriptionEstablished_reportHandler
-  , readAttributeCurrentPositionLiftWithClusterStateCache_endpoint_queue_completion
-  , readAttributeCurrentPositionTiltWithCompletion
-  , subscribeAttributeCurrentPositionTiltWithParams_subscriptionEstablished_reportHandler
-  , readAttributeCurrentPositionTiltWithClusterStateCache_endpoint_queue_completion
-  , readAttributeNumberOfActuationsLiftWithCompletion
-  , subscribeAttributeNumberOfActuationsLiftWithParams_subscriptionEstablished_reportHandler
-  , readAttributeNumberOfActuationsLiftWithClusterStateCache_endpoint_queue_completion
-  , readAttributeNumberOfActuationsTiltWithCompletion
-  , subscribeAttributeNumberOfActuationsTiltWithParams_subscriptionEstablished_reportHandler
-  , readAttributeNumberOfActuationsTiltWithClusterStateCache_endpoint_queue_completion
-  , readAttributeConfigStatusWithCompletion
-  , subscribeAttributeConfigStatusWithParams_subscriptionEstablished_reportHandler
-  , readAttributeConfigStatusWithClusterStateCache_endpoint_queue_completion
-  , readAttributeCurrentPositionLiftPercentageWithCompletion
-  , subscribeAttributeCurrentPositionLiftPercentageWithParams_subscriptionEstablished_reportHandler
-  , readAttributeCurrentPositionLiftPercentageWithClusterStateCache_endpoint_queue_completion
-  , readAttributeCurrentPositionTiltPercentageWithCompletion
-  , subscribeAttributeCurrentPositionTiltPercentageWithParams_subscriptionEstablished_reportHandler
-  , readAttributeCurrentPositionTiltPercentageWithClusterStateCache_endpoint_queue_completion
-  , readAttributeOperationalStatusWithCompletion
-  , subscribeAttributeOperationalStatusWithParams_subscriptionEstablished_reportHandler
-  , readAttributeOperationalStatusWithClusterStateCache_endpoint_queue_completion
-  , readAttributeTargetPositionLiftPercent100thsWithCompletion
-  , subscribeAttributeTargetPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeTargetPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeTargetPositionTiltPercent100thsWithCompletion
-  , subscribeAttributeTargetPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeTargetPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeEndProductTypeWithCompletion
-  , subscribeAttributeEndProductTypeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeEndProductTypeWithClusterStateCache_endpoint_queue_completion
-  , readAttributeCurrentPositionLiftPercent100thsWithCompletion
-  , subscribeAttributeCurrentPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeCurrentPositionTiltPercent100thsWithCompletion
-  , subscribeAttributeCurrentPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandler
-  , readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completion
-  , readAttributeInstalledOpenLimitLiftWithCompletion
-  , subscribeAttributeInstalledOpenLimitLiftWithParams_subscriptionEstablished_reportHandler
-  , readAttributeInstalledOpenLimitLiftWithClusterStateCache_endpoint_queue_completion
-  , readAttributeInstalledClosedLimitLiftWithCompletion
-  , subscribeAttributeInstalledClosedLimitLiftWithParams_subscriptionEstablished_reportHandler
-  , readAttributeInstalledClosedLimitLiftWithClusterStateCache_endpoint_queue_completion
-  , readAttributeInstalledOpenLimitTiltWithCompletion
-  , subscribeAttributeInstalledOpenLimitTiltWithParams_subscriptionEstablished_reportHandler
-  , readAttributeInstalledOpenLimitTiltWithClusterStateCache_endpoint_queue_completion
-  , readAttributeInstalledClosedLimitTiltWithCompletion
-  , subscribeAttributeInstalledClosedLimitTiltWithParams_subscriptionEstablished_reportHandler
-  , readAttributeInstalledClosedLimitTiltWithClusterStateCache_endpoint_queue_completion
-  , readAttributeModeWithCompletion
-  , writeAttributeModeWithValue_completion
-  , writeAttributeModeWithValue_params_completion
-  , subscribeAttributeModeWithParams_subscriptionEstablished_reportHandler
-  , readAttributeModeWithClusterStateCache_endpoint_queue_completion
-  , readAttributeSafetyStatusWithCompletion
-  , subscribeAttributeSafetyStatusWithParams_subscriptionEstablished_reportHandler
-  , readAttributeSafetyStatusWithClusterStateCache_endpoint_queue_completion
-  , readAttributeGeneratedCommandListWithCompletion
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAcceptedCommandListWithCompletion
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeAttributeListWithCompletion
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion
-  , readAttributeFeatureMapWithCompletion
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion
-  , readAttributeClusterRevisionWithCompletion
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion
-  , init_
-  , new
   , initWithDevice_endpoint_queue
   , upOrOpenWithParams_completionHandler
   , upOrOpenWithCompletionHandler
@@ -200,197 +103,104 @@ module ObjC.Matter.MTRBaseClusterWindowCovering
   , readAttributeClusterRevisionWithCompletionHandler
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler
-  , initWithDevice_endpointID_queue
+  , init_
+  , new
   , downOrCloseWithCompletionHandlerSelector
-  , downOrCloseWithCompletionSelector
   , downOrCloseWithParams_completionHandlerSelector
-  , downOrCloseWithParams_completionSelector
   , goToLiftPercentageWithParams_completionHandlerSelector
-  , goToLiftPercentageWithParams_completionSelector
   , goToLiftValueWithParams_completionHandlerSelector
-  , goToLiftValueWithParams_completionSelector
   , goToTiltPercentageWithParams_completionHandlerSelector
-  , goToTiltPercentageWithParams_completionSelector
   , goToTiltValueWithParams_completionHandlerSelector
-  , goToTiltValueWithParams_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAcceptedCommandListWithCompletionHandlerSelector
-  , readAttributeAcceptedCommandListWithCompletionSelector
   , readAttributeAttributeListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeAttributeListWithCompletionHandlerSelector
-  , readAttributeAttributeListWithCompletionSelector
   , readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeClusterRevisionWithCompletionHandlerSelector
-  , readAttributeClusterRevisionWithCompletionSelector
   , readAttributeConfigStatusWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeConfigStatusWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeConfigStatusWithCompletionHandlerSelector
-  , readAttributeConfigStatusWithCompletionSelector
   , readAttributeCurrentPositionLiftPercent100thsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeCurrentPositionLiftPercent100thsWithCompletionHandlerSelector
-  , readAttributeCurrentPositionLiftPercent100thsWithCompletionSelector
   , readAttributeCurrentPositionLiftPercentageWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeCurrentPositionLiftPercentageWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeCurrentPositionLiftPercentageWithCompletionHandlerSelector
-  , readAttributeCurrentPositionLiftPercentageWithCompletionSelector
   , readAttributeCurrentPositionLiftWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeCurrentPositionLiftWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeCurrentPositionLiftWithCompletionHandlerSelector
-  , readAttributeCurrentPositionLiftWithCompletionSelector
   , readAttributeCurrentPositionTiltPercent100thsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeCurrentPositionTiltPercent100thsWithCompletionHandlerSelector
-  , readAttributeCurrentPositionTiltPercent100thsWithCompletionSelector
   , readAttributeCurrentPositionTiltPercentageWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeCurrentPositionTiltPercentageWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeCurrentPositionTiltPercentageWithCompletionHandlerSelector
-  , readAttributeCurrentPositionTiltPercentageWithCompletionSelector
   , readAttributeCurrentPositionTiltWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeCurrentPositionTiltWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeCurrentPositionTiltWithCompletionHandlerSelector
-  , readAttributeCurrentPositionTiltWithCompletionSelector
   , readAttributeEndProductTypeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeEndProductTypeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeEndProductTypeWithCompletionHandlerSelector
-  , readAttributeEndProductTypeWithCompletionSelector
   , readAttributeFeatureMapWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeFeatureMapWithCompletionHandlerSelector
-  , readAttributeFeatureMapWithCompletionSelector
   , readAttributeGeneratedCommandListWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeGeneratedCommandListWithCompletionHandlerSelector
-  , readAttributeGeneratedCommandListWithCompletionSelector
   , readAttributeInstalledClosedLimitLiftWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeInstalledClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeInstalledClosedLimitLiftWithCompletionHandlerSelector
-  , readAttributeInstalledClosedLimitLiftWithCompletionSelector
   , readAttributeInstalledClosedLimitTiltWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeInstalledClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeInstalledClosedLimitTiltWithCompletionHandlerSelector
-  , readAttributeInstalledClosedLimitTiltWithCompletionSelector
   , readAttributeInstalledOpenLimitLiftWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeInstalledOpenLimitLiftWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeInstalledOpenLimitLiftWithCompletionHandlerSelector
-  , readAttributeInstalledOpenLimitLiftWithCompletionSelector
   , readAttributeInstalledOpenLimitTiltWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeInstalledOpenLimitTiltWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeInstalledOpenLimitTiltWithCompletionHandlerSelector
-  , readAttributeInstalledOpenLimitTiltWithCompletionSelector
   , readAttributeModeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeModeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeModeWithCompletionHandlerSelector
-  , readAttributeModeWithCompletionSelector
   , readAttributeNumberOfActuationsLiftWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeNumberOfActuationsLiftWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeNumberOfActuationsLiftWithCompletionHandlerSelector
-  , readAttributeNumberOfActuationsLiftWithCompletionSelector
   , readAttributeNumberOfActuationsTiltWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeNumberOfActuationsTiltWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeNumberOfActuationsTiltWithCompletionHandlerSelector
-  , readAttributeNumberOfActuationsTiltWithCompletionSelector
   , readAttributeOperationalStatusWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeOperationalStatusWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeOperationalStatusWithCompletionHandlerSelector
-  , readAttributeOperationalStatusWithCompletionSelector
   , readAttributePhysicalClosedLimitLiftWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePhysicalClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePhysicalClosedLimitLiftWithCompletionHandlerSelector
-  , readAttributePhysicalClosedLimitLiftWithCompletionSelector
   , readAttributePhysicalClosedLimitTiltWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributePhysicalClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributePhysicalClosedLimitTiltWithCompletionHandlerSelector
-  , readAttributePhysicalClosedLimitTiltWithCompletionSelector
   , readAttributeSafetyStatusWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeSafetyStatusWithCompletionHandlerSelector
-  , readAttributeSafetyStatusWithCompletionSelector
   , readAttributeTargetPositionLiftPercent100thsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeTargetPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeTargetPositionLiftPercent100thsWithCompletionHandlerSelector
-  , readAttributeTargetPositionLiftPercent100thsWithCompletionSelector
   , readAttributeTargetPositionTiltPercent100thsWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeTargetPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeTargetPositionTiltPercent100thsWithCompletionHandlerSelector
-  , readAttributeTargetPositionTiltPercent100thsWithCompletionSelector
   , readAttributeTypeWithAttributeCache_endpoint_queue_completionHandlerSelector
-  , readAttributeTypeWithClusterStateCache_endpoint_queue_completionSelector
   , readAttributeTypeWithCompletionHandlerSelector
-  , readAttributeTypeWithCompletionSelector
   , stopMotionWithCompletionHandlerSelector
-  , stopMotionWithCompletionSelector
   , stopMotionWithParams_completionHandlerSelector
-  , stopMotionWithParams_completionSelector
   , subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeConfigStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeConfigStatusWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeCurrentPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeCurrentPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeCurrentPositionLiftPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeCurrentPositionLiftPercentageWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeCurrentPositionLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeCurrentPositionLiftWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeCurrentPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeCurrentPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeCurrentPositionTiltPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeCurrentPositionTiltPercentageWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeCurrentPositionTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeCurrentPositionTiltWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeEndProductTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeEndProductTypeWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeInstalledClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeInstalledClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeInstalledClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeInstalledClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeInstalledOpenLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeInstalledOpenLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeInstalledOpenLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeInstalledOpenLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeModeWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeNumberOfActuationsLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeNumberOfActuationsLiftWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeNumberOfActuationsTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeNumberOfActuationsTiltWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeOperationalStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeOperationalStatusWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePhysicalClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePhysicalClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributePhysicalClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributePhysicalClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeTargetPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeTargetPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeTargetPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeTargetPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector
   , subscribeAttributeTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector
-  , subscribeAttributeTypeWithParams_subscriptionEstablished_reportHandlerSelector
   , upOrOpenWithCompletionHandlerSelector
-  , upOrOpenWithCompletionSelector
   , upOrOpenWithParams_completionHandlerSelector
-  , upOrOpenWithParams_completionSelector
   , writeAttributeModeWithValue_completionHandlerSelector
-  , writeAttributeModeWithValue_completionSelector
   , writeAttributeModeWithValue_params_completionHandlerSelector
-  , writeAttributeModeWithValue_params_completionSelector
 
 
   ) where
@@ -405,565 +215,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-
--- | Command UpOrOpen
---
--- Moves window covering to InstalledOpenLimitLift and InstalledOpenLimitTilt
---
--- ObjC selector: @- upOrOpenWithParams:completion:@
-upOrOpenWithParams_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRWindowCoveringClusterUpOrOpenParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> IO ()
-upOrOpenWithParams_completion mtrBaseClusterWindowCovering params completion =
-  sendMessage mtrBaseClusterWindowCovering upOrOpenWithParams_completionSelector (toMTRWindowCoveringClusterUpOrOpenParams params) completion
-
--- | @- upOrOpenWithCompletion:@
-upOrOpenWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-upOrOpenWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering upOrOpenWithCompletionSelector completion
-
--- | Command DownOrClose
---
--- Moves window covering to InstalledClosedLimitLift and InstalledCloseLimitTilt
---
--- ObjC selector: @- downOrCloseWithParams:completion:@
-downOrCloseWithParams_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRWindowCoveringClusterDownOrCloseParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> IO ()
-downOrCloseWithParams_completion mtrBaseClusterWindowCovering params completion =
-  sendMessage mtrBaseClusterWindowCovering downOrCloseWithParams_completionSelector (toMTRWindowCoveringClusterDownOrCloseParams params) completion
-
--- | @- downOrCloseWithCompletion:@
-downOrCloseWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-downOrCloseWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering downOrCloseWithCompletionSelector completion
-
--- | Command StopMotion
---
--- Stop any adjusting of window covering
---
--- ObjC selector: @- stopMotionWithParams:completion:@
-stopMotionWithParams_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRWindowCoveringClusterStopMotionParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> IO ()
-stopMotionWithParams_completion mtrBaseClusterWindowCovering params completion =
-  sendMessage mtrBaseClusterWindowCovering stopMotionWithParams_completionSelector (toMTRWindowCoveringClusterStopMotionParams params) completion
-
--- | @- stopMotionWithCompletion:@
-stopMotionWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-stopMotionWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering stopMotionWithCompletionSelector completion
-
--- | Command GoToLiftValue
---
--- Go to lift value specified
---
--- ObjC selector: @- goToLiftValueWithParams:completion:@
-goToLiftValueWithParams_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftValueParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> IO ()
-goToLiftValueWithParams_completion mtrBaseClusterWindowCovering params completion =
-  sendMessage mtrBaseClusterWindowCovering goToLiftValueWithParams_completionSelector (toMTRWindowCoveringClusterGoToLiftValueParams params) completion
-
--- | Command GoToLiftPercentage
---
--- Go to lift percentage specified
---
--- ObjC selector: @- goToLiftPercentageWithParams:completion:@
-goToLiftPercentageWithParams_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRWindowCoveringClusterGoToLiftPercentageParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> IO ()
-goToLiftPercentageWithParams_completion mtrBaseClusterWindowCovering params completion =
-  sendMessage mtrBaseClusterWindowCovering goToLiftPercentageWithParams_completionSelector (toMTRWindowCoveringClusterGoToLiftPercentageParams params) completion
-
--- | Command GoToTiltValue
---
--- Go to tilt value specified
---
--- ObjC selector: @- goToTiltValueWithParams:completion:@
-goToTiltValueWithParams_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltValueParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> IO ()
-goToTiltValueWithParams_completion mtrBaseClusterWindowCovering params completion =
-  sendMessage mtrBaseClusterWindowCovering goToTiltValueWithParams_completionSelector (toMTRWindowCoveringClusterGoToTiltValueParams params) completion
-
--- | Command GoToTiltPercentage
---
--- Go to tilt percentage specified
---
--- ObjC selector: @- goToTiltPercentageWithParams:completion:@
-goToTiltPercentageWithParams_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRWindowCoveringClusterGoToTiltPercentageParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> IO ()
-goToTiltPercentageWithParams_completion mtrBaseClusterWindowCovering params completion =
-  sendMessage mtrBaseClusterWindowCovering goToTiltPercentageWithParams_completionSelector (toMTRWindowCoveringClusterGoToTiltPercentageParams params) completion
-
--- | @- readAttributeTypeWithCompletion:@
-readAttributeTypeWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeTypeWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeTypeWithCompletionSelector completion
-
--- | @- subscribeAttributeTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTypeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeTypeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeTypeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTypeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeTypeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeTypeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributePhysicalClosedLimitLiftWithCompletion:@
-readAttributePhysicalClosedLimitLiftWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributePhysicalClosedLimitLiftWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributePhysicalClosedLimitLiftWithCompletionSelector completion
-
--- | @- subscribeAttributePhysicalClosedLimitLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalClosedLimitLiftWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePhysicalClosedLimitLiftWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributePhysicalClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePhysicalClosedLimitLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalClosedLimitLiftWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePhysicalClosedLimitLiftWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributePhysicalClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributePhysicalClosedLimitTiltWithCompletion:@
-readAttributePhysicalClosedLimitTiltWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributePhysicalClosedLimitTiltWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributePhysicalClosedLimitTiltWithCompletionSelector completion
-
--- | @- subscribeAttributePhysicalClosedLimitTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalClosedLimitTiltWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributePhysicalClosedLimitTiltWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributePhysicalClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributePhysicalClosedLimitTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalClosedLimitTiltWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributePhysicalClosedLimitTiltWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributePhysicalClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeCurrentPositionLiftWithCompletion:@
-readAttributeCurrentPositionLiftWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeCurrentPositionLiftWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionLiftWithCompletionSelector completion
-
--- | @- subscribeAttributeCurrentPositionLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionLiftWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeCurrentPositionLiftWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionLiftWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeCurrentPositionLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionLiftWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeCurrentPositionLiftWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeCurrentPositionLiftWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeCurrentPositionTiltWithCompletion:@
-readAttributeCurrentPositionTiltWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeCurrentPositionTiltWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionTiltWithCompletionSelector completion
-
--- | @- subscribeAttributeCurrentPositionTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionTiltWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeCurrentPositionTiltWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionTiltWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeCurrentPositionTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionTiltWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeCurrentPositionTiltWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeCurrentPositionTiltWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeNumberOfActuationsLiftWithCompletion:@
-readAttributeNumberOfActuationsLiftWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeNumberOfActuationsLiftWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeNumberOfActuationsLiftWithCompletionSelector completion
-
--- | @- subscribeAttributeNumberOfActuationsLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeNumberOfActuationsLiftWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeNumberOfActuationsLiftWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeNumberOfActuationsLiftWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeNumberOfActuationsLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeNumberOfActuationsLiftWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeNumberOfActuationsLiftWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeNumberOfActuationsLiftWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeNumberOfActuationsTiltWithCompletion:@
-readAttributeNumberOfActuationsTiltWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeNumberOfActuationsTiltWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeNumberOfActuationsTiltWithCompletionSelector completion
-
--- | @- subscribeAttributeNumberOfActuationsTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeNumberOfActuationsTiltWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeNumberOfActuationsTiltWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeNumberOfActuationsTiltWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeNumberOfActuationsTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeNumberOfActuationsTiltWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeNumberOfActuationsTiltWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeNumberOfActuationsTiltWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeConfigStatusWithCompletion:@
-readAttributeConfigStatusWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeConfigStatusWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeConfigStatusWithCompletionSelector completion
-
--- | @- subscribeAttributeConfigStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeConfigStatusWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeConfigStatusWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeConfigStatusWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeConfigStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeConfigStatusWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeConfigStatusWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeConfigStatusWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeCurrentPositionLiftPercentageWithCompletion:@
-readAttributeCurrentPositionLiftPercentageWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeCurrentPositionLiftPercentageWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionLiftPercentageWithCompletionSelector completion
-
--- | @- subscribeAttributeCurrentPositionLiftPercentageWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionLiftPercentageWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeCurrentPositionLiftPercentageWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionLiftPercentageWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeCurrentPositionLiftPercentageWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionLiftPercentageWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeCurrentPositionLiftPercentageWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeCurrentPositionLiftPercentageWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeCurrentPositionTiltPercentageWithCompletion:@
-readAttributeCurrentPositionTiltPercentageWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeCurrentPositionTiltPercentageWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionTiltPercentageWithCompletionSelector completion
-
--- | @- subscribeAttributeCurrentPositionTiltPercentageWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionTiltPercentageWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeCurrentPositionTiltPercentageWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionTiltPercentageWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeCurrentPositionTiltPercentageWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionTiltPercentageWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeCurrentPositionTiltPercentageWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeCurrentPositionTiltPercentageWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeOperationalStatusWithCompletion:@
-readAttributeOperationalStatusWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeOperationalStatusWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeOperationalStatusWithCompletionSelector completion
-
--- | @- subscribeAttributeOperationalStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeOperationalStatusWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeOperationalStatusWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeOperationalStatusWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeOperationalStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeOperationalStatusWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeOperationalStatusWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeOperationalStatusWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeTargetPositionLiftPercent100thsWithCompletion:@
-readAttributeTargetPositionLiftPercent100thsWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeTargetPositionLiftPercent100thsWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeTargetPositionLiftPercent100thsWithCompletionSelector completion
-
--- | @- subscribeAttributeTargetPositionLiftPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTargetPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeTargetPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeTargetPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeTargetPositionLiftPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTargetPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeTargetPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeTargetPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeTargetPositionTiltPercent100thsWithCompletion:@
-readAttributeTargetPositionTiltPercent100thsWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeTargetPositionTiltPercent100thsWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeTargetPositionTiltPercent100thsWithCompletionSelector completion
-
--- | @- subscribeAttributeTargetPositionTiltPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTargetPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeTargetPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeTargetPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeTargetPositionTiltPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTargetPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeTargetPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeTargetPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeEndProductTypeWithCompletion:@
-readAttributeEndProductTypeWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeEndProductTypeWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeEndProductTypeWithCompletionSelector completion
-
--- | @- subscribeAttributeEndProductTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeEndProductTypeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeEndProductTypeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeEndProductTypeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeEndProductTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeEndProductTypeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeEndProductTypeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeEndProductTypeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeCurrentPositionLiftPercent100thsWithCompletion:@
-readAttributeCurrentPositionLiftPercent100thsWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeCurrentPositionLiftPercent100thsWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionLiftPercent100thsWithCompletionSelector completion
-
--- | @- subscribeAttributeCurrentPositionLiftPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeCurrentPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeCurrentPositionTiltPercent100thsWithCompletion:@
-readAttributeCurrentPositionTiltPercent100thsWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeCurrentPositionTiltPercent100thsWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionTiltPercent100thsWithCompletionSelector completion
-
--- | @- subscribeAttributeCurrentPositionTiltPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeCurrentPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeInstalledOpenLimitLiftWithCompletion:@
-readAttributeInstalledOpenLimitLiftWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeInstalledOpenLimitLiftWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeInstalledOpenLimitLiftWithCompletionSelector completion
-
--- | @- subscribeAttributeInstalledOpenLimitLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledOpenLimitLiftWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeInstalledOpenLimitLiftWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledOpenLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeInstalledOpenLimitLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledOpenLimitLiftWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeInstalledOpenLimitLiftWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeInstalledOpenLimitLiftWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeInstalledClosedLimitLiftWithCompletion:@
-readAttributeInstalledClosedLimitLiftWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeInstalledClosedLimitLiftWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeInstalledClosedLimitLiftWithCompletionSelector completion
-
--- | @- subscribeAttributeInstalledClosedLimitLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledClosedLimitLiftWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeInstalledClosedLimitLiftWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeInstalledClosedLimitLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledClosedLimitLiftWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeInstalledClosedLimitLiftWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeInstalledClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeInstalledOpenLimitTiltWithCompletion:@
-readAttributeInstalledOpenLimitTiltWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeInstalledOpenLimitTiltWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeInstalledOpenLimitTiltWithCompletionSelector completion
-
--- | @- subscribeAttributeInstalledOpenLimitTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledOpenLimitTiltWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeInstalledOpenLimitTiltWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledOpenLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeInstalledOpenLimitTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledOpenLimitTiltWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeInstalledOpenLimitTiltWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeInstalledOpenLimitTiltWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeInstalledClosedLimitTiltWithCompletion:@
-readAttributeInstalledClosedLimitTiltWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeInstalledClosedLimitTiltWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeInstalledClosedLimitTiltWithCompletionSelector completion
-
--- | @- subscribeAttributeInstalledClosedLimitTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledClosedLimitTiltWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeInstalledClosedLimitTiltWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeInstalledClosedLimitTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledClosedLimitTiltWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeInstalledClosedLimitTiltWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeInstalledClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeModeWithCompletion:@
-readAttributeModeWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeModeWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeModeWithCompletionSelector completion
-
--- | @- writeAttributeModeWithValue:completion:@
-writeAttributeModeWithValue_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber value) => mtrBaseClusterWindowCovering -> value -> Ptr () -> IO ()
-writeAttributeModeWithValue_completion mtrBaseClusterWindowCovering value completion =
-  sendMessage mtrBaseClusterWindowCovering writeAttributeModeWithValue_completionSelector (toNSNumber value) completion
-
--- | @- writeAttributeModeWithValue:params:completion:@
-writeAttributeModeWithValue_params_completion :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber value, IsMTRWriteParams params) => mtrBaseClusterWindowCovering -> value -> params -> Ptr () -> IO ()
-writeAttributeModeWithValue_params_completion mtrBaseClusterWindowCovering value params completion =
-  sendMessage mtrBaseClusterWindowCovering writeAttributeModeWithValue_params_completionSelector (toNSNumber value) (toMTRWriteParams params) completion
-
--- | @- subscribeAttributeModeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeModeWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeModeWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeModeWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeModeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeModeWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeModeWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeModeWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeSafetyStatusWithCompletion:@
-readAttributeSafetyStatusWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeSafetyStatusWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeSafetyStatusWithCompletionSelector completion
-
--- | @- subscribeAttributeSafetyStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeSafetyStatusWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeSafetyStatusWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeSafetyStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeSafetyStatusWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeSafetyStatusWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeGeneratedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeAcceptedCommandListWithCompletionSelector completion
-
--- | @- subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeAttributeListWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeAttributeListWithCompletionSelector completion
-
--- | @- subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeFeatureMapWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeFeatureMapWithCompletionSelector completion
-
--- | @- subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletion :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> Ptr () -> IO ()
-readAttributeClusterRevisionWithCompletion mtrBaseClusterWindowCovering completion =
-  sendMessage mtrBaseClusterWindowCovering readAttributeClusterRevisionWithCompletionSelector completion
-
--- | @- subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> params -> Ptr () -> Ptr () -> IO ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering params subscriptionEstablished reportHandler =
-  sendMessage mtrBaseClusterWindowCovering subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector (toMTRSubscribeParams params) subscriptionEstablished reportHandler
-
--- | @+ readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion :: (IsMTRClusterStateCacheContainer clusterStateCacheContainer, IsNSNumber endpoint, IsNSObject queue) => clusterStateCacheContainer -> endpoint -> queue -> Ptr () -> IO ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completion clusterStateCacheContainer endpoint queue completion =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendClassMessage cls' readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector (toMTRClusterStateCacheContainer clusterStateCacheContainer) (toNSNumber endpoint) (toNSObject queue) completion
-
--- | @- init@
-init_ :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> IO (Id MTRBaseClusterWindowCovering)
-init_ mtrBaseClusterWindowCovering =
-  sendOwnedMessage mtrBaseClusterWindowCovering initSelector
-
--- | @+ new@
-new :: IO (Id MTRBaseClusterWindowCovering)
-new  =
-  do
-    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
-    sendOwnedClassMessage cls' newSelector
 
 -- | @- initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queue :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRBaseDevice device, IsNSObject queue) => mtrBaseClusterWindowCovering -> device -> CUShort -> queue -> IO (Id MTRBaseClusterWindowCovering)
@@ -1025,7 +276,9 @@ readAttributeTypeWithCompletionHandler :: IsMTRBaseClusterWindowCovering mtrBase
 readAttributeTypeWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeTypeWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1042,7 +295,9 @@ readAttributePhysicalClosedLimitLiftWithCompletionHandler :: IsMTRBaseClusterWin
 readAttributePhysicalClosedLimitLiftWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributePhysicalClosedLimitLiftWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePhysicalClosedLimitLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePhysicalClosedLimitLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePhysicalClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePhysicalClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributePhysicalClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1059,7 +314,9 @@ readAttributePhysicalClosedLimitTiltWithCompletionHandler :: IsMTRBaseClusterWin
 readAttributePhysicalClosedLimitTiltWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributePhysicalClosedLimitTiltWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributePhysicalClosedLimitTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributePhysicalClosedLimitTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributePhysicalClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributePhysicalClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributePhysicalClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1076,7 +333,9 @@ readAttributeCurrentPositionLiftWithCompletionHandler :: IsMTRBaseClusterWindowC
 readAttributeCurrentPositionLiftWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionLiftWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeCurrentPositionLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCurrentPositionLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCurrentPositionLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCurrentPositionLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1093,7 +352,9 @@ readAttributeCurrentPositionTiltWithCompletionHandler :: IsMTRBaseClusterWindowC
 readAttributeCurrentPositionTiltWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionTiltWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeCurrentPositionTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCurrentPositionTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCurrentPositionTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCurrentPositionTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1110,7 +371,9 @@ readAttributeNumberOfActuationsLiftWithCompletionHandler :: IsMTRBaseClusterWind
 readAttributeNumberOfActuationsLiftWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeNumberOfActuationsLiftWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeNumberOfActuationsLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNumberOfActuationsLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNumberOfActuationsLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNumberOfActuationsLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeNumberOfActuationsLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1127,7 +390,9 @@ readAttributeNumberOfActuationsTiltWithCompletionHandler :: IsMTRBaseClusterWind
 readAttributeNumberOfActuationsTiltWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeNumberOfActuationsTiltWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeNumberOfActuationsTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeNumberOfActuationsTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeNumberOfActuationsTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeNumberOfActuationsTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeNumberOfActuationsTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1144,7 +409,9 @@ readAttributeConfigStatusWithCompletionHandler :: IsMTRBaseClusterWindowCovering
 readAttributeConfigStatusWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeConfigStatusWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeConfigStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeConfigStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeConfigStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeConfigStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeConfigStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1161,7 +428,9 @@ readAttributeCurrentPositionLiftPercentageWithCompletionHandler :: IsMTRBaseClus
 readAttributeCurrentPositionLiftPercentageWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionLiftPercentageWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeCurrentPositionLiftPercentageWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCurrentPositionLiftPercentageWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCurrentPositionLiftPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCurrentPositionLiftPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionLiftPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1178,7 +447,9 @@ readAttributeCurrentPositionTiltPercentageWithCompletionHandler :: IsMTRBaseClus
 readAttributeCurrentPositionTiltPercentageWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionTiltPercentageWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeCurrentPositionTiltPercentageWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCurrentPositionTiltPercentageWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCurrentPositionTiltPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCurrentPositionTiltPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionTiltPercentageWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1195,7 +466,9 @@ readAttributeOperationalStatusWithCompletionHandler :: IsMTRBaseClusterWindowCov
 readAttributeOperationalStatusWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeOperationalStatusWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeOperationalStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeOperationalStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeOperationalStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeOperationalStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeOperationalStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1212,7 +485,9 @@ readAttributeTargetPositionLiftPercent100thsWithCompletionHandler :: IsMTRBaseCl
 readAttributeTargetPositionLiftPercent100thsWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeTargetPositionLiftPercent100thsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeTargetPositionLiftPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeTargetPositionLiftPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeTargetPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeTargetPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeTargetPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1229,7 +504,9 @@ readAttributeTargetPositionTiltPercent100thsWithCompletionHandler :: IsMTRBaseCl
 readAttributeTargetPositionTiltPercent100thsWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeTargetPositionTiltPercent100thsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeTargetPositionTiltPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeTargetPositionTiltPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeTargetPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeTargetPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeTargetPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1246,7 +523,9 @@ readAttributeEndProductTypeWithCompletionHandler :: IsMTRBaseClusterWindowCoveri
 readAttributeEndProductTypeWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeEndProductTypeWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeEndProductTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeEndProductTypeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeEndProductTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeEndProductTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeEndProductTypeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1263,7 +542,9 @@ readAttributeCurrentPositionLiftPercent100thsWithCompletionHandler :: IsMTRBaseC
 readAttributeCurrentPositionLiftPercent100thsWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionLiftPercent100thsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeCurrentPositionLiftPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCurrentPositionLiftPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCurrentPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCurrentPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionLiftPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1280,7 +561,9 @@ readAttributeCurrentPositionTiltPercent100thsWithCompletionHandler :: IsMTRBaseC
 readAttributeCurrentPositionTiltPercent100thsWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeCurrentPositionTiltPercent100thsWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeCurrentPositionTiltPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeCurrentPositionTiltPercent100thsWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeCurrentPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeCurrentPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeCurrentPositionTiltPercent100thsWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1297,7 +580,9 @@ readAttributeInstalledOpenLimitLiftWithCompletionHandler :: IsMTRBaseClusterWind
 readAttributeInstalledOpenLimitLiftWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeInstalledOpenLimitLiftWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeInstalledOpenLimitLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInstalledOpenLimitLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInstalledOpenLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInstalledOpenLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledOpenLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1314,7 +599,9 @@ readAttributeInstalledClosedLimitLiftWithCompletionHandler :: IsMTRBaseClusterWi
 readAttributeInstalledClosedLimitLiftWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeInstalledClosedLimitLiftWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeInstalledClosedLimitLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInstalledClosedLimitLiftWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInstalledClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInstalledClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledClosedLimitLiftWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1331,7 +618,9 @@ readAttributeInstalledOpenLimitTiltWithCompletionHandler :: IsMTRBaseClusterWind
 readAttributeInstalledOpenLimitTiltWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeInstalledOpenLimitTiltWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeInstalledOpenLimitTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInstalledOpenLimitTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInstalledOpenLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInstalledOpenLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledOpenLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1348,7 +637,9 @@ readAttributeInstalledClosedLimitTiltWithCompletionHandler :: IsMTRBaseClusterWi
 readAttributeInstalledClosedLimitTiltWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeInstalledClosedLimitTiltWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeInstalledClosedLimitTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeInstalledClosedLimitTiltWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeInstalledClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeInstalledClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeInstalledClosedLimitTiltWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1375,7 +666,9 @@ writeAttributeModeWithValue_params_completionHandler :: (IsMTRBaseClusterWindowC
 writeAttributeModeWithValue_params_completionHandler mtrBaseClusterWindowCovering value params completionHandler =
   sendMessage mtrBaseClusterWindowCovering writeAttributeModeWithValue_params_completionHandlerSelector (toNSNumber value) (toMTRWriteParams params) completionHandler
 
--- | @- subscribeAttributeModeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeModeWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeModeWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1392,7 +685,9 @@ readAttributeSafetyStatusWithCompletionHandler :: IsMTRBaseClusterWindowCovering
 readAttributeSafetyStatusWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeSafetyStatusWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeSafetyStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeSafetyStatusWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeSafetyStatusWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1409,7 +704,9 @@ readAttributeGeneratedCommandListWithCompletionHandler :: IsMTRBaseClusterWindow
 readAttributeGeneratedCommandListWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeGeneratedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeGeneratedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeGeneratedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1426,7 +723,9 @@ readAttributeAcceptedCommandListWithCompletionHandler :: IsMTRBaseClusterWindowC
 readAttributeAcceptedCommandListWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeAcceptedCommandListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAcceptedCommandListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeAcceptedCommandListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1443,7 +742,9 @@ readAttributeAttributeListWithCompletionHandler :: IsMTRBaseClusterWindowCoverin
 readAttributeAttributeListWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeAttributeListWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeAttributeListWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeAttributeListWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1460,7 +761,9 @@ readAttributeFeatureMapWithCompletionHandler :: IsMTRBaseClusterWindowCovering m
 readAttributeFeatureMapWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeFeatureMapWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeFeatureMapWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeFeatureMapWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1477,7 +780,9 @@ readAttributeClusterRevisionWithCompletionHandler :: IsMTRBaseClusterWindowCover
 readAttributeClusterRevisionWithCompletionHandler mtrBaseClusterWindowCovering completionHandler =
   sendMessage mtrBaseClusterWindowCovering readAttributeClusterRevisionWithCompletionHandlerSelector completionHandler
 
--- | @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
+-- | This API does not support setting autoResubscribe to NO in the MTRSubscribeParams.
+--
+-- ObjC selector: @- subscribeAttributeClusterRevisionWithMinInterval:maxInterval:params:subscriptionEstablished:reportHandler:@
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsNSNumber minInterval, IsNSNumber maxInterval, IsMTRSubscribeParams params) => mtrBaseClusterWindowCovering -> minInterval -> maxInterval -> params -> Ptr () -> Ptr () -> IO ()
 subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandler mtrBaseClusterWindowCovering minInterval maxInterval params subscriptionEstablishedHandler reportHandler =
   sendMessage mtrBaseClusterWindowCovering subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscriptionEstablished_reportHandlerSelector (toNSNumber minInterval) (toNSNumber maxInterval) (toMTRSubscribeParams params) subscriptionEstablishedHandler reportHandler
@@ -1489,396 +794,21 @@ readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandler 
     cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
     sendClassMessage cls' readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector (toMTRAttributeCacheContainer attributeCacheContainer) (toNSNumber endpoint) (toNSObject queue) completionHandler
 
--- | For all instance methods (reads, writes, commands) that take a completion, the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering, IsMTRBaseDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrBaseClusterWindowCovering -> device -> endpointID -> queue -> IO (Id MTRBaseClusterWindowCovering)
-initWithDevice_endpointID_queue mtrBaseClusterWindowCovering device endpointID queue =
-  sendOwnedMessage mtrBaseClusterWindowCovering initWithDevice_endpointID_queueSelector (toMTRBaseDevice device) (toNSNumber endpointID) (toNSObject queue)
+-- | @- init@
+init_ :: IsMTRBaseClusterWindowCovering mtrBaseClusterWindowCovering => mtrBaseClusterWindowCovering -> IO (Id MTRBaseClusterWindowCovering)
+init_ mtrBaseClusterWindowCovering =
+  sendOwnedMessage mtrBaseClusterWindowCovering initSelector
+
+-- | @+ new@
+new :: IO (Id MTRBaseClusterWindowCovering)
+new  =
+  do
+    cls' <- getRequiredClass "MTRBaseClusterWindowCovering"
+    sendOwnedClassMessage cls' newSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @upOrOpenWithParams:completion:@
-upOrOpenWithParams_completionSelector :: Selector '[Id MTRWindowCoveringClusterUpOrOpenParams, Ptr ()] ()
-upOrOpenWithParams_completionSelector = mkSelector "upOrOpenWithParams:completion:"
-
--- | @Selector@ for @upOrOpenWithCompletion:@
-upOrOpenWithCompletionSelector :: Selector '[Ptr ()] ()
-upOrOpenWithCompletionSelector = mkSelector "upOrOpenWithCompletion:"
-
--- | @Selector@ for @downOrCloseWithParams:completion:@
-downOrCloseWithParams_completionSelector :: Selector '[Id MTRWindowCoveringClusterDownOrCloseParams, Ptr ()] ()
-downOrCloseWithParams_completionSelector = mkSelector "downOrCloseWithParams:completion:"
-
--- | @Selector@ for @downOrCloseWithCompletion:@
-downOrCloseWithCompletionSelector :: Selector '[Ptr ()] ()
-downOrCloseWithCompletionSelector = mkSelector "downOrCloseWithCompletion:"
-
--- | @Selector@ for @stopMotionWithParams:completion:@
-stopMotionWithParams_completionSelector :: Selector '[Id MTRWindowCoveringClusterStopMotionParams, Ptr ()] ()
-stopMotionWithParams_completionSelector = mkSelector "stopMotionWithParams:completion:"
-
--- | @Selector@ for @stopMotionWithCompletion:@
-stopMotionWithCompletionSelector :: Selector '[Ptr ()] ()
-stopMotionWithCompletionSelector = mkSelector "stopMotionWithCompletion:"
-
--- | @Selector@ for @goToLiftValueWithParams:completion:@
-goToLiftValueWithParams_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftValueParams, Ptr ()] ()
-goToLiftValueWithParams_completionSelector = mkSelector "goToLiftValueWithParams:completion:"
-
--- | @Selector@ for @goToLiftPercentageWithParams:completion:@
-goToLiftPercentageWithParams_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToLiftPercentageParams, Ptr ()] ()
-goToLiftPercentageWithParams_completionSelector = mkSelector "goToLiftPercentageWithParams:completion:"
-
--- | @Selector@ for @goToTiltValueWithParams:completion:@
-goToTiltValueWithParams_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltValueParams, Ptr ()] ()
-goToTiltValueWithParams_completionSelector = mkSelector "goToTiltValueWithParams:completion:"
-
--- | @Selector@ for @goToTiltPercentageWithParams:completion:@
-goToTiltPercentageWithParams_completionSelector :: Selector '[Id MTRWindowCoveringClusterGoToTiltPercentageParams, Ptr ()] ()
-goToTiltPercentageWithParams_completionSelector = mkSelector "goToTiltPercentageWithParams:completion:"
-
--- | @Selector@ for @readAttributeTypeWithCompletion:@
-readAttributeTypeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeTypeWithCompletionSelector = mkSelector "readAttributeTypeWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTypeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeTypeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeTypeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTypeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeTypeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeTypeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributePhysicalClosedLimitLiftWithCompletion:@
-readAttributePhysicalClosedLimitLiftWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePhysicalClosedLimitLiftWithCompletionSelector = mkSelector "readAttributePhysicalClosedLimitLiftWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePhysicalClosedLimitLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePhysicalClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePhysicalClosedLimitLiftWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePhysicalClosedLimitLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePhysicalClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePhysicalClosedLimitLiftWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributePhysicalClosedLimitTiltWithCompletion:@
-readAttributePhysicalClosedLimitTiltWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributePhysicalClosedLimitTiltWithCompletionSelector = mkSelector "readAttributePhysicalClosedLimitTiltWithCompletion:"
-
--- | @Selector@ for @subscribeAttributePhysicalClosedLimitTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributePhysicalClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributePhysicalClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributePhysicalClosedLimitTiltWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributePhysicalClosedLimitTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributePhysicalClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributePhysicalClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributePhysicalClosedLimitTiltWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeCurrentPositionLiftWithCompletion:@
-readAttributeCurrentPositionLiftWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeCurrentPositionLiftWithCompletionSelector = mkSelector "readAttributeCurrentPositionLiftWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeCurrentPositionLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionLiftWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeCurrentPositionLiftWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeCurrentPositionLiftWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeCurrentPositionLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionLiftWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeCurrentPositionLiftWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeCurrentPositionLiftWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeCurrentPositionTiltWithCompletion:@
-readAttributeCurrentPositionTiltWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeCurrentPositionTiltWithCompletionSelector = mkSelector "readAttributeCurrentPositionTiltWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeCurrentPositionTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionTiltWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeCurrentPositionTiltWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeCurrentPositionTiltWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeCurrentPositionTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionTiltWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeCurrentPositionTiltWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeCurrentPositionTiltWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeNumberOfActuationsLiftWithCompletion:@
-readAttributeNumberOfActuationsLiftWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeNumberOfActuationsLiftWithCompletionSelector = mkSelector "readAttributeNumberOfActuationsLiftWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeNumberOfActuationsLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeNumberOfActuationsLiftWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeNumberOfActuationsLiftWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeNumberOfActuationsLiftWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeNumberOfActuationsLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeNumberOfActuationsLiftWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeNumberOfActuationsLiftWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeNumberOfActuationsLiftWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeNumberOfActuationsTiltWithCompletion:@
-readAttributeNumberOfActuationsTiltWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeNumberOfActuationsTiltWithCompletionSelector = mkSelector "readAttributeNumberOfActuationsTiltWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeNumberOfActuationsTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeNumberOfActuationsTiltWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeNumberOfActuationsTiltWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeNumberOfActuationsTiltWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeNumberOfActuationsTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeNumberOfActuationsTiltWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeNumberOfActuationsTiltWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeNumberOfActuationsTiltWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeConfigStatusWithCompletion:@
-readAttributeConfigStatusWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeConfigStatusWithCompletionSelector = mkSelector "readAttributeConfigStatusWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeConfigStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeConfigStatusWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeConfigStatusWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeConfigStatusWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeConfigStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeConfigStatusWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeConfigStatusWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeConfigStatusWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeCurrentPositionLiftPercentageWithCompletion:@
-readAttributeCurrentPositionLiftPercentageWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeCurrentPositionLiftPercentageWithCompletionSelector = mkSelector "readAttributeCurrentPositionLiftPercentageWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeCurrentPositionLiftPercentageWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionLiftPercentageWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeCurrentPositionLiftPercentageWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeCurrentPositionLiftPercentageWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeCurrentPositionLiftPercentageWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionLiftPercentageWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeCurrentPositionLiftPercentageWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeCurrentPositionLiftPercentageWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeCurrentPositionTiltPercentageWithCompletion:@
-readAttributeCurrentPositionTiltPercentageWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeCurrentPositionTiltPercentageWithCompletionSelector = mkSelector "readAttributeCurrentPositionTiltPercentageWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeCurrentPositionTiltPercentageWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionTiltPercentageWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeCurrentPositionTiltPercentageWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeCurrentPositionTiltPercentageWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeCurrentPositionTiltPercentageWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionTiltPercentageWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeCurrentPositionTiltPercentageWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeCurrentPositionTiltPercentageWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeOperationalStatusWithCompletion:@
-readAttributeOperationalStatusWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeOperationalStatusWithCompletionSelector = mkSelector "readAttributeOperationalStatusWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeOperationalStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeOperationalStatusWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeOperationalStatusWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeOperationalStatusWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeOperationalStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeOperationalStatusWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeOperationalStatusWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeOperationalStatusWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeTargetPositionLiftPercent100thsWithCompletion:@
-readAttributeTargetPositionLiftPercent100thsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeTargetPositionLiftPercent100thsWithCompletionSelector = mkSelector "readAttributeTargetPositionLiftPercent100thsWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeTargetPositionLiftPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTargetPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeTargetPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeTargetPositionLiftPercent100thsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeTargetPositionLiftPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTargetPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeTargetPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeTargetPositionLiftPercent100thsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeTargetPositionTiltPercent100thsWithCompletion:@
-readAttributeTargetPositionTiltPercent100thsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeTargetPositionTiltPercent100thsWithCompletionSelector = mkSelector "readAttributeTargetPositionTiltPercent100thsWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeTargetPositionTiltPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeTargetPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeTargetPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeTargetPositionTiltPercent100thsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeTargetPositionTiltPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeTargetPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeTargetPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeTargetPositionTiltPercent100thsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeEndProductTypeWithCompletion:@
-readAttributeEndProductTypeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeEndProductTypeWithCompletionSelector = mkSelector "readAttributeEndProductTypeWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeEndProductTypeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeEndProductTypeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeEndProductTypeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeEndProductTypeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeEndProductTypeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeEndProductTypeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeEndProductTypeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeEndProductTypeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeCurrentPositionLiftPercent100thsWithCompletion:@
-readAttributeCurrentPositionLiftPercent100thsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeCurrentPositionLiftPercent100thsWithCompletionSelector = mkSelector "readAttributeCurrentPositionLiftPercent100thsWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeCurrentPositionLiftPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeCurrentPositionLiftPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeCurrentPositionLiftPercent100thsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeCurrentPositionLiftPercent100thsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeCurrentPositionTiltPercent100thsWithCompletion:@
-readAttributeCurrentPositionTiltPercent100thsWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeCurrentPositionTiltPercent100thsWithCompletionSelector = mkSelector "readAttributeCurrentPositionTiltPercent100thsWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeCurrentPositionTiltPercent100thsWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeCurrentPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeCurrentPositionTiltPercent100thsWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeCurrentPositionTiltPercent100thsWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache:endpoint:queue:completion:@
-readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeCurrentPositionTiltPercent100thsWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeInstalledOpenLimitLiftWithCompletion:@
-readAttributeInstalledOpenLimitLiftWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeInstalledOpenLimitLiftWithCompletionSelector = mkSelector "readAttributeInstalledOpenLimitLiftWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeInstalledOpenLimitLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledOpenLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeInstalledOpenLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeInstalledOpenLimitLiftWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeInstalledOpenLimitLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledOpenLimitLiftWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeInstalledOpenLimitLiftWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeInstalledOpenLimitLiftWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeInstalledClosedLimitLiftWithCompletion:@
-readAttributeInstalledClosedLimitLiftWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeInstalledClosedLimitLiftWithCompletionSelector = mkSelector "readAttributeInstalledClosedLimitLiftWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeInstalledClosedLimitLiftWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeInstalledClosedLimitLiftWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeInstalledClosedLimitLiftWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeInstalledClosedLimitLiftWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeInstalledClosedLimitLiftWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeInstalledClosedLimitLiftWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeInstalledOpenLimitTiltWithCompletion:@
-readAttributeInstalledOpenLimitTiltWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeInstalledOpenLimitTiltWithCompletionSelector = mkSelector "readAttributeInstalledOpenLimitTiltWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeInstalledOpenLimitTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledOpenLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeInstalledOpenLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeInstalledOpenLimitTiltWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeInstalledOpenLimitTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledOpenLimitTiltWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeInstalledOpenLimitTiltWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeInstalledOpenLimitTiltWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeInstalledClosedLimitTiltWithCompletion:@
-readAttributeInstalledClosedLimitTiltWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeInstalledClosedLimitTiltWithCompletionSelector = mkSelector "readAttributeInstalledClosedLimitTiltWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeInstalledClosedLimitTiltWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeInstalledClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeInstalledClosedLimitTiltWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeInstalledClosedLimitTiltWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeInstalledClosedLimitTiltWithClusterStateCache:endpoint:queue:completion:@
-readAttributeInstalledClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeInstalledClosedLimitTiltWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeInstalledClosedLimitTiltWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeModeWithCompletion:@
-readAttributeModeWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeModeWithCompletionSelector = mkSelector "readAttributeModeWithCompletion:"
-
--- | @Selector@ for @writeAttributeModeWithValue:completion:@
-writeAttributeModeWithValue_completionSelector :: Selector '[Id NSNumber, Ptr ()] ()
-writeAttributeModeWithValue_completionSelector = mkSelector "writeAttributeModeWithValue:completion:"
-
--- | @Selector@ for @writeAttributeModeWithValue:params:completion:@
-writeAttributeModeWithValue_params_completionSelector :: Selector '[Id NSNumber, Id MTRWriteParams, Ptr ()] ()
-writeAttributeModeWithValue_params_completionSelector = mkSelector "writeAttributeModeWithValue:params:completion:"
-
--- | @Selector@ for @subscribeAttributeModeWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeModeWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeModeWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeModeWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeModeWithClusterStateCache:endpoint:queue:completion:@
-readAttributeModeWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeModeWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeModeWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeSafetyStatusWithCompletion:@
-readAttributeSafetyStatusWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeSafetyStatusWithCompletionSelector = mkSelector "readAttributeSafetyStatusWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeSafetyStatusWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeSafetyStatusWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeSafetyStatusWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeSafetyStatusWithClusterStateCache:endpoint:queue:completion:@
-readAttributeSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeSafetyStatusWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeSafetyStatusWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithCompletion:@
-readAttributeGeneratedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeGeneratedCommandListWithCompletionSelector = mkSelector "readAttributeGeneratedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeGeneratedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeGeneratedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeGeneratedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeGeneratedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithCompletion:@
-readAttributeAcceptedCommandListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAcceptedCommandListWithCompletionSelector = mkSelector "readAttributeAcceptedCommandListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAcceptedCommandListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAcceptedCommandListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAcceptedCommandListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAcceptedCommandListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeAttributeListWithCompletion:@
-readAttributeAttributeListWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeAttributeListWithCompletionSelector = mkSelector "readAttributeAttributeListWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeAttributeListWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeAttributeListWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:@
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeAttributeListWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeAttributeListWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeFeatureMapWithCompletion:@
-readAttributeFeatureMapWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeFeatureMapWithCompletionSelector = mkSelector "readAttributeFeatureMapWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeFeatureMapWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeFeatureMapWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:@
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeFeatureMapWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeFeatureMapWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithCompletion:@
-readAttributeClusterRevisionWithCompletionSelector :: Selector '[Ptr ()] ()
-readAttributeClusterRevisionWithCompletionSelector = mkSelector "readAttributeClusterRevisionWithCompletion:"
-
--- | @Selector@ for @subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:@
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector :: Selector '[Id MTRSubscribeParams, Ptr (), Ptr ()] ()
-subscribeAttributeClusterRevisionWithParams_subscriptionEstablished_reportHandlerSelector = mkSelector "subscribeAttributeClusterRevisionWithParams:subscriptionEstablished:reportHandler:"
-
--- | @Selector@ for @readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:@
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector :: Selector '[Id MTRClusterStateCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
-readAttributeClusterRevisionWithClusterStateCache_endpoint_queue_completionSelector = mkSelector "readAttributeClusterRevisionWithClusterStateCache:endpoint:queue:completion:"
-
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id MTRBaseClusterWindowCovering)
-initSelector = mkSelector "init"
-
--- | @Selector@ for @new@
-newSelector :: Selector '[] (Id MTRBaseClusterWindowCovering)
-newSelector = mkSelector "new"
 
 -- | @Selector@ for @initWithDevice:endpoint:queue:@
 initWithDevice_endpoint_queueSelector :: Selector '[Id MTRBaseDevice, CUShort, Id NSObject] (Id MTRBaseClusterWindowCovering)
@@ -2256,7 +1186,11 @@ subscribeAttributeClusterRevisionWithMinInterval_maxInterval_params_subscription
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector :: Selector '[Id MTRAttributeCacheContainer, Id NSNumber, Id NSObject, Ptr ()] ()
 readAttributeClusterRevisionWithAttributeCache_endpoint_queue_completionHandlerSelector = mkSelector "readAttributeClusterRevisionWithAttributeCache:endpoint:queue:completionHandler:"
 
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRBaseDevice, Id NSNumber, Id NSObject] (Id MTRBaseClusterWindowCovering)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBaseClusterWindowCovering)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRBaseClusterWindowCovering)
+newSelector = mkSelector "new"
 

@@ -38,9 +38,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | Some Xbox controller variants can support up to four additional buttons.
 --
--- The standard Bluetooth-enabled Xbox Wireless Controller does not have paddle buttons
---
--- The Xbox Elite Wireless Controller has four extra digital buttons.
+-- The standard Bluetooth-enabled Xbox Wireless Controller does not have paddle buttons  The Xbox Elite Wireless Controller has four extra digital buttons.
 --
 -- Note: The four extra digital buttons on the Xbox Elite Wireless Controller are only directly addressable when the controller    is on its default mapping profile. Otherwise, the paddle buttons are directly bound to other inputs on the controller.
 --
@@ -66,9 +64,7 @@ paddleButton4 gcXboxGamepad =
 
 -- | Some Xbox controller variants feature a Share button.
 --
--- The Bluetooth-enabled Xbox Wireless Controller introduced with the Xbox Series X and Xbox Series S in 2020
---
--- has a Share button.
+-- The Bluetooth-enabled Xbox Wireless Controller introduced with the Xbox Series X and Xbox Series S in 2020    has a Share button.
 --
 -- Note: The Share button is reserved by the system for screenshot and video recording gestures. If you wish to disable these    gestures in your app and take control of the Share button, set buttonShare.preferredSystemGestureState to    GCSystemGestureStateDisabled.
 --

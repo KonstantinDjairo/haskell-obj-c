@@ -18,9 +18,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- ---------- ATTrackingManager ----------
 
--- | A class that provides a tracking authorization request and the tracking authorization status of the app.
--- 
--- Phantom type for @ATTrackingManager@.
+-- | Phantom type for @ATTrackingManager@.
 data ATTrackingManager
 
 instance IsObjCObject (Id ATTrackingManager) where

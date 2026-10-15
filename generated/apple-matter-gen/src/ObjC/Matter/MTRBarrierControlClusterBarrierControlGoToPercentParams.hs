@@ -7,16 +7,16 @@
 module ObjC.Matter.MTRBarrierControlClusterBarrierControlGoToPercentParams
   ( MTRBarrierControlClusterBarrierControlGoToPercentParams
   , IsMTRBarrierControlClusterBarrierControlGoToPercentParams(..)
+  , init_
+  , copyWithZone
   , percentOpen
   , setPercentOpen
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , percentOpenSelector
-  , serverSideProcessingTimeoutSelector
   , setPercentOpenSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRBarrierControlClusterBarrierControlGoToPercentParams mtrBarrierControlClusterBarrierControlGoToPercentParams => mtrBarrierControlClusterBarrierControlGoToPercentParams -> IO (Id MTRBarrierControlClusterBarrierControlGoToPercentParams)
+init_ mtrBarrierControlClusterBarrierControlGoToPercentParams =
+  sendOwnedMessage mtrBarrierControlClusterBarrierControlGoToPercentParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBarrierControlClusterBarrierControlGoToPercentParams mtrBarrierControlClusterBarrierControlGoToPercentParams => mtrBarrierControlClusterBarrierControlGoToPercentParams -> Ptr () -> IO RawId
+copyWithZone mtrBarrierControlClusterBarrierControlGoToPercentParams zone =
+  sendOwnedMessage mtrBarrierControlClusterBarrierControlGoToPercentParams copyWithZoneSelector zone
 
 -- | @- percentOpen@
 percentOpen :: IsMTRBarrierControlClusterBarrierControlGoToPercentParams mtrBarrierControlClusterBarrierControlGoToPercentParams => mtrBarrierControlClusterBarrierControlGoToPercentParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRBarrierControlClusterBarrierControlGoToPercentP
 setTimedInvokeTimeoutMs mtrBarrierControlClusterBarrierControlGoToPercentParams value =
   sendMessage mtrBarrierControlClusterBarrierControlGoToPercentParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRBarrierControlClusterBarrierControlGoToPercentParams mtrBarrierControlClusterBarrierControlGoToPercentParams => mtrBarrierControlClusterBarrierControlGoToPercentParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrBarrierControlClusterBarrierControlGoToPercentParams =
-  sendMessage mtrBarrierControlClusterBarrierControlGoToPercentParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRBarrierControlClusterBarrierControlGoToPercentParams mtrBarrierControlClusterBarrierControlGoToPercentParams, IsNSNumber value) => mtrBarrierControlClusterBarrierControlGoToPercentParams -> value -> IO ()
-setServerSideProcessingTimeout mtrBarrierControlClusterBarrierControlGoToPercentParams value =
-  sendMessage mtrBarrierControlClusterBarrierControlGoToPercentParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBarrierControlClusterBarrierControlGoToPercentParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @percentOpen@
 percentOpenSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

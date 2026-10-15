@@ -3,18 +3,22 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A path indicating a specific attribute on a device (i.e. without any wildcards).
---
--- Generated bindings for @MTRAttributePath@.
+-- | Generated bindings for @MTRAttributePath@.
 module ObjC.Matter.MTRAttributePath
   ( MTRAttributePath
   , IsMTRAttributePath(..)
-  , attributePathWithEndpointID_clusterID_attributeID
   , attributePathWithEndpointId_clusterId_attributeId
+  , init_
+  , new
+  , endpoint
+  , cluster
   , attribute
-  , attributePathWithEndpointID_clusterID_attributeIDSelector
   , attributePathWithEndpointId_clusterId_attributeIdSelector
   , attributeSelector
+  , clusterSelector
+  , endpointSelector
+  , initSelector
+  , newSelector
 
 
   ) where
@@ -30,19 +34,34 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @+ attributePathWithEndpointID:clusterID:attributeID:@
-attributePathWithEndpointID_clusterID_attributeID :: (IsNSNumber endpointID, IsNSNumber clusterID, IsNSNumber attributeID) => endpointID -> clusterID -> attributeID -> IO (Id MTRAttributePath)
-attributePathWithEndpointID_clusterID_attributeID endpointID clusterID attributeID =
-  do
-    cls' <- getRequiredClass "MTRAttributePath"
-    sendClassMessage cls' attributePathWithEndpointID_clusterID_attributeIDSelector (toNSNumber endpointID) (toNSNumber clusterID) (toNSNumber attributeID)
-
 -- | @+ attributePathWithEndpointId:clusterId:attributeId:@
-attributePathWithEndpointId_clusterId_attributeId :: (IsNSNumber endpointId, IsNSNumber clusterId, IsNSNumber attributeId) => endpointId -> clusterId -> attributeId -> IO (Id MTRAttributePath)
-attributePathWithEndpointId_clusterId_attributeId endpointId clusterId attributeId =
+attributePathWithEndpointId_clusterId_attributeId :: (IsNSNumber endpoint, IsNSNumber clusterId, IsNSNumber attributeId) => endpoint -> clusterId -> attributeId -> IO (Id MTRAttributePath)
+attributePathWithEndpointId_clusterId_attributeId endpoint clusterId attributeId =
   do
     cls' <- getRequiredClass "MTRAttributePath"
-    sendClassMessage cls' attributePathWithEndpointId_clusterId_attributeIdSelector (toNSNumber endpointId) (toNSNumber clusterId) (toNSNumber attributeId)
+    sendClassMessage cls' attributePathWithEndpointId_clusterId_attributeIdSelector (toNSNumber endpoint) (toNSNumber clusterId) (toNSNumber attributeId)
+
+-- | @- init@
+init_ :: IsMTRAttributePath mtrAttributePath => mtrAttributePath -> IO (Id MTRAttributePath)
+init_ mtrAttributePath =
+  sendOwnedMessage mtrAttributePath initSelector
+
+-- | @+ new@
+new :: IO (Id MTRAttributePath)
+new  =
+  do
+    cls' <- getRequiredClass "MTRAttributePath"
+    sendOwnedClassMessage cls' newSelector
+
+-- | @- endpoint@
+endpoint :: IsMTRAttributePath mtrAttributePath => mtrAttributePath -> IO (Id NSNumber)
+endpoint mtrAttributePath =
+  sendMessage mtrAttributePath endpointSelector
+
+-- | @- cluster@
+cluster :: IsMTRAttributePath mtrAttributePath => mtrAttributePath -> IO (Id NSNumber)
+cluster mtrAttributePath =
+  sendMessage mtrAttributePath clusterSelector
 
 -- | @- attribute@
 attribute :: IsMTRAttributePath mtrAttributePath => mtrAttributePath -> IO (Id NSNumber)
@@ -53,13 +72,25 @@ attribute mtrAttributePath =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @attributePathWithEndpointID:clusterID:attributeID:@
-attributePathWithEndpointID_clusterID_attributeIDSelector :: Selector '[Id NSNumber, Id NSNumber, Id NSNumber] (Id MTRAttributePath)
-attributePathWithEndpointID_clusterID_attributeIDSelector = mkSelector "attributePathWithEndpointID:clusterID:attributeID:"
-
 -- | @Selector@ for @attributePathWithEndpointId:clusterId:attributeId:@
 attributePathWithEndpointId_clusterId_attributeIdSelector :: Selector '[Id NSNumber, Id NSNumber, Id NSNumber] (Id MTRAttributePath)
 attributePathWithEndpointId_clusterId_attributeIdSelector = mkSelector "attributePathWithEndpointId:clusterId:attributeId:"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAttributePath)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id MTRAttributePath)
+newSelector = mkSelector "new"
+
+-- | @Selector@ for @endpoint@
+endpointSelector :: Selector '[] (Id NSNumber)
+endpointSelector = mkSelector "endpoint"
+
+-- | @Selector@ for @cluster@
+clusterSelector :: Selector '[] (Id NSNumber)
+clusterSelector = mkSelector "cluster"
 
 -- | @Selector@ for @attribute@
 attributeSelector :: Selector '[] (Id NSNumber)

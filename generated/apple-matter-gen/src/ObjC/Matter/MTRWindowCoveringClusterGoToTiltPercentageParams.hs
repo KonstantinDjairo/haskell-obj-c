@@ -7,14 +7,14 @@
 module ObjC.Matter.MTRWindowCoveringClusterGoToTiltPercentageParams
   ( MTRWindowCoveringClusterGoToTiltPercentageParams
   , IsMTRWindowCoveringClusterGoToTiltPercentageParams(..)
+  , init_
+  , copyWithZone
   , tiltPercent100thsValue
   , setTiltPercent100thsValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , serverSideProcessingTimeoutSelector
-  , setServerSideProcessingTimeoutSelector
+  , copyWithZoneSelector
+  , initSelector
   , setTiltPercent100thsValueSelector
   , setTimedInvokeTimeoutMsSelector
   , tiltPercent100thsValueSelector
@@ -33,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRWindowCoveringClusterGoToTiltPercentageParams mtrWindowCoveringClusterGoToTiltPercentageParams => mtrWindowCoveringClusterGoToTiltPercentageParams -> IO (Id MTRWindowCoveringClusterGoToTiltPercentageParams)
+init_ mtrWindowCoveringClusterGoToTiltPercentageParams =
+  sendOwnedMessage mtrWindowCoveringClusterGoToTiltPercentageParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRWindowCoveringClusterGoToTiltPercentageParams mtrWindowCoveringClusterGoToTiltPercentageParams => mtrWindowCoveringClusterGoToTiltPercentageParams -> Ptr () -> IO RawId
+copyWithZone mtrWindowCoveringClusterGoToTiltPercentageParams zone =
+  sendOwnedMessage mtrWindowCoveringClusterGoToTiltPercentageParams copyWithZoneSelector zone
 
 -- | @- tiltPercent100thsValue@
 tiltPercent100thsValue :: IsMTRWindowCoveringClusterGoToTiltPercentageParams mtrWindowCoveringClusterGoToTiltPercentageParams => mtrWindowCoveringClusterGoToTiltPercentageParams -> IO (Id NSNumber)
@@ -66,31 +76,17 @@ setTimedInvokeTimeoutMs :: (IsMTRWindowCoveringClusterGoToTiltPercentageParams m
 setTimedInvokeTimeoutMs mtrWindowCoveringClusterGoToTiltPercentageParams value =
   sendMessage mtrWindowCoveringClusterGoToTiltPercentageParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRWindowCoveringClusterGoToTiltPercentageParams mtrWindowCoveringClusterGoToTiltPercentageParams => mtrWindowCoveringClusterGoToTiltPercentageParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrWindowCoveringClusterGoToTiltPercentageParams =
-  sendMessage mtrWindowCoveringClusterGoToTiltPercentageParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRWindowCoveringClusterGoToTiltPercentageParams mtrWindowCoveringClusterGoToTiltPercentageParams, IsNSNumber value) => mtrWindowCoveringClusterGoToTiltPercentageParams -> value -> IO ()
-setServerSideProcessingTimeout mtrWindowCoveringClusterGoToTiltPercentageParams value =
-  sendMessage mtrWindowCoveringClusterGoToTiltPercentageParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRWindowCoveringClusterGoToTiltPercentageParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @tiltPercent100thsValue@
 tiltPercent100thsValueSelector :: Selector '[] (Id NSNumber)
@@ -107,12 +103,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

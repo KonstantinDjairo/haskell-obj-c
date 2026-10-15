@@ -45,7 +45,7 @@ init_ ckDiscoverAllUserIdentitiesOperation =
 
 -- | Called once for each successfully-discovered user identity from the device's address book.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- userIdentityDiscoveredBlock@
 userIdentityDiscoveredBlock :: IsCKDiscoverAllUserIdentitiesOperation ckDiscoverAllUserIdentitiesOperation => ckDiscoverAllUserIdentitiesOperation -> IO (Ptr ())
@@ -54,7 +54,7 @@ userIdentityDiscoveredBlock ckDiscoverAllUserIdentitiesOperation =
 
 -- | Called once for each successfully-discovered user identity from the device's address book.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setUserIdentityDiscoveredBlock:@
 setUserIdentityDiscoveredBlock :: IsCKDiscoverAllUserIdentitiesOperation ckDiscoverAllUserIdentitiesOperation => ckDiscoverAllUserIdentitiesOperation -> Ptr () -> IO ()
@@ -67,7 +67,7 @@ setUserIdentityDiscoveredBlock ckDiscoverAllUserIdentitiesOperation value =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- discoverAllUserIdentitiesCompletionBlock@
 discoverAllUserIdentitiesCompletionBlock :: IsCKDiscoverAllUserIdentitiesOperation ckDiscoverAllUserIdentitiesOperation => ckDiscoverAllUserIdentitiesOperation -> IO (Ptr ())
@@ -80,7 +80,7 @@ discoverAllUserIdentitiesCompletionBlock ckDiscoverAllUserIdentitiesOperation =
 --
 -- -[NSOperation completionBlock]
 --
--- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- will also be called if both are set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setDiscoverAllUserIdentitiesCompletionBlock:@
 setDiscoverAllUserIdentitiesCompletionBlock :: IsCKDiscoverAllUserIdentitiesOperation ckDiscoverAllUserIdentitiesOperation => ckDiscoverAllUserIdentitiesOperation -> Ptr () -> IO ()

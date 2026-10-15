@@ -9,7 +9,6 @@ module ObjC.Foundation.NSPredicate
   , IsNSPredicate(..)
   , predicateWithFormat_argumentArray
   , predicateWithFormat
-  , predicateWithFormat_arguments
   , predicateFromMetadataQueryString
   , predicateWithValue
   , predicateWithSubstitutionVariables
@@ -24,7 +23,6 @@ module ObjC.Foundation.NSPredicate
   , predicateFromMetadataQueryStringSelector
   , predicateWithFormatSelector
   , predicateWithFormat_argumentArraySelector
-  , predicateWithFormat_argumentsSelector
   , predicateWithSubstitutionVariablesSelector
   , predicateWithValueSelector
 
@@ -54,13 +52,6 @@ predicateWithFormat predicateFormat =
   do
     cls' <- getRequiredClass "NSPredicate"
     sendClassMessage cls' predicateWithFormatSelector (toNSString predicateFormat)
-
--- | @+ predicateWithFormat:arguments:@
-predicateWithFormat_arguments :: IsNSString predicateFormat => predicateFormat -> RawId -> IO (Id NSPredicate)
-predicateWithFormat_arguments predicateFormat argList =
-  do
-    cls' <- getRequiredClass "NSPredicate"
-    sendClassMessage cls' predicateWithFormat_argumentsSelector (toNSString predicateFormat) argList
 
 -- | @+ predicateFromMetadataQueryString:@
 predicateFromMetadataQueryString :: IsNSString queryString => queryString -> IO (Id NSPredicate)
@@ -112,10 +103,6 @@ predicateWithFormat_argumentArraySelector = mkSelector "predicateWithFormat:argu
 -- | @Selector@ for @predicateWithFormat:@
 predicateWithFormatSelector :: Selector '[Id NSString] (Id NSPredicate)
 predicateWithFormatSelector = mkSelector "predicateWithFormat:"
-
--- | @Selector@ for @predicateWithFormat:arguments:@
-predicateWithFormat_argumentsSelector :: Selector '[Id NSString, RawId] (Id NSPredicate)
-predicateWithFormat_argumentsSelector = mkSelector "predicateWithFormat:arguments:"
 
 -- | @Selector@ for @predicateFromMetadataQueryString:@
 predicateFromMetadataQueryStringSelector :: Selector '[Id NSString] (Id NSPredicate)

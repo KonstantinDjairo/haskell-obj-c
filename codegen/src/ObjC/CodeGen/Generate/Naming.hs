@@ -152,7 +152,7 @@ dedupParamNames = go Map.empty
 -- words or common Prelude identifiers.
 escapeReserved :: Text -> Text
 escapeReserved name
-  | Set.member name reservedNames = name <> "_"
+  | Set.member name reservedNames = escapeReserved (name <> "_")
   | otherwise = name
 
 -- | Haskell keywords and Prelude names commonly shadowed by ObjC selectors.
@@ -166,14 +166,14 @@ reservedNames = Set.fromList
   -- GHC extension keywords
   , "pattern", "role", "family", "stock", "anyclass", "via"
   -- Common Prelude identifiers
-  , "init", "error", "fail", "id", "map", "filter", "length", "head", "tail"
-  , "last", "null", "read", "show", "print", "return", "sequence"
+  , "init", "error", "fail", "id", "span", "map", "filter", "length", "head", "tail"
+  , "last", "null", "read", "show", "print", "return", "sequence", "sequence_"
   , "compare", "min", "max", "minimum", "maximum"
   , "not", "and", "or", "any", "all"
   , "concat", "sum", "product", "elem", "repeat", "replicate"
   , "take", "drop", "reverse", "lookup", "words", "lines", "unwords"
   , "unlines", "otherwise", "undefined", "seq", "subtract"
-  , "div", "mod", "rem", "quot", "negate", "abs", "signum"
+  , "div", "mod", "rem", "quot", "negate", "abs", "signum", "floor"
   ]
 
 -- ---------------------------------------------------------------------------

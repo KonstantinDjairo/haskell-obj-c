@@ -86,7 +86,7 @@ setContentType avAssetResourceLoadingContentInformationRequest value =
 --
 -- An array showing the types of data which will be accepted as a valid response for the requested resource.
 --
--- If an AVAssetResourceLoadingRequest's contentInformationRequest is not nil, ensure that the value assigned to the contentType property is in this array. Otherwise, calling -finishLoading on the associated request will result in an exception.
+-- If allowedContentTypes is nonnil and the contentType property is not in allowedContentTypes, an exception will be raised.
 --
 -- ObjC selector: @- allowedContentTypes@
 allowedContentTypes :: IsAVAssetResourceLoadingContentInformationRequest avAssetResourceLoadingContentInformationRequest => avAssetResourceLoadingContentInformationRequest -> IO (Id NSArray)

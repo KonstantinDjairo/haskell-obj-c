@@ -99,18 +99,14 @@ setRecordIDsToDelete :: (IsCKModifyRecordsOperation ckModifyRecordsOperation, Is
 setRecordIDsToDelete ckModifyRecordsOperation value =
   sendMessage ckModifyRecordsOperation setRecordIDsToDeleteSelector (toNSArray value)
 
--- | Determines what data is sent to the server and whether the save should succeed even if the record on the server has changed.
---
--- :  The default value is @CKRecordSaveIfServerRecordUnchanged,@ which is the recommended value for regular use.  A @CKShare@ record is always treated as @CKRecordSaveIfServerRecordUnchanged,@ regardless of the @savePolicy@ specified.
+-- | The default value is @CKRecordSaveIfServerRecordUnchanged.@
 --
 -- ObjC selector: @- savePolicy@
 savePolicy :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> IO CKRecordSavePolicy
 savePolicy ckModifyRecordsOperation =
   sendMessage ckModifyRecordsOperation savePolicySelector
 
--- | Determines what data is sent to the server and whether the save should succeed even if the record on the server has changed.
---
--- :  The default value is @CKRecordSaveIfServerRecordUnchanged,@ which is the recommended value for regular use.  A @CKShare@ record is always treated as @CKRecordSaveIfServerRecordUnchanged,@ regardless of the @savePolicy@ specified.
+-- | The default value is @CKRecordSaveIfServerRecordUnchanged.@
 --
 -- ObjC selector: @- setSavePolicy:@
 setSavePolicy :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> CKRecordSavePolicy -> IO ()
@@ -151,7 +147,7 @@ setAtomic ckModifyRecordsOperation value =
 
 -- | Indicates the progress for each record.
 --
--- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordProgressBlock@
 perRecordProgressBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> IO (Ptr ())
@@ -160,7 +156,7 @@ perRecordProgressBlock ckModifyRecordsOperation =
 
 -- | Indicates the progress for each record.
 --
--- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordProgressBlock:@
 setPerRecordProgressBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> Ptr () -> IO ()
@@ -169,7 +165,7 @@ setPerRecordProgressBlock ckModifyRecordsOperation value =
 
 -- | Called on success or failure for each record.
 --
--- Will not be invoked if @perRecordSaveBlock@ is set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Will not be invoked if @perRecordSaveBlock@ is set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordCompletionBlock@
 perRecordCompletionBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> IO (Ptr ())
@@ -178,7 +174,7 @@ perRecordCompletionBlock ckModifyRecordsOperation =
 
 -- | Called on success or failure for each record.
 --
--- Will not be invoked if @perRecordSaveBlock@ is set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Will not be invoked if @perRecordSaveBlock@ is set.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordCompletionBlock:@
 setPerRecordCompletionBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> Ptr () -> IO ()
@@ -187,7 +183,7 @@ setPerRecordCompletionBlock ckModifyRecordsOperation value =
 
 -- | Called on success or failure of a record save
 --
--- Following a successful record save, this callback will be invoked with a nonnull @record,@ and a nil @error.@  Following a save failure due to a per-item error (@CKErrorServerRecordChanged,@ for example), this callback will be invoked with a nil @record,@ and a nonnull @error@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Following a successful record save, this callback will be invoked with a nonnull @record,@ and a nil @error.@  Following a save failure due to a per-item error (@CKErrorServerRecordChanged,@ for example), this callback will be invoked with a nil @record,@ and a nonnull @error@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordSaveBlock@
 perRecordSaveBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> IO (Ptr ())
@@ -196,7 +192,7 @@ perRecordSaveBlock ckModifyRecordsOperation =
 
 -- | Called on success or failure of a record save
 --
--- Following a successful record save, this callback will be invoked with a nonnull @record,@ and a nil @error.@  Following a save failure due to a per-item error (@CKErrorServerRecordChanged,@ for example), this callback will be invoked with a nil @record,@ and a nonnull @error@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Following a successful record save, this callback will be invoked with a nonnull @record,@ and a nil @error.@  Following a save failure due to a per-item error (@CKErrorServerRecordChanged,@ for example), this callback will be invoked with a nil @record,@ and a nonnull @error@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordSaveBlock:@
 setPerRecordSaveBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> Ptr () -> IO ()
@@ -205,7 +201,7 @@ setPerRecordSaveBlock ckModifyRecordsOperation value =
 
 -- | Called on success or failure of a record deletion
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordDeleteBlock@
 perRecordDeleteBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> IO (Ptr ())
@@ -214,7 +210,7 @@ perRecordDeleteBlock ckModifyRecordsOperation =
 
 -- | Called on success or failure of a record deletion
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordDeleteBlock:@
 setPerRecordDeleteBlock :: IsCKModifyRecordsOperation ckModifyRecordsOperation => ckModifyRecordsOperation -> Ptr () -> IO ()

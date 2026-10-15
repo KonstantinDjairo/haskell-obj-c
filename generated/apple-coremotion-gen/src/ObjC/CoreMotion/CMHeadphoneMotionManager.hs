@@ -12,25 +12,19 @@ module ObjC.CoreMotion.CMHeadphoneMotionManager
   , startDeviceMotionUpdates
   , startDeviceMotionUpdatesToQueue_withHandler
   , stopDeviceMotionUpdates
-  , startConnectionStatusUpdates
-  , stopConnectionStatusUpdates
   , delegate
   , setDelegate
-  , connectionStatusActive
   , deviceMotionAvailable
   , deviceMotionActive
   , deviceMotion
   , authorizationStatusSelector
-  , connectionStatusActiveSelector
   , delegateSelector
   , deviceMotionActiveSelector
   , deviceMotionAvailableSelector
   , deviceMotionSelector
   , setDelegateSelector
-  , startConnectionStatusUpdatesSelector
   , startDeviceMotionUpdatesSelector
   , startDeviceMotionUpdatesToQueue_withHandlerSelector
-  , stopConnectionStatusUpdatesSelector
   , stopDeviceMotionUpdatesSelector
 
   -- * Enum types
@@ -76,16 +70,6 @@ stopDeviceMotionUpdates :: IsCMHeadphoneMotionManager cmHeadphoneMotionManager =
 stopDeviceMotionUpdates cmHeadphoneMotionManager =
   sendMessage cmHeadphoneMotionManager stopDeviceMotionUpdatesSelector
 
--- | @- startConnectionStatusUpdates@
-startConnectionStatusUpdates :: IsCMHeadphoneMotionManager cmHeadphoneMotionManager => cmHeadphoneMotionManager -> IO ()
-startConnectionStatusUpdates cmHeadphoneMotionManager =
-  sendMessage cmHeadphoneMotionManager startConnectionStatusUpdatesSelector
-
--- | @- stopConnectionStatusUpdates@
-stopConnectionStatusUpdates :: IsCMHeadphoneMotionManager cmHeadphoneMotionManager => cmHeadphoneMotionManager -> IO ()
-stopConnectionStatusUpdates cmHeadphoneMotionManager =
-  sendMessage cmHeadphoneMotionManager stopConnectionStatusUpdatesSelector
-
 -- | @- delegate@
 delegate :: IsCMHeadphoneMotionManager cmHeadphoneMotionManager => cmHeadphoneMotionManager -> IO RawId
 delegate cmHeadphoneMotionManager =
@@ -95,11 +79,6 @@ delegate cmHeadphoneMotionManager =
 setDelegate :: IsCMHeadphoneMotionManager cmHeadphoneMotionManager => cmHeadphoneMotionManager -> RawId -> IO ()
 setDelegate cmHeadphoneMotionManager value =
   sendMessage cmHeadphoneMotionManager setDelegateSelector value
-
--- | @- connectionStatusActive@
-connectionStatusActive :: IsCMHeadphoneMotionManager cmHeadphoneMotionManager => cmHeadphoneMotionManager -> IO Bool
-connectionStatusActive cmHeadphoneMotionManager =
-  sendMessage cmHeadphoneMotionManager connectionStatusActiveSelector
 
 -- | @- deviceMotionAvailable@
 deviceMotionAvailable :: IsCMHeadphoneMotionManager cmHeadphoneMotionManager => cmHeadphoneMotionManager -> IO Bool
@@ -136,14 +115,6 @@ startDeviceMotionUpdatesToQueue_withHandlerSelector = mkSelector "startDeviceMot
 stopDeviceMotionUpdatesSelector :: Selector '[] ()
 stopDeviceMotionUpdatesSelector = mkSelector "stopDeviceMotionUpdates"
 
--- | @Selector@ for @startConnectionStatusUpdates@
-startConnectionStatusUpdatesSelector :: Selector '[] ()
-startConnectionStatusUpdatesSelector = mkSelector "startConnectionStatusUpdates"
-
--- | @Selector@ for @stopConnectionStatusUpdates@
-stopConnectionStatusUpdatesSelector :: Selector '[] ()
-stopConnectionStatusUpdatesSelector = mkSelector "stopConnectionStatusUpdates"
-
 -- | @Selector@ for @delegate@
 delegateSelector :: Selector '[] RawId
 delegateSelector = mkSelector "delegate"
@@ -151,10 +122,6 @@ delegateSelector = mkSelector "delegate"
 -- | @Selector@ for @setDelegate:@
 setDelegateSelector :: Selector '[RawId] ()
 setDelegateSelector = mkSelector "setDelegate:"
-
--- | @Selector@ for @connectionStatusActive@
-connectionStatusActiveSelector :: Selector '[] Bool
-connectionStatusActiveSelector = mkSelector "connectionStatusActive"
 
 -- | @Selector@ for @deviceMotionAvailable@
 deviceMotionAvailableSelector :: Selector '[] Bool

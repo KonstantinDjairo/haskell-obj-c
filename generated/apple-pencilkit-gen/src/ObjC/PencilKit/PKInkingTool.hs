@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -11,41 +10,26 @@ module ObjC.PencilKit.PKInkingTool
   ( PKInkingTool
   , IsPKInkingTool(..)
   , initWithInkType_color_width
-  , initWithInkType_color_width_azimuth
   , initWithInkType_color
   , initWithInk_width
   , defaultWidthForInkType
   , minimumWidthForInkType
   , maximumWidthForInkType
-  , invertColor
   , inkType
   , color
   , width
-  , azimuth
   , ink
-  , requiredContentVersion
-  , azimuthSelector
   , colorSelector
   , defaultWidthForInkTypeSelector
   , initWithInkType_colorSelector
   , initWithInkType_color_widthSelector
-  , initWithInkType_color_width_azimuthSelector
   , initWithInk_widthSelector
   , inkSelector
   , inkTypeSelector
-  , invertColorSelector
   , maximumWidthForInkTypeSelector
   , minimumWidthForInkTypeSelector
-  , requiredContentVersionSelector
   , widthSelector
 
-  -- * Enum types
-  , PKContentVersion(PKContentVersion)
-  , pattern PKContentVersion1
-  , pattern PKContentVersion2
-  , pattern PKContentVersion3
-  , pattern PKContentVersion4
-  , pattern PKContentVersionLatest
 
   ) where
 
@@ -58,7 +42,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PencilKit.Internal.Classes
-import ObjC.PencilKit.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
@@ -66,11 +49,6 @@ import ObjC.Foundation.Internal.Classes
 initWithInkType_color_width :: (IsPKInkingTool pkInkingTool, IsNSString type_, IsNSColor color) => pkInkingTool -> type_ -> color -> CDouble -> IO (Id PKInkingTool)
 initWithInkType_color_width pkInkingTool type_ color width =
   sendOwnedMessage pkInkingTool initWithInkType_color_widthSelector (toNSString type_) (toNSColor color) width
-
--- | @- initWithInkType:color:width:azimuth:@
-initWithInkType_color_width_azimuth :: (IsPKInkingTool pkInkingTool, IsNSString type_, IsNSColor color) => pkInkingTool -> type_ -> color -> CDouble -> CDouble -> IO (Id PKInkingTool)
-initWithInkType_color_width_azimuth pkInkingTool type_ color width angle =
-  sendOwnedMessage pkInkingTool initWithInkType_color_width_azimuthSelector (toNSString type_) (toNSColor color) width angle
 
 -- | @- initWithInkType:color:@
 initWithInkType_color :: (IsPKInkingTool pkInkingTool, IsNSString type_, IsNSColor color) => pkInkingTool -> type_ -> color -> IO (Id PKInkingTool)
@@ -115,21 +93,6 @@ maximumWidthForInkType inkType =
     cls' <- getRequiredClass "PKInkingTool"
     sendClassMessage cls' maximumWidthForInkTypeSelector (toNSString inkType)
 
--- | Converts a color from light to dark appearance or vice versa.
---
--- @color@ — The color to be inverted light<->dark.
---
--- Returns: The inverted color.
---
--- This has the same effect as @convertColor@ with opposite user interface styles.
---
--- ObjC selector: @+ invertColor:@
-invertColor :: Ptr () -> IO (Ptr ())
-invertColor color =
-  do
-    cls' <- getRequiredClass "PKInkingTool"
-    sendClassMessage cls' invertColorSelector color
-
 -- | The type of ink, eg. pen, pencil...
 --
 -- ObjC selector: @- inkType@
@@ -149,26 +112,12 @@ width :: IsPKInkingTool pkInkingTool => pkInkingTool -> IO CDouble
 width pkInkingTool =
   sendMessage pkInkingTool widthSelector
 
--- | The base angle of the ink.
---
--- ObjC selector: @- azimuth@
-azimuth :: IsPKInkingTool pkInkingTool => pkInkingTool -> IO CDouble
-azimuth pkInkingTool =
-  sendMessage pkInkingTool azimuthSelector
-
 -- | The ink that this tool will create strokes with.
 --
 -- ObjC selector: @- ink@
-ink :: IsPKInkingTool pkInkingTool => pkInkingTool -> IO (Id PKInk)
+ink :: IsPKInkingTool pkInkingTool => pkInkingTool -> IO RawId
 ink pkInkingTool =
   sendMessage pkInkingTool inkSelector
-
--- | The PencilKit version required to use this inking tool.
---
--- ObjC selector: @- requiredContentVersion@
-requiredContentVersion :: IsPKInkingTool pkInkingTool => pkInkingTool -> IO PKContentVersion
-requiredContentVersion pkInkingTool =
-  sendMessage pkInkingTool requiredContentVersionSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -177,10 +126,6 @@ requiredContentVersion pkInkingTool =
 -- | @Selector@ for @initWithInkType:color:width:@
 initWithInkType_color_widthSelector :: Selector '[Id NSString, Id NSColor, CDouble] (Id PKInkingTool)
 initWithInkType_color_widthSelector = mkSelector "initWithInkType:color:width:"
-
--- | @Selector@ for @initWithInkType:color:width:azimuth:@
-initWithInkType_color_width_azimuthSelector :: Selector '[Id NSString, Id NSColor, CDouble, CDouble] (Id PKInkingTool)
-initWithInkType_color_width_azimuthSelector = mkSelector "initWithInkType:color:width:azimuth:"
 
 -- | @Selector@ for @initWithInkType:color:@
 initWithInkType_colorSelector :: Selector '[Id NSString, Id NSColor] (Id PKInkingTool)
@@ -202,10 +147,6 @@ minimumWidthForInkTypeSelector = mkSelector "minimumWidthForInkType:"
 maximumWidthForInkTypeSelector :: Selector '[Id NSString] CDouble
 maximumWidthForInkTypeSelector = mkSelector "maximumWidthForInkType:"
 
--- | @Selector@ for @invertColor:@
-invertColorSelector :: Selector '[Ptr ()] (Ptr ())
-invertColorSelector = mkSelector "invertColor:"
-
 -- | @Selector@ for @inkType@
 inkTypeSelector :: Selector '[] (Id NSString)
 inkTypeSelector = mkSelector "inkType"
@@ -218,15 +159,7 @@ colorSelector = mkSelector "color"
 widthSelector :: Selector '[] CDouble
 widthSelector = mkSelector "width"
 
--- | @Selector@ for @azimuth@
-azimuthSelector :: Selector '[] CDouble
-azimuthSelector = mkSelector "azimuth"
-
 -- | @Selector@ for @ink@
-inkSelector :: Selector '[] (Id PKInk)
+inkSelector :: Selector '[] RawId
 inkSelector = mkSelector "ink"
-
--- | @Selector@ for @requiredContentVersion@
-requiredContentVersionSelector :: Selector '[] PKContentVersion
-requiredContentVersionSelector = mkSelector "requiredContentVersion"
 

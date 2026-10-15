@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -12,7 +11,6 @@
 module ObjC.ScreenCaptureKit.SCStreamConfiguration
   ( SCStreamConfiguration
   , IsSCStreamConfiguration(..)
-  , streamConfigurationWithPreset
   , width
   , setWidth
   , height
@@ -21,14 +19,8 @@ module ObjC.ScreenCaptureKit.SCStreamConfiguration
   , setPixelFormat
   , scalesToFit
   , setScalesToFit
-  , preservesAspectRatio
-  , setPreservesAspectRatio
-  , streamName
-  , setStreamName
   , showsCursor
   , setShowsCursor
-  , showMouseClicks
-  , setShowMouseClicks
   , backgroundColor
   , setBackgroundColor
   , queueDepth
@@ -45,107 +37,33 @@ module ObjC.ScreenCaptureKit.SCStreamConfiguration
   , setChannelCount
   , excludesCurrentProcessAudio
   , setExcludesCurrentProcessAudio
-  , ignoreShadowsDisplay
-  , setIgnoreShadowsDisplay
-  , ignoreShadowsSingleWindow
-  , setIgnoreShadowsSingleWindow
-  , captureResolution
-  , setCaptureResolution
-  , capturesShadowsOnly
-  , setCapturesShadowsOnly
-  , shouldBeOpaque
-  , setShouldBeOpaque
-  , ignoreGlobalClipDisplay
-  , setIgnoreGlobalClipDisplay
-  , ignoreGlobalClipSingleWindow
-  , setIgnoreGlobalClipSingleWindow
-  , presenterOverlayPrivacyAlertSetting
-  , setPresenterOverlayPrivacyAlertSetting
-  , includeChildWindows
-  , setIncludeChildWindows
-  , captureMicrophone
-  , setCaptureMicrophone
-  , microphoneCaptureDeviceID
-  , setMicrophoneCaptureDeviceID
-  , captureDynamicRange
-  , setCaptureDynamicRange
   , backgroundColorSelector
-  , captureDynamicRangeSelector
-  , captureMicrophoneSelector
-  , captureResolutionSelector
   , capturesAudioSelector
-  , capturesShadowsOnlySelector
   , channelCountSelector
   , colorMatrixSelector
   , colorSpaceNameSelector
   , excludesCurrentProcessAudioSelector
   , heightSelector
-  , ignoreGlobalClipDisplaySelector
-  , ignoreGlobalClipSingleWindowSelector
-  , ignoreShadowsDisplaySelector
-  , ignoreShadowsSingleWindowSelector
-  , includeChildWindowsSelector
-  , microphoneCaptureDeviceIDSelector
   , pixelFormatSelector
-  , presenterOverlayPrivacyAlertSettingSelector
-  , preservesAspectRatioSelector
   , queueDepthSelector
   , sampleRateSelector
   , scalesToFitSelector
   , setBackgroundColorSelector
-  , setCaptureDynamicRangeSelector
-  , setCaptureMicrophoneSelector
-  , setCaptureResolutionSelector
   , setCapturesAudioSelector
-  , setCapturesShadowsOnlySelector
   , setChannelCountSelector
   , setColorMatrixSelector
   , setColorSpaceNameSelector
   , setExcludesCurrentProcessAudioSelector
   , setHeightSelector
-  , setIgnoreGlobalClipDisplaySelector
-  , setIgnoreGlobalClipSingleWindowSelector
-  , setIgnoreShadowsDisplaySelector
-  , setIgnoreShadowsSingleWindowSelector
-  , setIncludeChildWindowsSelector
-  , setMicrophoneCaptureDeviceIDSelector
   , setPixelFormatSelector
-  , setPresenterOverlayPrivacyAlertSettingSelector
-  , setPreservesAspectRatioSelector
   , setQueueDepthSelector
   , setSampleRateSelector
   , setScalesToFitSelector
-  , setShouldBeOpaqueSelector
-  , setShowMouseClicksSelector
   , setShowsCursorSelector
-  , setStreamNameSelector
   , setWidthSelector
-  , shouldBeOpaqueSelector
-  , showMouseClicksSelector
   , showsCursorSelector
-  , streamConfigurationWithPresetSelector
-  , streamNameSelector
   , widthSelector
 
-  -- * Enum types
-  , SCCaptureDynamicRange(SCCaptureDynamicRange)
-  , pattern SCCaptureDynamicRangeSDR
-  , pattern SCCaptureDynamicRangeHDRLocalDisplay
-  , pattern SCCaptureDynamicRangeHDRCanonicalDisplay
-  , SCCaptureResolutionType(SCCaptureResolutionType)
-  , pattern SCCaptureResolutionAutomatic
-  , pattern SCCaptureResolutionBest
-  , pattern SCCaptureResolutionNominal
-  , SCPresenterOverlayAlertSetting(SCPresenterOverlayAlertSetting)
-  , pattern SCPresenterOverlayAlertSettingSystem
-  , pattern SCPresenterOverlayAlertSettingNever
-  , pattern SCPresenterOverlayAlertSettingAlways
-  , SCStreamConfigurationPreset(SCStreamConfigurationPreset)
-  , pattern SCStreamConfigurationPresetCaptureHDRStreamLocalDisplay
-  , pattern SCStreamConfigurationPresetCaptureHDRStreamCanonicalDisplay
-  , pattern SCStreamConfigurationPresetCaptureHDRScreenshotLocalDisplay
-  , pattern SCStreamConfigurationPresetCaptureHDRScreenshotCanonicalDisplay
-  , pattern SCStreamConfigurationPresetCaptureHDRRecordingPreservedSDRHDR10
 
   ) where
 
@@ -158,23 +76,7 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.ScreenCaptureKit.Internal.Classes
-import ObjC.ScreenCaptureKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | streamConfigurationWithPreset:
---
--- Returns an instance of SCStreamConfiguration corresponding to the given preset
---
--- @preset@ — The enum identifier for the desired preset
---
--- The SCStreamConfiguration of the returned object can be used as a guide for creating and configuring an SCStream. If all the suggested properties are respected in creating the SCStream, the resulting capture result will conform to the criteria implied by the preset.
---
--- ObjC selector: @+ streamConfigurationWithPreset:@
-streamConfigurationWithPreset :: SCStreamConfigurationPreset -> IO (Id SCStreamConfiguration)
-streamConfigurationWithPreset preset =
-  do
-    cls' <- getRequiredClass "SCStreamConfiguration"
-    sendClassMessage cls' streamConfigurationWithPresetSelector preset
 
 -- | SCStreamProperty for output width as measured in pixels. Default is set to 1920.
 --
@@ -204,14 +106,14 @@ setHeight :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfigurat
 setHeight scStreamConfiguration value =
   sendMessage scStreamConfiguration setHeightSelector value
 
--- | SCStreamProperty for output pixel format. Supported pixel formats are: 'BGRA': Packed Little Endian ARGB8888 'l10r': Packed Little Endian ARGB2101010 '420v': 2-plane "video" range YCbCr 4:2:0 '420f': 2-plane "full" range YCbCr 4:2:0 'xf44': 2 plane "full" range YCbCr10 4:4:4 'RGhA': 64 bit RGBA IEEE half-precision float, 16-bit little-endian See https://developer.apple.com/documentation/coregraphics/1455170-cgdisplaystreamcreate
+-- | SCStreamProperty for output pixel format. Supported pixel formats are: 'BGRA': Packed Little Endian ARGB8888 'l10r': Packed Little Endian ARGB2101010 '420v': 2-plane "video" range YCbCr 4:2:0 '420f': 2-plane "full" range YCbCr 4:2:0 See https://developer.apple.com/documentation/coregraphics/1455170-cgdisplaystreamcreate
 --
 -- ObjC selector: @- pixelFormat@
 pixelFormat :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO CUInt
 pixelFormat scStreamConfiguration =
   sendMessage scStreamConfiguration pixelFormatSelector
 
--- | SCStreamProperty for output pixel format. Supported pixel formats are: 'BGRA': Packed Little Endian ARGB8888 'l10r': Packed Little Endian ARGB2101010 '420v': 2-plane "video" range YCbCr 4:2:0 '420f': 2-plane "full" range YCbCr 4:2:0 'xf44': 2 plane "full" range YCbCr10 4:4:4 'RGhA': 64 bit RGBA IEEE half-precision float, 16-bit little-endian See https://developer.apple.com/documentation/coregraphics/1455170-cgdisplaystreamcreate
+-- | SCStreamProperty for output pixel format. Supported pixel formats are: 'BGRA': Packed Little Endian ARGB8888 'l10r': Packed Little Endian ARGB2101010 '420v': 2-plane "video" range YCbCr 4:2:0 '420f': 2-plane "full" range YCbCr 4:2:0 See https://developer.apple.com/documentation/coregraphics/1455170-cgdisplaystreamcreate
 --
 -- ObjC selector: @- setPixelFormat:@
 setPixelFormat :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> CUInt -> IO ()
@@ -232,34 +134,6 @@ setScalesToFit :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfi
 setScalesToFit scStreamConfiguration value =
   sendMessage scStreamConfiguration setScalesToFitSelector value
 
--- | SCStreamProperty that specifies whether the  stream preserves the aspect ratio of the source pixel data. By default the aspect ratio is preserved.
---
--- ObjC selector: @- preservesAspectRatio@
-preservesAspectRatio :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-preservesAspectRatio scStreamConfiguration =
-  sendMessage scStreamConfiguration preservesAspectRatioSelector
-
--- | SCStreamProperty that specifies whether the  stream preserves the aspect ratio of the source pixel data. By default the aspect ratio is preserved.
---
--- ObjC selector: @- setPreservesAspectRatio:@
-setPreservesAspectRatio :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setPreservesAspectRatio scStreamConfiguration value =
-  sendMessage scStreamConfiguration setPreservesAspectRatioSelector value
-
--- | SCStreamProperty the name of the stream
---
--- ObjC selector: @- streamName@
-streamName :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO (Id NSString)
-streamName scStreamConfiguration =
-  sendMessage scStreamConfiguration streamNameSelector
-
--- | SCStreamProperty the name of the stream
---
--- ObjC selector: @- setStreamName:@
-setStreamName :: (IsSCStreamConfiguration scStreamConfiguration, IsNSString value) => scStreamConfiguration -> value -> IO ()
-setStreamName scStreamConfiguration value =
-  sendMessage scStreamConfiguration setStreamNameSelector (toNSString value)
-
 -- | SCStreamProperty that specifies whether the cursor should appear in the stream.  By default the cursor is visible.
 --
 -- ObjC selector: @- showsCursor@
@@ -273,20 +147,6 @@ showsCursor scStreamConfiguration =
 setShowsCursor :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
 setShowsCursor scStreamConfiguration value =
   sendMessage scStreamConfiguration setShowsCursorSelector value
-
--- | SCStreamProperty that specifies whether to draw a circle around the cursor click, default is NO. This property will not be affected by showsCursor. This property currently applies when pixelFormat is set to BGRA.
---
--- ObjC selector: @- showMouseClicks@
-showMouseClicks :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-showMouseClicks scStreamConfiguration =
-  sendMessage scStreamConfiguration showMouseClicksSelector
-
--- | SCStreamProperty that specifies whether to draw a circle around the cursor click, default is NO. This property will not be affected by showsCursor. This property currently applies when pixelFormat is set to BGRA.
---
--- ObjC selector: @- setShowMouseClicks:@
-setShowMouseClicks :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setShowMouseClicks scStreamConfiguration value =
-  sendMessage scStreamConfiguration setShowMouseClicksSelector value
 
 -- | SCStreamProperty for background color. By default the background color is clear.
 --
@@ -302,14 +162,14 @@ setBackgroundColor :: IsSCStreamConfiguration scStreamConfiguration => scStreamC
 setBackgroundColor scStreamConfiguration value =
   sendMessage scStreamConfiguration setBackgroundColorSelector value
 
--- | SCStreamProperty that specifies the number of frames to keep in the queue.  If not set the default value is 8 frames.  Specifying more frames uses more memory, but may allow you to process frame data without stalling the display stream and should not exceed 8 frames.
+-- | SCStreamProperty that specifies the number of frames to keep in the queue.  If not set the default value is 3 frames.  Specifying more frames uses more memory, but may allow you to process frame data without stalling the display stream and should not exceed 8 frames.
 --
 -- ObjC selector: @- queueDepth@
 queueDepth :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO CLong
 queueDepth scStreamConfiguration =
   sendMessage scStreamConfiguration queueDepthSelector
 
--- | SCStreamProperty that specifies the number of frames to keep in the queue.  If not set the default value is 8 frames.  Specifying more frames uses more memory, but may allow you to process frame data without stalling the display stream and should not exceed 8 frames.
+-- | SCStreamProperty that specifies the number of frames to keep in the queue.  If not set the default value is 3 frames.  Specifying more frames uses more memory, but may allow you to process frame data without stalling the display stream and should not exceed 8 frames.
 --
 -- ObjC selector: @- setQueueDepth:@
 setQueueDepth :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> CLong -> IO ()
@@ -400,181 +260,9 @@ setExcludesCurrentProcessAudio :: IsSCStreamConfiguration scStreamConfiguration 
 setExcludesCurrentProcessAudio scStreamConfiguration value =
   sendMessage scStreamConfiguration setExcludesCurrentProcessAudioSelector value
 
--- | SCStreamProperty to ignore framing on windows in the display sharing case (will ignore shadows).
---
--- ObjC selector: @- ignoreShadowsDisplay@
-ignoreShadowsDisplay :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-ignoreShadowsDisplay scStreamConfiguration =
-  sendMessage scStreamConfiguration ignoreShadowsDisplaySelector
-
--- | SCStreamProperty to ignore framing on windows in the display sharing case (will ignore shadows).
---
--- ObjC selector: @- setIgnoreShadowsDisplay:@
-setIgnoreShadowsDisplay :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setIgnoreShadowsDisplay scStreamConfiguration value =
-  sendMessage scStreamConfiguration setIgnoreShadowsDisplaySelector value
-
--- | SCStreamProperty to ignore framing on windows in the single window sharing case (will ignore shadows).
---
--- ObjC selector: @- ignoreShadowsSingleWindow@
-ignoreShadowsSingleWindow :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-ignoreShadowsSingleWindow scStreamConfiguration =
-  sendMessage scStreamConfiguration ignoreShadowsSingleWindowSelector
-
--- | SCStreamProperty to ignore framing on windows in the single window sharing case (will ignore shadows).
---
--- ObjC selector: @- setIgnoreShadowsSingleWindow:@
-setIgnoreShadowsSingleWindow :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setIgnoreShadowsSingleWindow scStreamConfiguration value =
-  sendMessage scStreamConfiguration setIgnoreShadowsSingleWindowSelector value
-
--- | captureResolution Choose between automatic, best, and nominal.
---
--- ObjC selector: @- captureResolution@
-captureResolution :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO SCCaptureResolutionType
-captureResolution scStreamConfiguration =
-  sendMessage scStreamConfiguration captureResolutionSelector
-
--- | captureResolution Choose between automatic, best, and nominal.
---
--- ObjC selector: @- setCaptureResolution:@
-setCaptureResolution :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> SCCaptureResolutionType -> IO ()
-setCaptureResolution scStreamConfiguration value =
-  sendMessage scStreamConfiguration setCaptureResolutionSelector value
-
--- | SCStreamProperty to capture only the shadows of windows.
---
--- ObjC selector: @- capturesShadowsOnly@
-capturesShadowsOnly :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-capturesShadowsOnly scStreamConfiguration =
-  sendMessage scStreamConfiguration capturesShadowsOnlySelector
-
--- | SCStreamProperty to capture only the shadows of windows.
---
--- ObjC selector: @- setCapturesShadowsOnly:@
-setCapturesShadowsOnly :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setCapturesShadowsOnly scStreamConfiguration value =
-  sendMessage scStreamConfiguration setCapturesShadowsOnlySelector value
-
--- | SCStreamProperty to ensure partially transparent areas on windows are backed by a solid white color so that the resulting image is fully opaque.
---
--- ObjC selector: @- shouldBeOpaque@
-shouldBeOpaque :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-shouldBeOpaque scStreamConfiguration =
-  sendMessage scStreamConfiguration shouldBeOpaqueSelector
-
--- | SCStreamProperty to ensure partially transparent areas on windows are backed by a solid white color so that the resulting image is fully opaque.
---
--- ObjC selector: @- setShouldBeOpaque:@
-setShouldBeOpaque :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setShouldBeOpaque scStreamConfiguration value =
-  sendMessage scStreamConfiguration setShouldBeOpaqueSelector value
-
--- | SCStreamProperty to ignore framing on windows in the display sharing case (will ignore shadows).
---
--- ObjC selector: @- ignoreGlobalClipDisplay@
-ignoreGlobalClipDisplay :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-ignoreGlobalClipDisplay scStreamConfiguration =
-  sendMessage scStreamConfiguration ignoreGlobalClipDisplaySelector
-
--- | SCStreamProperty to ignore framing on windows in the display sharing case (will ignore shadows).
---
--- ObjC selector: @- setIgnoreGlobalClipDisplay:@
-setIgnoreGlobalClipDisplay :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setIgnoreGlobalClipDisplay scStreamConfiguration value =
-  sendMessage scStreamConfiguration setIgnoreGlobalClipDisplaySelector value
-
--- | SCStreamProperty to ignore global clipping when on single window share. When set to true, single window captures that are partially off the screen will not be clipped. (will ignore window placement in display context).
---
--- ObjC selector: @- ignoreGlobalClipSingleWindow@
-ignoreGlobalClipSingleWindow :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-ignoreGlobalClipSingleWindow scStreamConfiguration =
-  sendMessage scStreamConfiguration ignoreGlobalClipSingleWindowSelector
-
--- | SCStreamProperty to ignore global clipping when on single window share. When set to true, single window captures that are partially off the screen will not be clipped. (will ignore window placement in display context).
---
--- ObjC selector: @- setIgnoreGlobalClipSingleWindow:@
-setIgnoreGlobalClipSingleWindow :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setIgnoreGlobalClipSingleWindow scStreamConfiguration value =
-  sendMessage scStreamConfiguration setIgnoreGlobalClipSingleWindowSelector value
-
--- | SCStreamProperty that informs the system if a privacy alert should be shown when using presenter overlay for a stream. Defaults to SCPresenterOverlayAlertSettingSystem;
---
--- ObjC selector: @- presenterOverlayPrivacyAlertSetting@
-presenterOverlayPrivacyAlertSetting :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO SCPresenterOverlayAlertSetting
-presenterOverlayPrivacyAlertSetting scStreamConfiguration =
-  sendMessage scStreamConfiguration presenterOverlayPrivacyAlertSettingSelector
-
--- | SCStreamProperty that informs the system if a privacy alert should be shown when using presenter overlay for a stream. Defaults to SCPresenterOverlayAlertSettingSystem;
---
--- ObjC selector: @- setPresenterOverlayPrivacyAlertSetting:@
-setPresenterOverlayPrivacyAlertSetting :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> SCPresenterOverlayAlertSetting -> IO ()
-setPresenterOverlayPrivacyAlertSetting scStreamConfiguration value =
-  sendMessage scStreamConfiguration setPresenterOverlayPrivacyAlertSettingSelector value
-
--- | SCStreamProperty to show the child windows in display bound windows and applications sharing.  Child windows are included by default.
---
--- ObjC selector: @- includeChildWindows@
-includeChildWindows :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-includeChildWindows scStreamConfiguration =
-  sendMessage scStreamConfiguration includeChildWindowsSelector
-
--- | SCStreamProperty to show the child windows in display bound windows and applications sharing.  Child windows are included by default.
---
--- ObjC selector: @- setIncludeChildWindows:@
-setIncludeChildWindows :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setIncludeChildWindows scStreamConfiguration value =
-  sendMessage scStreamConfiguration setIncludeChildWindowsSelector value
-
--- | SCStreamProperty that specifies whether the microphone audio will be captured.  By default microphone is not captured.
---
--- ObjC selector: @- captureMicrophone@
-captureMicrophone :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO Bool
-captureMicrophone scStreamConfiguration =
-  sendMessage scStreamConfiguration captureMicrophoneSelector
-
--- | SCStreamProperty that specifies whether the microphone audio will be captured.  By default microphone is not captured.
---
--- ObjC selector: @- setCaptureMicrophone:@
-setCaptureMicrophone :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> Bool -> IO ()
-setCaptureMicrophone scStreamConfiguration value =
-  sendMessage scStreamConfiguration setCaptureMicrophoneSelector value
-
--- | SCStreamProperty that specifies which microphone device to capture. This deviceID is the uniqueID from AVCaptureDevice for the microphone. System Default Microphone will be used if not specified by client. For Mac Catalyst apps, the System Default Microphone will be captured.
---
--- ObjC selector: @- microphoneCaptureDeviceID@
-microphoneCaptureDeviceID :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO (Id NSString)
-microphoneCaptureDeviceID scStreamConfiguration =
-  sendMessage scStreamConfiguration microphoneCaptureDeviceIDSelector
-
--- | SCStreamProperty that specifies which microphone device to capture. This deviceID is the uniqueID from AVCaptureDevice for the microphone. System Default Microphone will be used if not specified by client. For Mac Catalyst apps, the System Default Microphone will be captured.
---
--- ObjC selector: @- setMicrophoneCaptureDeviceID:@
-setMicrophoneCaptureDeviceID :: (IsSCStreamConfiguration scStreamConfiguration, IsNSString value) => scStreamConfiguration -> value -> IO ()
-setMicrophoneCaptureDeviceID scStreamConfiguration value =
-  sendMessage scStreamConfiguration setMicrophoneCaptureDeviceIDSelector (toNSString value)
-
--- | SCStreamProperty client will choose captureDynamicRange between SCCaptureDynamicRangeSDR, SCCaptureDynamicRangeHDRLocalDisplay,  SCCaptureDynamicRangeHDRCanonicalDisplay. By default, the stream is capturing with SCCaptureDynamicRangeSDR. HDR capture is only supported with Apple Silicon Mac, setting this property on Intel Mac will have no effect. HDR recording is not support yet, adding a recording output to a stream with SCCaptureDynamicRangeHDR set will fail.
---
--- ObjC selector: @- captureDynamicRange@
-captureDynamicRange :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> IO SCCaptureDynamicRange
-captureDynamicRange scStreamConfiguration =
-  sendMessage scStreamConfiguration captureDynamicRangeSelector
-
--- | SCStreamProperty client will choose captureDynamicRange between SCCaptureDynamicRangeSDR, SCCaptureDynamicRangeHDRLocalDisplay,  SCCaptureDynamicRangeHDRCanonicalDisplay. By default, the stream is capturing with SCCaptureDynamicRangeSDR. HDR capture is only supported with Apple Silicon Mac, setting this property on Intel Mac will have no effect. HDR recording is not support yet, adding a recording output to a stream with SCCaptureDynamicRangeHDR set will fail.
---
--- ObjC selector: @- setCaptureDynamicRange:@
-setCaptureDynamicRange :: IsSCStreamConfiguration scStreamConfiguration => scStreamConfiguration -> SCCaptureDynamicRange -> IO ()
-setCaptureDynamicRange scStreamConfiguration value =
-  sendMessage scStreamConfiguration setCaptureDynamicRangeSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @streamConfigurationWithPreset:@
-streamConfigurationWithPresetSelector :: Selector '[SCStreamConfigurationPreset] (Id SCStreamConfiguration)
-streamConfigurationWithPresetSelector = mkSelector "streamConfigurationWithPreset:"
 
 -- | @Selector@ for @width@
 widthSelector :: Selector '[] CULong
@@ -608,22 +296,6 @@ scalesToFitSelector = mkSelector "scalesToFit"
 setScalesToFitSelector :: Selector '[Bool] ()
 setScalesToFitSelector = mkSelector "setScalesToFit:"
 
--- | @Selector@ for @preservesAspectRatio@
-preservesAspectRatioSelector :: Selector '[] Bool
-preservesAspectRatioSelector = mkSelector "preservesAspectRatio"
-
--- | @Selector@ for @setPreservesAspectRatio:@
-setPreservesAspectRatioSelector :: Selector '[Bool] ()
-setPreservesAspectRatioSelector = mkSelector "setPreservesAspectRatio:"
-
--- | @Selector@ for @streamName@
-streamNameSelector :: Selector '[] (Id NSString)
-streamNameSelector = mkSelector "streamName"
-
--- | @Selector@ for @setStreamName:@
-setStreamNameSelector :: Selector '[Id NSString] ()
-setStreamNameSelector = mkSelector "setStreamName:"
-
 -- | @Selector@ for @showsCursor@
 showsCursorSelector :: Selector '[] Bool
 showsCursorSelector = mkSelector "showsCursor"
@@ -631,14 +303,6 @@ showsCursorSelector = mkSelector "showsCursor"
 -- | @Selector@ for @setShowsCursor:@
 setShowsCursorSelector :: Selector '[Bool] ()
 setShowsCursorSelector = mkSelector "setShowsCursor:"
-
--- | @Selector@ for @showMouseClicks@
-showMouseClicksSelector :: Selector '[] Bool
-showMouseClicksSelector = mkSelector "showMouseClicks"
-
--- | @Selector@ for @setShowMouseClicks:@
-setShowMouseClicksSelector :: Selector '[Bool] ()
-setShowMouseClicksSelector = mkSelector "setShowMouseClicks:"
 
 -- | @Selector@ for @backgroundColor@
 backgroundColorSelector :: Selector '[] (Ptr ())
@@ -703,100 +367,4 @@ excludesCurrentProcessAudioSelector = mkSelector "excludesCurrentProcessAudio"
 -- | @Selector@ for @setExcludesCurrentProcessAudio:@
 setExcludesCurrentProcessAudioSelector :: Selector '[Bool] ()
 setExcludesCurrentProcessAudioSelector = mkSelector "setExcludesCurrentProcessAudio:"
-
--- | @Selector@ for @ignoreShadowsDisplay@
-ignoreShadowsDisplaySelector :: Selector '[] Bool
-ignoreShadowsDisplaySelector = mkSelector "ignoreShadowsDisplay"
-
--- | @Selector@ for @setIgnoreShadowsDisplay:@
-setIgnoreShadowsDisplaySelector :: Selector '[Bool] ()
-setIgnoreShadowsDisplaySelector = mkSelector "setIgnoreShadowsDisplay:"
-
--- | @Selector@ for @ignoreShadowsSingleWindow@
-ignoreShadowsSingleWindowSelector :: Selector '[] Bool
-ignoreShadowsSingleWindowSelector = mkSelector "ignoreShadowsSingleWindow"
-
--- | @Selector@ for @setIgnoreShadowsSingleWindow:@
-setIgnoreShadowsSingleWindowSelector :: Selector '[Bool] ()
-setIgnoreShadowsSingleWindowSelector = mkSelector "setIgnoreShadowsSingleWindow:"
-
--- | @Selector@ for @captureResolution@
-captureResolutionSelector :: Selector '[] SCCaptureResolutionType
-captureResolutionSelector = mkSelector "captureResolution"
-
--- | @Selector@ for @setCaptureResolution:@
-setCaptureResolutionSelector :: Selector '[SCCaptureResolutionType] ()
-setCaptureResolutionSelector = mkSelector "setCaptureResolution:"
-
--- | @Selector@ for @capturesShadowsOnly@
-capturesShadowsOnlySelector :: Selector '[] Bool
-capturesShadowsOnlySelector = mkSelector "capturesShadowsOnly"
-
--- | @Selector@ for @setCapturesShadowsOnly:@
-setCapturesShadowsOnlySelector :: Selector '[Bool] ()
-setCapturesShadowsOnlySelector = mkSelector "setCapturesShadowsOnly:"
-
--- | @Selector@ for @shouldBeOpaque@
-shouldBeOpaqueSelector :: Selector '[] Bool
-shouldBeOpaqueSelector = mkSelector "shouldBeOpaque"
-
--- | @Selector@ for @setShouldBeOpaque:@
-setShouldBeOpaqueSelector :: Selector '[Bool] ()
-setShouldBeOpaqueSelector = mkSelector "setShouldBeOpaque:"
-
--- | @Selector@ for @ignoreGlobalClipDisplay@
-ignoreGlobalClipDisplaySelector :: Selector '[] Bool
-ignoreGlobalClipDisplaySelector = mkSelector "ignoreGlobalClipDisplay"
-
--- | @Selector@ for @setIgnoreGlobalClipDisplay:@
-setIgnoreGlobalClipDisplaySelector :: Selector '[Bool] ()
-setIgnoreGlobalClipDisplaySelector = mkSelector "setIgnoreGlobalClipDisplay:"
-
--- | @Selector@ for @ignoreGlobalClipSingleWindow@
-ignoreGlobalClipSingleWindowSelector :: Selector '[] Bool
-ignoreGlobalClipSingleWindowSelector = mkSelector "ignoreGlobalClipSingleWindow"
-
--- | @Selector@ for @setIgnoreGlobalClipSingleWindow:@
-setIgnoreGlobalClipSingleWindowSelector :: Selector '[Bool] ()
-setIgnoreGlobalClipSingleWindowSelector = mkSelector "setIgnoreGlobalClipSingleWindow:"
-
--- | @Selector@ for @presenterOverlayPrivacyAlertSetting@
-presenterOverlayPrivacyAlertSettingSelector :: Selector '[] SCPresenterOverlayAlertSetting
-presenterOverlayPrivacyAlertSettingSelector = mkSelector "presenterOverlayPrivacyAlertSetting"
-
--- | @Selector@ for @setPresenterOverlayPrivacyAlertSetting:@
-setPresenterOverlayPrivacyAlertSettingSelector :: Selector '[SCPresenterOverlayAlertSetting] ()
-setPresenterOverlayPrivacyAlertSettingSelector = mkSelector "setPresenterOverlayPrivacyAlertSetting:"
-
--- | @Selector@ for @includeChildWindows@
-includeChildWindowsSelector :: Selector '[] Bool
-includeChildWindowsSelector = mkSelector "includeChildWindows"
-
--- | @Selector@ for @setIncludeChildWindows:@
-setIncludeChildWindowsSelector :: Selector '[Bool] ()
-setIncludeChildWindowsSelector = mkSelector "setIncludeChildWindows:"
-
--- | @Selector@ for @captureMicrophone@
-captureMicrophoneSelector :: Selector '[] Bool
-captureMicrophoneSelector = mkSelector "captureMicrophone"
-
--- | @Selector@ for @setCaptureMicrophone:@
-setCaptureMicrophoneSelector :: Selector '[Bool] ()
-setCaptureMicrophoneSelector = mkSelector "setCaptureMicrophone:"
-
--- | @Selector@ for @microphoneCaptureDeviceID@
-microphoneCaptureDeviceIDSelector :: Selector '[] (Id NSString)
-microphoneCaptureDeviceIDSelector = mkSelector "microphoneCaptureDeviceID"
-
--- | @Selector@ for @setMicrophoneCaptureDeviceID:@
-setMicrophoneCaptureDeviceIDSelector :: Selector '[Id NSString] ()
-setMicrophoneCaptureDeviceIDSelector = mkSelector "setMicrophoneCaptureDeviceID:"
-
--- | @Selector@ for @captureDynamicRange@
-captureDynamicRangeSelector :: Selector '[] SCCaptureDynamicRange
-captureDynamicRangeSelector = mkSelector "captureDynamicRange"
-
--- | @Selector@ for @setCaptureDynamicRange:@
-setCaptureDynamicRangeSelector :: Selector '[SCCaptureDynamicRange] ()
-setCaptureDynamicRangeSelector = mkSelector "setCaptureDynamicRange:"
 

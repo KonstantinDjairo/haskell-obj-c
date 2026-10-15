@@ -77,9 +77,6 @@ pattern KAuthorizationFlagDestroyRights = AuthorizationFlags 8
 pattern KAuthorizationFlagPreAuthorize :: AuthorizationFlags
 pattern KAuthorizationFlagPreAuthorize = AuthorizationFlags 16
 
-pattern KAuthorizationFlagSkipInternalAuth :: AuthorizationFlags
-pattern KAuthorizationFlagSkipInternalAuth = AuthorizationFlags 512
-
 pattern KAuthorizationFlagNoData :: AuthorizationFlags
 pattern KAuthorizationFlagNoData = AuthorizationFlags 1048576
 
@@ -524,11 +521,7 @@ instance ObjCReturn SSLSessionState where
 --
 -- kSecAccessControlWatch
 --
--- Deprecated, please use kSecAccessControlCompanion instead.
---
--- kSecAccessControlCompanion
---
--- Constraint: Paired companion device
+-- Constraint: Watch
 --
 -- kSecAccessControlOr
 --
@@ -576,9 +569,6 @@ pattern KSecAccessControlDevicePasscode = SecAccessControlCreateFlags 16
 
 pattern KSecAccessControlWatch :: SecAccessControlCreateFlags
 pattern KSecAccessControlWatch = SecAccessControlCreateFlags 32
-
-pattern KSecAccessControlCompanion :: SecAccessControlCreateFlags
-pattern KSecAccessControlCompanion = SecAccessControlCreateFlags 32
 
 pattern KSecAccessControlOr :: SecAccessControlCreateFlags
 pattern KSecAccessControlOr = SecAccessControlCreateFlags 16384
@@ -733,12 +723,6 @@ pattern KSecCSQuickCheck = SecCSFlags 67108864
 
 pattern KSecCSApplyEmbeddedPolicy :: SecCSFlags
 pattern KSecCSApplyEmbeddedPolicy = SecCSFlags 33554432
-
-pattern KSecCSStripDisallowedXattrs :: SecCSFlags
-pattern KSecCSStripDisallowedXattrs = SecCSFlags 16777216
-
-pattern KSecCSMatchGuestRequirementInKernel :: SecCSFlags
-pattern KSecCSMatchGuestRequirementInKernel = SecCSFlags 8388608
 
 instance ObjCArgument SecCSFlags where
   withObjCArg (SecCSFlags x) k = k (argCUInt x)
@@ -1045,7 +1029,7 @@ instance ObjCReturn SecExternalItemType where
 --
 -- kSecNegativeItemAttr Identifies the negative attribute. You use this tag to set or get a value of type Boolean that indicates whether there is a valid password associated with this keychain item. This is useful if your application doesn't want a password for some particular service to be stored in the keychain, but prefers that it always be entered by the user. The item (typically invisible and with zero-length data) acts as a placeholder to say "don't use me."
 --
--- kSecCustomIconItemAttr Identifies the custom icon attribute. You use this tag to set or get a value of type Boolean that indicates whether the item has an application-specific icon. To do this, you must also set the attribute value identified by the tag kSecTypeItemAttr to a file type for which there is a corresponding icon in the desktop database, and set the attribute value identified by the tag kSecCreatorItemAttr to an appropriate application creator type. If a custom icon corresponding to the item's type and creator can be found in the desktop database, it will be displayed by Keychain Access. Otherwise, default icons are used. (Note: use of this attribute is deprecated; custom icons for keychain items are not supported in macOS.)
+-- kSecCustomIconItemAttr Identifies the custom icon attribute. You use this tag to set or get a value of type Boolean that indicates whether the item has an application-specific icon. To do this, you must also set the attribute value identified by the tag kSecTypeItemAttr to a file type for which there is a corresponding icon in the desktop database, and set the attribute value identified by the tag kSecCreatorItemAttr to an appropriate application creator type. If a custom icon corresponding to the item's type and creator can be found in the desktop database, it will be displayed by Keychain Access. Otherwise, default icons are used. (Note: use of this attribute is deprecated; custom icons for keychain items are not supported in Mac OS X.)
 --
 -- kSecAccountItemAttr Identifies the account attribute. You use this tag to set or get a string that represents the user account. This attribute applies to generic, Internet, and AppleShare password items.
 --
@@ -1063,11 +1047,11 @@ instance ObjCReturn SecExternalItemType where
 --
 -- kSecPathItemAttr Identifies the path attribute. You use this tag to set or get a string value that represents the path. This attribute is unique to Internet password items.
 --
--- kSecVolumeItemAttr Identifies the volume attribute. You use this tag to set or get a string value that represents the AppleShare volume. This attribute is unique to AppleShare password items. Note: AppleShare passwords are no longer used by macOS as of Leopard (10.5); Internet password items are used instead.
+-- kSecVolumeItemAttr Identifies the volume attribute. You use this tag to set or get a string value that represents the AppleShare volume. This attribute is unique to AppleShare password items. Note: AppleShare passwords are no longer used by OS X as of Leopard (10.5); Internet password items are used instead.
 --
--- kSecAddressItemAttr Identifies the address attribute. You use this tag to set or get a string value that represents the AppleTalk zone name, or the IP or domain name that represents the server address. This attribute is unique to AppleShare password items. Note: AppleShare passwords are no longer used by macOS as of Leopard (10.5); Internet password items are used instead.
+-- kSecAddressItemAttr Identifies the address attribute. You use this tag to set or get a string value that represents the AppleTalk zone name, or the IP or domain name that represents the server address. This attribute is unique to AppleShare password items. Note: AppleShare passwords are no longer used by OS X as of Leopard (10.5); Internet password items are used instead.
 --
--- kSecSignatureItemAttr Identifies the server signature attribute. You use this tag to set or get a value of type SecAFPServerSignature that represents the server signature block. This attribute is unique to AppleShare password items. Note: AppleShare passwords are no longer used by macOS as of Leopard (10.5); Internet password items are used instead.
+-- kSecSignatureItemAttr Identifies the server signature attribute. You use this tag to set or get a value of type SecAFPServerSignature that represents the server signature block. This attribute is unique to AppleShare password items. Note: AppleShare passwords are no longer used by OS X as of Leopard (10.5); Internet password items are used instead.
 --
 -- kSecProtocolItemAttr Identifies the protocol attribute. You use this tag to set or get a value of type SecProtocolType that represents the Internet protocol. This attribute applies to AppleShare and Internet password items.
 --
@@ -1191,7 +1175,7 @@ instance ObjCReturn SecItemAttr where
 --
 -- kSecAppleSharePasswordItemClass Indicates that the item is an AppleShare password.
 --
--- Note: AppleShare passwords are no longer used by macOS, starting in Leopard (10.5). Use of this item class is deprecated in OS X 10.9 and later; kSecInternetPasswordItemClass should be used instead when storing or looking up passwords for an Apple Filing Protocol (AFP) server.
+-- Note: AppleShare passwords are no longer used by OS X, starting in Leopard (10.5). Use of this item class is deprecated in OS X 10.9 and later; kSecInternetPasswordItemClass should be used instead when storing or looking up passwords for an Apple Filing Protocol (AFP) server.
 --
 -- kSecCertificateItemClass Indicates that the item is a digital certificate.
 --

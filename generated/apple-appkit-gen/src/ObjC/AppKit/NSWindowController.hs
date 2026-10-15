@@ -28,8 +28,6 @@ module ObjC.AppKit.NSWindowController
   , setWindowFrameAutosaveName
   , shouldCascadeWindows
   , setShouldCascadeWindows
-  , previewRepresentableActivityItems
-  , setPreviewRepresentableActivityItems
   , document
   , setDocument
   , shouldCloseDocument
@@ -51,11 +49,9 @@ module ObjC.AppKit.NSWindowController
   , initWithWindowSelector
   , loadWindowSelector
   , ownerSelector
-  , previewRepresentableActivityItemsSelector
   , setContentViewControllerSelector
   , setDocumentEditedSelector
   , setDocumentSelector
-  , setPreviewRepresentableActivityItemsSelector
   , setShouldCascadeWindowsSelector
   , setShouldCloseDocumentSelector
   , setWindowFrameAutosaveNameSelector
@@ -193,16 +189,6 @@ setShouldCascadeWindows :: IsNSWindowController nsWindowController => nsWindowCo
 setShouldCascadeWindows nsWindowController value =
   sendMessage nsWindowController setShouldCascadeWindowsSelector value
 
--- | @- previewRepresentableActivityItems@
-previewRepresentableActivityItems :: IsNSWindowController nsWindowController => nsWindowController -> IO (Id NSArray)
-previewRepresentableActivityItems nsWindowController =
-  sendMessage nsWindowController previewRepresentableActivityItemsSelector
-
--- | @- setPreviewRepresentableActivityItems:@
-setPreviewRepresentableActivityItems :: (IsNSWindowController nsWindowController, IsNSArray value) => nsWindowController -> value -> IO ()
-setPreviewRepresentableActivityItems nsWindowController value =
-  sendMessage nsWindowController setPreviewRepresentableActivityItemsSelector (toNSArray value)
-
 -- | @- document@
 document :: IsNSWindowController nsWindowController => nsWindowController -> IO RawId
 document nsWindowController =
@@ -224,14 +210,14 @@ setShouldCloseDocument nsWindowController value =
   sendMessage nsWindowController setShouldCloseDocumentSelector value
 
 -- | @- contentViewController@
-contentViewController :: IsNSWindowController nsWindowController => nsWindowController -> IO (Id NSViewController)
+contentViewController :: IsNSWindowController nsWindowController => nsWindowController -> IO RawId
 contentViewController nsWindowController =
   sendMessage nsWindowController contentViewControllerSelector
 
 -- | @- setContentViewController:@
-setContentViewController :: (IsNSWindowController nsWindowController, IsNSViewController value) => nsWindowController -> value -> IO ()
+setContentViewController :: IsNSWindowController nsWindowController => nsWindowController -> RawId -> IO ()
 setContentViewController nsWindowController value =
-  sendMessage nsWindowController setContentViewControllerSelector (toNSViewController value)
+  sendMessage nsWindowController setContentViewControllerSelector value
 
 -- | @- window@
 window :: IsNSWindowController nsWindowController => nsWindowController -> IO (Id NSWindow)
@@ -249,7 +235,7 @@ windowLoaded nsWindowController =
   sendMessage nsWindowController windowLoadedSelector
 
 -- | @- storyboard@
-storyboard :: IsNSWindowController nsWindowController => nsWindowController -> IO (Id NSStoryboard)
+storyboard :: IsNSWindowController nsWindowController => nsWindowController -> IO RawId
 storyboard nsWindowController =
   sendMessage nsWindowController storyboardSelector
 
@@ -341,14 +327,6 @@ shouldCascadeWindowsSelector = mkSelector "shouldCascadeWindows"
 setShouldCascadeWindowsSelector :: Selector '[Bool] ()
 setShouldCascadeWindowsSelector = mkSelector "setShouldCascadeWindows:"
 
--- | @Selector@ for @previewRepresentableActivityItems@
-previewRepresentableActivityItemsSelector :: Selector '[] (Id NSArray)
-previewRepresentableActivityItemsSelector = mkSelector "previewRepresentableActivityItems"
-
--- | @Selector@ for @setPreviewRepresentableActivityItems:@
-setPreviewRepresentableActivityItemsSelector :: Selector '[Id NSArray] ()
-setPreviewRepresentableActivityItemsSelector = mkSelector "setPreviewRepresentableActivityItems:"
-
 -- | @Selector@ for @document@
 documentSelector :: Selector '[] RawId
 documentSelector = mkSelector "document"
@@ -366,11 +344,11 @@ setShouldCloseDocumentSelector :: Selector '[Bool] ()
 setShouldCloseDocumentSelector = mkSelector "setShouldCloseDocument:"
 
 -- | @Selector@ for @contentViewController@
-contentViewControllerSelector :: Selector '[] (Id NSViewController)
+contentViewControllerSelector :: Selector '[] RawId
 contentViewControllerSelector = mkSelector "contentViewController"
 
 -- | @Selector@ for @setContentViewController:@
-setContentViewControllerSelector :: Selector '[Id NSViewController] ()
+setContentViewControllerSelector :: Selector '[RawId] ()
 setContentViewControllerSelector = mkSelector "setContentViewController:"
 
 -- | @Selector@ for @window@
@@ -386,6 +364,6 @@ windowLoadedSelector :: Selector '[] Bool
 windowLoadedSelector = mkSelector "windowLoaded"
 
 -- | @Selector@ for @storyboard@
-storyboardSelector :: Selector '[] (Id NSStoryboard)
+storyboardSelector :: Selector '[] RawId
 storyboardSelector = mkSelector "storyboard"
 

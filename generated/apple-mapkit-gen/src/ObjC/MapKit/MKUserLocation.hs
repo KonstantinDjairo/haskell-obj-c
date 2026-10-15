@@ -8,12 +8,14 @@ module ObjC.MapKit.MKUserLocation
   ( MKUserLocation
   , IsMKUserLocation(..)
   , updating
+  , location
   , heading
   , title
   , setTitle
   , subtitle
   , setSubtitle
   , headingSelector
+  , locationSelector
   , setSubtitleSelector
   , setTitleSelector
   , subtitleSelector
@@ -32,12 +34,18 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.MapKit.Internal.Classes
+import ObjC.CoreLocation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | @- updating@
 updating :: IsMKUserLocation mkUserLocation => mkUserLocation -> IO Bool
 updating mkUserLocation =
   sendMessage mkUserLocation updatingSelector
+
+-- | @- location@
+location :: IsMKUserLocation mkUserLocation => mkUserLocation -> IO (Id CLLocation)
+location mkUserLocation =
+  sendMessage mkUserLocation locationSelector
 
 -- | @- heading@
 heading :: IsMKUserLocation mkUserLocation => mkUserLocation -> IO RawId
@@ -71,6 +79,10 @@ setSubtitle mkUserLocation value =
 -- | @Selector@ for @updating@
 updatingSelector :: Selector '[] Bool
 updatingSelector = mkSelector "updating"
+
+-- | @Selector@ for @location@
+locationSelector :: Selector '[] (Id CLLocation)
+locationSelector = mkSelector "location"
 
 -- | @Selector@ for @heading@
 headingSelector :: Selector '[] RawId

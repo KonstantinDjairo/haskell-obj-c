@@ -3,11 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVPlayerItemAccessLogEvent represents a single log entry.
+-- | AVPlayerItemAccessLogEvent
 --
--- An AVPlayerItemAccessLogEvent provides named properties for accessing the data fields of each log event. None of the properties of this class are observable.
+-- An AVPlayerItemAccessLogEvent represents a single log entry.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- An AVPlayerItemAccessLogEvent provides named properties for accessing the data				fields of each log event. None of the properties of this class are observable.
 --
 -- Generated bindings for @AVPlayerItemAccessLogEvent@.
 module ObjC.AVFoundation.AVPlayerItemAccessLogEvent
@@ -98,142 +98,174 @@ new  =
     cls' <- getRequiredClass "AVPlayerItemAccessLogEvent"
     sendOwnedClassMessage cls' newSelector
 
--- | A count of media segments downloaded.
+-- | numberOfSegmentsDownloaded
 --
--- Value is negative if unknown. A count of media segments downloaded from the server to this client. Corresponds to "sc-count". This property is not observable. This property is deprecated. Use numberOfMediaRequests instead.
+-- A count of media segments downloaded.
+--
+-- Value is negative if unknown. A count of media segments downloaded from the server to this client. Corresponds to "sc-count". 				This property is not observable. 				This property is deprecated. Use numberOfMediaRequests instead.
 --
 -- ObjC selector: @- numberOfSegmentsDownloaded@
 numberOfSegmentsDownloaded :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 numberOfSegmentsDownloaded avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent numberOfSegmentsDownloadedSelector
 
--- | A count of media read requests.
+-- | numberOfMediaRequests
 --
--- Value is negative if unknown. A count of media read requests from the server to this client. Corresponds to "sc-count". For HTTP live Streaming, a count of media segments downloaded from the server to this client. For progressive-style HTTP media downloads, a count of HTTP GET (byte-range) requests for the resource. This property is not observable.
+-- A count of media read requests.
+--
+-- Value is negative if unknown. A count of media read requests from the server to this client. Corresponds to "sc-count".				For HTTP live Streaming, a count of media segments downloaded from the server to this client.				For progressive-style HTTP media downloads, a count of HTTP GET (byte-range) requests for the resource. 				This property is not observable.
 --
 -- ObjC selector: @- numberOfMediaRequests@
 numberOfMediaRequests :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 numberOfMediaRequests avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent numberOfMediaRequestsSelector
 
--- | The date/time at which playback began for this event. Can be nil.
+-- | playbackStartDate
 --
--- If nil is returned the date is unknown. Corresponds to "date". This property is not observable.
+-- The date/time at which playback began for this event. Can be nil.
+--
+-- If nil is returned the date is unknown. Corresponds to "date". 				This property is not observable.
 --
 -- ObjC selector: @- playbackStartDate@
 playbackStartDate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO (Id NSDate)
 playbackStartDate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent playbackStartDateSelector
 
--- | The URI of the playback item. Can be nil.
+-- | URI
 --
--- If nil is returned the URI is unknown. Corresponds to "uri". This property is not observable.
+-- The URI of the playback item. Can be nil.
+--
+-- If nil is returned the URI is unknown. Corresponds to "uri". 				This property is not observable.
 --
 -- ObjC selector: @- URI@
 uri :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO (Id NSString)
 uri avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent uriSelector
 
--- | The IP address of the server that was the source of the last delivered media segment. Can be nil.
+-- | serverAddress
 --
--- If nil is returned the address is unknown. Can be either an IPv4 or IPv6 address. Corresponds to "s-ip". This property is not observable.
+-- The IP address of the server that was the source of the last delivered media segment. Can be nil.
+--
+-- If nil is returned the address is unknown. Can be either an IPv4 or IPv6 address. Corresponds to "s-ip". 				This property is not observable.
 --
 -- ObjC selector: @- serverAddress@
 serverAddress :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO (Id NSString)
 serverAddress avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent serverAddressSelector
 
--- | A count of changes to the property serverAddress, see above, over the last uninterrupted period of playback.
+-- | numberOfServerAddressChanges
 --
--- Value is negative if unknown. Corresponds to "s-ip-changes". This property is not observable.
+-- A count of changes to the property serverAddress, see above, over the last uninterrupted period of playback.
+--
+-- Value is negative if unknown. Corresponds to "s-ip-changes". 				This property is not observable.
 --
 -- ObjC selector: @- numberOfServerAddressChanges@
 numberOfServerAddressChanges :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 numberOfServerAddressChanges avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent numberOfServerAddressChangesSelector
 
--- | A GUID that identifies the playback session. This value is used in HTTP requests. Can be nil.
+-- | playbackSessionID
 --
--- If nil is returned the GUID is unknown. Corresponds to "cs-guid". This property is not observable.
+-- A GUID that identifies the playback session. This value is used in HTTP requests. Can be nil.
+--
+-- If nil is returned the GUID is unknown. Corresponds to "cs-guid". 				This property is not observable.
 --
 -- ObjC selector: @- playbackSessionID@
 playbackSessionID :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO (Id NSString)
 playbackSessionID avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent playbackSessionIDSelector
 
--- | An offset into the playlist where the last uninterrupted period of playback began. Measured in seconds.
+-- | playbackStartOffset
 --
--- Value is negative if unknown. Corresponds to "c-start-time". This property is not observable.
+-- An offset into the playlist where the last uninterrupted period of playback began. Measured in seconds.
+--
+-- Value is negative if unknown. Corresponds to "c-start-time". 				This property is not observable.
 --
 -- ObjC selector: @- playbackStartOffset@
 playbackStartOffset :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 playbackStartOffset avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent playbackStartOffsetSelector
 
--- | The accumulated duration of the media downloaded. Measured in seconds.
+-- | segmentsDownloadedDuration
 --
--- Value is negative if unknown. Corresponds to "c-duration-downloaded". This property is not observable.
+-- The accumulated duration of the media downloaded. Measured in seconds.
+--
+-- Value is negative if unknown. Corresponds to "c-duration-downloaded". 				This property is not observable.
 --
 -- ObjC selector: @- segmentsDownloadedDuration@
 segmentsDownloadedDuration :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 segmentsDownloadedDuration avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent segmentsDownloadedDurationSelector
 
--- | The accumulated duration of the media played. Measured in seconds.
+-- | durationWatched
 --
--- Value is negative if unknown. Corresponds to "c-duration-watched". This property is not observable.
+-- The accumulated duration of the media played. Measured in seconds.
+--
+-- Value is negative if unknown. Corresponds to "c-duration-watched". 				This property is not observable.
 --
 -- ObjC selector: @- durationWatched@
 durationWatched :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 durationWatched avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent durationWatchedSelector
 
--- | The total number of playback stalls encountered.
+-- | numberOfStalls
 --
--- Value is negative if unknown. Corresponds to "c-stalls". This property is not observable.
+-- The total number of playback stalls encountered.
+--
+-- Value is negative if unknown. Corresponds to "c-stalls". 				This property is not observable.
 --
 -- ObjC selector: @- numberOfStalls@
 numberOfStalls :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 numberOfStalls avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent numberOfStallsSelector
 
--- | The accumulated number of bytes transferred.
+-- | numberOfBytesTransferred
 --
--- Value is negative if unknown. Corresponds to "bytes". This property is not observable.
+-- The accumulated number of bytes transferred.
+--
+-- Value is negative if unknown. Corresponds to "bytes". 				This property is not observable.
 --
 -- ObjC selector: @- numberOfBytesTransferred@
 numberOfBytesTransferred :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 numberOfBytesTransferred avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent numberOfBytesTransferredSelector
 
--- | The accumulated duration of active network transfer of bytes. Measured in seconds.
+-- | transferDuration
 --
--- Value is negative if unknown. Corresponds to "c-transfer-duration". This property is not observable.
+-- The accumulated duration of active network transfer of bytes. Measured in seconds.
+--
+-- Value is negative if unknown. Corresponds to "c-transfer-duration".				This property is not observable.
 --
 -- ObjC selector: @- transferDuration@
 transferDuration :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 transferDuration avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent transferDurationSelector
 
--- | The empirical throughput across all media downloaded. Measured in bits per second.
+-- | observedBitrate
 --
--- Value is negative if unknown. Corresponds to "c-observed-bitrate". This property is not observable.
+-- The empirical throughput across all media downloaded. Measured in bits per second.
+--
+-- Value is negative if unknown. Corresponds to "c-observed-bitrate". 				This property is not observable.
 --
 -- ObjC selector: @- observedBitrate@
 observedBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 observedBitrate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent observedBitrateSelector
 
--- | The throughput required to play the stream, as advertised by the server. Measured in bits per second.
+-- | indicatedBitrate
 --
--- Value is negative if unknown. Corresponds to "sc-indicated-bitrate". This property is not observable.
+-- The throughput required to play the stream, as advertised by the server. Measured in bits per second.
+--
+-- Value is negative if unknown. Corresponds to "sc-indicated-bitrate". 				This property is not observable.
 --
 -- ObjC selector: @- indicatedBitrate@
 indicatedBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 indicatedBitrate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent indicatedBitrateSelector
 
--- | Average throughput required to play the stream, as advertised by the server. Measured in bits per second.
+-- | indicatedAverageBitrate
+--
+-- Average throughput required to play the stream, as advertised by the server. Measured in bits per second.
 --
 -- Value is negative if unknown. Corresponds to "sc-indicated-avg-bitrate". This property is not observable.
 --
@@ -242,7 +274,9 @@ indicatedAverageBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEve
 indicatedAverageBitrate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent indicatedAverageBitrateSelector
 
--- | The average bitrate of video track if it is unmuxed. Average bitrate of combined content if muxed. Measured in bits per second.
+-- | averageVideoBitrate
+--
+-- The average bitrate of video track if it is unmuxed. Average bitrate of combined content if muxed. Measured in bits per second.
 --
 -- Value is negative if unknown. Corresponds to "c-avg-video-bitrate". This property is not observable.
 --
@@ -251,7 +285,9 @@ averageVideoBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent =
 averageVideoBitrate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent averageVideoBitrateSelector
 
--- | The average bitrate of audio track. This is not available if audio is muxed with video. Measured in bits per second.
+-- | averageAudioBitrate
+--
+-- The average bitrate of audio track. This is not available if audio is muxed with video. Measured in bits per second.
 --
 -- Value is negative if unknown. Corresponds to "c-avg-audio-bitrate". This property is not observable.
 --
@@ -260,81 +296,99 @@ averageAudioBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent =
 averageAudioBitrate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent averageAudioBitrateSelector
 
--- | The total number of dropped video frames.
+-- | numberOfDroppedVideoFrames
 --
--- Value is negative if unknown. Corresponds to "c-frames-dropped". This property is not observable.
+-- The total number of dropped video frames.
+--
+-- Value is negative if unknown. Corresponds to "c-frames-dropped". 				This property is not observable.
 --
 -- ObjC selector: @- numberOfDroppedVideoFrames@
 numberOfDroppedVideoFrames :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 numberOfDroppedVideoFrames avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent numberOfDroppedVideoFramesSelector
 
--- | The accumulated duration until player item is ready to play. Measured in seconds.
+-- | startupTime
 --
--- Value is negative if unknown. Corresponds to "c-startup-time". This property is not observable.
+-- The accumulated duration until player item is ready to play. Measured in seconds.
+--
+-- Value is negative if unknown. Corresponds to "c-startup-time".				This property is not observable.
 --
 -- ObjC selector: @- startupTime@
 startupTime :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 startupTime avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent startupTimeSelector
 
--- | The total number of times the download of the segments took too long.
+-- | downloadOverdue
 --
--- Value is negative if unknown. Corresponds to "c-overdue". This property is not observable.
+-- The total number of times the download of the segments took too long.
+--
+-- Value is negative if unknown. Corresponds to "c-overdue".				This property is not observable.
 --
 -- ObjC selector: @- downloadOverdue@
 downloadOverdue :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 downloadOverdue avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent downloadOverdueSelector
 
--- | Maximum observed segment download bit rate.
+-- | observedMaxBitrate
 --
--- Value is negative if unknown. Corresponds to "c-observed-max-bitrate". This property is not observable.
+-- Maximum observed segment download bit rate.
+--
+-- Value is negative if unknown. Corresponds to "c-observed-max-bitrate".				This property is not observable.
 --
 -- ObjC selector: @- observedMaxBitrate@
 observedMaxBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 observedMaxBitrate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent observedMaxBitrateSelector
 
--- | Minimum observed segment download bit rate.
+-- | observedMinBitrate
 --
--- Value is negative if unknown. Corresponds to "c-observed-min-bitrate". This property is not observable.
+-- Minimum observed segment download bit rate.
+--
+-- Value is negative if unknown. Corresponds to "c-observed-min-bitrate".				This property is not observable.
 --
 -- ObjC selector: @- observedMinBitrate@
 observedMinBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 observedMinBitrate avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent observedMinBitrateSelector
 
--- | Standard deviation of observed segment download bit rates.
+-- | observedBitrateStandardDeviation
 --
--- Value is negative if unknown. Corresponds to "c-observed-bitrate-sd". This property is not observable.
+-- Standard deviation of observed segment download bit rates.
+--
+-- Value is negative if unknown. Corresponds to "c-observed-bitrate-sd".				This property is not observable.
 --
 -- ObjC selector: @- observedBitrateStandardDeviation@
 observedBitrateStandardDeviation :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble
 observedBitrateStandardDeviation avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent observedBitrateStandardDeviationSelector
 
--- | Playback type (LIVE, VOD, FILE).
+-- | playbackType
 --
--- If nil is returned the playback type is unknown. Corresponds to "s-playback-type". This property is not observable.
+-- Playback type (LIVE, VOD, FILE).
+--
+-- If nil is returned the playback type is unknown. Corresponds to "s-playback-type".				This property is not observable.
 --
 -- ObjC selector: @- playbackType@
 playbackType :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO (Id NSString)
 playbackType avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent playbackTypeSelector
 
--- | Number of network read requests over WWAN.
+-- | mediaRequestsWWAN
 --
--- Value is negative if unknown. Corresponds to "sc-wwan-count". This property is not observable.
+-- Number of network read requests over WWAN.
+--
+-- Value is negative if unknown. Corresponds to "sc-wwan-count".				This property is not observable.
 --
 -- ObjC selector: @- mediaRequestsWWAN@
 mediaRequestsWWAN :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CLong
 mediaRequestsWWAN avPlayerItemAccessLogEvent =
   sendMessage avPlayerItemAccessLogEvent mediaRequestsWWANSelector
 
--- | Bandwidth that caused us to switch (up or down).
+-- | switchBitrate
 --
--- Value is negative if unknown. Corresponds to "c-switch-bitrate". This property is not observable.
+-- Bandwidth that caused us to switch (up or down).
+--
+-- Value is negative if unknown. Corresponds to "c-switch-bitrate".				This property is not observable.
 --
 -- ObjC selector: @- switchBitrate@
 switchBitrate :: IsAVPlayerItemAccessLogEvent avPlayerItemAccessLogEvent => avPlayerItemAccessLogEvent -> IO CDouble

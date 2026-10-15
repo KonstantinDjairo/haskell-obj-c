@@ -52,7 +52,7 @@ init_ vzFileSerialPortAttachment =
 --
 -- @url@ — The URL of the file for the attachment on the local file system.
 --
--- @shouldAppend@ — True if the file should be opened in append mode, false otherwise.    When a file is opened in append mode, writing to that file will append to the end of it.
+-- @shouldAppend@ — True if the file should be opened in append mode, false otherwise.        When a file is opened in append mode, writing to that file will append to the end of it.
 --
 -- @error@ — If not nil, used to report errors if initialization fails.
 --

@@ -20,15 +20,10 @@ module ObjC.CoreML.MLModel
   , predictionsFromBatch_options_error
   , parameterValueForKey_error
   , loadModelAsset_configuration_completionHandler
-  , newState
-  , predictionFromFeatures_usingState_error
-  , predictionFromFeatures_usingState_options_error
   , compileModelAtURL_error
   , compileModelAtURL_completionHandler
   , modelDescription
   , configuration
-  , availableComputeDevices
-  , availableComputeDevicesSelector
   , compileModelAtURL_completionHandlerSelector
   , compileModelAtURL_errorSelector
   , configurationSelector
@@ -37,12 +32,9 @@ module ObjC.CoreML.MLModel
   , modelDescriptionSelector
   , modelWithContentsOfURL_configuration_errorSelector
   , modelWithContentsOfURL_errorSelector
-  , newStateSelector
   , parameterValueForKey_errorSelector
   , predictionFromFeatures_errorSelector
   , predictionFromFeatures_options_errorSelector
-  , predictionFromFeatures_usingState_errorSelector
-  , predictionFromFeatures_usingState_options_errorSelector
   , predictionsFromBatch_errorSelector
   , predictionsFromBatch_options_errorSelector
 
@@ -95,20 +87,14 @@ loadContentsOfURL_configuration_completionHandler url configuration handler =
     cls' <- getRequiredClass "MLModel"
     sendClassMessage cls' loadContentsOfURL_configuration_completionHandlerSelector (toNSURL url) (toMLModelConfiguration configuration) handler
 
--- | Run a prediction on a model synchronously.
---
--- This is a convenience overload method of @prediction(from:options:)@ that uses the default prediction options.
---
--- - Parameters   - input: The input features to make a prediction from.   - error: The output parameter to be filled with error information on failure. - Returns: The output features from the prediction.
+-- | All models can predict on a specific set of input features.
 --
 -- ObjC selector: @- predictionFromFeatures:error:@
 predictionFromFeatures_error :: (IsMLModel mlModel, IsNSError error_) => mlModel -> RawId -> error_ -> IO RawId
 predictionFromFeatures_error mlModel input error_ =
   sendMessage mlModel predictionFromFeatures_errorSelector input (toNSError error_)
 
--- | Run a prediction on a model synchronously
---
--- - Parameters   - input: The input features to make a prediction from.   - options: Prediction options to modify how the prediction is run.   - error: The output parameter to be filled with error information on failure. - Returns: The output features from the prediction.
+-- | Prediction with explicit options
 --
 -- ObjC selector: @- predictionFromFeatures:options:error:@
 predictionFromFeatures_options_error :: (IsMLModel mlModel, IsMLPredictionOptions options, IsNSError error_) => mlModel -> RawId -> options -> error_ -> IO RawId
@@ -150,47 +136,6 @@ loadModelAsset_configuration_completionHandler asset configuration handler =
   do
     cls' <- getRequiredClass "MLModel"
     sendClassMessage cls' loadModelAsset_configuration_completionHandlerSelector (toMLModelAsset asset) (toMLModelConfiguration configuration) handler
-
--- | Creates a new state object.
---
--- Core ML framework will allocate the state buffers declared in the model.
---
--- The allocated state buffers are initialized to zeros. To initialize with different values, use @.withMultiArray(for:)@ to get the mutable @MLMultiArray@-view to the state buffer.
---
--- It returns an empty state when the model is stateless. One can use the empty state with stateful prediction functions such as @prediction(from:using:)@ and those predictions will be stateless. This simplifies the call site which may or may not use a stateful model.
---
--- ```swift // Create state that contains two state buffers: s1 and s2. // Then, initialize s1 to 1.0 and s2 to 2.0. let state = model.newState() state.withMultiArray(for: "s1") { stateMultiArray in     stateMultiArray[0] = 1.0 } state.withMultiArray(for: "s2") { stateMultiArray in     stateMultiArray[0] = 2.0 } ```
---
--- ObjC selector: @- newState@
-newState :: IsMLModel mlModel => mlModel -> IO (Id MLState)
-newState mlModel =
-  sendOwnedMessage mlModel newStateSelector
-
--- | Run a stateful prediction synchronously.
---
--- Use this method to run predictions on a stateful model.
---
--- ```swift let state = model.newState() let prediction = try model.prediction(from: inputFeatures, using: state) ```
---
--- - Parameters:  - inputFeatures: The input features as declared in the model description.  - state: The state object created by @newState()@ method.  - error: The output parameter to receive an error information on failure.
---
--- ObjC selector: @- predictionFromFeatures:usingState:error:@
-predictionFromFeatures_usingState_error :: (IsMLModel mlModel, IsMLState state, IsNSError error_) => mlModel -> RawId -> state -> error_ -> IO RawId
-predictionFromFeatures_usingState_error mlModel inputFeatures state error_ =
-  sendMessage mlModel predictionFromFeatures_usingState_errorSelector inputFeatures (toMLState state) (toNSError error_)
-
--- | Run a stateful prediction synchronously with options.
---
--- Use this method to run predictions on a stateful model.
---
--- ```swift let state = model.newState() let prediction = try model.prediction(from: inputFeatures, using: state, options: predictionOptions) ```
---
--- - Parameters:  - inputFeatures: The input features as declared in the model description.  - state: The state object created by @newState()@ method.  - options: The prediction options.  - error: The output parameter to receive an error information on failure.
---
--- ObjC selector: @- predictionFromFeatures:usingState:options:error:@
-predictionFromFeatures_usingState_options_error :: (IsMLModel mlModel, IsMLState state, IsMLPredictionOptions options, IsNSError error_) => mlModel -> RawId -> state -> options -> error_ -> IO RawId
-predictionFromFeatures_usingState_options_error mlModel inputFeatures state options error_ =
-  sendMessage mlModel predictionFromFeatures_usingState_options_errorSelector inputFeatures (toMLState state) (toMLPredictionOptions options) (toNSError error_)
 
 -- | Compile a .mlmodel for this device
 --
@@ -242,19 +187,6 @@ configuration :: IsMLModel mlModel => mlModel -> IO (Id MLModelConfiguration)
 configuration mlModel =
   sendMessage mlModel configurationSelector
 
--- | The list of available compute devices for CoreML.
---
--- Use the method to get the list of compute devices that MLModel's prediction can use.
---
--- Some compute devices on the hardware are exclusive to the domain ML frameworks such as Vision and SoundAnalysis and not available to CoreML. See also @MLComputeDevice.allComputeDevices@.
---
--- ObjC selector: @+ availableComputeDevices@
-availableComputeDevices :: IO (Id NSArray)
-availableComputeDevices  =
-  do
-    cls' <- getRequiredClass "MLModel"
-    sendClassMessage cls' availableComputeDevicesSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -295,18 +227,6 @@ parameterValueForKey_errorSelector = mkSelector "parameterValueForKey:error:"
 loadModelAsset_configuration_completionHandlerSelector :: Selector '[Id MLModelAsset, Id MLModelConfiguration, Ptr ()] ()
 loadModelAsset_configuration_completionHandlerSelector = mkSelector "loadModelAsset:configuration:completionHandler:"
 
--- | @Selector@ for @newState@
-newStateSelector :: Selector '[] (Id MLState)
-newStateSelector = mkSelector "newState"
-
--- | @Selector@ for @predictionFromFeatures:usingState:error:@
-predictionFromFeatures_usingState_errorSelector :: Selector '[RawId, Id MLState, Id NSError] RawId
-predictionFromFeatures_usingState_errorSelector = mkSelector "predictionFromFeatures:usingState:error:"
-
--- | @Selector@ for @predictionFromFeatures:usingState:options:error:@
-predictionFromFeatures_usingState_options_errorSelector :: Selector '[RawId, Id MLState, Id MLPredictionOptions, Id NSError] RawId
-predictionFromFeatures_usingState_options_errorSelector = mkSelector "predictionFromFeatures:usingState:options:error:"
-
 -- | @Selector@ for @compileModelAtURL:error:@
 compileModelAtURL_errorSelector :: Selector '[Id NSURL, Id NSError] (Id NSURL)
 compileModelAtURL_errorSelector = mkSelector "compileModelAtURL:error:"
@@ -322,8 +242,4 @@ modelDescriptionSelector = mkSelector "modelDescription"
 -- | @Selector@ for @configuration@
 configurationSelector :: Selector '[] (Id MLModelConfiguration)
 configurationSelector = mkSelector "configuration"
-
--- | @Selector@ for @availableComputeDevices@
-availableComputeDevicesSelector :: Selector '[] (Id NSArray)
-availableComputeDevicesSelector = mkSelector "availableComputeDevices"
 

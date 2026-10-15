@@ -4,22 +4,18 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | This class configures and displays a media browser panel.
---
--- This class provides no direct access to the panel, and its meaningful contents aren't in the calling process.
---
--- Generated bindings for @NSMediaLibraryBrowserController@.
+-- | Generated bindings for @NSMediaLibraryBrowserController@.
 module ObjC.AppKit.NSMediaLibraryBrowserController
   ( NSMediaLibraryBrowserController
   , IsNSMediaLibraryBrowserController(..)
   , togglePanel
-  , sharedMediaLibraryBrowserController
   , visible
   , setVisible
   , frame
   , setFrame
   , mediaLibraries
   , setMediaLibraries
+  , sharedMediaLibraryBrowserController
   , frameSelector
   , mediaLibrariesSelector
   , setFrameSelector
@@ -55,13 +51,6 @@ togglePanel :: IsNSMediaLibraryBrowserController nsMediaLibraryBrowserController
 togglePanel nsMediaLibraryBrowserController sender =
   sendMessage nsMediaLibraryBrowserController togglePanelSelector sender
 
--- | @+ sharedMediaLibraryBrowserController@
-sharedMediaLibraryBrowserController :: IO (Id NSMediaLibraryBrowserController)
-sharedMediaLibraryBrowserController  =
-  do
-    cls' <- getRequiredClass "NSMediaLibraryBrowserController"
-    sendClassMessage cls' sharedMediaLibraryBrowserControllerSelector
-
 -- | @- visible@
 visible :: IsNSMediaLibraryBrowserController nsMediaLibraryBrowserController => nsMediaLibraryBrowserController -> IO Bool
 visible nsMediaLibraryBrowserController =
@@ -92,6 +81,13 @@ setMediaLibraries :: IsNSMediaLibraryBrowserController nsMediaLibraryBrowserCont
 setMediaLibraries nsMediaLibraryBrowserController value =
   sendMessage nsMediaLibraryBrowserController setMediaLibrariesSelector value
 
+-- | @+ sharedMediaLibraryBrowserController@
+sharedMediaLibraryBrowserController :: IO (Id NSMediaLibraryBrowserController)
+sharedMediaLibraryBrowserController  =
+  do
+    cls' <- getRequiredClass "NSMediaLibraryBrowserController"
+    sendClassMessage cls' sharedMediaLibraryBrowserControllerSelector
+
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -99,10 +95,6 @@ setMediaLibraries nsMediaLibraryBrowserController value =
 -- | @Selector@ for @togglePanel:@
 togglePanelSelector :: Selector '[RawId] ()
 togglePanelSelector = mkSelector "togglePanel:"
-
--- | @Selector@ for @sharedMediaLibraryBrowserController@
-sharedMediaLibraryBrowserControllerSelector :: Selector '[] (Id NSMediaLibraryBrowserController)
-sharedMediaLibraryBrowserControllerSelector = mkSelector "sharedMediaLibraryBrowserController"
 
 -- | @Selector@ for @visible@
 visibleSelector :: Selector '[] Bool
@@ -127,4 +119,8 @@ mediaLibrariesSelector = mkSelector "mediaLibraries"
 -- | @Selector@ for @setMediaLibraries:@
 setMediaLibrariesSelector :: Selector '[NSMediaLibrary] ()
 setMediaLibrariesSelector = mkSelector "setMediaLibraries:"
+
+-- | @Selector@ for @sharedMediaLibraryBrowserController@
+sharedMediaLibraryBrowserControllerSelector :: Selector '[] (Id NSMediaLibraryBrowserController)
+sharedMediaLibraryBrowserControllerSelector = mkSelector "sharedMediaLibraryBrowserController"
 

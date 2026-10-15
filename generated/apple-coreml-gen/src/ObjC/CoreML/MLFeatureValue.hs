@@ -75,7 +75,6 @@ module ObjC.CoreML.MLFeatureValue
   , pattern MLFeatureTypeMultiArray
   , pattern MLFeatureTypeDictionary
   , pattern MLFeatureTypeSequence
-  , pattern MLFeatureTypeState
 
   ) where
 

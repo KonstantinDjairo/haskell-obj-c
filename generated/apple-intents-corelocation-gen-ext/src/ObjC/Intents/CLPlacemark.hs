@@ -27,17 +27,17 @@ import ObjC.CoreLocation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
 -- | @+ placemarkWithLocation:name:postalAddress:@
-placemarkWithLocation_name_postalAddress :: (IsNSString name, IsCNPostalAddress postalAddress) => RawId -> name -> postalAddress -> IO (Id CLPlacemark)
+placemarkWithLocation_name_postalAddress :: (IsCLLocation location, IsNSString name, IsCNPostalAddress postalAddress) => location -> name -> postalAddress -> IO (Id CLPlacemark)
 placemarkWithLocation_name_postalAddress location name postalAddress =
   do
     cls' <- getRequiredClass "CLPlacemark"
-    sendClassMessage cls' placemarkWithLocation_name_postalAddressSelector location (toNSString name) (toCNPostalAddress postalAddress)
+    sendClassMessage cls' placemarkWithLocation_name_postalAddressSelector (toCLLocation location) (toNSString name) (toCNPostalAddress postalAddress)
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
 -- | @Selector@ for @placemarkWithLocation:name:postalAddress:@
-placemarkWithLocation_name_postalAddressSelector :: Selector '[RawId, Id NSString, Id CNPostalAddress] (Id CLPlacemark)
+placemarkWithLocation_name_postalAddressSelector :: Selector '[Id CLLocation, Id NSString, Id CNPostalAddress] (Id CLPlacemark)
 placemarkWithLocation_name_postalAddressSelector = mkSelector "placemarkWithLocation:name:postalAddress:"
 

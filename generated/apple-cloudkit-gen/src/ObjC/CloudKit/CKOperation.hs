@@ -106,7 +106,7 @@ operationID ckOperation =
 
 -- | This callback is called after a long lived operation has begun running and is persisted.
 --
--- Once this callback is called the operation will continue running even if the current process exits.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Once this callback is called the operation will continue running even if the current process exits.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- longLivedOperationWasPersistedBlock@
 longLivedOperationWasPersistedBlock :: IsCKOperation ckOperation => ckOperation -> IO (Ptr ())
@@ -115,7 +115,7 @@ longLivedOperationWasPersistedBlock ckOperation =
 
 -- | This callback is called after a long lived operation has begun running and is persisted.
 --
--- Once this callback is called the operation will continue running even if the current process exits.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Once this callback is called the operation will continue running even if the current process exits.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setLongLivedOperationWasPersistedBlock:@
 setLongLivedOperationWasPersistedBlock :: IsCKOperation ckOperation => ckOperation -> Ptr () -> IO ()

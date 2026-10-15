@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -25,10 +24,6 @@ module ObjC.JavaScriptCore.JSValue
   , valueWithNewPromiseResolvedWithResult_inContext
   , valueWithNewPromiseRejectedWithReason_inContext
   , valueWithNewSymbolFromDescription_inContext
-  , valueWithNewBigIntFromString_inContext
-  , valueWithNewBigIntFromInt64_inContext
-  , valueWithNewBigIntFromUInt64_inContext
-  , valueWithNewBigIntFromDouble_inContext
   , valueWithNullInContext
   , valueWithUndefinedInContext
   , toObject
@@ -37,20 +32,14 @@ module ObjC.JavaScriptCore.JSValue
   , toDouble
   , toInt32
   , toUInt32
-  , toInt64
-  , toUInt64
   , toNumber
   , toString
   , toDate
   , toArray
   , toDictionary
-  , isInstanceOf
   , isEqualToObject
   , isEqualWithTypeCoercionToObject
-  , compareJSValue
-  , compareInt64
-  , compareUInt64
-  , compareDouble
+  , isInstanceOf
   , callWithArguments
   , constructWithArguments
   , invokeMethod_withArguments
@@ -78,13 +67,8 @@ module ObjC.JavaScriptCore.JSValue
   , isArray
   , isDate
   , isSymbol
-  , isBigInt
   , jsValueRef
   , callWithArgumentsSelector
-  , compareDoubleSelector
-  , compareInt64Selector
-  , compareJSValueSelector
-  , compareUInt64Selector
   , constructWithArgumentsSelector
   , contextSelector
   , defineProperty_descriptorSelector
@@ -92,7 +76,6 @@ module ObjC.JavaScriptCore.JSValue
   , hasPropertySelector
   , invokeMethod_withArgumentsSelector
   , isArraySelector
-  , isBigIntSelector
   , isBooleanSelector
   , isDateSelector
   , isEqualToObjectSelector
@@ -117,14 +100,12 @@ module ObjC.JavaScriptCore.JSValue
   , toDictionarySelector
   , toDoubleSelector
   , toInt32Selector
-  , toInt64Selector
   , toNumberSelector
   , toObjectOfClassSelector
   , toObjectSelector
   , toRangeSelector
   , toStringSelector
   , toUInt32Selector
-  , toUInt64Selector
   , valueAtIndexSelector
   , valueForPropertySelector
   , valueWithBool_inContextSelector
@@ -132,10 +113,6 @@ module ObjC.JavaScriptCore.JSValue
   , valueWithInt32_inContextSelector
   , valueWithJSValueRef_inContextSelector
   , valueWithNewArrayInContextSelector
-  , valueWithNewBigIntFromDouble_inContextSelector
-  , valueWithNewBigIntFromInt64_inContextSelector
-  , valueWithNewBigIntFromString_inContextSelector
-  , valueWithNewBigIntFromUInt64_inContextSelector
   , valueWithNewErrorFromMessage_inContextSelector
   , valueWithNewObjectInContextSelector
   , valueWithNewPromiseInContext_fromExecutorSelector
@@ -149,12 +126,6 @@ module ObjC.JavaScriptCore.JSValue
   , valueWithUInt32_inContextSelector
   , valueWithUndefinedInContextSelector
 
-  -- * Enum types
-  , JSRelationCondition(JSRelationCondition)
-  , pattern KJSRelationConditionUndefined
-  , pattern KJSRelationConditionEqual
-  , pattern KJSRelationConditionGreaterThan
-  , pattern KJSRelationConditionLessThan
 
   ) where
 
@@ -168,7 +139,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.JavaScriptCore.Internal.Classes
 import ObjC.Foundation.Internal.Structs
-import ObjC.JavaScriptCore.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | Creating JavaScript Values
@@ -364,70 +334,6 @@ valueWithNewSymbolFromDescription_inContext description context =
     cls' <- getRequiredClass "JSValue"
     sendClassMessage cls' valueWithNewSymbolFromDescription_inContextSelector (toNSString description) (toJSContext context)
 
--- | Create a new BigInt value from a numeric string.
---
--- @string@ — The string representation of the BigInt JavaScript value being created.
---
--- @context@ — The JSContext to which the resulting JSValue belongs.
---
--- Returns: The JSValue representing a JavaScript value with type BigInt.
---
--- This is equivalent to calling the BigInt constructor from JavaScript with a string argument.
---
--- ObjC selector: @+ valueWithNewBigIntFromString:inContext:@
-valueWithNewBigIntFromString_inContext :: (IsNSString string, IsJSContext context) => string -> context -> IO (Id JSValue)
-valueWithNewBigIntFromString_inContext string context =
-  do
-    cls' <- getRequiredClass "JSValue"
-    sendClassMessage cls' valueWithNewBigIntFromString_inContextSelector (toNSString string) (toJSContext context)
-
--- | Create a new BigInt value from a int64_t.
---
--- @int64@ — The signed 64-bit integer of the BigInt JavaScript value being created.
---
--- @context@ — The JSContext to which the resulting JSValue belongs.
---
--- Returns: The JSValue representing a JavaScript value with type BigInt.
---
--- ObjC selector: @+ valueWithNewBigIntFromInt64:inContext:@
-valueWithNewBigIntFromInt64_inContext :: IsJSContext context => CLong -> context -> IO (Id JSValue)
-valueWithNewBigIntFromInt64_inContext int64 context =
-  do
-    cls' <- getRequiredClass "JSValue"
-    sendClassMessage cls' valueWithNewBigIntFromInt64_inContextSelector int64 (toJSContext context)
-
--- | Create a new BigInt value from a uint64_t.
---
--- @uint64@ — The unsigned 64-bit integer of the BigInt JavaScript value being created.
---
--- @context@ — The JSContext to which the resulting JSValue belongs.
---
--- Returns: The JSValue representing a JavaScript value with type BigInt.
---
--- ObjC selector: @+ valueWithNewBigIntFromUInt64:inContext:@
-valueWithNewBigIntFromUInt64_inContext :: IsJSContext context => CULong -> context -> IO (Id JSValue)
-valueWithNewBigIntFromUInt64_inContext uint64 context =
-  do
-    cls' <- getRequiredClass "JSValue"
-    sendClassMessage cls' valueWithNewBigIntFromUInt64_inContextSelector uint64 (toJSContext context)
-
--- | Create a new BigInt value from a double.
---
--- @value@ — The value of the BigInt JavaScript value being created.
---
--- @context@ — The JSContext to which the resulting JSValue belongs.
---
--- Returns: The JSValue representing a JavaScript value with type BigInt.
---
--- If the value is not an integer, an exception is thrown.
---
--- ObjC selector: @+ valueWithNewBigIntFromDouble:inContext:@
-valueWithNewBigIntFromDouble_inContext :: IsJSContext context => CDouble -> context -> IO (Id JSValue)
-valueWithNewBigIntFromDouble_inContext value context =
-  do
-    cls' <- getRequiredClass "JSValue"
-    sendClassMessage cls' valueWithNewBigIntFromDouble_inContextSelector value (toJSContext context)
-
 -- | Create the JavaScript value null.
 --
 -- @context@ — The JSContext to which the resulting JSValue belongs.
@@ -514,9 +420,9 @@ toBool jsValue =
 
 -- | Convert a JSValue to a double.
 --
--- Returns: The double result of the conversion.
+-- The JSValue is converted to a number according to the rules specified  by the JavaScript language.
 --
--- Convert the JSValue to a number according to the rules specified by the JavaScript language. Unless the JSValue is a BigInt then this is equivalent to Number(value) in JavaScript.
+-- Returns: The double result of the conversion.
 --
 -- ObjC selector: @- toDouble@
 toDouble :: IsJSValue jsValue => jsValue -> IO CDouble
@@ -525,7 +431,7 @@ toDouble jsValue =
 
 -- | Convert a JSValue to an int32_t.
 --
--- The JSValue is converted to an integer according to the rules specified by the JavaScript language. If the JSValue is a BigInt, then the value is truncated to an int32_t.
+-- The JSValue is converted to an integer according to the rules specified  by the JavaScript language.
 --
 -- Returns: The int32_t result of the conversion.
 --
@@ -536,7 +442,7 @@ toInt32 jsValue =
 
 -- | Convert a JSValue to a uint32_t.
 --
--- The JSValue is converted to an integer according to the rules specified by the JavaScript language. If the JSValue is a BigInt, then the value is truncated to a uint32_t.
+-- The JSValue is converted to an integer according to the rules specified  by the JavaScript language.
 --
 -- Returns: The uint32_t result of the conversion.
 --
@@ -545,27 +451,9 @@ toUInt32 :: IsJSValue jsValue => jsValue -> IO CUInt
 toUInt32 jsValue =
   sendMessage jsValue toUInt32Selector
 
--- | Convert a JSValue to a int64_t.
---
--- The JSValue is converted to an integer according to the rules specified by the JavaScript language. If the value is a BigInt, then the value is truncated to an int64_t.
---
--- ObjC selector: @- toInt64@
-toInt64 :: IsJSValue jsValue => jsValue -> IO CLong
-toInt64 jsValue =
-  sendMessage jsValue toInt64Selector
-
--- | Convert a JSValue to a uint64_t.
---
--- The JSValue is converted to an integer according to the rules specified by the JavaScript language. If the value is a BigInt, then the value is truncated to a uint64_t.
---
--- ObjC selector: @- toUInt64@
-toUInt64 :: IsJSValue jsValue => jsValue -> IO CULong
-toUInt64 jsValue =
-  sendMessage jsValue toUInt64Selector
-
 -- | Convert a JSValue to a NSNumber.
 --
--- If the JSValue represents a boolean, a NSNumber value of YES or NO will be returned. For all other types, the result is equivalent to Number(value) in JavaScript.
+-- If the JSValue represents a boolean, a NSNumber value of YES or NO  will be returned. For all other types the value will be converted to a number according  to the rules specified by the JavaScript language.
 --
 -- Returns: The NSNumber result of the conversion.
 --
@@ -618,15 +506,6 @@ toDictionary :: IsJSValue jsValue => jsValue -> IO (Id NSDictionary)
 toDictionary jsValue =
   sendMessage jsValue toDictionarySelector
 
--- | Check if a JSValue is an instance of another object.
---
--- This method has the same function as the JavaScript operator instanceof. If an object other than a JSValue is passed, it will first be converted according to the aforementioned rules.
---
--- ObjC selector: @- isInstanceOf:@
-isInstanceOf :: IsJSValue jsValue => jsValue -> RawId -> IO Bool
-isInstanceOf jsValue value =
-  sendMessage jsValue isInstanceOfSelector value
-
 -- | Compare two JSValues using JavaScript's === operator.
 --
 -- ObjC selector: @- isEqualToObject:@
@@ -641,49 +520,14 @@ isEqualWithTypeCoercionToObject :: IsJSValue jsValue => jsValue -> RawId -> IO B
 isEqualWithTypeCoercionToObject jsValue value =
   sendMessage jsValue isEqualWithTypeCoercionToObjectSelector value
 
--- | Compare two JSValues. The JSValue to compare with.
+-- | Check if a JSValue is an instance of another object.
 --
--- Returns: A value of JSRelationCondition, a kJSRelationConditionUndefined is returned if an exception is thrown.
+-- This method has the same function as the JavaScript operator instanceof. If an object other than a JSValue is passed, it will first be converted according to the aforementioned rules.
 --
--- The result is computed by comparing the results of JavaScript's ==, <, and > operators. If either self or other is (or would coerce to) NaN in JavaScript, then the result is kJSRelationConditionUndefined.
---
--- ObjC selector: @- compareJSValue:@
-compareJSValue :: (IsJSValue jsValue, IsJSValue other) => jsValue -> other -> IO JSRelationCondition
-compareJSValue jsValue other =
-  sendMessage jsValue compareJSValueSelector (toJSValue other)
-
--- | Compare a JSValue with a int64_t. The int64_t to compare with.
---
--- Returns: A value of JSRelationCondition, a kJSRelationConditionUndefined is returned if an exception is thrown.
---
--- The JSValue is converted to an integer according to the rules specified by the JavaScript language then compared with other.
---
--- ObjC selector: @- compareInt64:@
-compareInt64 :: IsJSValue jsValue => jsValue -> CLong -> IO JSRelationCondition
-compareInt64 jsValue other =
-  sendMessage jsValue compareInt64Selector other
-
--- | Compare a JSValue with a uint64_t. The uint64_t to compare with.
---
--- Returns: A value of JSRelationCondition, a kJSRelationConditionUndefined is returned if an exception is thrown.
---
--- The JSValue is converted to an integer according to the rules specified by the JavaScript language then compared with other.
---
--- ObjC selector: @- compareUInt64:@
-compareUInt64 :: IsJSValue jsValue => jsValue -> CULong -> IO JSRelationCondition
-compareUInt64 jsValue other =
-  sendMessage jsValue compareUInt64Selector other
-
--- | Compare a JSValue with a double. The double to compare with.
---
--- Returns: A value of JSRelationCondition, a kJSRelationConditionUndefined is returned if an exception is thrown.
---
--- The JSValue is converted to a double according to the rules specified by the JavaScript language then compared with other.
---
--- ObjC selector: @- compareDouble:@
-compareDouble :: IsJSValue jsValue => jsValue -> CDouble -> IO JSRelationCondition
-compareDouble jsValue other =
-  sendMessage jsValue compareDoubleSelector other
+-- ObjC selector: @- isInstanceOf:@
+isInstanceOf :: IsJSValue jsValue => jsValue -> RawId -> IO Bool
+isInstanceOf jsValue value =
+  sendMessage jsValue isInstanceOfSelector value
 
 -- | Calling Functions and Constructors
 --
@@ -924,13 +768,6 @@ isSymbol :: IsJSValue jsValue => jsValue -> IO Bool
 isSymbol jsValue =
   sendMessage jsValue isSymbolSelector
 
--- | Check if a JSValue is a BigInt.
---
--- ObjC selector: @- isBigInt@
-isBigInt :: IsJSValue jsValue => jsValue -> IO Bool
-isBigInt jsValue =
-  sendMessage jsValue isBigIntSelector
-
 -- | Returns the C API counterpart wrapped by a JSContext.
 --
 -- Returns: The C API equivalent of this JSValue.
@@ -996,22 +833,6 @@ valueWithNewPromiseRejectedWithReason_inContextSelector = mkSelector "valueWithN
 valueWithNewSymbolFromDescription_inContextSelector :: Selector '[Id NSString, Id JSContext] (Id JSValue)
 valueWithNewSymbolFromDescription_inContextSelector = mkSelector "valueWithNewSymbolFromDescription:inContext:"
 
--- | @Selector@ for @valueWithNewBigIntFromString:inContext:@
-valueWithNewBigIntFromString_inContextSelector :: Selector '[Id NSString, Id JSContext] (Id JSValue)
-valueWithNewBigIntFromString_inContextSelector = mkSelector "valueWithNewBigIntFromString:inContext:"
-
--- | @Selector@ for @valueWithNewBigIntFromInt64:inContext:@
-valueWithNewBigIntFromInt64_inContextSelector :: Selector '[CLong, Id JSContext] (Id JSValue)
-valueWithNewBigIntFromInt64_inContextSelector = mkSelector "valueWithNewBigIntFromInt64:inContext:"
-
--- | @Selector@ for @valueWithNewBigIntFromUInt64:inContext:@
-valueWithNewBigIntFromUInt64_inContextSelector :: Selector '[CULong, Id JSContext] (Id JSValue)
-valueWithNewBigIntFromUInt64_inContextSelector = mkSelector "valueWithNewBigIntFromUInt64:inContext:"
-
--- | @Selector@ for @valueWithNewBigIntFromDouble:inContext:@
-valueWithNewBigIntFromDouble_inContextSelector :: Selector '[CDouble, Id JSContext] (Id JSValue)
-valueWithNewBigIntFromDouble_inContextSelector = mkSelector "valueWithNewBigIntFromDouble:inContext:"
-
 -- | @Selector@ for @valueWithNullInContext:@
 valueWithNullInContextSelector :: Selector '[Id JSContext] (Id JSValue)
 valueWithNullInContextSelector = mkSelector "valueWithNullInContext:"
@@ -1044,14 +865,6 @@ toInt32Selector = mkSelector "toInt32"
 toUInt32Selector :: Selector '[] CUInt
 toUInt32Selector = mkSelector "toUInt32"
 
--- | @Selector@ for @toInt64@
-toInt64Selector :: Selector '[] CLong
-toInt64Selector = mkSelector "toInt64"
-
--- | @Selector@ for @toUInt64@
-toUInt64Selector :: Selector '[] CULong
-toUInt64Selector = mkSelector "toUInt64"
-
 -- | @Selector@ for @toNumber@
 toNumberSelector :: Selector '[] (Id NSNumber)
 toNumberSelector = mkSelector "toNumber"
@@ -1072,10 +885,6 @@ toArraySelector = mkSelector "toArray"
 toDictionarySelector :: Selector '[] (Id NSDictionary)
 toDictionarySelector = mkSelector "toDictionary"
 
--- | @Selector@ for @isInstanceOf:@
-isInstanceOfSelector :: Selector '[RawId] Bool
-isInstanceOfSelector = mkSelector "isInstanceOf:"
-
 -- | @Selector@ for @isEqualToObject:@
 isEqualToObjectSelector :: Selector '[RawId] Bool
 isEqualToObjectSelector = mkSelector "isEqualToObject:"
@@ -1084,21 +893,9 @@ isEqualToObjectSelector = mkSelector "isEqualToObject:"
 isEqualWithTypeCoercionToObjectSelector :: Selector '[RawId] Bool
 isEqualWithTypeCoercionToObjectSelector = mkSelector "isEqualWithTypeCoercionToObject:"
 
--- | @Selector@ for @compareJSValue:@
-compareJSValueSelector :: Selector '[Id JSValue] JSRelationCondition
-compareJSValueSelector = mkSelector "compareJSValue:"
-
--- | @Selector@ for @compareInt64:@
-compareInt64Selector :: Selector '[CLong] JSRelationCondition
-compareInt64Selector = mkSelector "compareInt64:"
-
--- | @Selector@ for @compareUInt64:@
-compareUInt64Selector :: Selector '[CULong] JSRelationCondition
-compareUInt64Selector = mkSelector "compareUInt64:"
-
--- | @Selector@ for @compareDouble:@
-compareDoubleSelector :: Selector '[CDouble] JSRelationCondition
-compareDoubleSelector = mkSelector "compareDouble:"
+-- | @Selector@ for @isInstanceOf:@
+isInstanceOfSelector :: Selector '[RawId] Bool
+isInstanceOfSelector = mkSelector "isInstanceOf:"
 
 -- | @Selector@ for @callWithArguments:@
 callWithArgumentsSelector :: Selector '[Id NSArray] (Id JSValue)
@@ -1207,10 +1004,6 @@ isDateSelector = mkSelector "isDate"
 -- | @Selector@ for @isSymbol@
 isSymbolSelector :: Selector '[] Bool
 isSymbolSelector = mkSelector "isSymbol"
-
--- | @Selector@ for @isBigInt@
-isBigIntSelector :: Selector '[] Bool
-isBigIntSelector = mkSelector "isBigInt"
 
 -- | @Selector@ for @JSValueRef@
 jsValueRefSelector :: Selector '[] RawId

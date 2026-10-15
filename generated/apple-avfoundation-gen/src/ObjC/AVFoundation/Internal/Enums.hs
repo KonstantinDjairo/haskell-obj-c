@@ -124,7 +124,33 @@ instance ObjCReturn AVAssetReaderStatus where
   fromRetained x = pure (AVAssetReaderStatus x)
   fromOwned x = pure (AVAssetReaderStatus x)
 
--- | These constants can be passed in to AVURLAssetReferenceRestrictionsKey to control the resolution of references to external media data.
+-- | AVAssetReferenceRestrictions
+--
+-- These constants can be passed in to AVURLAssetReferenceRestrictionsKey to control the resolution of references to external media data.
+--
+-- AVAssetReferenceRestrictionForbidNone
+--
+-- Indicates that all types of references should be followed.
+--
+-- AVAssetReferenceRestrictionForbidRemoteReferenceToLocal
+--
+-- Indicates that references from a remote asset (e.g. referenced via http URL) to local media data (e.g. stored in a local file) should not be followed.
+--
+-- AVAssetReferenceRestrictionForbidLocalReferenceToRemote
+--
+-- Indicates that references from a local asset to remote media data should not be followed.
+--
+-- AVAssetReferenceRestrictionForbidCrossSiteReference
+--
+-- Indicates that references from a remote asset to remote media data stored at a different site should not be followed.
+--
+-- AVAssetReferenceRestrictionForbidLocalReferenceToLocal
+--
+-- Indicates that references from a local asset to local media data stored outside the asset's container file should not be followed.
+--
+-- AVAssetReferenceRestrictionForbidAll
+--
+-- Indicates that only references to media data stored within the asset's container file should be allowed.
 -- | @AVAssetReferenceRestrictions@ (bitmask)
 newtype AVAssetReferenceRestrictions = AVAssetReferenceRestrictions CULong
   deriving stock (Eq, Ord, Show)
@@ -998,34 +1024,6 @@ instance ObjCReturn AVCaptureAutoFocusSystem where
   fromRetained x = pure (AVCaptureAutoFocusSystem x)
   fromOwned x = pure (AVCaptureAutoFocusSystem x)
 
--- | Constants indicating the current camera lens smudge detection status.
--- | @AVCaptureCameraLensSmudgeDetectionStatus@
-newtype AVCaptureCameraLensSmudgeDetectionStatus = AVCaptureCameraLensSmudgeDetectionStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVCaptureCameraLensSmudgeDetectionStatusDisabled :: AVCaptureCameraLensSmudgeDetectionStatus
-pattern AVCaptureCameraLensSmudgeDetectionStatusDisabled = AVCaptureCameraLensSmudgeDetectionStatus 0
-
-pattern AVCaptureCameraLensSmudgeDetectionStatusSmudgeNotDetected :: AVCaptureCameraLensSmudgeDetectionStatus
-pattern AVCaptureCameraLensSmudgeDetectionStatusSmudgeNotDetected = AVCaptureCameraLensSmudgeDetectionStatus 1
-
-pattern AVCaptureCameraLensSmudgeDetectionStatusSmudged :: AVCaptureCameraLensSmudgeDetectionStatus
-pattern AVCaptureCameraLensSmudgeDetectionStatusSmudged = AVCaptureCameraLensSmudgeDetectionStatus 2
-
-pattern AVCaptureCameraLensSmudgeDetectionStatusUnknown :: AVCaptureCameraLensSmudgeDetectionStatus
-pattern AVCaptureCameraLensSmudgeDetectionStatusUnknown = AVCaptureCameraLensSmudgeDetectionStatus 3
-
-instance ObjCArgument AVCaptureCameraLensSmudgeDetectionStatus where
-  withObjCArg (AVCaptureCameraLensSmudgeDetectionStatus x) k = k (argCLong x)
-
-instance ObjCReturn AVCaptureCameraLensSmudgeDetectionStatus where
-  type RawReturn AVCaptureCameraLensSmudgeDetectionStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVCaptureCameraLensSmudgeDetectionStatus x)
-  fromOwned x = pure (AVCaptureCameraLensSmudgeDetectionStatus x)
-
 -- | AVCaptureCenterStageControlMode
 --
 -- Constants indicating the current Center Stage control mode.
@@ -1065,32 +1063,21 @@ instance ObjCReturn AVCaptureCenterStageControlMode where
   fromRetained x = pure (AVCaptureCenterStageControlMode x)
   fromOwned x = pure (AVCaptureCenterStageControlMode x)
 
--- | Constants indicating the focus behavior when recording a Cinematic Video.
--- | @AVCaptureCinematicVideoFocusMode@
-newtype AVCaptureCinematicVideoFocusMode = AVCaptureCinematicVideoFocusMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVCaptureCinematicVideoFocusModeNone :: AVCaptureCinematicVideoFocusMode
-pattern AVCaptureCinematicVideoFocusModeNone = AVCaptureCinematicVideoFocusMode 0
-
-pattern AVCaptureCinematicVideoFocusModeStrong :: AVCaptureCinematicVideoFocusMode
-pattern AVCaptureCinematicVideoFocusModeStrong = AVCaptureCinematicVideoFocusMode 1
-
-pattern AVCaptureCinematicVideoFocusModeWeak :: AVCaptureCinematicVideoFocusMode
-pattern AVCaptureCinematicVideoFocusModeWeak = AVCaptureCinematicVideoFocusMode 2
-
-instance ObjCArgument AVCaptureCinematicVideoFocusMode where
-  withObjCArg (AVCaptureCinematicVideoFocusMode x) k = k (argCLong x)
-
-instance ObjCReturn AVCaptureCinematicVideoFocusMode where
-  type RawReturn AVCaptureCinematicVideoFocusMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVCaptureCinematicVideoFocusMode x)
-  fromOwned x = pure (AVCaptureCinematicVideoFocusMode x)
-
--- | Constants indicating active or supported video color space.
+-- | AVCaptureColorSpace
+--
+-- Constants indicating active or supported video color space.
+--
+-- AVCaptureColorSpace_sRGB
+--
+-- The sGRB color space ( https://www.w3.org/Graphics/Color/srgb )
+--
+-- AVCaptureColorSpace_P3_D65
+--
+-- The P3 D65 wide color space which uses Illuminant D65 as the white point.
+--
+-- AVCaptureColorSpace_HLG_BT2020
+--
+-- The BT2020 wide color space which uses Illuminant D65 as the white point and Hybrid Log-Gamma as the transfer function.
 -- | @AVCaptureColorSpace@
 newtype AVCaptureColorSpace = AVCaptureColorSpace CLong
   deriving stock (Eq, Ord, Show)
@@ -1104,12 +1091,6 @@ pattern AVCaptureColorSpace_P3_D65 = AVCaptureColorSpace 1
 
 pattern AVCaptureColorSpace_HLG_BT2020 :: AVCaptureColorSpace
 pattern AVCaptureColorSpace_HLG_BT2020 = AVCaptureColorSpace 2
-
-pattern AVCaptureColorSpace_AppleLog :: AVCaptureColorSpace
-pattern AVCaptureColorSpace_AppleLog = AVCaptureColorSpace 3
-
-pattern AVCaptureColorSpace_AppleLog2 :: AVCaptureColorSpace
-pattern AVCaptureColorSpace_AppleLog2 = AVCaptureColorSpace 4
 
 instance ObjCArgument AVCaptureColorSpace where
   withObjCArg (AVCaptureColorSpace x) k = k (argCLong x)
@@ -1408,45 +1389,6 @@ instance ObjCReturn AVCaptureMicrophoneMode where
   fromRetained x = pure (AVCaptureMicrophoneMode x)
   fromOwned x = pure (AVCaptureMicrophoneMode x)
 
--- | AVCaptureMultichannelAudioMode
---
--- Constants indicating the modes of multichannel audio.
---
--- AVCaptureMultichannelAudioModeNone
---
--- Indicates that no multichannel audio should be used.
---
--- AVCaptureMultichannelAudioModeStereo
---
--- Indicates that the audio should be recorded using stereo.
---
--- AVCaptureMultichannelAudioModeFirstOrderAmbisonics
---
--- Indicates that the audio should be recorded using first-order ambisonics. When recording a QuickTime movie file, a stereo audio track will be recorded alongside the FOA track for backward playback compatibility.
--- | @AVCaptureMultichannelAudioMode@
-newtype AVCaptureMultichannelAudioMode = AVCaptureMultichannelAudioMode CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVCaptureMultichannelAudioModeNone :: AVCaptureMultichannelAudioMode
-pattern AVCaptureMultichannelAudioModeNone = AVCaptureMultichannelAudioMode 0
-
-pattern AVCaptureMultichannelAudioModeStereo :: AVCaptureMultichannelAudioMode
-pattern AVCaptureMultichannelAudioModeStereo = AVCaptureMultichannelAudioMode 1
-
-pattern AVCaptureMultichannelAudioModeFirstOrderAmbisonics :: AVCaptureMultichannelAudioMode
-pattern AVCaptureMultichannelAudioModeFirstOrderAmbisonics = AVCaptureMultichannelAudioMode 2
-
-instance ObjCArgument AVCaptureMultichannelAudioMode where
-  withObjCArg (AVCaptureMultichannelAudioMode x) k = k (argCLong x)
-
-instance ObjCReturn AVCaptureMultichannelAudioMode where
-  type RawReturn AVCaptureMultichannelAudioMode = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVCaptureMultichannelAudioMode x)
-  fromOwned x = pure (AVCaptureMultichannelAudioMode x)
-
 -- | AVCaptureOutputDataDroppedReason
 --
 -- Constants indicating the reason a capture data output dropped data.
@@ -1492,59 +1434,6 @@ instance ObjCReturn AVCaptureOutputDataDroppedReason where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVCaptureOutputDataDroppedReason x)
   fromOwned x = pure (AVCaptureOutputDataDroppedReason x)
-
--- | AVCapturePhotoOutputCaptureReadiness
---
--- Constants indicating whether the output is ready to receive capture requests.
---
--- AVCapturePhotoOutputCaptureReadinessSessionNotRunning
---
--- Indicates that the session is not running and the output is not ready to receive requests.
---
--- AVCapturePhotoOutputCaptureReadinessReady
---
--- Indicates that the output is ready to receive new requests.
---
--- AVCapturePhotoOutputCaptureReadinessNotReadyMomentarily
---
--- Indicates that the output is not ready to receive requests and may be ready shortly.
---
--- AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForCapture
---
--- Indicates that the output is not ready to receive requests for a longer duration because it is busy capturing.
---
--- AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForProcessing
---
--- Indicates that the output is not ready to receive requests for a longer duration because it is busy processing.
--- | @AVCapturePhotoOutputCaptureReadiness@
-newtype AVCapturePhotoOutputCaptureReadiness = AVCapturePhotoOutputCaptureReadiness CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVCapturePhotoOutputCaptureReadinessSessionNotRunning :: AVCapturePhotoOutputCaptureReadiness
-pattern AVCapturePhotoOutputCaptureReadinessSessionNotRunning = AVCapturePhotoOutputCaptureReadiness 0
-
-pattern AVCapturePhotoOutputCaptureReadinessReady :: AVCapturePhotoOutputCaptureReadiness
-pattern AVCapturePhotoOutputCaptureReadinessReady = AVCapturePhotoOutputCaptureReadiness 1
-
-pattern AVCapturePhotoOutputCaptureReadinessNotReadyMomentarily :: AVCapturePhotoOutputCaptureReadiness
-pattern AVCapturePhotoOutputCaptureReadinessNotReadyMomentarily = AVCapturePhotoOutputCaptureReadiness 2
-
-pattern AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForCapture :: AVCapturePhotoOutputCaptureReadiness
-pattern AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForCapture = AVCapturePhotoOutputCaptureReadiness 3
-
-pattern AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForProcessing :: AVCapturePhotoOutputCaptureReadiness
-pattern AVCapturePhotoOutputCaptureReadinessNotReadyWaitingForProcessing = AVCapturePhotoOutputCaptureReadiness 4
-
-instance ObjCArgument AVCapturePhotoOutputCaptureReadiness where
-  withObjCArg (AVCapturePhotoOutputCaptureReadiness x) k = k (argCLong x)
-
-instance ObjCReturn AVCapturePhotoOutputCaptureReadiness where
-  type RawReturn AVCapturePhotoOutputCaptureReadiness = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVCapturePhotoOutputCaptureReadiness x)
-  fromOwned x = pure (AVCapturePhotoOutputCaptureReadiness x)
 
 -- | AVCapturePhotoQualityPrioritization
 --
@@ -1691,7 +1580,29 @@ instance ObjCReturn AVCapturePrimaryConstituentDeviceSwitchingBehavior where
   fromRetained x = pure (AVCapturePrimaryConstituentDeviceSwitchingBehavior x)
   fromOwned x = pure (AVCapturePrimaryConstituentDeviceSwitchingBehavior x)
 
--- | Constants indicating interruption reason. One of these is returned with the ``AVCaptureSessionWasInterruptedNotification`` (see ``AVCaptureSessionInterruptionReasonKey``).
+-- | AVCaptureSessionInterruptionReason
+--
+-- Constants indicating interruption reason. One of these is returned with the AVCaptureSessionWasInterruptedNotification (see AVCaptureSessionInterruptionReasonKey).
+--
+-- AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableInBackground
+--
+-- An interruption caused by the app being sent to the background while using a camera. Camera usage is prohibited while in the background. Beginning in iOS 9.0, AVCaptureSession no longer produces an AVCaptureSessionRuntimeErrorNotification if you attempt to start running a camera while in the background. Instead, it sends an AVCaptureSessionWasInterruptedNotification with AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableInBackground. Provided you don't explicitly call [session stopRunning], your -startRunning request is preserved, and when your app comes back to foreground, you receive AVCaptureSessionInterruptionEndedNotification and your session starts running.
+--
+-- AVCaptureSessionInterruptionReasonAudioDeviceInUseByAnotherClient
+--
+-- An interruption caused by the audio hardware temporarily being made unavailable, for instance, for a phone call, or alarm.
+--
+-- AVCaptureSessionInterruptionReasonVideoDeviceInUseByAnotherClient
+--
+-- An interruption caused by the video device temporarily being made unavailable, for instance, when stolen away by another AVCaptureSession.
+--
+-- AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableWithMultipleForegroundApps
+--
+-- An interruption caused when the app is running in a multi-app layout, causing resource contention and degraded recording quality of service. Given your present AVCaptureSession configuration, the session may only be run if your app occupies the full screen.
+--
+-- AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableDueToSystemPressure
+--
+-- An interruption caused by the video device temporarily being made unavailable due to system pressure, such as thermal duress. See AVCaptureDevice's AVCaptureSystemPressure category for more information.
 -- | @AVCaptureSessionInterruptionReason@
 newtype AVCaptureSessionInterruptionReason = AVCaptureSessionInterruptionReason CLong
   deriving stock (Eq, Ord, Show)
@@ -1711,9 +1622,6 @@ pattern AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableWithMultipleFor
 
 pattern AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableDueToSystemPressure :: AVCaptureSessionInterruptionReason
 pattern AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableDueToSystemPressure = AVCaptureSessionInterruptionReason 5
-
-pattern AVCaptureSessionInterruptionReasonSensitiveContentMitigationActivated :: AVCaptureSessionInterruptionReason
-pattern AVCaptureSessionInterruptionReasonSensitiveContentMitigationActivated = AVCaptureSessionInterruptionReason 6
 
 instance ObjCArgument AVCaptureSessionInterruptionReason where
   withObjCArg (AVCaptureSessionInterruptionReason x) k = k (argCLong x)
@@ -1744,10 +1652,6 @@ instance ObjCReturn AVCaptureSessionInterruptionReason where
 -- AVCaptureSystemPressureFactorDepthModuleTemperature
 --
 -- Indicates that the module capturing depth information is operating at an elevated temperature. As system pressure increases, depth quality may become degraded.
---
--- AVCaptureSystemPressureFactorCameraTemperature
---
--- Indicates that the camera module is operating at an elevated temperature.
 -- | @AVCaptureSystemPressureFactors@ (bitmask)
 newtype AVCaptureSystemPressureFactors = AVCaptureSystemPressureFactors CULong
   deriving stock (Eq, Ord, Show)
@@ -1770,9 +1674,6 @@ pattern AVCaptureSystemPressureFactorPeakPower = AVCaptureSystemPressureFactors 
 
 pattern AVCaptureSystemPressureFactorDepthModuleTemperature :: AVCaptureSystemPressureFactors
 pattern AVCaptureSystemPressureFactorDepthModuleTemperature = AVCaptureSystemPressureFactors 4
-
-pattern AVCaptureSystemPressureFactorCameraTemperature :: AVCaptureSystemPressureFactors
-pattern AVCaptureSystemPressureFactorCameraTemperature = AVCaptureSystemPressureFactors 8
 
 instance ObjCArgument AVCaptureSystemPressureFactors where
   withObjCArg (AVCaptureSystemPressureFactors x) k = k (argCULong x)
@@ -1815,71 +1716,6 @@ instance ObjCReturn AVCaptureSystemUserInterface where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVCaptureSystemUserInterface x)
   fromOwned x = pure (AVCaptureSystemUserInterface x)
-
--- | Constants defining the synchronization status of a timecode generator .
--- | @AVCaptureTimecodeGeneratorSynchronizationStatus@
-newtype AVCaptureTimecodeGeneratorSynchronizationStatus = AVCaptureTimecodeGeneratorSynchronizationStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusUnknown :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusUnknown = AVCaptureTimecodeGeneratorSynchronizationStatus 0
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSourceSelected :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSourceSelected = AVCaptureTimecodeGeneratorSynchronizationStatus 1
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSynchronizing :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSynchronizing = AVCaptureTimecodeGeneratorSynchronizationStatus 2
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSynchronized :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSynchronized = AVCaptureTimecodeGeneratorSynchronizationStatus 3
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusTimedOut :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusTimedOut = AVCaptureTimecodeGeneratorSynchronizationStatus 4
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSourceUnavailable :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSourceUnavailable = AVCaptureTimecodeGeneratorSynchronizationStatus 5
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSourceUnsupported :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusSourceUnsupported = AVCaptureTimecodeGeneratorSynchronizationStatus 6
-
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusNotRequired :: AVCaptureTimecodeGeneratorSynchronizationStatus
-pattern AVCaptureTimecodeGeneratorSynchronizationStatusNotRequired = AVCaptureTimecodeGeneratorSynchronizationStatus 7
-
-instance ObjCArgument AVCaptureTimecodeGeneratorSynchronizationStatus where
-  withObjCArg (AVCaptureTimecodeGeneratorSynchronizationStatus x) k = k (argCLong x)
-
-instance ObjCReturn AVCaptureTimecodeGeneratorSynchronizationStatus where
-  type RawReturn AVCaptureTimecodeGeneratorSynchronizationStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVCaptureTimecodeGeneratorSynchronizationStatus x)
-  fromOwned x = pure (AVCaptureTimecodeGeneratorSynchronizationStatus x)
-
--- | Defines possible sources for generating timecode in using a timecode generator.
--- | @AVCaptureTimecodeSourceType@
-newtype AVCaptureTimecodeSourceType = AVCaptureTimecodeSourceType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVCaptureTimecodeSourceTypeFrameCount :: AVCaptureTimecodeSourceType
-pattern AVCaptureTimecodeSourceTypeFrameCount = AVCaptureTimecodeSourceType 0
-
-pattern AVCaptureTimecodeSourceTypeRealTimeClock :: AVCaptureTimecodeSourceType
-pattern AVCaptureTimecodeSourceTypeRealTimeClock = AVCaptureTimecodeSourceType 1
-
-pattern AVCaptureTimecodeSourceTypeExternal :: AVCaptureTimecodeSourceType
-pattern AVCaptureTimecodeSourceTypeExternal = AVCaptureTimecodeSourceType 2
-
-instance ObjCArgument AVCaptureTimecodeSourceType where
-  withObjCArg (AVCaptureTimecodeSourceType x) k = k (argCLong x)
-
-instance ObjCReturn AVCaptureTimecodeSourceType where
-  type RawReturn AVCaptureTimecodeSourceType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVCaptureTimecodeSourceType x)
-  fromOwned x = pure (AVCaptureTimecodeSourceType x)
 
 -- | AVCaptureTorchMode
 --
@@ -1966,7 +1802,29 @@ instance ObjCReturn AVCaptureVideoOrientation where
   fromRetained x = pure (AVCaptureVideoOrientation x)
   fromOwned x = pure (AVCaptureVideoOrientation x)
 
--- | Constants indicating the modes of video stabilization supported by the device's format.
+-- | AVCaptureVideoStabilizationMode
+--
+-- Constants indicating the modes of video stabilization supported by the device's format.
+--
+-- AVCaptureVideoStabilizationModeOff
+--
+-- Indicates that video should not be stabilized.
+--
+-- AVCaptureVideoStabilizationModeStandard
+--
+-- Indicates that video should be stabilized using the standard video stabilization algorithm introduced with iOS 5.0. Standard video stabilization has a reduced field of view. Enabling video stabilization may introduce additional latency into the video capture pipeline.
+--
+-- AVCaptureVideoStabilizationModeCinematic
+--
+-- Indicates that video should be stabilized using the cinematic stabilization algorithm for more dramatic results. Cinematic video stabilization has a reduced field of view compared to standard video stabilization. Enabling cinematic video stabilization introduces much more latency into the video capture pipeline than standard video stabilization and consumes significantly more system memory. Use narrow or identical min and max frame durations in conjunction with this mode.
+--
+-- AVCaptureVideoStabilizationModeCinematicExtended
+--
+-- Indicates that the video should be stabilized using the extended cinematic stabilization algorithm. Enabling extended cinematic stabilization introduces longer latency into the video capture pipeline compared to the AVCaptureVideoStabilizationModeCinematic and consumes more memory, but yields improved stability. It is recommended to use identical or similar min and max frame durations in conjunction with this mode.
+--
+-- AVCaptureVideoStabilizationModeAuto
+--
+-- Indicates that the most appropriate video stabilization mode for the device and format should be chosen.
 -- | @AVCaptureVideoStabilizationMode@
 newtype AVCaptureVideoStabilizationMode = AVCaptureVideoStabilizationMode CLong
   deriving stock (Eq, Ord, Show)
@@ -1983,15 +1841,6 @@ pattern AVCaptureVideoStabilizationModeCinematic = AVCaptureVideoStabilizationMo
 
 pattern AVCaptureVideoStabilizationModeCinematicExtended :: AVCaptureVideoStabilizationMode
 pattern AVCaptureVideoStabilizationModeCinematicExtended = AVCaptureVideoStabilizationMode 3
-
-pattern AVCaptureVideoStabilizationModePreviewOptimized :: AVCaptureVideoStabilizationMode
-pattern AVCaptureVideoStabilizationModePreviewOptimized = AVCaptureVideoStabilizationMode 4
-
-pattern AVCaptureVideoStabilizationModeCinematicExtendedEnhanced :: AVCaptureVideoStabilizationMode
-pattern AVCaptureVideoStabilizationModeCinematicExtendedEnhanced = AVCaptureVideoStabilizationMode 5
-
-pattern AVCaptureVideoStabilizationModeLowLatency :: AVCaptureVideoStabilizationMode
-pattern AVCaptureVideoStabilizationModeLowLatency = AVCaptureVideoStabilizationMode 6
 
 pattern AVCaptureVideoStabilizationModeAuto :: AVCaptureVideoStabilizationMode
 pattern AVCaptureVideoStabilizationModeAuto = AVCaptureVideoStabilizationMode (-1)
@@ -2133,7 +1982,13 @@ instance ObjCReturn AVContentKeyRequestStatus where
   fromRetained x = pure (AVContentKeyRequestStatus x)
   fromOwned x = pure (AVContentKeyRequestStatus x)
 
--- | Configuration for a call to [AVDelegatingPlaybackCoordinator coordinateRateChangeToRate:options:].
+-- | AVDelegatingPlaybackCoordinatorRateChangeOptions
+--
+-- Configuration for a call to [AVDelegatingPlaybackCoordinator coordinateRateChangeToRate:options:].
+--
+-- AVDelegatingPlaybackCoordinatorRateChangeOptionPlayImmediately
+--
+-- Requests that the coordinator begin playback as soon as possible and ignore other participant's readiness and suspensions.
 -- | @AVDelegatingPlaybackCoordinatorRateChangeOptions@ (bitmask)
 newtype AVDelegatingPlaybackCoordinatorRateChangeOptions = AVDelegatingPlaybackCoordinatorRateChangeOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -2158,7 +2013,13 @@ instance ObjCReturn AVDelegatingPlaybackCoordinatorRateChangeOptions where
   fromRetained x = pure (AVDelegatingPlaybackCoordinatorRateChangeOptions x)
   fromOwned x = pure (AVDelegatingPlaybackCoordinatorRateChangeOptions x)
 
--- | Configuration for a call to [AVDelegatingPlaybackCoordinator coordinateSeekToTime:options:].
+-- | AVDelegatingPlaybackCoordinatorSeekOptions
+--
+-- Configuration for a call to [AVDelegatingPlaybackCoordinator coordinateSeekToTime:options:].
+--
+-- AVDelegatingPlaybackCoordinatorSeekOptionResumeImmediately
+--
+-- Requests that the coordinator resume playback as soon as possible after the seek is complete and ignore other participant's readiness and suspensions.
 -- | @AVDelegatingPlaybackCoordinatorSeekOptions@ (bitmask)
 newtype AVDelegatingPlaybackCoordinatorSeekOptions = AVDelegatingPlaybackCoordinatorSeekOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -2455,36 +2316,6 @@ pattern AVErrorFailedToLoadSampleData = AVError (-11881)
 pattern AVErrorAirPlayReceiverTemporarilyUnavailable :: AVError
 pattern AVErrorAirPlayReceiverTemporarilyUnavailable = AVError (-11882)
 
-pattern AVErrorEncodeFailed :: AVError
-pattern AVErrorEncodeFailed = AVError (-11883)
-
-pattern AVErrorSandboxExtensionDenied :: AVError
-pattern AVErrorSandboxExtensionDenied = AVError (-11884)
-
-pattern AVErrorToneMappingFailed :: AVError
-pattern AVErrorToneMappingFailed = AVError (-11885)
-
-pattern AVErrorMediaExtensionDisabled :: AVError
-pattern AVErrorMediaExtensionDisabled = AVError (-11886)
-
-pattern AVErrorMediaExtensionConflict :: AVError
-pattern AVErrorMediaExtensionConflict = AVError (-11887)
-
-pattern AVErrorContentKeyRequestPlaybackDestinationDoesNotSupportDeviceIdentifierRandomization :: AVError
-pattern AVErrorContentKeyRequestPlaybackDestinationDoesNotSupportDeviceIdentifierRandomization = AVError (-11888)
-
-pattern AVErrorContentKeyInvalid :: AVError
-pattern AVErrorContentKeyInvalid = AVError (-11889)
-
-pattern AVErrorNoSmartFramingsEnabled :: AVError
-pattern AVErrorNoSmartFramingsEnabled = AVError (-11890)
-
-pattern AVErrorAutoWhiteBalanceNotLocked :: AVError
-pattern AVErrorAutoWhiteBalanceNotLocked = AVError (-11891)
-
-pattern AVErrorFollowExternalSyncDeviceTimedOut :: AVError
-pattern AVErrorFollowExternalSyncDeviceTimedOut = AVError (-11892)
-
 instance ObjCArgument AVError where
   withObjCArg (AVError x) k = k (argCLong x)
 
@@ -2494,62 +2325,6 @@ instance ObjCReturn AVError where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVError x)
   fromOwned x = pure (AVError x)
-
--- | The constants can be used to derive whether or not we have established sufficient protection to display content protected by this AVContentKey on some set of attached displays.
--- | @AVExternalContentProtectionStatus@
-newtype AVExternalContentProtectionStatus = AVExternalContentProtectionStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVExternalContentProtectionStatusPending :: AVExternalContentProtectionStatus
-pattern AVExternalContentProtectionStatusPending = AVExternalContentProtectionStatus 0
-
-pattern AVExternalContentProtectionStatusSufficient :: AVExternalContentProtectionStatus
-pattern AVExternalContentProtectionStatusSufficient = AVExternalContentProtectionStatus 1
-
-pattern AVExternalContentProtectionStatusInsufficient :: AVExternalContentProtectionStatus
-pattern AVExternalContentProtectionStatusInsufficient = AVExternalContentProtectionStatus 2
-
-instance ObjCArgument AVExternalContentProtectionStatus where
-  withObjCArg (AVExternalContentProtectionStatus x) k = k (argCLong x)
-
-instance ObjCReturn AVExternalContentProtectionStatus where
-  type RawReturn AVExternalContentProtectionStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVExternalContentProtectionStatus x)
-  fromOwned x = pure (AVExternalContentProtectionStatus x)
-
--- | Connection state of an external sync device
--- | @AVExternalSyncDeviceStatus@
-newtype AVExternalSyncDeviceStatus = AVExternalSyncDeviceStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVExternalSyncDeviceStatusUnavailable :: AVExternalSyncDeviceStatus
-pattern AVExternalSyncDeviceStatusUnavailable = AVExternalSyncDeviceStatus 0
-
-pattern AVExternalSyncDeviceStatusReady :: AVExternalSyncDeviceStatus
-pattern AVExternalSyncDeviceStatusReady = AVExternalSyncDeviceStatus 1
-
-pattern AVExternalSyncDeviceStatusCalibrating :: AVExternalSyncDeviceStatus
-pattern AVExternalSyncDeviceStatusCalibrating = AVExternalSyncDeviceStatus 2
-
-pattern AVExternalSyncDeviceStatusActiveSync :: AVExternalSyncDeviceStatus
-pattern AVExternalSyncDeviceStatusActiveSync = AVExternalSyncDeviceStatus 3
-
-pattern AVExternalSyncDeviceStatusFreeRunSync :: AVExternalSyncDeviceStatus
-pattern AVExternalSyncDeviceStatusFreeRunSync = AVExternalSyncDeviceStatus 4
-
-instance ObjCArgument AVExternalSyncDeviceStatus where
-  withObjCArg (AVExternalSyncDeviceStatus x) k = k (argCLong x)
-
-instance ObjCReturn AVExternalSyncDeviceStatus where
-  type RawReturn AVExternalSyncDeviceStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVExternalSyncDeviceStatus x)
-  fromOwned x = pure (AVExternalSyncDeviceStatus x)
 
 -- | @AVKeyValueStatus@
 newtype AVKeyValueStatus = AVKeyValueStatus CLong
@@ -2621,7 +2396,21 @@ instance ObjCReturn AVMovieWritingOptions where
   fromRetained x = pure (AVMovieWritingOptions x)
   fromOwned x = pure (AVMovieWritingOptions x)
 
--- | These constants are the allowable values of AVPlayer's actionAtItemEnd property.
+-- | AVPlayerActionAtItemEnd
+--
+-- These constants are the allowable values of AVPlayer's actionAtItemEnd property.
+--
+-- AVPlayerActionAtItemEndAdvance
+--
+-- Indicates that when an AVPlayerItem reaches its end time the player will automatically advance to the next item in its queue.	This value is supported only for players of class AVQueuePlayer. An AVPlayer that's not an AVQueuePlayer will raise an NSInvalidArgumentException if an attempt is made to set its actionAtItemEnd to AVPlayerActionAtItemEndAdvance.
+--
+-- AVPlayerActionAtItemEndPause
+--
+-- Indicates that when an AVPlayerItem reaches its end time the player will automatically pause (which is to say, the player's	rate will automatically be set to 0).
+--
+-- AVPlayerActionAtItemEndNone
+--
+-- Indicates that when an AVPlayerItem reaches its end time the player will take no action (which is to say, the player's rate	will not change, its currentItem will not change, and its currentTime will continue to be incremented or decremented as time	elapses, according to its rate). After this, if the player's actionAtItemEnd is set to a value other than AVPlayerActionAtItemEndNone,	the player will immediately take the action appropriate to that value.
 -- | @AVPlayerActionAtItemEnd@
 newtype AVPlayerActionAtItemEnd = AVPlayerActionAtItemEnd CLong
   deriving stock (Eq, Ord, Show)
@@ -2646,7 +2435,21 @@ instance ObjCReturn AVPlayerActionAtItemEnd where
   fromRetained x = pure (AVPlayerActionAtItemEnd x)
   fromOwned x = pure (AVPlayerActionAtItemEnd x)
 
--- | This policy describes how AVPlayer behaves when the application transitions to UIApplicationStateBackground while playing video.
+-- | AVPlayerAudiovisualBackgroundPlaybackPolicy
+--
+-- This policy describes how AVPlayer behaves when the application transitions to UIApplicationStateBackground while playing video.
+--
+-- AVPlayerAudiovisualBackgroundPlaybackPolicyAutomatic
+--
+-- Indicates that the system is free to decide. This is the default policy.
+--
+-- AVPlayerAudiovisualBackgroundPlaybackPolicyPauses
+--
+-- Indicates that the player must be paused on going to background.
+--
+-- AVPlayerAudiovisualBackgroundPlaybackPolicyContinuesIfPossible
+--
+-- Indicates that the player continues to play if possible in background.
 -- | @AVPlayerAudiovisualBackgroundPlaybackPolicy@
 newtype AVPlayerAudiovisualBackgroundPlaybackPolicy = AVPlayerAudiovisualBackgroundPlaybackPolicy CLong
   deriving stock (Eq, Ord, Show)
@@ -2671,7 +2474,21 @@ instance ObjCReturn AVPlayerAudiovisualBackgroundPlaybackPolicy where
   fromRetained x = pure (AVPlayerAudiovisualBackgroundPlaybackPolicy x)
   fromOwned x = pure (AVPlayerAudiovisualBackgroundPlaybackPolicy x)
 
--- | A bitfield type that specifies an HDR mode.
+-- | AVPlayerHDRMode
+--
+-- A bitfield type that specifies an HDR mode.
+--
+-- AVPlayerHDRModeHLG
+--
+-- Indicates that HLG (Hybrid Log-Gamma) HDR mode is available.
+--
+-- AVPlayerHDRModeHDR10
+--
+-- Indicates that HDR10 HDR mode is available.
+--
+-- AVPlayerHDRModeDolbyVision
+--
+-- Indicates that Dolby Vision HDR mode is available.
 -- | @AVPlayerHDRMode@ (bitmask)
 newtype AVPlayerHDRMode = AVPlayerHDRMode CLong
   deriving stock (Eq, Ord, Show)
@@ -2702,32 +2519,21 @@ instance ObjCReturn AVPlayerHDRMode where
   fromRetained x = pure (AVPlayerHDRMode x)
   fromOwned x = pure (AVPlayerHDRMode x)
 
--- | These constants describe the status of the asset list response for an AVPlayerInterstitialEvent.
--- | @AVPlayerInterstitialEventAssetListResponseStatus@
-newtype AVPlayerInterstitialEventAssetListResponseStatus = AVPlayerInterstitialEventAssetListResponseStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVPlayerInterstitialEventAssetListResponseStatusAvailable :: AVPlayerInterstitialEventAssetListResponseStatus
-pattern AVPlayerInterstitialEventAssetListResponseStatusAvailable = AVPlayerInterstitialEventAssetListResponseStatus 0
-
-pattern AVPlayerInterstitialEventAssetListResponseStatusCleared :: AVPlayerInterstitialEventAssetListResponseStatus
-pattern AVPlayerInterstitialEventAssetListResponseStatusCleared = AVPlayerInterstitialEventAssetListResponseStatus 1
-
-pattern AVPlayerInterstitialEventAssetListResponseStatusUnavailable :: AVPlayerInterstitialEventAssetListResponseStatus
-pattern AVPlayerInterstitialEventAssetListResponseStatusUnavailable = AVPlayerInterstitialEventAssetListResponseStatus 2
-
-instance ObjCArgument AVPlayerInterstitialEventAssetListResponseStatus where
-  withObjCArg (AVPlayerInterstitialEventAssetListResponseStatus x) k = k (argCLong x)
-
-instance ObjCReturn AVPlayerInterstitialEventAssetListResponseStatus where
-  type RawReturn AVPlayerInterstitialEventAssetListResponseStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVPlayerInterstitialEventAssetListResponseStatus x)
-  fromOwned x = pure (AVPlayerInterstitialEventAssetListResponseStatus x)
-
--- | These constants can be specified when creating AVPlayerInterstitialEvents in order to configure their behavior.
+-- | AVPlayerInterstitialEventRestrictions
+--
+-- These constants can be specified when creating AVPlayerInterstitialEvents in order to configure their behavior.
+--
+-- AVPlayerInterstitialEventRestrictionNone
+--
+-- Indicates that the user may freely employ playback controls, as available, both within the primary content and in the interstitial content specified for the event.
+--
+-- AVPlayerInterstitialEventRestrictionConstrainsSeekingForwardInPrimaryContent
+--
+-- Indicates that seeking within the primary content from a date prior to the date of the event to a date subsequent to the date of the event is not permitted.
+--
+-- AVPlayerInterstitialEventRestrictionRequiresPlaybackAtPreferredRateForAdvancement
+--
+-- Indicates that advancing the currentTime within an interstitial item, either by seeking ahead or by setting the playback rate to a value greater than the item's asset's preferredRate, is not permitted.
 -- | @AVPlayerInterstitialEventRestrictions@ (bitmask)
 newtype AVPlayerInterstitialEventRestrictions = AVPlayerInterstitialEventRestrictions CULong
   deriving stock (Eq, Ord, Show)
@@ -2761,89 +2567,21 @@ instance ObjCReturn AVPlayerInterstitialEventRestrictions where
   fromRetained x = pure (AVPlayerInterstitialEventRestrictions x)
   fromOwned x = pure (AVPlayerInterstitialEventRestrictions x)
 
--- | These constants describe the state for a skippable AVPlayerInterstitialEvent.
--- | @AVPlayerInterstitialEventSkippableEventState@
-newtype AVPlayerInterstitialEventSkippableEventState = AVPlayerInterstitialEventSkippableEventState CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVPlayerInterstitialEventSkippableEventStateNotSkippable :: AVPlayerInterstitialEventSkippableEventState
-pattern AVPlayerInterstitialEventSkippableEventStateNotSkippable = AVPlayerInterstitialEventSkippableEventState 0
-
-pattern AVPlayerInterstitialEventSkippableEventStateNotYetEligible :: AVPlayerInterstitialEventSkippableEventState
-pattern AVPlayerInterstitialEventSkippableEventStateNotYetEligible = AVPlayerInterstitialEventSkippableEventState 1
-
-pattern AVPlayerInterstitialEventSkippableEventStateEligible :: AVPlayerInterstitialEventSkippableEventState
-pattern AVPlayerInterstitialEventSkippableEventStateEligible = AVPlayerInterstitialEventSkippableEventState 2
-
-pattern AVPlayerInterstitialEventSkippableEventStateNoLongerEligible :: AVPlayerInterstitialEventSkippableEventState
-pattern AVPlayerInterstitialEventSkippableEventStateNoLongerEligible = AVPlayerInterstitialEventSkippableEventState 3
-
-instance ObjCArgument AVPlayerInterstitialEventSkippableEventState where
-  withObjCArg (AVPlayerInterstitialEventSkippableEventState x) k = k (argCLong x)
-
-instance ObjCReturn AVPlayerInterstitialEventSkippableEventState where
-  type RawReturn AVPlayerInterstitialEventSkippableEventState = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVPlayerInterstitialEventSkippableEventState x)
-  fromOwned x = pure (AVPlayerInterstitialEventSkippableEventState x)
-
--- | These constants specify how an event occupies time on AVPlayerItemIntegratedTimeline.
--- | @AVPlayerInterstitialEventTimelineOccupancy@
-newtype AVPlayerInterstitialEventTimelineOccupancy = AVPlayerInterstitialEventTimelineOccupancy CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVPlayerInterstitialEventTimelineOccupancySinglePoint :: AVPlayerInterstitialEventTimelineOccupancy
-pattern AVPlayerInterstitialEventTimelineOccupancySinglePoint = AVPlayerInterstitialEventTimelineOccupancy 0
-
-pattern AVPlayerInterstitialEventTimelineOccupancyFill :: AVPlayerInterstitialEventTimelineOccupancy
-pattern AVPlayerInterstitialEventTimelineOccupancyFill = AVPlayerInterstitialEventTimelineOccupancy 1
-
-instance ObjCArgument AVPlayerInterstitialEventTimelineOccupancy where
-  withObjCArg (AVPlayerInterstitialEventTimelineOccupancy x) k = k (argCLong x)
-
-instance ObjCReturn AVPlayerInterstitialEventTimelineOccupancy where
-  type RawReturn AVPlayerInterstitialEventTimelineOccupancy = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVPlayerInterstitialEventTimelineOccupancy x)
-  fromOwned x = pure (AVPlayerInterstitialEventTimelineOccupancy x)
-
--- | AVPlayerItemSegmentType
+-- | AVPlayerItemStatus
 --
--- These constants specify the type of segment
+-- These constants are returned by the AVPlayerItem status property to indicate whether it can successfully be played.
 --
--- AVPlayerItemSegmentTypePrimary
+-- AVPlayerItemStatusUnknown
 --
--- Indicates segment represent playback of a primary item.
+-- Indicates that the status of the player item is not yet known because it has not tried to load new media resources	for playback.
 --
--- AVPlayerItemSegmentTypeInterstitial
+-- AVPlayerItemStatusReadyToPlay
 --
--- Indicates segment represents playback of an interstitial event.
--- | @AVPlayerItemSegmentType@
-newtype AVPlayerItemSegmentType = AVPlayerItemSegmentType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVPlayerItemSegmentTypePrimary :: AVPlayerItemSegmentType
-pattern AVPlayerItemSegmentTypePrimary = AVPlayerItemSegmentType 0
-
-pattern AVPlayerItemSegmentTypeInterstitial :: AVPlayerItemSegmentType
-pattern AVPlayerItemSegmentTypeInterstitial = AVPlayerItemSegmentType 1
-
-instance ObjCArgument AVPlayerItemSegmentType where
-  withObjCArg (AVPlayerItemSegmentType x) k = k (argCLong x)
-
-instance ObjCReturn AVPlayerItemSegmentType where
-  type RawReturn AVPlayerItemSegmentType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVPlayerItemSegmentType x)
-  fromOwned x = pure (AVPlayerItemSegmentType x)
-
--- | These constants are returned by the AVPlayerItem status property to indicate whether it can successfully be played.
+-- Indicates that the player item is ready to be played.
+--
+-- AVPlayerItemStatusFailed
+--
+-- Indicates that the player item can no longer be played because of an error. The error is described by the value of	the player item's error property.
 -- | @AVPlayerItemStatus@
 newtype AVPlayerItemStatus = AVPlayerItemStatus CLong
   deriving stock (Eq, Ord, Show)
@@ -2867,38 +2605,6 @@ instance ObjCReturn AVPlayerItemStatus where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVPlayerItemStatus x)
   fromOwned x = pure (AVPlayerItemStatus x)
-
--- | AVPlayerLooperItemOrdering
---
--- These constants are the allowable values of Looper's existingItemsOrder initization parameter.
---
--- AVPlayerLooperItemOrderingLoopingItemsPrecedeExistingItems
---
--- Indicates that the looper will insert the replica items before any existing items in the specified AVQueuePlayer's play queue. This is default behavior.
---
--- AVPlayerLooperItemOrderingLoopingItemsFollowExistingItems
---
--- Indicates that the looper will insert the replica items after any existing items in the specified AVQueuePlayer's play queue.
--- | @AVPlayerLooperItemOrdering@
-newtype AVPlayerLooperItemOrdering = AVPlayerLooperItemOrdering CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVPlayerLooperItemOrderingLoopingItemsPrecedeExistingItems :: AVPlayerLooperItemOrdering
-pattern AVPlayerLooperItemOrderingLoopingItemsPrecedeExistingItems = AVPlayerLooperItemOrdering 0
-
-pattern AVPlayerLooperItemOrderingLoopingItemsFollowExistingItems :: AVPlayerLooperItemOrdering
-pattern AVPlayerLooperItemOrderingLoopingItemsFollowExistingItems = AVPlayerLooperItemOrdering 1
-
-instance ObjCArgument AVPlayerLooperItemOrdering where
-  withObjCArg (AVPlayerLooperItemOrdering x) k = k (argCLong x)
-
-instance ObjCReturn AVPlayerLooperItemOrdering where
-  type RawReturn AVPlayerLooperItemOrdering = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVPlayerLooperItemOrdering x)
-  fromOwned x = pure (AVPlayerLooperItemOrdering x)
 
 -- | AVPlayerLooperStatus
 --
@@ -2946,32 +2652,21 @@ instance ObjCReturn AVPlayerLooperStatus where
   fromRetained x = pure (AVPlayerLooperStatus x)
   fromOwned x = pure (AVPlayerLooperStatus x)
 
--- | This defines the network resource priority for a player.
--- | @AVPlayerNetworkResourcePriority@
-newtype AVPlayerNetworkResourcePriority = AVPlayerNetworkResourcePriority CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AVPlayerNetworkResourcePriorityDefault :: AVPlayerNetworkResourcePriority
-pattern AVPlayerNetworkResourcePriorityDefault = AVPlayerNetworkResourcePriority 0
-
-pattern AVPlayerNetworkResourcePriorityLow :: AVPlayerNetworkResourcePriority
-pattern AVPlayerNetworkResourcePriorityLow = AVPlayerNetworkResourcePriority 1
-
-pattern AVPlayerNetworkResourcePriorityHigh :: AVPlayerNetworkResourcePriority
-pattern AVPlayerNetworkResourcePriorityHigh = AVPlayerNetworkResourcePriority 2
-
-instance ObjCArgument AVPlayerNetworkResourcePriority where
-  withObjCArg (AVPlayerNetworkResourcePriority x) k = k (argCLong x)
-
-instance ObjCReturn AVPlayerNetworkResourcePriority where
-  type RawReturn AVPlayerNetworkResourcePriority = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AVPlayerNetworkResourcePriority x)
-  fromOwned x = pure (AVPlayerNetworkResourcePriority x)
-
--- | These constants are returned by the AVPlayer status property to indicate whether it can successfully play items.
+-- | AVPlayerStatus
+--
+-- These constants are returned by the AVPlayer status property to indicate whether it can successfully play items.
+--
+-- AVPlayerStatusUnknown
+--
+-- Indicates that the status of the player is not yet known because it has not tried to load new media resources for	playback.
+--
+-- AVPlayerStatusReadyToPlay
+--
+-- Indicates that the player is ready to play AVPlayerItem instances.
+--
+-- AVPlayerStatusFailed
+--
+-- Indicates that the player can no longer play AVPlayerItem instances because of an error. The error is described by	the value of the player's error property.
 -- | @AVPlayerStatus@
 newtype AVPlayerStatus = AVPlayerStatus CLong
   deriving stock (Eq, Ord, Show)
@@ -2996,7 +2691,21 @@ instance ObjCReturn AVPlayerStatus where
   fromRetained x = pure (AVPlayerStatus x)
   fromOwned x = pure (AVPlayerStatus x)
 
--- | These constants are the allowable values of AVPlayer's timeControlStatus property. This discussion pertains when automaticallyWaitsToMinimizeStalling is YES, the default setting, and exceptions are discussed in connection with automaticallyWaitsToMinimizeStalling.
+-- | AVPlayerTimeControlStatus
+--
+-- These constants are the allowable values of AVPlayer's timeControlStatus property. This discussion pertains when automaticallyWaitsToMinimizeStalling is YES, the default setting, and exceptions are discussed in connection with automaticallyWaitsToMinimizeStalling.
+--
+-- AVPlayerTimeControlStatusPaused
+--
+-- This state is entered upon receipt of a -pause message, an invocation of -setRate: with a value of 0.0, when a change in overall state requires playback to be halted, such as when an interruption occurs on iOS, as announced by AVAudioSession.    In this state, playback is paused indefinitely and will not resume until 1) a subsequent -play message is received or 2) a -setRate: or -playImmediatelyAtRate: message with a non-zero value for rate is received and sufficient media data has been buffered for playback to proceed.
+--
+-- AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate
+--
+-- This state is entered when 1) the playback buffer becomes empty and playback stalls in AVPlayerTimeControlStatusPlaying, 2) when rate is set from zero to non-zero in AVPlayerTimeControlStatusPaused and insufficient media data has been buffered for playback to occur, or 3) when the player has no item to play, i.e. when the receiver's currentItem is nil.    In this state, the value of the rate property is not currently effective but instead indicates the rate at which playback will start or resume. Refer to the value of reasonForWaitingToPlay for details about why the receiver is waiting and the conditions that allow waitStatus to change to AVPlayerWaitStatusPlaying.	While waiting for buffering, you can attempt to start playback of any available media data via -playImmediatelyAtRate:.
+--
+-- AVPlayerTimeControlStatusPlaying
+--
+-- In this state, playback is currently progressing and rate changes will take effect immediately. Should playback stall because of insufficient media data, timeControlStatus will change to AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate.
 -- | @AVPlayerTimeControlStatus@
 newtype AVPlayerTimeControlStatus = AVPlayerTimeControlStatus CLong
   deriving stock (Eq, Ord, Show)
@@ -3138,7 +2847,17 @@ instance ObjCReturn AVSampleBufferRequestMode where
   fromRetained x = pure (AVSampleBufferRequestMode x)
   fromOwned x = pure (AVSampleBufferRequestMode x)
 
--- | These constants can be used in any combination as the value of variantPreferences.
+-- | AVVariantPreferences
+--
+-- These constants can be used in any combination as the value of variantPreferences.
+--
+-- AVVariantPreferenceNone
+--
+-- Indicates that only the basic behaviors of the player for choosing among variants should be applied, including considerations of available bandwidth, compatibility of the indicated codec or codecs, the dimensions of visual output, and the number of available audio output channels.
+--
+-- AVVariantPreferenceScalabilityToLosslessAudio
+--
+-- Directs the item to permit the use of variants with lossless audio encodings, if sufficient bandwidth is available for their use.
 -- | @AVVariantPreferences@ (bitmask)
 newtype AVVariantPreferences = AVVariantPreferences CULong
   deriving stock (Eq, Ord, Show)
@@ -3211,35 +2930,3 @@ instance ObjCReturn AVVideoFieldMode where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AVVideoFieldMode x)
   fromOwned x = pure (AVVideoFieldMode x)
-
--- | CMTagCollectionVideoOutputPreset
---
--- Video output presets supported by CMTagCollectionCreateWithVideoOutputPreset.
---
--- kCMTagCollectionVideoOutputPreset_Monoscopic
---
--- Used for video output where there is no stereo view, e.g. kCMTagStereoNone.
---
--- kCMTagCollectionVideoOutputPreset_Stereoscopic
---
--- Used for video output where there are two stereo views, for both left and right eyes, e.g. kCMTagStereoLeftAndRight.
--- | @CMTagCollectionVideoOutputPreset@
-newtype CMTagCollectionVideoOutputPreset = CMTagCollectionVideoOutputPreset CUInt
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern KCMTagCollectionVideoOutputPreset_Monoscopic :: CMTagCollectionVideoOutputPreset
-pattern KCMTagCollectionVideoOutputPreset_Monoscopic = CMTagCollectionVideoOutputPreset 0
-
-pattern KCMTagCollectionVideoOutputPreset_Stereoscopic :: CMTagCollectionVideoOutputPreset
-pattern KCMTagCollectionVideoOutputPreset_Stereoscopic = CMTagCollectionVideoOutputPreset 1
-
-instance ObjCArgument CMTagCollectionVideoOutputPreset where
-  withObjCArg (CMTagCollectionVideoOutputPreset x) k = k (argCUInt x)
-
-instance ObjCReturn CMTagCollectionVideoOutputPreset where
-  type RawReturn CMTagCollectionVideoOutputPreset = CUInt
-  objcRetType = retCUInt
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CMTagCollectionVideoOutputPreset x)
-  fromOwned x = pure (CMTagCollectionVideoOutputPreset x)

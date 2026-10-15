@@ -209,36 +209,6 @@ instance ObjCReturn CLError where
   fromRetained x = pure (CLError x)
   fromOwned x = pure (CLError x)
 
--- | @CLLiveUpdateConfiguration@
-newtype CLLiveUpdateConfiguration = CLLiveUpdateConfiguration CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern CLLiveUpdateConfigurationDefault :: CLLiveUpdateConfiguration
-pattern CLLiveUpdateConfigurationDefault = CLLiveUpdateConfiguration 0
-
-pattern CLLiveUpdateConfigurationAutomotiveNavigation :: CLLiveUpdateConfiguration
-pattern CLLiveUpdateConfigurationAutomotiveNavigation = CLLiveUpdateConfiguration 1
-
-pattern CLLiveUpdateConfigurationOtherNavigation :: CLLiveUpdateConfiguration
-pattern CLLiveUpdateConfigurationOtherNavigation = CLLiveUpdateConfiguration 2
-
-pattern CLLiveUpdateConfigurationFitness :: CLLiveUpdateConfiguration
-pattern CLLiveUpdateConfigurationFitness = CLLiveUpdateConfiguration 3
-
-pattern CLLiveUpdateConfigurationAirborne :: CLLiveUpdateConfiguration
-pattern CLLiveUpdateConfigurationAirborne = CLLiveUpdateConfiguration 4
-
-instance ObjCArgument CLLiveUpdateConfiguration where
-  withObjCArg (CLLiveUpdateConfiguration x) k = k (argCLong x)
-
-instance ObjCReturn CLLiveUpdateConfiguration where
-  type RawReturn CLLiveUpdateConfiguration = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CLLiveUpdateConfiguration x)
-  fromOwned x = pure (CLLiveUpdateConfiguration x)
-
 -- | @CLLocationPushServiceError@
 newtype CLLocationPushServiceError = CLLocationPushServiceError CLong
   deriving stock (Eq, Ord, Show)
@@ -256,9 +226,6 @@ pattern CLLocationPushServiceErrorMissingPushServerEnvironment = CLLocationPushS
 pattern CLLocationPushServiceErrorMissingEntitlement :: CLLocationPushServiceError
 pattern CLLocationPushServiceErrorMissingEntitlement = CLLocationPushServiceError 3
 
-pattern CLLocationPushServiceErrorUnsupportedPlatform :: CLLocationPushServiceError
-pattern CLLocationPushServiceErrorUnsupportedPlatform = CLLocationPushServiceError 4
-
 instance ObjCArgument CLLocationPushServiceError where
   withObjCArg (CLLocationPushServiceError x) k = k (argCLong x)
 
@@ -268,33 +235,6 @@ instance ObjCReturn CLLocationPushServiceError where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (CLLocationPushServiceError x)
   fromOwned x = pure (CLLocationPushServiceError x)
-
--- | @CLMonitoringState@
-newtype CLMonitoringState = CLMonitoringState CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern CLMonitoringStateUnknown :: CLMonitoringState
-pattern CLMonitoringStateUnknown = CLMonitoringState 0
-
-pattern CLMonitoringStateSatisfied :: CLMonitoringState
-pattern CLMonitoringStateSatisfied = CLMonitoringState 1
-
-pattern CLMonitoringStateUnsatisfied :: CLMonitoringState
-pattern CLMonitoringStateUnsatisfied = CLMonitoringState 2
-
-pattern CLMonitoringStateUnmonitored :: CLMonitoringState
-pattern CLMonitoringStateUnmonitored = CLMonitoringState 3
-
-instance ObjCArgument CLMonitoringState where
-  withObjCArg (CLMonitoringState x) k = k (argCULong x)
-
-instance ObjCReturn CLMonitoringState where
-  type RawReturn CLMonitoringState = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CLMonitoringState x)
-  fromOwned x = pure (CLMonitoringState x)
 
 -- | @CLProximity@
 newtype CLProximity = CLProximity CLong
@@ -346,27 +286,3 @@ instance ObjCReturn CLRegionState where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (CLRegionState x)
   fromOwned x = pure (CLRegionState x)
-
--- | @CLServiceSessionAuthorizationRequirement@
-newtype CLServiceSessionAuthorizationRequirement = CLServiceSessionAuthorizationRequirement CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern CLServiceSessionAuthorizationRequirementNone :: CLServiceSessionAuthorizationRequirement
-pattern CLServiceSessionAuthorizationRequirementNone = CLServiceSessionAuthorizationRequirement 0
-
-pattern CLServiceSessionAuthorizationRequirementWhenInUse :: CLServiceSessionAuthorizationRequirement
-pattern CLServiceSessionAuthorizationRequirementWhenInUse = CLServiceSessionAuthorizationRequirement 1
-
-pattern CLServiceSessionAuthorizationRequirementAlways :: CLServiceSessionAuthorizationRequirement
-pattern CLServiceSessionAuthorizationRequirementAlways = CLServiceSessionAuthorizationRequirement 2
-
-instance ObjCArgument CLServiceSessionAuthorizationRequirement where
-  withObjCArg (CLServiceSessionAuthorizationRequirement x) k = k (argCLong x)
-
-instance ObjCReturn CLServiceSessionAuthorizationRequirement where
-  type RawReturn CLServiceSessionAuthorizationRequirement = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CLServiceSessionAuthorizationRequirement x)
-  fromOwned x = pure (CLServiceSessionAuthorizationRequirement x)

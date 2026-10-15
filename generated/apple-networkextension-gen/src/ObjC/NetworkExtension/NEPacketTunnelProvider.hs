@@ -20,14 +20,12 @@ module ObjC.NetworkExtension.NEPacketTunnelProvider
   , createTCPConnectionThroughTunnelToEndpoint_enableTLS_TLSParameters_delegate
   , createUDPSessionThroughTunnelToEndpoint_fromEndpoint
   , packetFlow
-  , virtualInterface
   , cancelTunnelWithErrorSelector
   , createTCPConnectionThroughTunnelToEndpoint_enableTLS_TLSParameters_delegateSelector
   , createUDPSessionThroughTunnelToEndpoint_fromEndpointSelector
   , packetFlowSelector
   , startTunnelWithOptions_completionHandlerSelector
   , stopTunnelWithReason_completionHandlerSelector
-  , virtualInterfaceSelector
 
   -- * Enum types
   , NEProviderStopReason(NEProviderStopReason)
@@ -48,7 +46,6 @@ module ObjC.NetworkExtension.NEPacketTunnelProvider
   , pattern NEProviderStopReasonConnectionFailed
   , pattern NEProviderStopReasonSleep
   , pattern NEProviderStopReasonAppUpdate
-  , pattern NEProviderStopReasonInternalError
 
   ) where
 
@@ -144,17 +141,6 @@ packetFlow :: IsNEPacketTunnelProvider nePacketTunnelProvider => nePacketTunnelP
 packetFlow nePacketTunnelProvider =
   sendMessage nePacketTunnelProvider packetFlowSelector
 
--- | virtualInterface
---
--- The virtual network interface used to route packets to the packet tunnel provider.
---
--- For NEPacketTunnelProvider sub-classes, this property will be non-nil when @-[NEPacketTunnelProvider startTunnelWithOptions:completionHandler:]@ is called. For NEEthernetTunnelProvider sub-classes, this property will be non-nil when the completion handler passed to @-[NETunnelProvider setTunnelNetworkSettings:completionHandler:]@ is executed. To create a connection through the tunnel, pass this interface to @nw_parameters_require_interface@.
---
--- ObjC selector: @- virtualInterface@
-virtualInterface :: IsNEPacketTunnelProvider nePacketTunnelProvider => nePacketTunnelProvider -> IO (Id NSObject)
-virtualInterface nePacketTunnelProvider =
-  sendMessage nePacketTunnelProvider virtualInterfaceSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -182,8 +168,4 @@ createUDPSessionThroughTunnelToEndpoint_fromEndpointSelector = mkSelector "creat
 -- | @Selector@ for @packetFlow@
 packetFlowSelector :: Selector '[] (Id NEPacketTunnelFlow)
 packetFlowSelector = mkSelector "packetFlow"
-
--- | @Selector@ for @virtualInterface@
-virtualInterfaceSelector :: Selector '[] (Id NSObject)
-virtualInterfaceSelector = mkSelector "virtualInterface"
 

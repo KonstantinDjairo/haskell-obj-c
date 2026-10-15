@@ -18,44 +18,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Contacts.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- ---------- CLBackgroundActivitySession ----------
-
--- | Phantom type for @CLBackgroundActivitySession@.
-data CLBackgroundActivitySession
-
-instance IsObjCObject (Id CLBackgroundActivitySession) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLBackgroundActivitySession"
-
-class IsNSObject a => IsCLBackgroundActivitySession a where
-  toCLBackgroundActivitySession :: a -> Id CLBackgroundActivitySession
-
-instance IsCLBackgroundActivitySession (Id CLBackgroundActivitySession) where
-  toCLBackgroundActivitySession = unsafeCastId
-
-instance IsNSObject (Id CLBackgroundActivitySession) where
-  toNSObject = unsafeCastId
-
--- ---------- CLBackgroundActivitySessionDiagnostic ----------
-
--- | Phantom type for @CLBackgroundActivitySessionDiagnostic@.
-data CLBackgroundActivitySessionDiagnostic
-
-instance IsObjCObject (Id CLBackgroundActivitySessionDiagnostic) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLBackgroundActivitySessionDiagnostic"
-
-class IsNSObject a => IsCLBackgroundActivitySessionDiagnostic a where
-  toCLBackgroundActivitySessionDiagnostic :: a -> Id CLBackgroundActivitySessionDiagnostic
-
-instance IsCLBackgroundActivitySessionDiagnostic (Id CLBackgroundActivitySessionDiagnostic) where
-  toCLBackgroundActivitySessionDiagnostic = unsafeCastId
-
-instance IsNSObject (Id CLBackgroundActivitySessionDiagnostic) where
-  toNSObject = unsafeCastId
-
 -- ---------- CLBeacon ----------
 
 -- | Phantom type for @CLBeacon@.
@@ -75,23 +37,42 @@ instance IsCLBeacon (Id CLBeacon) where
 instance IsNSObject (Id CLBeacon) where
   toNSObject = unsafeCastId
 
--- ---------- CLCondition ----------
+-- ---------- CLBeaconIdentityConstraint ----------
 
--- | Phantom type for @CLCondition@.
-data CLCondition
+-- | Phantom type for @CLBeaconIdentityConstraint@.
+data CLBeaconIdentityConstraint
 
-instance IsObjCObject (Id CLCondition) where
+instance IsObjCObject (Id CLBeaconIdentityConstraint) where
   toRawId = idToRawId
   withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLCondition"
+  staticClass _ = getRequiredClass "CLBeaconIdentityConstraint"
 
-class IsNSObject a => IsCLCondition a where
-  toCLCondition :: a -> Id CLCondition
+class IsNSObject a => IsCLBeaconIdentityConstraint a where
+  toCLBeaconIdentityConstraint :: a -> Id CLBeaconIdentityConstraint
 
-instance IsCLCondition (Id CLCondition) where
-  toCLCondition = unsafeCastId
+instance IsCLBeaconIdentityConstraint (Id CLBeaconIdentityConstraint) where
+  toCLBeaconIdentityConstraint = unsafeCastId
 
-instance IsNSObject (Id CLCondition) where
+instance IsNSObject (Id CLBeaconIdentityConstraint) where
+  toNSObject = unsafeCastId
+
+-- ---------- CLFloor ----------
+
+-- | Phantom type for @CLFloor@.
+data CLFloor
+
+instance IsObjCObject (Id CLFloor) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "CLFloor"
+
+class IsNSObject a => IsCLFloor a where
+  toCLFloor :: a -> Id CLFloor
+
+instance IsCLFloor (Id CLFloor) where
+  toCLFloor = unsafeCastId
+
+instance IsNSObject (Id CLFloor) where
   toNSObject = unsafeCastId
 
 -- ---------- CLGeocoder ----------
@@ -132,6 +113,25 @@ instance IsCLHeading (Id CLHeading) where
 instance IsNSObject (Id CLHeading) where
   toNSObject = unsafeCastId
 
+-- ---------- CLLocation ----------
+
+-- | Phantom type for @CLLocation@.
+data CLLocation
+
+instance IsObjCObject (Id CLLocation) where
+  toRawId = idToRawId
+  withObjCPtr = withIdObjCPtr
+  staticClass _ = getRequiredClass "CLLocation"
+
+class IsNSObject a => IsCLLocation a where
+  toCLLocation :: a -> Id CLLocation
+
+instance IsCLLocation (Id CLLocation) where
+  toCLLocation = unsafeCastId
+
+instance IsNSObject (Id CLLocation) where
+  toNSObject = unsafeCastId
+
 -- ---------- CLLocationManager ----------
 
 -- | Phantom type for @CLLocationManager@.
@@ -151,99 +151,23 @@ instance IsCLLocationManager (Id CLLocationManager) where
 instance IsNSObject (Id CLLocationManager) where
   toNSObject = unsafeCastId
 
--- ---------- CLLocationUpdater ----------
+-- ---------- CLLocationSourceInformation ----------
 
--- | Phantom type for @CLLocationUpdater@.
-data CLLocationUpdater
+-- | Phantom type for @CLLocationSourceInformation@.
+data CLLocationSourceInformation
 
-instance IsObjCObject (Id CLLocationUpdater) where
+instance IsObjCObject (Id CLLocationSourceInformation) where
   toRawId = idToRawId
   withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLLocationUpdater"
+  staticClass _ = getRequiredClass "CLLocationSourceInformation"
 
-class IsNSObject a => IsCLLocationUpdater a where
-  toCLLocationUpdater :: a -> Id CLLocationUpdater
+class IsNSObject a => IsCLLocationSourceInformation a where
+  toCLLocationSourceInformation :: a -> Id CLLocationSourceInformation
 
-instance IsCLLocationUpdater (Id CLLocationUpdater) where
-  toCLLocationUpdater = unsafeCastId
+instance IsCLLocationSourceInformation (Id CLLocationSourceInformation) where
+  toCLLocationSourceInformation = unsafeCastId
 
-instance IsNSObject (Id CLLocationUpdater) where
-  toNSObject = unsafeCastId
-
--- ---------- CLMonitor ----------
-
--- | Phantom type for @CLMonitor@.
-data CLMonitor
-
-instance IsObjCObject (Id CLMonitor) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLMonitor"
-
-class IsNSObject a => IsCLMonitor a where
-  toCLMonitor :: a -> Id CLMonitor
-
-instance IsCLMonitor (Id CLMonitor) where
-  toCLMonitor = unsafeCastId
-
-instance IsNSObject (Id CLMonitor) where
-  toNSObject = unsafeCastId
-
--- ---------- CLMonitorConfiguration ----------
-
--- | Phantom type for @CLMonitorConfiguration@.
-data CLMonitorConfiguration
-
-instance IsObjCObject (Id CLMonitorConfiguration) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLMonitorConfiguration"
-
-class IsNSObject a => IsCLMonitorConfiguration a where
-  toCLMonitorConfiguration :: a -> Id CLMonitorConfiguration
-
-instance IsCLMonitorConfiguration (Id CLMonitorConfiguration) where
-  toCLMonitorConfiguration = unsafeCastId
-
-instance IsNSObject (Id CLMonitorConfiguration) where
-  toNSObject = unsafeCastId
-
--- ---------- CLMonitoringEvent ----------
-
--- | Phantom type for @CLMonitoringEvent@.
-data CLMonitoringEvent
-
-instance IsObjCObject (Id CLMonitoringEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLMonitoringEvent"
-
-class IsNSObject a => IsCLMonitoringEvent a where
-  toCLMonitoringEvent :: a -> Id CLMonitoringEvent
-
-instance IsCLMonitoringEvent (Id CLMonitoringEvent) where
-  toCLMonitoringEvent = unsafeCastId
-
-instance IsNSObject (Id CLMonitoringEvent) where
-  toNSObject = unsafeCastId
-
--- ---------- CLMonitoringRecord ----------
-
--- | Phantom type for @CLMonitoringRecord@.
-data CLMonitoringRecord
-
-instance IsObjCObject (Id CLMonitoringRecord) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLMonitoringRecord"
-
-class IsNSObject a => IsCLMonitoringRecord a where
-  toCLMonitoringRecord :: a -> Id CLMonitoringRecord
-
-instance IsCLMonitoringRecord (Id CLMonitoringRecord) where
-  toCLMonitoringRecord = unsafeCastId
-
-instance IsNSObject (Id CLMonitoringRecord) where
+instance IsNSObject (Id CLLocationSourceInformation) where
   toNSObject = unsafeCastId
 
 -- ---------- CLPlacemark ----------
@@ -284,63 +208,6 @@ instance IsCLRegion (Id CLRegion) where
 instance IsNSObject (Id CLRegion) where
   toNSObject = unsafeCastId
 
--- ---------- CLServiceSession ----------
-
--- | Phantom type for @CLServiceSession@.
-data CLServiceSession
-
-instance IsObjCObject (Id CLServiceSession) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLServiceSession"
-
-class IsNSObject a => IsCLServiceSession a where
-  toCLServiceSession :: a -> Id CLServiceSession
-
-instance IsCLServiceSession (Id CLServiceSession) where
-  toCLServiceSession = unsafeCastId
-
-instance IsNSObject (Id CLServiceSession) where
-  toNSObject = unsafeCastId
-
--- ---------- CLServiceSessionDiagnostic ----------
-
--- | Phantom type for @CLServiceSessionDiagnostic@.
-data CLServiceSessionDiagnostic
-
-instance IsObjCObject (Id CLServiceSessionDiagnostic) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLServiceSessionDiagnostic"
-
-class IsNSObject a => IsCLServiceSessionDiagnostic a where
-  toCLServiceSessionDiagnostic :: a -> Id CLServiceSessionDiagnostic
-
-instance IsCLServiceSessionDiagnostic (Id CLServiceSessionDiagnostic) where
-  toCLServiceSessionDiagnostic = unsafeCastId
-
-instance IsNSObject (Id CLServiceSessionDiagnostic) where
-  toNSObject = unsafeCastId
-
--- ---------- CLUpdate ----------
-
--- | Phantom type for @CLUpdate@.
-data CLUpdate
-
-instance IsObjCObject (Id CLUpdate) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLUpdate"
-
-class IsNSObject a => IsCLUpdate a where
-  toCLUpdate :: a -> Id CLUpdate
-
-instance IsCLUpdate (Id CLUpdate) where
-  toCLUpdate = unsafeCastId
-
-instance IsNSObject (Id CLUpdate) where
-  toNSObject = unsafeCastId
-
 -- ---------- CLVisit ----------
 
 -- | Phantom type for @CLVisit@.
@@ -358,50 +225,6 @@ instance IsCLVisit (Id CLVisit) where
   toCLVisit = unsafeCastId
 
 instance IsNSObject (Id CLVisit) where
-  toNSObject = unsafeCastId
-
--- ---------- CLBeaconIdentityCondition ----------
-
--- | Phantom type for @CLBeaconIdentityCondition@.
-data CLBeaconIdentityCondition
-
-instance IsObjCObject (Id CLBeaconIdentityCondition) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLBeaconIdentityCondition"
-
-class IsCLCondition a => IsCLBeaconIdentityCondition a where
-  toCLBeaconIdentityCondition :: a -> Id CLBeaconIdentityCondition
-
-instance IsCLBeaconIdentityCondition (Id CLBeaconIdentityCondition) where
-  toCLBeaconIdentityCondition = unsafeCastId
-
-instance IsCLCondition (Id CLBeaconIdentityCondition) where
-  toCLCondition = unsafeCastId
-
-instance IsNSObject (Id CLBeaconIdentityCondition) where
-  toNSObject = unsafeCastId
-
--- ---------- CLCircularGeographicCondition ----------
-
--- | Phantom type for @CLCircularGeographicCondition@.
-data CLCircularGeographicCondition
-
-instance IsObjCObject (Id CLCircularGeographicCondition) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLCircularGeographicCondition"
-
-class IsCLCondition a => IsCLCircularGeographicCondition a where
-  toCLCircularGeographicCondition :: a -> Id CLCircularGeographicCondition
-
-instance IsCLCircularGeographicCondition (Id CLCircularGeographicCondition) where
-  toCLCircularGeographicCondition = unsafeCastId
-
-instance IsCLCondition (Id CLCircularGeographicCondition) where
-  toCLCondition = unsafeCastId
-
-instance IsNSObject (Id CLCircularGeographicCondition) where
   toNSObject = unsafeCastId
 
 -- ---------- CLBeaconRegion ----------
@@ -446,29 +269,4 @@ instance IsCLRegion (Id CLCircularRegion) where
   toCLRegion = unsafeCastId
 
 instance IsNSObject (Id CLCircularRegion) where
-  toNSObject = unsafeCastId
-
--- ---------- CLBeaconIdentityConstraint ----------
-
--- | Phantom type for @CLBeaconIdentityConstraint@.
-data CLBeaconIdentityConstraint
-
-instance IsObjCObject (Id CLBeaconIdentityConstraint) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CLBeaconIdentityConstraint"
-
-class IsCLBeaconIdentityCondition a => IsCLBeaconIdentityConstraint a where
-  toCLBeaconIdentityConstraint :: a -> Id CLBeaconIdentityConstraint
-
-instance IsCLBeaconIdentityConstraint (Id CLBeaconIdentityConstraint) where
-  toCLBeaconIdentityConstraint = unsafeCastId
-
-instance IsCLBeaconIdentityCondition (Id CLBeaconIdentityConstraint) where
-  toCLBeaconIdentityCondition = unsafeCastId
-
-instance IsCLCondition (Id CLBeaconIdentityConstraint) where
-  toCLCondition = unsafeCastId
-
-instance IsNSObject (Id CLBeaconIdentityConstraint) where
   toNSObject = unsafeCastId

@@ -17,8 +17,6 @@ module ObjC.AppKit.NSTextList
   , startingItemNumber
   , setStartingItemNumber
   , ordered
-  , includesTextListMarkers
-  , includesTextListMarkersSelector
   , initWithCoderSelector
   , initWithMarkerFormat_optionsSelector
   , initWithMarkerFormat_options_startingItemNumberSelector
@@ -92,13 +90,6 @@ ordered :: IsNSTextList nsTextList => nsTextList -> IO Bool
 ordered nsTextList =
   sendMessage nsTextList orderedSelector
 
--- | @+ includesTextListMarkers@
-includesTextListMarkers :: IO Bool
-includesTextListMarkers  =
-  do
-    cls' <- getRequiredClass "NSTextList"
-    sendClassMessage cls' includesTextListMarkersSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -138,8 +129,4 @@ setStartingItemNumberSelector = mkSelector "setStartingItemNumber:"
 -- | @Selector@ for @ordered@
 orderedSelector :: Selector '[] Bool
 orderedSelector = mkSelector "ordered"
-
--- | @Selector@ for @includesTextListMarkers@
-includesTextListMarkersSelector :: Selector '[] Bool
-includesTextListMarkersSelector = mkSelector "includesTextListMarkers"
 

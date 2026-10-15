@@ -57,7 +57,7 @@ sourceAppSigningIdentifier neFlowMetaData =
 -- Audit token of the source application of the flow.
 --
 -- ObjC selector: @- sourceAppAuditToken@
-sourceAppAuditToken :: IsNEFlowMetaData neFlowMetaData => neFlowMetaData -> IO (Id NSData)
+sourceAppAuditToken :: IsNEFlowMetaData neFlowMetaData => neFlowMetaData -> IO RawId
 sourceAppAuditToken neFlowMetaData =
   sendMessage neFlowMetaData sourceAppAuditTokenSelector
 
@@ -66,7 +66,7 @@ sourceAppAuditToken neFlowMetaData =
 -- The identifier of the content filter flow corresponding to this flow.
 --
 -- ObjC selector: @- filterFlowIdentifier@
-filterFlowIdentifier :: IsNEFlowMetaData neFlowMetaData => neFlowMetaData -> IO (Id NSUUID)
+filterFlowIdentifier :: IsNEFlowMetaData neFlowMetaData => neFlowMetaData -> IO RawId
 filterFlowIdentifier neFlowMetaData =
   sendMessage neFlowMetaData filterFlowIdentifierSelector
 
@@ -83,10 +83,10 @@ sourceAppSigningIdentifierSelector :: Selector '[] (Id NSString)
 sourceAppSigningIdentifierSelector = mkSelector "sourceAppSigningIdentifier"
 
 -- | @Selector@ for @sourceAppAuditToken@
-sourceAppAuditTokenSelector :: Selector '[] (Id NSData)
+sourceAppAuditTokenSelector :: Selector '[] RawId
 sourceAppAuditTokenSelector = mkSelector "sourceAppAuditToken"
 
 -- | @Selector@ for @filterFlowIdentifier@
-filterFlowIdentifierSelector :: Selector '[] (Id NSUUID)
+filterFlowIdentifierSelector :: Selector '[] RawId
 filterFlowIdentifierSelector = mkSelector "filterFlowIdentifier"
 

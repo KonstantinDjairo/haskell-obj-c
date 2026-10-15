@@ -3,7 +3,31 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @DRBurn@.
+-- | DRBurn
+--
+-- Handles the process of burning a CD or DVD disc.
+--
+-- Each time you want to burn to a disc, an instance of this class needs to be created.
+--
+-- When an instance is created, you pass in an instance of
+--
+-- //apple_ref/occ/cl/DRDevice DRDevice
+--
+-- to let the DRBurn object know 					what device to use. This object is retained for the life of the DRBurn instance. Before burning, 					you can set several options that control the behavior of the burn and the handling 					of the disc once the burn completes.
+--
+-- A DRBurn object will send out notifications through the
+--
+-- //apple_ref/occ/cl/DRNotificationCenter DRNotificationCenter
+--
+-- mechanism to 					broadcast the burn state to any interested observers. However, if for some reason you don't want					to use notifications, you can poll the burn object at any time for the current status using
+--
+-- //apple_ref/occ/instm/DRBurn/status status
+--
+-- . This is not recommended in any 					application using a run loop, because it involves polling.
+--
+-- For examples of how to use this class see the on-disk sample code projects at /Developer/Examples/DiscRecording/ObjectiveC/.
+--
+-- Generated bindings for @DRBurn@.
 module ObjC.DiscRecording.DRBurn
   ( DRBurn
   , IsDRBurn(..)

@@ -314,14 +314,14 @@ domain nsFileProviderExtension =
 -- When modifying the files stored in the directory returned by documentStorageURL, you should pass this identifier to your file coordinator's setPurposeIdentifier: method.
 --
 -- ObjC selector: @- providerIdentifier@
-providerIdentifier :: IsNSFileProviderExtension nsFileProviderExtension => nsFileProviderExtension -> IO (Id NSString)
+providerIdentifier :: IsNSFileProviderExtension nsFileProviderExtension => nsFileProviderExtension -> IO RawId
 providerIdentifier nsFileProviderExtension =
   sendMessage nsFileProviderExtension providerIdentifierSelector
 
 -- | The root URL for provided documents. This URL is derived by consulting the NSExtensionFileProviderDocumentGroup property on your extension. The document storage URL is the folder "File Provider Storage" in the corresponding container.
 --
 -- ObjC selector: @- documentStorageURL@
-documentStorageURL :: IsNSFileProviderExtension nsFileProviderExtension => nsFileProviderExtension -> IO (Id NSURL)
+documentStorageURL :: IsNSFileProviderExtension nsFileProviderExtension => nsFileProviderExtension -> IO RawId
 documentStorageURL nsFileProviderExtension =
   sendMessage nsFileProviderExtension documentStorageURLSelector
 
@@ -414,10 +414,10 @@ domainSelector :: Selector '[] (Id NSFileProviderDomain)
 domainSelector = mkSelector "domain"
 
 -- | @Selector@ for @providerIdentifier@
-providerIdentifierSelector :: Selector '[] (Id NSString)
+providerIdentifierSelector :: Selector '[] RawId
 providerIdentifierSelector = mkSelector "providerIdentifier"
 
 -- | @Selector@ for @documentStorageURL@
-documentStorageURLSelector :: Selector '[] (Id NSURL)
+documentStorageURLSelector :: Selector '[] RawId
 documentStorageURLSelector = mkSelector "documentStorageURL"
 

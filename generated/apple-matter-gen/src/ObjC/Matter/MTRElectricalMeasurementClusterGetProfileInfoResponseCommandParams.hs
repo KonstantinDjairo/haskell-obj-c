@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams
   ( MTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams
   , IsMTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , profileCount
   , setProfileCount
   , profileIntervalPeriod
@@ -18,7 +19,8 @@ module ObjC.Matter.MTRElectricalMeasurementClusterGetProfileInfoResponseCommandP
   , setListOfAttributes
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , listOfAttributesSelector
   , maxNumberOfIntervalsSelector
   , profileCountSelector
@@ -44,16 +46,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams, IsNSDictionary responseValue, IsNSError error_) => mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams -> responseValue -> error_ -> IO (Id MTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams)
-initWithResponseValue_error mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams responseValue error_ =
-  sendOwnedMessage mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams => mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams -> IO (Id MTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams)
+init_ mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams =
+  sendOwnedMessage mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams => mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams -> Ptr () -> IO RawId
+copyWithZone mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams zone =
+  sendOwnedMessage mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams copyWithZoneSelector zone
 
 -- | @- profileCount@
 profileCount :: IsMTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams => mtrElectricalMeasurementClusterGetProfileInfoResponseCommandParams -> IO (Id NSNumber)
@@ -121,9 +122,13 @@ setTimedInvokeTimeoutMs mtrElectricalMeasurementClusterGetProfileInfoResponseCom
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRElectricalMeasurementClusterGetProfileInfoResponseCommandParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @profileCount@
 profileCountSelector :: Selector '[] (Id NSNumber)

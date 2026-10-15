@@ -24,13 +24,8 @@ module ObjC.MetalPerformanceShaders.MPSNDArray
   , init_
   , initWithDevice_descriptor
   , initWithDevice_scalar
-  , initWithBuffer_offset_descriptor
-  , userBuffer
   , resourceSize
   , arrayViewWithCommandBuffer_descriptor_aliasing
-  , arrayViewWithDescriptor
-  , arrayViewWithShape_strides
-  , arrayViewWithDimensionCount_dimensionSizes_strides
   , exportDataWithCommandBuffer_toBuffer_destinationDataType_offset_rowStrides
   , importDataWithCommandBuffer_fromBuffer_sourceDataType_offset_rowStrides
   , exportDataWithCommandBuffer_toImages_offset
@@ -46,9 +41,6 @@ module ObjC.MetalPerformanceShaders.MPSNDArray
   , device
   , parent
   , arrayViewWithCommandBuffer_descriptor_aliasingSelector
-  , arrayViewWithDescriptorSelector
-  , arrayViewWithDimensionCount_dimensionSizes_stridesSelector
-  , arrayViewWithShape_stridesSelector
   , dataTypeSelector
   , dataTypeSizeSelector
   , defaultAllocatorSelector
@@ -59,7 +51,6 @@ module ObjC.MetalPerformanceShaders.MPSNDArray
   , importDataWithCommandBuffer_fromBuffer_sourceDataType_offset_rowStridesSelector
   , importDataWithCommandBuffer_fromImages_offsetSelector
   , initSelector
-  , initWithBuffer_offset_descriptorSelector
   , initWithDevice_descriptorSelector
   , initWithDevice_scalarSelector
   , labelSelector
@@ -70,7 +61,6 @@ module ObjC.MetalPerformanceShaders.MPSNDArray
   , resourceSizeSelector
   , setLabelSelector
   , synchronizeOnCommandBufferSelector
-  , userBufferSelector
   , writeBytes_strideBytesSelector
 
   -- * Enum types
@@ -92,21 +82,16 @@ module ObjC.MetalPerformanceShaders.MPSNDArray
   , pattern MPSDataTypeComplexFloat16
   , pattern MPSDataTypeSignedBit
   , pattern MPSDataTypeIntBit
-  , pattern MPSDataTypeInt2
-  , pattern MPSDataTypeInt4
   , pattern MPSDataTypeInt8
   , pattern MPSDataTypeInt16
   , pattern MPSDataTypeInt32
   , pattern MPSDataTypeInt64
-  , pattern MPSDataTypeUInt2
-  , pattern MPSDataTypeUInt4
   , pattern MPSDataTypeUInt8
   , pattern MPSDataTypeUInt16
   , pattern MPSDataTypeUInt32
   , pattern MPSDataTypeUInt64
   , pattern MPSDataTypeAlternateEncodingBit
   , pattern MPSDataTypeBool
-  , pattern MPSDataTypeBFloat16
   , pattern MPSDataTypeNormalizedBit
   , pattern MPSDataTypeUnorm1
   , pattern MPSDataTypeUnorm8
@@ -180,30 +165,6 @@ initWithDevice_scalar :: IsMPSNDArray mpsndArray => mpsndArray -> RawId -> CDoub
 initWithDevice_scalar mpsndArray device value =
   sendOwnedMessage mpsndArray initWithDevice_scalarSelector device value
 
--- | Initialize an MPSNDArray object from a Metal Buffer with a given descriptor and offset in bytes.
---
--- @buffer@ — The buffer used for initializing. The NDArray will alias to this buffer at the given offset.
---
--- @offset@ — Offset in bytes to the buffer.
---
--- @descriptor@ — The MPSNDArrayDescriptor used for initializing the the NDArray.
---
--- Returns: A valid MPSNDArray object or nil, if failure.
---
--- ObjC selector: @- initWithBuffer:offset:descriptor:@
-initWithBuffer_offset_descriptor :: (IsMPSNDArray mpsndArray, IsMPSNDArrayDescriptor descriptor) => mpsndArray -> RawId -> CULong -> descriptor -> IO (Id MPSNDArray)
-initWithBuffer_offset_descriptor mpsndArray buffer offset descriptor =
-  sendOwnedMessage mpsndArray initWithBuffer_offset_descriptorSelector buffer offset (toMPSNDArrayDescriptor descriptor)
-
--- | Returns the user buffer in case the NDArray was initialized with an MTLBuffer.
---
--- Returns: The user-provided MTLBuffer that was used to initialize this MPSNDArray or nil, in case it was not..
---
--- ObjC selector: @- userBuffer@
-userBuffer :: IsMPSNDArray mpsndArray => mpsndArray -> IO RawId
-userBuffer mpsndArray =
-  sendMessage mpsndArray userBufferSelector
-
 -- | Get the number of bytes used to allocate underyling MTLResources
 --
 -- This is the size of the backing store of underlying MTLResources.                  It does not include all storage used by the object, for example                  the storage used to hold the MPSNDArray instantiation and MTLBuffer                  is not included. It only measures the size of the allocation used                  to hold the MPSNDArray data in the MTLBuffer. This value is subject to                  change between different devices and operating systems.
@@ -231,51 +192,6 @@ resourceSize mpsndArray =
 arrayViewWithCommandBuffer_descriptor_aliasing :: (IsMPSNDArray mpsndArray, IsMPSNDArrayDescriptor descriptor) => mpsndArray -> RawId -> descriptor -> MPSAliasingStrategy -> IO (Id MPSNDArray)
 arrayViewWithCommandBuffer_descriptor_aliasing mpsndArray cmdBuf descriptor aliasing =
   sendMessage mpsndArray arrayViewWithCommandBuffer_descriptor_aliasingSelector cmdBuf (toMPSNDArrayDescriptor descriptor) aliasing
-
--- | Make a new representation of a MPSNDArray with a slice, transpose or other change in property, trying to alias to result.
---
--- The same as @arrayViewWithCommandBuffer@, except that tries to always alias, and therefore does not require a commanbuffer.              If aliasing is not possible nil is returned.              This method is useful in making aliasing transposes and slices, that are guaranteed to be able to alias. For reshapes it is recommended              to use the @MPSNDArrayIdentity@ methods.
---
--- @descriptor@ — A MPSNDArrayDescriptor describing the shape of the new view of the data
---
--- Returns: A new MPSNDArray, if it is possible to make one. Otherwise nil is returned. The MPSNDArray is autoreleased.
---
--- ObjC selector: @- arrayViewWithDescriptor:@
-arrayViewWithDescriptor :: (IsMPSNDArray mpsndArray, IsMPSNDArrayDescriptor descriptor) => mpsndArray -> descriptor -> IO (Id MPSNDArray)
-arrayViewWithDescriptor mpsndArray descriptor =
-  sendMessage mpsndArray arrayViewWithDescriptorSelector (toMPSNDArrayDescriptor descriptor)
-
--- | Make a new representation of a MPSNDArray with given strides and a new shape.
---
--- This operation always returns a new view of the same underlying MTLBuffer, but works only with contiguous buffers.
---
--- @shape@ — The new shape for the NDArray. Fastest running dimension last. If nil then current shape is used.
---
--- @strides@ — The strides for each dimension. Must be at least length of new shape. Last number must be one. Must be non-increasing.
---
--- Returns: A new MPSNDArray, if it is possible to make one. Otherwise nil is returned. The MPSNDArray is autoreleased.
---
--- ObjC selector: @- arrayViewWithShape:strides:@
-arrayViewWithShape_strides :: IsMPSNDArray mpsndArray => mpsndArray -> RawId -> RawId -> IO (Id MPSNDArray)
-arrayViewWithShape_strides mpsndArray shape strides =
-  sendMessage mpsndArray arrayViewWithShape_stridesSelector shape strides
-
--- | Make a new representation of a MPSNDArray with given strides and a new shape.
---
--- This operation always returns a new view of the same underlying MTLBuffer, but works only with contiguous buffers.
---
--- @numberOfDimensions@ — Number of dimensions in the new view.
---
--- @dimensionSizes@ — Size of each new dimension. Fastest running dimension first. Must be of length numberOfDimensions.
---
--- @dimStrides@ — The strides for each dimension. First number must be one. Must be non-decreasing.  Must be of length numberOfDimensions.
---
--- Returns: A new MPSNDArray, if it is possible to make one. Otherwise nil is returned. The MPSNDArray is autoreleased.
---
--- ObjC selector: @- arrayViewWithDimensionCount:dimensionSizes:strides:@
-arrayViewWithDimensionCount_dimensionSizes_strides :: IsMPSNDArray mpsndArray => mpsndArray -> CULong -> Const (Ptr CULong) -> Const (Ptr CULong) -> IO (Id MPSNDArray)
-arrayViewWithDimensionCount_dimensionSizes_strides mpsndArray numberOfDimensions dimensionSizes dimStrides =
-  sendMessage mpsndArray arrayViewWithDimensionCount_dimensionSizes_stridesSelector numberOfDimensions dimensionSizes dimStrides
 
 -- | Do a GPU side copy of the contents of a MPSNDArray to a MTLBuffer
 --
@@ -465,14 +381,6 @@ initWithDevice_descriptorSelector = mkSelector "initWithDevice:descriptor:"
 initWithDevice_scalarSelector :: Selector '[RawId, CDouble] (Id MPSNDArray)
 initWithDevice_scalarSelector = mkSelector "initWithDevice:scalar:"
 
--- | @Selector@ for @initWithBuffer:offset:descriptor:@
-initWithBuffer_offset_descriptorSelector :: Selector '[RawId, CULong, Id MPSNDArrayDescriptor] (Id MPSNDArray)
-initWithBuffer_offset_descriptorSelector = mkSelector "initWithBuffer:offset:descriptor:"
-
--- | @Selector@ for @userBuffer@
-userBufferSelector :: Selector '[] RawId
-userBufferSelector = mkSelector "userBuffer"
-
 -- | @Selector@ for @resourceSize@
 resourceSizeSelector :: Selector '[] CULong
 resourceSizeSelector = mkSelector "resourceSize"
@@ -480,18 +388,6 @@ resourceSizeSelector = mkSelector "resourceSize"
 -- | @Selector@ for @arrayViewWithCommandBuffer:descriptor:aliasing:@
 arrayViewWithCommandBuffer_descriptor_aliasingSelector :: Selector '[RawId, Id MPSNDArrayDescriptor, MPSAliasingStrategy] (Id MPSNDArray)
 arrayViewWithCommandBuffer_descriptor_aliasingSelector = mkSelector "arrayViewWithCommandBuffer:descriptor:aliasing:"
-
--- | @Selector@ for @arrayViewWithDescriptor:@
-arrayViewWithDescriptorSelector :: Selector '[Id MPSNDArrayDescriptor] (Id MPSNDArray)
-arrayViewWithDescriptorSelector = mkSelector "arrayViewWithDescriptor:"
-
--- | @Selector@ for @arrayViewWithShape:strides:@
-arrayViewWithShape_stridesSelector :: Selector '[RawId, RawId] (Id MPSNDArray)
-arrayViewWithShape_stridesSelector = mkSelector "arrayViewWithShape:strides:"
-
--- | @Selector@ for @arrayViewWithDimensionCount:dimensionSizes:strides:@
-arrayViewWithDimensionCount_dimensionSizes_stridesSelector :: Selector '[CULong, Const (Ptr CULong), Const (Ptr CULong)] (Id MPSNDArray)
-arrayViewWithDimensionCount_dimensionSizes_stridesSelector = mkSelector "arrayViewWithDimensionCount:dimensionSizes:strides:"
 
 -- | @Selector@ for @exportDataWithCommandBuffer:toBuffer:destinationDataType:offset:rowStrides:@
 exportDataWithCommandBuffer_toBuffer_destinationDataType_offset_rowStridesSelector :: Selector '[RawId, RawId, MPSDataType, CULong, Ptr CLong] ()

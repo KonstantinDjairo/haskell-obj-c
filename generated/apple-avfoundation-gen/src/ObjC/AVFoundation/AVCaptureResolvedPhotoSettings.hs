@@ -23,11 +23,9 @@ module ObjC.AVFoundation.AVCaptureResolvedPhotoSettings
   , dualCameraFusionEnabled
   , expectedPhotoCount
   , contentAwareDistortionCorrectionEnabled
-  , fastCapturePrioritizationEnabled
   , contentAwareDistortionCorrectionEnabledSelector
   , dualCameraFusionEnabledSelector
   , expectedPhotoCountSelector
-  , fastCapturePrioritizationEnabledSelector
   , flashEnabledSelector
   , initSelector
   , newSelector
@@ -75,7 +73,7 @@ uniqueID avCaptureResolvedPhotoSettings =
 --
 -- Indicates whether the flash will fire when capturing the photo.
 --
--- When you specify AVCaptureFlashModeAuto as your AVCapturePhotoSettings.flashMode, you don't know if flash capture will be chosen until you inspect the AVCaptureResolvedPhotoSettings flashEnabled property. If the device becomes too hot, the flash becomes temporarily unavailable. You can key-value observe AVCaptureDevice's flashAvailable property to know when this occurs. If the flash is unavailable due to thermal issues, and you specify a flashMode of AVCaptureFlashModeOn, flashEnabled still resolves to NO until the device has sufficiently cooled off.
+-- When you specify AVCaptureFlashModeAuto as you AVCapturePhotoSettings.flashMode, you don't know if flash capture will be chosen until you inspect the AVCaptureResolvedPhotoSettings flashEnabled property. If the device becomes too hot, the flash becomes temporarily unavailable. You can key-value observe AVCaptureDevice's flashAvailable property to know when this occurs. If the flash is unavailable due to thermal issues, and you specify a flashMode of AVCaptureFlashModeOn, flashEnabled still resolves to NO until the device has sufficiently cooled off.
 --
 -- ObjC selector: @- flashEnabled@
 flashEnabled :: IsAVCaptureResolvedPhotoSettings avCaptureResolvedPhotoSettings => avCaptureResolvedPhotoSettings -> IO Bool
@@ -138,15 +136,6 @@ contentAwareDistortionCorrectionEnabled :: IsAVCaptureResolvedPhotoSettings avCa
 contentAwareDistortionCorrectionEnabled avCaptureResolvedPhotoSettings =
   sendMessage avCaptureResolvedPhotoSettings contentAwareDistortionCorrectionEnabledSelector
 
--- | fastCapturePrioritizationEnabled
---
--- Indicates whether fast capture prioritization will be employed when capturing the photo.
---
--- ObjC selector: @- fastCapturePrioritizationEnabled@
-fastCapturePrioritizationEnabled :: IsAVCaptureResolvedPhotoSettings avCaptureResolvedPhotoSettings => avCaptureResolvedPhotoSettings -> IO Bool
-fastCapturePrioritizationEnabled avCaptureResolvedPhotoSettings =
-  sendMessage avCaptureResolvedPhotoSettings fastCapturePrioritizationEnabledSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -190,8 +179,4 @@ expectedPhotoCountSelector = mkSelector "expectedPhotoCount"
 -- | @Selector@ for @contentAwareDistortionCorrectionEnabled@
 contentAwareDistortionCorrectionEnabledSelector :: Selector '[] Bool
 contentAwareDistortionCorrectionEnabledSelector = mkSelector "contentAwareDistortionCorrectionEnabled"
-
--- | @Selector@ for @fastCapturePrioritizationEnabled@
-fastCapturePrioritizationEnabledSelector :: Selector '[] Bool
-fastCapturePrioritizationEnabledSelector = mkSelector "fastCapturePrioritizationEnabled"
 

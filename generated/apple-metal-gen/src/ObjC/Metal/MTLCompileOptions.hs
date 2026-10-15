@@ -12,10 +12,6 @@ module ObjC.Metal.MTLCompileOptions
   , setPreprocessorMacros
   , fastMathEnabled
   , setFastMathEnabled
-  , mathMode
-  , setMathMode
-  , mathFloatingPointFunctions
-  , setMathFloatingPointFunctions
   , languageVersion
   , setLanguageVersion
   , libraryType
@@ -28,47 +24,24 @@ module ObjC.Metal.MTLCompileOptions
   , setPreserveInvariance
   , optimizationLevel
   , setOptimizationLevel
-  , compileSymbolVisibility
-  , setCompileSymbolVisibility
-  , allowReferencingUndefinedSymbols
-  , setAllowReferencingUndefinedSymbols
-  , maxTotalThreadsPerThreadgroup
-  , setMaxTotalThreadsPerThreadgroup
-  , enableLogging
-  , setEnableLogging
-  , allowReferencingUndefinedSymbolsSelector
-  , compileSymbolVisibilitySelector
-  , enableLoggingSelector
   , fastMathEnabledSelector
   , installNameSelector
   , languageVersionSelector
   , librariesSelector
   , libraryTypeSelector
-  , mathFloatingPointFunctionsSelector
-  , mathModeSelector
-  , maxTotalThreadsPerThreadgroupSelector
   , optimizationLevelSelector
   , preprocessorMacrosSelector
   , preserveInvarianceSelector
-  , setAllowReferencingUndefinedSymbolsSelector
-  , setCompileSymbolVisibilitySelector
-  , setEnableLoggingSelector
   , setFastMathEnabledSelector
   , setInstallNameSelector
   , setLanguageVersionSelector
   , setLibrariesSelector
   , setLibraryTypeSelector
-  , setMathFloatingPointFunctionsSelector
-  , setMathModeSelector
-  , setMaxTotalThreadsPerThreadgroupSelector
   , setOptimizationLevelSelector
   , setPreprocessorMacrosSelector
   , setPreserveInvarianceSelector
 
   -- * Enum types
-  , MTLCompileSymbolVisibility(MTLCompileSymbolVisibility)
-  , pattern MTLCompileSymbolVisibilityDefault
-  , pattern MTLCompileSymbolVisibilityHidden
   , MTLLanguageVersion(MTLLanguageVersion)
   , pattern MTLLanguageVersion1_0
   , pattern MTLLanguageVersion1_1
@@ -79,22 +52,12 @@ module ObjC.Metal.MTLCompileOptions
   , pattern MTLLanguageVersion2_3
   , pattern MTLLanguageVersion2_4
   , pattern MTLLanguageVersion3_0
-  , pattern MTLLanguageVersion3_1
-  , pattern MTLLanguageVersion3_2
-  , pattern MTLLanguageVersion4_0
   , MTLLibraryOptimizationLevel(MTLLibraryOptimizationLevel)
   , pattern MTLLibraryOptimizationLevelDefault
   , pattern MTLLibraryOptimizationLevelSize
   , MTLLibraryType(MTLLibraryType)
   , pattern MTLLibraryTypeExecutable
   , pattern MTLLibraryTypeDynamic
-  , MTLMathFloatingPointFunctions(MTLMathFloatingPointFunctions)
-  , pattern MTLMathFloatingPointFunctionsFast
-  , pattern MTLMathFloatingPointFunctionsPrecise
-  , MTLMathMode(MTLMathMode)
-  , pattern MTLMathModeSafe
-  , pattern MTLMathModeRelaxed
-  , pattern MTLMathModeFast
 
   ) where
 
@@ -149,42 +112,6 @@ fastMathEnabled mtlCompileOptions =
 setFastMathEnabled :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> Bool -> IO ()
 setFastMathEnabled mtlCompileOptions value =
   sendMessage mtlCompileOptions setFastMathEnabledSelector value
-
--- | mathMode
---
--- Sets the floating-point arithmetic optimizations. Default depends on the language standard version.
---
--- ObjC selector: @- mathMode@
-mathMode :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> IO MTLMathMode
-mathMode mtlCompileOptions =
-  sendMessage mtlCompileOptions mathModeSelector
-
--- | mathMode
---
--- Sets the floating-point arithmetic optimizations. Default depends on the language standard version.
---
--- ObjC selector: @- setMathMode:@
-setMathMode :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> MTLMathMode -> IO ()
-setMathMode mtlCompileOptions value =
-  sendMessage mtlCompileOptions setMathModeSelector value
-
--- | mathFloatingPointFunctions
---
--- Sets the default math functions for single precision floating-point. Default is @MTLMathFloatingPointFunctionsFast@.
---
--- ObjC selector: @- mathFloatingPointFunctions@
-mathFloatingPointFunctions :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> IO MTLMathFloatingPointFunctions
-mathFloatingPointFunctions mtlCompileOptions =
-  sendMessage mtlCompileOptions mathFloatingPointFunctionsSelector
-
--- | mathFloatingPointFunctions
---
--- Sets the default math functions for single precision floating-point. Default is @MTLMathFloatingPointFunctionsFast@.
---
--- ObjC selector: @- setMathFloatingPointFunctions:@
-setMathFloatingPointFunctions :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> MTLMathFloatingPointFunctions -> IO ()
-setMathFloatingPointFunctions mtlCompileOptions value =
-  sendMessage mtlCompileOptions setMathFloatingPointFunctionsSelector value
 
 -- | languageVersion
 --
@@ -302,74 +229,6 @@ setOptimizationLevel :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptio
 setOptimizationLevel mtlCompileOptions value =
   sendMessage mtlCompileOptions setOptimizationLevelSelector value
 
--- | Adds a compiler command to force the default visibility of symbols to be hidden
---
--- ObjC selector: @- compileSymbolVisibility@
-compileSymbolVisibility :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> IO MTLCompileSymbolVisibility
-compileSymbolVisibility mtlCompileOptions =
-  sendMessage mtlCompileOptions compileSymbolVisibilitySelector
-
--- | Adds a compiler command to force the default visibility of symbols to be hidden
---
--- ObjC selector: @- setCompileSymbolVisibility:@
-setCompileSymbolVisibility :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> MTLCompileSymbolVisibility -> IO ()
-setCompileSymbolVisibility mtlCompileOptions value =
-  sendMessage mtlCompileOptions setCompileSymbolVisibilitySelector value
-
--- | allowReferencingUndefinedSymbols
---
--- Adds a compiler command to allow the reference of undefined symbols
---
--- ObjC selector: @- allowReferencingUndefinedSymbols@
-allowReferencingUndefinedSymbols :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> IO Bool
-allowReferencingUndefinedSymbols mtlCompileOptions =
-  sendMessage mtlCompileOptions allowReferencingUndefinedSymbolsSelector
-
--- | allowReferencingUndefinedSymbols
---
--- Adds a compiler command to allow the reference of undefined symbols
---
--- ObjC selector: @- setAllowReferencingUndefinedSymbols:@
-setAllowReferencingUndefinedSymbols :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> Bool -> IO ()
-setAllowReferencingUndefinedSymbols mtlCompileOptions value =
-  sendMessage mtlCompileOptions setAllowReferencingUndefinedSymbolsSelector value
-
--- | maxTotalThreadsPerThreadgroup
---
--- Adds a compiler command to specify the total threads per threadgroup
---
--- ObjC selector: @- maxTotalThreadsPerThreadgroup@
-maxTotalThreadsPerThreadgroup :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> IO CULong
-maxTotalThreadsPerThreadgroup mtlCompileOptions =
-  sendMessage mtlCompileOptions maxTotalThreadsPerThreadgroupSelector
-
--- | maxTotalThreadsPerThreadgroup
---
--- Adds a compiler command to specify the total threads per threadgroup
---
--- ObjC selector: @- setMaxTotalThreadsPerThreadgroup:@
-setMaxTotalThreadsPerThreadgroup :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> CULong -> IO ()
-setMaxTotalThreadsPerThreadgroup mtlCompileOptions value =
-  sendMessage mtlCompileOptions setMaxTotalThreadsPerThreadgroupSelector value
-
--- | enableLogging
---
--- If YES,  set the compiler to enable any logging in the shader. The default is false.
---
--- ObjC selector: @- enableLogging@
-enableLogging :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> IO Bool
-enableLogging mtlCompileOptions =
-  sendMessage mtlCompileOptions enableLoggingSelector
-
--- | enableLogging
---
--- If YES,  set the compiler to enable any logging in the shader. The default is false.
---
--- ObjC selector: @- setEnableLogging:@
-setEnableLogging :: IsMTLCompileOptions mtlCompileOptions => mtlCompileOptions -> Bool -> IO ()
-setEnableLogging mtlCompileOptions value =
-  sendMessage mtlCompileOptions setEnableLoggingSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -389,22 +248,6 @@ fastMathEnabledSelector = mkSelector "fastMathEnabled"
 -- | @Selector@ for @setFastMathEnabled:@
 setFastMathEnabledSelector :: Selector '[Bool] ()
 setFastMathEnabledSelector = mkSelector "setFastMathEnabled:"
-
--- | @Selector@ for @mathMode@
-mathModeSelector :: Selector '[] MTLMathMode
-mathModeSelector = mkSelector "mathMode"
-
--- | @Selector@ for @setMathMode:@
-setMathModeSelector :: Selector '[MTLMathMode] ()
-setMathModeSelector = mkSelector "setMathMode:"
-
--- | @Selector@ for @mathFloatingPointFunctions@
-mathFloatingPointFunctionsSelector :: Selector '[] MTLMathFloatingPointFunctions
-mathFloatingPointFunctionsSelector = mkSelector "mathFloatingPointFunctions"
-
--- | @Selector@ for @setMathFloatingPointFunctions:@
-setMathFloatingPointFunctionsSelector :: Selector '[MTLMathFloatingPointFunctions] ()
-setMathFloatingPointFunctionsSelector = mkSelector "setMathFloatingPointFunctions:"
 
 -- | @Selector@ for @languageVersion@
 languageVersionSelector :: Selector '[] MTLLanguageVersion
@@ -453,36 +296,4 @@ optimizationLevelSelector = mkSelector "optimizationLevel"
 -- | @Selector@ for @setOptimizationLevel:@
 setOptimizationLevelSelector :: Selector '[MTLLibraryOptimizationLevel] ()
 setOptimizationLevelSelector = mkSelector "setOptimizationLevel:"
-
--- | @Selector@ for @compileSymbolVisibility@
-compileSymbolVisibilitySelector :: Selector '[] MTLCompileSymbolVisibility
-compileSymbolVisibilitySelector = mkSelector "compileSymbolVisibility"
-
--- | @Selector@ for @setCompileSymbolVisibility:@
-setCompileSymbolVisibilitySelector :: Selector '[MTLCompileSymbolVisibility] ()
-setCompileSymbolVisibilitySelector = mkSelector "setCompileSymbolVisibility:"
-
--- | @Selector@ for @allowReferencingUndefinedSymbols@
-allowReferencingUndefinedSymbolsSelector :: Selector '[] Bool
-allowReferencingUndefinedSymbolsSelector = mkSelector "allowReferencingUndefinedSymbols"
-
--- | @Selector@ for @setAllowReferencingUndefinedSymbols:@
-setAllowReferencingUndefinedSymbolsSelector :: Selector '[Bool] ()
-setAllowReferencingUndefinedSymbolsSelector = mkSelector "setAllowReferencingUndefinedSymbols:"
-
--- | @Selector@ for @maxTotalThreadsPerThreadgroup@
-maxTotalThreadsPerThreadgroupSelector :: Selector '[] CULong
-maxTotalThreadsPerThreadgroupSelector = mkSelector "maxTotalThreadsPerThreadgroup"
-
--- | @Selector@ for @setMaxTotalThreadsPerThreadgroup:@
-setMaxTotalThreadsPerThreadgroupSelector :: Selector '[CULong] ()
-setMaxTotalThreadsPerThreadgroupSelector = mkSelector "setMaxTotalThreadsPerThreadgroup:"
-
--- | @Selector@ for @enableLogging@
-enableLoggingSelector :: Selector '[] Bool
-enableLoggingSelector = mkSelector "enableLogging"
-
--- | @Selector@ for @setEnableLogging:@
-setEnableLoggingSelector :: Selector '[Bool] ()
-setEnableLoggingSelector = mkSelector "setEnableLogging:"
 

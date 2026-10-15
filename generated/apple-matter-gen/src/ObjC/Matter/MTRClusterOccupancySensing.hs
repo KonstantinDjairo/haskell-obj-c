@@ -3,28 +3,25 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Occupancy Sensing    The server cluster provides an interface to occupancy sensing functionality based on one or more sensing modalities, including configuration and provision of notifications of occupancy status.
+-- | Cluster Occupancy Sensing    Attributes and commands for configuring occupancy sensing, and reporting occupancy status.
 --
 -- Generated bindings for @MTRClusterOccupancySensing@.
 module ObjC.Matter.MTRClusterOccupancySensing
   ( MTRClusterOccupancySensing
   , IsMTRClusterOccupancySensing(..)
+  , initWithDevice_endpoint_queue
   , readAttributeOccupancyWithParams
   , readAttributeOccupancySensorTypeWithParams
   , readAttributeOccupancySensorTypeBitmapWithParams
-  , readAttributeHoldTimeWithParams
-  , writeAttributeHoldTimeWithValue_expectedValueInterval
-  , writeAttributeHoldTimeWithValue_expectedValueInterval_params
-  , readAttributeHoldTimeLimitsWithParams
-  , readAttributePIROccupiedToUnoccupiedDelayWithParams
-  , writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval
-  , writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params
-  , readAttributePIRUnoccupiedToOccupiedDelayWithParams
-  , writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval
-  , writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params
-  , readAttributePIRUnoccupiedToOccupiedThresholdWithParams
-  , writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval
-  , writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params
+  , readAttributePirOccupiedToUnoccupiedDelayWithParams
+  , writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval
+  , writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params
+  , readAttributePirUnoccupiedToOccupiedDelayWithParams
+  , writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval
+  , writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params
+  , readAttributePirUnoccupiedToOccupiedThresholdWithParams
+  , writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval
+  , writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params
   , readAttributeUltrasonicOccupiedToUnoccupiedDelayWithParams
   , writeAttributeUltrasonicOccupiedToUnoccupiedDelayWithValue_expectedValueInterval
   , writeAttributeUltrasonicOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params
@@ -50,19 +47,7 @@ module ObjC.Matter.MTRClusterOccupancySensing
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , readAttributePirOccupiedToUnoccupiedDelayWithParams
-  , writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval
-  , writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params
-  , readAttributePirUnoccupiedToOccupiedDelayWithParams
-  , writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval
-  , writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params
-  , readAttributePirUnoccupiedToOccupiedThresholdWithParams
-  , writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval
-  , writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -70,14 +55,9 @@ module ObjC.Matter.MTRClusterOccupancySensing
   , readAttributeClusterRevisionWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
-  , readAttributeHoldTimeLimitsWithParamsSelector
-  , readAttributeHoldTimeWithParamsSelector
   , readAttributeOccupancySensorTypeBitmapWithParamsSelector
   , readAttributeOccupancySensorTypeWithParamsSelector
   , readAttributeOccupancyWithParamsSelector
-  , readAttributePIROccupiedToUnoccupiedDelayWithParamsSelector
-  , readAttributePIRUnoccupiedToOccupiedDelayWithParamsSelector
-  , readAttributePIRUnoccupiedToOccupiedThresholdWithParamsSelector
   , readAttributePhysicalContactOccupiedToUnoccupiedDelayWithParamsSelector
   , readAttributePhysicalContactUnoccupiedToOccupiedDelayWithParamsSelector
   , readAttributePhysicalContactUnoccupiedToOccupiedThresholdWithParamsSelector
@@ -87,14 +67,6 @@ module ObjC.Matter.MTRClusterOccupancySensing
   , readAttributeUltrasonicOccupiedToUnoccupiedDelayWithParamsSelector
   , readAttributeUltrasonicUnoccupiedToOccupiedDelayWithParamsSelector
   , readAttributeUltrasonicUnoccupiedToOccupiedThresholdWithParamsSelector
-  , writeAttributeHoldTimeWithValue_expectedValueIntervalSelector
-  , writeAttributeHoldTimeWithValue_expectedValueInterval_paramsSelector
-  , writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector
-  , writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector
-  , writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector
-  , writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector
-  , writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector
-  , writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector
   , writeAttributePhysicalContactOccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector
   , writeAttributePhysicalContactOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector
   , writeAttributePhysicalContactUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector
@@ -128,6 +100,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRDevice device, IsNSObject queue) => mtrClusterOccupancySensing -> device -> CUShort -> queue -> IO (Id MTRClusterOccupancySensing)
+initWithDevice_endpoint_queue mtrClusterOccupancySensing device endpoint queue =
+  sendOwnedMessage mtrClusterOccupancySensing initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
+
 -- | @- readAttributeOccupancyWithParams:@
 readAttributeOccupancyWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
 readAttributeOccupancyWithParams mtrClusterOccupancySensing params =
@@ -143,70 +120,50 @@ readAttributeOccupancySensorTypeBitmapWithParams :: (IsMTRClusterOccupancySensin
 readAttributeOccupancySensorTypeBitmapWithParams mtrClusterOccupancySensing params =
   sendMessage mtrClusterOccupancySensing readAttributeOccupancySensorTypeBitmapWithParamsSelector (toMTRReadParams params)
 
--- | @- readAttributeHoldTimeWithParams:@
-readAttributeHoldTimeWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributeHoldTimeWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributeHoldTimeWithParamsSelector (toMTRReadParams params)
+-- | @- readAttributePirOccupiedToUnoccupiedDelayWithParams:@
+readAttributePirOccupiedToUnoccupiedDelayWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
+readAttributePirOccupiedToUnoccupiedDelayWithParams mtrClusterOccupancySensing params =
+  sendMessage mtrClusterOccupancySensing readAttributePirOccupiedToUnoccupiedDelayWithParamsSelector (toMTRReadParams params)
 
--- | @- writeAttributeHoldTimeWithValue:expectedValueInterval:@
-writeAttributeHoldTimeWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributeHoldTimeWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOccupancySensing writeAttributeHoldTimeWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
+-- | @- writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:@
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
+  sendMessage mtrClusterOccupancySensing writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
 
--- | @- writeAttributeHoldTimeWithValue:expectedValueInterval:params:@
-writeAttributeHoldTimeWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributeHoldTimeWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOccupancySensing writeAttributeHoldTimeWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
+-- | @- writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:@
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
+  sendMessage mtrClusterOccupancySensing writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
--- | @- readAttributeHoldTimeLimitsWithParams:@
-readAttributeHoldTimeLimitsWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributeHoldTimeLimitsWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributeHoldTimeLimitsWithParamsSelector (toMTRReadParams params)
+-- | @- readAttributePirUnoccupiedToOccupiedDelayWithParams:@
+readAttributePirUnoccupiedToOccupiedDelayWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
+readAttributePirUnoccupiedToOccupiedDelayWithParams mtrClusterOccupancySensing params =
+  sendMessage mtrClusterOccupancySensing readAttributePirUnoccupiedToOccupiedDelayWithParamsSelector (toMTRReadParams params)
 
--- | @- readAttributePIROccupiedToUnoccupiedDelayWithParams:@
-readAttributePIROccupiedToUnoccupiedDelayWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributePIROccupiedToUnoccupiedDelayWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributePIROccupiedToUnoccupiedDelayWithParamsSelector (toMTRReadParams params)
+-- | @- writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:@
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
+  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
 
--- | @- writeAttributePIROccupiedToUnoccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOccupancySensing writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
+-- | @- writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:@
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
+  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
--- | @- writeAttributePIROccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOccupancySensing writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
+-- | @- readAttributePirUnoccupiedToOccupiedThresholdWithParams:@
+readAttributePirUnoccupiedToOccupiedThresholdWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
+readAttributePirUnoccupiedToOccupiedThresholdWithParams mtrClusterOccupancySensing params =
+  sendMessage mtrClusterOccupancySensing readAttributePirUnoccupiedToOccupiedThresholdWithParamsSelector (toMTRReadParams params)
 
--- | @- readAttributePIRUnoccupiedToOccupiedDelayWithParams:@
-readAttributePIRUnoccupiedToOccupiedDelayWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributePIRUnoccupiedToOccupiedDelayWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributePIRUnoccupiedToOccupiedDelayWithParamsSelector (toMTRReadParams params)
+-- | @- writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:@
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
+  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
 
--- | @- writeAttributePIRUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOccupancySensing writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributePIRUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOccupancySensing writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | @- readAttributePIRUnoccupiedToOccupiedThresholdWithParams:@
-readAttributePIRUnoccupiedToOccupiedThresholdWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributePIRUnoccupiedToOccupiedThresholdWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributePIRUnoccupiedToOccupiedThresholdWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributePIRUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:@
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOccupancySensing writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributePIRUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:@
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOccupancySensing writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
+-- | @- writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:@
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
+  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
 
 -- | @- readAttributeUltrasonicOccupiedToUnoccupiedDelayWithParams:@
 readAttributeUltrasonicOccupiedToUnoccupiedDelayWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
@@ -335,66 +292,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterOccupancySensing"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRDevice device, IsNSObject queue) => mtrClusterOccupancySensing -> device -> CUShort -> queue -> IO (Id MTRClusterOccupancySensing)
-initWithDevice_endpoint_queue mtrClusterOccupancySensing device endpoint queue =
-  sendOwnedMessage mtrClusterOccupancySensing initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- readAttributePirOccupiedToUnoccupiedDelayWithParams:@
-readAttributePirOccupiedToUnoccupiedDelayWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributePirOccupiedToUnoccupiedDelayWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributePirOccupiedToUnoccupiedDelayWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOccupancySensing writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOccupancySensing writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | @- readAttributePirUnoccupiedToOccupiedDelayWithParams:@
-readAttributePirUnoccupiedToOccupiedDelayWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributePirUnoccupiedToOccupiedDelayWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributePirUnoccupiedToOccupiedDelayWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | @- readAttributePirUnoccupiedToOccupiedThresholdWithParams:@
-readAttributePirUnoccupiedToOccupiedThresholdWithParams :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRReadParams params) => mtrClusterOccupancySensing -> params -> IO (Id NSDictionary)
-readAttributePirUnoccupiedToOccupiedThresholdWithParams mtrClusterOccupancySensing params =
-  sendMessage mtrClusterOccupancySensing readAttributePirUnoccupiedToOccupiedThresholdWithParamsSelector (toMTRReadParams params)
-
--- | @- writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:@
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> IO ()
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs =
-  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs)
-
--- | @- writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:@
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsNSDictionary dataValueDictionary, IsNSNumber expectedValueIntervalMs, IsMTRWriteParams params) => mtrClusterOccupancySensing -> dataValueDictionary -> expectedValueIntervalMs -> params -> IO ()
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_params mtrClusterOccupancySensing dataValueDictionary expectedValueIntervalMs params =
-  sendMessage mtrClusterOccupancySensing writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector (toNSDictionary dataValueDictionary) (toNSNumber expectedValueIntervalMs) (toMTRWriteParams params)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterOccupancySensing mtrClusterOccupancySensing, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterOccupancySensing -> device -> endpointID -> queue -> IO (Id MTRClusterOccupancySensing)
-initWithDevice_endpointID_queue mtrClusterOccupancySensing device endpointID queue =
-  sendOwnedMessage mtrClusterOccupancySensing initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterOccupancySensing)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeOccupancyWithParams:@
 readAttributeOccupancyWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -408,57 +312,41 @@ readAttributeOccupancySensorTypeWithParamsSelector = mkSelector "readAttributeOc
 readAttributeOccupancySensorTypeBitmapWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributeOccupancySensorTypeBitmapWithParamsSelector = mkSelector "readAttributeOccupancySensorTypeBitmapWithParams:"
 
--- | @Selector@ for @readAttributeHoldTimeWithParams:@
-readAttributeHoldTimeWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeHoldTimeWithParamsSelector = mkSelector "readAttributeHoldTimeWithParams:"
+-- | @Selector@ for @readAttributePirOccupiedToUnoccupiedDelayWithParams:@
+readAttributePirOccupiedToUnoccupiedDelayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributePirOccupiedToUnoccupiedDelayWithParamsSelector = mkSelector "readAttributePirOccupiedToUnoccupiedDelayWithParams:"
 
--- | @Selector@ for @writeAttributeHoldTimeWithValue:expectedValueInterval:@
-writeAttributeHoldTimeWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributeHoldTimeWithValue_expectedValueIntervalSelector = mkSelector "writeAttributeHoldTimeWithValue:expectedValueInterval:"
+-- | @Selector@ for @writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:@
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:"
 
--- | @Selector@ for @writeAttributeHoldTimeWithValue:expectedValueInterval:params:@
-writeAttributeHoldTimeWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributeHoldTimeWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributeHoldTimeWithValue:expectedValueInterval:params:"
+-- | @Selector@ for @writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:@
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
+writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:"
 
--- | @Selector@ for @readAttributeHoldTimeLimitsWithParams:@
-readAttributeHoldTimeLimitsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeHoldTimeLimitsWithParamsSelector = mkSelector "readAttributeHoldTimeLimitsWithParams:"
+-- | @Selector@ for @readAttributePirUnoccupiedToOccupiedDelayWithParams:@
+readAttributePirUnoccupiedToOccupiedDelayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributePirUnoccupiedToOccupiedDelayWithParamsSelector = mkSelector "readAttributePirUnoccupiedToOccupiedDelayWithParams:"
 
--- | @Selector@ for @readAttributePIROccupiedToUnoccupiedDelayWithParams:@
-readAttributePIROccupiedToUnoccupiedDelayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePIROccupiedToUnoccupiedDelayWithParamsSelector = mkSelector "readAttributePIROccupiedToUnoccupiedDelayWithParams:"
+-- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:@
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:"
 
--- | @Selector@ for @writeAttributePIROccupiedToUnoccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePIROccupiedToUnoccupiedDelayWithValue:expectedValueInterval:"
+-- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:@
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
+writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:"
 
--- | @Selector@ for @writeAttributePIROccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributePIROccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePIROccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:"
+-- | @Selector@ for @readAttributePirUnoccupiedToOccupiedThresholdWithParams:@
+readAttributePirUnoccupiedToOccupiedThresholdWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributePirUnoccupiedToOccupiedThresholdWithParamsSelector = mkSelector "readAttributePirUnoccupiedToOccupiedThresholdWithParams:"
 
--- | @Selector@ for @readAttributePIRUnoccupiedToOccupiedDelayWithParams:@
-readAttributePIRUnoccupiedToOccupiedDelayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePIRUnoccupiedToOccupiedDelayWithParamsSelector = mkSelector "readAttributePIRUnoccupiedToOccupiedDelayWithParams:"
+-- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:@
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:"
 
--- | @Selector@ for @writeAttributePIRUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePIRUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributePIRUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributePIRUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePIRUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @readAttributePIRUnoccupiedToOccupiedThresholdWithParams:@
-readAttributePIRUnoccupiedToOccupiedThresholdWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePIRUnoccupiedToOccupiedThresholdWithParamsSelector = mkSelector "readAttributePIRUnoccupiedToOccupiedThresholdWithParams:"
-
--- | @Selector@ for @writeAttributePIRUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:@
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePIRUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributePIRUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:@
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributePIRUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePIRUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:"
+-- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:@
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
+writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:"
 
 -- | @Selector@ for @readAttributeUltrasonicOccupiedToUnoccupiedDelayWithParams:@
 readAttributeUltrasonicOccupiedToUnoccupiedDelayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -559,48 +447,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterOccupancySensing)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterOccupancySensing)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @readAttributePirOccupiedToUnoccupiedDelayWithParams:@
-readAttributePirOccupiedToUnoccupiedDelayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePirOccupiedToUnoccupiedDelayWithParamsSelector = mkSelector "readAttributePirOccupiedToUnoccupiedDelayWithParams:"
-
--- | @Selector@ for @writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributePirOccupiedToUnoccupiedDelayWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePirOccupiedToUnoccupiedDelayWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @readAttributePirUnoccupiedToOccupiedDelayWithParams:@
-readAttributePirUnoccupiedToOccupiedDelayWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePirUnoccupiedToOccupiedDelayWithParamsSelector = mkSelector "readAttributePirUnoccupiedToOccupiedDelayWithParams:"
-
--- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:@
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:@
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributePirUnoccupiedToOccupiedDelayWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedDelayWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @readAttributePirUnoccupiedToOccupiedThresholdWithParams:@
-readAttributePirUnoccupiedToOccupiedThresholdWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributePirUnoccupiedToOccupiedThresholdWithParamsSelector = mkSelector "readAttributePirUnoccupiedToOccupiedThresholdWithParams:"
-
--- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:@
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector :: Selector '[Id NSDictionary, Id NSNumber] ()
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueIntervalSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:"
-
--- | @Selector@ for @writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:@
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector :: Selector '[Id NSDictionary, Id NSNumber, Id MTRWriteParams] ()
-writeAttributePirUnoccupiedToOccupiedThresholdWithValue_expectedValueInterval_paramsSelector = mkSelector "writeAttributePirUnoccupiedToOccupiedThresholdWithValue:expectedValueInterval:params:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterOccupancySensing)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

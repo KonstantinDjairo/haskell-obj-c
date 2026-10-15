@@ -28,8 +28,6 @@ module ObjC.AppKit.NSOpenPanel
   , setCanDownloadUbiquitousContents
   , accessoryViewDisclosed
   , setAccessoryViewDisclosed
-  , showsContentTypes
-  , setShowsContentTypes
   , accessoryViewDisclosedSelector
   , allowsMultipleSelectionSelector
   , beginForDirectory_file_types_modelessDelegate_didEndSelector_contextInfoSelector
@@ -50,8 +48,6 @@ module ObjC.AppKit.NSOpenPanel
   , setCanDownloadUbiquitousContentsSelector
   , setCanResolveUbiquitousConflictsSelector
   , setResolvesAliasesSelector
-  , setShowsContentTypesSelector
-  , showsContentTypesSelector
   , urLsSelector
 
 
@@ -175,16 +171,6 @@ setAccessoryViewDisclosed :: IsNSOpenPanel nsOpenPanel => nsOpenPanel -> Bool ->
 setAccessoryViewDisclosed nsOpenPanel value =
   sendMessage nsOpenPanel setAccessoryViewDisclosedSelector value
 
--- | @- showsContentTypes@
-showsContentTypes :: IsNSOpenPanel nsOpenPanel => nsOpenPanel -> IO Bool
-showsContentTypes nsOpenPanel =
-  sendMessage nsOpenPanel showsContentTypesSelector
-
--- | @- setShowsContentTypes:@
-setShowsContentTypes :: IsNSOpenPanel nsOpenPanel => nsOpenPanel -> Bool -> IO ()
-setShowsContentTypes nsOpenPanel value =
-  sendMessage nsOpenPanel setShowsContentTypesSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -272,12 +258,4 @@ accessoryViewDisclosedSelector = mkSelector "accessoryViewDisclosed"
 -- | @Selector@ for @setAccessoryViewDisclosed:@
 setAccessoryViewDisclosedSelector :: Selector '[Bool] ()
 setAccessoryViewDisclosedSelector = mkSelector "setAccessoryViewDisclosed:"
-
--- | @Selector@ for @showsContentTypes@
-showsContentTypesSelector :: Selector '[] Bool
-showsContentTypesSelector = mkSelector "showsContentTypes"
-
--- | @Selector@ for @setShowsContentTypes:@
-setShowsContentTypesSelector :: Selector '[Bool] ()
-setShowsContentTypesSelector = mkSelector "setShowsContentTypes:"
 

@@ -49,7 +49,7 @@ uuid hkObject =
   sendMessage hkObject uuidSelector
 
 -- | @- source@
-source :: IsHKObject hkObject => hkObject -> IO (Id HKSource)
+source :: IsHKObject hkObject => hkObject -> IO RawId
 source hkObject =
   sendMessage hkObject sourceSelector
 
@@ -95,7 +95,7 @@ uuidSelector :: Selector '[] (Id NSUUID)
 uuidSelector = mkSelector "UUID"
 
 -- | @Selector@ for @source@
-sourceSelector :: Selector '[] (Id HKSource)
+sourceSelector :: Selector '[] RawId
 sourceSelector = mkSelector "source"
 
 -- | @Selector@ for @sourceRevision@

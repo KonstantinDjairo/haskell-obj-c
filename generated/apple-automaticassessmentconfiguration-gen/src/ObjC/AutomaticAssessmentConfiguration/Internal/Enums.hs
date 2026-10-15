@@ -25,15 +25,6 @@ pattern AEAssessmentErrorUnknown = AEAssessmentErrorCode 1
 pattern AEAssessmentErrorUnsupportedPlatform :: AEAssessmentErrorCode
 pattern AEAssessmentErrorUnsupportedPlatform = AEAssessmentErrorCode 2
 
-pattern AEAssessmentErrorMultipleParticipantsNotSupported :: AEAssessmentErrorCode
-pattern AEAssessmentErrorMultipleParticipantsNotSupported = AEAssessmentErrorCode 3
-
-pattern AEAssessmentErrorConfigurationUpdatesNotSupported :: AEAssessmentErrorCode
-pattern AEAssessmentErrorConfigurationUpdatesNotSupported = AEAssessmentErrorCode 4
-
-pattern AEAssessmentErrorRequiredParticipantsNotAvailable :: AEAssessmentErrorCode
-pattern AEAssessmentErrorRequiredParticipantsNotAvailable = AEAssessmentErrorCode 5
-
 instance ObjCArgument AEAssessmentErrorCode where
   withObjCArg (AEAssessmentErrorCode x) k = k (argCLong x)
 
@@ -44,25 +35,6 @@ instance ObjCReturn AEAssessmentErrorCode where
   fromRetained x = pure (AEAssessmentErrorCode x)
   fromOwned x = pure (AEAssessmentErrorCode x)
 
--- | The set of autocorrect features that you can enable during an assessment.
---
--- Use one or more of the autocorrect modes to set the ``AEAssessmentConfiguration/autocorrectMode-swift.property`` property of an ``AEAssessmentConfiguration`` instance. For example, you can enable both spelling and punctuation corrections by combining ``AEAssessmentConfiguration/AutocorrectMode-swift.struct/spelling`` and ``AEAssessmentConfiguration/AutocorrectMode-swift.struct/punctuation``:
---
--- ```swift let config = AEAssessmentConfiguration()
---
--- #if os(iOS) // Available only on iOS and iPadOS. config.autocorrectMode = [.punctuation, .spelling] #endif
---
--- let session = AEAssessmentSession(configuration: config) ```
---
--- ## Topics
---
--- ### Creating a mode
---
--- - ``AEAssessmentConfiguration/AutocorrectMode-swift.struct/init(rawValue:)``
---
--- ### Modes
---
--- - ``AEAssessmentConfiguration/AutocorrectMode-swift.struct/punctuation`` - ``AEAssessmentConfiguration/AutocorrectMode-swift.struct/spelling`` - ``AEAutocorrectMode/AEAutocorrectModeNone``
 -- | @AEAutocorrectMode@ (bitmask)
 newtype AEAutocorrectMode = AEAutocorrectMode CULong
   deriving stock (Eq, Ord, Show)

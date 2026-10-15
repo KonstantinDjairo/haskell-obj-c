@@ -16,31 +16,25 @@
 module ObjC.AVFAudio.AVAudioFile
   ( AVAudioFile
   , IsAVAudioFile(..)
-  , init_
   , initForReading_error
   , initForReading_commonFormat_interleaved_error
   , initForWriting_settings_error
   , initForWriting_settings_commonFormat_interleaved_error
-  , close
   , readIntoBuffer_error
   , readIntoBuffer_frameCount_error
   , writeFromBuffer_error
-  , isOpen
   , url
   , fileFormat
   , processingFormat
   , length_
   , framePosition
   , setFramePosition
-  , closeSelector
   , fileFormatSelector
   , framePositionSelector
   , initForReading_commonFormat_interleaved_errorSelector
   , initForReading_errorSelector
   , initForWriting_settings_commonFormat_interleaved_errorSelector
   , initForWriting_settings_errorSelector
-  , initSelector
-  , isOpenSelector
   , lengthSelector
   , processingFormatSelector
   , readIntoBuffer_errorSelector
@@ -70,11 +64,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFAudio.Internal.Classes
 import ObjC.AVFAudio.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | @- init@
-init_ :: IsAVAudioFile avAudioFile => avAudioFile -> IO (Id AVAudioFile)
-init_ avAudioFile =
-  sendOwnedMessage avAudioFile initSelector
 
 -- | initForReading:error:
 --
@@ -148,21 +137,6 @@ initForWriting_settings_commonFormat_interleaved_error :: (IsAVAudioFile avAudio
 initForWriting_settings_commonFormat_interleaved_error avAudioFile fileURL settings format interleaved outError =
   sendOwnedMessage avAudioFile initForWriting_settings_commonFormat_interleaved_errorSelector (toNSURL fileURL) (toNSDictionary settings) format interleaved (toNSError outError)
 
--- | close
---
--- Close the audio file.
---
--- The underlying file will be closed if open.
---
--- - It is normally unnecessary to close a file opened for reading (it will be automatically closed		when the object is released)		- It is only necessary to close a file opened for writing in order to achieve specific control over		when the file's header is updated.
---
--- Note: Once closed, further file read or write operations will fail with kAudio_FileNotFoundError.
---
--- ObjC selector: @- close@
-close :: IsAVAudioFile avAudioFile => avAudioFile -> IO ()
-close avAudioFile =
-  sendMessage avAudioFile closeSelector
-
 -- | readIntoBuffer:error:
 --
 -- Read an entire buffer.
@@ -215,15 +189,6 @@ readIntoBuffer_frameCount_error avAudioFile buffer frames outError =
 writeFromBuffer_error :: (IsAVAudioFile avAudioFile, IsNSError outError) => avAudioFile -> Const (Id AVAudioPCMBuffer) -> outError -> IO Bool
 writeFromBuffer_error avAudioFile buffer outError =
   sendMessage avAudioFile writeFromBuffer_errorSelector buffer (toNSError outError)
-
--- | isOpen
---
--- Whether the file is open or not.
---
--- ObjC selector: @- isOpen@
-isOpen :: IsAVAudioFile avAudioFile => avAudioFile -> IO Bool
-isOpen avAudioFile =
-  sendMessage avAudioFile isOpenSelector
 
 -- | url
 --
@@ -289,10 +254,6 @@ setFramePosition avAudioFile value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @init@
-initSelector :: Selector '[] (Id AVAudioFile)
-initSelector = mkSelector "init"
-
 -- | @Selector@ for @initForReading:error:@
 initForReading_errorSelector :: Selector '[Id NSURL, Id NSError] (Id AVAudioFile)
 initForReading_errorSelector = mkSelector "initForReading:error:"
@@ -309,10 +270,6 @@ initForWriting_settings_errorSelector = mkSelector "initForWriting:settings:erro
 initForWriting_settings_commonFormat_interleaved_errorSelector :: Selector '[Id NSURL, Id NSDictionary, AVAudioCommonFormat, Bool, Id NSError] (Id AVAudioFile)
 initForWriting_settings_commonFormat_interleaved_errorSelector = mkSelector "initForWriting:settings:commonFormat:interleaved:error:"
 
--- | @Selector@ for @close@
-closeSelector :: Selector '[] ()
-closeSelector = mkSelector "close"
-
 -- | @Selector@ for @readIntoBuffer:error:@
 readIntoBuffer_errorSelector :: Selector '[Id AVAudioPCMBuffer, Id NSError] Bool
 readIntoBuffer_errorSelector = mkSelector "readIntoBuffer:error:"
@@ -324,10 +281,6 @@ readIntoBuffer_frameCount_errorSelector = mkSelector "readIntoBuffer:frameCount:
 -- | @Selector@ for @writeFromBuffer:error:@
 writeFromBuffer_errorSelector :: Selector '[Const (Id AVAudioPCMBuffer), Id NSError] Bool
 writeFromBuffer_errorSelector = mkSelector "writeFromBuffer:error:"
-
--- | @Selector@ for @isOpen@
-isOpenSelector :: Selector '[] Bool
-isOpenSelector = mkSelector "isOpen"
 
 -- | @Selector@ for @url@
 urlSelector :: Selector '[] (Id NSURL)

@@ -3,11 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A representation of a temporary break in participation.
+-- | AVCoordinatedPlaybackSuspension
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A representation of a temporary break in participation.
 --
--- - NOTE: See AVPlaybackCoordinator's beginSuspensionForReason: method for details on use.
+-- Note: See AVPlaybackCoordinator's beginSuspensionForReason: method for details on use.
 --
 -- Generated bindings for @AVCoordinatedPlaybackSuspension@.
 module ObjC.AVFoundation.AVCoordinatedPlaybackSuspension
@@ -50,23 +50,29 @@ new  =
     cls' <- getRequiredClass "AVCoordinatedPlaybackSuspension"
     sendOwnedClassMessage cls' newSelector
 
--- | Ends the suspension.
+-- | end
 --
--- If this is the last suspension, the coordinator will adjust timing of its playback object to match the group. Also see endProposingNewTime: for a way to end a suspension and simultaneously proposing a new time to the group.
+-- Ends the suspension.
+--
+-- If this is the last suspension, the coordinator will adjust timing of its playback object to match the group.				Also see endProposingNewTime: for a way to end a suspension and simultaneously proposing a new time to the group.
 --
 -- ObjC selector: @- end@
 end :: IsAVCoordinatedPlaybackSuspension avCoordinatedPlaybackSuspension => avCoordinatedPlaybackSuspension -> IO ()
 end avCoordinatedPlaybackSuspension =
   sendMessage avCoordinatedPlaybackSuspension endSelector
 
--- | The reason for the suspension. This will be communicated to other participants while coordination is suspended.
+-- | reason
+--
+-- The reason for the suspension. This will be communicated to other participants while coordination is suspended.
 --
 -- ObjC selector: @- reason@
 reason :: IsAVCoordinatedPlaybackSuspension avCoordinatedPlaybackSuspension => avCoordinatedPlaybackSuspension -> IO (Id NSString)
 reason avCoordinatedPlaybackSuspension =
   sendMessage avCoordinatedPlaybackSuspension reasonSelector
 
--- | The begin time of the suspension.
+-- | beginDate
+--
+-- The begin time of the suspension.
 --
 -- ObjC selector: @- beginDate@
 beginDate :: IsAVCoordinatedPlaybackSuspension avCoordinatedPlaybackSuspension => avCoordinatedPlaybackSuspension -> IO (Id NSDate)

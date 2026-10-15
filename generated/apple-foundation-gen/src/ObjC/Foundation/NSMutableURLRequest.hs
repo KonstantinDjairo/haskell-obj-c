@@ -32,18 +32,12 @@ module ObjC.Foundation.NSMutableURLRequest
   , setAllowsExpensiveNetworkAccess
   , allowsConstrainedNetworkAccess
   , setAllowsConstrainedNetworkAccess
-  , allowsUltraConstrainedNetworkAccess
-  , setAllowsUltraConstrainedNetworkAccess
   , assumesHTTP3Capable
   , setAssumesHTTP3Capable
   , attribution
   , setAttribution
   , requiresDNSSECValidation
   , setRequiresDNSSECValidation
-  , allowsPersistentDNS
-  , setAllowsPersistentDNS
-  , cookiePartitionIdentifier
-  , setCookiePartitionIdentifier
   , httpMethod
   , setHTTPMethod
   , allHTTPHeaderFields
@@ -61,12 +55,9 @@ module ObjC.Foundation.NSMutableURLRequest
   , allowsCellularAccessSelector
   , allowsConstrainedNetworkAccessSelector
   , allowsExpensiveNetworkAccessSelector
-  , allowsPersistentDNSSelector
-  , allowsUltraConstrainedNetworkAccessSelector
   , assumesHTTP3CapableSelector
   , attributionSelector
   , cachePolicySelector
-  , cookiePartitionIdentifierSelector
   , httpBodySelector
   , httpBodyStreamSelector
   , httpMethodSelector
@@ -79,12 +70,9 @@ module ObjC.Foundation.NSMutableURLRequest
   , setAllowsCellularAccessSelector
   , setAllowsConstrainedNetworkAccessSelector
   , setAllowsExpensiveNetworkAccessSelector
-  , setAllowsPersistentDNSSelector
-  , setAllowsUltraConstrainedNetworkAccessSelector
   , setAssumesHTTP3CapableSelector
   , setAttributionSelector
   , setCachePolicySelector
-  , setCookiePartitionIdentifierSelector
   , setHTTPBodySelector
   , setHTTPBodyStreamSelector
   , setHTTPMethodSelector
@@ -301,24 +289,6 @@ setAllowsConstrainedNetworkAccess :: IsNSMutableURLRequest nsMutableURLRequest =
 setAllowsConstrainedNetworkAccess nsMutableURLRequest value =
   sendMessage nsMutableURLRequest setAllowsConstrainedNetworkAccessSelector value
 
--- | sets whether a connection created with this request is allowed to use network interfaces which have been marked as ultra constrained.
---
--- NO if the receiver should not be allowed to use an interface marked as ultra constrained to satisfy the request, YES otherwise.
---
--- ObjC selector: @- allowsUltraConstrainedNetworkAccess@
-allowsUltraConstrainedNetworkAccess :: IsNSMutableURLRequest nsMutableURLRequest => nsMutableURLRequest -> IO Bool
-allowsUltraConstrainedNetworkAccess nsMutableURLRequest =
-  sendMessage nsMutableURLRequest allowsUltraConstrainedNetworkAccessSelector
-
--- | sets whether a connection created with this request is allowed to use network interfaces which have been marked as ultra constrained.
---
--- NO if the receiver should not be allowed to use an interface marked as ultra constrained to satisfy the request, YES otherwise.
---
--- ObjC selector: @- setAllowsUltraConstrainedNetworkAccess:@
-setAllowsUltraConstrainedNetworkAccess :: IsNSMutableURLRequest nsMutableURLRequest => nsMutableURLRequest -> Bool -> IO ()
-setAllowsUltraConstrainedNetworkAccess nsMutableURLRequest value =
-  sendMessage nsMutableURLRequest setAllowsUltraConstrainedNetworkAccessSelector value
-
 -- | returns whether we assume that server supports HTTP/3. Enables QUIC racing without HTTP/3 service discovery.
 --
 -- Returns: YES if server endpoint is known to support HTTP/3. Defaults to NO. The default may be YES in a future OS update.
@@ -372,34 +342,6 @@ requiresDNSSECValidation nsMutableURLRequest =
 setRequiresDNSSECValidation :: IsNSMutableURLRequest nsMutableURLRequest => nsMutableURLRequest -> Bool -> IO ()
 setRequiresDNSSECValidation nsMutableURLRequest value =
   sendMessage nsMutableURLRequest setRequiresDNSSECValidationSelector value
-
--- | Allows storing and usage of DNS answers, potentially beyond TTL expiry, in a persistent per-process cache. This should only be set for hostnames whose resolutions are not expected to change across networks.
---
--- YES, if the DNS lookup for this request is allowed to use a persistent per-process cache, NO otherwise. Defaults to NO.
---
--- ObjC selector: @- allowsPersistentDNS@
-allowsPersistentDNS :: IsNSMutableURLRequest nsMutableURLRequest => nsMutableURLRequest -> IO Bool
-allowsPersistentDNS nsMutableURLRequest =
-  sendMessage nsMutableURLRequest allowsPersistentDNSSelector
-
--- | Allows storing and usage of DNS answers, potentially beyond TTL expiry, in a persistent per-process cache. This should only be set for hostnames whose resolutions are not expected to change across networks.
---
--- YES, if the DNS lookup for this request is allowed to use a persistent per-process cache, NO otherwise. Defaults to NO.
---
--- ObjC selector: @- setAllowsPersistentDNS:@
-setAllowsPersistentDNS :: IsNSMutableURLRequest nsMutableURLRequest => nsMutableURLRequest -> Bool -> IO ()
-setAllowsPersistentDNS nsMutableURLRequest value =
-  sendMessage nsMutableURLRequest setAllowsPersistentDNSSelector value
-
--- | @- cookiePartitionIdentifier@
-cookiePartitionIdentifier :: IsNSMutableURLRequest nsMutableURLRequest => nsMutableURLRequest -> IO (Id NSString)
-cookiePartitionIdentifier nsMutableURLRequest =
-  sendMessage nsMutableURLRequest cookiePartitionIdentifierSelector
-
--- | @- setCookiePartitionIdentifier:@
-setCookiePartitionIdentifier :: (IsNSMutableURLRequest nsMutableURLRequest, IsNSString value) => nsMutableURLRequest -> value -> IO ()
-setCookiePartitionIdentifier nsMutableURLRequest value =
-  sendMessage nsMutableURLRequest setCookiePartitionIdentifierSelector (toNSString value)
 
 -- | Sets the HTTP request method of the receiver.
 --
@@ -581,14 +523,6 @@ allowsConstrainedNetworkAccessSelector = mkSelector "allowsConstrainedNetworkAcc
 setAllowsConstrainedNetworkAccessSelector :: Selector '[Bool] ()
 setAllowsConstrainedNetworkAccessSelector = mkSelector "setAllowsConstrainedNetworkAccess:"
 
--- | @Selector@ for @allowsUltraConstrainedNetworkAccess@
-allowsUltraConstrainedNetworkAccessSelector :: Selector '[] Bool
-allowsUltraConstrainedNetworkAccessSelector = mkSelector "allowsUltraConstrainedNetworkAccess"
-
--- | @Selector@ for @setAllowsUltraConstrainedNetworkAccess:@
-setAllowsUltraConstrainedNetworkAccessSelector :: Selector '[Bool] ()
-setAllowsUltraConstrainedNetworkAccessSelector = mkSelector "setAllowsUltraConstrainedNetworkAccess:"
-
 -- | @Selector@ for @assumesHTTP3Capable@
 assumesHTTP3CapableSelector :: Selector '[] Bool
 assumesHTTP3CapableSelector = mkSelector "assumesHTTP3Capable"
@@ -612,22 +546,6 @@ requiresDNSSECValidationSelector = mkSelector "requiresDNSSECValidation"
 -- | @Selector@ for @setRequiresDNSSECValidation:@
 setRequiresDNSSECValidationSelector :: Selector '[Bool] ()
 setRequiresDNSSECValidationSelector = mkSelector "setRequiresDNSSECValidation:"
-
--- | @Selector@ for @allowsPersistentDNS@
-allowsPersistentDNSSelector :: Selector '[] Bool
-allowsPersistentDNSSelector = mkSelector "allowsPersistentDNS"
-
--- | @Selector@ for @setAllowsPersistentDNS:@
-setAllowsPersistentDNSSelector :: Selector '[Bool] ()
-setAllowsPersistentDNSSelector = mkSelector "setAllowsPersistentDNS:"
-
--- | @Selector@ for @cookiePartitionIdentifier@
-cookiePartitionIdentifierSelector :: Selector '[] (Id NSString)
-cookiePartitionIdentifierSelector = mkSelector "cookiePartitionIdentifier"
-
--- | @Selector@ for @setCookiePartitionIdentifier:@
-setCookiePartitionIdentifierSelector :: Selector '[Id NSString] ()
-setCookiePartitionIdentifierSelector = mkSelector "setCookiePartitionIdentifier:"
 
 -- | @Selector@ for @HTTPMethod@
 httpMethodSelector :: Selector '[] (Id NSString)

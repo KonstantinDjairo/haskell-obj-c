@@ -8,10 +8,6 @@ module ObjC.GameKit.GKTurnBasedEventHandler
   ( GKTurnBasedEventHandler
   , IsGKTurnBasedEventHandler(..)
   , sharedTurnBasedEventHandler
-  , delegate
-  , setDelegate
-  , delegateSelector
-  , setDelegateSelector
   , sharedTurnBasedEventHandlerSelector
 
 
@@ -35,16 +31,6 @@ sharedTurnBasedEventHandler  =
     cls' <- getRequiredClass "GKTurnBasedEventHandler"
     sendClassMessage cls' sharedTurnBasedEventHandlerSelector
 
--- | @- delegate@
-delegate :: IsGKTurnBasedEventHandler gkTurnBasedEventHandler => gkTurnBasedEventHandler -> IO (Id NSObject)
-delegate gkTurnBasedEventHandler =
-  sendMessage gkTurnBasedEventHandler delegateSelector
-
--- | @- setDelegate:@
-setDelegate :: (IsGKTurnBasedEventHandler gkTurnBasedEventHandler, IsNSObject value) => gkTurnBasedEventHandler -> value -> IO ()
-setDelegate gkTurnBasedEventHandler value =
-  sendMessage gkTurnBasedEventHandler setDelegateSelector (toNSObject value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -52,12 +38,4 @@ setDelegate gkTurnBasedEventHandler value =
 -- | @Selector@ for @sharedTurnBasedEventHandler@
 sharedTurnBasedEventHandlerSelector :: Selector '[] (Id GKTurnBasedEventHandler)
 sharedTurnBasedEventHandlerSelector = mkSelector "sharedTurnBasedEventHandler"
-
--- | @Selector@ for @delegate@
-delegateSelector :: Selector '[] (Id NSObject)
-delegateSelector = mkSelector "delegate"
-
--- | @Selector@ for @setDelegate:@
-setDelegateSelector :: Selector '[Id NSObject] ()
-setDelegateSelector = mkSelector "setDelegate:"
 

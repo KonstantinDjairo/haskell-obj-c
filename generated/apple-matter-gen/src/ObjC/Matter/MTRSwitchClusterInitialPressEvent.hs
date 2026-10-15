@@ -7,8 +7,12 @@
 module ObjC.Matter.MTRSwitchClusterInitialPressEvent
   ( MTRSwitchClusterInitialPressEvent
   , IsMTRSwitchClusterInitialPressEvent(..)
+  , init_
+  , copyWithZone
   , newPosition
   , setNewPosition
+  , copyWithZoneSelector
+  , initSelector
   , newPositionSelector
   , setNewPositionSelector
 
@@ -26,6 +30,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRSwitchClusterInitialPressEvent mtrSwitchClusterInitialPressEvent => mtrSwitchClusterInitialPressEvent -> IO (Id MTRSwitchClusterInitialPressEvent)
+init_ mtrSwitchClusterInitialPressEvent =
+  sendOwnedMessage mtrSwitchClusterInitialPressEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRSwitchClusterInitialPressEvent mtrSwitchClusterInitialPressEvent => mtrSwitchClusterInitialPressEvent -> Ptr () -> IO RawId
+copyWithZone mtrSwitchClusterInitialPressEvent zone =
+  sendOwnedMessage mtrSwitchClusterInitialPressEvent copyWithZoneSelector zone
+
 -- | @- newPosition@
 newPosition :: IsMTRSwitchClusterInitialPressEvent mtrSwitchClusterInitialPressEvent => mtrSwitchClusterInitialPressEvent -> IO (Id NSNumber)
 newPosition mtrSwitchClusterInitialPressEvent =
@@ -39,6 +53,14 @@ setNewPosition mtrSwitchClusterInitialPressEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRSwitchClusterInitialPressEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @newPosition@
 newPositionSelector :: Selector '[] (Id NSNumber)

@@ -16,16 +16,12 @@ module ObjC.CloudKit.CKRecordZone
   , zoneID
   , capabilities
   , share
-  , encryptionScope
-  , setEncryptionScope
   , capabilitiesSelector
   , defaultRecordZoneSelector
-  , encryptionScopeSelector
   , initSelector
   , initWithZoneIDSelector
   , initWithZoneNameSelector
   , newSelector
-  , setEncryptionScopeSelector
   , shareSelector
   , zoneIDSelector
 
@@ -35,9 +31,6 @@ module ObjC.CloudKit.CKRecordZone
   , pattern CKRecordZoneCapabilityAtomic
   , pattern CKRecordZoneCapabilitySharing
   , pattern CKRecordZoneCapabilityZoneWideSharing
-  , CKRecordZoneEncryptionScope(CKRecordZoneEncryptionScope)
-  , pattern CKRecordZoneEncryptionScopePerRecord
-  , pattern CKRecordZoneEncryptionScopePerZone
 
   ) where
 
@@ -96,36 +89,18 @@ capabilities ckRecordZone =
 
 -- | The share property on a record zone will only be set on zones fetched from the server and only if a corresponding zone-wide share record for the zone exists on the server.
 --
--- You can create a zone-wide share for a zone using @-[CKShare initWithRecordZoneID:]@.
+-- You can create a zone-wide share for a zone using
 --
--- Zone-wide sharing is only supported in zones with the @CKRecordZoneCapabilityZoneWideSharing@ sharing capability. You cannot share a zone if it already contains shared records.
+-- -[CKShare initWithRecordZoneID:]
+--
+-- .
+--
+-- Zone-wide sharing is only supported in zones with the @CKRecordZoneCapabilityZoneWideSharing@ sharing capability.  You cannot share a zone if it already contains shared records.
 --
 -- ObjC selector: @- share@
 share :: IsCKRecordZone ckRecordZone => ckRecordZone -> IO (Id CKReference)
 share ckRecordZone =
   sendMessage ckRecordZone shareSelector
-
--- | The encryption scope determines the granularity at which encryption keys are stored within the zone.
---
--- Zone encryption scope defaults to @CKRecordZoneEncryptionScopePerRecord@ and can only be modified before zone creation. Attempting to change the encryption scope of an existing zone is invalid and will result in an error.
---
--- Zones using @CKRecordZoneEncryptionScopePerZone@ can only use zone-wide sharing and are not compatible with older device OS versions. Refer to @CKRecordZoneEncryptionScope@ for more info.
---
--- ObjC selector: @- encryptionScope@
-encryptionScope :: IsCKRecordZone ckRecordZone => ckRecordZone -> IO CKRecordZoneEncryptionScope
-encryptionScope ckRecordZone =
-  sendMessage ckRecordZone encryptionScopeSelector
-
--- | The encryption scope determines the granularity at which encryption keys are stored within the zone.
---
--- Zone encryption scope defaults to @CKRecordZoneEncryptionScopePerRecord@ and can only be modified before zone creation. Attempting to change the encryption scope of an existing zone is invalid and will result in an error.
---
--- Zones using @CKRecordZoneEncryptionScopePerZone@ can only use zone-wide sharing and are not compatible with older device OS versions. Refer to @CKRecordZoneEncryptionScope@ for more info.
---
--- ObjC selector: @- setEncryptionScope:@
-setEncryptionScope :: IsCKRecordZone ckRecordZone => ckRecordZone -> CKRecordZoneEncryptionScope -> IO ()
-setEncryptionScope ckRecordZone value =
-  sendMessage ckRecordZone setEncryptionScopeSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -162,12 +137,4 @@ capabilitiesSelector = mkSelector "capabilities"
 -- | @Selector@ for @share@
 shareSelector :: Selector '[] (Id CKReference)
 shareSelector = mkSelector "share"
-
--- | @Selector@ for @encryptionScope@
-encryptionScopeSelector :: Selector '[] CKRecordZoneEncryptionScope
-encryptionScopeSelector = mkSelector "encryptionScope"
-
--- | @Selector@ for @setEncryptionScope:@
-setEncryptionScopeSelector :: Selector '[CKRecordZoneEncryptionScope] ()
-setEncryptionScopeSelector = mkSelector "setEncryptionScope:"
 

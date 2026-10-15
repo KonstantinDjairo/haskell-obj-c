@@ -43,7 +43,6 @@ data GCSwitchPositionInputOverrides = GCSwitchPositionInputOverrides
   , _canWrap :: !(Maybe (IO Bool))
   , _lastPositionTimestamp :: !(Maybe (IO Double))
   , _lastPositionLatency :: !(Maybe (IO Double))
-  , _sources :: !(Maybe (IO RawId))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -56,7 +55,6 @@ defaultGCSwitchPositionInputOverrides = GCSwitchPositionInputOverrides
   , _canWrap = Nothing
   , _lastPositionTimestamp = Nothing
   , _lastPositionLatency = Nothing
-  , _sources = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -105,7 +103,6 @@ gcSwitchPositionInputDelegateClass = unsafePerformIO $ do
       sel_canWrap = unSelector (mkSelector "canWrap")
       sel_lastPositionTimestamp = unSelector (mkSelector "lastPositionTimestamp")
       sel_lastPositionLatency = unSelector (mkSelector "lastPositionLatency")
-      sel_sources = unSelector (mkSelector "sources")
   -- positionDidChangeHandler
   stub_0 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
@@ -181,17 +178,6 @@ gcSwitchPositionInputDelegateClass = unsafePerformIO $ do
         pure (realToFrac r)
   addObjCMethod cls "lastPositionLatency" "d@:" stub_6
 
-  -- sources
-  stub_7 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO GCSwitchPositionInputOverrides
-    case _sources rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "sources" "@@:" stub_7
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -203,7 +189,6 @@ gcSwitchPositionInputDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_canWrap then pure (maybe 0 (const 1) (_canWrap rec_))
     else if queriedSel == sel_lastPositionTimestamp then pure (maybe 0 (const 1) (_lastPositionTimestamp rec_))
     else if queriedSel == sel_lastPositionLatency then pure (maybe 0 (const 1) (_lastPositionLatency rec_))
-    else if queriedSel == sel_sources then pure (maybe 0 (const 1) (_sources rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

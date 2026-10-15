@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterSetCredentialParams
   ( MTRDoorLockClusterSetCredentialParams
   , IsMTRDoorLockClusterSetCredentialParams(..)
+  , init_
+  , copyWithZone
   , operationType
   , setOperationType
   , credential
@@ -21,16 +23,14 @@ module ObjC.Matter.MTRDoorLockClusterSetCredentialParams
   , setUserType
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
   , credentialDataSelector
   , credentialSelector
+  , initSelector
   , operationTypeSelector
-  , serverSideProcessingTimeoutSelector
   , setCredentialDataSelector
   , setCredentialSelector
   , setOperationTypeSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , setUserIndexSelector
   , setUserStatusSelector
@@ -54,6 +54,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams => mtrDoorLockClusterSetCredentialParams -> IO (Id MTRDoorLockClusterSetCredentialParams)
+init_ mtrDoorLockClusterSetCredentialParams =
+  sendOwnedMessage mtrDoorLockClusterSetCredentialParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams => mtrDoorLockClusterSetCredentialParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterSetCredentialParams zone =
+  sendOwnedMessage mtrDoorLockClusterSetCredentialParams copyWithZoneSelector zone
+
 -- | @- operationType@
 operationType :: IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams => mtrDoorLockClusterSetCredentialParams -> IO (Id NSNumber)
 operationType mtrDoorLockClusterSetCredentialParams =
@@ -65,14 +75,14 @@ setOperationType mtrDoorLockClusterSetCredentialParams value =
   sendMessage mtrDoorLockClusterSetCredentialParams setOperationTypeSelector (toNSNumber value)
 
 -- | @- credential@
-credential :: IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams => mtrDoorLockClusterSetCredentialParams -> IO (Id MTRDoorLockClusterCredentialStruct)
+credential :: IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams => mtrDoorLockClusterSetCredentialParams -> IO (Id MTRDoorLockClusterDlCredential)
 credential mtrDoorLockClusterSetCredentialParams =
   sendMessage mtrDoorLockClusterSetCredentialParams credentialSelector
 
 -- | @- setCredential:@
-setCredential :: (IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams, IsMTRDoorLockClusterCredentialStruct value) => mtrDoorLockClusterSetCredentialParams -> value -> IO ()
+setCredential :: (IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams, IsMTRDoorLockClusterDlCredential value) => mtrDoorLockClusterSetCredentialParams -> value -> IO ()
 setCredential mtrDoorLockClusterSetCredentialParams value =
-  sendMessage mtrDoorLockClusterSetCredentialParams setCredentialSelector (toMTRDoorLockClusterCredentialStruct value)
+  sendMessage mtrDoorLockClusterSetCredentialParams setCredentialSelector (toMTRDoorLockClusterDlCredential value)
 
 -- | @- credentialData@
 credentialData :: IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams => mtrDoorLockClusterSetCredentialParams -> IO (Id NSData)
@@ -136,31 +146,17 @@ setTimedInvokeTimeoutMs :: (IsMTRDoorLockClusterSetCredentialParams mtrDoorLockC
 setTimedInvokeTimeoutMs mtrDoorLockClusterSetCredentialParams value =
   sendMessage mtrDoorLockClusterSetCredentialParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams => mtrDoorLockClusterSetCredentialParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrDoorLockClusterSetCredentialParams =
-  sendMessage mtrDoorLockClusterSetCredentialParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRDoorLockClusterSetCredentialParams mtrDoorLockClusterSetCredentialParams, IsNSNumber value) => mtrDoorLockClusterSetCredentialParams -> value -> IO ()
-setServerSideProcessingTimeout mtrDoorLockClusterSetCredentialParams value =
-  sendMessage mtrDoorLockClusterSetCredentialParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterSetCredentialParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @operationType@
 operationTypeSelector :: Selector '[] (Id NSNumber)
@@ -171,11 +167,11 @@ setOperationTypeSelector :: Selector '[Id NSNumber] ()
 setOperationTypeSelector = mkSelector "setOperationType:"
 
 -- | @Selector@ for @credential@
-credentialSelector :: Selector '[] (Id MTRDoorLockClusterCredentialStruct)
+credentialSelector :: Selector '[] (Id MTRDoorLockClusterDlCredential)
 credentialSelector = mkSelector "credential"
 
 -- | @Selector@ for @setCredential:@
-setCredentialSelector :: Selector '[Id MTRDoorLockClusterCredentialStruct] ()
+setCredentialSelector :: Selector '[Id MTRDoorLockClusterDlCredential] ()
 setCredentialSelector = mkSelector "setCredential:"
 
 -- | @Selector@ for @credentialData@
@@ -217,12 +213,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

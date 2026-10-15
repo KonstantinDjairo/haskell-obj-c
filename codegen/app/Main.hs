@@ -102,6 +102,10 @@ main = do
       let mkImport fw = "#if __has_include(<" ++ fw ++ "/" ++ fw ++ ".h>)\n"
                      ++ "#import <" ++ fw ++ "/" ++ fw ++ ".h>\n"
                      ++ "#endif\n"
+                     ++ (if fw == "IOKit"
+                           then "#import <IOKit/usb/AppleUSBDefinitions.h>\n"
+			     ++ "#import <IOKit/usb/USB.h>\n"
+                           else "")
       putStrLn $ "Importing " ++ show (length fws) ++ " framework(s)..."
       pure (concatMap mkImport fws)
     (_, Just hdr) -> readFile hdr

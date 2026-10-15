@@ -59,7 +59,7 @@ initWithNetworkRule_action neFilterRule networkRule action =
 -- The NENetworkRule that defines the network traffic characteristics that this rule matches.
 --
 -- ObjC selector: @- networkRule@
-networkRule :: IsNEFilterRule neFilterRule => neFilterRule -> IO (Id NENetworkRule)
+networkRule :: IsNEFilterRule neFilterRule => neFilterRule -> IO RawId
 networkRule neFilterRule =
   sendMessage neFilterRule networkRuleSelector
 
@@ -81,7 +81,7 @@ initWithNetworkRule_actionSelector :: Selector '[Id NENetworkRule, NEFilterActio
 initWithNetworkRule_actionSelector = mkSelector "initWithNetworkRule:action:"
 
 -- | @Selector@ for @networkRule@
-networkRuleSelector :: Selector '[] (Id NENetworkRule)
+networkRuleSelector :: Selector '[] RawId
 networkRuleSelector = mkSelector "networkRule"
 
 -- | @Selector@ for @action@

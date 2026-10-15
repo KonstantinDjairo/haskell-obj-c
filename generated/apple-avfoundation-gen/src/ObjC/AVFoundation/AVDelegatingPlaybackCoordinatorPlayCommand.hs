@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A playback command requesting playback with specific timing.
+-- | AVDelegatingPlaybackCoordinatorPlayCommand
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A playback command requesting playback with specific timing.
 --
 -- Generated bindings for @AVDelegatingPlaybackCoordinatorPlayCommand@.
 module ObjC.AVFoundation.AVDelegatingPlaybackCoordinatorPlayCommand
@@ -44,7 +44,9 @@ new  =
     cls' <- getRequiredClass "AVDelegatingPlaybackCoordinatorPlayCommand"
     sendOwnedClassMessage cls' newSelector
 
--- | Playback rate. Will always be non-zero.
+-- | rate
+--
+-- Playback rate. Will always be non-zero.
 --
 -- ObjC selector: @- rate@
 rate :: IsAVDelegatingPlaybackCoordinatorPlayCommand avDelegatingPlaybackCoordinatorPlayCommand => avDelegatingPlaybackCoordinatorPlayCommand -> IO CFloat

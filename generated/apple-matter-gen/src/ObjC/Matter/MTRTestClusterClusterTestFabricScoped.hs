@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterTestFabricScoped
   ( MTRTestClusterClusterTestFabricScoped
   , IsMTRTestClusterClusterTestFabricScoped(..)
+  , init_
+  , copyWithZone
   , fabricSensitiveInt8u
   , setFabricSensitiveInt8u
   , optionalFabricSensitiveInt8u
@@ -23,11 +25,13 @@ module ObjC.Matter.MTRTestClusterClusterTestFabricScoped
   , setFabricSensitiveInt8uList
   , fabricIndex
   , setFabricIndex
+  , copyWithZoneSelector
   , fabricIndexSelector
   , fabricSensitiveCharStringSelector
   , fabricSensitiveInt8uListSelector
   , fabricSensitiveInt8uSelector
   , fabricSensitiveStructSelector
+  , initSelector
   , nullableFabricSensitiveInt8uSelector
   , nullableOptionalFabricSensitiveInt8uSelector
   , optionalFabricSensitiveInt8uSelector
@@ -53,6 +57,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestFabricScoped mtrTestClusterClusterTestFabricScoped => mtrTestClusterClusterTestFabricScoped -> IO (Id MTRTestClusterClusterTestFabricScoped)
+init_ mtrTestClusterClusterTestFabricScoped =
+  sendOwnedMessage mtrTestClusterClusterTestFabricScoped initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestFabricScoped mtrTestClusterClusterTestFabricScoped => mtrTestClusterClusterTestFabricScoped -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestFabricScoped zone =
+  sendOwnedMessage mtrTestClusterClusterTestFabricScoped copyWithZoneSelector zone
 
 -- | @- fabricSensitiveInt8u@
 fabricSensitiveInt8u :: IsMTRTestClusterClusterTestFabricScoped mtrTestClusterClusterTestFabricScoped => mtrTestClusterClusterTestFabricScoped -> IO (Id NSNumber)
@@ -137,6 +151,14 @@ setFabricIndex mtrTestClusterClusterTestFabricScoped value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestFabricScoped)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @fabricSensitiveInt8u@
 fabricSensitiveInt8uSelector :: Selector '[] (Id NSNumber)

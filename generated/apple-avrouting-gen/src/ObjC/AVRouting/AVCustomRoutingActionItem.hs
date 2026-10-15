@@ -3,9 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that represents a custom action item to display in a device route picker.
+-- | AVCustomRoutingActionItem
 --
--- Use this class to specify supplemental action items to display in the list of discovered routes. Tapping a custom item dismisses the picker and calls the ``AVCustomRoutingControllerDelegate/customRoutingController:didSelectItem:`` method of ``AVCustomRoutingControllerDelegate``.
+-- AVCustomRoutingActionItem objects can be created by 3rd parties to inject custom action items into the route picker.
+--
+-- An item can be any action the app wants to provide as menu items besides the discovered routes.    Tapping on the custom items dismisses the picker and invokes a callback to the app telling it which item was tapped. (See -[AVCustomRoutingController customRoutingController:didSelectItem:])
 --
 -- Generated bindings for @AVCustomRoutingActionItem@.
 module ObjC.AVRouting.AVCustomRoutingActionItem
@@ -34,41 +36,49 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVRouting.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | A type with an identifier that matches a value in the app’s configuration.
+-- | type
 --
--- Provide a @UTType@ symbol name and description in your app’s @Info.plist@ file.
+-- A UTType with an identifier which matches a UTType in the info.plist.
+--
+-- Provide a UTTypeSymbolName and description in the info.plist.
 --
 -- ObjC selector: @- type@
 type_ :: IsAVCustomRoutingActionItem avCustomRoutingActionItem => avCustomRoutingActionItem -> IO RawId
 type_ avCustomRoutingActionItem =
   sendMessage avCustomRoutingActionItem typeSelector
 
--- | A type with an identifier that matches a value in the app’s configuration.
+-- | type
 --
--- Provide a @UTType@ symbol name and description in your app’s @Info.plist@ file.
+-- A UTType with an identifier which matches a UTType in the info.plist.
+--
+-- Provide a UTTypeSymbolName and description in the info.plist.
 --
 -- ObjC selector: @- setType:@
 setType :: IsAVCustomRoutingActionItem avCustomRoutingActionItem => avCustomRoutingActionItem -> RawId -> IO ()
 setType avCustomRoutingActionItem value =
   sendMessage avCustomRoutingActionItem setTypeSelector value
 
--- | A string to use to override the title of the item’s type.
+-- | overrideTitle
 --
--- Use this value to dynamically override the title of the custom item.
+-- A title which overrides the title of the UTType.
+--
+-- Use this to dynamically override the title of the custom item.
 --
 -- ObjC selector: @- overrideTitle@
-overrideTitle :: IsAVCustomRoutingActionItem avCustomRoutingActionItem => avCustomRoutingActionItem -> IO (Id NSString)
+overrideTitle :: IsAVCustomRoutingActionItem avCustomRoutingActionItem => avCustomRoutingActionItem -> IO RawId
 overrideTitle avCustomRoutingActionItem =
   sendMessage avCustomRoutingActionItem overrideTitleSelector
 
--- | A string to use to override the title of the item’s type.
+-- | overrideTitle
 --
--- Use this value to dynamically override the title of the custom item.
+-- A title which overrides the title of the UTType.
+--
+-- Use this to dynamically override the title of the custom item.
 --
 -- ObjC selector: @- setOverrideTitle:@
-setOverrideTitle :: (IsAVCustomRoutingActionItem avCustomRoutingActionItem, IsNSString value) => avCustomRoutingActionItem -> value -> IO ()
+setOverrideTitle :: IsAVCustomRoutingActionItem avCustomRoutingActionItem => avCustomRoutingActionItem -> RawId -> IO ()
 setOverrideTitle avCustomRoutingActionItem value =
-  sendMessage avCustomRoutingActionItem setOverrideTitleSelector (toNSString value)
+  sendMessage avCustomRoutingActionItem setOverrideTitleSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -83,10 +93,10 @@ setTypeSelector :: Selector '[RawId] ()
 setTypeSelector = mkSelector "setType:"
 
 -- | @Selector@ for @overrideTitle@
-overrideTitleSelector :: Selector '[] (Id NSString)
+overrideTitleSelector :: Selector '[] RawId
 overrideTitleSelector = mkSelector "overrideTitle"
 
 -- | @Selector@ for @setOverrideTitle:@
-setOverrideTitleSelector :: Selector '[Id NSString] ()
+setOverrideTitleSelector :: Selector '[RawId] ()
 setOverrideTitleSelector = mkSelector "setOverrideTitle:"
 

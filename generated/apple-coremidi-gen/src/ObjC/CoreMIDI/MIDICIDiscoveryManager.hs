@@ -3,7 +3,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @MIDICIDiscoveryManager@.
+-- | MIDICIDiscoveryManager
+--
+-- Singleton object that performs system-wide MIDI Capability Inquiry discovery
+--
+-- MIDICIDiscoveryManager is used to retrieve information about nodes in the MIDI subsystem     that are MIDI-CI capable. Only MIDI destinations discovered via this API can be used to     create MIDICISessions.
+--
+-- Generated bindings for @MIDICIDiscoveryManager@.
 module ObjC.CoreMIDI.MIDICIDiscoveryManager
   ( MIDICIDiscoveryManager
   , IsMIDICIDiscoveryManager(..)

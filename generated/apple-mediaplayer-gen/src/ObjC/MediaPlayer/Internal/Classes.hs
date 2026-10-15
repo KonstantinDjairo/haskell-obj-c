@@ -79,35 +79,6 @@ instance IsMPMediaEntity (Id MPMediaEntity) where
 instance IsNSObject (Id MPMediaEntity) where
   toNSObject = unsafeCastId
 
--- ---------- MPMediaItemAnimatedArtwork ----------
-
--- | An animated image, such as an animated music album cover art, for a media item.
---
--- A single instance of animated artwork is comprised of two assets: an artwork video asset, and a preview image which should match the first frame of the artwork video. The preview image may be used when displaying the animated artwork whilst the video becomes available.
---
--- Both the preview image and artwork video can be fetched asynchronously and will only be requested when required at point of display. Aim to provide preview images as quickly as possible once requested, and ideally synchronously.
---
--- Video asset @URL@s you provide must be local file @URL@s. You should make the associated assets available locally before providing them via the relevant handler, for example by fetching the associated video asset over the network. The @URL@s should remain valid for the lifetime of the ``MPMediaItemAnimatedArtwork``, once provided.
---
--- ``MPMediaItemAnimatedArtwork`` should not be subclassed.
--- 
--- Phantom type for @MPMediaItemAnimatedArtwork@.
-data MPMediaItemAnimatedArtwork
-
-instance IsObjCObject (Id MPMediaItemAnimatedArtwork) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MPMediaItemAnimatedArtwork"
-
-class IsNSObject a => IsMPMediaItemAnimatedArtwork a where
-  toMPMediaItemAnimatedArtwork :: a -> Id MPMediaItemAnimatedArtwork
-
-instance IsMPMediaItemAnimatedArtwork (Id MPMediaItemAnimatedArtwork) where
-  toMPMediaItemAnimatedArtwork = unsafeCastId
-
-instance IsNSObject (Id MPMediaItemAnimatedArtwork) where
-  toNSObject = unsafeCastId
-
 -- ---------- MPMediaItemArtwork ----------
 
 -- | Phantom type for @MPMediaItemArtwork@.

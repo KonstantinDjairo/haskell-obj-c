@@ -39,7 +39,6 @@ data NSURLSessionTaskDelegateOverrides = NSURLSessionTaskDelegateOverrides
   { _urlSession_didCreateTask :: !(Maybe (RawId -> RawId -> IO ()))
   , _urlSession_taskIsWaitingForConnectivity :: !(Maybe (RawId -> RawId -> IO ()))
   , _urlSession_task_didSendBodyData_totalBytesSent_totalBytesExpectedToSend :: !(Maybe (RawId -> RawId -> Int -> Int -> Int -> IO ()))
-  , _urlSession_task_didReceiveInformationalResponse :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _urlSession_task_didFinishCollectingMetrics :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   , _urlSession_task_didCompleteWithError :: !(Maybe (RawId -> RawId -> RawId -> IO ()))
   }
@@ -50,7 +49,6 @@ defaultNSURLSessionTaskDelegateOverrides = NSURLSessionTaskDelegateOverrides
   { _urlSession_didCreateTask = Nothing
   , _urlSession_taskIsWaitingForConnectivity = Nothing
   , _urlSession_task_didSendBodyData_totalBytesSent_totalBytesExpectedToSend = Nothing
-  , _urlSession_task_didReceiveInformationalResponse = Nothing
   , _urlSession_task_didFinishCollectingMetrics = Nothing
   , _urlSession_task_didCompleteWithError = Nothing
   }
@@ -87,7 +85,6 @@ nsurlSessionTaskDelegateDelegateClass = unsafePerformIO $ do
   let sel_urlSession_didCreateTask = unSelector (mkSelector "URLSession:didCreateTask:")
       sel_urlSession_taskIsWaitingForConnectivity = unSelector (mkSelector "URLSession:taskIsWaitingForConnectivity:")
       sel_urlSession_task_didSendBodyData_totalBytesSent_totalBytesExpectedToSend = unSelector (mkSelector "URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:")
-      sel_urlSession_task_didReceiveInformationalResponse = unSelector (mkSelector "URLSession:task:didReceiveInformationalResponse:")
       sel_urlSession_task_didFinishCollectingMetrics = unSelector (mkSelector "URLSession:task:didFinishCollectingMetrics:")
       sel_urlSession_task_didCompleteWithError = unSelector (mkSelector "URLSession:task:didCompleteWithError:")
   -- URLSession:didCreateTask:
@@ -117,32 +114,23 @@ nsurlSessionTaskDelegateDelegateClass = unsafePerformIO $ do
       Just f -> f (RawId arg0) (RawId arg1) (fromIntegral arg2) (fromIntegral arg3) (fromIntegral arg4)
   addObjCMethod cls "URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:" "v@:@@qqq" stub_2
 
-  -- URLSession:task:didReceiveInformationalResponse:
-  stub_3 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO NSURLSessionTaskDelegateOverrides
-    case _urlSession_task_didReceiveInformationalResponse rec_ of
-      Nothing -> pure ()
-      Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:task:didReceiveInformationalResponse:" "v@:@@@" stub_3
-
   -- URLSession:task:didFinishCollectingMetrics:
-  stub_4 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_3 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSURLSessionTaskDelegateOverrides
     case _urlSession_task_didFinishCollectingMetrics rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:task:didFinishCollectingMetrics:" "v@:@@@" stub_4
+  addObjCMethod cls "URLSession:task:didFinishCollectingMetrics:" "v@:@@@" stub_3
 
   -- URLSession:task:didCompleteWithError:
-  stub_5 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
+  stub_4 <- wrap_at_at_at_v $ \self _cmd arg0 arg1 arg2 -> do
     sp <- readHsData self
     rec_ <- deRefStablePtr sp :: IO NSURLSessionTaskDelegateOverrides
     case _urlSession_task_didCompleteWithError rec_ of
       Nothing -> pure ()
       Just f -> f (RawId arg0) (RawId arg1) (RawId arg2)
-  addObjCMethod cls "URLSession:task:didCompleteWithError:" "v@:@@@" stub_5
+  addObjCMethod cls "URLSession:task:didCompleteWithError:" "v@:@@@" stub_4
 
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
@@ -151,7 +139,6 @@ nsurlSessionTaskDelegateDelegateClass = unsafePerformIO $ do
     if queriedSel == sel_urlSession_didCreateTask then pure (maybe 0 (const 1) (_urlSession_didCreateTask rec_))
     else if queriedSel == sel_urlSession_taskIsWaitingForConnectivity then pure (maybe 0 (const 1) (_urlSession_taskIsWaitingForConnectivity rec_))
     else if queriedSel == sel_urlSession_task_didSendBodyData_totalBytesSent_totalBytesExpectedToSend then pure (maybe 0 (const 1) (_urlSession_task_didSendBodyData_totalBytesSent_totalBytesExpectedToSend rec_))
-    else if queriedSel == sel_urlSession_task_didReceiveInformationalResponse then pure (maybe 0 (const 1) (_urlSession_task_didReceiveInformationalResponse rec_))
     else if queriedSel == sel_urlSession_task_didFinishCollectingMetrics then pure (maybe 0 (const 1) (_urlSession_task_didFinishCollectingMetrics rec_))
     else if queriedSel == sel_urlSession_task_didCompleteWithError then pure (maybe 0 (const 1) (_urlSession_task_didCompleteWithError rec_))
     else do

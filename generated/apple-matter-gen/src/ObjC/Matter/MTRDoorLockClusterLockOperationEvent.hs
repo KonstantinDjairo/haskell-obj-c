@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRDoorLockClusterLockOperationEvent
   ( MTRDoorLockClusterLockOperationEvent
   , IsMTRDoorLockClusterLockOperationEvent(..)
+  , init_
+  , copyWithZone
   , lockOperationType
   , setLockOperationType
   , operationSource
@@ -19,8 +21,10 @@ module ObjC.Matter.MTRDoorLockClusterLockOperationEvent
   , setSourceNode
   , credentials
   , setCredentials
+  , copyWithZoneSelector
   , credentialsSelector
   , fabricIndexSelector
+  , initSelector
   , lockOperationTypeSelector
   , operationSourceSelector
   , setCredentialsSelector
@@ -45,6 +49,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRDoorLockClusterLockOperationEvent mtrDoorLockClusterLockOperationEvent => mtrDoorLockClusterLockOperationEvent -> IO (Id MTRDoorLockClusterLockOperationEvent)
+init_ mtrDoorLockClusterLockOperationEvent =
+  sendOwnedMessage mtrDoorLockClusterLockOperationEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterLockOperationEvent mtrDoorLockClusterLockOperationEvent => mtrDoorLockClusterLockOperationEvent -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterLockOperationEvent zone =
+  sendOwnedMessage mtrDoorLockClusterLockOperationEvent copyWithZoneSelector zone
 
 -- | @- lockOperationType@
 lockOperationType :: IsMTRDoorLockClusterLockOperationEvent mtrDoorLockClusterLockOperationEvent => mtrDoorLockClusterLockOperationEvent -> IO (Id NSNumber)
@@ -109,6 +123,14 @@ setCredentials mtrDoorLockClusterLockOperationEvent value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterLockOperationEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @lockOperationType@
 lockOperationTypeSelector :: Selector '[] (Id NSNumber)

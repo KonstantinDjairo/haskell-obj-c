@@ -72,7 +72,7 @@ new  =
 --
 -- Causes the receiver to treat the processing of the request as complete.
 --
--- If a dataRequest is present, and the resource does not contain the full extent of the data that has been requested according to the values of the requestedOffset and requestedLength properties of the dataRequest, or if requestsAllDataToEndOfResource has a value of YES, -finishLoading may be invoked after providing as much of the requested data as the resource contains. If the contentInformationRequest property is not nil and specifies a non-empty allowedContentTypes array, the contentInformationRequest's contentType property must be set to a value within allowedContentTypes. Otherwise, this method will throw an exception.
+-- If a dataRequest is present and the resource does not contain the full extent of the data that has been requested according to the values of the requestedOffset and requestedLength properties of the dataRequest, or if requestsAllDataToEndOfResource has a value of YES, you may invoke -finishLoading after you have provided as much of the requested data as the resource contains.
 --
 -- ObjC selector: @- finishLoading@
 finishLoading :: IsAVAssetResourceLoadingRequest avAssetResourceLoadingRequest => avAssetResourceLoadingRequest -> IO ()
@@ -178,7 +178,7 @@ cancelled avAssetResourceLoadingRequest =
 
 -- | contentInformationRequest
 --
--- An instance of AVAssetResourceLoadingContentInformationRequest that you must populate with information about the resource before responding to any AVAssetResourceLoadingDataRequests for the resource.  The value of this property will be nil if no such information is being requested.
+-- An instance of AVAssetResourceLoadingContentInformationRequest that you should populate with information about the resource. The value of this property will be nil if no such information is being requested.
 --
 -- ObjC selector: @- contentInformationRequest@
 contentInformationRequest :: IsAVAssetResourceLoadingRequest avAssetResourceLoadingRequest => avAssetResourceLoadingRequest -> IO (Id AVAssetResourceLoadingContentInformationRequest)
@@ -187,7 +187,7 @@ contentInformationRequest avAssetResourceLoadingRequest =
 
 -- | dataRequest
 --
--- An instance of AVAssetResourceLoadingDataRequest that indicates the range of resource data that's being requested.  If an AVAssetResourceLoadingContentInformationRequest has been provided, you must set its properties appropriately before responding to any AVAssetResourceLoadingDataRequests.  The value of this property will be nil if no data is being requested.
+-- An instance of AVAssetResourceLoadingDataRequest that indicates the range of resource data that's being requested. The value of this property will be nil if no data is being requested.
 --
 -- ObjC selector: @- dataRequest@
 dataRequest :: IsAVAssetResourceLoadingRequest avAssetResourceLoadingRequest => avAssetResourceLoadingRequest -> IO (Id AVAssetResourceLoadingDataRequest)

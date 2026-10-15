@@ -8,8 +8,6 @@
 module ObjC.MapKit.MKMapSnapshotOptions
   ( MKMapSnapshotOptions
   , IsMKMapSnapshotOptions(..)
-  , preferredConfiguration
-  , setPreferredConfiguration
   , camera
   , setCamera
   , mapType
@@ -28,12 +26,10 @@ module ObjC.MapKit.MKMapSnapshotOptions
   , cameraSelector
   , mapTypeSelector
   , pointOfInterestFilterSelector
-  , preferredConfigurationSelector
   , setAppearanceSelector
   , setCameraSelector
   , setMapTypeSelector
   , setPointOfInterestFilterSelector
-  , setPreferredConfigurationSelector
   , setShowsBuildingsSelector
   , setShowsPointsOfInterestSelector
   , setSizeSelector
@@ -64,16 +60,6 @@ import ObjC.MapKit.Internal.Classes
 import ObjC.Foundation.Internal.Structs
 import ObjC.MapKit.Internal.Enums
 import ObjC.Foundation.Internal.Classes
-
--- | @- preferredConfiguration@
-preferredConfiguration :: IsMKMapSnapshotOptions mkMapSnapshotOptions => mkMapSnapshotOptions -> IO (Id MKMapConfiguration)
-preferredConfiguration mkMapSnapshotOptions =
-  sendMessage mkMapSnapshotOptions preferredConfigurationSelector
-
--- | @- setPreferredConfiguration:@
-setPreferredConfiguration :: (IsMKMapSnapshotOptions mkMapSnapshotOptions, IsMKMapConfiguration value) => mkMapSnapshotOptions -> value -> IO ()
-setPreferredConfiguration mkMapSnapshotOptions value =
-  sendMessage mkMapSnapshotOptions setPreferredConfigurationSelector (toMKMapConfiguration value)
 
 -- | @- camera@
 camera :: IsMKMapSnapshotOptions mkMapSnapshotOptions => mkMapSnapshotOptions -> IO (Id MKMapCamera)
@@ -136,26 +122,18 @@ setSize mkMapSnapshotOptions value =
   sendMessage mkMapSnapshotOptions setSizeSelector value
 
 -- | @- appearance@
-appearance :: IsMKMapSnapshotOptions mkMapSnapshotOptions => mkMapSnapshotOptions -> IO (Id NSAppearance)
+appearance :: IsMKMapSnapshotOptions mkMapSnapshotOptions => mkMapSnapshotOptions -> IO RawId
 appearance mkMapSnapshotOptions =
   sendMessage mkMapSnapshotOptions appearanceSelector
 
 -- | @- setAppearance:@
-setAppearance :: (IsMKMapSnapshotOptions mkMapSnapshotOptions, IsNSAppearance value) => mkMapSnapshotOptions -> value -> IO ()
+setAppearance :: IsMKMapSnapshotOptions mkMapSnapshotOptions => mkMapSnapshotOptions -> RawId -> IO ()
 setAppearance mkMapSnapshotOptions value =
-  sendMessage mkMapSnapshotOptions setAppearanceSelector (toNSAppearance value)
+  sendMessage mkMapSnapshotOptions setAppearanceSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
-
--- | @Selector@ for @preferredConfiguration@
-preferredConfigurationSelector :: Selector '[] (Id MKMapConfiguration)
-preferredConfigurationSelector = mkSelector "preferredConfiguration"
-
--- | @Selector@ for @setPreferredConfiguration:@
-setPreferredConfigurationSelector :: Selector '[Id MKMapConfiguration] ()
-setPreferredConfigurationSelector = mkSelector "setPreferredConfiguration:"
 
 -- | @Selector@ for @camera@
 cameraSelector :: Selector '[] (Id MKMapCamera)
@@ -206,10 +184,10 @@ setSizeSelector :: Selector '[NSSize] ()
 setSizeSelector = mkSelector "setSize:"
 
 -- | @Selector@ for @appearance@
-appearanceSelector :: Selector '[] (Id NSAppearance)
+appearanceSelector :: Selector '[] RawId
 appearanceSelector = mkSelector "appearance"
 
 -- | @Selector@ for @setAppearance:@
-setAppearanceSelector :: Selector '[Id NSAppearance] ()
+setAppearanceSelector :: Selector '[RawId] ()
 setAppearanceSelector = mkSelector "setAppearance:"
 

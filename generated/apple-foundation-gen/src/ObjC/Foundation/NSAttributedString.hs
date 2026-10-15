@@ -11,13 +11,8 @@ module ObjC.Foundation.NSAttributedString
   , attributesAtIndex_effectiveRange
   , attributedStringByInflectingString
   , initWithFormat_options_locale
-  , initWithFormat_options_locale_arguments
   , localizedAttributedStringWithFormat
   , localizedAttributedStringWithFormat_options
-  , initWithFormat_options_locale_context
-  , initWithFormat_options_locale_context_arguments
-  , localizedAttributedStringWithFormat_context
-  , localizedAttributedStringWithFormat_options_context
   , initWithContentsOfMarkdownFileAtURL_options_baseURL_error
   , initWithMarkdown_options_baseURL_error
   , initWithMarkdownString_options_baseURL_error
@@ -42,9 +37,6 @@ module ObjC.Foundation.NSAttributedString
   , initWithAttributedStringSelector
   , initWithContentsOfMarkdownFileAtURL_options_baseURL_errorSelector
   , initWithFormat_options_localeSelector
-  , initWithFormat_options_locale_argumentsSelector
-  , initWithFormat_options_locale_contextSelector
-  , initWithFormat_options_locale_context_argumentsSelector
   , initWithMarkdownString_options_baseURL_errorSelector
   , initWithMarkdown_options_baseURL_errorSelector
   , initWithStringSelector
@@ -52,9 +44,7 @@ module ObjC.Foundation.NSAttributedString
   , isEqualToAttributedStringSelector
   , lengthSelector
   , localizedAttributedStringWithFormatSelector
-  , localizedAttributedStringWithFormat_contextSelector
   , localizedAttributedStringWithFormat_optionsSelector
-  , localizedAttributedStringWithFormat_options_contextSelector
   , stringSelector
 
   -- * Enum types
@@ -98,13 +88,6 @@ initWithFormat_options_locale :: (IsNSAttributedString nsAttributedString, IsNSA
 initWithFormat_options_locale nsAttributedString format options locale =
   sendOwnedMessage nsAttributedString initWithFormat_options_localeSelector (toNSAttributedString format) options (toNSLocale locale)
 
--- | Formats the string using the arguments list and the specified locale (or the canonical one, if nil).
---
--- ObjC selector: @- initWithFormat:options:locale:arguments:@
-initWithFormat_options_locale_arguments :: (IsNSAttributedString nsAttributedString, IsNSAttributedString format, IsNSLocale locale) => nsAttributedString -> format -> NSAttributedStringFormattingOptions -> locale -> RawId -> IO (Id NSAttributedString)
-initWithFormat_options_locale_arguments nsAttributedString format options locale arguments =
-  sendOwnedMessage nsAttributedString initWithFormat_options_locale_argumentsSelector (toNSAttributedString format) options (toNSLocale locale) arguments
-
 -- | Formats the string using the current locale and default options.
 --
 -- ObjC selector: @+ localizedAttributedStringWithFormat:@
@@ -122,38 +105,6 @@ localizedAttributedStringWithFormat_options format options =
   do
     cls' <- getRequiredClass "NSAttributedString"
     sendClassMessage cls' localizedAttributedStringWithFormat_optionsSelector (toNSAttributedString format) options
-
--- | Formats the string using the specified locale (or the canonical one, if nil).
---
--- ObjC selector: @- initWithFormat:options:locale:context:@
-initWithFormat_options_locale_context :: (IsNSAttributedString nsAttributedString, IsNSAttributedString format, IsNSLocale locale, IsNSDictionary context) => nsAttributedString -> format -> NSAttributedStringFormattingOptions -> locale -> context -> IO (Id NSAttributedString)
-initWithFormat_options_locale_context nsAttributedString format options locale context =
-  sendOwnedMessage nsAttributedString initWithFormat_options_locale_contextSelector (toNSAttributedString format) options (toNSLocale locale) (toNSDictionary context)
-
--- | Formats the string using the arguments list and the specified locale (or the canonical one, if nil).
---
--- ObjC selector: @- initWithFormat:options:locale:context:arguments:@
-initWithFormat_options_locale_context_arguments :: (IsNSAttributedString nsAttributedString, IsNSAttributedString format, IsNSLocale locale, IsNSDictionary context) => nsAttributedString -> format -> NSAttributedStringFormattingOptions -> locale -> context -> RawId -> IO (Id NSAttributedString)
-initWithFormat_options_locale_context_arguments nsAttributedString format options locale context arguments =
-  sendOwnedMessage nsAttributedString initWithFormat_options_locale_context_argumentsSelector (toNSAttributedString format) options (toNSLocale locale) (toNSDictionary context) arguments
-
--- | Formats the string using the current locale and default options.
---
--- ObjC selector: @+ localizedAttributedStringWithFormat:context:@
-localizedAttributedStringWithFormat_context :: (IsNSAttributedString format, IsNSDictionary context) => format -> context -> IO (Id NSAttributedString)
-localizedAttributedStringWithFormat_context format context =
-  do
-    cls' <- getRequiredClass "NSAttributedString"
-    sendClassMessage cls' localizedAttributedStringWithFormat_contextSelector (toNSAttributedString format) (toNSDictionary context)
-
--- | Formats the string using the current locale and the specified options.
---
--- ObjC selector: @+ localizedAttributedStringWithFormat:options:context:@
-localizedAttributedStringWithFormat_options_context :: (IsNSAttributedString format, IsNSDictionary context) => format -> NSAttributedStringFormattingOptions -> context -> IO (Id NSAttributedString)
-localizedAttributedStringWithFormat_options_context format options context =
-  do
-    cls' <- getRequiredClass "NSAttributedString"
-    sendClassMessage cls' localizedAttributedStringWithFormat_options_contextSelector (toNSAttributedString format) options (toNSDictionary context)
 
 -- | @- initWithContentsOfMarkdownFileAtURL:options:baseURL:error:@
 initWithContentsOfMarkdownFileAtURL_options_baseURL_error :: (IsNSAttributedString nsAttributedString, IsNSURL markdownFile, IsNSAttributedStringMarkdownParsingOptions options, IsNSURL baseURL, IsNSError error_) => nsAttributedString -> markdownFile -> options -> baseURL -> error_ -> IO (Id NSAttributedString)
@@ -241,10 +192,6 @@ attributedStringByInflectingStringSelector = mkSelector "attributedStringByInfle
 initWithFormat_options_localeSelector :: Selector '[Id NSAttributedString, NSAttributedStringFormattingOptions, Id NSLocale] (Id NSAttributedString)
 initWithFormat_options_localeSelector = mkSelector "initWithFormat:options:locale:"
 
--- | @Selector@ for @initWithFormat:options:locale:arguments:@
-initWithFormat_options_locale_argumentsSelector :: Selector '[Id NSAttributedString, NSAttributedStringFormattingOptions, Id NSLocale, RawId] (Id NSAttributedString)
-initWithFormat_options_locale_argumentsSelector = mkSelector "initWithFormat:options:locale:arguments:"
-
 -- | @Selector@ for @localizedAttributedStringWithFormat:@
 localizedAttributedStringWithFormatSelector :: Selector '[Id NSAttributedString] (Id NSAttributedString)
 localizedAttributedStringWithFormatSelector = mkSelector "localizedAttributedStringWithFormat:"
@@ -252,22 +199,6 @@ localizedAttributedStringWithFormatSelector = mkSelector "localizedAttributedStr
 -- | @Selector@ for @localizedAttributedStringWithFormat:options:@
 localizedAttributedStringWithFormat_optionsSelector :: Selector '[Id NSAttributedString, NSAttributedStringFormattingOptions] (Id NSAttributedString)
 localizedAttributedStringWithFormat_optionsSelector = mkSelector "localizedAttributedStringWithFormat:options:"
-
--- | @Selector@ for @initWithFormat:options:locale:context:@
-initWithFormat_options_locale_contextSelector :: Selector '[Id NSAttributedString, NSAttributedStringFormattingOptions, Id NSLocale, Id NSDictionary] (Id NSAttributedString)
-initWithFormat_options_locale_contextSelector = mkSelector "initWithFormat:options:locale:context:"
-
--- | @Selector@ for @initWithFormat:options:locale:context:arguments:@
-initWithFormat_options_locale_context_argumentsSelector :: Selector '[Id NSAttributedString, NSAttributedStringFormattingOptions, Id NSLocale, Id NSDictionary, RawId] (Id NSAttributedString)
-initWithFormat_options_locale_context_argumentsSelector = mkSelector "initWithFormat:options:locale:context:arguments:"
-
--- | @Selector@ for @localizedAttributedStringWithFormat:context:@
-localizedAttributedStringWithFormat_contextSelector :: Selector '[Id NSAttributedString, Id NSDictionary] (Id NSAttributedString)
-localizedAttributedStringWithFormat_contextSelector = mkSelector "localizedAttributedStringWithFormat:context:"
-
--- | @Selector@ for @localizedAttributedStringWithFormat:options:context:@
-localizedAttributedStringWithFormat_options_contextSelector :: Selector '[Id NSAttributedString, NSAttributedStringFormattingOptions, Id NSDictionary] (Id NSAttributedString)
-localizedAttributedStringWithFormat_options_contextSelector = mkSelector "localizedAttributedStringWithFormat:options:context:"
 
 -- | @Selector@ for @initWithContentsOfMarkdownFileAtURL:options:baseURL:error:@
 initWithContentsOfMarkdownFileAtURL_options_baseURL_errorSelector :: Selector '[Id NSURL, Id NSAttributedStringMarkdownParsingOptions, Id NSURL, Id NSError] (Id NSAttributedString)

@@ -29,10 +29,6 @@ import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..
 -- kCWChannelBand5GHz
 --
 -- 5GHz channel band.
---
--- kCWChannelBand6GHz
---
--- 6GHz channel band.
 -- | @CWChannelBand@
 newtype CWChannelBand = CWChannelBand CLong
   deriving stock (Eq, Ord, Show)
@@ -46,9 +42,6 @@ pattern KCWChannelBand2GHz = CWChannelBand 1
 
 pattern KCWChannelBand5GHz :: CWChannelBand
 pattern KCWChannelBand5GHz = CWChannelBand 2
-
-pattern KCWChannelBand6GHz :: CWChannelBand
-pattern KCWChannelBand6GHz = CWChannelBand 3
 
 instance ObjCArgument CWChannelBand where
   withObjCArg (CWChannelBand x) k = k (argCLong x)
@@ -672,10 +665,6 @@ instance ObjCReturn CWKeychainDomain where
 -- kCWPHYMode11ax
 --
 -- IEEE 802.11ax physical layer mode.
---
--- kCWPHYMode11be
---
--- IEEE 802.11be physical layer mode.
 -- | @CWPHYMode@
 newtype CWPHYMode = CWPHYMode CLong
   deriving stock (Eq, Ord, Show)

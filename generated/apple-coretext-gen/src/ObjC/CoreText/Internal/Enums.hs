@@ -13,6 +13,7 @@ import Foreign.C.Types
 import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
+import Data.Int (Int8)
 
 -- | CTCharacterCollection
 --
@@ -1036,7 +1037,7 @@ instance ObjCReturn CTFrameProgression where
 --
 -- kCTLineBoundsUseOpticalBounds
 --
--- Pass this option to use optical bounds, as determined by                CTFontGetOpticalBoundsForGlyphs. This option overrides                kCTLineBoundsUseGlyphPathBounds.
+-- Pass this option to use optical bounds. This option overrides                kCTLineBoundsUseGlyphPathBounds.
 --
 -- kCTLineBoundsIncludeLanguageExtents
 --

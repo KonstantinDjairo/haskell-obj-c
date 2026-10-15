@@ -3,9 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A symbolic representation of a compute operation.
+-- | MPSGraphOperation
 --
--- @NSCopy@ will take a refrence, this is so @NSDictionary@ can work with the tensor. All operations are created, owned and destroyed by the graph.
+-- Symbolic representation of a compute operation, all tensors are created, owned and destroyed by the MPSGraph
+--
+-- NSCopy will cause a refrence to be taken, this is so NSDictionary can work with the tensor.              All operations  are created, owned and destroyed by the MPSGraph
 --
 -- Generated bindings for @MPSGraphOperation@.
 module ObjC.MetalPerformanceShadersGraph.MPSGraphOperation
@@ -38,42 +40,52 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.MetalPerformanceShadersGraph.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Unavailable, please utilize graph methods to create and initialize operations.
+-- | Unvaiable, please utilize graph methods to create and initialize operations
 --
 -- ObjC selector: @- init@
 init_ :: IsMPSGraphOperation mpsGraphOperation => mpsGraphOperation -> IO (Id MPSGraphOperation)
 init_ mpsGraphOperation =
   sendOwnedMessage mpsGraphOperation initSelector
 
--- | The input tensors of the operation.
+-- | inputTensors
+--
+-- inputTensors of the operation
 --
 -- ObjC selector: @- inputTensors@
 inputTensors :: IsMPSGraphOperation mpsGraphOperation => mpsGraphOperation -> IO (Id NSArray)
 inputTensors mpsGraphOperation =
   sendMessage mpsGraphOperation inputTensorsSelector
 
--- | The output tensors of the operation.
+-- | outputTensors
+--
+-- outputTensors of the operation
 --
 -- ObjC selector: @- outputTensors@
 outputTensors :: IsMPSGraphOperation mpsGraphOperation => mpsGraphOperation -> IO (Id NSArray)
 outputTensors mpsGraphOperation =
   sendMessage mpsGraphOperation outputTensorsSelector
 
--- | The set of operations guaranteed to execute before this operation.
+-- | controlDependencies
+--
+-- operations guaranteed to execute before this operation
 --
 -- ObjC selector: @- controlDependencies@
 controlDependencies :: IsMPSGraphOperation mpsGraphOperation => mpsGraphOperation -> IO (Id NSArray)
 controlDependencies mpsGraphOperation =
   sendMessage mpsGraphOperation controlDependenciesSelector
 
--- | The graph on which the operation is defined.
+-- | graph
+--
+-- graph on which the operation is defined
 --
 -- ObjC selector: @- graph@
 graph :: IsMPSGraphOperation mpsGraphOperation => mpsGraphOperation -> IO (Id MPSGraph)
 graph mpsGraphOperation =
   sendMessage mpsGraphOperation graphSelector
 
--- | Name of the operation.
+-- | name
+--
+-- name of the operation
 --
 -- ObjC selector: @- name@
 name :: IsMPSGraphOperation mpsGraphOperation => mpsGraphOperation -> IO (Id NSString)

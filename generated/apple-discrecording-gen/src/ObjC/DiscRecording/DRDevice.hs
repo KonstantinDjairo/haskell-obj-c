@@ -3,7 +3,93 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Generated bindings for @DRDevice@.
+-- | DRDevice
+--
+-- Represents a CD or DVD burner connected to the computer.
+--
+-- About Devices				A DRDevice DRDevice represents a physical CD/DVD drive connected to the computer. This class is 				mainly for informational purposes since the device is configured by the burn 				engine before beginning to optimally handle the burn. The basis for obtaining the				device information is through two methods
+--
+-- //apple_ref/occ/instm/DRDevice/info info
+--
+-- and
+--
+-- //apple_ref/occ/instm/DRDevice/status status
+--
+-- .
+--
+-- //apple_ref/occ/instm/DRDevice/info info
+--
+-- returns 				information pertaining to the drive as a whole and is not affected by the state 				of any media in the drive.
+--
+-- //apple_ref/occ/instm/DRDevice/status status
+--
+-- returns information about the media in the drive as				well as those bits of information directly affected by the media (maximum burn speed,				BSD dev node name, etc.)
+--
+-- Obtaining Device instances				The programmer cannot directly create DRDevices. Devices are managed by the burn engine				and are asked for by client code. The preferred way of obtaining an instance is				by registering with the
+--
+-- //apple_ref/occ/cl/DRNotificationCenter DRNotificationCenter
+--
+-- and listening for the
+--
+-- DRDeviceAppearedNotification DRDeviceAppearedNotification
+--
+-- . This notification is sent to all				observers when a device is first detected by the burn engine (such as when a device				is plugged in or turned on). A registered  observer is guaranteed to receive all
+--
+-- DRDeviceAppearedNotification DRDeviceAppearedNotifications
+--
+-- . When a client registers for the
+--
+-- DRDeviceAppearedNotification DRDeviceAppearedNotification
+--
+-- , the engine will ensure that				the client gets notified of all devices currently connected to the machine. When a device				is removed, registed observers will receive a
+--
+-- DRDeviceDisappearedNotification DRDeviceDisappearedNotification
+--
+-- .
+--
+-- It's also possible to obtain a device instance from its IORegistry path 				(
+--
+-- //apple_ref/occ/clm/DRDevice/deviceForIORegistryEntryPath: deviceForIORegistryEntryPath:
+--
+-- ) 				or the BSD /dev node name (
+--
+-- //apple_ref/occ/clm/DRDevice/deviceForBSDName: deviceForBSDName:
+--
+-- ).				If you have a reference to a device instance, you can determine if the physical device				is still valid and connected by sending the
+--
+-- //apple_ref/occ/instm/DRDevice/isValid isValid
+--
+-- method to the instance.
+--
+-- Device Control				There is a limited set of operations that can be performed on a device. The most				important of these is media reservation. Reserving media is a process by which				applications arbitrate for blank media. An application registers interest in 				obtaining a media reservation by caling
+--
+-- //apple_ref/occ/instm/DRDevice/acquireMediaReservation acquireMediaReservation
+--
+-- and gives up				its interest by calling
+--
+-- //apple_ref/occ/instm/DRDevice/releaseMediaReservation releaseMediaReservation
+--
+-- . Asking to acquire a reservation does				not mean you will get it! Another application may already have the reservation and 				will refuse to give it up to you. In this case, the only thing to do is to play fair and				wait until the
+--
+-- DRDeviceMediaIsReservedKey DRDeviceMediaIsReservedKey
+--
+-- indicates that your app has obtained 				the reservation.
+--
+-- The device tray can be opened (
+--
+-- //apple_ref/occ/instm/DRDevice/openTray openTray
+--
+-- ) or 				closed (
+--
+-- //apple_ref/occ/instm/DRDevice/closeTray closeTray
+--
+-- ) and media 				can be ejected (
+--
+-- //apple_ref/occ/instm/DRDevice/ejectMedia ejectMedia
+--
+-- ).
+--
+-- Generated bindings for @DRDevice@.
 module ObjC.DiscRecording.DRDevice
   ( DRDevice
   , IsDRDevice(..)

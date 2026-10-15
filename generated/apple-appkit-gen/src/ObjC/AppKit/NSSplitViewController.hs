@@ -21,7 +21,6 @@ module ObjC.AppKit.NSSplitViewController
   , splitView_effectiveRect_forDrawnRect_ofDividerAtIndex
   , splitView_additionalEffectiveRectOfDividerAtIndex
   , toggleSidebar
-  , toggleInspector
   , splitView
   , setSplitView
   , splitViewItems
@@ -43,7 +42,6 @@ module ObjC.AppKit.NSSplitViewController
   , splitView_effectiveRect_forDrawnRect_ofDividerAtIndexSelector
   , splitView_shouldCollapseSubview_forDoubleClickOnDividerAtIndexSelector
   , splitView_shouldHideDividerAtIndexSelector
-  , toggleInspectorSelector
   , toggleSidebarSelector
   , validateUserInterfaceItemSelector
   , viewDidLoadSelector
@@ -147,13 +145,6 @@ toggleSidebar :: IsNSSplitViewController nsSplitViewController => nsSplitViewCon
 toggleSidebar nsSplitViewController sender =
   sendMessage nsSplitViewController toggleSidebarSelector sender
 
--- | Animatedly collapses or uncollapses the first inspector split view item in the receiver. Does nothing if the receiver does not contain any inspectors.
---
--- ObjC selector: @- toggleInspector:@
-toggleInspector :: IsNSSplitViewController nsSplitViewController => nsSplitViewController -> RawId -> IO ()
-toggleInspector nsSplitViewController sender =
-  sendMessage nsSplitViewController toggleInspectorSelector sender
-
 -- | The split view managed by the SplitViewController. This can be used to customize view properties such as the dividerStyle, vertical, and autosaveName. It is not guaranteed to be the same view as the receivers 'view' property. The default created splitView is vertical with a dividerStyle of @NSSplitViewDividerStyleThin.@ To provide a custom NSSplitView, set the splitView property anytime before self.viewLoaded is YES.
 --
 -- ObjC selector: @- splitView@
@@ -247,10 +238,6 @@ splitView_additionalEffectiveRectOfDividerAtIndexSelector = mkSelector "splitVie
 -- | @Selector@ for @toggleSidebar:@
 toggleSidebarSelector :: Selector '[RawId] ()
 toggleSidebarSelector = mkSelector "toggleSidebar:"
-
--- | @Selector@ for @toggleInspector:@
-toggleInspectorSelector :: Selector '[RawId] ()
-toggleInspectorSelector = mkSelector "toggleInspector:"
 
 -- | @Selector@ for @splitView@
 splitViewSelector :: Selector '[] (Id NSSplitView)

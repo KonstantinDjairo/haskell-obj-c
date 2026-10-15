@@ -93,7 +93,6 @@ module ObjC.AppKit.NSTabView
   , pattern NSControlSizeSmall
   , pattern NSControlSizeMini
   , pattern NSControlSizeLarge
-  , pattern NSControlSizeExtraLarge
   , NSControlTint(NSControlTint)
   , pattern NSDefaultControlTint
   , pattern NSBlueControlTint

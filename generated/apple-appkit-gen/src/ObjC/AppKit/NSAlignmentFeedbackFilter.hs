@@ -58,7 +58,6 @@ module ObjC.AppKit.NSAlignmentFeedbackFilter
   , pattern NSEventMaskPressure
   , pattern NSEventMaskDirectTouch
   , pattern NSEventMaskChangeMode
-  , pattern NSEventMaskMouseCancelled
   , pattern NSEventMaskAny
   , NSHapticFeedbackPerformanceTime(NSHapticFeedbackPerformanceTime)
   , pattern NSHapticFeedbackPerformanceTimeDefault

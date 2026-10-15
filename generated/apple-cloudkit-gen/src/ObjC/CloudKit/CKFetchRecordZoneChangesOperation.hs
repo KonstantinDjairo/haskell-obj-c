@@ -133,56 +133,56 @@ setFetchAllChanges :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChang
 setFetchAllChanges ckFetchRecordZoneChangesOperation value =
   sendMessage ckFetchRecordZoneChangesOperation setFetchAllChangesSelector value
 
--- | If the replacement callback @recordWasChangedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | If the replacement callback @recordWasChangedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordChangedBlock@
 recordChangedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> IO (Ptr ())
 recordChangedBlock ckFetchRecordZoneChangesOperation =
   sendMessage ckFetchRecordZoneChangesOperation recordChangedBlockSelector
 
--- | If the replacement callback @recordWasChangedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | If the replacement callback @recordWasChangedBlock@ is set, this callback block is ignored.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordChangedBlock:@
 setRecordChangedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> Ptr () -> IO ()
 setRecordChangedBlock ckFetchRecordZoneChangesOperation value =
   sendMessage ckFetchRecordZoneChangesOperation setRecordChangedBlockSelector value
 
--- | If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordWasChangedBlock@
 recordWasChangedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> IO (Ptr ())
 recordWasChangedBlock ckFetchRecordZoneChangesOperation =
   sendMessage ckFetchRecordZoneChangesOperation recordWasChangedBlockSelector
 
--- | If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | If a record fails in post-processing (say, a network failure materializing a @CKAsset@ record field), the per-record error will be passed here.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordWasChangedBlock:@
 setRecordWasChangedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> Ptr () -> IO ()
 setRecordWasChangedBlock ckFetchRecordZoneChangesOperation value =
   sendMessage ckFetchRecordZoneChangesOperation setRecordWasChangedBlockSelector value
 
--- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordWithIDWasDeletedBlock@
 recordWithIDWasDeletedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> IO (Ptr ())
 recordWithIDWasDeletedBlock ckFetchRecordZoneChangesOperation =
   sendMessage ckFetchRecordZoneChangesOperation recordWithIDWasDeletedBlockSelector
 
--- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordWithIDWasDeletedBlock:@
 setRecordWithIDWasDeletedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> Ptr () -> IO ()
 setRecordWithIDWasDeletedBlock ckFetchRecordZoneChangesOperation value =
   sendMessage ckFetchRecordZoneChangesOperation setRecordWithIDWasDeletedBlockSelector value
 
--- | Clients are responsible for saving this per-recordZone @serverChangeToken@ and passing it in to the next call to @CKFetchRecordZoneChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in this block so that already fetched records don't need to be re-downloaded on a subsequent operation.  @recordZoneChangeTokensUpdatedBlock@ will not be called after the last batch of changes in a zone; the @recordZoneFetchCompletionBlock@ block will be called instead.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ issued on this zone is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @serverChangeToken@ used for this record zone when initting this operation was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @serverChangeToken.@  @recordZoneChangeTokensUpdatedBlock@ will not be called if @fetchAllChanges@ is NO.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Clients are responsible for saving this per-recordZone @serverChangeToken@ and passing it in to the next call to @CKFetchRecordZoneChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in this block so that already fetched records don't need to be re-downloaded on a subsequent operation.  @recordZoneChangeTokensUpdatedBlock@ will not be called after the last batch of changes in a zone; the @recordZoneFetchCompletionBlock@ block will be called instead.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ issued on this zone is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @serverChangeToken@ used for this record zone when initting this operation was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @serverChangeToken.@  @recordZoneChangeTokensUpdatedBlock@ will not be called if @fetchAllChanges@ is NO.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- recordZoneChangeTokensUpdatedBlock@
 recordZoneChangeTokensUpdatedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> IO (Ptr ())
 recordZoneChangeTokensUpdatedBlock ckFetchRecordZoneChangesOperation =
   sendMessage ckFetchRecordZoneChangesOperation recordZoneChangeTokensUpdatedBlockSelector
 
--- | Clients are responsible for saving this per-recordZone @serverChangeToken@ and passing it in to the next call to @CKFetchRecordZoneChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in this block so that already fetched records don't need to be re-downloaded on a subsequent operation.  @recordZoneChangeTokensUpdatedBlock@ will not be called after the last batch of changes in a zone; the @recordZoneFetchCompletionBlock@ block will be called instead.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ issued on this zone is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @serverChangeToken@ used for this record zone when initting this operation was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @serverChangeToken.@  @recordZoneChangeTokensUpdatedBlock@ will not be called if @fetchAllChanges@ is NO.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- | Clients are responsible for saving this per-recordZone @serverChangeToken@ and passing it in to the next call to @CKFetchRecordZoneChangesOperation.@  Note that a fetch can fail partway. If that happens, an updated change token may be returned in this block so that already fetched records don't need to be re-downloaded on a subsequent operation.  @recordZoneChangeTokensUpdatedBlock@ will not be called after the last batch of changes in a zone; the @recordZoneFetchCompletionBlock@ block will be called instead.  The @clientChangeTokenData@ from the most recent @CKModifyRecordsOperation@ issued on this zone is also returned, or nil if none was provided.  If the server returns a @CKErrorChangeTokenExpired@ error, the @serverChangeToken@ used for this record zone when initting this operation was too old and the client should toss its local cache and re-fetch the changes in this record zone starting with a nil @serverChangeToken.@  @recordZoneChangeTokensUpdatedBlock@ will not be called if @fetchAllChanges@ is NO.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setRecordZoneChangeTokensUpdatedBlock:@
 setRecordZoneChangeTokensUpdatedBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> Ptr () -> IO ()
@@ -201,7 +201,7 @@ setRecordZoneFetchCompletionBlock ckFetchRecordZoneChangesOperation value =
 
 -- | This block is called when the operation completes.
 --
--- @serverChangeToken-s@ previously returned via a @recordZoneChangeTokensUpdatedBlock@ or @recordZoneFetchCompletionBlock@ invocation, along with the record changes that preceded it, are valid even if there is a subsequent @operationError@  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs and zoneIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- @serverChangeToken-s@ previously returned via a @recordZoneChangeTokensUpdatedBlock@ or @recordZoneFetchCompletionBlock@ invocation, along with the record changes that preceded it, are valid even if there is a subsequent @operationError@  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs and zoneIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- fetchRecordZoneChangesCompletionBlock@
 fetchRecordZoneChangesCompletionBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> IO (Ptr ())
@@ -210,7 +210,7 @@ fetchRecordZoneChangesCompletionBlock ckFetchRecordZoneChangesOperation =
 
 -- | This block is called when the operation completes.
 --
--- @serverChangeToken-s@ previously returned via a @recordZoneChangeTokensUpdatedBlock@ or @recordZoneFetchCompletionBlock@ invocation, along with the record changes that preceded it, are valid even if there is a subsequent @operationError@  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs and zoneIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- @serverChangeToken-s@ previously returned via a @recordZoneChangeTokensUpdatedBlock@ or @recordZoneFetchCompletionBlock@ invocation, along with the record changes that preceded it, are valid even if there is a subsequent @operationError@  If the error is @CKErrorPartialFailure,@ the error's userInfo dictionary contains a dictionary of recordIDs and zoneIDs to errors keyed off of @CKPartialErrorsByItemIDKey.@  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setFetchRecordZoneChangesCompletionBlock:@
 setFetchRecordZoneChangesCompletionBlock :: IsCKFetchRecordZoneChangesOperation ckFetchRecordZoneChangesOperation => ckFetchRecordZoneChangesOperation -> Ptr () -> IO ()

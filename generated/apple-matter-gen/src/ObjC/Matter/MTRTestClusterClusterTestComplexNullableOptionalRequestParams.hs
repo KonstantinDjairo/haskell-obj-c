@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterTestComplexNullableOptionalRequestParams
   ( MTRTestClusterClusterTestComplexNullableOptionalRequestParams
   , IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams(..)
+  , init_
+  , copyWithZone
   , nullableInt
   , setNullableInt
   , optionalInt
@@ -33,8 +35,8 @@ module ObjC.Matter.MTRTestClusterClusterTestComplexNullableOptionalRequestParams
   , setNullableOptionalList
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
+  , copyWithZoneSelector
+  , initSelector
   , nullableIntSelector
   , nullableListSelector
   , nullableOptionalIntSelector
@@ -47,7 +49,6 @@ module ObjC.Matter.MTRTestClusterClusterTestComplexNullableOptionalRequestParams
   , optionalListSelector
   , optionalStringSelector
   , optionalStructSelector
-  , serverSideProcessingTimeoutSelector
   , setNullableIntSelector
   , setNullableListSelector
   , setNullableOptionalIntSelector
@@ -60,7 +61,6 @@ module ObjC.Matter.MTRTestClusterClusterTestComplexNullableOptionalRequestParams
   , setOptionalListSelector
   , setOptionalStringSelector
   , setOptionalStructSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
 
@@ -77,6 +77,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id MTRTestClusterClusterTestComplexNullableOptionalRequestParams)
+init_ mtrTestClusterClusterTestComplexNullableOptionalRequestParams =
+  sendOwnedMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestComplexNullableOptionalRequestParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams copyWithZoneSelector zone
 
 -- | @- nullableInt@
 nullableInt :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id NSNumber)
@@ -139,34 +149,34 @@ setNullableOptionalString mtrTestClusterClusterTestComplexNullableOptionalReques
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setNullableOptionalStringSelector (toNSString value)
 
 -- | @- nullableStruct@
-nullableStruct :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id MTRUnitTestingClusterSimpleStruct)
+nullableStruct :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id MTRTestClusterClusterSimpleStruct)
 nullableStruct mtrTestClusterClusterTestComplexNullableOptionalRequestParams =
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams nullableStructSelector
 
 -- | @- setNullableStruct:@
-setNullableStruct :: (IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams, IsMTRUnitTestingClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> value -> IO ()
+setNullableStruct :: (IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams, IsMTRTestClusterClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> value -> IO ()
 setNullableStruct mtrTestClusterClusterTestComplexNullableOptionalRequestParams value =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setNullableStructSelector (toMTRUnitTestingClusterSimpleStruct value)
+  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setNullableStructSelector (toMTRTestClusterClusterSimpleStruct value)
 
 -- | @- optionalStruct@
-optionalStruct :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id MTRUnitTestingClusterSimpleStruct)
+optionalStruct :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id MTRTestClusterClusterSimpleStruct)
 optionalStruct mtrTestClusterClusterTestComplexNullableOptionalRequestParams =
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams optionalStructSelector
 
 -- | @- setOptionalStruct:@
-setOptionalStruct :: (IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams, IsMTRUnitTestingClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> value -> IO ()
+setOptionalStruct :: (IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams, IsMTRTestClusterClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> value -> IO ()
 setOptionalStruct mtrTestClusterClusterTestComplexNullableOptionalRequestParams value =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setOptionalStructSelector (toMTRUnitTestingClusterSimpleStruct value)
+  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setOptionalStructSelector (toMTRTestClusterClusterSimpleStruct value)
 
 -- | @- nullableOptionalStruct@
-nullableOptionalStruct :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id MTRUnitTestingClusterSimpleStruct)
+nullableOptionalStruct :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id MTRTestClusterClusterSimpleStruct)
 nullableOptionalStruct mtrTestClusterClusterTestComplexNullableOptionalRequestParams =
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams nullableOptionalStructSelector
 
 -- | @- setNullableOptionalStruct:@
-setNullableOptionalStruct :: (IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams, IsMTRUnitTestingClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> value -> IO ()
+setNullableOptionalStruct :: (IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams, IsMTRTestClusterClusterSimpleStruct value) => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> value -> IO ()
 setNullableOptionalStruct mtrTestClusterClusterTestComplexNullableOptionalRequestParams value =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setNullableOptionalStructSelector (toMTRUnitTestingClusterSimpleStruct value)
+  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setNullableOptionalStructSelector (toMTRTestClusterClusterSimpleStruct value)
 
 -- | @- nullableList@
 nullableList :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id NSArray)
@@ -220,31 +230,17 @@ setTimedInvokeTimeoutMs :: (IsMTRTestClusterClusterTestComplexNullableOptionalRe
 setTimedInvokeTimeoutMs mtrTestClusterClusterTestComplexNullableOptionalRequestParams value =
   sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrTestClusterClusterTestComplexNullableOptionalRequestParams =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRTestClusterClusterTestComplexNullableOptionalRequestParams mtrTestClusterClusterTestComplexNullableOptionalRequestParams, IsNSNumber value) => mtrTestClusterClusterTestComplexNullableOptionalRequestParams -> value -> IO ()
-setServerSideProcessingTimeout mtrTestClusterClusterTestComplexNullableOptionalRequestParams value =
-  sendMessage mtrTestClusterClusterTestComplexNullableOptionalRequestParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestComplexNullableOptionalRequestParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @nullableInt@
 nullableIntSelector :: Selector '[] (Id NSNumber)
@@ -295,27 +291,27 @@ setNullableOptionalStringSelector :: Selector '[Id NSString] ()
 setNullableOptionalStringSelector = mkSelector "setNullableOptionalString:"
 
 -- | @Selector@ for @nullableStruct@
-nullableStructSelector :: Selector '[] (Id MTRUnitTestingClusterSimpleStruct)
+nullableStructSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
 nullableStructSelector = mkSelector "nullableStruct"
 
 -- | @Selector@ for @setNullableStruct:@
-setNullableStructSelector :: Selector '[Id MTRUnitTestingClusterSimpleStruct] ()
+setNullableStructSelector :: Selector '[Id MTRTestClusterClusterSimpleStruct] ()
 setNullableStructSelector = mkSelector "setNullableStruct:"
 
 -- | @Selector@ for @optionalStruct@
-optionalStructSelector :: Selector '[] (Id MTRUnitTestingClusterSimpleStruct)
+optionalStructSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
 optionalStructSelector = mkSelector "optionalStruct"
 
 -- | @Selector@ for @setOptionalStruct:@
-setOptionalStructSelector :: Selector '[Id MTRUnitTestingClusterSimpleStruct] ()
+setOptionalStructSelector :: Selector '[Id MTRTestClusterClusterSimpleStruct] ()
 setOptionalStructSelector = mkSelector "setOptionalStruct:"
 
 -- | @Selector@ for @nullableOptionalStruct@
-nullableOptionalStructSelector :: Selector '[] (Id MTRUnitTestingClusterSimpleStruct)
+nullableOptionalStructSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
 nullableOptionalStructSelector = mkSelector "nullableOptionalStruct"
 
 -- | @Selector@ for @setNullableOptionalStruct:@
-setNullableOptionalStructSelector :: Selector '[Id MTRUnitTestingClusterSimpleStruct] ()
+setNullableOptionalStructSelector :: Selector '[Id MTRTestClusterClusterSimpleStruct] ()
 setNullableOptionalStructSelector = mkSelector "setNullableOptionalStruct:"
 
 -- | @Selector@ for @nullableList@
@@ -349,12 +345,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
 

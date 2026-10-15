@@ -17,10 +17,6 @@ module ObjC.AuthenticationServices.ASWebAuthenticationSessionRequest
   , shouldUseEphemeralSession
   , delegate
   , setDelegate
-  , additionalHeaderFields
-  , callback
-  , additionalHeaderFieldsSelector
-  , callbackSelector
   , callbackURLSchemeSelector
   , cancelWithErrorSelector
   , completeWithCallbackURLSelector
@@ -98,20 +94,6 @@ setDelegate :: IsASWebAuthenticationSessionRequest asWebAuthenticationSessionReq
 setDelegate asWebAuthenticationSessionRequest value =
   sendMessage asWebAuthenticationSessionRequest setDelegateSelector value
 
--- | Additional headers to be sent when loading the initial URL. These should _only_ apply to the initial page, and should not overwrite any headers normally sent by the browser. Add @AdditionalHeaderFieldsAreSupported: true@ to @ASWebAuthenticationSessionWebBrowserSupportCapabilities@ in your browser's Info.plist file to indicate support for this.
---
--- ObjC selector: @- additionalHeaderFields@
-additionalHeaderFields :: IsASWebAuthenticationSessionRequest asWebAuthenticationSessionRequest => asWebAuthenticationSessionRequest -> IO (Id NSDictionary)
-additionalHeaderFields asWebAuthenticationSessionRequest =
-  sendMessage asWebAuthenticationSessionRequest additionalHeaderFieldsSelector
-
--- | The callback to listen for to complete this request. Check all main-frame navigations loaded during the request with this callback. It is used to handle all callback types, including custom schemes and HTTPS navigations. When a match is found, invoke @-completeWithCallbackURL:@ with that URL. Add @CallbackURLMatchingIsSupported: true@ to @ASWebAuthenticationSessionWebBrowserSupportCapabilities@ in your browser's Info.plist file to indicate support for this.
---
--- ObjC selector: @- callback@
-callback :: IsASWebAuthenticationSessionRequest asWebAuthenticationSessionRequest => asWebAuthenticationSessionRequest -> IO (Id ASWebAuthenticationSessionCallback)
-callback asWebAuthenticationSessionRequest =
-  sendMessage asWebAuthenticationSessionRequest callbackSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -155,12 +137,4 @@ delegateSelector = mkSelector "delegate"
 -- | @Selector@ for @setDelegate:@
 setDelegateSelector :: Selector '[RawId] ()
 setDelegateSelector = mkSelector "setDelegate:"
-
--- | @Selector@ for @additionalHeaderFields@
-additionalHeaderFieldsSelector :: Selector '[] (Id NSDictionary)
-additionalHeaderFieldsSelector = mkSelector "additionalHeaderFields"
-
--- | @Selector@ for @callback@
-callbackSelector :: Selector '[] (Id ASWebAuthenticationSessionCallback)
-callbackSelector = mkSelector "callback"
 

@@ -52,11 +52,8 @@ module ObjC.AppKit.NSSegmentedControl
   , segmentDistribution
   , setSegmentDistribution
   , activeCompressionOptions
-  , borderShape
-  , setBorderShape
   , activeCompressionOptionsSelector
   , alignmentForSegmentSelector
-  , borderShapeSelector
   , compressWithPrioritizedCompressionOptionsSelector
   , doubleValueForSelectedSegmentSelector
   , imageForSegmentSelector
@@ -76,7 +73,6 @@ module ObjC.AppKit.NSSegmentedControl
   , selectedSegmentBezelColorSelector
   , selectedSegmentSelector
   , setAlignment_forSegmentSelector
-  , setBorderShapeSelector
   , setEnabled_forSegmentSelector
   , setImageScaling_forSegmentSelector
   , setImage_forSegmentSelector
@@ -102,11 +98,6 @@ module ObjC.AppKit.NSSegmentedControl
   , widthForSegmentSelector
 
   -- * Enum types
-  , NSControlBorderShape(NSControlBorderShape)
-  , pattern NSControlBorderShapeAutomatic
-  , pattern NSControlBorderShapeCapsule
-  , pattern NSControlBorderShapeRoundedRectangle
-  , pattern NSControlBorderShapeCircle
   , NSImageScaling(NSImageScaling)
   , pattern NSImageScaleProportionallyDown
   , pattern NSImageScaleAxesIndependently
@@ -136,8 +127,8 @@ module ObjC.AppKit.NSSegmentedControl
   , pattern NSSegmentSwitchTrackingMomentaryAccelerator
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
 
@@ -375,14 +366,14 @@ doubleValueForSelectedSegment nsSegmentedControl =
   sendMessage nsSegmentedControl doubleValueForSelectedSegmentSelector
 
 -- | @- selectedSegmentBezelColor@
-selectedSegmentBezelColor :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> IO (Id NSColor)
+selectedSegmentBezelColor :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> IO RawId
 selectedSegmentBezelColor nsSegmentedControl =
   sendMessage nsSegmentedControl selectedSegmentBezelColorSelector
 
 -- | @- setSelectedSegmentBezelColor:@
-setSelectedSegmentBezelColor :: (IsNSSegmentedControl nsSegmentedControl, IsNSColor value) => nsSegmentedControl -> value -> IO ()
+setSelectedSegmentBezelColor :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> RawId -> IO ()
 setSelectedSegmentBezelColor nsSegmentedControl value =
-  sendMessage nsSegmentedControl setSelectedSegmentBezelColorSelector (toNSColor value)
+  sendMessage nsSegmentedControl setSelectedSegmentBezelColorSelector value
 
 -- | @- indexOfSelectedItem@
 indexOfSelectedItem :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> IO CLong
@@ -400,19 +391,9 @@ setSegmentDistribution nsSegmentedControl value =
   sendMessage nsSegmentedControl setSegmentDistributionSelector value
 
 -- | @- activeCompressionOptions@
-activeCompressionOptions :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> IO (Id NSUserInterfaceCompressionOptions)
+activeCompressionOptions :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> IO RawId
 activeCompressionOptions nsSegmentedControl =
   sendMessage nsSegmentedControl activeCompressionOptionsSelector
-
--- | @- borderShape@
-borderShape :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> IO NSControlBorderShape
-borderShape nsSegmentedControl =
-  sendMessage nsSegmentedControl borderShapeSelector
-
--- | @- setBorderShape:@
-setBorderShape :: IsNSSegmentedControl nsSegmentedControl => nsSegmentedControl -> NSControlBorderShape -> IO ()
-setBorderShape nsSegmentedControl value =
-  sendMessage nsSegmentedControl setBorderShapeSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -571,11 +552,11 @@ doubleValueForSelectedSegmentSelector :: Selector '[] CDouble
 doubleValueForSelectedSegmentSelector = mkSelector "doubleValueForSelectedSegment"
 
 -- | @Selector@ for @selectedSegmentBezelColor@
-selectedSegmentBezelColorSelector :: Selector '[] (Id NSColor)
+selectedSegmentBezelColorSelector :: Selector '[] RawId
 selectedSegmentBezelColorSelector = mkSelector "selectedSegmentBezelColor"
 
 -- | @Selector@ for @setSelectedSegmentBezelColor:@
-setSelectedSegmentBezelColorSelector :: Selector '[Id NSColor] ()
+setSelectedSegmentBezelColorSelector :: Selector '[RawId] ()
 setSelectedSegmentBezelColorSelector = mkSelector "setSelectedSegmentBezelColor:"
 
 -- | @Selector@ for @indexOfSelectedItem@
@@ -591,14 +572,6 @@ setSegmentDistributionSelector :: Selector '[NSSegmentDistribution] ()
 setSegmentDistributionSelector = mkSelector "setSegmentDistribution:"
 
 -- | @Selector@ for @activeCompressionOptions@
-activeCompressionOptionsSelector :: Selector '[] (Id NSUserInterfaceCompressionOptions)
+activeCompressionOptionsSelector :: Selector '[] RawId
 activeCompressionOptionsSelector = mkSelector "activeCompressionOptions"
-
--- | @Selector@ for @borderShape@
-borderShapeSelector :: Selector '[] NSControlBorderShape
-borderShapeSelector = mkSelector "borderShape"
-
--- | @Selector@ for @setBorderShape:@
-setBorderShapeSelector :: Selector '[NSControlBorderShape] ()
-setBorderShapeSelector = mkSelector "setBorderShape:"
 

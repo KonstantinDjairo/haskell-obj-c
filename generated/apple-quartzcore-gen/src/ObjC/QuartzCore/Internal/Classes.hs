@@ -178,44 +178,6 @@ instance IsCAMediaTimingFunction (Id CAMediaTimingFunction) where
 instance IsNSObject (Id CAMediaTimingFunction) where
   toNSObject = unsafeCastId
 
--- ---------- CAMetalDisplayLink ----------
-
--- | Phantom type for @CAMetalDisplayLink@.
-data CAMetalDisplayLink
-
-instance IsObjCObject (Id CAMetalDisplayLink) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CAMetalDisplayLink"
-
-class IsNSObject a => IsCAMetalDisplayLink a where
-  toCAMetalDisplayLink :: a -> Id CAMetalDisplayLink
-
-instance IsCAMetalDisplayLink (Id CAMetalDisplayLink) where
-  toCAMetalDisplayLink = unsafeCastId
-
-instance IsNSObject (Id CAMetalDisplayLink) where
-  toNSObject = unsafeCastId
-
--- ---------- CAMetalDisplayLinkUpdate ----------
-
--- | Phantom type for @CAMetalDisplayLinkUpdate@.
-data CAMetalDisplayLinkUpdate
-
-instance IsObjCObject (Id CAMetalDisplayLinkUpdate) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "CAMetalDisplayLinkUpdate"
-
-class IsNSObject a => IsCAMetalDisplayLinkUpdate a where
-  toCAMetalDisplayLinkUpdate :: a -> Id CAMetalDisplayLinkUpdate
-
-instance IsCAMetalDisplayLinkUpdate (Id CAMetalDisplayLinkUpdate) where
-  toCAMetalDisplayLinkUpdate = unsafeCastId
-
-instance IsNSObject (Id CAMetalDisplayLinkUpdate) where
-  toNSObject = unsafeCastId
-
 -- ---------- CARemoteLayerClient ----------
 
 -- | Phantom type for @CARemoteLayerClient@.

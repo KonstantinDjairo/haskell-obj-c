@@ -3,21 +3,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An object that represents the metadata for a reference signature.
+-- | @SHMediaItem@ represents metadata associated with a @SHSignature@
 --
--- This class uses subscripting for the data elements of a custom media item that an existing property doesn't already represent.
+-- A @SHMediaItem@ is used in two distinct ways     1. As the base class of a @SHMatchedMediaItem,@ and therefore as the result of a match     2. As a way of associating metadata with reference signatures in a @SHCustomCatalog@
 --
--- Add a readable custom property by extending ``SHMediaItemProperty-struct``  with a key for that property, and by extending this class with a property that uses the key. The following code shows the extensions for an episode number:
+-- A SHMediaItem contains no required fields and may be entirely blank, they can also contain custom data set with custom keys when making a @SHCustomCatalog.@
 --
--- ```swift // Add an episode number to the list of properties. extension SHMediaItemProperty {     static let episode = SHMediaItemProperty("Episode") }
---
--- // Add a property for returning the episode number using a subscript. extension SHMediaItem {     var episode: Int? {         return self[.episode] as? Int     } } ```
---
--- Add your custom property when you create the media item as the following code shows:
---
--- ```swift // Create a new media item and set the title, subtitle, and episode properties. let mediaItem = SHMediaItem(properties: [.episode: 42,                                          .title: "Question",                                          .subtitle: "The Answer"]) ```
---
--- > Note: > The class of the object that represents a custom object must be one of: @Dictionary@, @Array@, @URL@, @Number@, @String@, @Date@, or @Data@.
+-- Note: @SHMediaItem@  is not intended to be subclassed further.
 --
 -- Generated bindings for @SHMediaItem@.
 module ObjC.ShazamKit.SHMediaItem
@@ -43,12 +35,10 @@ module ObjC.ShazamKit.SHMediaItem
   , isrc
   , timeRanges
   , frequencySkewRanges
-  , creationDate
   , appleMusicIDSelector
   , appleMusicURLSelector
   , artistSelector
   , artworkURLSelector
-  , creationDateSelector
   , explicitContentSelector
   , fetchMediaItemWithShazamID_completionHandlerSelector
   , frequencySkewRangesSelector
@@ -80,9 +70,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.ShazamKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Creates a media item object with a dictionary of properties and their associated values.
+-- | Construct a new instance with the provided dictionary
 --
--- - Parameters:   - properties: A dictionary that contains the media item properties and their associated values.
+-- @properties@ — A dictionary of @SHMediaItemProperty@ and their values
+--
+-- You may add your own keys here to return custom data, custom data should conform to NSCoding
 --
 -- ObjC selector: @+ mediaItemWithProperties:@
 mediaItemWithProperties :: IsNSDictionary properties => properties -> IO (Id SHMediaItem)
@@ -91,15 +83,9 @@ mediaItemWithProperties properties =
     cls' <- getRequiredClass "SHMediaItem"
     sendClassMessage cls' mediaItemWithPropertiesSelector (toNSDictionary properties)
 
--- | Requests the media item for the song with the specified Shazam ID.
+-- | Fetch a @SHMediaItem@ by Shazam ID
 --
--- > Important: > You can call this method from synchronous code using a completion handler, as shown on this page, or you can call it as an asynchronous method that has the following declaration: > > ```swift > class func fetch(shazamID: String) async throws -> SHMediaItem > ``` > > For information about concurrency and asynchronous code in Swift, see <doc://com.apple.documentation/documentation/swift/calling-objective-c-apis-asynchronously>.
---
--- - Parameters:   - shazamID: The Shazam ID of the song.   - completionHandler: The completion handler that the system calls with the result of the request.
---
--- This block takes the following parameters:
---
--- - term @mediaItem@: A media item.     - term @error@: An error object if a problem occurs when fetching the media item; otherwise, @nil@.
+-- The completionHandler will contain a @SHMediaItem@ if the ShazamID is valid, otherwise nil and an error
 --
 -- ObjC selector: @+ fetchMediaItemWithShazamID:completionHandler:@
 fetchMediaItemWithShazamID_completionHandler :: IsNSString shazamID => shazamID -> Ptr () -> IO ()
@@ -108,22 +94,18 @@ fetchMediaItemWithShazamID_completionHandler shazamID completionHandler =
     cls' <- getRequiredClass "SHMediaItem"
     sendClassMessage cls' fetchMediaItemWithShazamID_completionHandlerSelector (toNSString shazamID) completionHandler
 
--- | Accesses the property for the specified key for reading.
+-- | Retrieve a value using a known key
 --
--- - Parameters:   - property: The key for the property.
---
--- - Returns: The value of the property; otherwise, @nil@.
+-- @property@ — The @SHMediaItemProperty@ for a value
 --
 -- ObjC selector: @- valueForProperty:@
 valueForProperty :: (IsSHMediaItem shMediaItem, IsNSString property) => shMediaItem -> property -> IO RawId
 valueForProperty shMediaItem property =
   sendMessage shMediaItem valueForPropertySelector (toNSString property)
 
--- | Accesses the property for the specified key for reading.
+-- | Use subscripting to retrieve values
 --
--- - Parameters:   - key: The key for the media item property.
---
--- - Returns: The value of the property; otherwise, @nil@.
+-- @key@ — The @SHMediaItemProperty@ or custom key for a value
 --
 -- ObjC selector: @- objectForKeyedSubscript:@
 objectForKeyedSubscript :: (IsSHMediaItem shMediaItem, IsNSString key) => shMediaItem -> key -> IO RawId
@@ -142,114 +124,131 @@ init_ :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id SHMediaItem)
 init_ shMediaItem =
   sendOwnedMessage shMediaItem initSelector
 
--- | The Shazam ID for the song.
+-- | The Shazam Media ID
+--
+-- Note: This may be fetched using the key @SHMediaItemShazamID@
 --
 -- ObjC selector: @- shazamID@
 shazamID :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSString)
 shazamID shMediaItem =
   sendMessage shMediaItem shazamIDSelector
 
--- | A title for the media item.
+-- | The Title
+--
+-- Note: This may be fetched using the key @SHMediaItemTitle@
 --
 -- ObjC selector: @- title@
 title :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSString)
 title shMediaItem =
   sendMessage shMediaItem titleSelector
 
--- | A subtitle for the media item.
+-- | The Subtitle
+--
+-- Note: This may be fetched using the key @SHMediaItemSubtitle@
 --
 -- ObjC selector: @- subtitle@
 subtitle :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSString)
 subtitle shMediaItem =
   sendMessage shMediaItem subtitleSelector
 
--- | The name of the artist for the media item, such as the performer of a song.
+-- | The Artist
+--
+-- Note: This may be fetched using the key @SHMediaItemArtist@
 --
 -- ObjC selector: @- artist@
 artist :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSString)
 artist shMediaItem =
   sendMessage shMediaItem artistSelector
 
--- | An array of genre names for the media item.
+-- | The Genre Names
 --
--- The array is empty if there are no media items.
+-- Note: This may be fetched using the key @SHMediaItemGenres@
+--
+-- An array of strings representing the genres of the media item. Will return an empty array if there are no genres.
 --
 -- ObjC selector: @- genres@
 genres :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSArray)
 genres shMediaItem =
   sendMessage shMediaItem genresSelector
 
--- | The Apple Music ID for the song.
+-- | The Apple Music ID
+--
+-- Note: This may be fetched using the key @SHMediaItemAppleMusicID@
 --
 -- ObjC selector: @- appleMusicID@
 appleMusicID :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSString)
 appleMusicID shMediaItem =
   sendMessage shMediaItem appleMusicIDSelector
 
--- | A link to the Apple Music page that contains the full information for the song.
+-- | The Apple Music URL
+--
+-- Note: This may be fetched using the key @SHMediaItemAppleMusicURL@
 --
 -- ObjC selector: @- appleMusicURL@
 appleMusicURL :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSURL)
 appleMusicURL shMediaItem =
   sendMessage shMediaItem appleMusicURLSelector
 
--- | A link to the Shazam Music catalog page that contains the full information for the song.
+-- | The Web URL
 --
--- This link opens the Shazam app or App Clip if it's available on the device.
+-- The URL will point to a page that displays the current object in its entirety
+--
+-- Note: This may be fetched using the key @SHMediaItemWebURL@
 --
 -- ObjC selector: @- webURL@
 webURL :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSURL)
 webURL shMediaItem =
   sendMessage shMediaItem webURLSelector
 
--- | The URL for artwork for the media item, such as an album cover.
+-- | The Artwork URL
+--
+-- Note: This may be fetched using the key @SHMediaItemArtworkURL@
 --
 -- ObjC selector: @- artworkURL@
 artworkURL :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSURL)
 artworkURL shMediaItem =
   sendMessage shMediaItem artworkURLSelector
 
--- | The URL for a video for the media item, such as a music video.
+-- | The VideoURL
+--
+-- Note: This may be fetched using the key @SHMediaItemVideoURL@
 --
 -- ObjC selector: @- videoURL@
 videoURL :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSURL)
 videoURL shMediaItem =
   sendMessage shMediaItem videoURLSelector
 
--- | A Boolean value that indicates whether the media item contains explicit content.
+-- | Whether this object represents explicit material
+--
+-- Note: This may be fetched using the key @SHMediaItemExplicitContent@
 --
 -- ObjC selector: @- explicitContent@
 explicitContent :: IsSHMediaItem shMediaItem => shMediaItem -> IO Bool
 explicitContent shMediaItem =
   sendMessage shMediaItem explicitContentSelector
 
--- | The International Standard Recording Code (ISRC) for the media item.
+-- | The International Standard Recording Code
+--
+-- Note: This may be fetched using the key @SHMediaItemISRC@
 --
 -- ObjC selector: @- isrc@
 isrc :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSString)
 isrc shMediaItem =
   sendMessage shMediaItem isrcSelector
 
--- | An array of ranges that indicate the offsets within the reference signature that this media item describes.
+-- | An array of @SHRange@ that indicate the offsets within the reference signature that this media item describes
 --
 -- ObjC selector: @- timeRanges@
 timeRanges :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSArray)
 timeRanges shMediaItem =
   sendMessage shMediaItem timeRangesSelector
 
--- | An array of ranges that indicate the frequency skews in the reference signature that this media item describes.
+-- | An array of @SHRange@ that indicate the frequency skews in the reference signature that this media item describes
 --
 -- ObjC selector: @- frequencySkewRanges@
 frequencySkewRanges :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSArray)
 frequencySkewRanges shMediaItem =
   sendMessage shMediaItem frequencySkewRangesSelector
-
--- | The date the media item was created.
---
--- ObjC selector: @- creationDate@
-creationDate :: IsSHMediaItem shMediaItem => shMediaItem -> IO (Id NSDate)
-creationDate shMediaItem =
-  sendMessage shMediaItem creationDateSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -334,8 +333,4 @@ timeRangesSelector = mkSelector "timeRanges"
 -- | @Selector@ for @frequencySkewRanges@
 frequencySkewRangesSelector :: Selector '[] (Id NSArray)
 frequencySkewRangesSelector = mkSelector "frequencySkewRanges"
-
--- | @Selector@ for @creationDate@
-creationDateSelector :: Selector '[] (Id NSDate)
-creationDateSelector = mkSelector "creationDate"
 

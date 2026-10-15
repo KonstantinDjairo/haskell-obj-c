@@ -7,12 +7,16 @@
 module ObjC.Matter.MTRDoorLockClusterDlCredential
   ( MTRDoorLockClusterDlCredential
   , IsMTRDoorLockClusterDlCredential(..)
+  , init_
+  , copyWithZone
   , credentialType
   , setCredentialType
   , credentialIndex
   , setCredentialIndex
+  , copyWithZoneSelector
   , credentialIndexSelector
   , credentialTypeSelector
+  , initSelector
   , setCredentialIndexSelector
   , setCredentialTypeSelector
 
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRDoorLockClusterDlCredential mtrDoorLockClusterDlCredential => mtrDoorLockClusterDlCredential -> IO (Id MTRDoorLockClusterDlCredential)
+init_ mtrDoorLockClusterDlCredential =
+  sendOwnedMessage mtrDoorLockClusterDlCredential initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterDlCredential mtrDoorLockClusterDlCredential => mtrDoorLockClusterDlCredential -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterDlCredential zone =
+  sendOwnedMessage mtrDoorLockClusterDlCredential copyWithZoneSelector zone
 
 -- | @- credentialType@
 credentialType :: IsMTRDoorLockClusterDlCredential mtrDoorLockClusterDlCredential => mtrDoorLockClusterDlCredential -> IO (Id NSNumber)
@@ -53,6 +67,14 @@ setCredentialIndex mtrDoorLockClusterDlCredential value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterDlCredential)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @credentialType@
 credentialTypeSelector :: Selector '[] (Id NSNumber)

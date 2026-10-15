@@ -12,26 +12,17 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
   exposed-modules:
-  - ObjC.LocalAuthentication.Delegate.LAEnvironmentObserver
   - ObjC.LocalAuthentication.Enums
   - ObjC.LocalAuthentication.Internal.Classes
   - ObjC.LocalAuthentication.Internal.Enums
   - ObjC.LocalAuthentication.LAAuthenticationRequirement
   - ObjC.LocalAuthentication.LABiometryFallbackRequirement
   - ObjC.LocalAuthentication.LAContext
-  - ObjC.LocalAuthentication.LADomainState
-  - ObjC.LocalAuthentication.LADomainStateBiometry
-  - ObjC.LocalAuthentication.LADomainStateCompanion
-  - ObjC.LocalAuthentication.LAEnvironment
-  - ObjC.LocalAuthentication.LAEnvironmentMechanism
-  - ObjC.LocalAuthentication.LAEnvironmentMechanismBiometry
-  - ObjC.LocalAuthentication.LAEnvironmentMechanismCompanion
-  - ObjC.LocalAuthentication.LAEnvironmentMechanismUserPassword
-  - ObjC.LocalAuthentication.LAEnvironmentState
   - ObjC.LocalAuthentication.LAPersistedRight
   - ObjC.LocalAuthentication.LAPrivateKey
   - ObjC.LocalAuthentication.LAPublicKey

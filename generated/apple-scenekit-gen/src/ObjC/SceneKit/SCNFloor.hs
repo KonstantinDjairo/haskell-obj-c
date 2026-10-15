@@ -11,7 +11,7 @@
 module ObjC.SceneKit.SCNFloor
   ( SCNFloor
   , IsSCNFloor(..)
-  , floor
+  , floor_
   , reflectivity
   , setReflectivity
   , reflectionFalloffStart
@@ -63,8 +63,8 @@ import ObjC.Foundation.Internal.Classes
 -- A floor is an infinite plane.
 --
 -- ObjC selector: @+ floor@
-floor :: IO (Id SCNFloor)
-floor  =
+floor_ :: IO (Id SCNFloor)
+floor_  =
   do
     cls' <- getRequiredClass "SCNFloor"
     sendClassMessage cls' floorSelector

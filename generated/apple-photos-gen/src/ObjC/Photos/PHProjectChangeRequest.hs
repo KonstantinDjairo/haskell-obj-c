@@ -75,14 +75,14 @@ setTitle :: (IsPHProjectChangeRequest phProjectChangeRequest, IsNSString value) 
 setTitle phProjectChangeRequest value =
   sendMessage phProjectChangeRequest setTitleSelector (toNSString value)
 
--- | The projectExtensionData property is intended for storage of compressed, project specific data only. Do not include things like rasterized images that can be locally cached in this data. The total size of stored data is limited to 5 MB. Attempting to store more data than allowed will result in an error.
+-- | The projectExtensionData property is intended for storage of compressed, project specific data only. Do not include things like rasterized images that can be locally cached in this data. The total size of stored data is limited to 1 MB. Attempting to store more data than allowed will result in an error.
 --
 -- ObjC selector: @- projectExtensionData@
 projectExtensionData :: IsPHProjectChangeRequest phProjectChangeRequest => phProjectChangeRequest -> IO (Id NSData)
 projectExtensionData phProjectChangeRequest =
   sendMessage phProjectChangeRequest projectExtensionDataSelector
 
--- | The projectExtensionData property is intended for storage of compressed, project specific data only. Do not include things like rasterized images that can be locally cached in this data. The total size of stored data is limited to 5 MB. Attempting to store more data than allowed will result in an error.
+-- | The projectExtensionData property is intended for storage of compressed, project specific data only. Do not include things like rasterized images that can be locally cached in this data. The total size of stored data is limited to 1 MB. Attempting to store more data than allowed will result in an error.
 --
 -- ObjC selector: @- setProjectExtensionData:@
 setProjectExtensionData :: (IsPHProjectChangeRequest phProjectChangeRequest, IsNSData value) => phProjectChangeRequest -> value -> IO ()

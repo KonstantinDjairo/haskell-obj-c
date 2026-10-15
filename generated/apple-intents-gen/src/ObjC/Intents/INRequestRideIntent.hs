@@ -75,7 +75,7 @@ paymentMethod inRequestRideIntent =
   sendMessage inRequestRideIntent paymentMethodSelector
 
 -- | @- scheduledPickupTime@
-scheduledPickupTime :: IsINRequestRideIntent inRequestRideIntent => inRequestRideIntent -> IO (Id INDateComponentsRange)
+scheduledPickupTime :: IsINRequestRideIntent inRequestRideIntent => inRequestRideIntent -> IO RawId
 scheduledPickupTime inRequestRideIntent =
   sendMessage inRequestRideIntent scheduledPickupTimeSelector
 
@@ -112,6 +112,6 @@ paymentMethodSelector :: Selector '[] (Id INPaymentMethod)
 paymentMethodSelector = mkSelector "paymentMethod"
 
 -- | @Selector@ for @scheduledPickupTime@
-scheduledPickupTimeSelector :: Selector '[] (Id INDateComponentsRange)
+scheduledPickupTimeSelector :: Selector '[] RawId
 scheduledPickupTimeSelector = mkSelector "scheduledPickupTime"
 

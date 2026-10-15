@@ -9,21 +9,16 @@ module ObjC.AuthenticationServices.ASCredentialServiceIdentifier
   ( ASCredentialServiceIdentifier
   , IsASCredentialServiceIdentifier(..)
   , initWithIdentifier_type
-  , initWithIdentifier_type_displayName
-  , displayName
   , identifier
   , type_
-  , displayNameSelector
   , identifierSelector
   , initWithIdentifier_typeSelector
-  , initWithIdentifier_type_displayNameSelector
   , typeSelector
 
   -- * Enum types
   , ASCredentialServiceIdentifierType(ASCredentialServiceIdentifierType)
   , pattern ASCredentialServiceIdentifierTypeDomain
   , pattern ASCredentialServiceIdentifierTypeURL
-  , pattern ASCredentialServiceIdentifierTypeApp
 
   ) where
 
@@ -50,22 +45,6 @@ initWithIdentifier_type :: (IsASCredentialServiceIdentifier asCredentialServiceI
 initWithIdentifier_type asCredentialServiceIdentifier identifier type_ =
   sendOwnedMessage asCredentialServiceIdentifier initWithIdentifier_typeSelector (toNSString identifier) type_
 
--- | Initializes an ASCredentialServiceIdentifier object.
---
--- - Parameters:   - identifier: The string value for the service identifier.   - type: The type that the service identifier string represents.   - displayName: A user visible name that describes the service.
---
--- ObjC selector: @- initWithIdentifier:type:displayName:@
-initWithIdentifier_type_displayName :: (IsASCredentialServiceIdentifier asCredentialServiceIdentifier, IsNSString identifier, IsNSString displayName) => asCredentialServiceIdentifier -> identifier -> ASCredentialServiceIdentifierType -> displayName -> IO (Id ASCredentialServiceIdentifier)
-initWithIdentifier_type_displayName asCredentialServiceIdentifier identifier type_ displayName =
-  sendOwnedMessage asCredentialServiceIdentifier initWithIdentifier_type_displayNameSelector (toNSString identifier) type_ (toNSString displayName)
-
--- | A user visible name for the identifier. For @app@ types it will contain the localized name of the app. For @URL@ types it will contain the host name of the URL if it contains a valid host. For @URL@ type identifiers that do not contain a valid host and for @domain@ type identifiers, this will be equal to @identifier@. This property is meant only as a best effort suggestion for display purposes. It is not used by the system to identify the service or suggest a credential for AutoFill.
---
--- ObjC selector: @- displayName@
-displayName :: IsASCredentialServiceIdentifier asCredentialServiceIdentifier => asCredentialServiceIdentifier -> IO (Id NSString)
-displayName asCredentialServiceIdentifier =
-  sendMessage asCredentialServiceIdentifier displayNameSelector
-
 -- | Get the identifier.
 --
 -- Returns: The service identifier.
@@ -91,14 +70,6 @@ type_ asCredentialServiceIdentifier =
 -- | @Selector@ for @initWithIdentifier:type:@
 initWithIdentifier_typeSelector :: Selector '[Id NSString, ASCredentialServiceIdentifierType] (Id ASCredentialServiceIdentifier)
 initWithIdentifier_typeSelector = mkSelector "initWithIdentifier:type:"
-
--- | @Selector@ for @initWithIdentifier:type:displayName:@
-initWithIdentifier_type_displayNameSelector :: Selector '[Id NSString, ASCredentialServiceIdentifierType, Id NSString] (Id ASCredentialServiceIdentifier)
-initWithIdentifier_type_displayNameSelector = mkSelector "initWithIdentifier:type:displayName:"
-
--- | @Selector@ for @displayName@
-displayNameSelector :: Selector '[] (Id NSString)
-displayNameSelector = mkSelector "displayName"
 
 -- | @Selector@ for @identifier@
 identifierSelector :: Selector '[] (Id NSString)

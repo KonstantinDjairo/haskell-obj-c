@@ -9,7 +9,6 @@ module ObjC.GameKit.GKLeaderboardEntry
   , IsGKLeaderboardEntry(..)
   , init_
   , challengeComposeControllerWithMessage_players_completionHandler
-  , challengeComposeControllerWithMessage_players_completion
   , player
   , rank
   , score
@@ -17,7 +16,6 @@ module ObjC.GameKit.GKLeaderboardEntry
   , context
   , date
   , challengeComposeControllerWithMessage_players_completionHandlerSelector
-  , challengeComposeControllerWithMessage_players_completionSelector
   , contextSelector
   , dateSelector
   , formattedScoreSelector
@@ -50,11 +48,6 @@ init_ gkLeaderboardEntry =
 challengeComposeControllerWithMessage_players_completionHandler :: (IsGKLeaderboardEntry gkLeaderboardEntry, IsNSString message, IsNSArray players) => gkLeaderboardEntry -> message -> players -> Ptr () -> IO (Id NSViewController)
 challengeComposeControllerWithMessage_players_completionHandler gkLeaderboardEntry message players completionHandler =
   sendMessage gkLeaderboardEntry challengeComposeControllerWithMessage_players_completionHandlerSelector (toNSString message) (toNSArray players) completionHandler
-
--- | @- challengeComposeControllerWithMessage:players:completion:@
-challengeComposeControllerWithMessage_players_completion :: (IsGKLeaderboardEntry gkLeaderboardEntry, IsNSString message, IsNSArray players) => gkLeaderboardEntry -> message -> players -> Ptr () -> IO (Id NSViewController)
-challengeComposeControllerWithMessage_players_completion gkLeaderboardEntry message players completionHandler =
-  sendMessage gkLeaderboardEntry challengeComposeControllerWithMessage_players_completionSelector (toNSString message) (toNSArray players) completionHandler
 
 -- | @- player@
 player :: IsGKLeaderboardEntry gkLeaderboardEntry => gkLeaderboardEntry -> IO (Id GKPlayer)
@@ -97,10 +90,6 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @challengeComposeControllerWithMessage:players:completionHandler:@
 challengeComposeControllerWithMessage_players_completionHandlerSelector :: Selector '[Id NSString, Id NSArray, Ptr ()] (Id NSViewController)
 challengeComposeControllerWithMessage_players_completionHandlerSelector = mkSelector "challengeComposeControllerWithMessage:players:completionHandler:"
-
--- | @Selector@ for @challengeComposeControllerWithMessage:players:completion:@
-challengeComposeControllerWithMessage_players_completionSelector :: Selector '[Id NSString, Id NSArray, Ptr ()] (Id NSViewController)
-challengeComposeControllerWithMessage_players_completionSelector = mkSelector "challengeComposeControllerWithMessage:players:completion:"
 
 -- | @Selector@ for @player@
 playerSelector :: Selector '[] (Id GKPlayer)

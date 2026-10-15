@@ -10,11 +10,9 @@ module ObjC.BackgroundAssets.BAAppExtensionInfo
   , init_
   , new
   , restrictedDownloadSizeRemaining
-  , restrictedEssentialDownloadSizeRemaining
   , initSelector
   , newSelector
   , restrictedDownloadSizeRemainingSelector
-  , restrictedEssentialDownloadSizeRemainingSelector
 
 
   ) where
@@ -44,7 +42,7 @@ new  =
 
 -- | The number of bytes remaining that can be scheduled if the total download size is restricted.
 --
--- When a download is restricted, your extension can only schedule up to its @BADownloadAllowance@ defined in your app's @Info.plist@. This result tells you the number of bytes remaining that can be scheduled before the application is launched. Once the application is launched, this restriction is removed.
+-- When a download is restricted, your extension can only schedule up to its @BAInitialDownloadAllowance@ defined in your app's @Info.plist@. This result tells you the number of bytes remaining that can be scheduled before the application is launched. Once the application is launched, this restriction is removed.
 --
 -- Returns: The result is @nil@ if downloads are not restricted. It returns a valid number with the remaining available download size otherwise.
 --
@@ -52,17 +50,6 @@ new  =
 restrictedDownloadSizeRemaining :: IsBAAppExtensionInfo baAppExtensionInfo => baAppExtensionInfo -> IO (Id NSNumber)
 restrictedDownloadSizeRemaining baAppExtensionInfo =
   sendMessage baAppExtensionInfo restrictedDownloadSizeRemainingSelector
-
--- | The number of bytes remaining that can be scheduled if the total download size of optional assets is restricted.
---
--- When a download is restricted, your extension can only schedule up to its @BAEssentialDownloadAllowance@ defined in your app's @Info.plist@. This result tells you the number of bytes remaining that can be scheduled before the application is launched. Once the application is launched, this restriction is removed.
---
--- Returns: The result is @nil@ if downloads are not restricted. It returns a valid number with the remaining available download size otherwise.
---
--- ObjC selector: @- restrictedEssentialDownloadSizeRemaining@
-restrictedEssentialDownloadSizeRemaining :: IsBAAppExtensionInfo baAppExtensionInfo => baAppExtensionInfo -> IO (Id NSNumber)
-restrictedEssentialDownloadSizeRemaining baAppExtensionInfo =
-  sendMessage baAppExtensionInfo restrictedEssentialDownloadSizeRemainingSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -79,8 +66,4 @@ newSelector = mkSelector "new"
 -- | @Selector@ for @restrictedDownloadSizeRemaining@
 restrictedDownloadSizeRemainingSelector :: Selector '[] (Id NSNumber)
 restrictedDownloadSizeRemainingSelector = mkSelector "restrictedDownloadSizeRemaining"
-
--- | @Selector@ for @restrictedEssentialDownloadSizeRemaining@
-restrictedEssentialDownloadSizeRemainingSelector :: Selector '[] (Id NSNumber)
-restrictedEssentialDownloadSizeRemainingSelector = mkSelector "restrictedEssentialDownloadSizeRemaining"
 

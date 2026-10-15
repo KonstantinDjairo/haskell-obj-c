@@ -9,15 +9,11 @@ module ObjC.Photos.PHAssetResourceCreationOptions
   , IsPHAssetResourceCreationOptions(..)
   , originalFilename
   , setOriginalFilename
-  , contentType
-  , setContentType
   , uniformTypeIdentifier
   , setUniformTypeIdentifier
   , shouldMoveFile
   , setShouldMoveFile
-  , contentTypeSelector
   , originalFilenameSelector
-  , setContentTypeSelector
   , setOriginalFilenameSelector
   , setShouldMoveFileSelector
   , setUniformTypeIdentifierSelector
@@ -37,7 +33,6 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Photos.Internal.Classes
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- | @- originalFilename@
 originalFilename :: IsPHAssetResourceCreationOptions phAssetResourceCreationOptions => phAssetResourceCreationOptions -> IO (Id NSString)
@@ -48,20 +43,6 @@ originalFilename phAssetResourceCreationOptions =
 setOriginalFilename :: (IsPHAssetResourceCreationOptions phAssetResourceCreationOptions, IsNSString value) => phAssetResourceCreationOptions -> value -> IO ()
 setOriginalFilename phAssetResourceCreationOptions value =
   sendMessage phAssetResourceCreationOptions setOriginalFilenameSelector (toNSString value)
-
--- | The type of data being provided for this asset resource. If not specified, one will be inferred from the PHAssetResourceType or file URL extension (if provided).
---
--- ObjC selector: @- contentType@
-contentType :: IsPHAssetResourceCreationOptions phAssetResourceCreationOptions => phAssetResourceCreationOptions -> IO (Id UTType)
-contentType phAssetResourceCreationOptions =
-  sendMessage phAssetResourceCreationOptions contentTypeSelector
-
--- | The type of data being provided for this asset resource. If not specified, one will be inferred from the PHAssetResourceType or file URL extension (if provided).
---
--- ObjC selector: @- setContentType:@
-setContentType :: (IsPHAssetResourceCreationOptions phAssetResourceCreationOptions, IsUTType value) => phAssetResourceCreationOptions -> value -> IO ()
-setContentType phAssetResourceCreationOptions value =
-  sendMessage phAssetResourceCreationOptions setContentTypeSelector (toUTType value)
 
 -- | @- uniformTypeIdentifier@
 uniformTypeIdentifier :: IsPHAssetResourceCreationOptions phAssetResourceCreationOptions => phAssetResourceCreationOptions -> IO (Id NSString)
@@ -94,14 +75,6 @@ originalFilenameSelector = mkSelector "originalFilename"
 -- | @Selector@ for @setOriginalFilename:@
 setOriginalFilenameSelector :: Selector '[Id NSString] ()
 setOriginalFilenameSelector = mkSelector "setOriginalFilename:"
-
--- | @Selector@ for @contentType@
-contentTypeSelector :: Selector '[] (Id UTType)
-contentTypeSelector = mkSelector "contentType"
-
--- | @Selector@ for @setContentType:@
-setContentTypeSelector :: Selector '[Id UTType] ()
-setContentTypeSelector = mkSelector "setContentType:"
 
 -- | @Selector@ for @uniformTypeIdentifier@
 uniformTypeIdentifierSelector :: Selector '[] (Id NSString)

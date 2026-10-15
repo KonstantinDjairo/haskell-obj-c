@@ -11,13 +11,9 @@ module ObjC.Intents.INSearchCallHistoryIntentResponse
   , init_
   , initWithCode_userActivity
   , code
-  , callRecords
-  , setCallRecords
-  , callRecordsSelector
   , codeSelector
   , initSelector
   , initWithCode_userActivitySelector
-  , setCallRecordsSelector
 
   -- * Enum types
   , INSearchCallHistoryIntentResponseCode(INSearchCallHistoryIntentResponseCode)
@@ -59,16 +55,6 @@ code :: IsINSearchCallHistoryIntentResponse inSearchCallHistoryIntentResponse =>
 code inSearchCallHistoryIntentResponse =
   sendMessage inSearchCallHistoryIntentResponse codeSelector
 
--- | @- callRecords@
-callRecords :: IsINSearchCallHistoryIntentResponse inSearchCallHistoryIntentResponse => inSearchCallHistoryIntentResponse -> IO (Id NSArray)
-callRecords inSearchCallHistoryIntentResponse =
-  sendMessage inSearchCallHistoryIntentResponse callRecordsSelector
-
--- | @- setCallRecords:@
-setCallRecords :: (IsINSearchCallHistoryIntentResponse inSearchCallHistoryIntentResponse, IsNSArray value) => inSearchCallHistoryIntentResponse -> value -> IO ()
-setCallRecords inSearchCallHistoryIntentResponse value =
-  sendMessage inSearchCallHistoryIntentResponse setCallRecordsSelector (toNSArray value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -84,12 +70,4 @@ initWithCode_userActivitySelector = mkSelector "initWithCode:userActivity:"
 -- | @Selector@ for @code@
 codeSelector :: Selector '[] INSearchCallHistoryIntentResponseCode
 codeSelector = mkSelector "code"
-
--- | @Selector@ for @callRecords@
-callRecordsSelector :: Selector '[] (Id NSArray)
-callRecordsSelector = mkSelector "callRecords"
-
--- | @Selector@ for @setCallRecords:@
-setCallRecordsSelector :: Selector '[Id NSArray] ()
-setCallRecordsSelector = mkSelector "setCallRecords:"
 

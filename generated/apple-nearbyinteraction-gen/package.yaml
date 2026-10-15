@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -23,8 +24,6 @@ library:
   - ObjC.NearbyInteraction.Internal.Enums
   - ObjC.NearbyInteraction.NIAlgorithmConvergence
   - ObjC.NearbyInteraction.NIConfiguration
-  - ObjC.NearbyInteraction.NIDLTDOAConfiguration
-  - ObjC.NearbyInteraction.NIDLTDOAMeasurement
   - ObjC.NearbyInteraction.NIDiscoveryToken
   - ObjC.NearbyInteraction.NINearbyAccessoryConfiguration
   - ObjC.NearbyInteraction.NINearbyObject

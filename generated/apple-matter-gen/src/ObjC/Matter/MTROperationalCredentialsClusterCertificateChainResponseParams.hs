@@ -7,13 +7,15 @@
 module ObjC.Matter.MTROperationalCredentialsClusterCertificateChainResponseParams
   ( MTROperationalCredentialsClusterCertificateChainResponseParams
   , IsMTROperationalCredentialsClusterCertificateChainResponseParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , certificate
   , setCertificate
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
   , certificateSelector
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , setCertificateSelector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
@@ -32,16 +34,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTROperationalCredentialsClusterCertificateChainResponseParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTROperationalCredentialsClusterCertificateChainResponseParams mtrOperationalCredentialsClusterCertificateChainResponseParams, IsNSDictionary responseValue, IsNSError error_) => mtrOperationalCredentialsClusterCertificateChainResponseParams -> responseValue -> error_ -> IO (Id MTROperationalCredentialsClusterCertificateChainResponseParams)
-initWithResponseValue_error mtrOperationalCredentialsClusterCertificateChainResponseParams responseValue error_ =
-  sendOwnedMessage mtrOperationalCredentialsClusterCertificateChainResponseParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTROperationalCredentialsClusterCertificateChainResponseParams mtrOperationalCredentialsClusterCertificateChainResponseParams => mtrOperationalCredentialsClusterCertificateChainResponseParams -> IO (Id MTROperationalCredentialsClusterCertificateChainResponseParams)
+init_ mtrOperationalCredentialsClusterCertificateChainResponseParams =
+  sendOwnedMessage mtrOperationalCredentialsClusterCertificateChainResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTROperationalCredentialsClusterCertificateChainResponseParams mtrOperationalCredentialsClusterCertificateChainResponseParams => mtrOperationalCredentialsClusterCertificateChainResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrOperationalCredentialsClusterCertificateChainResponseParams zone =
+  sendOwnedMessage mtrOperationalCredentialsClusterCertificateChainResponseParams copyWithZoneSelector zone
 
 -- | @- certificate@
 certificate :: IsMTROperationalCredentialsClusterCertificateChainResponseParams mtrOperationalCredentialsClusterCertificateChainResponseParams => mtrOperationalCredentialsClusterCertificateChainResponseParams -> IO (Id NSData)
@@ -79,9 +80,13 @@ setTimedInvokeTimeoutMs mtrOperationalCredentialsClusterCertificateChainResponse
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTROperationalCredentialsClusterCertificateChainResponseParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTROperationalCredentialsClusterCertificateChainResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @certificate@
 certificateSelector :: Selector '[] (Id NSData)

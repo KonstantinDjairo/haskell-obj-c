@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRUserLabelClusterLabelStruct
   ( MTRUserLabelClusterLabelStruct
   , IsMTRUserLabelClusterLabelStruct(..)
+  , init_
+  , copyWithZone
   , label
   , setLabel
   , value
   , setValue
+  , copyWithZoneSelector
+  , initSelector
   , labelSelector
   , setLabelSelector
   , setValueSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRUserLabelClusterLabelStruct mtrUserLabelClusterLabelStruct => mtrUserLabelClusterLabelStruct -> IO (Id MTRUserLabelClusterLabelStruct)
+init_ mtrUserLabelClusterLabelStruct =
+  sendOwnedMessage mtrUserLabelClusterLabelStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRUserLabelClusterLabelStruct mtrUserLabelClusterLabelStruct => mtrUserLabelClusterLabelStruct -> Ptr () -> IO RawId
+copyWithZone mtrUserLabelClusterLabelStruct zone =
+  sendOwnedMessage mtrUserLabelClusterLabelStruct copyWithZoneSelector zone
 
 -- | @- label@
 label :: IsMTRUserLabelClusterLabelStruct mtrUserLabelClusterLabelStruct => mtrUserLabelClusterLabelStruct -> IO (Id NSString)
@@ -53,6 +67,14 @@ setValue mtrUserLabelClusterLabelStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRUserLabelClusterLabelStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @label@
 labelSelector :: Selector '[] (Id NSString)

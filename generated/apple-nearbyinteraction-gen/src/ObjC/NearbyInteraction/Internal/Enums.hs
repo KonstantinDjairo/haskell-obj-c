@@ -39,53 +39,6 @@ instance ObjCReturn NIAlgorithmConvergenceStatus where
   fromRetained x = pure (NIAlgorithmConvergenceStatus x)
   fromOwned x = pure (NIAlgorithmConvergenceStatus x)
 
--- | The coordinate types of DL-TDOA measurement updates that Nearby Interaction supports.
--- | @NIDLTDOACoordinatesType@
-newtype NIDLTDOACoordinatesType = NIDLTDOACoordinatesType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NIDLTDOACoordinatesTypeGeodetic :: NIDLTDOACoordinatesType
-pattern NIDLTDOACoordinatesTypeGeodetic = NIDLTDOACoordinatesType 0
-
-pattern NIDLTDOACoordinatesTypeRelative :: NIDLTDOACoordinatesType
-pattern NIDLTDOACoordinatesTypeRelative = NIDLTDOACoordinatesType 1
-
-instance ObjCArgument NIDLTDOACoordinatesType where
-  withObjCArg (NIDLTDOACoordinatesType x) k = k (argCLong x)
-
-instance ObjCReturn NIDLTDOACoordinatesType where
-  type RawReturn NIDLTDOACoordinatesType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NIDLTDOACoordinatesType x)
-  fromOwned x = pure (NIDLTDOACoordinatesType x)
-
--- | The measurement types of DL-TDOA measurement updates that Nearby Interaction supports.
--- | @NIDLTDOAMeasurementType@
-newtype NIDLTDOAMeasurementType = NIDLTDOAMeasurementType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NIDLTDOAMeasurementTypePoll :: NIDLTDOAMeasurementType
-pattern NIDLTDOAMeasurementTypePoll = NIDLTDOAMeasurementType 0
-
-pattern NIDLTDOAMeasurementTypeResponse :: NIDLTDOAMeasurementType
-pattern NIDLTDOAMeasurementTypeResponse = NIDLTDOAMeasurementType 1
-
-pattern NIDLTDOAMeasurementTypeFinal :: NIDLTDOAMeasurementType
-pattern NIDLTDOAMeasurementTypeFinal = NIDLTDOAMeasurementType 2
-
-instance ObjCArgument NIDLTDOAMeasurementType where
-  withObjCArg (NIDLTDOAMeasurementType x) k = k (argCLong x)
-
-instance ObjCReturn NIDLTDOAMeasurementType where
-  type RawReturn NIDLTDOAMeasurementType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NIDLTDOAMeasurementType x)
-  fromOwned x = pure (NIDLTDOAMeasurementType x)
-
 -- | Error codes for nearby interaction session failures.
 -- | @NIErrorCode@
 newtype NIErrorCode = NIErrorCode CLong
@@ -115,12 +68,6 @@ pattern NIErrorCodeInvalidARConfiguration = NIErrorCode (-5883)
 
 pattern NIErrorCodeAccessoryPeerDeviceUnavailable :: NIErrorCode
 pattern NIErrorCodeAccessoryPeerDeviceUnavailable = NIErrorCode (-5882)
-
-pattern NIErrorCodeIncompatiblePeerDevice :: NIErrorCode
-pattern NIErrorCodeIncompatiblePeerDevice = NIErrorCode (-5881)
-
-pattern NIErrorCodeActiveExtendedDistanceSessionsLimitExceeded :: NIErrorCode
-pattern NIErrorCodeActiveExtendedDistanceSessionsLimitExceeded = NIErrorCode (-5880)
 
 instance ObjCArgument NIErrorCode where
   withObjCArg (NIErrorCode x) k = k (argCLong x)

@@ -26,9 +26,6 @@ module ObjC.AVFoundation.AVPlayerLooper
   , statusSelector
 
   -- * Enum types
-  , AVPlayerLooperItemOrdering(AVPlayerLooperItemOrdering)
-  , pattern AVPlayerLooperItemOrderingLoopingItemsPrecedeExistingItems
-  , pattern AVPlayerLooperItemOrderingLoopingItemsFollowExistingItems
   , AVPlayerLooperStatus(AVPlayerLooperStatus)
   , pattern AVPlayerLooperStatusUnknown
   , pattern AVPlayerLooperStatusReady

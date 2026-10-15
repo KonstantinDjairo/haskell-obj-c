@@ -50,16 +50,6 @@ module ObjC.AppKit.NSTextField
   , setAllowsDefaultTighteningForTruncation
   , lineBreakStrategy
   , setLineBreakStrategy
-  , allowsWritingTools
-  , setAllowsWritingTools
-  , allowsWritingToolsAffordance
-  , setAllowsWritingToolsAffordance
-  , placeholderStrings
-  , setPlaceholderStrings
-  , placeholderAttributedStrings
-  , setPlaceholderAttributedStrings
-  , resolvesNaturalAlignmentWithBaseWritingDirection
-  , setResolvesNaturalAlignmentWithBaseWritingDirection
   , allowsEditingTextAttributes
   , setAllowsEditingTextAttributes
   , importsGraphics
@@ -72,8 +62,6 @@ module ObjC.AppKit.NSTextField
   , allowsCharacterPickerTouchBarItemSelector
   , allowsDefaultTighteningForTruncationSelector
   , allowsEditingTextAttributesSelector
-  , allowsWritingToolsAffordanceSelector
-  , allowsWritingToolsSelector
   , automaticTextCompletionEnabledSelector
   , backgroundColorSelector
   , bezelStyleSelector
@@ -88,18 +76,13 @@ module ObjC.AppKit.NSTextField
   , lineBreakStrategySelector
   , maximumNumberOfLinesSelector
   , placeholderAttributedStringSelector
-  , placeholderAttributedStringsSelector
   , placeholderStringSelector
-  , placeholderStringsSelector
   , preferredMaxLayoutWidthSelector
-  , resolvesNaturalAlignmentWithBaseWritingDirectionSelector
   , selectTextSelector
   , selectableSelector
   , setAllowsCharacterPickerTouchBarItemSelector
   , setAllowsDefaultTighteningForTruncationSelector
   , setAllowsEditingTextAttributesSelector
-  , setAllowsWritingToolsAffordanceSelector
-  , setAllowsWritingToolsSelector
   , setAutomaticTextCompletionEnabledSelector
   , setBackgroundColorSelector
   , setBezelStyleSelector
@@ -112,11 +95,8 @@ module ObjC.AppKit.NSTextField
   , setLineBreakStrategySelector
   , setMaximumNumberOfLinesSelector
   , setPlaceholderAttributedStringSelector
-  , setPlaceholderAttributedStringsSelector
   , setPlaceholderStringSelector
-  , setPlaceholderStringsSelector
   , setPreferredMaxLayoutWidthSelector
-  , setResolvesNaturalAlignmentWithBaseWritingDirectionSelector
   , setSelectableSelector
   , setTextColorSelector
   , setTitleWithMnemonicSelector
@@ -241,24 +221,24 @@ textFieldWithString stringValue =
     sendClassMessage cls' textFieldWithStringSelector (toNSString stringValue)
 
 -- | @- placeholderString@
-placeholderString :: IsNSTextField nsTextField => nsTextField -> IO (Id NSString)
+placeholderString :: IsNSTextField nsTextField => nsTextField -> IO RawId
 placeholderString nsTextField =
   sendMessage nsTextField placeholderStringSelector
 
 -- | @- setPlaceholderString:@
-setPlaceholderString :: (IsNSTextField nsTextField, IsNSString value) => nsTextField -> value -> IO ()
+setPlaceholderString :: IsNSTextField nsTextField => nsTextField -> RawId -> IO ()
 setPlaceholderString nsTextField value =
-  sendMessage nsTextField setPlaceholderStringSelector (toNSString value)
+  sendMessage nsTextField setPlaceholderStringSelector value
 
 -- | @- placeholderAttributedString@
-placeholderAttributedString :: IsNSTextField nsTextField => nsTextField -> IO (Id NSAttributedString)
+placeholderAttributedString :: IsNSTextField nsTextField => nsTextField -> IO RawId
 placeholderAttributedString nsTextField =
   sendMessage nsTextField placeholderAttributedStringSelector
 
 -- | @- setPlaceholderAttributedString:@
-setPlaceholderAttributedString :: (IsNSTextField nsTextField, IsNSAttributedString value) => nsTextField -> value -> IO ()
+setPlaceholderAttributedString :: IsNSTextField nsTextField => nsTextField -> RawId -> IO ()
 setPlaceholderAttributedString nsTextField value =
-  sendMessage nsTextField setPlaceholderAttributedStringSelector (toNSAttributedString value)
+  sendMessage nsTextField setPlaceholderAttributedStringSelector value
 
 -- | @- backgroundColor@
 backgroundColor :: IsNSTextField nsTextField => nsTextField -> IO (Id NSColor)
@@ -395,64 +375,6 @@ setLineBreakStrategy :: IsNSTextField nsTextField => nsTextField -> NSLineBreakS
 setLineBreakStrategy nsTextField value =
   sendMessage nsTextField setLineBreakStrategySelector value
 
--- | @- allowsWritingTools@
-allowsWritingTools :: IsNSTextField nsTextField => nsTextField -> IO Bool
-allowsWritingTools nsTextField =
-  sendMessage nsTextField allowsWritingToolsSelector
-
--- | @- setAllowsWritingTools:@
-setAllowsWritingTools :: IsNSTextField nsTextField => nsTextField -> Bool -> IO ()
-setAllowsWritingTools nsTextField value =
-  sendMessage nsTextField setAllowsWritingToolsSelector value
-
--- | @- allowsWritingToolsAffordance@
-allowsWritingToolsAffordance :: IsNSTextField nsTextField => nsTextField -> IO Bool
-allowsWritingToolsAffordance nsTextField =
-  sendMessage nsTextField allowsWritingToolsAffordanceSelector
-
--- | @- setAllowsWritingToolsAffordance:@
-setAllowsWritingToolsAffordance :: IsNSTextField nsTextField => nsTextField -> Bool -> IO ()
-setAllowsWritingToolsAffordance nsTextField value =
-  sendMessage nsTextField setAllowsWritingToolsAffordanceSelector value
-
--- | @- placeholderStrings@
-placeholderStrings :: IsNSTextField nsTextField => nsTextField -> IO (Id NSArray)
-placeholderStrings nsTextField =
-  sendMessage nsTextField placeholderStringsSelector
-
--- | @- setPlaceholderStrings:@
-setPlaceholderStrings :: (IsNSTextField nsTextField, IsNSArray value) => nsTextField -> value -> IO ()
-setPlaceholderStrings nsTextField value =
-  sendMessage nsTextField setPlaceholderStringsSelector (toNSArray value)
-
--- | @- placeholderAttributedStrings@
-placeholderAttributedStrings :: IsNSTextField nsTextField => nsTextField -> IO (Id NSArray)
-placeholderAttributedStrings nsTextField =
-  sendMessage nsTextField placeholderAttributedStringsSelector
-
--- | @- setPlaceholderAttributedStrings:@
-setPlaceholderAttributedStrings :: (IsNSTextField nsTextField, IsNSArray value) => nsTextField -> value -> IO ()
-setPlaceholderAttributedStrings nsTextField value =
-  sendMessage nsTextField setPlaceholderAttributedStringsSelector (toNSArray value)
-
--- | Specifies the behavior for resolving ``NSTextAlignment.natural`` to the visual alignment.
---
--- When set to ``true``, the resolved visual alignment is determined by the resolved base writing direction; otherwise, it is using the user’s preferred language. The default value is ``false``.
---
--- ObjC selector: @- resolvesNaturalAlignmentWithBaseWritingDirection@
-resolvesNaturalAlignmentWithBaseWritingDirection :: IsNSTextField nsTextField => nsTextField -> IO Bool
-resolvesNaturalAlignmentWithBaseWritingDirection nsTextField =
-  sendMessage nsTextField resolvesNaturalAlignmentWithBaseWritingDirectionSelector
-
--- | Specifies the behavior for resolving ``NSTextAlignment.natural`` to the visual alignment.
---
--- When set to ``true``, the resolved visual alignment is determined by the resolved base writing direction; otherwise, it is using the user’s preferred language. The default value is ``false``.
---
--- ObjC selector: @- setResolvesNaturalAlignmentWithBaseWritingDirection:@
-setResolvesNaturalAlignmentWithBaseWritingDirection :: IsNSTextField nsTextField => nsTextField -> Bool -> IO ()
-setResolvesNaturalAlignmentWithBaseWritingDirection nsTextField value =
-  sendMessage nsTextField setResolvesNaturalAlignmentWithBaseWritingDirectionSelector value
-
 -- | @- allowsEditingTextAttributes@
 allowsEditingTextAttributes :: IsNSTextField nsTextField => nsTextField -> IO Bool
 allowsEditingTextAttributes nsTextField =
@@ -542,19 +464,19 @@ textFieldWithStringSelector :: Selector '[Id NSString] (Id NSTextField)
 textFieldWithStringSelector = mkSelector "textFieldWithString:"
 
 -- | @Selector@ for @placeholderString@
-placeholderStringSelector :: Selector '[] (Id NSString)
+placeholderStringSelector :: Selector '[] RawId
 placeholderStringSelector = mkSelector "placeholderString"
 
 -- | @Selector@ for @setPlaceholderString:@
-setPlaceholderStringSelector :: Selector '[Id NSString] ()
+setPlaceholderStringSelector :: Selector '[RawId] ()
 setPlaceholderStringSelector = mkSelector "setPlaceholderString:"
 
 -- | @Selector@ for @placeholderAttributedString@
-placeholderAttributedStringSelector :: Selector '[] (Id NSAttributedString)
+placeholderAttributedStringSelector :: Selector '[] RawId
 placeholderAttributedStringSelector = mkSelector "placeholderAttributedString"
 
 -- | @Selector@ for @setPlaceholderAttributedString:@
-setPlaceholderAttributedStringSelector :: Selector '[Id NSAttributedString] ()
+setPlaceholderAttributedStringSelector :: Selector '[RawId] ()
 setPlaceholderAttributedStringSelector = mkSelector "setPlaceholderAttributedString:"
 
 -- | @Selector@ for @backgroundColor@
@@ -664,46 +586,6 @@ lineBreakStrategySelector = mkSelector "lineBreakStrategy"
 -- | @Selector@ for @setLineBreakStrategy:@
 setLineBreakStrategySelector :: Selector '[NSLineBreakStrategy] ()
 setLineBreakStrategySelector = mkSelector "setLineBreakStrategy:"
-
--- | @Selector@ for @allowsWritingTools@
-allowsWritingToolsSelector :: Selector '[] Bool
-allowsWritingToolsSelector = mkSelector "allowsWritingTools"
-
--- | @Selector@ for @setAllowsWritingTools:@
-setAllowsWritingToolsSelector :: Selector '[Bool] ()
-setAllowsWritingToolsSelector = mkSelector "setAllowsWritingTools:"
-
--- | @Selector@ for @allowsWritingToolsAffordance@
-allowsWritingToolsAffordanceSelector :: Selector '[] Bool
-allowsWritingToolsAffordanceSelector = mkSelector "allowsWritingToolsAffordance"
-
--- | @Selector@ for @setAllowsWritingToolsAffordance:@
-setAllowsWritingToolsAffordanceSelector :: Selector '[Bool] ()
-setAllowsWritingToolsAffordanceSelector = mkSelector "setAllowsWritingToolsAffordance:"
-
--- | @Selector@ for @placeholderStrings@
-placeholderStringsSelector :: Selector '[] (Id NSArray)
-placeholderStringsSelector = mkSelector "placeholderStrings"
-
--- | @Selector@ for @setPlaceholderStrings:@
-setPlaceholderStringsSelector :: Selector '[Id NSArray] ()
-setPlaceholderStringsSelector = mkSelector "setPlaceholderStrings:"
-
--- | @Selector@ for @placeholderAttributedStrings@
-placeholderAttributedStringsSelector :: Selector '[] (Id NSArray)
-placeholderAttributedStringsSelector = mkSelector "placeholderAttributedStrings"
-
--- | @Selector@ for @setPlaceholderAttributedStrings:@
-setPlaceholderAttributedStringsSelector :: Selector '[Id NSArray] ()
-setPlaceholderAttributedStringsSelector = mkSelector "setPlaceholderAttributedStrings:"
-
--- | @Selector@ for @resolvesNaturalAlignmentWithBaseWritingDirection@
-resolvesNaturalAlignmentWithBaseWritingDirectionSelector :: Selector '[] Bool
-resolvesNaturalAlignmentWithBaseWritingDirectionSelector = mkSelector "resolvesNaturalAlignmentWithBaseWritingDirection"
-
--- | @Selector@ for @setResolvesNaturalAlignmentWithBaseWritingDirection:@
-setResolvesNaturalAlignmentWithBaseWritingDirectionSelector :: Selector '[Bool] ()
-setResolvesNaturalAlignmentWithBaseWritingDirectionSelector = mkSelector "setResolvesNaturalAlignmentWithBaseWritingDirection:"
 
 -- | @Selector@ for @allowsEditingTextAttributes@
 allowsEditingTextAttributesSelector :: Selector '[] Bool

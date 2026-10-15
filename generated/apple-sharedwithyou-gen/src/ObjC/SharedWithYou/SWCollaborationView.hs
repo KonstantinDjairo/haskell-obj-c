@@ -154,7 +154,7 @@ setHeaderImage swCollaborationView value =
   sendMessage swCollaborationView setHeaderImageSelector (toNSImage value)
 
 -- | @- menuFormRepresentation@
-menuFormRepresentation :: IsSWCollaborationView swCollaborationView => swCollaborationView -> IO (Id NSMenuItem)
+menuFormRepresentation :: IsSWCollaborationView swCollaborationView => swCollaborationView -> IO RawId
 menuFormRepresentation swCollaborationView =
   sendMessage swCollaborationView menuFormRepresentationSelector
 
@@ -255,7 +255,7 @@ setHeaderImageSelector :: Selector '[Id NSImage] ()
 setHeaderImageSelector = mkSelector "setHeaderImage:"
 
 -- | @Selector@ for @menuFormRepresentation@
-menuFormRepresentationSelector :: Selector '[] (Id NSMenuItem)
+menuFormRepresentationSelector :: Selector '[] RawId
 menuFormRepresentationSelector = mkSelector "menuFormRepresentation"
 
 -- | @Selector@ for @cloudSharingServiceDelegate@

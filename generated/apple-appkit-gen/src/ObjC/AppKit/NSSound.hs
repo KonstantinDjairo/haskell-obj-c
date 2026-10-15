@@ -24,7 +24,6 @@ module ObjC.AppKit.NSSound
   , soundUnfilteredFileTypes
   , soundUnfilteredPasteboardTypes
   , name
-  , soundUnfilteredTypes
   , playing
   , delegate
   , setDelegate
@@ -63,7 +62,6 @@ module ObjC.AppKit.NSSound
   , soundNamedSelector
   , soundUnfilteredFileTypesSelector
   , soundUnfilteredPasteboardTypesSelector
-  , soundUnfilteredTypesSelector
   , stopSelector
   , volumeSelector
   , writeToPasteboardSelector
@@ -174,13 +172,6 @@ soundUnfilteredPasteboardTypes  =
 name :: IsNSSound nsSound => nsSound -> IO (Id NSString)
 name nsSound =
   sendMessage nsSound nameSelector
-
--- | @+ soundUnfilteredTypes@
-soundUnfilteredTypes :: IO (Id NSArray)
-soundUnfilteredTypes  =
-  do
-    cls' <- getRequiredClass "NSSound"
-    sendClassMessage cls' soundUnfilteredTypesSelector
 
 -- | @- playing@
 playing :: IsNSSound nsSound => nsSound -> IO Bool
@@ -313,10 +304,6 @@ soundUnfilteredPasteboardTypesSelector = mkSelector "soundUnfilteredPasteboardTy
 -- | @Selector@ for @name@
 nameSelector :: Selector '[] (Id NSString)
 nameSelector = mkSelector "name"
-
--- | @Selector@ for @soundUnfilteredTypes@
-soundUnfilteredTypesSelector :: Selector '[] (Id NSArray)
-soundUnfilteredTypesSelector = mkSelector "soundUnfilteredTypes"
 
 -- | @Selector@ for @playing@
 playingSelector :: Selector '[] Bool

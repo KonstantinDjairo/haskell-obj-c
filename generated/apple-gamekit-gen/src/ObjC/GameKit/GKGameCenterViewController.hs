@@ -4,18 +4,14 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | View controller that provides the standard user interface for leaderboards, achievements, and challenges. Present modally from the top view controller.
---
--- Generated bindings for @GKGameCenterViewController@.
+-- | Generated bindings for @GKGameCenterViewController@.
 module ObjC.GameKit.GKGameCenterViewController
   ( GKGameCenterViewController
   , IsGKGameCenterViewController(..)
   , initWithState
   , initWithLeaderboardID_playerScope_timeScope
   , initWithLeaderboard_playerScope
-  , initWithLeaderboardSetID
   , initWithAchievementID
-  , initWithPlayer
   , viewState
   , setViewState
   , leaderboardTimeScope
@@ -29,9 +25,7 @@ module ObjC.GameKit.GKGameCenterViewController
   , gameCenterDelegateSelector
   , initWithAchievementIDSelector
   , initWithLeaderboardID_playerScope_timeScopeSelector
-  , initWithLeaderboardSetIDSelector
   , initWithLeaderboard_playerScopeSelector
-  , initWithPlayerSelector
   , initWithStateSelector
   , leaderboardCategorySelector
   , leaderboardIdentifierSelector
@@ -96,26 +90,12 @@ initWithLeaderboard_playerScope :: (IsGKGameCenterViewController gkGameCenterVie
 initWithLeaderboard_playerScope gkGameCenterViewController leaderboard playerScope =
   sendOwnedMessage gkGameCenterViewController initWithLeaderboard_playerScopeSelector (toGKLeaderboard leaderboard) playerScope
 
--- | Use this to display the leaderboard sets for the specified leaderboardSetID.
---
--- ObjC selector: @- initWithLeaderboardSetID:@
-initWithLeaderboardSetID :: (IsGKGameCenterViewController gkGameCenterViewController, IsNSString leaderboardSetID) => gkGameCenterViewController -> leaderboardSetID -> IO (Id GKGameCenterViewController)
-initWithLeaderboardSetID gkGameCenterViewController leaderboardSetID =
-  sendOwnedMessage gkGameCenterViewController initWithLeaderboardSetIDSelector (toNSString leaderboardSetID)
-
 -- | Use this to display the details associated with the specified achievementID
 --
 -- ObjC selector: @- initWithAchievementID:@
 initWithAchievementID :: (IsGKGameCenterViewController gkGameCenterViewController, IsNSString achievementID) => gkGameCenterViewController -> achievementID -> IO (Id GKGameCenterViewController)
 initWithAchievementID gkGameCenterViewController achievementID =
   sendOwnedMessage gkGameCenterViewController initWithAchievementIDSelector (toNSString achievementID)
-
--- | Use this to display the profile page associated with the specified player.
---
--- ObjC selector: @- initWithPlayer:@
-initWithPlayer :: (IsGKGameCenterViewController gkGameCenterViewController, IsGKPlayer player) => gkGameCenterViewController -> player -> IO (Id GKGameCenterViewController)
-initWithPlayer gkGameCenterViewController player =
-  sendOwnedMessage gkGameCenterViewController initWithPlayerSelector (toGKPlayer player)
 
 -- | @- viewState@
 viewState :: IsGKGameCenterViewController gkGameCenterViewController => gkGameCenterViewController -> IO GKGameCenterViewControllerState
@@ -148,14 +128,14 @@ setLeaderboardIdentifier gkGameCenterViewController value =
   sendMessage gkGameCenterViewController setLeaderboardIdentifierSelector (toNSString value)
 
 -- | @- leaderboardCategory@
-leaderboardCategory :: IsGKGameCenterViewController gkGameCenterViewController => gkGameCenterViewController -> IO (Id NSString)
+leaderboardCategory :: IsGKGameCenterViewController gkGameCenterViewController => gkGameCenterViewController -> IO RawId
 leaderboardCategory gkGameCenterViewController =
   sendMessage gkGameCenterViewController leaderboardCategorySelector
 
 -- | @- setLeaderboardCategory:@
-setLeaderboardCategory :: (IsGKGameCenterViewController gkGameCenterViewController, IsNSString value) => gkGameCenterViewController -> value -> IO ()
+setLeaderboardCategory :: IsGKGameCenterViewController gkGameCenterViewController => gkGameCenterViewController -> RawId -> IO ()
 setLeaderboardCategory gkGameCenterViewController value =
-  sendMessage gkGameCenterViewController setLeaderboardCategorySelector (toNSString value)
+  sendMessage gkGameCenterViewController setLeaderboardCategorySelector value
 
 -- | @- gameCenterDelegate@
 gameCenterDelegate :: IsGKGameCenterViewController gkGameCenterViewController => gkGameCenterViewController -> IO RawId
@@ -183,17 +163,9 @@ initWithLeaderboardID_playerScope_timeScopeSelector = mkSelector "initWithLeader
 initWithLeaderboard_playerScopeSelector :: Selector '[Id GKLeaderboard, GKLeaderboardPlayerScope] (Id GKGameCenterViewController)
 initWithLeaderboard_playerScopeSelector = mkSelector "initWithLeaderboard:playerScope:"
 
--- | @Selector@ for @initWithLeaderboardSetID:@
-initWithLeaderboardSetIDSelector :: Selector '[Id NSString] (Id GKGameCenterViewController)
-initWithLeaderboardSetIDSelector = mkSelector "initWithLeaderboardSetID:"
-
 -- | @Selector@ for @initWithAchievementID:@
 initWithAchievementIDSelector :: Selector '[Id NSString] (Id GKGameCenterViewController)
 initWithAchievementIDSelector = mkSelector "initWithAchievementID:"
-
--- | @Selector@ for @initWithPlayer:@
-initWithPlayerSelector :: Selector '[Id GKPlayer] (Id GKGameCenterViewController)
-initWithPlayerSelector = mkSelector "initWithPlayer:"
 
 -- | @Selector@ for @viewState@
 viewStateSelector :: Selector '[] GKGameCenterViewControllerState
@@ -220,11 +192,11 @@ setLeaderboardIdentifierSelector :: Selector '[Id NSString] ()
 setLeaderboardIdentifierSelector = mkSelector "setLeaderboardIdentifier:"
 
 -- | @Selector@ for @leaderboardCategory@
-leaderboardCategorySelector :: Selector '[] (Id NSString)
+leaderboardCategorySelector :: Selector '[] RawId
 leaderboardCategorySelector = mkSelector "leaderboardCategory"
 
 -- | @Selector@ for @setLeaderboardCategory:@
-setLeaderboardCategorySelector :: Selector '[Id NSString] ()
+setLeaderboardCategorySelector :: Selector '[RawId] ()
 setLeaderboardCategorySelector = mkSelector "setLeaderboardCategory:"
 
 -- | @Selector@ for @gameCenterDelegate@

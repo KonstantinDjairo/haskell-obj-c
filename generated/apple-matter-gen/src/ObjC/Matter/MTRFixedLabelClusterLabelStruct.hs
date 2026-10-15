@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRFixedLabelClusterLabelStruct
   ( MTRFixedLabelClusterLabelStruct
   , IsMTRFixedLabelClusterLabelStruct(..)
+  , init_
+  , copyWithZone
   , label
   , setLabel
   , value
   , setValue
+  , copyWithZoneSelector
+  , initSelector
   , labelSelector
   , setLabelSelector
   , setValueSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRFixedLabelClusterLabelStruct mtrFixedLabelClusterLabelStruct => mtrFixedLabelClusterLabelStruct -> IO (Id MTRFixedLabelClusterLabelStruct)
+init_ mtrFixedLabelClusterLabelStruct =
+  sendOwnedMessage mtrFixedLabelClusterLabelStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRFixedLabelClusterLabelStruct mtrFixedLabelClusterLabelStruct => mtrFixedLabelClusterLabelStruct -> Ptr () -> IO RawId
+copyWithZone mtrFixedLabelClusterLabelStruct zone =
+  sendOwnedMessage mtrFixedLabelClusterLabelStruct copyWithZoneSelector zone
 
 -- | @- label@
 label :: IsMTRFixedLabelClusterLabelStruct mtrFixedLabelClusterLabelStruct => mtrFixedLabelClusterLabelStruct -> IO (Id NSString)
@@ -53,6 +67,14 @@ setValue mtrFixedLabelClusterLabelStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRFixedLabelClusterLabelStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @label@
 labelSelector :: Selector '[] (Id NSString)

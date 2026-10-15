@@ -20,14 +20,10 @@ module ObjC.Photos.PHImageRequestOptions
   , setSynchronous
   , progressHandler
   , setProgressHandler
-  , allowSecondaryDegradedImage
-  , setAllowSecondaryDegradedImage
-  , allowSecondaryDegradedImageSelector
   , deliveryModeSelector
   , networkAccessAllowedSelector
   , progressHandlerSelector
   , resizeModeSelector
-  , setAllowSecondaryDegradedImageSelector
   , setDeliveryModeSelector
   , setNetworkAccessAllowedSelector
   , setProgressHandlerSelector
@@ -125,16 +121,6 @@ setProgressHandler :: IsPHImageRequestOptions phImageRequestOptions => phImageRe
 setProgressHandler phImageRequestOptions value =
   sendMessage phImageRequestOptions setProgressHandlerSelector value
 
--- | @- allowSecondaryDegradedImage@
-allowSecondaryDegradedImage :: IsPHImageRequestOptions phImageRequestOptions => phImageRequestOptions -> IO Bool
-allowSecondaryDegradedImage phImageRequestOptions =
-  sendMessage phImageRequestOptions allowSecondaryDegradedImageSelector
-
--- | @- setAllowSecondaryDegradedImage:@
-setAllowSecondaryDegradedImage :: IsPHImageRequestOptions phImageRequestOptions => phImageRequestOptions -> Bool -> IO ()
-setAllowSecondaryDegradedImage phImageRequestOptions value =
-  sendMessage phImageRequestOptions setAllowSecondaryDegradedImageSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -186,12 +172,4 @@ progressHandlerSelector = mkSelector "progressHandler"
 -- | @Selector@ for @setProgressHandler:@
 setProgressHandlerSelector :: Selector '[Ptr ()] ()
 setProgressHandlerSelector = mkSelector "setProgressHandler:"
-
--- | @Selector@ for @allowSecondaryDegradedImage@
-allowSecondaryDegradedImageSelector :: Selector '[] Bool
-allowSecondaryDegradedImageSelector = mkSelector "allowSecondaryDegradedImage"
-
--- | @Selector@ for @setAllowSecondaryDegradedImage:@
-setAllowSecondaryDegradedImageSelector :: Selector '[Bool] ()
-setAllowSecondaryDegradedImageSelector = mkSelector "setAllowSecondaryDegradedImage:"
 

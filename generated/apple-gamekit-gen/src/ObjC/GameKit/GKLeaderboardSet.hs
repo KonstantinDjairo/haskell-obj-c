@@ -34,9 +34,7 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.GameKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Asynchronously load the image. Error will be nil on success.
---
--- ObjC selector: @- loadImageWithCompletionHandler:@
+-- | @- loadImageWithCompletionHandler:@
 loadImageWithCompletionHandler :: IsGKLeaderboardSet gkLeaderboardSet => gkLeaderboardSet -> Ptr () -> IO ()
 loadImageWithCompletionHandler gkLeaderboardSet completionHandler =
   sendMessage gkLeaderboardSet loadImageWithCompletionHandlerSelector completionHandler

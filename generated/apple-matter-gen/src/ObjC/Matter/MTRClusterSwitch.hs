@@ -3,12 +3,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Cluster Switch    This cluster exposes interactions with a switch device, for the purpose of using those interactions by other devices.Two types of switch devices are supported: latching switch (e.g. rocker switch) and momentary switch (e.g. push button), distinguished with their feature flags.Interactions with the switch device are exposed as attributes (for the latching switch) and as events (for both types of switches). An interested party MAY subscribe to these attributes/events and thus be informed of the interactions, and can perform actions based on this, for example by sending commands to perform an action such as controlling a light or a window shade.
+-- | Cluster Switch    This cluster exposes interactions with a switch device, for the purpose of using those interactions by other devices.Two types of switch devices are supported: latching switch (e.g. rocker switch) and momentary switch (e.g. push button),distinguished with their feature flags. Interactions with the switch device are exposed as attributes (for the latching switch) andas events (for both types of switches). An interested party MAY subscribe to these attributes/events and thus be informed of theinteractions, and can perform actions based on this, for example by sending commands to perform an action such as controlling alight or a window shade.
 --
 -- Generated bindings for @MTRClusterSwitch@.
 module ObjC.Matter.MTRClusterSwitch
   ( MTRClusterSwitch
   , IsMTRClusterSwitch(..)
+  , initWithDevice_endpoint_queue
   , readAttributeNumberOfPositionsWithParams
   , readAttributeCurrentPositionWithParams
   , readAttributeMultiPressMaxWithParams
@@ -19,10 +20,7 @@ module ObjC.Matter.MTRClusterSwitch
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -47,6 +45,11 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterSwitch mtrClusterSwitch, IsMTRDevice device, IsNSObject queue) => mtrClusterSwitch -> device -> CUShort -> queue -> IO (Id MTRClusterSwitch)
+initWithDevice_endpoint_queue mtrClusterSwitch device endpoint queue =
+  sendOwnedMessage mtrClusterSwitch initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
 -- | @- readAttributeNumberOfPositionsWithParams:@
 readAttributeNumberOfPositionsWithParams :: (IsMTRClusterSwitch mtrClusterSwitch, IsMTRReadParams params) => mtrClusterSwitch -> params -> IO (Id NSDictionary)
@@ -100,21 +103,13 @@ new  =
     cls' <- getRequiredClass "MTRClusterSwitch"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterSwitch mtrClusterSwitch, IsMTRDevice device, IsNSObject queue) => mtrClusterSwitch -> device -> CUShort -> queue -> IO (Id MTRClusterSwitch)
-initWithDevice_endpoint_queue mtrClusterSwitch device endpoint queue =
-  sendOwnedMessage mtrClusterSwitch initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterSwitch mtrClusterSwitch, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterSwitch -> device -> endpointID -> queue -> IO (Id MTRClusterSwitch)
-initWithDevice_endpointID_queue mtrClusterSwitch device endpointID queue =
-  sendOwnedMessage mtrClusterSwitch initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterSwitch)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
 -- | @Selector@ for @readAttributeNumberOfPositionsWithParams:@
 readAttributeNumberOfPositionsWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -155,12 +150,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterSwitch)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterSwitch)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterSwitch)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

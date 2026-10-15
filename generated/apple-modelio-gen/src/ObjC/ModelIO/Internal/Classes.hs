@@ -733,25 +733,6 @@ instance IsMDLTransformTranslateOp (Id MDLTransformTranslateOp) where
 instance IsNSObject (Id MDLTransformTranslateOp) where
   toNSObject = unsafeCastId
 
--- ---------- MDLUtility ----------
-
--- | Phantom type for @MDLUtility@.
-data MDLUtility
-
-instance IsObjCObject (Id MDLUtility) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MDLUtility"
-
-class IsNSObject a => IsMDLUtility a where
-  toMDLUtility :: a -> Id MDLUtility
-
-instance IsMDLUtility (Id MDLUtility) where
-  toMDLUtility = unsafeCastId
-
-instance IsNSObject (Id MDLUtility) where
-  toNSObject = unsafeCastId
-
 -- ---------- MDLVertexAttribute ----------
 
 -- | MDLVertexAttribute

@@ -13,7 +13,6 @@ module ObjC.GameKit.GKMatchmakerViewController
   , addPlayersToMatch
   , setHostedPlayer_didConnect
   , setHostedPlayer_connected
-  , setHostedPlayerReady
   , matchmakerDelegate
   , setMatchmakerDelegate
   , matchRequest
@@ -36,7 +35,6 @@ module ObjC.GameKit.GKMatchmakerViewController
   , matchmakingModeSelector
   , setCanStartWithMinimumPlayersSelector
   , setDefaultInvitationMessageSelector
-  , setHostedPlayerReadySelector
   , setHostedPlayer_connectedSelector
   , setHostedPlayer_didConnectSelector
   , setHostedSelector
@@ -98,13 +96,6 @@ setHostedPlayer_connected :: (IsGKMatchmakerViewController gkMatchmakerViewContr
 setHostedPlayer_connected gkMatchmakerViewController playerID connected =
   sendMessage gkMatchmakerViewController setHostedPlayer_connectedSelector (toNSString playerID) connected
 
--- | * This method is obsolete. It will never be invoked and its implementation does nothing**
---
--- ObjC selector: @- setHostedPlayerReady:@
-setHostedPlayerReady :: (IsGKMatchmakerViewController gkMatchmakerViewController, IsNSString playerID) => gkMatchmakerViewController -> playerID -> IO ()
-setHostedPlayerReady gkMatchmakerViewController playerID =
-  sendMessage gkMatchmakerViewController setHostedPlayerReadySelector (toNSString playerID)
-
 -- | @- matchmakerDelegate@
 matchmakerDelegate :: IsGKMatchmakerViewController gkMatchmakerViewController => gkMatchmakerViewController -> IO RawId
 matchmakerDelegate gkMatchmakerViewController =
@@ -165,16 +156,16 @@ setCanStartWithMinimumPlayers gkMatchmakerViewController value =
 -- | deprecated, set the message on the match request instead
 --
 -- ObjC selector: @- defaultInvitationMessage@
-defaultInvitationMessage :: IsGKMatchmakerViewController gkMatchmakerViewController => gkMatchmakerViewController -> IO (Id NSString)
+defaultInvitationMessage :: IsGKMatchmakerViewController gkMatchmakerViewController => gkMatchmakerViewController -> IO RawId
 defaultInvitationMessage gkMatchmakerViewController =
   sendMessage gkMatchmakerViewController defaultInvitationMessageSelector
 
 -- | deprecated, set the message on the match request instead
 --
 -- ObjC selector: @- setDefaultInvitationMessage:@
-setDefaultInvitationMessage :: (IsGKMatchmakerViewController gkMatchmakerViewController, IsNSString value) => gkMatchmakerViewController -> value -> IO ()
+setDefaultInvitationMessage :: IsGKMatchmakerViewController gkMatchmakerViewController => gkMatchmakerViewController -> RawId -> IO ()
 setDefaultInvitationMessage gkMatchmakerViewController value =
-  sendMessage gkMatchmakerViewController setDefaultInvitationMessageSelector (toNSString value)
+  sendMessage gkMatchmakerViewController setDefaultInvitationMessageSelector value
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -199,10 +190,6 @@ setHostedPlayer_didConnectSelector = mkSelector "setHostedPlayer:didConnect:"
 -- | @Selector@ for @setHostedPlayer:connected:@
 setHostedPlayer_connectedSelector :: Selector '[Id NSString, Bool] ()
 setHostedPlayer_connectedSelector = mkSelector "setHostedPlayer:connected:"
-
--- | @Selector@ for @setHostedPlayerReady:@
-setHostedPlayerReadySelector :: Selector '[Id NSString] ()
-setHostedPlayerReadySelector = mkSelector "setHostedPlayerReady:"
 
 -- | @Selector@ for @matchmakerDelegate@
 matchmakerDelegateSelector :: Selector '[] RawId
@@ -241,10 +228,10 @@ setCanStartWithMinimumPlayersSelector :: Selector '[Bool] ()
 setCanStartWithMinimumPlayersSelector = mkSelector "setCanStartWithMinimumPlayers:"
 
 -- | @Selector@ for @defaultInvitationMessage@
-defaultInvitationMessageSelector :: Selector '[] (Id NSString)
+defaultInvitationMessageSelector :: Selector '[] RawId
 defaultInvitationMessageSelector = mkSelector "defaultInvitationMessage"
 
 -- | @Selector@ for @setDefaultInvitationMessage:@
-setDefaultInvitationMessageSelector :: Selector '[Id NSString] ()
+setDefaultInvitationMessageSelector :: Selector '[RawId] ()
 setDefaultInvitationMessageSelector = mkSelector "setDefaultInvitationMessage:"
 

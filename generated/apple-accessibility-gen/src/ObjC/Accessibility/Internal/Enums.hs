@@ -125,33 +125,3 @@ instance ObjCReturn AXNumericDataAxisDescriptorScale where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (AXNumericDataAxisDescriptorScale x)
   fromOwned x = pure (AXNumericDataAxisDescriptorScale x)
-
--- | @AXSettingsFeature@
-newtype AXSettingsFeature = AXSettingsFeature CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern AXSettingsFeaturePersonalVoiceAllowAppsToRequestToUse :: AXSettingsFeature
-pattern AXSettingsFeaturePersonalVoiceAllowAppsToRequestToUse = AXSettingsFeature 1
-
-pattern AXSettingsFeatureAllowAppsToAddAudioToCalls :: AXSettingsFeature
-pattern AXSettingsFeatureAllowAppsToAddAudioToCalls = AXSettingsFeature 2
-
-pattern AXSettingsFeatureAssistiveTouch :: AXSettingsFeature
-pattern AXSettingsFeatureAssistiveTouch = AXSettingsFeature 3
-
-pattern AXSettingsFeatureAssistiveTouchDevices :: AXSettingsFeature
-pattern AXSettingsFeatureAssistiveTouchDevices = AXSettingsFeature 4
-
-pattern AXSettingsFeatureDwellControl :: AXSettingsFeature
-pattern AXSettingsFeatureDwellControl = AXSettingsFeature 5
-
-instance ObjCArgument AXSettingsFeature where
-  withObjCArg (AXSettingsFeature x) k = k (argCLong x)
-
-instance ObjCReturn AXSettingsFeature where
-  type RawReturn AXSettingsFeature = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (AXSettingsFeature x)
-  fromOwned x = pure (AXSettingsFeature x)

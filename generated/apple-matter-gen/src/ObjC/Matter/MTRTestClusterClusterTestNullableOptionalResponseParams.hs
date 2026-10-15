@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterTestNullableOptionalResponseParams
   ( MTRTestClusterClusterTestNullableOptionalResponseParams
   , IsMTRTestClusterClusterTestNullableOptionalResponseParams(..)
+  , init_
+  , copyWithZone
   , wasPresent
   , setWasPresent
   , wasNull
@@ -17,6 +19,8 @@ module ObjC.Matter.MTRTestClusterClusterTestNullableOptionalResponseParams
   , setOriginalValue
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
+  , copyWithZoneSelector
+  , initSelector
   , originalValueSelector
   , setOriginalValueSelector
   , setTimedInvokeTimeoutMsSelector
@@ -41,6 +45,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterTestNullableOptionalResponseParams mtrTestClusterClusterTestNullableOptionalResponseParams => mtrTestClusterClusterTestNullableOptionalResponseParams -> IO (Id MTRTestClusterClusterTestNullableOptionalResponseParams)
+init_ mtrTestClusterClusterTestNullableOptionalResponseParams =
+  sendOwnedMessage mtrTestClusterClusterTestNullableOptionalResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterTestNullableOptionalResponseParams mtrTestClusterClusterTestNullableOptionalResponseParams => mtrTestClusterClusterTestNullableOptionalResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterTestNullableOptionalResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterTestNullableOptionalResponseParams copyWithZoneSelector zone
 
 -- | @- wasPresent@
 wasPresent :: IsMTRTestClusterClusterTestNullableOptionalResponseParams mtrTestClusterClusterTestNullableOptionalResponseParams => mtrTestClusterClusterTestNullableOptionalResponseParams -> IO (Id NSNumber)
@@ -107,6 +121,14 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterTestNullableOptionalResponseParams 
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterTestNullableOptionalResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @wasPresent@
 wasPresentSelector :: Selector '[] (Id NSNumber)

@@ -223,14 +223,14 @@ setSummaryArgumentCount unMutableNotificationContent value =
   sendMessage unMutableNotificationContent setSummaryArgumentCountSelector value
 
 -- | @- targetContentIdentifier@
-targetContentIdentifier :: IsUNMutableNotificationContent unMutableNotificationContent => unMutableNotificationContent -> IO (Id NSString)
+targetContentIdentifier :: IsUNMutableNotificationContent unMutableNotificationContent => unMutableNotificationContent -> IO RawId
 targetContentIdentifier unMutableNotificationContent =
   sendMessage unMutableNotificationContent targetContentIdentifierSelector
 
 -- | @- setTargetContentIdentifier:@
-setTargetContentIdentifier :: (IsUNMutableNotificationContent unMutableNotificationContent, IsNSString value) => unMutableNotificationContent -> value -> IO ()
+setTargetContentIdentifier :: IsUNMutableNotificationContent unMutableNotificationContent => unMutableNotificationContent -> RawId -> IO ()
 setTargetContentIdentifier unMutableNotificationContent value =
-  sendMessage unMutableNotificationContent setTargetContentIdentifierSelector (toNSString value)
+  sendMessage unMutableNotificationContent setTargetContentIdentifierSelector value
 
 -- | @- interruptionLevel@
 interruptionLevel :: IsUNMutableNotificationContent unMutableNotificationContent => unMutableNotificationContent -> IO UNNotificationInterruptionLevel
@@ -363,11 +363,11 @@ setSummaryArgumentCountSelector :: Selector '[CULong] ()
 setSummaryArgumentCountSelector = mkSelector "setSummaryArgumentCount:"
 
 -- | @Selector@ for @targetContentIdentifier@
-targetContentIdentifierSelector :: Selector '[] (Id NSString)
+targetContentIdentifierSelector :: Selector '[] RawId
 targetContentIdentifierSelector = mkSelector "targetContentIdentifier"
 
 -- | @Selector@ for @setTargetContentIdentifier:@
-setTargetContentIdentifierSelector :: Selector '[Id NSString] ()
+setTargetContentIdentifierSelector :: Selector '[RawId] ()
 setTargetContentIdentifierSelector = mkSelector "setTargetContentIdentifier:"
 
 -- | @Selector@ for @interruptionLevel@

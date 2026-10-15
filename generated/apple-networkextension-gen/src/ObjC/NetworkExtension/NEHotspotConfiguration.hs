@@ -58,7 +58,7 @@ import ObjC.Foundation.Internal.Classes
 --
 -- A designated initializer to instantiate a new NEHotspotConfiguration object.   This initializer is used to configure open Wi-Fi Networks.
 --
--- @SSID@ — The SSID of the open Wi-Fi Network.   Length of SSID must be between 1 and 32 characters.
+-- @SSID@ — The SSID of the Open Wi-Fi Network.   Length of SSID must be between 1 and 32 characters.
 --
 -- ObjC selector: @- initWithSSID:@
 initWithSSID :: (IsNEHotspotConfiguration neHotspotConfiguration, IsNSString ssid) => neHotspotConfiguration -> ssid -> IO (Id NEHotspotConfiguration)
@@ -110,7 +110,7 @@ initWithHS20Settings_eapSettings neHotspotConfiguration hs20Settings eapSettings
 --
 -- A designated initializer to instantiate a new NEHotspotConfiguration object.   This initializer is used to configure open Wi-Fi Networks.
 --
--- @SSIDPrefix@ — The prefix string of SSID of the open Wi-Fi Network.   Length of SSIDPrefix must be between 3 and 32 characters.
+-- @SSIDPrefix@ — The prefix string of SSID of the Open Wi-Fi Network.   Length of SSIDPrefix must be between 3 and 32 characters.
 --
 -- ObjC selector: @- initWithSSIDPrefix:@
 initWithSSIDPrefix :: (IsNEHotspotConfiguration neHotspotConfiguration, IsNSString ssidPrefix) => neHotspotConfiguration -> ssidPrefix -> IO (Id NEHotspotConfiguration)

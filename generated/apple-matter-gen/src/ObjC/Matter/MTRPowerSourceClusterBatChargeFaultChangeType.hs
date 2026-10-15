@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRPowerSourceClusterBatChargeFaultChangeType
   ( MTRPowerSourceClusterBatChargeFaultChangeType
   , IsMTRPowerSourceClusterBatChargeFaultChangeType(..)
+  , init_
+  , copyWithZone
   , current
   , setCurrent
   , previous
   , setPrevious
+  , copyWithZoneSelector
   , currentSelector
+  , initSelector
   , previousSelector
   , setCurrentSelector
   , setPreviousSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRPowerSourceClusterBatChargeFaultChangeType mtrPowerSourceClusterBatChargeFaultChangeType => mtrPowerSourceClusterBatChargeFaultChangeType -> IO (Id MTRPowerSourceClusterBatChargeFaultChangeType)
+init_ mtrPowerSourceClusterBatChargeFaultChangeType =
+  sendOwnedMessage mtrPowerSourceClusterBatChargeFaultChangeType initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRPowerSourceClusterBatChargeFaultChangeType mtrPowerSourceClusterBatChargeFaultChangeType => mtrPowerSourceClusterBatChargeFaultChangeType -> Ptr () -> IO RawId
+copyWithZone mtrPowerSourceClusterBatChargeFaultChangeType zone =
+  sendOwnedMessage mtrPowerSourceClusterBatChargeFaultChangeType copyWithZoneSelector zone
 
 -- | @- current@
 current :: IsMTRPowerSourceClusterBatChargeFaultChangeType mtrPowerSourceClusterBatChargeFaultChangeType => mtrPowerSourceClusterBatChargeFaultChangeType -> IO (Id NSArray)
@@ -53,6 +67,14 @@ setPrevious mtrPowerSourceClusterBatChargeFaultChangeType value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRPowerSourceClusterBatChargeFaultChangeType)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @current@
 currentSelector :: Selector '[] (Id NSArray)

@@ -7,13 +7,19 @@
 module ObjC.CoreLocation.CLRegion
   ( CLRegion
   , IsCLRegion(..)
+  , initCircularRegionWithCenter_radius_identifier
+  , containsCoordinate
+  , center
   , radius
   , identifier
   , notifyOnEntry
   , setNotifyOnEntry
   , notifyOnExit
   , setNotifyOnExit
+  , centerSelector
+  , containsCoordinateSelector
   , identifierSelector
+  , initCircularRegionWithCenter_radius_identifierSelector
   , notifyOnEntrySelector
   , notifyOnExitSelector
   , radiusSelector
@@ -32,7 +38,23 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.CoreLocation.Internal.Classes
+import ObjC.CoreLocation.Internal.Structs
 import ObjC.Foundation.Internal.Classes
+
+-- | @- initCircularRegionWithCenter:radius:identifier:@
+initCircularRegionWithCenter_radius_identifier :: (IsCLRegion clRegion, IsNSString identifier) => clRegion -> CLLocationCoordinate2D -> CDouble -> identifier -> IO (Id CLRegion)
+initCircularRegionWithCenter_radius_identifier clRegion center radius identifier =
+  sendOwnedMessage clRegion initCircularRegionWithCenter_radius_identifierSelector center radius (toNSString identifier)
+
+-- | @- containsCoordinate:@
+containsCoordinate :: IsCLRegion clRegion => clRegion -> CLLocationCoordinate2D -> IO Bool
+containsCoordinate clRegion coordinate =
+  sendMessage clRegion containsCoordinateSelector coordinate
+
+-- | @- center@
+center :: IsCLRegion clRegion => clRegion -> IO CLLocationCoordinate2D
+center clRegion =
+  sendMessage clRegion centerSelector
 
 -- | @- radius@
 radius :: IsCLRegion clRegion => clRegion -> IO CDouble
@@ -67,6 +89,18 @@ setNotifyOnExit clRegion value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @initCircularRegionWithCenter:radius:identifier:@
+initCircularRegionWithCenter_radius_identifierSelector :: Selector '[CLLocationCoordinate2D, CDouble, Id NSString] (Id CLRegion)
+initCircularRegionWithCenter_radius_identifierSelector = mkSelector "initCircularRegionWithCenter:radius:identifier:"
+
+-- | @Selector@ for @containsCoordinate:@
+containsCoordinateSelector :: Selector '[CLLocationCoordinate2D] Bool
+containsCoordinateSelector = mkSelector "containsCoordinate:"
+
+-- | @Selector@ for @center@
+centerSelector :: Selector '[] CLLocationCoordinate2D
+centerSelector = mkSelector "center"
 
 -- | @Selector@ for @radius@
 radiusSelector :: Selector '[] CDouble

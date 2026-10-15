@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -12,41 +12,33 @@ build-type:     Simple
 
 library
   exposed-modules:
-      ObjC.CoreLocation.CLBackgroundActivitySession
-      ObjC.CoreLocation.CLBackgroundActivitySessionDiagnostic
       ObjC.CoreLocation.CLBeacon
-      ObjC.CoreLocation.CLBeaconIdentityCondition
       ObjC.CoreLocation.CLBeaconIdentityConstraint
       ObjC.CoreLocation.CLBeaconRegion
-      ObjC.CoreLocation.CLCircularGeographicCondition
       ObjC.CoreLocation.CLCircularRegion
-      ObjC.CoreLocation.CLCondition
+      ObjC.CoreLocation.CLFloor
       ObjC.CoreLocation.CLGeocoder
       ObjC.CoreLocation.CLHeading
+      ObjC.CoreLocation.CLLocation
       ObjC.CoreLocation.CLLocationManager
-      ObjC.CoreLocation.CLLocationUpdater
-      ObjC.CoreLocation.CLMonitor
-      ObjC.CoreLocation.CLMonitorConfiguration
-      ObjC.CoreLocation.CLMonitoringEvent
-      ObjC.CoreLocation.CLMonitoringRecord
+      ObjC.CoreLocation.CLLocationSourceInformation
       ObjC.CoreLocation.CLPlacemark
       ObjC.CoreLocation.CLRegion
-      ObjC.CoreLocation.CLServiceSession
-      ObjC.CoreLocation.CLServiceSessionDiagnostic
-      ObjC.CoreLocation.CLUpdate
       ObjC.CoreLocation.CLVisit
       ObjC.CoreLocation.Delegate.CLLocationManagerDelegate
       ObjC.CoreLocation.Delegate.CLLocationPushServiceExtension
       ObjC.CoreLocation.Enums
       ObjC.CoreLocation.Internal.Classes
       ObjC.CoreLocation.Internal.Enums
+      ObjC.CoreLocation.Internal.Structs
+      ObjC.CoreLocation.Structs
   other-modules:
       Paths_apple_corelocation_gen
   autogen-modules:
       Paths_apple_corelocation_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-contacts-gen
     , apple-foundation-gen

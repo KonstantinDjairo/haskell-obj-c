@@ -157,15 +157,6 @@ pattern CXErrorCodeIncomingCallErrorFilteredByDoNotDisturb = CXErrorCodeIncoming
 pattern CXErrorCodeIncomingCallErrorFilteredByBlockList :: CXErrorCodeIncomingCallError
 pattern CXErrorCodeIncomingCallErrorFilteredByBlockList = CXErrorCodeIncomingCallError 4
 
-pattern CXErrorCodeIncomingCallErrorFilteredDuringRestrictedSharingMode :: CXErrorCodeIncomingCallError
-pattern CXErrorCodeIncomingCallErrorFilteredDuringRestrictedSharingMode = CXErrorCodeIncomingCallError 5
-
-pattern CXErrorCodeIncomingCallErrorCallIsProtected :: CXErrorCodeIncomingCallError
-pattern CXErrorCodeIncomingCallErrorCallIsProtected = CXErrorCodeIncomingCallError 6
-
-pattern CXErrorCodeIncomingCallErrorFilteredBySensitiveParticipants :: CXErrorCodeIncomingCallError
-pattern CXErrorCodeIncomingCallErrorFilteredBySensitiveParticipants = CXErrorCodeIncomingCallError 7
-
 instance ObjCArgument CXErrorCodeIncomingCallError where
   withObjCArg (CXErrorCodeIncomingCallError x) k = k (argCLong x)
 
@@ -228,9 +219,6 @@ pattern CXErrorCodeRequestTransactionErrorInvalidAction = CXErrorCodeRequestTran
 
 pattern CXErrorCodeRequestTransactionErrorMaximumCallGroupsReached :: CXErrorCodeRequestTransactionError
 pattern CXErrorCodeRequestTransactionErrorMaximumCallGroupsReached = CXErrorCodeRequestTransactionError 7
-
-pattern CXErrorCodeRequestTransactionErrorCallIsProtected :: CXErrorCodeRequestTransactionError
-pattern CXErrorCodeRequestTransactionErrorCallIsProtected = CXErrorCodeRequestTransactionError 8
 
 instance ObjCArgument CXErrorCodeRequestTransactionError where
   withObjCArg (CXErrorCodeRequestTransactionError x) k = k (argCLong x)

@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRTestClusterClusterSimpleStruct
   ( MTRTestClusterClusterSimpleStruct
   , IsMTRTestClusterClusterSimpleStruct(..)
+  , init_
+  , copyWithZone
   , a
   , setA
   , b
@@ -26,11 +28,13 @@ module ObjC.Matter.MTRTestClusterClusterSimpleStruct
   , aSelector
   , bSelector
   , cSelector
+  , copyWithZoneSelector
   , dSelector
   , eSelector
   , fSelector
   , gSelector
   , hSelector
+  , initSelector
   , setASelector
   , setBSelector
   , setCSelector
@@ -53,6 +57,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRTestClusterClusterSimpleStruct mtrTestClusterClusterSimpleStruct => mtrTestClusterClusterSimpleStruct -> IO (Id MTRTestClusterClusterSimpleStruct)
+init_ mtrTestClusterClusterSimpleStruct =
+  sendOwnedMessage mtrTestClusterClusterSimpleStruct initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterSimpleStruct mtrTestClusterClusterSimpleStruct => mtrTestClusterClusterSimpleStruct -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterSimpleStruct zone =
+  sendOwnedMessage mtrTestClusterClusterSimpleStruct copyWithZoneSelector zone
 
 -- | @- a@
 a :: IsMTRTestClusterClusterSimpleStruct mtrTestClusterClusterSimpleStruct => mtrTestClusterClusterSimpleStruct -> IO (Id NSNumber)
@@ -137,6 +151,14 @@ setH mtrTestClusterClusterSimpleStruct value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @a@
 aSelector :: Selector '[] (Id NSNumber)

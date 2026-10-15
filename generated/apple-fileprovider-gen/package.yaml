@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -25,10 +26,6 @@ library:
   - ObjC.FileProvider.Delegate.NSFileProviderItemDecorating
   - ObjC.FileProvider.Delegate.NSFileProviderPendingSetEnumerator
   - ObjC.FileProvider.Delegate.NSFileProviderReplicatedExtension
-  - ObjC.FileProvider.Delegate.NSFileProviderSearchEnumerationObserver
-  - ObjC.FileProvider.Delegate.NSFileProviderSearchEnumerator
-  - ObjC.FileProvider.Delegate.NSFileProviderSearchResult
-  - ObjC.FileProvider.Delegate.NSFileProviderSearching
   - ObjC.FileProvider.Delegate.NSFileProviderServiceSource
   - ObjC.FileProvider.Delegate.NSFileProviderServicing
   - ObjC.FileProvider.Delegate.NSFileProviderTestingChildrenEnumeration
@@ -48,9 +45,6 @@ library:
   - ObjC.FileProvider.NSFileProviderDomainVersion
   - ObjC.FileProvider.NSFileProviderExtension
   - ObjC.FileProvider.NSFileProviderItemVersion
-  - ObjC.FileProvider.NSFileProviderKnownFolderLocation
-  - ObjC.FileProvider.NSFileProviderKnownFolderLocations
   - ObjC.FileProvider.NSFileProviderManager
   - ObjC.FileProvider.NSFileProviderRequest
-  - ObjC.FileProvider.NSFileProviderStringSearchRequest
   - ObjC.FileProvider.Structs

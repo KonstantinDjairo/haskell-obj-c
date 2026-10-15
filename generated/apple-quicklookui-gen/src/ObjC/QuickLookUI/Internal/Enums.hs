@@ -14,7 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | Styles for a Preview View.
 -- | @QLPreviewViewStyle@
 newtype QLPreviewViewStyle = QLPreviewViewStyle CULong
   deriving stock (Eq, Ord, Show)

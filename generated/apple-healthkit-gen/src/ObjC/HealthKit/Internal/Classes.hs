@@ -129,48 +129,6 @@ instance IsHKAudiogramSensitivityPoint (Id HKAudiogramSensitivityPoint) where
 instance IsNSObject (Id HKAudiogramSensitivityPoint) where
   toNSObject = unsafeCastId
 
--- ---------- HKAudiogramSensitivityPointClampingRange ----------
-
--- | Defines the range within which an ear's sensitivity point may have been clamped, if any.
---
--- At times, it may be required to indicate that a sensitivity point has been clamped to a range. These reasons include but are not limited to user safety, hardware limitations, or algorithm features.
--- 
--- Phantom type for @HKAudiogramSensitivityPointClampingRange@.
-data HKAudiogramSensitivityPointClampingRange
-
-instance IsObjCObject (Id HKAudiogramSensitivityPointClampingRange) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKAudiogramSensitivityPointClampingRange"
-
-class IsNSObject a => IsHKAudiogramSensitivityPointClampingRange a where
-  toHKAudiogramSensitivityPointClampingRange :: a -> Id HKAudiogramSensitivityPointClampingRange
-
-instance IsHKAudiogramSensitivityPointClampingRange (Id HKAudiogramSensitivityPointClampingRange) where
-  toHKAudiogramSensitivityPointClampingRange = unsafeCastId
-
-instance IsNSObject (Id HKAudiogramSensitivityPointClampingRange) where
-  toNSObject = unsafeCastId
-
--- ---------- HKAudiogramSensitivityTest ----------
-
--- | Phantom type for @HKAudiogramSensitivityTest@.
-data HKAudiogramSensitivityTest
-
-instance IsObjCObject (Id HKAudiogramSensitivityTest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKAudiogramSensitivityTest"
-
-class IsNSObject a => IsHKAudiogramSensitivityTest a where
-  toHKAudiogramSensitivityTest :: a -> Id HKAudiogramSensitivityTest
-
-instance IsHKAudiogramSensitivityTest (Id HKAudiogramSensitivityTest) where
-  toHKAudiogramSensitivityTest = unsafeCastId
-
-instance IsNSObject (Id HKAudiogramSensitivityTest) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKBiologicalSexObject ----------
 
 -- | HKBiologicalSexObject
@@ -234,31 +192,6 @@ instance IsHKCDADocument (Id HKCDADocument) where
   toHKCDADocument = unsafeCastId
 
 instance IsNSObject (Id HKCDADocument) where
-  toNSObject = unsafeCastId
-
--- ---------- HKClinicalCoding ----------
-
--- | A clinical coding that represents a medical concept using a standardized coding system.
---
--- A clinical coding pairs a ``system``, an optional ``version``, and a ``code`` which identify a medical concept.
---
--- This model is closely related to the [FHIR Coding model](https://build.fhir.org/datatypes.html#Coding).
--- 
--- Phantom type for @HKClinicalCoding@.
-data HKClinicalCoding
-
-instance IsObjCObject (Id HKClinicalCoding) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKClinicalCoding"
-
-class IsNSObject a => IsHKClinicalCoding a where
-  toHKClinicalCoding :: a -> Id HKClinicalCoding
-
-instance IsHKClinicalCoding (Id HKClinicalCoding) where
-  toHKClinicalCoding = unsafeCastId
-
-instance IsNSObject (Id HKClinicalCoding) where
   toNSObject = unsafeCastId
 
 -- ---------- HKDeletedObject ----------
@@ -401,29 +334,6 @@ instance IsHKFitzpatrickSkinTypeObject (Id HKFitzpatrickSkinTypeObject) where
 instance IsNSObject (Id HKFitzpatrickSkinTypeObject) where
   toNSObject = unsafeCastId
 
--- ---------- HKHealthConceptIdentifier ----------
-
--- | A unique identifier for a specific health concept within a domain.
---
--- Each identifier points to one concept inside a domain. For example, within the medication domain, one identifier might represent ibuprofen while another represents insulin.
--- 
--- Phantom type for @HKHealthConceptIdentifier@.
-data HKHealthConceptIdentifier
-
-instance IsObjCObject (Id HKHealthConceptIdentifier) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKHealthConceptIdentifier"
-
-class IsNSObject a => IsHKHealthConceptIdentifier a where
-  toHKHealthConceptIdentifier :: a -> Id HKHealthConceptIdentifier
-
-instance IsHKHealthConceptIdentifier (Id HKHealthConceptIdentifier) where
-  toHKHealthConceptIdentifier = unsafeCastId
-
-instance IsNSObject (Id HKHealthConceptIdentifier) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKHealthStore ----------
 
 -- | HKHealthStore
@@ -491,29 +401,6 @@ instance IsHKLiveWorkoutDataSource (Id HKLiveWorkoutDataSource) where
   toHKLiveWorkoutDataSource = unsafeCastId
 
 instance IsNSObject (Id HKLiveWorkoutDataSource) where
-  toNSObject = unsafeCastId
-
--- ---------- HKMedicationConcept ----------
-
--- | An object that describes a specific medication concept.
---
--- A medication concept represents the idea of a medication, like ibuprofen or insulin. It can have clinical significance, or can be created by the person using your app.
--- 
--- Phantom type for @HKMedicationConcept@.
-data HKMedicationConcept
-
-instance IsObjCObject (Id HKMedicationConcept) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKMedicationConcept"
-
-class IsNSObject a => IsHKMedicationConcept a where
-  toHKMedicationConcept :: a -> Id HKMedicationConcept
-
-instance IsHKMedicationConcept (Id HKMedicationConcept) where
-  toHKMedicationConcept = unsafeCastId
-
-instance IsNSObject (Id HKMedicationConcept) where
   toNSObject = unsafeCastId
 
 -- ---------- HKObject ----------
@@ -797,29 +684,6 @@ instance IsHKUnit (Id HKUnit) where
 instance IsNSObject (Id HKUnit) where
   toNSObject = unsafeCastId
 
--- ---------- HKUserAnnotatedMedication ----------
-
--- | A reference to the tracked medication and the details a person can customize.
---
--- The details are relevant to the medication tracking experience.
--- 
--- Phantom type for @HKUserAnnotatedMedication@.
-data HKUserAnnotatedMedication
-
-instance IsObjCObject (Id HKUserAnnotatedMedication) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKUserAnnotatedMedication"
-
-class IsNSObject a => IsHKUserAnnotatedMedication a where
-  toHKUserAnnotatedMedication :: a -> Id HKUserAnnotatedMedication
-
-instance IsHKUserAnnotatedMedication (Id HKUserAnnotatedMedication) where
-  toHKUserAnnotatedMedication = unsafeCastId
-
-instance IsNSObject (Id HKUserAnnotatedMedication) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKVerifiableClinicalRecordSubject ----------
 
 -- | HKVerifiableClinicalRecordSubject
@@ -956,25 +820,6 @@ instance IsHKWorkoutConfiguration (Id HKWorkoutConfiguration) where
   toHKWorkoutConfiguration = unsafeCastId
 
 instance IsNSObject (Id HKWorkoutConfiguration) where
-  toNSObject = unsafeCastId
-
--- ---------- HKWorkoutEffortRelationship ----------
-
--- | Phantom type for @HKWorkoutEffortRelationship@.
-data HKWorkoutEffortRelationship
-
-instance IsObjCObject (Id HKWorkoutEffortRelationship) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKWorkoutEffortRelationship"
-
-class IsNSObject a => IsHKWorkoutEffortRelationship a where
-  toHKWorkoutEffortRelationship :: a -> Id HKWorkoutEffortRelationship
-
-instance IsHKWorkoutEffortRelationship (Id HKWorkoutEffortRelationship) where
-  toHKWorkoutEffortRelationship = unsafeCastId
-
-instance IsNSObject (Id HKWorkoutEffortRelationship) where
   toNSObject = unsafeCastId
 
 -- ---------- HKWorkoutEvent ----------
@@ -1177,32 +1022,6 @@ instance IsHKObjectType (Id HKSampleType) where
   toHKObjectType = unsafeCastId
 
 instance IsNSObject (Id HKSampleType) where
-  toNSObject = unsafeCastId
-
--- ---------- HKUserAnnotatedMedicationType ----------
-
--- | HKUserAnnotatedMedicationType
---
--- Represents the set of authorizeable HKUserAnnotatedMedications.
--- 
--- Phantom type for @HKUserAnnotatedMedicationType@.
-data HKUserAnnotatedMedicationType
-
-instance IsObjCObject (Id HKUserAnnotatedMedicationType) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKUserAnnotatedMedicationType"
-
-class IsHKObjectType a => IsHKUserAnnotatedMedicationType a where
-  toHKUserAnnotatedMedicationType :: a -> Id HKUserAnnotatedMedicationType
-
-instance IsHKUserAnnotatedMedicationType (Id HKUserAnnotatedMedicationType) where
-  toHKUserAnnotatedMedicationType = unsafeCastId
-
-instance IsHKObjectType (Id HKUserAnnotatedMedicationType) where
-  toHKObjectType = unsafeCastId
-
-instance IsNSObject (Id HKUserAnnotatedMedicationType) where
   toNSObject = unsafeCastId
 
 -- ---------- HKActivitySummaryQuery ----------
@@ -1479,28 +1298,6 @@ instance IsHKQuery (Id HKStatisticsQuery) where
 instance IsNSObject (Id HKStatisticsQuery) where
   toNSObject = unsafeCastId
 
--- ---------- HKUserAnnotatedMedicationQuery ----------
-
--- | Phantom type for @HKUserAnnotatedMedicationQuery@.
-data HKUserAnnotatedMedicationQuery
-
-instance IsObjCObject (Id HKUserAnnotatedMedicationQuery) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKUserAnnotatedMedicationQuery"
-
-class IsHKQuery a => IsHKUserAnnotatedMedicationQuery a where
-  toHKUserAnnotatedMedicationQuery :: a -> Id HKUserAnnotatedMedicationQuery
-
-instance IsHKUserAnnotatedMedicationQuery (Id HKUserAnnotatedMedicationQuery) where
-  toHKUserAnnotatedMedicationQuery = unsafeCastId
-
-instance IsHKQuery (Id HKUserAnnotatedMedicationQuery) where
-  toHKQuery = unsafeCastId
-
-instance IsNSObject (Id HKUserAnnotatedMedicationQuery) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKVerifiableClinicalRecordQuery ----------
 
 -- | Phantom type for @HKVerifiableClinicalRecordQuery@.
@@ -1521,32 +1318,6 @@ instance IsHKQuery (Id HKVerifiableClinicalRecordQuery) where
   toHKQuery = unsafeCastId
 
 instance IsNSObject (Id HKVerifiableClinicalRecordQuery) where
-  toNSObject = unsafeCastId
-
--- ---------- HKWorkoutEffortRelationshipQuery ----------
-
--- | HKWorkoutEffortRelationshipQuery
---
--- A concrete subclass of HKQuery that provides an interface to observe associations with a workout sample.
--- 
--- Phantom type for @HKWorkoutEffortRelationshipQuery@.
-data HKWorkoutEffortRelationshipQuery
-
-instance IsObjCObject (Id HKWorkoutEffortRelationshipQuery) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKWorkoutEffortRelationshipQuery"
-
-class IsHKQuery a => IsHKWorkoutEffortRelationshipQuery a where
-  toHKWorkoutEffortRelationshipQuery :: a -> Id HKWorkoutEffortRelationshipQuery
-
-instance IsHKWorkoutEffortRelationshipQuery (Id HKWorkoutEffortRelationshipQuery) where
-  toHKWorkoutEffortRelationshipQuery = unsafeCastId
-
-instance IsHKQuery (Id HKWorkoutEffortRelationshipQuery) where
-  toHKQuery = unsafeCastId
-
-instance IsNSObject (Id HKWorkoutEffortRelationshipQuery) where
   toNSObject = unsafeCastId
 
 -- ---------- HKWorkoutRouteQuery ----------
@@ -1831,31 +1602,6 @@ instance IsHKSample (Id HKElectrocardiogram) where
 instance IsNSObject (Id HKElectrocardiogram) where
   toNSObject = unsafeCastId
 
--- ---------- HKMedicationDoseEvent ----------
-
--- | Phantom type for @HKMedicationDoseEvent@.
-data HKMedicationDoseEvent
-
-instance IsObjCObject (Id HKMedicationDoseEvent) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKMedicationDoseEvent"
-
-class IsHKSample a => IsHKMedicationDoseEvent a where
-  toHKMedicationDoseEvent :: a -> Id HKMedicationDoseEvent
-
-instance IsHKMedicationDoseEvent (Id HKMedicationDoseEvent) where
-  toHKMedicationDoseEvent = unsafeCastId
-
-instance IsHKObject (Id HKMedicationDoseEvent) where
-  toHKObject = unsafeCastId
-
-instance IsHKSample (Id HKMedicationDoseEvent) where
-  toHKSample = unsafeCastId
-
-instance IsNSObject (Id HKMedicationDoseEvent) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKQuantitySample ----------
 
 -- | HKQuantitySample
@@ -1885,35 +1631,6 @@ instance IsHKSample (Id HKQuantitySample) where
 instance IsNSObject (Id HKQuantitySample) where
   toNSObject = unsafeCastId
 
--- ---------- HKScoredAssessment ----------
-
--- | HKScoredAssessment
---
--- An abstract HKSample subclass representing the results of a scored assessment.
--- 
--- Phantom type for @HKScoredAssessment@.
-data HKScoredAssessment
-
-instance IsObjCObject (Id HKScoredAssessment) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKScoredAssessment"
-
-class IsHKSample a => IsHKScoredAssessment a where
-  toHKScoredAssessment :: a -> Id HKScoredAssessment
-
-instance IsHKScoredAssessment (Id HKScoredAssessment) where
-  toHKScoredAssessment = unsafeCastId
-
-instance IsHKObject (Id HKScoredAssessment) where
-  toHKObject = unsafeCastId
-
-instance IsHKSample (Id HKScoredAssessment) where
-  toHKSample = unsafeCastId
-
-instance IsNSObject (Id HKScoredAssessment) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKSeriesSample ----------
 
 -- | HKSeriesSample
@@ -1941,33 +1658,6 @@ instance IsHKSample (Id HKSeriesSample) where
   toHKSample = unsafeCastId
 
 instance IsNSObject (Id HKSeriesSample) where
-  toNSObject = unsafeCastId
-
--- ---------- HKStateOfMind ----------
-
--- | Represents how one feels, including descriptors of a feeling and optionally, its source.
--- 
--- Phantom type for @HKStateOfMind@.
-data HKStateOfMind
-
-instance IsObjCObject (Id HKStateOfMind) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKStateOfMind"
-
-class IsHKSample a => IsHKStateOfMind a where
-  toHKStateOfMind :: a -> Id HKStateOfMind
-
-instance IsHKStateOfMind (Id HKStateOfMind) where
-  toHKStateOfMind = unsafeCastId
-
-instance IsHKObject (Id HKStateOfMind) where
-  toHKObject = unsafeCastId
-
-instance IsHKSample (Id HKStateOfMind) where
-  toHKSample = unsafeCastId
-
-instance IsNSObject (Id HKStateOfMind) where
   toNSObject = unsafeCastId
 
 -- ---------- HKVerifiableClinicalRecord ----------
@@ -2231,35 +1921,6 @@ instance IsHKSampleType (Id HKElectrocardiogramType) where
 instance IsNSObject (Id HKElectrocardiogramType) where
   toNSObject = unsafeCastId
 
--- ---------- HKMedicationDoseEventType ----------
-
--- | HKMedicationDoseEventType
---
--- Represents a recorded log of a specific medication, represented by HKMedicationDoseEvent samples.
--- 
--- Phantom type for @HKMedicationDoseEventType@.
-data HKMedicationDoseEventType
-
-instance IsObjCObject (Id HKMedicationDoseEventType) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKMedicationDoseEventType"
-
-class IsHKSampleType a => IsHKMedicationDoseEventType a where
-  toHKMedicationDoseEventType :: a -> Id HKMedicationDoseEventType
-
-instance IsHKMedicationDoseEventType (Id HKMedicationDoseEventType) where
-  toHKMedicationDoseEventType = unsafeCastId
-
-instance IsHKObjectType (Id HKMedicationDoseEventType) where
-  toHKObjectType = unsafeCastId
-
-instance IsHKSampleType (Id HKMedicationDoseEventType) where
-  toHKSampleType = unsafeCastId
-
-instance IsNSObject (Id HKMedicationDoseEventType) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKPrescriptionType ----------
 
 -- | HKPrescriptionType
@@ -2318,35 +1979,6 @@ instance IsHKSampleType (Id HKQuantityType) where
 instance IsNSObject (Id HKQuantityType) where
   toNSObject = unsafeCastId
 
--- ---------- HKScoredAssessmentType ----------
-
--- | HKScoredAssessmentType
---
--- Represents a scored assessment sample
--- 
--- Phantom type for @HKScoredAssessmentType@.
-data HKScoredAssessmentType
-
-instance IsObjCObject (Id HKScoredAssessmentType) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKScoredAssessmentType"
-
-class IsHKSampleType a => IsHKScoredAssessmentType a where
-  toHKScoredAssessmentType :: a -> Id HKScoredAssessmentType
-
-instance IsHKScoredAssessmentType (Id HKScoredAssessmentType) where
-  toHKScoredAssessmentType = unsafeCastId
-
-instance IsHKObjectType (Id HKScoredAssessmentType) where
-  toHKObjectType = unsafeCastId
-
-instance IsHKSampleType (Id HKScoredAssessmentType) where
-  toHKSampleType = unsafeCastId
-
-instance IsNSObject (Id HKScoredAssessmentType) where
-  toNSObject = unsafeCastId
-
 -- ---------- HKSeriesType ----------
 
 -- | HKSeriesType
@@ -2374,35 +2006,6 @@ instance IsHKSampleType (Id HKSeriesType) where
   toHKSampleType = unsafeCastId
 
 instance IsNSObject (Id HKSeriesType) where
-  toNSObject = unsafeCastId
-
--- ---------- HKStateOfMindType ----------
-
--- | HKStateOfMindType
---
--- Represents an experienced feeling and its surrounding context.
--- 
--- Phantom type for @HKStateOfMindType@.
-data HKStateOfMindType
-
-instance IsObjCObject (Id HKStateOfMindType) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKStateOfMindType"
-
-class IsHKSampleType a => IsHKStateOfMindType a where
-  toHKStateOfMindType :: a -> Id HKStateOfMindType
-
-instance IsHKStateOfMindType (Id HKStateOfMindType) where
-  toHKStateOfMindType = unsafeCastId
-
-instance IsHKObjectType (Id HKStateOfMindType) where
-  toHKObjectType = unsafeCastId
-
-instance IsHKSampleType (Id HKStateOfMindType) where
-  toHKSampleType = unsafeCastId
-
-instance IsNSObject (Id HKStateOfMindType) where
   toNSObject = unsafeCastId
 
 -- ---------- HKWorkoutType ----------
@@ -2528,66 +2131,6 @@ instance IsHKSample (Id HKDiscreteQuantitySample) where
   toHKSample = unsafeCastId
 
 instance IsNSObject (Id HKDiscreteQuantitySample) where
-  toNSObject = unsafeCastId
-
--- ---------- HKGAD7Assessment ----------
-
--- | Represents the result of a GAD-7 assessment. Learn more about Pfizer's GAD-7 at https://support.apple.com/en-us/105070
--- 
--- Phantom type for @HKGAD7Assessment@.
-data HKGAD7Assessment
-
-instance IsObjCObject (Id HKGAD7Assessment) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKGAD7Assessment"
-
-class IsHKScoredAssessment a => IsHKGAD7Assessment a where
-  toHKGAD7Assessment :: a -> Id HKGAD7Assessment
-
-instance IsHKGAD7Assessment (Id HKGAD7Assessment) where
-  toHKGAD7Assessment = unsafeCastId
-
-instance IsHKObject (Id HKGAD7Assessment) where
-  toHKObject = unsafeCastId
-
-instance IsHKSample (Id HKGAD7Assessment) where
-  toHKSample = unsafeCastId
-
-instance IsHKScoredAssessment (Id HKGAD7Assessment) where
-  toHKScoredAssessment = unsafeCastId
-
-instance IsNSObject (Id HKGAD7Assessment) where
-  toNSObject = unsafeCastId
-
--- ---------- HKPHQ9Assessment ----------
-
--- | Represents the result of a PHQ-9 assessment. Learn more about Pfizer's PHQ-9 at https://support.apple.com/en-us/105070
--- 
--- Phantom type for @HKPHQ9Assessment@.
-data HKPHQ9Assessment
-
-instance IsObjCObject (Id HKPHQ9Assessment) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "HKPHQ9Assessment"
-
-class IsHKScoredAssessment a => IsHKPHQ9Assessment a where
-  toHKPHQ9Assessment :: a -> Id HKPHQ9Assessment
-
-instance IsHKPHQ9Assessment (Id HKPHQ9Assessment) where
-  toHKPHQ9Assessment = unsafeCastId
-
-instance IsHKObject (Id HKPHQ9Assessment) where
-  toHKObject = unsafeCastId
-
-instance IsHKSample (Id HKPHQ9Assessment) where
-  toHKSample = unsafeCastId
-
-instance IsHKScoredAssessment (Id HKPHQ9Assessment) where
-  toHKScoredAssessment = unsafeCastId
-
-instance IsNSObject (Id HKPHQ9Assessment) where
   toNSObject = unsafeCastId
 
 -- ---------- HKHeartbeatSeriesSample ----------

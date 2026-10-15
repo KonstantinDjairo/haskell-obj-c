@@ -5,7 +5,7 @@
 
 -- | Base class of boot loader configuration.
 --
--- VZVirtualMachineConfiguration requires a boot loader defining how to start the virtual machine.    VZBootLoader is the abstract base class of boot loader definitions.
+-- VZVirtualMachineConfiguration requires a boot loader defining how to start the virtual machine.     VZBootLoader is the abstract base class of boot loader definitions.
 --
 -- Don't instantiate VZBootLoader directly, instead use its subclass VZEFIBootLoader, VZLinuxBootLoader, or VZMacOSBootLoader.
 --

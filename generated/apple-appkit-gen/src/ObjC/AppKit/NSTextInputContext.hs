@@ -14,10 +14,6 @@ module ObjC.AppKit.NSTextInputContext
   , handleEvent
   , discardMarkedText
   , invalidateCharacterCoordinates
-  , textInputClientWillStartScrollingOrZooming
-  , textInputClientDidEndScrollingOrZooming
-  , textInputClientDidUpdateSelection
-  , textInputClientDidScroll
   , localizedNameForInputSource
   , currentInputContext
   , client
@@ -45,10 +41,6 @@ module ObjC.AppKit.NSTextInputContext
   , setAcceptsGlyphInfoSelector
   , setAllowedInputSourceLocalesSelector
   , setSelectedKeyboardInputSourceSelector
-  , textInputClientDidEndScrollingOrZoomingSelector
-  , textInputClientDidScrollSelector
-  , textInputClientDidUpdateSelectionSelector
-  , textInputClientWillStartScrollingOrZoomingSelector
 
 
   ) where
@@ -102,26 +94,6 @@ discardMarkedText nsTextInputContext =
 invalidateCharacterCoordinates :: IsNSTextInputContext nsTextInputContext => nsTextInputContext -> IO ()
 invalidateCharacterCoordinates nsTextInputContext =
   sendMessage nsTextInputContext invalidateCharacterCoordinatesSelector
-
--- | @- textInputClientWillStartScrollingOrZooming@
-textInputClientWillStartScrollingOrZooming :: IsNSTextInputContext nsTextInputContext => nsTextInputContext -> IO ()
-textInputClientWillStartScrollingOrZooming nsTextInputContext =
-  sendMessage nsTextInputContext textInputClientWillStartScrollingOrZoomingSelector
-
--- | @- textInputClientDidEndScrollingOrZooming@
-textInputClientDidEndScrollingOrZooming :: IsNSTextInputContext nsTextInputContext => nsTextInputContext -> IO ()
-textInputClientDidEndScrollingOrZooming nsTextInputContext =
-  sendMessage nsTextInputContext textInputClientDidEndScrollingOrZoomingSelector
-
--- | @- textInputClientDidUpdateSelection@
-textInputClientDidUpdateSelection :: IsNSTextInputContext nsTextInputContext => nsTextInputContext -> IO ()
-textInputClientDidUpdateSelection nsTextInputContext =
-  sendMessage nsTextInputContext textInputClientDidUpdateSelectionSelector
-
--- | @- textInputClientDidScroll@
-textInputClientDidScroll :: IsNSTextInputContext nsTextInputContext => nsTextInputContext -> IO ()
-textInputClientDidScroll nsTextInputContext =
-  sendMessage nsTextInputContext textInputClientDidScrollSelector
 
 -- | ** Text Input source attributes ***
 --
@@ -214,22 +186,6 @@ discardMarkedTextSelector = mkSelector "discardMarkedText"
 -- | @Selector@ for @invalidateCharacterCoordinates@
 invalidateCharacterCoordinatesSelector :: Selector '[] ()
 invalidateCharacterCoordinatesSelector = mkSelector "invalidateCharacterCoordinates"
-
--- | @Selector@ for @textInputClientWillStartScrollingOrZooming@
-textInputClientWillStartScrollingOrZoomingSelector :: Selector '[] ()
-textInputClientWillStartScrollingOrZoomingSelector = mkSelector "textInputClientWillStartScrollingOrZooming"
-
--- | @Selector@ for @textInputClientDidEndScrollingOrZooming@
-textInputClientDidEndScrollingOrZoomingSelector :: Selector '[] ()
-textInputClientDidEndScrollingOrZoomingSelector = mkSelector "textInputClientDidEndScrollingOrZooming"
-
--- | @Selector@ for @textInputClientDidUpdateSelection@
-textInputClientDidUpdateSelectionSelector :: Selector '[] ()
-textInputClientDidUpdateSelectionSelector = mkSelector "textInputClientDidUpdateSelection"
-
--- | @Selector@ for @textInputClientDidScroll@
-textInputClientDidScrollSelector :: Selector '[] ()
-textInputClientDidScrollSelector = mkSelector "textInputClientDidScroll"
 
 -- | @Selector@ for @localizedNameForInputSource:@
 localizedNameForInputSourceSelector :: Selector '[Id NSString] (Id NSString)

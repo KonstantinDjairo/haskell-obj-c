@@ -11,25 +11,14 @@ module ObjC.PencilKit.PKEraserTool
   ( PKEraserTool
   , IsPKEraserTool(..)
   , initWithEraserType
-  , initWithEraserType_width
-  , defaultWidthForEraserType
-  , minimumWidthForEraserType
-  , maximumWidthForEraserType
   , eraserType
-  , width
-  , defaultWidthForEraserTypeSelector
   , eraserTypeSelector
   , initWithEraserTypeSelector
-  , initWithEraserType_widthSelector
-  , maximumWidthForEraserTypeSelector
-  , minimumWidthForEraserTypeSelector
-  , widthSelector
 
   -- * Enum types
   , PKEraserType(PKEraserType)
   , pattern PKEraserTypeVector
   , pattern PKEraserTypeBitmap
-  , pattern PKEraserTypeFixedWidthBitmap
 
   ) where
 
@@ -50,57 +39,12 @@ initWithEraserType :: IsPKEraserTool pkEraserTool => pkEraserTool -> PKEraserTyp
 initWithEraserType pkEraserTool eraserType =
   sendOwnedMessage pkEraserTool initWithEraserTypeSelector eraserType
 
--- | Create a new eraser tool with a width.
---
--- @eraserType@ — The type of eraser.
---
--- @width@ — The width of the eraser.
---
--- ObjC selector: @- initWithEraserType:width:@
-initWithEraserType_width :: IsPKEraserTool pkEraserTool => pkEraserTool -> PKEraserType -> CDouble -> IO (Id PKEraserTool)
-initWithEraserType_width pkEraserTool eraserType width =
-  sendOwnedMessage pkEraserTool initWithEraserType_widthSelector eraserType width
-
--- | The default width for an eraser type.
---
--- ObjC selector: @+ defaultWidthForEraserType:@
-defaultWidthForEraserType :: PKEraserType -> IO CDouble
-defaultWidthForEraserType eraserType =
-  do
-    cls' <- getRequiredClass "PKEraserTool"
-    sendClassMessage cls' defaultWidthForEraserTypeSelector eraserType
-
--- | The minimum width for an eraser type.
---
--- ObjC selector: @+ minimumWidthForEraserType:@
-minimumWidthForEraserType :: PKEraserType -> IO CDouble
-minimumWidthForEraserType eraserType =
-  do
-    cls' <- getRequiredClass "PKEraserTool"
-    sendClassMessage cls' minimumWidthForEraserTypeSelector eraserType
-
--- | The maximum width for an eraser type.
---
--- ObjC selector: @+ maximumWidthForEraserType:@
-maximumWidthForEraserType :: PKEraserType -> IO CDouble
-maximumWidthForEraserType eraserType =
-  do
-    cls' <- getRequiredClass "PKEraserTool"
-    sendClassMessage cls' maximumWidthForEraserTypeSelector eraserType
-
 -- | The eraser type.
 --
 -- ObjC selector: @- eraserType@
 eraserType :: IsPKEraserTool pkEraserTool => pkEraserTool -> IO PKEraserType
 eraserType pkEraserTool =
   sendMessage pkEraserTool eraserTypeSelector
-
--- | The width of the eraser.
---
--- ObjC selector: @- width@
-width :: IsPKEraserTool pkEraserTool => pkEraserTool -> IO CDouble
-width pkEraserTool =
-  sendMessage pkEraserTool widthSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -110,27 +54,7 @@ width pkEraserTool =
 initWithEraserTypeSelector :: Selector '[PKEraserType] (Id PKEraserTool)
 initWithEraserTypeSelector = mkSelector "initWithEraserType:"
 
--- | @Selector@ for @initWithEraserType:width:@
-initWithEraserType_widthSelector :: Selector '[PKEraserType, CDouble] (Id PKEraserTool)
-initWithEraserType_widthSelector = mkSelector "initWithEraserType:width:"
-
--- | @Selector@ for @defaultWidthForEraserType:@
-defaultWidthForEraserTypeSelector :: Selector '[PKEraserType] CDouble
-defaultWidthForEraserTypeSelector = mkSelector "defaultWidthForEraserType:"
-
--- | @Selector@ for @minimumWidthForEraserType:@
-minimumWidthForEraserTypeSelector :: Selector '[PKEraserType] CDouble
-minimumWidthForEraserTypeSelector = mkSelector "minimumWidthForEraserType:"
-
--- | @Selector@ for @maximumWidthForEraserType:@
-maximumWidthForEraserTypeSelector :: Selector '[PKEraserType] CDouble
-maximumWidthForEraserTypeSelector = mkSelector "maximumWidthForEraserType:"
-
 -- | @Selector@ for @eraserType@
 eraserTypeSelector :: Selector '[] PKEraserType
 eraserTypeSelector = mkSelector "eraserType"
-
--- | @Selector@ for @width@
-widthSelector :: Selector '[] CDouble
-widthSelector = mkSelector "width"
 

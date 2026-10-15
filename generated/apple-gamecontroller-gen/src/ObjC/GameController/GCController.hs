@@ -14,22 +14,22 @@
 module ObjC.GameController.GCController
   ( GCController
   , IsGCController(..)
+  , capture
   , controllers
-  , supportsHIDDevice
   , startWirelessControllerDiscoveryWithCompletionHandler
   , stopWirelessControllerDiscovery
-  , capture
   , controllerWithMicroGamepad
   , controllerWithExtendedGamepad
-  , current
+  , supportsHIDDevice
   , controllerPausedHandler
   , setControllerPausedHandler
+  , current
   , shouldMonitorBackgroundEvents
   , setShouldMonitorBackgroundEvents
   , attachedToDevice
+  , snapshot
   , playerIndex
   , setPlayerIndex
-  , input
   , battery
   , physicalInputProfile
   , gamepad
@@ -38,7 +38,6 @@ module ObjC.GameController.GCController
   , motion
   , light
   , haptics
-  , snapshot
   , attachedToDeviceSelector
   , batterySelector
   , captureSelector
@@ -50,7 +49,6 @@ module ObjC.GameController.GCController
   , extendedGamepadSelector
   , gamepadSelector
   , hapticsSelector
-  , inputSelector
   , lightSelector
   , microGamepadSelector
   , motionSelector
@@ -87,6 +85,19 @@ import ObjC.GameController.Internal.Classes
 import ObjC.GameController.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
+-- | Polls the state vector of the controller and saves it to a new and writable instance of GCController.
+--
+-- If your application is heavily multithreaded this may also be useful to guarantee atomicity of input handling as a snapshot will not change based on user input once it is taken.
+--
+-- See: snapshot
+--
+-- Returns: A new controller with the duplicated state vector of the current controller
+--
+-- ObjC selector: @- capture@
+capture :: IsGCController gcController => gcController -> IO (Id GCController)
+capture gcController =
+  sendMessage gcController captureSelector
+
 -- | Get a list of controllers currently attached to the system.
 --
 -- See: GCControllerDidConnectNotification
@@ -99,17 +110,6 @@ controllers  =
   do
     cls' <- getRequiredClass "GCController"
     sendClassMessage cls' controllersSelector
-
--- | Returns YES if the given HID device is supported by the Game Controller  framework, and will have an associated GCController instance.
---
--- Note: This is not cheap, be sure to cache the result
---
--- ObjC selector: @+ supportsHIDDevice:@
-supportsHIDDevice :: Ptr () -> IO Bool
-supportsHIDDevice device =
-  do
-    cls' <- getRequiredClass "GCController"
-    sendClassMessage cls' supportsHIDDeviceSelector device
 
 -- | Start discovery of new wireless controllers that are discoverable. This is an asynchronous and the supplied completionHandler will get called once no more devices can be found. If there are already multiple controllers available for use, there may be little reason to automatically start discovery of new wireless controllers. In this situation it may be best to allow the user to start discovery manually via in-game UI.
 --
@@ -145,22 +145,9 @@ stopWirelessControllerDiscovery  =
     cls' <- getRequiredClass "GCController"
     sendClassMessage cls' stopWirelessControllerDiscoverySelector
 
--- | Polls the state vector of the controller and saves it to a new and writable  instance of GCController.
---
--- If your application is heavily multithreaded this may also be useful to  guarantee atomicity of input handling as a snapshot will not change based  on user input once it is taken.
---
--- See: snapshot
---
--- Returns: A new controller with the duplicated state vector of the current  controller.
---
--- ObjC selector: @- capture@
-capture :: IsGCController gcController => gcController -> IO (Id GCController)
-capture gcController =
-  sendMessage gcController captureSelector
-
 -- | Creates a controller with a micro gamepad profile.
 --
--- This controller will be considered a snapshot, allowing developers to write   to any GCControllerElement of its profiles.
+-- This controller will be considered a snapshot, allowing developers to write to any GCControllerElement of its profiles.
 --
 -- See: snapshot
 --
@@ -188,16 +175,16 @@ controllerWithExtendedGamepad  =
     cls' <- getRequiredClass "GCController"
     sendClassMessage cls' controllerWithExtendedGamepadSelector
 
--- | The most recently used game controller. If a user actuates a game controller  input, that controller will become the current one.
+-- | Returns YES if the given HID device is supported by the Game Controller framework, and will have an associated GCController instance.
 --
--- Note: This is useful for single player games where you only care about whether an  input is pressed, and not where it came from.  You will still need to  register for changes to GCController.current so that your UI can remain  up-to-date with the current controller.
+-- Note: This is not cheap, be sure to cache the result
 --
--- ObjC selector: @+ current@
-current :: IO (Id GCController)
-current  =
+-- ObjC selector: @+ supportsHIDDevice:@
+supportsHIDDevice :: Ptr () -> IO Bool
+supportsHIDDevice device =
   do
     cls' <- getRequiredClass "GCController"
-    sendClassMessage cls' currentSelector
+    sendClassMessage cls' supportsHIDDeviceSelector device
 
 -- | Set this block to be notified when a user intends to suspend or resume the current game state. A controller will have a button dedicated to suspending and resuming play and invoking context sensitive actions. During event handling the system will notify the application using this block such that the application can handle the suspension and resumption from the given controller.
 --
@@ -229,11 +216,20 @@ setControllerPausedHandler :: IsGCController gcController => gcController -> Ptr
 setControllerPausedHandler gcController value =
   sendMessage gcController setControllerPausedHandlerSelector value
 
+-- | The most recently used game controller. If a user actuates a game controller input, that controller will become the current one.
+--
+-- Note: This is useful for single player games where you only care about whether an input is pressed, and not where it came from. You will still need to register for changes to GCController.current so that your UI can remain up-to-date with the current controller.
+--
+-- ObjC selector: @+ current@
+current :: IO (Id GCController)
+current  =
+  do
+    cls' <- getRequiredClass "GCController"
+    sendClassMessage cls' currentSelector
+
 -- | Whether the current application should monitor and respond to game controller events when it is not the frontmost application.
 --
--- If shouldMonitorBackgroundEvents is NO, and the application is not the frontmost application, any inputs from a game controller will
---
--- not be forwarded to the application. Once the application becomes the frontmost application, game controller events will be forwarded.
+-- If shouldMonitorBackgroundEvents is NO, and the application is not the frontmost application, any inputs from a game controller will not be forwarded to the application. Once the application becomes the frontmost application, game controller events will be forwarded.
 --
 -- Note: Starting with macOS Big Sur 11.3, shouldMonitorBackgroundEvents will be NO by default. For applications built prior to macOS Big Sur 11.3, (or running on devices with an earlier version of macOS), shouldMonitorBackgroundEvents will be YES by default. On iOS and tvOS, this property is ignored.
 --
@@ -246,9 +242,7 @@ shouldMonitorBackgroundEvents  =
 
 -- | Whether the current application should monitor and respond to game controller events when it is not the frontmost application.
 --
--- If shouldMonitorBackgroundEvents is NO, and the application is not the frontmost application, any inputs from a game controller will
---
--- not be forwarded to the application. Once the application becomes the frontmost application, game controller events will be forwarded.
+-- If shouldMonitorBackgroundEvents is NO, and the application is not the frontmost application, any inputs from a game controller will not be forwarded to the application. Once the application becomes the frontmost application, game controller events will be forwarded.
 --
 -- Note: Starting with macOS Big Sur 11.3, shouldMonitorBackgroundEvents will be NO by default. For applications built prior to macOS Big Sur 11.3, (or running on devices with an earlier version of macOS), shouldMonitorBackgroundEvents will be YES by default. On iOS and tvOS, this property is ignored.
 --
@@ -265,6 +259,19 @@ setShouldMonitorBackgroundEvents value =
 attachedToDevice :: IsGCController gcController => gcController -> IO Bool
 attachedToDevice gcController =
   sendMessage gcController attachedToDeviceSelector
+
+-- | A controller may represent a real device managed by the operating system, or a virtual snapshot created by the developer. If a controller is directly created by the developer, it is considered to be a snapshot, allowing direct writes to any GCControllerElement of its profiles. If the controller is not snapshot, the system will reject any write requests to GCControllerElement.
+--
+-- See: controllerWithMicroGamepad
+--
+-- See: controllerWithExtendedGamepad
+--
+-- See: capture
+--
+-- ObjC selector: @- snapshot@
+snapshot :: IsGCController gcController => gcController -> IO Bool
+snapshot gcController =
+  sendMessage gcController snapshotSelector
 
 -- | A player index for the controller, defaults to GCControllerPlayerIndexUnset.
 --
@@ -291,13 +298,6 @@ playerIndex gcController =
 setPlayerIndex :: IsGCController gcController => gcController -> GCControllerPlayerIndex -> IO ()
 setPlayerIndex gcController value =
   sendMessage gcController setPlayerIndexSelector value
-
--- | Gets the input profile for the controller.
---
--- ObjC selector: @- input@
-input :: IsGCController gcController => gcController -> IO (Id GCControllerLiveInput)
-input gcController =
-  sendMessage gcController inputSelector
 
 -- | Gets the battery information if controller supports one
 --
@@ -377,30 +377,17 @@ haptics :: IsGCController gcController => gcController -> IO (Id GCDeviceHaptics
 haptics gcController =
   sendMessage gcController hapticsSelector
 
--- | A controller may represent a real device managed by the operating system,  or a virtual snapshot created by the developer.  If a controller is created  by the developer, it is considered to be a snapshot, allowing direct writes  to any GCControllerElement of its profiles.  If the controller is not  snapshot, the system will reject any write requests to GCControllerElement.
---
--- See: controllerWithMicroGamepad
---
--- See: controllerWithExtendedGamepad
---
--- See: capture
---
--- ObjC selector: @- snapshot@
-snapshot :: IsGCController gcController => gcController -> IO Bool
-snapshot gcController =
-  sendMessage gcController snapshotSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @capture@
+captureSelector :: Selector '[] (Id GCController)
+captureSelector = mkSelector "capture"
+
 -- | @Selector@ for @controllers@
 controllersSelector :: Selector '[] (Id NSArray)
 controllersSelector = mkSelector "controllers"
-
--- | @Selector@ for @supportsHIDDevice:@
-supportsHIDDeviceSelector :: Selector '[Ptr ()] Bool
-supportsHIDDeviceSelector = mkSelector "supportsHIDDevice:"
 
 -- | @Selector@ for @startWirelessControllerDiscoveryWithCompletionHandler:@
 startWirelessControllerDiscoveryWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
@@ -410,10 +397,6 @@ startWirelessControllerDiscoveryWithCompletionHandlerSelector = mkSelector "star
 stopWirelessControllerDiscoverySelector :: Selector '[] ()
 stopWirelessControllerDiscoverySelector = mkSelector "stopWirelessControllerDiscovery"
 
--- | @Selector@ for @capture@
-captureSelector :: Selector '[] (Id GCController)
-captureSelector = mkSelector "capture"
-
 -- | @Selector@ for @controllerWithMicroGamepad@
 controllerWithMicroGamepadSelector :: Selector '[] (Id GCController)
 controllerWithMicroGamepadSelector = mkSelector "controllerWithMicroGamepad"
@@ -422,9 +405,9 @@ controllerWithMicroGamepadSelector = mkSelector "controllerWithMicroGamepad"
 controllerWithExtendedGamepadSelector :: Selector '[] (Id GCController)
 controllerWithExtendedGamepadSelector = mkSelector "controllerWithExtendedGamepad"
 
--- | @Selector@ for @current@
-currentSelector :: Selector '[] (Id GCController)
-currentSelector = mkSelector "current"
+-- | @Selector@ for @supportsHIDDevice:@
+supportsHIDDeviceSelector :: Selector '[Ptr ()] Bool
+supportsHIDDeviceSelector = mkSelector "supportsHIDDevice:"
 
 -- | @Selector@ for @controllerPausedHandler@
 controllerPausedHandlerSelector :: Selector '[] (Ptr ())
@@ -433,6 +416,10 @@ controllerPausedHandlerSelector = mkSelector "controllerPausedHandler"
 -- | @Selector@ for @setControllerPausedHandler:@
 setControllerPausedHandlerSelector :: Selector '[Ptr ()] ()
 setControllerPausedHandlerSelector = mkSelector "setControllerPausedHandler:"
+
+-- | @Selector@ for @current@
+currentSelector :: Selector '[] (Id GCController)
+currentSelector = mkSelector "current"
 
 -- | @Selector@ for @shouldMonitorBackgroundEvents@
 shouldMonitorBackgroundEventsSelector :: Selector '[] Bool
@@ -446,6 +433,10 @@ setShouldMonitorBackgroundEventsSelector = mkSelector "setShouldMonitorBackgroun
 attachedToDeviceSelector :: Selector '[] Bool
 attachedToDeviceSelector = mkSelector "attachedToDevice"
 
+-- | @Selector@ for @snapshot@
+snapshotSelector :: Selector '[] Bool
+snapshotSelector = mkSelector "snapshot"
+
 -- | @Selector@ for @playerIndex@
 playerIndexSelector :: Selector '[] GCControllerPlayerIndex
 playerIndexSelector = mkSelector "playerIndex"
@@ -453,10 +444,6 @@ playerIndexSelector = mkSelector "playerIndex"
 -- | @Selector@ for @setPlayerIndex:@
 setPlayerIndexSelector :: Selector '[GCControllerPlayerIndex] ()
 setPlayerIndexSelector = mkSelector "setPlayerIndex:"
-
--- | @Selector@ for @input@
-inputSelector :: Selector '[] (Id GCControllerLiveInput)
-inputSelector = mkSelector "input"
 
 -- | @Selector@ for @battery@
 batterySelector :: Selector '[] (Id GCDeviceBattery)
@@ -489,8 +476,4 @@ lightSelector = mkSelector "light"
 -- | @Selector@ for @haptics@
 hapticsSelector :: Selector '[] (Id GCDeviceHaptics)
 hapticsSelector = mkSelector "haptics"
-
--- | @Selector@ for @snapshot@
-snapshotSelector :: Selector '[] Bool
-snapshotSelector = mkSelector "snapshot"
 

@@ -7,14 +7,16 @@
 module ObjC.Matter.MTRDoorLockClusterSetUserParams
   ( MTRDoorLockClusterSetUserParams
   , IsMTRDoorLockClusterSetUserParams(..)
+  , init_
+  , copyWithZone
   , operationType
   , setOperationType
   , userIndex
   , setUserIndex
   , userName
   , setUserName
-  , userUniqueID
-  , setUserUniqueID
+  , userUniqueId
+  , setUserUniqueId
   , userStatus
   , setUserStatus
   , userType
@@ -23,29 +25,23 @@ module ObjC.Matter.MTRDoorLockClusterSetUserParams
   , setCredentialRule
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
-  , serverSideProcessingTimeout
-  , setServerSideProcessingTimeout
-  , userUniqueId
-  , setUserUniqueId
+  , copyWithZoneSelector
   , credentialRuleSelector
+  , initSelector
   , operationTypeSelector
-  , serverSideProcessingTimeoutSelector
   , setCredentialRuleSelector
   , setOperationTypeSelector
-  , setServerSideProcessingTimeoutSelector
   , setTimedInvokeTimeoutMsSelector
   , setUserIndexSelector
   , setUserNameSelector
   , setUserStatusSelector
   , setUserTypeSelector
-  , setUserUniqueIDSelector
   , setUserUniqueIdSelector
   , timedInvokeTimeoutMsSelector
   , userIndexSelector
   , userNameSelector
   , userStatusSelector
   , userTypeSelector
-  , userUniqueIDSelector
   , userUniqueIdSelector
 
 
@@ -61,6 +57,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> IO (Id MTRDoorLockClusterSetUserParams)
+init_ mtrDoorLockClusterSetUserParams =
+  sendOwnedMessage mtrDoorLockClusterSetUserParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> Ptr () -> IO RawId
+copyWithZone mtrDoorLockClusterSetUserParams zone =
+  sendOwnedMessage mtrDoorLockClusterSetUserParams copyWithZoneSelector zone
 
 -- | @- operationType@
 operationType :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> IO (Id NSNumber)
@@ -92,15 +98,15 @@ setUserName :: (IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParam
 setUserName mtrDoorLockClusterSetUserParams value =
   sendMessage mtrDoorLockClusterSetUserParams setUserNameSelector (toNSString value)
 
--- | @- userUniqueID@
-userUniqueID :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> IO (Id NSNumber)
-userUniqueID mtrDoorLockClusterSetUserParams =
-  sendMessage mtrDoorLockClusterSetUserParams userUniqueIDSelector
+-- | @- userUniqueId@
+userUniqueId :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> IO (Id NSNumber)
+userUniqueId mtrDoorLockClusterSetUserParams =
+  sendMessage mtrDoorLockClusterSetUserParams userUniqueIdSelector
 
--- | @- setUserUniqueID:@
-setUserUniqueID :: (IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams, IsNSNumber value) => mtrDoorLockClusterSetUserParams -> value -> IO ()
-setUserUniqueID mtrDoorLockClusterSetUserParams value =
-  sendMessage mtrDoorLockClusterSetUserParams setUserUniqueIDSelector (toNSNumber value)
+-- | @- setUserUniqueId:@
+setUserUniqueId :: (IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams, IsNSNumber value) => mtrDoorLockClusterSetUserParams -> value -> IO ()
+setUserUniqueId mtrDoorLockClusterSetUserParams value =
+  sendMessage mtrDoorLockClusterSetUserParams setUserUniqueIdSelector (toNSNumber value)
 
 -- | @- userStatus@
 userStatus :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> IO (Id NSNumber)
@@ -154,41 +160,17 @@ setTimedInvokeTimeoutMs :: (IsMTRDoorLockClusterSetUserParams mtrDoorLockCluster
 setTimedInvokeTimeoutMs mtrDoorLockClusterSetUserParams value =
   sendMessage mtrDoorLockClusterSetUserParams setTimedInvokeTimeoutMsSelector (toNSNumber value)
 
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- serverSideProcessingTimeout@
-serverSideProcessingTimeout :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> IO (Id NSNumber)
-serverSideProcessingTimeout mtrDoorLockClusterSetUserParams =
-  sendMessage mtrDoorLockClusterSetUserParams serverSideProcessingTimeoutSelector
-
--- | Controls how much time, in seconds, we will allow for the server to process the command.
---
--- The command will then time out if that much time, plus an allowance for retransmits due to network failures, passes.
---
--- If nil, the framework will try to select an appropriate timeout value itself.
---
--- ObjC selector: @- setServerSideProcessingTimeout:@
-setServerSideProcessingTimeout :: (IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams, IsNSNumber value) => mtrDoorLockClusterSetUserParams -> value -> IO ()
-setServerSideProcessingTimeout mtrDoorLockClusterSetUserParams value =
-  sendMessage mtrDoorLockClusterSetUserParams setServerSideProcessingTimeoutSelector (toNSNumber value)
-
--- | @- userUniqueId@
-userUniqueId :: IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams => mtrDoorLockClusterSetUserParams -> IO (Id NSNumber)
-userUniqueId mtrDoorLockClusterSetUserParams =
-  sendMessage mtrDoorLockClusterSetUserParams userUniqueIdSelector
-
--- | @- setUserUniqueId:@
-setUserUniqueId :: (IsMTRDoorLockClusterSetUserParams mtrDoorLockClusterSetUserParams, IsNSNumber value) => mtrDoorLockClusterSetUserParams -> value -> IO ()
-setUserUniqueId mtrDoorLockClusterSetUserParams value =
-  sendMessage mtrDoorLockClusterSetUserParams setUserUniqueIdSelector (toNSNumber value)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRDoorLockClusterSetUserParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @operationType@
 operationTypeSelector :: Selector '[] (Id NSNumber)
@@ -214,13 +196,13 @@ userNameSelector = mkSelector "userName"
 setUserNameSelector :: Selector '[Id NSString] ()
 setUserNameSelector = mkSelector "setUserName:"
 
--- | @Selector@ for @userUniqueID@
-userUniqueIDSelector :: Selector '[] (Id NSNumber)
-userUniqueIDSelector = mkSelector "userUniqueID"
+-- | @Selector@ for @userUniqueId@
+userUniqueIdSelector :: Selector '[] (Id NSNumber)
+userUniqueIdSelector = mkSelector "userUniqueId"
 
--- | @Selector@ for @setUserUniqueID:@
-setUserUniqueIDSelector :: Selector '[Id NSNumber] ()
-setUserUniqueIDSelector = mkSelector "setUserUniqueID:"
+-- | @Selector@ for @setUserUniqueId:@
+setUserUniqueIdSelector :: Selector '[Id NSNumber] ()
+setUserUniqueIdSelector = mkSelector "setUserUniqueId:"
 
 -- | @Selector@ for @userStatus@
 userStatusSelector :: Selector '[] (Id NSNumber)
@@ -253,20 +235,4 @@ timedInvokeTimeoutMsSelector = mkSelector "timedInvokeTimeoutMs"
 -- | @Selector@ for @setTimedInvokeTimeoutMs:@
 setTimedInvokeTimeoutMsSelector :: Selector '[Id NSNumber] ()
 setTimedInvokeTimeoutMsSelector = mkSelector "setTimedInvokeTimeoutMs:"
-
--- | @Selector@ for @serverSideProcessingTimeout@
-serverSideProcessingTimeoutSelector :: Selector '[] (Id NSNumber)
-serverSideProcessingTimeoutSelector = mkSelector "serverSideProcessingTimeout"
-
--- | @Selector@ for @setServerSideProcessingTimeout:@
-setServerSideProcessingTimeoutSelector :: Selector '[Id NSNumber] ()
-setServerSideProcessingTimeoutSelector = mkSelector "setServerSideProcessingTimeout:"
-
--- | @Selector@ for @userUniqueId@
-userUniqueIdSelector :: Selector '[] (Id NSNumber)
-userUniqueIdSelector = mkSelector "userUniqueId"
-
--- | @Selector@ for @setUserUniqueId:@
-setUserUniqueIdSelector :: Selector '[Id NSNumber] ()
-setUserUniqueIdSelector = mkSelector "setUserUniqueId:"
 

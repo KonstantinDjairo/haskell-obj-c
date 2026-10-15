@@ -22,63 +22,6 @@ import ObjC.Contacts.Internal.Classes
 import ObjC.CoreLocation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- ---------- MKAddress ----------
-
--- | Phantom type for @MKAddress@.
-data MKAddress
-
-instance IsObjCObject (Id MKAddress) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKAddress"
-
-class IsNSObject a => IsMKAddress a where
-  toMKAddress :: a -> Id MKAddress
-
-instance IsMKAddress (Id MKAddress) where
-  toMKAddress = unsafeCastId
-
-instance IsNSObject (Id MKAddress) where
-  toNSObject = unsafeCastId
-
--- ---------- MKAddressFilter ----------
-
--- | Phantom type for @MKAddressFilter@.
-data MKAddressFilter
-
-instance IsObjCObject (Id MKAddressFilter) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKAddressFilter"
-
-class IsNSObject a => IsMKAddressFilter a where
-  toMKAddressFilter :: a -> Id MKAddressFilter
-
-instance IsMKAddressFilter (Id MKAddressFilter) where
-  toMKAddressFilter = unsafeCastId
-
-instance IsNSObject (Id MKAddressFilter) where
-  toNSObject = unsafeCastId
-
--- ---------- MKAddressRepresentations ----------
-
--- | Phantom type for @MKAddressRepresentations@.
-data MKAddressRepresentations
-
-instance IsObjCObject (Id MKAddressRepresentations) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKAddressRepresentations"
-
-class IsNSObject a => IsMKAddressRepresentations a where
-  toMKAddressRepresentations :: a -> Id MKAddressRepresentations
-
-instance IsMKAddressRepresentations (Id MKAddressRepresentations) where
-  toMKAddressRepresentations = unsafeCastId
-
-instance IsNSObject (Id MKAddressRepresentations) where
-  toNSObject = unsafeCastId
-
 -- ---------- MKClusterAnnotation ----------
 
 -- | Phantom type for @MKClusterAnnotation@.
@@ -210,25 +153,6 @@ instance IsMKGeoJSONFeature (Id MKGeoJSONFeature) where
   toMKGeoJSONFeature = unsafeCastId
 
 instance IsNSObject (Id MKGeoJSONFeature) where
-  toNSObject = unsafeCastId
-
--- ---------- MKGeocodingRequest ----------
-
--- | Phantom type for @MKGeocodingRequest@.
-data MKGeocodingRequest
-
-instance IsObjCObject (Id MKGeocodingRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKGeocodingRequest"
-
-class IsNSObject a => IsMKGeocodingRequest a where
-  toMKGeocodingRequest :: a -> Id MKGeocodingRequest
-
-instance IsMKGeocodingRequest (Id MKGeocodingRequest) where
-  toMKGeocodingRequest = unsafeCastId
-
-instance IsNSObject (Id MKGeocodingRequest) where
   toNSObject = unsafeCastId
 
 -- ---------- MKLocalPointsOfInterestRequest ----------
@@ -535,82 +459,6 @@ instance IsMKMapItem (Id MKMapItem) where
 instance IsNSObject (Id MKMapItem) where
   toNSObject = unsafeCastId
 
--- ---------- MKMapItemAnnotation ----------
-
--- | Phantom type for @MKMapItemAnnotation@.
-data MKMapItemAnnotation
-
-instance IsObjCObject (Id MKMapItemAnnotation) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKMapItemAnnotation"
-
-class IsNSObject a => IsMKMapItemAnnotation a where
-  toMKMapItemAnnotation :: a -> Id MKMapItemAnnotation
-
-instance IsMKMapItemAnnotation (Id MKMapItemAnnotation) where
-  toMKMapItemAnnotation = unsafeCastId
-
-instance IsNSObject (Id MKMapItemAnnotation) where
-  toNSObject = unsafeCastId
-
--- ---------- MKMapItemDetailSelectionAccessoryPresentationStyle ----------
-
--- | Phantom type for @MKMapItemDetailSelectionAccessoryPresentationStyle@.
-data MKMapItemDetailSelectionAccessoryPresentationStyle
-
-instance IsObjCObject (Id MKMapItemDetailSelectionAccessoryPresentationStyle) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKMapItemDetailSelectionAccessoryPresentationStyle"
-
-class IsNSObject a => IsMKMapItemDetailSelectionAccessoryPresentationStyle a where
-  toMKMapItemDetailSelectionAccessoryPresentationStyle :: a -> Id MKMapItemDetailSelectionAccessoryPresentationStyle
-
-instance IsMKMapItemDetailSelectionAccessoryPresentationStyle (Id MKMapItemDetailSelectionAccessoryPresentationStyle) where
-  toMKMapItemDetailSelectionAccessoryPresentationStyle = unsafeCastId
-
-instance IsNSObject (Id MKMapItemDetailSelectionAccessoryPresentationStyle) where
-  toNSObject = unsafeCastId
-
--- ---------- MKMapItemIdentifier ----------
-
--- | Phantom type for @MKMapItemIdentifier@.
-data MKMapItemIdentifier
-
-instance IsObjCObject (Id MKMapItemIdentifier) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKMapItemIdentifier"
-
-class IsNSObject a => IsMKMapItemIdentifier a where
-  toMKMapItemIdentifier :: a -> Id MKMapItemIdentifier
-
-instance IsMKMapItemIdentifier (Id MKMapItemIdentifier) where
-  toMKMapItemIdentifier = unsafeCastId
-
-instance IsNSObject (Id MKMapItemIdentifier) where
-  toNSObject = unsafeCastId
-
--- ---------- MKMapItemRequest ----------
-
--- | Phantom type for @MKMapItemRequest@.
-data MKMapItemRequest
-
-instance IsObjCObject (Id MKMapItemRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKMapItemRequest"
-
-class IsNSObject a => IsMKMapItemRequest a where
-  toMKMapItemRequest :: a -> Id MKMapItemRequest
-
-instance IsMKMapItemRequest (Id MKMapItemRequest) where
-  toMKMapItemRequest = unsafeCastId
-
-instance IsNSObject (Id MKMapItemRequest) where
-  toNSObject = unsafeCastId
-
 -- ---------- MKMapSnapshot ----------
 
 -- | Phantom type for @MKMapSnapshot@.
@@ -706,25 +554,6 @@ instance IsMKPointOfInterestFilter (Id MKPointOfInterestFilter) where
 instance IsNSObject (Id MKPointOfInterestFilter) where
   toNSObject = unsafeCastId
 
--- ---------- MKReverseGeocodingRequest ----------
-
--- | Phantom type for @MKReverseGeocodingRequest@.
-data MKReverseGeocodingRequest
-
-instance IsObjCObject (Id MKReverseGeocodingRequest) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKReverseGeocodingRequest"
-
-class IsNSObject a => IsMKReverseGeocodingRequest a where
-  toMKReverseGeocodingRequest :: a -> Id MKReverseGeocodingRequest
-
-instance IsMKReverseGeocodingRequest (Id MKReverseGeocodingRequest) where
-  toMKReverseGeocodingRequest = unsafeCastId
-
-instance IsNSObject (Id MKReverseGeocodingRequest) where
-  toNSObject = unsafeCastId
-
 -- ---------- MKRoute ----------
 
 -- | Phantom type for @MKRoute@.
@@ -761,25 +590,6 @@ instance IsMKRouteStep (Id MKRouteStep) where
   toMKRouteStep = unsafeCastId
 
 instance IsNSObject (Id MKRouteStep) where
-  toNSObject = unsafeCastId
-
--- ---------- MKSelectionAccessory ----------
-
--- | Phantom type for @MKSelectionAccessory@.
-data MKSelectionAccessory
-
-instance IsObjCObject (Id MKSelectionAccessory) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKSelectionAccessory"
-
-class IsNSObject a => IsMKSelectionAccessory a where
-  toMKSelectionAccessory :: a -> Id MKSelectionAccessory
-
-instance IsMKSelectionAccessory (Id MKSelectionAccessory) where
-  toMKSelectionAccessory = unsafeCastId
-
-instance IsNSObject (Id MKSelectionAccessory) where
   toNSObject = unsafeCastId
 
 -- ---------- MKShape ----------
@@ -1426,31 +1236,6 @@ instance IsNSResponder (Id MKLookAroundViewController) where
   toNSResponder = unsafeCastId
 
 instance IsNSViewController (Id MKLookAroundViewController) where
-  toNSViewController = unsafeCastId
-
--- ---------- MKMapItemDetailViewController ----------
-
--- | Phantom type for @MKMapItemDetailViewController@.
-data MKMapItemDetailViewController
-
-instance IsObjCObject (Id MKMapItemDetailViewController) where
-  toRawId = idToRawId
-  withObjCPtr = withIdObjCPtr
-  staticClass _ = getRequiredClass "MKMapItemDetailViewController"
-
-class IsNSViewController a => IsMKMapItemDetailViewController a where
-  toMKMapItemDetailViewController :: a -> Id MKMapItemDetailViewController
-
-instance IsMKMapItemDetailViewController (Id MKMapItemDetailViewController) where
-  toMKMapItemDetailViewController = unsafeCastId
-
-instance IsNSObject (Id MKMapItemDetailViewController) where
-  toNSObject = unsafeCastId
-
-instance IsNSResponder (Id MKMapItemDetailViewController) where
-  toNSResponder = unsafeCastId
-
-instance IsNSViewController (Id MKMapItemDetailViewController) where
   toNSViewController = unsafeCastId
 
 -- ---------- MKGradientPolylineRenderer ----------

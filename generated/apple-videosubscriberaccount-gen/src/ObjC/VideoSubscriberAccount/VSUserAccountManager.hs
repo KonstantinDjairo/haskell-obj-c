@@ -9,11 +9,7 @@ module ObjC.VideoSubscriberAccount.VSUserAccountManager
   ( VSUserAccountManager
   , IsVSUserAccountManager(..)
   , updateUserAccount_completion
-  , queryAutoSignInTokenWithCompletionHandler
-  , deleteAutoSignInTokenWithCompletionHandler
   , sharedUserAccountManager
-  , deleteAutoSignInTokenWithCompletionHandlerSelector
-  , queryAutoSignInTokenWithCompletionHandlerSelector
   , sharedUserAccountManagerSelector
   , updateUserAccount_completionSelector
 
@@ -41,20 +37,6 @@ updateUserAccount_completion :: (IsVSUserAccountManager vsUserAccountManager, Is
 updateUserAccount_completion vsUserAccountManager account completion =
   sendMessage vsUserAccountManager updateUserAccount_completionSelector (toVSUserAccount account) completion
 
--- | Query the auto sign in token and authorization state.
---
--- ObjC selector: @- queryAutoSignInTokenWithCompletionHandler:@
-queryAutoSignInTokenWithCompletionHandler :: IsVSUserAccountManager vsUserAccountManager => vsUserAccountManager -> Ptr () -> IO ()
-queryAutoSignInTokenWithCompletionHandler vsUserAccountManager completion =
-  sendMessage vsUserAccountManager queryAutoSignInTokenWithCompletionHandlerSelector completion
-
--- | Deletes the auto sign in token.
---
--- ObjC selector: @- deleteAutoSignInTokenWithCompletionHandler:@
-deleteAutoSignInTokenWithCompletionHandler :: IsVSUserAccountManager vsUserAccountManager => vsUserAccountManager -> Ptr () -> IO ()
-deleteAutoSignInTokenWithCompletionHandler vsUserAccountManager completion =
-  sendMessage vsUserAccountManager deleteAutoSignInTokenWithCompletionHandlerSelector completion
-
 -- | @+ sharedUserAccountManager@
 sharedUserAccountManager :: IO (Id VSUserAccountManager)
 sharedUserAccountManager  =
@@ -69,14 +51,6 @@ sharedUserAccountManager  =
 -- | @Selector@ for @updateUserAccount:completion:@
 updateUserAccount_completionSelector :: Selector '[Id VSUserAccount, Ptr ()] ()
 updateUserAccount_completionSelector = mkSelector "updateUserAccount:completion:"
-
--- | @Selector@ for @queryAutoSignInTokenWithCompletionHandler:@
-queryAutoSignInTokenWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
-queryAutoSignInTokenWithCompletionHandlerSelector = mkSelector "queryAutoSignInTokenWithCompletionHandler:"
-
--- | @Selector@ for @deleteAutoSignInTokenWithCompletionHandler:@
-deleteAutoSignInTokenWithCompletionHandlerSelector :: Selector '[Ptr ()] ()
-deleteAutoSignInTokenWithCompletionHandlerSelector = mkSelector "deleteAutoSignInTokenWithCompletionHandler:"
 
 -- | @Selector@ for @sharedUserAccountManager@
 sharedUserAccountManagerSelector :: Selector '[] (Id VSUserAccountManager)

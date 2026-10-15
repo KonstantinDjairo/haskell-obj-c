@@ -17,12 +17,10 @@ module ObjC.MetricKit.MXDiagnostic
   , dictionaryRepresentation
   , metaData
   , applicationVersion
-  , signpostData
   , applicationVersionSelector
   , dictionaryRepresentationSelector
   , jsonRepresentationSelector
   , metaDataSelector
-  , signpostDataSelector
 
 
   ) where
@@ -74,15 +72,6 @@ applicationVersion :: IsMXDiagnostic mxDiagnostic => mxDiagnostic -> IO (Id NSSt
 applicationVersion mxDiagnostic =
   sendMessage mxDiagnostic applicationVersionSelector
 
--- | signpostData
---
--- An NSArray representing the list of signpost records.
---
--- ObjC selector: @- signpostData@
-signpostData :: IsMXDiagnostic mxDiagnostic => mxDiagnostic -> IO (Id NSArray)
-signpostData mxDiagnostic =
-  sendMessage mxDiagnostic signpostDataSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -102,8 +91,4 @@ metaDataSelector = mkSelector "metaData"
 -- | @Selector@ for @applicationVersion@
 applicationVersionSelector :: Selector '[] (Id NSString)
 applicationVersionSelector = mkSelector "applicationVersion"
-
--- | @Selector@ for @signpostData@
-signpostDataSelector :: Selector '[] (Id NSArray)
-signpostDataSelector = mkSelector "signpostData"
 

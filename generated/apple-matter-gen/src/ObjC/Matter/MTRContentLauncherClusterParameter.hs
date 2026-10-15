@@ -7,13 +7,17 @@
 module ObjC.Matter.MTRContentLauncherClusterParameter
   ( MTRContentLauncherClusterParameter
   , IsMTRContentLauncherClusterParameter(..)
+  , init_
+  , copyWithZone
   , type_
   , setType
   , value
   , setValue
   , externalIDList
   , setExternalIDList
+  , copyWithZoneSelector
   , externalIDListSelector
+  , initSelector
   , setExternalIDListSelector
   , setTypeSelector
   , setValueSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRContentLauncherClusterParameter mtrContentLauncherClusterParameter => mtrContentLauncherClusterParameter -> IO (Id MTRContentLauncherClusterParameter)
+init_ mtrContentLauncherClusterParameter =
+  sendOwnedMessage mtrContentLauncherClusterParameter initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRContentLauncherClusterParameter mtrContentLauncherClusterParameter => mtrContentLauncherClusterParameter -> Ptr () -> IO RawId
+copyWithZone mtrContentLauncherClusterParameter zone =
+  sendOwnedMessage mtrContentLauncherClusterParameter copyWithZoneSelector zone
 
 -- | @- type@
 type_ :: IsMTRContentLauncherClusterParameter mtrContentLauncherClusterParameter => mtrContentLauncherClusterParameter -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setExternalIDList mtrContentLauncherClusterParameter value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRContentLauncherClusterParameter)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @type@
 typeSelector :: Selector '[] (Id NSNumber)

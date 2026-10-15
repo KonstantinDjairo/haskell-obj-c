@@ -18,30 +18,18 @@ module ObjC.CoreSpotlight.CSSearchableItem
   , setExpirationDate
   , attributeSet
   , setAttributeSet
-  , isUpdate
-  , setIsUpdate
-  , updateListenerOptions
-  , setUpdateListenerOptions
   , attributeSetSelector
   , compareByRankSelector
   , domainIdentifierSelector
   , expirationDateSelector
   , initWithUniqueIdentifier_domainIdentifier_attributeSetSelector
-  , isUpdateSelector
   , setAttributeSetSelector
   , setDomainIdentifierSelector
   , setExpirationDateSelector
-  , setIsUpdateSelector
   , setUniqueIdentifierSelector
-  , setUpdateListenerOptionsSelector
   , uniqueIdentifierSelector
-  , updateListenerOptionsSelector
 
   -- * Enum types
-  , CSSearchableItemUpdateListenerOptions(CSSearchableItemUpdateListenerOptions)
-  , pattern CSSearchableItemUpdateListenerOptionDefault
-  , pattern CSSearchableItemUpdateListenerOptionSummarization
-  , pattern CSSearchableItemUpdateListenerOptionPriority
   , NSComparisonResult(NSComparisonResult)
   , pattern NSOrderedAscending
   , pattern NSOrderedSame
@@ -58,7 +46,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.CoreSpotlight.Internal.Classes
-import ObjC.CoreSpotlight.Internal.Enums
 import ObjC.Foundation.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
@@ -112,26 +99,6 @@ setAttributeSet :: (IsCSSearchableItem csSearchableItem, IsCSSearchableItemAttri
 setAttributeSet csSearchableItem value =
   sendMessage csSearchableItem setAttributeSetSelector (toCSSearchableItemAttributeSet value)
 
--- | @- isUpdate@
-isUpdate :: IsCSSearchableItem csSearchableItem => csSearchableItem -> IO Bool
-isUpdate csSearchableItem =
-  sendMessage csSearchableItem isUpdateSelector
-
--- | @- setIsUpdate:@
-setIsUpdate :: IsCSSearchableItem csSearchableItem => csSearchableItem -> Bool -> IO ()
-setIsUpdate csSearchableItem value =
-  sendMessage csSearchableItem setIsUpdateSelector value
-
--- | @- updateListenerOptions@
-updateListenerOptions :: IsCSSearchableItem csSearchableItem => csSearchableItem -> IO CSSearchableItemUpdateListenerOptions
-updateListenerOptions csSearchableItem =
-  sendMessage csSearchableItem updateListenerOptionsSelector
-
--- | @- setUpdateListenerOptions:@
-setUpdateListenerOptions :: IsCSSearchableItem csSearchableItem => csSearchableItem -> CSSearchableItemUpdateListenerOptions -> IO ()
-setUpdateListenerOptions csSearchableItem value =
-  sendMessage csSearchableItem setUpdateListenerOptionsSelector value
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -175,20 +142,4 @@ attributeSetSelector = mkSelector "attributeSet"
 -- | @Selector@ for @setAttributeSet:@
 setAttributeSetSelector :: Selector '[Id CSSearchableItemAttributeSet] ()
 setAttributeSetSelector = mkSelector "setAttributeSet:"
-
--- | @Selector@ for @isUpdate@
-isUpdateSelector :: Selector '[] Bool
-isUpdateSelector = mkSelector "isUpdate"
-
--- | @Selector@ for @setIsUpdate:@
-setIsUpdateSelector :: Selector '[Bool] ()
-setIsUpdateSelector = mkSelector "setIsUpdate:"
-
--- | @Selector@ for @updateListenerOptions@
-updateListenerOptionsSelector :: Selector '[] CSSearchableItemUpdateListenerOptions
-updateListenerOptionsSelector = mkSelector "updateListenerOptions"
-
--- | @Selector@ for @setUpdateListenerOptions:@
-setUpdateListenerOptionsSelector :: Selector '[CSSearchableItemUpdateListenerOptions] ()
-setUpdateListenerOptionsSelector = mkSelector "setUpdateListenerOptions:"
 

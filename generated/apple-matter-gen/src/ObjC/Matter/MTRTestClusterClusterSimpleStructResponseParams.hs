@@ -7,11 +7,15 @@
 module ObjC.Matter.MTRTestClusterClusterSimpleStructResponseParams
   ( MTRTestClusterClusterSimpleStructResponseParams
   , IsMTRTestClusterClusterSimpleStructResponseParams(..)
+  , init_
+  , copyWithZone
   , arg1
   , setArg1
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
   , arg1Selector
+  , copyWithZoneSelector
+  , initSelector
   , setArg1Selector
   , setTimedInvokeTimeoutMsSelector
   , timedInvokeTimeoutMsSelector
@@ -30,15 +34,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRTestClusterClusterSimpleStructResponseParams mtrTestClusterClusterSimpleStructResponseParams => mtrTestClusterClusterSimpleStructResponseParams -> IO (Id MTRTestClusterClusterSimpleStructResponseParams)
+init_ mtrTestClusterClusterSimpleStructResponseParams =
+  sendOwnedMessage mtrTestClusterClusterSimpleStructResponseParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRTestClusterClusterSimpleStructResponseParams mtrTestClusterClusterSimpleStructResponseParams => mtrTestClusterClusterSimpleStructResponseParams -> Ptr () -> IO RawId
+copyWithZone mtrTestClusterClusterSimpleStructResponseParams zone =
+  sendOwnedMessage mtrTestClusterClusterSimpleStructResponseParams copyWithZoneSelector zone
+
 -- | @- arg1@
-arg1 :: IsMTRTestClusterClusterSimpleStructResponseParams mtrTestClusterClusterSimpleStructResponseParams => mtrTestClusterClusterSimpleStructResponseParams -> IO (Id MTRUnitTestingClusterSimpleStruct)
+arg1 :: IsMTRTestClusterClusterSimpleStructResponseParams mtrTestClusterClusterSimpleStructResponseParams => mtrTestClusterClusterSimpleStructResponseParams -> IO (Id MTRTestClusterClusterSimpleStruct)
 arg1 mtrTestClusterClusterSimpleStructResponseParams =
   sendMessage mtrTestClusterClusterSimpleStructResponseParams arg1Selector
 
 -- | @- setArg1:@
-setArg1 :: (IsMTRTestClusterClusterSimpleStructResponseParams mtrTestClusterClusterSimpleStructResponseParams, IsMTRUnitTestingClusterSimpleStruct value) => mtrTestClusterClusterSimpleStructResponseParams -> value -> IO ()
+setArg1 :: (IsMTRTestClusterClusterSimpleStructResponseParams mtrTestClusterClusterSimpleStructResponseParams, IsMTRTestClusterClusterSimpleStruct value) => mtrTestClusterClusterSimpleStructResponseParams -> value -> IO ()
 setArg1 mtrTestClusterClusterSimpleStructResponseParams value =
-  sendMessage mtrTestClusterClusterSimpleStructResponseParams setArg1Selector (toMTRUnitTestingClusterSimpleStruct value)
+  sendMessage mtrTestClusterClusterSimpleStructResponseParams setArg1Selector (toMTRTestClusterClusterSimpleStruct value)
 
 -- | Controls whether the command is a timed command (using Timed Invoke).
 --
@@ -66,12 +80,20 @@ setTimedInvokeTimeoutMs mtrTestClusterClusterSimpleStructResponseParams value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRTestClusterClusterSimpleStructResponseParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
+
 -- | @Selector@ for @arg1@
-arg1Selector :: Selector '[] (Id MTRUnitTestingClusterSimpleStruct)
+arg1Selector :: Selector '[] (Id MTRTestClusterClusterSimpleStruct)
 arg1Selector = mkSelector "arg1"
 
 -- | @Selector@ for @setArg1:@
-setArg1Selector :: Selector '[Id MTRUnitTestingClusterSimpleStruct] ()
+setArg1Selector :: Selector '[Id MTRTestClusterClusterSimpleStruct] ()
 setArg1Selector = mkSelector "setArg1:"
 
 -- | @Selector@ for @timedInvokeTimeoutMs@

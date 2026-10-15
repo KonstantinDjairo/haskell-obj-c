@@ -91,7 +91,7 @@ setDesiredKeys ckFetchRecordsOperation value =
 
 -- | Indicates the progress for each record.
 --
--- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordProgressBlock@
 perRecordProgressBlock :: IsCKFetchRecordsOperation ckFetchRecordsOperation => ckFetchRecordsOperation -> IO (Ptr ())
@@ -100,7 +100,7 @@ perRecordProgressBlock ckFetchRecordsOperation =
 
 -- | Indicates the progress for each record.
 --
--- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- This method is called at least once with a progress of 1.0 for every record. Intermediate progress is only reported for records that contain assets.  It is possible for progress to regress when a retry is automatically triggered.  Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordProgressBlock:@
 setPerRecordProgressBlock :: IsCKFetchRecordsOperation ckFetchRecordsOperation => ckFetchRecordsOperation -> Ptr () -> IO ()
@@ -109,7 +109,7 @@ setPerRecordProgressBlock ckFetchRecordsOperation value =
 
 -- | Called on success or failure for each record.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- perRecordCompletionBlock@
 perRecordCompletionBlock :: IsCKFetchRecordsOperation ckFetchRecordsOperation => ckFetchRecordsOperation -> IO (Ptr ())
@@ -118,7 +118,7 @@ perRecordCompletionBlock ckFetchRecordsOperation =
 
 -- | Called on success or failure for each record.
 --
--- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.  This block may share mutable state with other blocks assigned to this operation, but any such mutable state  should not be concurrently used outside of blocks assigned to this operation.
+-- Each @CKOperation@ instance has a private serial queue. This queue is used for all callback block invocations.
 --
 -- ObjC selector: @- setPerRecordCompletionBlock:@
 setPerRecordCompletionBlock :: IsCKFetchRecordsOperation ckFetchRecordsOperation => ckFetchRecordsOperation -> Ptr () -> IO ()

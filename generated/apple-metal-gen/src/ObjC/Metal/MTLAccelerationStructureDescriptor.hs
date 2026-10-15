@@ -21,8 +21,6 @@ module ObjC.Metal.MTLAccelerationStructureDescriptor
   , pattern MTLAccelerationStructureUsageRefit
   , pattern MTLAccelerationStructureUsagePreferFastBuild
   , pattern MTLAccelerationStructureUsageExtendedLimits
-  , pattern MTLAccelerationStructureUsagePreferFastIntersection
-  , pattern MTLAccelerationStructureUsageMinimizeMemory
 
   ) where
 

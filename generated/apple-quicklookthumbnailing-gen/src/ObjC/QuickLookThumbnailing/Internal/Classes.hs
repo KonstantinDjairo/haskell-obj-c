@@ -9,14 +9,12 @@
 module ObjC.QuickLookThumbnailing.Internal.Classes (
     module ObjC.QuickLookThumbnailing.Internal.Classes,
     module ObjC.Foundation.Internal.Classes,
-    module ObjC.UniformTypeIdentifiers.Internal.Classes,
   ) where
 
 import Data.Proxy (Proxy(..))
 import ObjC.Runtime.Types
 import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Foundation.Internal.Classes
-import ObjC.UniformTypeIdentifiers.Internal.Classes
 
 -- ---------- QLFileThumbnailRequest ----------
 

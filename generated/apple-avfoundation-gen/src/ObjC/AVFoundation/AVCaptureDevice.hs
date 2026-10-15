@@ -26,9 +26,7 @@ module ObjC.AVFoundation.AVCaptureDevice
   , lockForConfiguration
   , unlockForConfiguration
   , supportsAVCaptureSessionPreset
-  , setDynamicAspectRatio_completionHandler
   , showSystemUserInterface
-  , performEffectForReaction
   , extrinsicMatrixFromDevice_toDevice
   , setTransportControlsPlaybackMode_speed
   , authorizationStatusForMediaType
@@ -40,7 +38,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , setExposureTargetBias_completionHandler
   , isFocusModeSupported
   , setFocusModeLockedWithLensPosition_completionHandler
-  , setCinematicVideoTrackingFocusWithDetectedObjectID_focusMode
   , isTorchModeSupported
   , setTorchModeOnWithLevel_error
   , isFlashModeSupported
@@ -58,35 +55,16 @@ module ObjC.AVFoundation.AVCaptureDevice
   , formats
   , activeFormat
   , setActiveFormat
-  , videoFrameDurationLocked
-  , followingExternalSyncDevice
-  , autoVideoFrameRateEnabled
-  , setAutoVideoFrameRateEnabled
   , inputSources
   , activeInputSource
   , setActiveInputSource
-  , cameraLensSmudgeDetectionEnabled
-  , cameraLensSmudgeDetectionStatus
-  , edgeLightEnabled
-  , edgeLightActive
   , studioLightEnabled
+  , setStudioLightEnabled
   , studioLightActive
-  , nominalFocalLengthIn35mmFilm
-  , smartFramingMonitor
-  , dynamicAspectRatio
-  , cinematicVideoCaptureSceneMonitoringStatuses
-  , spatialCaptureDiscomfortReasons
   , preferredMicrophoneMode
   , activeMicrophoneMode
   , companionDeskViewCamera
   , continuityCamera
-  , backgroundReplacementEnabled
-  , backgroundReplacementActive
-  , reactionEffectsEnabled
-  , reactionEffectGesturesEnabled
-  , canPerformReactionEffects
-  , availableReactionTypes
-  , reactionEffectsInProgress
   , portraitEffectEnabled
   , portraitEffectActive
   , centerStageControlMode
@@ -94,7 +72,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , centerStageEnabled
   , setCenterStageEnabled
   , centerStageActive
-  , centerStageRectOfInterestSupported
   , geometricDistortionCorrectionSupported
   , geometricDistortionCorrectionEnabled
   , setGeometricDistortionCorrectionEnabled
@@ -115,7 +92,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , setVideoZoomFactor
   , rampingVideoZoom
   , dualCameraSwitchOverVideoZoomFactor
-  , displayVideoZoomFactorMultiplier
   , lowLightBoostSupported
   , lowLightBoostEnabled
   , automaticallyEnablesLowLightBoostWhenAvailable
@@ -132,7 +108,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , exposureMode
   , setExposureMode
   , exposurePointOfInterestSupported
-  , exposureRectOfInterestSupported
   , automaticallyAdjustsFaceDrivenAutoExposureEnabled
   , setAutomaticallyAdjustsFaceDrivenAutoExposureEnabled
   , faceDrivenAutoExposureEnabled
@@ -148,7 +123,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , focusMode
   , setFocusMode
   , focusPointOfInterestSupported
-  , focusRectOfInterestSupported
   , adjustingFocus
   , autoFocusRangeRestrictionSupported
   , autoFocusRangeRestriction
@@ -204,23 +178,14 @@ module ObjC.AVFoundation.AVCaptureDevice
   , authorizationStatusForMediaTypeSelector
   , autoFocusRangeRestrictionSelector
   , autoFocusRangeRestrictionSupportedSelector
-  , autoVideoFrameRateEnabledSelector
   , automaticallyAdjustsFaceDrivenAutoExposureEnabledSelector
   , automaticallyAdjustsFaceDrivenAutoFocusEnabledSelector
   , automaticallyAdjustsVideoHDREnabledSelector
   , automaticallyEnablesLowLightBoostWhenAvailableSelector
-  , availableReactionTypesSelector
-  , backgroundReplacementActiveSelector
-  , backgroundReplacementEnabledSelector
-  , cameraLensSmudgeDetectionEnabledSelector
-  , cameraLensSmudgeDetectionStatusSelector
-  , canPerformReactionEffectsSelector
   , cancelVideoZoomRampSelector
   , centerStageActiveSelector
   , centerStageControlModeSelector
   , centerStageEnabledSelector
-  , centerStageRectOfInterestSupportedSelector
-  , cinematicVideoCaptureSceneMonitoringStatusesSelector
   , companionDeskViewCameraSelector
   , connectedSelector
   , constituentDevicesSelector
@@ -231,14 +196,9 @@ module ObjC.AVFoundation.AVCaptureDevice
   , deviceWithUniqueIDSelector
   , devicesSelector
   , devicesWithMediaTypeSelector
-  , displayVideoZoomFactorMultiplierSelector
   , dualCameraSwitchOverVideoZoomFactorSelector
-  , dynamicAspectRatioSelector
-  , edgeLightActiveSelector
-  , edgeLightEnabledSelector
   , exposureModeSelector
   , exposurePointOfInterestSupportedSelector
-  , exposureRectOfInterestSupportedSelector
   , exposureTargetBiasSelector
   , exposureTargetOffsetSelector
   , extrinsicMatrixFromDevice_toDeviceSelector
@@ -250,8 +210,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , flashModeSelector
   , focusModeSelector
   , focusPointOfInterestSupportedSelector
-  , focusRectOfInterestSupportedSelector
-  , followingExternalSyncDeviceSelector
   , formatsSelector
   , geometricDistortionCorrectionEnabledSelector
   , geometricDistortionCorrectionSupportedSelector
@@ -286,8 +244,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , minimumFocusDistanceSelector
   , modelIDSelector
   , newSelector
-  , nominalFocalLengthIn35mmFilmSelector
-  , performEffectForReactionSelector
   , portraitEffectActiveSelector
   , portraitEffectEnabledSelector
   , positionSelector
@@ -296,24 +252,18 @@ module ObjC.AVFoundation.AVCaptureDevice
   , primaryConstituentDeviceSwitchingBehaviorSelector
   , rampToVideoZoomFactor_withRateSelector
   , rampingVideoZoomSelector
-  , reactionEffectGesturesEnabledSelector
-  , reactionEffectsEnabledSelector
-  , reactionEffectsInProgressSelector
   , requestAccessForMediaType_completionHandlerSelector
   , setActiveColorSpaceSelector
   , setActiveDepthDataFormatSelector
   , setActiveFormatSelector
   , setActiveInputSourceSelector
   , setAutoFocusRangeRestrictionSelector
-  , setAutoVideoFrameRateEnabledSelector
   , setAutomaticallyAdjustsFaceDrivenAutoExposureEnabledSelector
   , setAutomaticallyAdjustsFaceDrivenAutoFocusEnabledSelector
   , setAutomaticallyAdjustsVideoHDREnabledSelector
   , setAutomaticallyEnablesLowLightBoostWhenAvailableSelector
   , setCenterStageControlModeSelector
   , setCenterStageEnabledSelector
-  , setCinematicVideoTrackingFocusWithDetectedObjectID_focusModeSelector
-  , setDynamicAspectRatio_completionHandlerSelector
   , setExposureModeSelector
   , setExposureTargetBias_completionHandlerSelector
   , setFaceDrivenAutoExposureEnabledSelector
@@ -326,6 +276,7 @@ module ObjC.AVFoundation.AVCaptureDevice
   , setGlobalToneMappingEnabledSelector
   , setPrimaryConstituentDeviceSwitchingBehavior_restrictedSwitchingBehaviorConditionsSelector
   , setSmoothAutoFocusEnabledSelector
+  , setStudioLightEnabledSelector
   , setSubjectAreaChangeMonitoringEnabledSelector
   , setTorchModeOnWithLevel_errorSelector
   , setTorchModeSelector
@@ -335,10 +286,8 @@ module ObjC.AVFoundation.AVCaptureDevice
   , setVideoZoomFactorSelector
   , setWhiteBalanceModeSelector
   , showSystemUserInterfaceSelector
-  , smartFramingMonitorSelector
   , smoothAutoFocusEnabledSelector
   , smoothAutoFocusSupportedSelector
-  , spatialCaptureDiscomfortReasonsSelector
   , studioLightActiveSelector
   , studioLightEnabledSelector
   , subjectAreaChangeMonitoringEnabledSelector
@@ -358,7 +307,6 @@ module ObjC.AVFoundation.AVCaptureDevice
   , uniqueIDSelector
   , unlockForConfigurationSelector
   , userPreferredCameraSelector
-  , videoFrameDurationLockedSelector
   , videoHDREnabledSelector
   , videoZoomFactorSelector
   , virtualDeviceSelector
@@ -375,25 +323,14 @@ module ObjC.AVFoundation.AVCaptureDevice
   , pattern AVCaptureAutoFocusRangeRestrictionNone
   , pattern AVCaptureAutoFocusRangeRestrictionNear
   , pattern AVCaptureAutoFocusRangeRestrictionFar
-  , AVCaptureCameraLensSmudgeDetectionStatus(AVCaptureCameraLensSmudgeDetectionStatus)
-  , pattern AVCaptureCameraLensSmudgeDetectionStatusDisabled
-  , pattern AVCaptureCameraLensSmudgeDetectionStatusSmudgeNotDetected
-  , pattern AVCaptureCameraLensSmudgeDetectionStatusSmudged
-  , pattern AVCaptureCameraLensSmudgeDetectionStatusUnknown
   , AVCaptureCenterStageControlMode(AVCaptureCenterStageControlMode)
   , pattern AVCaptureCenterStageControlModeUser
   , pattern AVCaptureCenterStageControlModeApp
   , pattern AVCaptureCenterStageControlModeCooperative
-  , AVCaptureCinematicVideoFocusMode(AVCaptureCinematicVideoFocusMode)
-  , pattern AVCaptureCinematicVideoFocusModeNone
-  , pattern AVCaptureCinematicVideoFocusModeStrong
-  , pattern AVCaptureCinematicVideoFocusModeWeak
   , AVCaptureColorSpace(AVCaptureColorSpace)
   , pattern AVCaptureColorSpace_sRGB
   , pattern AVCaptureColorSpace_P3_D65
   , pattern AVCaptureColorSpace_HLG_BT2020
-  , pattern AVCaptureColorSpace_AppleLog
-  , pattern AVCaptureColorSpace_AppleLog2
   , AVCaptureDevicePosition(AVCaptureDevicePosition)
   , pattern AVCaptureDevicePositionUnspecified
   , pattern AVCaptureDevicePositionBack
@@ -588,17 +525,6 @@ supportsAVCaptureSessionPreset :: (IsAVCaptureDevice avCaptureDevice, IsNSString
 supportsAVCaptureSessionPreset avCaptureDevice preset =
   sendMessage avCaptureDevice supportsAVCaptureSessionPresetSelector (toNSString preset)
 
--- | Updates the dynamic aspect ratio of the device.
---
--- - Parameter dynamicAspectRatio: The new ``AVCaptureAspectRatio`` the device should output. - Parameter handler: A block called by the device when @dynamicAspectRatio@ is set to the value specified. If you call ``setDynamicAspectRatio:completionHandler:`` multiple times, the completion handlers are called in FIFO order. The block receives a timestamp which matches that of the first buffer to which all settings have been applied. Note that the timestamp is synchronized to the device clock, and thus must be converted to the ``AVCaptureSession/synchronizationClock`` prior to comparison with the timestamps of buffers delivered via an ``AVCaptureVideoDataOutput``. You may pass @nil@ for the @handler@ parameter if you do not need to know when the operation completes.
---
--- This is the only way of setting ``dynamicAspectRatio``. This method throws an @NSInvalidArgumentException@ if @dynamicAspectRatio@ is not a supported aspect ratio found in the device's activeFormat's ``AVCaptureDeviceFormat/supportedDynamicAspectRatios``. This method throws an @NSGenericException@ if you call it without first obtaining exclusive access to the device using ``AVCaptureDevice/lockForConfiguration:``.
---
--- ObjC selector: @- setDynamicAspectRatio:completionHandler:@
-setDynamicAspectRatio_completionHandler :: (IsAVCaptureDevice avCaptureDevice, IsNSString dynamicAspectRatio) => avCaptureDevice -> dynamicAspectRatio -> Ptr () -> IO ()
-setDynamicAspectRatio_completionHandler avCaptureDevice dynamicAspectRatio handler =
-  sendMessage avCaptureDevice setDynamicAspectRatio_completionHandlerSelector (toNSString dynamicAspectRatio) handler
-
 -- | showSystemUserInterface:
 --
 -- Displays the system's user interface for video effects or microphone modes.
@@ -613,21 +539,6 @@ showSystemUserInterface systemUserInterface =
   do
     cls' <- getRequiredClass "AVCaptureDevice"
     sendClassMessage cls' showSystemUserInterfaceSelector systemUserInterface
-
--- | performEffectForReaction:
---
--- Triggers a specified reaction on the video stream.
---
--- @reactionType@ — Indicates which reaction to perform.
---
--- The entries in reactionEffectsInProgress may not reflect one-to-one against calls to this method. Depending on reaction style or resource limits, triggering multiple overlapping reactions of the same type may be coalesced into extending an existing reaction rather than overlaying a new one.
---
--- The reactionType requested must be one of those listed in availableReactionTypes or an exception will be thrown. Performing a reaction when canPerformReactionEffects is NO is ignored, and VoIP applications are encouraged to transmit and display such reactions outside of the video feed.
---
--- ObjC selector: @- performEffectForReaction:@
-performEffectForReaction :: (IsAVCaptureDevice avCaptureDevice, IsNSString reactionType) => avCaptureDevice -> reactionType -> IO ()
-performEffectForReaction avCaptureDevice reactionType =
-  sendMessage avCaptureDevice performEffectForReactionSelector (toNSString reactionType)
 
 -- | extrinsicMatrixFromDevice:toDevice:
 --
@@ -696,7 +607,7 @@ authorizationStatusForMediaType mediaType =
 --
 -- Invoking this method with AVMediaTypeAudio is equivalent to calling -[AVAudioSession requestRecordPermission:].
 --
--- The completion handler is called on an arbitrary dispatch queue. It is the client's responsibility to ensure that any UIKit-related updates are called on the main queue or main thread as a result.
+-- The completion handler is called on an arbitrary dispatch queue. Is it the client's responsibility to ensure that any UIKit-related updates are called on the main queue or main thread as a result.
 --
 -- ObjC selector: @+ requestAccessForMediaType:completionHandler:@
 requestAccessForMediaType_completionHandler :: IsNSString mediaType => mediaType -> Ptr () -> IO ()
@@ -773,7 +684,7 @@ isExposureModeSupported avCaptureDevice exposureMode =
 --
 -- @bias@ — The bias to be applied to the exposure target value, as described in the documentation for the exposureTargetBias property.
 --
--- @handler@ — A block to be called when exposureTargetBias has been set to the value specified. If setExposureTargetBias:completionHandler: is called multiple times, the completion handlers will be called in FIFO order. The block receives a timestamp which matches that of the first buffer to which the setting has been applied. Note that the timestamp is synchronized to the device clock, and thus must be converted to the @AVCaptureSession/synchronizationClock@ prior to comparison with the timestamps of buffers delivered via an AVCaptureVideoDataOutput. The client may pass nil for the handler parameter if knowledge of the operation's completion is not required.
+-- @handler@ — A block to be called when exposureTargetBias has been set to the value specified. If setExposureTargetBias:completionHandler: is called multiple times, the completion handlers will be called in FIFO order. The block receives a timestamp which matches that of the first buffer to which the setting has been applied. Note that the timestamp is synchronized to the device clock, and thus must be converted to the master clock prior to comparison with the timestamps of buffers delivered via an AVCaptureVideoDataOutput. The client may pass nil for the handler parameter if knowledge of the operation's completion is not required.
 --
 -- This is the only way of setting exposureTargetBias. This method throws an NSRangeException if exposureTargetBias is set to an unsupported level. This method throws an NSGenericException if called without first obtaining exclusive access to the receiver using lockForConfiguration:.
 --
@@ -803,7 +714,7 @@ isFocusModeSupported avCaptureDevice focusMode =
 --
 -- @lensPosition@ — The lens position, as described in the documentation for the lensPosition property. A value of AVCaptureLensPositionCurrent can be used to indicate that the caller does not wish to specify a value for lensPosition.
 --
--- @handler@ — A block to be called when lensPosition has been set to the value specified and focusMode is set to AVCaptureFocusModeLocked. If setFocusModeLockedWithLensPosition:completionHandler: is called multiple times, the completion handlers will be called in FIFO order. The block receives a timestamp which matches that of the first buffer to which all settings have been applied. Note that the timestamp is synchronized to the device clock, and thus must be converted to the @AVCaptureSession/synchronizationClock@ prior to comparison with the timestamps of buffers delivered via an AVCaptureVideoDataOutput. The client may pass nil for the handler parameter if knowledge of the operation's completion is not required.
+-- @handler@ — A block to be called when lensPosition has been set to the value specified and focusMode is set to AVCaptureFocusModeLocked. If setFocusModeLockedWithLensPosition:completionHandler: is called multiple times, the completion handlers will be called in FIFO order. The block receives a timestamp which matches that of the first buffer to which all settings have been applied. Note that the timestamp is synchronized to the device clock, and thus must be converted to the master clock prior to comparison with the timestamps of buffers delivered via an AVCaptureVideoDataOutput. The client may pass nil for the handler parameter if knowledge of the operation's completion is not required.
 --
 -- This is the only way of setting lensPosition. This method throws an NSRangeException if lensPosition is set to an unsupported level. This method throws an NSGenericException if called without first obtaining exclusive access to the receiver using lockForConfiguration:.
 --
@@ -811,15 +722,6 @@ isFocusModeSupported avCaptureDevice focusMode =
 setFocusModeLockedWithLensPosition_completionHandler :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> CFloat -> Ptr () -> IO ()
 setFocusModeLockedWithLensPosition_completionHandler avCaptureDevice lensPosition handler =
   sendMessage avCaptureDevice setFocusModeLockedWithLensPosition_completionHandlerSelector lensPosition handler
-
--- | Focus on and start tracking a detected object.
---
--- - Parameter detectedObjectID: The ID of the detected object. - Parameter focusMode: Specify whether to focus strongly or weakly.
---
--- ObjC selector: @- setCinematicVideoTrackingFocusWithDetectedObjectID:focusMode:@
-setCinematicVideoTrackingFocusWithDetectedObjectID_focusMode :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> CLong -> AVCaptureCinematicVideoFocusMode -> IO ()
-setCinematicVideoTrackingFocusWithDetectedObjectID_focusMode avCaptureDevice detectedObjectID focusMode =
-  sendMessage avCaptureDevice setCinematicVideoTrackingFocusWithDetectedObjectID_focusModeSelector detectedObjectID focusMode
 
 -- | isTorchModeSupported:
 --
@@ -1058,54 +960,6 @@ setActiveFormat :: (IsAVCaptureDevice avCaptureDevice, IsAVCaptureDeviceFormat v
 setActiveFormat avCaptureDevice value =
   sendMessage avCaptureDevice setActiveFormatSelector (toAVCaptureDeviceFormat value)
 
--- | Whether the device's video frame rate (expressed as a duration) is currently locked.
---
--- Returns @true@ when an ``AVCaptureDeviceInput`` associated with the device has its ``AVCaptureDeviceInput/activeLockedVideoFrameDuration`` property set to something other than @kCMTimeInvalid@. See ``AVCaptureDeviceInput/activeLockedVideoFrameDuration`` for more information on video frame duration locking.
---
--- ObjC selector: @- videoFrameDurationLocked@
-videoFrameDurationLocked :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-videoFrameDurationLocked avCaptureDevice =
-  sendMessage avCaptureDevice videoFrameDurationLockedSelector
-
--- | Whether the device is following an external sync device.
---
--- See ``AVCaptureDeviceInput/followExternalSyncDevice:videoFrameDuration:delegate:`` for more information on external sync.
---
--- ObjC selector: @- followingExternalSyncDevice@
-followingExternalSyncDevice :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-followingExternalSyncDevice avCaptureDevice =
-  sendMessage avCaptureDevice followingExternalSyncDeviceSelector
-
--- | Indicates whether the receiver should enable auto video frame rate.
---
--- When you enable this property, the device automatically adjusts the active frame rate, depending on light level. Under low light conditions, it decreases the frame rate to properly expose the scene. For formats with a maximum frame rate of 30 fps, the device switches the frame rate between 30 - 24. For formats with a maximum frame rate of 60 fps, the device switches the frame rate between 60 - 30 - 24.
---
--- Setting this property throws an @NSInvalidArgumentException@ if the active format's ``AVCaptureDeviceFormat/autoVideoFrameRateSupported`` returns @false@. When you change the device's active format, this property resets to its default value of @false@.
---
--- If you set this property to @true@, frame rate is under device control, and you may not set ``activeVideoMinFrameDuration`` or ``activeVideoMaxFrameDuration``. Doing so throws an @NSInvalidArgumentException@.
---
--- - Note: Setting this property to @true@ throws an @NSInvalidArgumentException@ if ``videoFrameDurationLocked`` or ``followingExternalSyncDevice`` are @true@.
---
--- ObjC selector: @- autoVideoFrameRateEnabled@
-autoVideoFrameRateEnabled :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-autoVideoFrameRateEnabled avCaptureDevice =
-  sendMessage avCaptureDevice autoVideoFrameRateEnabledSelector
-
--- | Indicates whether the receiver should enable auto video frame rate.
---
--- When you enable this property, the device automatically adjusts the active frame rate, depending on light level. Under low light conditions, it decreases the frame rate to properly expose the scene. For formats with a maximum frame rate of 30 fps, the device switches the frame rate between 30 - 24. For formats with a maximum frame rate of 60 fps, the device switches the frame rate between 60 - 30 - 24.
---
--- Setting this property throws an @NSInvalidArgumentException@ if the active format's ``AVCaptureDeviceFormat/autoVideoFrameRateSupported`` returns @false@. When you change the device's active format, this property resets to its default value of @false@.
---
--- If you set this property to @true@, frame rate is under device control, and you may not set ``activeVideoMinFrameDuration`` or ``activeVideoMaxFrameDuration``. Doing so throws an @NSInvalidArgumentException@.
---
--- - Note: Setting this property to @true@ throws an @NSInvalidArgumentException@ if ``videoFrameDurationLocked`` or ``followingExternalSyncDevice`` are @true@.
---
--- ObjC selector: @- setAutoVideoFrameRateEnabled:@
-setAutoVideoFrameRateEnabled :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> Bool -> IO ()
-setAutoVideoFrameRateEnabled avCaptureDevice value =
-  sendMessage avCaptureDevice setAutoVideoFrameRateEnabledSelector value
-
 -- | inputSources
 --
 -- An array of AVCaptureDeviceInputSource objects supported by the receiver.
@@ -1139,51 +993,11 @@ setActiveInputSource :: (IsAVCaptureDevice avCaptureDevice, IsAVCaptureDeviceInp
 setActiveInputSource avCaptureDevice value =
   sendMessage avCaptureDevice setActiveInputSourceSelector (toAVCaptureDeviceInputSource value)
 
--- | Whether camera lens smudge detection is enabled.
---
--- You enable lens smudge detection by calling ``setCameraLensSmudgeDetectionEnabled:detectionInterval:``. By default, this property is returns @false@.
---
--- ObjC selector: @- cameraLensSmudgeDetectionEnabled@
-cameraLensSmudgeDetectionEnabled :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-cameraLensSmudgeDetectionEnabled avCaptureDevice =
-  sendMessage avCaptureDevice cameraLensSmudgeDetectionEnabledSelector
-
--- | A value specifying the status of camera lens smudge detection.
---
--- During initial detection execution, ``cameraLensSmudgeDetectionStatus`` returns ``AVCaptureCameraLensSmudgeDetectionStatusUnknown`` until the detection result settles. Once a detection result is produced, ``cameraLensSmudgeDetectionStatus`` returns the most recent detection result. This property can be key-value observed.
---
--- ObjC selector: @- cameraLensSmudgeDetectionStatus@
-cameraLensSmudgeDetectionStatus :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO AVCaptureCameraLensSmudgeDetectionStatus
-cameraLensSmudgeDetectionStatus avCaptureDevice =
-  sendMessage avCaptureDevice cameraLensSmudgeDetectionStatusSelector
-
--- | A class property indicating whether the Edge Light feature is currently enabled in Control Center.
---
--- This readonly property changes to reflect the Edge Light state in Control Center. It is key-value observable.
---
--- ObjC selector: @+ edgeLightEnabled@
-edgeLightEnabled :: IO Bool
-edgeLightEnabled  =
-  do
-    cls' <- getRequiredClass "AVCaptureDevice"
-    sendClassMessage cls' edgeLightEnabledSelector
-
--- | A class property indicating whether the edge light UI is actively being shown on a screen.
---
--- This readonly property reflects whether the edge light UI is actively being shown on a screen. It is key-value observable.
---
--- ObjC selector: @+ edgeLightActive@
-edgeLightActive :: IO Bool
-edgeLightActive  =
-  do
-    cls' <- getRequiredClass "AVCaptureDevice"
-    sendClassMessage cls' edgeLightActiveSelector
-
 -- | studioLightEnabled
 --
 -- A class property indicating whether the Studio Light feature is currently enabled in Control Center.
 --
--- This property changes to reflect the Studio Light state in Control Center. It is key-value observable.  On iOS, Studio Light only applies to video conferencing apps by default (apps that use "voip" as one of their UIBackgroundModes). Non video conferencing apps may opt in for Studio Light by adding the following key to their Info.plist:        <key>NSCameraStudioLightEnabled</key>        <true/>
+-- This property changes to reflect the Studio Light state in Control Center. It is key-value observable.
 --
 -- ObjC selector: @+ studioLightEnabled@
 studioLightEnabled :: IO Bool
@@ -1191,6 +1005,19 @@ studioLightEnabled  =
   do
     cls' <- getRequiredClass "AVCaptureDevice"
     sendClassMessage cls' studioLightEnabledSelector
+
+-- | studioLightEnabled
+--
+-- A class property indicating whether the Studio Light feature is currently enabled in Control Center.
+--
+-- This property changes to reflect the Studio Light state in Control Center. It is key-value observable.
+--
+-- ObjC selector: @+ setStudioLightEnabled:@
+setStudioLightEnabled :: Bool -> IO ()
+setStudioLightEnabled value =
+  do
+    cls' <- getRequiredClass "AVCaptureDevice"
+    sendClassMessage cls' setStudioLightEnabledSelector value
 
 -- | studioLightActive
 --
@@ -1202,55 +1029,6 @@ studioLightEnabled  =
 studioLightActive :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
 studioLightActive avCaptureDevice =
   sendMessage avCaptureDevice studioLightActiveSelector
-
--- | The nominal 35mm equivalent focal length of the capture device's lens.
---
--- This value represents a nominal measurement of the device's field of view, expressed as a 35mm equivalent focal length, measured diagonally. The value is similar to the @FocalLengthIn35mmFormat@ EXIF entry (see <doc://com.apple.documentation/documentation/imageio/kcgimagepropertyexiffocallenin35mmfilm>) for a photo captured using the device's format where ``AVCaptureDeviceFormat/highestPhotoQualitySupported`` is @true@ or when you've configured the session with the ``AVCaptureSessionPresetPhoto`` preset.
---
--- This property value is @0@ for virtual devices and external cameras.
---
--- ObjC selector: @- nominalFocalLengthIn35mmFilm@
-nominalFocalLengthIn35mmFilm :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO CFloat
-nominalFocalLengthIn35mmFilm avCaptureDevice =
-  sendMessage avCaptureDevice nominalFocalLengthIn35mmFilmSelector
-
--- | A monitor owned by the device that recommends an optimal framing based on the content in the scene.
---
--- An ultra wide camera device that supports dynamic aspect ratio configuration may also support "smart framing monitoring". If this property returns non @nil@, you may use it to listen for framing recommendations by configuring its ``AVCaptureSmartFramingMonitor/enabledFramings`` and calling ``AVCaptureSmartFramingMonitor/startMonitoringWithError:``. The smart framing monitor only makes recommendations when the current ``AVCaptureDevice/activeFormat`` supports smart framing (see ``AVCaptureDeviceFormat/smartFramingSupported``).
---
--- ObjC selector: @- smartFramingMonitor@
-smartFramingMonitor :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO (Id AVCaptureSmartFramingMonitor)
-smartFramingMonitor avCaptureDevice =
-  sendMessage avCaptureDevice smartFramingMonitorSelector
-
--- | A key-value observable property indicating the current aspect ratio for a device.
---
--- This property is initialized to the first ``AVCaptureAspectRatio`` listed in the device's activeFormat's ``AVCaptureDeviceFormat/supportedDynamicAspectRatios`` property. If the activeFormat's ``AVCaptureDeviceFormat/supportedDynamicAspectRatios`` is an empty array, this property returns nil.
---
--- ObjC selector: @- dynamicAspectRatio@
-dynamicAspectRatio :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO (Id NSString)
-dynamicAspectRatio avCaptureDevice =
-  sendMessage avCaptureDevice dynamicAspectRatioSelector
-
--- | The current scene monitoring statuses related to Cinematic Video capture.
---
--- Monitor this property via key-value observation to present a UI informing the user that they should reframe their scene for a better Cinematic Video experience ("scene is too dark").
---
--- ObjC selector: @- cinematicVideoCaptureSceneMonitoringStatuses@
-cinematicVideoCaptureSceneMonitoringStatuses :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO (Id NSSet)
-cinematicVideoCaptureSceneMonitoringStatuses avCaptureDevice =
-  sendMessage avCaptureDevice cinematicVideoCaptureSceneMonitoringStatusesSelector
-
--- | spatialCaptureDiscomfortReasons
---
--- Indicates whether or not the current environmental conditions are amenable to a spatial capture that is comfortable to view.
---
--- This property can be monitored in order to determine the presentation of UI elements to inform the user that they should reframe their scene for a more pleasing spatial capture ("subject is too close", "scene is too dark").
---
--- ObjC selector: @- spatialCaptureDiscomfortReasons@
-spatialCaptureDiscomfortReasons :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO (Id NSSet)
-spatialCaptureDiscomfortReasons avCaptureDevice =
-  sendMessage avCaptureDevice spatialCaptureDiscomfortReasonsSelector
 
 -- | preferredMicrophoneMode
 --
@@ -1299,87 +1077,6 @@ companionDeskViewCamera avCaptureDevice =
 continuityCamera :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
 continuityCamera avCaptureDevice =
   sendMessage avCaptureDevice continuityCameraSelector
-
--- | backgroundReplacementEnabled
---
--- A class property indicating whether the user has enabled the Background Replacement feature for this application.
---
--- ObjC selector: @+ backgroundReplacementEnabled@
-backgroundReplacementEnabled :: IO Bool
-backgroundReplacementEnabled  =
-  do
-    cls' <- getRequiredClass "AVCaptureDevice"
-    sendClassMessage cls' backgroundReplacementEnabledSelector
-
--- | backgroundReplacementActive
---
--- Indicates whether Background Replacement is currently active on a particular AVCaptureDevice.
---
--- This property is key-value observable.
---
--- ObjC selector: @- backgroundReplacementActive@
-backgroundReplacementActive :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-backgroundReplacementActive avCaptureDevice =
-  sendMessage avCaptureDevice backgroundReplacementActiveSelector
-
--- | reactionEffectsEnabled
---
--- A class property indicating whether the application is suitable for reaction effects, either by automatic gesture detection, or by calls to -[AVCaptureDevice performEffectForReaction:]. Reactions are only rendered when the device's activeFormat.reactionEffectsSupported is also YES, which will be reflected by canPerformReactionEffects when the feature is both enabled and supported.
---
--- On macOS, Reaction Effects are enabled by default for all applications. On iOS, Reaction Effects are enabled by default for video conferencing applications (apps that use "voip" as one of their UIBackgroundModes). Non video conferencing applications may opt in for Reaction Effects by adding the following key to their Info.plist:        <key>NSCameraReactionEffectsEnabled</key>        <true/>
---
--- ObjC selector: @+ reactionEffectsEnabled@
-reactionEffectsEnabled :: IO Bool
-reactionEffectsEnabled  =
-  do
-    cls' <- getRequiredClass "AVCaptureDevice"
-    sendClassMessage cls' reactionEffectsEnabledSelector
-
--- | reactionEffectGesturesEnabled
---
--- A class property indicating whether gesture detection will trigger reaction effects on the video stream. Gesture detection will only run when the device's activeFormat.reactionEffectsSupported is also YES, which will be reflected by canPerformReactionEffects.
---
--- This property changes to reflect the Gestures state in Control Center. It is key-value observable. Clients can call performEffectForReaction: independently of whether gesture detection is enabled, reaction effects from either source will be intermixed.    By default, gesture detection is enabled.  As of iOS 17.4 and macOS 14.4, applications can control the default value of this property by adding the following key to their Info.plist:        <key>NSCameraReactionEffectGesturesEnabledDefault</key>    A value of true enables gesture detection and a value of false disables it, until such time that the user makes their own selection in Control Center.
---
--- ObjC selector: @+ reactionEffectGesturesEnabled@
-reactionEffectGesturesEnabled :: IO Bool
-reactionEffectGesturesEnabled  =
-  do
-    cls' <- getRequiredClass "AVCaptureDevice"
-    sendClassMessage cls' reactionEffectGesturesEnabledSelector
-
--- | canPerformReactionEffects
---
--- Indicates whether reactions can be performed on a particular AVCaptureDevice. This requires reactionEffectsEnabled to be YES, as well as using a AVCaptureDeviceFormat with reactionEffectsSupported.
---
--- This readonly property returns YES when resources for reactions are available on the device instance. When YES, calls to performEffectForReaction: will render on the video feed, otherwise those calls are ignored. It is key-value observable.
---
--- ObjC selector: @- canPerformReactionEffects@
-canPerformReactionEffects :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-canPerformReactionEffects avCaptureDevice =
-  sendMessage avCaptureDevice canPerformReactionEffectsSelector
-
--- | availableReactionTypes
---
--- Returns a list of reaction types which can be passed to performEffectForReaction.
---
--- The list may differ between devices, or be affected by changes to active format, and can be key-value observed.
---
--- ObjC selector: @- availableReactionTypes@
-availableReactionTypes :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO (Id NSSet)
-availableReactionTypes avCaptureDevice =
-  sendMessage avCaptureDevice availableReactionTypesSelector
-
--- | reactionEffectsInProgress
---
--- Contains an array of reaction effects that are currently being performed by the device, sorted by timestamp. If observing old and new values in the KVO callback, the reaction effects which are still running in the new array will have kCMTimeInvalid as their endTime property. Reaction effects which have ended will only be in the old array, and will have their endTime property set to the presentation time of the first frame where the reaction effect was no longer present.
---
--- Reaction effects which are triggered by either a call to performEffectForReaction: or by the automatic gesture detection will be reflected in this array. It is key-value observable to be notified when reaction effects begin or end.
---
--- ObjC selector: @- reactionEffectsInProgress@
-reactionEffectsInProgress :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO (Id NSArray)
-reactionEffectsInProgress avCaptureDevice =
-  sendMessage avCaptureDevice reactionEffectsInProgressSelector
 
 -- | portraitEffectEnabled
 --
@@ -1468,22 +1165,11 @@ centerStageActive :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO 
 centerStageActive avCaptureDevice =
   sendMessage avCaptureDevice centerStageActiveSelector
 
--- | centerStageRectOfInterestSupported
---
--- Indicates whether the device supports the Center Stage Rect of Interest feature.
---
--- This property returns YES if the device supports Center Stage Rect of Interest.
---
--- ObjC selector: @- centerStageRectOfInterestSupported@
-centerStageRectOfInterestSupported :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-centerStageRectOfInterestSupported avCaptureDevice =
-  sendMessage avCaptureDevice centerStageRectOfInterestSupportedSelector
-
 -- | geometricDistortionCorrectionSupported
 --
 -- Indicates that geometric distortion correction is supported by the receiver.
 --
--- Some AVCaptureDevices benefit from geometric distortion correction (GDC), such as devices with a very wide field of view. GDC lessens the fisheye effect at the outer edge of the frame at the cost of losing a small amount of vertical and horizontal field of view. When GDC is enabled on the AVCaptureDevice (see geometricDistortionCorrectionEnabled), the corrected image is upscaled to the original image size when needed.  With respect to the AVCaptureDevice.videoZoomFactor API, the full viewable field of view is always represented with a videoZoomFactor of 1.0. Thus, when GDC is enabled, the AVCaptureDevice.activeFormat's field of view at videoZoomFactor = 1.0 will be different than when GDC is disabled. The smaller field of view is reported through the activeFormat's geometricDistortionCorrectedVideoFieldOfView property. Beware though that RAW photo captures never have GDC applied, regardless of the value of AVCaptureDevice.geometricDistortionCorrectionEnabled.
+-- Some AVCaptureDevices benefit from geometric distortion correction (GDC), such as devices with a very wide field of view. GDC lessens the fisheye effect at the outer edge of the frame at the cost of losing a small amount of vertical and horizontal field of view. When GDC is enabled on the AVCaptureDevice (see geometricDistortionEnabled), the corrected image is upscaled to the original image size when needed.  With respect to the AVCaptureDevice.videoZoomFactor API, the full viewable field of view is always represented with a videoZoomFactor of 1.0. Thus, when GDC is enabled, the AVCaptureDevice.activeFormat's field of view at videoZoomFactor = 1.0 will be different than when GDC is disabled. The smaller field of view is reported through the activeFormat's geometricDistortionCorrectedVideoFieldOfView property. Beware though that RAW photo captures never have GDC applied, regardless of the value of AVCaptureDevice.geometricDistortionCorrectionEnabled.
 --
 -- ObjC selector: @- geometricDistortionCorrectionSupported@
 geometricDistortionCorrectionSupported :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
@@ -1496,10 +1182,6 @@ geometricDistortionCorrectionSupported avCaptureDevice =
 --
 -- Where supported, the default value is YES. The receiver must be locked for configuration using lockForConfiguration: before clients can set this method, otherwise an NSGenericException is thrown.
 --
--- In the case of ProRes RAW, when geometricDistortionCorrectionEnabled is YES, GDC is applied to your outputs in different ways:    - It is always applied to AVCaptureVideoPreviewLayer.    - It is applied to AVCaptureVideoDataOutput only if deliversPreviewSizedOutputBuffers is set to YES.    - It is never applied to AVCaptureMovieFileOutput.
---
--- When GDC is enabled, AVCaptureVideoDataOutput buffers contain GDC metadata attachments, and AVCaptureMovieFileOutput movies contain GDC metadata which an application supporting ProRes RAW can optionally apply at playback time using the ProRes RAW SDK. To learn more about the ProRes RAW SDK, refer to the Apple ProRes and ProRes RAW Authorized Products article at https://support.apple.com/en-us/118584.
---
 -- ObjC selector: @- geometricDistortionCorrectionEnabled@
 geometricDistortionCorrectionEnabled :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
 geometricDistortionCorrectionEnabled avCaptureDevice =
@@ -1510,10 +1192,6 @@ geometricDistortionCorrectionEnabled avCaptureDevice =
 -- Indicates whether geometric distortion correction is enabled by the receiver.
 --
 -- Where supported, the default value is YES. The receiver must be locked for configuration using lockForConfiguration: before clients can set this method, otherwise an NSGenericException is thrown.
---
--- In the case of ProRes RAW, when geometricDistortionCorrectionEnabled is YES, GDC is applied to your outputs in different ways:    - It is always applied to AVCaptureVideoPreviewLayer.    - It is applied to AVCaptureVideoDataOutput only if deliversPreviewSizedOutputBuffers is set to YES.    - It is never applied to AVCaptureMovieFileOutput.
---
--- When GDC is enabled, AVCaptureVideoDataOutput buffers contain GDC metadata attachments, and AVCaptureMovieFileOutput movies contain GDC metadata which an application supporting ProRes RAW can optionally apply at playback time using the ProRes RAW SDK. To learn more about the ProRes RAW SDK, refer to the Apple ProRes and ProRes RAW Authorized Products article at https://support.apple.com/en-us/118584.
 --
 -- ObjC selector: @- setGeometricDistortionCorrectionEnabled:@
 setGeometricDistortionCorrectionEnabled :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> Bool -> IO ()
@@ -1727,17 +1405,6 @@ dualCameraSwitchOverVideoZoomFactor :: IsAVCaptureDevice avCaptureDevice => avCa
 dualCameraSwitchOverVideoZoomFactor avCaptureDevice =
   sendMessage avCaptureDevice dualCameraSwitchOverVideoZoomFactorSelector
 
--- | displayVideoZoomFactorMultiplier
---
--- A multiplier that can be used with the receiver's videoZoomFactor property for displaying a video zoom factor in a user interface.
---
--- In some system user interfaces, like the macOS Video Effects Menu, the video zoom factor value is displayed in a way most appropriate for visual representation and might differ from the videoZoomFactor property value on the receiver by a fixed ratio. For example, if the videoZoomFactor property value is 1.0 and the displayVideoZoomFactorMultiplier property value is 0.5, then multiplying 1.0 and 0.5 produces 0.5 which can be displayed in the UI. Client applications can key value observe this property to update the display video zoom factor values in their UI to stay consistent with Apple's system UIs.
---
--- ObjC selector: @- displayVideoZoomFactorMultiplier@
-displayVideoZoomFactorMultiplier :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO CDouble
-displayVideoZoomFactorMultiplier avCaptureDevice =
-  sendMessage avCaptureDevice displayVideoZoomFactorMultiplierSelector
-
 -- | lowLightBoostSupported
 --
 -- Indicates whether the receiver supports boosting images in low light conditions.
@@ -1934,15 +1601,6 @@ exposurePointOfInterestSupported :: IsAVCaptureDevice avCaptureDevice => avCaptu
 exposurePointOfInterestSupported avCaptureDevice =
   sendMessage avCaptureDevice exposurePointOfInterestSupportedSelector
 
--- | Whether the device supports exposure rectangles of interest.
---
--- You may only set the device's ``exposureRectOfInterest`` property if this property returns @true@.
---
--- ObjC selector: @- exposureRectOfInterestSupported@
-exposureRectOfInterestSupported :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-exposureRectOfInterestSupported avCaptureDevice =
-  sendMessage avCaptureDevice exposureRectOfInterestSupportedSelector
-
 -- | automaticallyAdjustsFaceDrivenAutoExposureEnabled
 --
 -- Indicates whether the receiver should automatically adjust face-driven auto exposure.
@@ -2107,15 +1765,6 @@ setFocusMode avCaptureDevice value =
 focusPointOfInterestSupported :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
 focusPointOfInterestSupported avCaptureDevice =
   sendMessage avCaptureDevice focusPointOfInterestSupportedSelector
-
--- | Whether the receiver supports focus rectangles of interest.
---
--- You may only set the device's ``focusRectOfInterest`` property if this property returns @true@.
---
--- ObjC selector: @- focusRectOfInterestSupported@
-focusRectOfInterestSupported :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO Bool
-focusRectOfInterestSupported avCaptureDevice =
-  sendMessage avCaptureDevice focusRectOfInterestSupportedSelector
 
 -- | adjustingFocus
 --
@@ -2459,7 +2108,7 @@ activePrimaryConstituentDeviceSwitchingBehavior avCaptureDevice =
 --
 -- The active constituent device restricted  switching behavior.
 --
--- For virtual devices with multiple constituent devices, this property returns the active restricted switching behavior conditions. This is equal to primaryConstituentDeviceRestrictedSwitchingBehaviorConditions except while recording using an AVCaptureMovieFileOutput configured with different restricted switching behavior conditions (see -[AVCaptureMovieFileOutput setPrimaryConstituentDeviceSwitchingBehaviorForRecording:restrictedSwitchingBehaviorConditions]). Devices that do not support constituent device switching return AVCapturePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditionNone. This property is key-value observable.
+-- For virtual devices with multiple constituent devices, this property returns the active restricted switching behavior conditions. This is equal to primaryConstituentDeviceRestrictedSwitchingBehaviorConditions except while recording using an AVCaptureMovieFileOutput configured with different retricted switching behavior conditions (see -[AVCaptureMovieFileOutput setPrimaryConstituentDeviceSwitchingBehaviorForRecording:restrictedSwitchingBehaviorConditions]). Devices that do not support constituent device switching return AVCapturePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditionNone. This property is key-value observable.
 --
 -- ObjC selector: @- activePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditions@
 activePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditions :: IsAVCaptureDevice avCaptureDevice => avCaptureDevice -> IO AVCapturePrimaryConstituentDeviceRestrictedSwitchingBehaviorConditions
@@ -2553,7 +2202,7 @@ setUserPreferredCamera value =
 --
 -- Apple chooses the default value. This property incorporates userPreferredCamera as well as other factors, such as camera suspension and Apple cameras appearing that should be automatically chosen. The property may change spontaneously, such as when the preferred camera goes away. This property always returns a device that is present. If no camera is available nil is returned.
 --
--- Applications that adopt this API should always key-value observe this property and update their AVCaptureSession’s input device to reflect changes to the systemPreferredCamera. The application can still offer users the ability to pick a camera by setting userPreferredCamera, which will cause the systemPreferredCamera API to put the user’s choice first until either another Apple-preferred device becomes available or the machine is rebooted (after which it reverts to its original behavior of returning the internally determined best camera to use).
+-- Applications that adopt this API should always key-value observe this property and update their AVCaptureSession’s input device to reflect changes to the systemPreferredCamera. The application can still offer users the ability to pick a camera by calling -setUserPreferredCamera:, which will cause the systemPreferredCamera API to put the user’s choice first until either another Apple-preferred device becomes available or the machine is rebooted (after which it reverts to its original behavior of returning the internally determined best camera to use).
 --
 -- If the application wishes to offer users a fully manual camera selection mode in addition to automatic camera selection, it is recommended to call setUserPreferredCamera: each time the user makes a camera selection, but ignore key-value observer updates to systemPreferredCamera while in manual selection mode.
 --
@@ -2630,17 +2279,9 @@ unlockForConfigurationSelector = mkSelector "unlockForConfiguration"
 supportsAVCaptureSessionPresetSelector :: Selector '[Id NSString] Bool
 supportsAVCaptureSessionPresetSelector = mkSelector "supportsAVCaptureSessionPreset:"
 
--- | @Selector@ for @setDynamicAspectRatio:completionHandler:@
-setDynamicAspectRatio_completionHandlerSelector :: Selector '[Id NSString, Ptr ()] ()
-setDynamicAspectRatio_completionHandlerSelector = mkSelector "setDynamicAspectRatio:completionHandler:"
-
 -- | @Selector@ for @showSystemUserInterface:@
 showSystemUserInterfaceSelector :: Selector '[AVCaptureSystemUserInterface] ()
 showSystemUserInterfaceSelector = mkSelector "showSystemUserInterface:"
-
--- | @Selector@ for @performEffectForReaction:@
-performEffectForReactionSelector :: Selector '[Id NSString] ()
-performEffectForReactionSelector = mkSelector "performEffectForReaction:"
 
 -- | @Selector@ for @extrinsicMatrixFromDevice:toDevice:@
 extrinsicMatrixFromDevice_toDeviceSelector :: Selector '[Id AVCaptureDevice, Id AVCaptureDevice] (Id NSData)
@@ -2685,10 +2326,6 @@ isFocusModeSupportedSelector = mkSelector "isFocusModeSupported:"
 -- | @Selector@ for @setFocusModeLockedWithLensPosition:completionHandler:@
 setFocusModeLockedWithLensPosition_completionHandlerSelector :: Selector '[CFloat, Ptr ()] ()
 setFocusModeLockedWithLensPosition_completionHandlerSelector = mkSelector "setFocusModeLockedWithLensPosition:completionHandler:"
-
--- | @Selector@ for @setCinematicVideoTrackingFocusWithDetectedObjectID:focusMode:@
-setCinematicVideoTrackingFocusWithDetectedObjectID_focusModeSelector :: Selector '[CLong, AVCaptureCinematicVideoFocusMode] ()
-setCinematicVideoTrackingFocusWithDetectedObjectID_focusModeSelector = mkSelector "setCinematicVideoTrackingFocusWithDetectedObjectID:focusMode:"
 
 -- | @Selector@ for @isTorchModeSupported:@
 isTorchModeSupportedSelector :: Selector '[AVCaptureTorchMode] Bool
@@ -2758,22 +2395,6 @@ activeFormatSelector = mkSelector "activeFormat"
 setActiveFormatSelector :: Selector '[Id AVCaptureDeviceFormat] ()
 setActiveFormatSelector = mkSelector "setActiveFormat:"
 
--- | @Selector@ for @videoFrameDurationLocked@
-videoFrameDurationLockedSelector :: Selector '[] Bool
-videoFrameDurationLockedSelector = mkSelector "videoFrameDurationLocked"
-
--- | @Selector@ for @followingExternalSyncDevice@
-followingExternalSyncDeviceSelector :: Selector '[] Bool
-followingExternalSyncDeviceSelector = mkSelector "followingExternalSyncDevice"
-
--- | @Selector@ for @autoVideoFrameRateEnabled@
-autoVideoFrameRateEnabledSelector :: Selector '[] Bool
-autoVideoFrameRateEnabledSelector = mkSelector "autoVideoFrameRateEnabled"
-
--- | @Selector@ for @setAutoVideoFrameRateEnabled:@
-setAutoVideoFrameRateEnabledSelector :: Selector '[Bool] ()
-setAutoVideoFrameRateEnabledSelector = mkSelector "setAutoVideoFrameRateEnabled:"
-
 -- | @Selector@ for @inputSources@
 inputSourcesSelector :: Selector '[] (Id NSArray)
 inputSourcesSelector = mkSelector "inputSources"
@@ -2786,49 +2407,17 @@ activeInputSourceSelector = mkSelector "activeInputSource"
 setActiveInputSourceSelector :: Selector '[Id AVCaptureDeviceInputSource] ()
 setActiveInputSourceSelector = mkSelector "setActiveInputSource:"
 
--- | @Selector@ for @cameraLensSmudgeDetectionEnabled@
-cameraLensSmudgeDetectionEnabledSelector :: Selector '[] Bool
-cameraLensSmudgeDetectionEnabledSelector = mkSelector "cameraLensSmudgeDetectionEnabled"
-
--- | @Selector@ for @cameraLensSmudgeDetectionStatus@
-cameraLensSmudgeDetectionStatusSelector :: Selector '[] AVCaptureCameraLensSmudgeDetectionStatus
-cameraLensSmudgeDetectionStatusSelector = mkSelector "cameraLensSmudgeDetectionStatus"
-
--- | @Selector@ for @edgeLightEnabled@
-edgeLightEnabledSelector :: Selector '[] Bool
-edgeLightEnabledSelector = mkSelector "edgeLightEnabled"
-
--- | @Selector@ for @edgeLightActive@
-edgeLightActiveSelector :: Selector '[] Bool
-edgeLightActiveSelector = mkSelector "edgeLightActive"
-
 -- | @Selector@ for @studioLightEnabled@
 studioLightEnabledSelector :: Selector '[] Bool
 studioLightEnabledSelector = mkSelector "studioLightEnabled"
 
+-- | @Selector@ for @setStudioLightEnabled:@
+setStudioLightEnabledSelector :: Selector '[Bool] ()
+setStudioLightEnabledSelector = mkSelector "setStudioLightEnabled:"
+
 -- | @Selector@ for @studioLightActive@
 studioLightActiveSelector :: Selector '[] Bool
 studioLightActiveSelector = mkSelector "studioLightActive"
-
--- | @Selector@ for @nominalFocalLengthIn35mmFilm@
-nominalFocalLengthIn35mmFilmSelector :: Selector '[] CFloat
-nominalFocalLengthIn35mmFilmSelector = mkSelector "nominalFocalLengthIn35mmFilm"
-
--- | @Selector@ for @smartFramingMonitor@
-smartFramingMonitorSelector :: Selector '[] (Id AVCaptureSmartFramingMonitor)
-smartFramingMonitorSelector = mkSelector "smartFramingMonitor"
-
--- | @Selector@ for @dynamicAspectRatio@
-dynamicAspectRatioSelector :: Selector '[] (Id NSString)
-dynamicAspectRatioSelector = mkSelector "dynamicAspectRatio"
-
--- | @Selector@ for @cinematicVideoCaptureSceneMonitoringStatuses@
-cinematicVideoCaptureSceneMonitoringStatusesSelector :: Selector '[] (Id NSSet)
-cinematicVideoCaptureSceneMonitoringStatusesSelector = mkSelector "cinematicVideoCaptureSceneMonitoringStatuses"
-
--- | @Selector@ for @spatialCaptureDiscomfortReasons@
-spatialCaptureDiscomfortReasonsSelector :: Selector '[] (Id NSSet)
-spatialCaptureDiscomfortReasonsSelector = mkSelector "spatialCaptureDiscomfortReasons"
 
 -- | @Selector@ for @preferredMicrophoneMode@
 preferredMicrophoneModeSelector :: Selector '[] AVCaptureMicrophoneMode
@@ -2845,34 +2434,6 @@ companionDeskViewCameraSelector = mkSelector "companionDeskViewCamera"
 -- | @Selector@ for @continuityCamera@
 continuityCameraSelector :: Selector '[] Bool
 continuityCameraSelector = mkSelector "continuityCamera"
-
--- | @Selector@ for @backgroundReplacementEnabled@
-backgroundReplacementEnabledSelector :: Selector '[] Bool
-backgroundReplacementEnabledSelector = mkSelector "backgroundReplacementEnabled"
-
--- | @Selector@ for @backgroundReplacementActive@
-backgroundReplacementActiveSelector :: Selector '[] Bool
-backgroundReplacementActiveSelector = mkSelector "backgroundReplacementActive"
-
--- | @Selector@ for @reactionEffectsEnabled@
-reactionEffectsEnabledSelector :: Selector '[] Bool
-reactionEffectsEnabledSelector = mkSelector "reactionEffectsEnabled"
-
--- | @Selector@ for @reactionEffectGesturesEnabled@
-reactionEffectGesturesEnabledSelector :: Selector '[] Bool
-reactionEffectGesturesEnabledSelector = mkSelector "reactionEffectGesturesEnabled"
-
--- | @Selector@ for @canPerformReactionEffects@
-canPerformReactionEffectsSelector :: Selector '[] Bool
-canPerformReactionEffectsSelector = mkSelector "canPerformReactionEffects"
-
--- | @Selector@ for @availableReactionTypes@
-availableReactionTypesSelector :: Selector '[] (Id NSSet)
-availableReactionTypesSelector = mkSelector "availableReactionTypes"
-
--- | @Selector@ for @reactionEffectsInProgress@
-reactionEffectsInProgressSelector :: Selector '[] (Id NSArray)
-reactionEffectsInProgressSelector = mkSelector "reactionEffectsInProgress"
 
 -- | @Selector@ for @portraitEffectEnabled@
 portraitEffectEnabledSelector :: Selector '[] Bool
@@ -2901,10 +2462,6 @@ setCenterStageEnabledSelector = mkSelector "setCenterStageEnabled:"
 -- | @Selector@ for @centerStageActive@
 centerStageActiveSelector :: Selector '[] Bool
 centerStageActiveSelector = mkSelector "centerStageActive"
-
--- | @Selector@ for @centerStageRectOfInterestSupported@
-centerStageRectOfInterestSupportedSelector :: Selector '[] Bool
-centerStageRectOfInterestSupportedSelector = mkSelector "centerStageRectOfInterestSupported"
 
 -- | @Selector@ for @geometricDistortionCorrectionSupported@
 geometricDistortionCorrectionSupportedSelector :: Selector '[] Bool
@@ -2986,10 +2543,6 @@ rampingVideoZoomSelector = mkSelector "rampingVideoZoom"
 dualCameraSwitchOverVideoZoomFactorSelector :: Selector '[] CDouble
 dualCameraSwitchOverVideoZoomFactorSelector = mkSelector "dualCameraSwitchOverVideoZoomFactor"
 
--- | @Selector@ for @displayVideoZoomFactorMultiplier@
-displayVideoZoomFactorMultiplierSelector :: Selector '[] CDouble
-displayVideoZoomFactorMultiplierSelector = mkSelector "displayVideoZoomFactorMultiplier"
-
 -- | @Selector@ for @lowLightBoostSupported@
 lowLightBoostSupportedSelector :: Selector '[] Bool
 lowLightBoostSupportedSelector = mkSelector "lowLightBoostSupported"
@@ -3054,10 +2607,6 @@ setExposureModeSelector = mkSelector "setExposureMode:"
 exposurePointOfInterestSupportedSelector :: Selector '[] Bool
 exposurePointOfInterestSupportedSelector = mkSelector "exposurePointOfInterestSupported"
 
--- | @Selector@ for @exposureRectOfInterestSupported@
-exposureRectOfInterestSupportedSelector :: Selector '[] Bool
-exposureRectOfInterestSupportedSelector = mkSelector "exposureRectOfInterestSupported"
-
 -- | @Selector@ for @automaticallyAdjustsFaceDrivenAutoExposureEnabled@
 automaticallyAdjustsFaceDrivenAutoExposureEnabledSelector :: Selector '[] Bool
 automaticallyAdjustsFaceDrivenAutoExposureEnabledSelector = mkSelector "automaticallyAdjustsFaceDrivenAutoExposureEnabled"
@@ -3117,10 +2666,6 @@ setFocusModeSelector = mkSelector "setFocusMode:"
 -- | @Selector@ for @focusPointOfInterestSupported@
 focusPointOfInterestSupportedSelector :: Selector '[] Bool
 focusPointOfInterestSupportedSelector = mkSelector "focusPointOfInterestSupported"
-
--- | @Selector@ for @focusRectOfInterestSupported@
-focusRectOfInterestSupportedSelector :: Selector '[] Bool
-focusRectOfInterestSupportedSelector = mkSelector "focusRectOfInterestSupported"
 
 -- | @Selector@ for @adjustingFocus@
 adjustingFocusSelector :: Selector '[] Bool

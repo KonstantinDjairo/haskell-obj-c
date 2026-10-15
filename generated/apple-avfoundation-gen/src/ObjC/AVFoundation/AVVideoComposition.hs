@@ -3,13 +3,11 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | An AVVideoComposition object represents an immutable video composition.
+-- | AVVideoCompositionRenderContext
 --
--- A video composition describes, for any time in the aggregate time range of its instructions, the number and IDs of video tracks that are to be used in order to produce a composed video frame corresponding to that time. When AVFoundation's built-in video compositor is used, the instructions an AVVideoComposition contain can specify a spatial transformation, an opacity value, and a cropping rectangle for each video source, and these can vary over time via simple linear ramping functions.
+-- The AVVideoCompositionRenderContext class defines the context within which custom compositors render new output pixels buffers.
 --
--- A client can implement their own custom video compositor by implementing the AVVideoCompositing protocol; a custom video compositor is provided with pixel buffers for each of its video sources during playback and other operations and can perform arbitrary graphical operations on them in order to produce visual output.
---
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- An instance of AVVideoCompositionRenderContext provides size and scaling information and offers a service for efficiently providing pixel buffers from a managed pool of buffers.
 --
 -- Generated bindings for @AVVideoComposition@.
 module ObjC.AVFoundation.AVVideoComposition
@@ -17,7 +15,6 @@ module ObjC.AVFoundation.AVVideoComposition
   , IsAVVideoComposition(..)
   , videoCompositionWithPropertiesOfAsset
   , videoCompositionWithPropertiesOfAsset_completionHandler
-  , videoCompositionWithVideoComposition
   , videoCompositionWithAsset_applyingCIFiltersWithHandler
   , videoCompositionWithAsset_applyingCIFiltersWithHandler_completionHandler
   , customVideoCompositorClass
@@ -26,29 +23,22 @@ module ObjC.AVFoundation.AVVideoComposition
   , instructions
   , animationTool
   , sourceSampleDataTrackIDs
-  , outputBufferDescription
-  , spatialVideoConfigurations
   , colorPrimaries
   , colorYCbCrMatrix
   , colorTransferFunction
-  , perFrameHDRDisplayMetadataPolicy
   , animationToolSelector
   , colorPrimariesSelector
   , colorTransferFunctionSelector
   , colorYCbCrMatrixSelector
   , customVideoCompositorClassSelector
   , instructionsSelector
-  , outputBufferDescriptionSelector
-  , perFrameHDRDisplayMetadataPolicySelector
   , renderScaleSelector
   , sourceSampleDataTrackIDsSelector
   , sourceTrackIDForFrameTimingSelector
-  , spatialVideoConfigurationsSelector
   , videoCompositionWithAsset_applyingCIFiltersWithHandlerSelector
   , videoCompositionWithAsset_applyingCIFiltersWithHandler_completionHandlerSelector
   , videoCompositionWithPropertiesOfAssetSelector
   , videoCompositionWithPropertiesOfAsset_completionHandlerSelector
-  , videoCompositionWithVideoCompositionSelector
 
 
   ) where
@@ -64,17 +54,19 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Returns a new instance of AVVideoComposition with values and instructions suitable for presenting the video tracks of the specified asset according to its temporal and geometric properties and those of its tracks.
+-- | videoCompositionWithPropertiesOfAsset:
 --
--- The returned AVVideoComposition will have instructions that respect the spatial properties and timeRanges of the specified asset's video tracks. It will also have the following values for its properties:
+-- Returns a new instance of AVVideoComposition with values and instructions suitable for presenting the video tracks of the specified asset according to its temporal and geometric properties and those of its tracks.
 --
--- - If the asset has exactly one video track, the original timing of the source video track will be used. If the asset has more than one video track, and the nominal frame rate of any of video tracks is known, the reciprocal of the greatest known nominalFrameRate will be used as the value of frameDuration. Otherwise, a default framerate of 30fps is used. - If the specified asset is an instance of AVComposition, the renderSize will be set to the naturalSize of the AVComposition; otherwise the renderSize will be set to a value that encompasses all of the asset's video tracks. - A renderScale of 1.0. - A nil animationTool.
+-- @asset@ — An instance of AVAsset. Ensure that the duration and tracks properties of the asset are already loaded before invoking this method.
+--
+-- Returns: An instance of AVVideoComposition.
+--
+-- The returned AVVideoComposition will have instructions that respect the spatial properties and timeRanges of the specified asset's video tracks.   It will also have the following values for its properties:
+--
+-- - If the asset has exactly one video track, the original timing of the source video track will be used. If the asset has more than one video track, and the nominal frame rate of any of video tracks is known, the reciprocal of the greatest known nominalFrameRate will be used as the value of frameDuration. Otherwise, a default framerate of 30fps is used.   	- If the specified asset is an instance of AVComposition, the renderSize will be set to the naturalSize of the AVComposition; otherwise the renderSize will be set to a value that encompasses all of the asset's video tracks.   	- A renderScale of 1.0.   	- A nil animationTool.
 --
 -- If the specified asset has no video tracks, this method will return an AVVideoComposition instance with an empty collection of instructions.
---
--- - Parameter asset: An instance of AVAsset. Ensure that the duration and tracks properties of the asset are already loaded before invoking this method.
---
--- - Returns: An instance of AVVideoComposition.
 --
 -- ObjC selector: @+ videoCompositionWithPropertiesOfAsset:@
 videoCompositionWithPropertiesOfAsset :: IsAVAsset asset => asset -> IO (Id AVVideoComposition)
@@ -83,15 +75,19 @@ videoCompositionWithPropertiesOfAsset asset =
     cls' <- getRequiredClass "AVVideoComposition"
     sendClassMessage cls' videoCompositionWithPropertiesOfAssetSelector (toAVAsset asset)
 
--- | Vends a new instance of AVVideoComposition with values and instructions suitable for presenting the video tracks of the specified asset according to its temporal and geometric properties and those of its tracks.
+-- | videoCompositionWithPropertiesOfAsset:completionHandler:
 --
--- The new AVVideoComposition will have instructions that respect the spatial properties and timeRanges of the specified asset's video tracks. It will also have the following values for its properties:
+-- Vends a new instance of AVVideoComposition with values and instructions suitable for presenting the video tracks of the specified asset according to its temporal and geometric properties and those of its tracks.
 --
--- - If the asset has exactly one video track, the original timing of the source video track will be used. If the asset has more than one video track, and the nominal frame rate of any of video tracks is known, the reciprocal of the greatest known nominalFrameRate will be used as the value of frameDuration. Otherwise, a default framerate of 30fps is used. - If the specified asset is an instance of AVComposition, the renderSize will be set to the naturalSize of the AVComposition; otherwise the renderSize will be set to a value that encompasses all of the asset's video tracks. - A renderScale of 1.0. - A nil animationTool.
+-- @asset@ — An instance of AVAsset.
+--
+-- @completionHandler@ — A block that is invoked when the new video composition has finished being created.  If the @videoComposition@ parameter is nil, the @error@ parameter describes the failure that occurred.
+--
+-- The new AVVideoComposition will have instructions that respect the spatial properties and timeRanges of the specified asset's video tracks.	It will also have the following values for its properties:
+--
+-- - If the asset has exactly one video track, the original timing of the source video track will be used. If the asset has more than one video track, and the nominal frame rate of any of video tracks is known, the reciprocal of the greatest known nominalFrameRate will be used as the value of frameDuration. Otherwise, a default framerate of 30fps is used.		- If the specified asset is an instance of AVComposition, the renderSize will be set to the naturalSize of the AVComposition; otherwise the renderSize will be set to a value that encompasses all of the asset's video tracks.		- A renderScale of 1.0.		- A nil animationTool.
 --
 -- If the specified asset has no video tracks, this method will return an AVVideoComposition instance with an empty collection of instructions.
---
--- - Parameter asset: An instance of AVAsset. - Parameter completionHandler: A block that is invoked when the new video composition has finished being created. If the @videoComposition@ parameter is nil, the @error@ parameter describes the failure that occurred.
 --
 -- ObjC selector: @+ videoCompositionWithPropertiesOfAsset:completionHandler:@
 videoCompositionWithPropertiesOfAsset_completionHandler :: IsAVAsset asset => asset -> Ptr () -> IO ()
@@ -100,16 +96,13 @@ videoCompositionWithPropertiesOfAsset_completionHandler asset completionHandler 
     cls' <- getRequiredClass "AVVideoComposition"
     sendClassMessage cls' videoCompositionWithPropertiesOfAsset_completionHandlerSelector (toAVAsset asset) completionHandler
 
--- | Pass-through initializer, for internal use in AVFoundation only
+-- | videoCompositionWithAsset:applyingCIFiltersWithHandler:
 --
--- ObjC selector: @+ videoCompositionWithVideoComposition:@
-videoCompositionWithVideoComposition :: IsAVVideoComposition videoComposition => videoComposition -> IO (Id AVVideoComposition)
-videoCompositionWithVideoComposition videoComposition =
-  do
-    cls' <- getRequiredClass "AVVideoComposition"
-    sendClassMessage cls' videoCompositionWithVideoCompositionSelector (toAVVideoComposition videoComposition)
-
--- | Returns a new instance of AVVideoComposition with values and instructions that will apply the specified handler block to video frames represented as instances of CIImage.
+-- Returns a new instance of AVVideoComposition with values and instructions that will apply the specified handler block to video frames represented as instances of CIImage.
+--
+-- @asset@ — An instance of AVAsset. For best performance, ensure that the duration and tracks properties of the asset are already loaded before invoking this method.
+--
+-- Returns: An instance of AVVideoComposition.
 --
 -- The returned AVVideoComposition will cause the specified handler block to be called to filter each frame of the asset's first enabled video track. The handler block should use the properties of the provided AVAsynchronousCIImageFilteringRequest and respond using finishWithImage:context: with a "filtered" new CIImage (or the provided source image for no affect). In the event of an error, respond to the request using finishWithError:. The error can be observed via AVPlayerItemFailedToPlayToEndTimeNotification, see AVPlayerItemFailedToPlayToEndTimeErrorKey in notification payload.
 --
@@ -117,17 +110,15 @@ videoCompositionWithVideoComposition videoComposition =
 --
 -- The video composition will also have the following values for its properties:
 --
--- - The original timing of the asset's first enabled video track will be used. - A renderSize that encompasses the asset's first enabled video track respecting the track's preferredTransform. - A renderScale of 1.0.
+-- - The original timing of the asset's first enabled video track will be used.		- A renderSize that encompasses the asset's first enabled video track respecting the track's preferredTransform.		- A renderScale of 1.0.
 --
 -- The default CIContext has the following properties:
 --
--- - iOS: Device RGB color space - macOS: sRGB color space
+-- - iOS: Device RGB color space		- OS X: sRGB color space
 --
--- Example usage: ```objc playerItem.videoComposition = [AVVideoComposition videoCompositionWithAsset:srcAsset applyingCIFiltersWithHandler: 	^(AVAsynchronousCIImageFilteringRequest *request) 	{ 		NSError *err = nil; 		CIImage *filtered = myRenderer(request, &err); 		if (filtered) 			[request finishWithImage:filtered context:nil]; 		else 			[request finishWithError:err]; 	}]; ```
+-- Example usage:
 --
--- - Parameter asset: An instance of AVAsset. For best performance, ensure that the duration and tracks properties of the asset are already loaded before invoking this method.
---
--- - Returns: An instance of AVVideoComposition.
+-- playerItem.videoComposition = [AVVideoComposition videoCompositionWithAsset:srcAsset applyingCIFiltersWithHandler:			^(AVAsynchronousCIImageFilteringRequest *request)			{				NSError *err = nil;				CIImage *filtered = myRenderer(request, &err);				if (filtered)					[request finishWithImage:filtered context:nil];				else					[request finishWithError:err];			}];
 --
 -- ObjC selector: @+ videoCompositionWithAsset:applyingCIFiltersWithHandler:@
 videoCompositionWithAsset_applyingCIFiltersWithHandler :: IsAVAsset asset => asset -> Ptr () -> IO (Id AVVideoComposition)
@@ -136,7 +127,13 @@ videoCompositionWithAsset_applyingCIFiltersWithHandler asset applier =
     cls' <- getRequiredClass "AVVideoComposition"
     sendClassMessage cls' videoCompositionWithAsset_applyingCIFiltersWithHandlerSelector (toAVAsset asset) applier
 
--- | Vends a new instance of AVVideoComposition with values and instructions that will apply the specified handler block to video frames represented as instances of CIImage.
+-- | videoCompositionWithAsset:applyingCIFiltersWithHandler:completionHandler:
+--
+-- Vends a new instance of AVVideoComposition with values and instructions that will apply the specified handler block to video frames represented as instances of CIImage.
+--
+-- @asset@ — An instance of AVAsset.
+--
+-- @completionHandler@ — A block that is invoked when the new video composition has finished being created.  If the @videoComposition@ parameter is nil, the @error@ parameter describes the failure that occurred.
 --
 -- The new AVVideoComposition will cause the specified handler block to be called to filter each frame of the asset's first enabled video track. The handler block should use the properties of the provided AVAsynchronousCIImageFilteringRequest and respond using finishWithImage:context: with a "filtered" new CIImage (or the provided source image for no affect). In the event of an error, respond to the request using finishWithError:. The error can be observed via AVPlayerItemFailedToPlayToEndTimeNotification, see AVPlayerItemFailedToPlayToEndTimeErrorKey in notification payload.
 --
@@ -144,13 +141,15 @@ videoCompositionWithAsset_applyingCIFiltersWithHandler asset applier =
 --
 -- The video composition will also have the following values for its properties:
 --
--- - The original timing of the asset's first enabled video track will be used. - A renderSize that encompasses the asset's first enabled video track respecting the track's preferredTransform. - A renderScale of 1.0.
+-- - The original timing of the asset's first enabled video track will be used.		- A renderSize that encompasses the asset's first enabled video track respecting the track's preferredTransform.		- A renderScale of 1.0.
 --
 -- The default CIContext has the following properties:
 --
--- - iOS: Device RGB color space - macOS: sRGB color space
+-- - iOS: Device RGB color space		- OS X: sRGB color space
 --
--- Example usage: ```objc [AVVideoComposition videoCompositionWithAsset:srcAsset applyingCIFiltersWithHandler: 	^(AVAsynchronousCIImageFilteringRequest *request) 	{ 		NSError *err = nil; 		CIImage *filtered = myRenderer(request, &err); 		if (filtered) 			[request finishWithImage:filtered context:nil]; 		else 			[request finishWithError:err]; 	} completionHandler: 	^(AVVideoComposition * _Nullable videoComposition, NSError * _Nullable error) 	{ 		if (videoComposition != nil) { 			playerItem.videoComposition = videoComposition 		else { 			// handle error 	}]; ``` - Parameter asset: An instance of AVAsset. - Parameter completionHandler: A block that is invoked when the new video composition has finished being created. If the @videoComposition@ parameter is nil, the @error@ parameter describes the failure that occurred.
+-- Example usage:
+--
+-- [AVVideoComposition videoCompositionWithAsset:srcAsset applyingCIFiltersWithHandler:			^(AVAsynchronousCIImageFilteringRequest *request)			{				NSError *err = nil;				CIImage *filtered = myRenderer(request, &err);				if (filtered)					[request finishWithImage:filtered context:nil];				else					[request finishWithError:err];			} completionHandler:			^(AVVideoComposition * _Nullable videoComposition, NSError * _Nullable error)			{				if (videoComposition != nil) {					playerItem.videoComposition = videoComposition				else {					// handle error			}];
 --
 -- ObjC selector: @+ videoCompositionWithAsset:applyingCIFiltersWithHandler:completionHandler:@
 videoCompositionWithAsset_applyingCIFiltersWithHandler_completionHandler :: IsAVAsset asset => asset -> Ptr () -> Ptr () -> IO ()
@@ -159,101 +158,50 @@ videoCompositionWithAsset_applyingCIFiltersWithHandler_completionHandler asset a
     cls' <- getRequiredClass "AVVideoComposition"
     sendClassMessage cls' videoCompositionWithAsset_applyingCIFiltersWithHandler_completionHandlerSelector (toAVAsset asset) applier completionHandler
 
--- | Indicates a custom compositor class to use. The class must implement the AVVideoCompositing protocol. If nil, the default, internal video compositor is used
---
--- ObjC selector: @- customVideoCompositorClass@
+-- | @- customVideoCompositorClass@
 customVideoCompositorClass :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO Class
 customVideoCompositorClass avVideoComposition =
   sendMessage avVideoComposition customVideoCompositorClassSelector
 
--- | If sourceTrackIDForFrameTiming is not kCMPersistentTrackID_Invalid, frame timing for the video composition is derived from the source asset's track with the corresponding ID. This may be used to preserve a source asset's variable frame timing. If an empty edit is encountered in the source asset’s track, the compositor composes frames as needed up to the frequency specified in frameDuration property. */
---
--- ObjC selector: @- sourceTrackIDForFrameTiming@
+-- | @- sourceTrackIDForFrameTiming@
 sourceTrackIDForFrameTiming :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO CInt
 sourceTrackIDForFrameTiming avVideoComposition =
   sendMessage avVideoComposition sourceTrackIDForFrameTimingSelector
 
--- | Indicates the scale at which the video composition should render. May only be other than 1.0 for a video composition set on an AVPlayerItem
---
--- ObjC selector: @- renderScale@
+-- | @- renderScale@
 renderScale :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO CFloat
 renderScale avVideoComposition =
   sendMessage avVideoComposition renderScaleSelector
 
--- | Indicates instructions for video composition via an NSArray of instances of classes implementing the AVVideoCompositionInstruction protocol. For the first instruction in the array, timeRange.start must be less than or equal to the earliest time for which playback or other processing will be attempted (note that this will typically be kCMTimeZero). For subsequent instructions, timeRange.start must be equal to the prior instruction's end time. The end time of the last instruction must be greater than or equal to the latest time for which playback or other processing will be attempted (note that this will often be the duration of the asset with which the instance of AVVideoComposition is associated).
---
--- ObjC selector: @- instructions@
+-- | @- instructions@
 instructions :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSArray)
 instructions avVideoComposition =
   sendMessage avVideoComposition instructionsSelector
 
--- | Indicates a special video composition tool for use of Core Animation; may be nil
---
--- ObjC selector: @- animationTool@
+-- | @- animationTool@
 animationTool :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id AVVideoCompositionCoreAnimationTool)
 animationTool avVideoComposition =
   sendMessage avVideoComposition animationToolSelector
 
--- | List of all track IDs for tracks from which sample data should be presented to the compositor at any point in the overall composition. The sample data will be delivered to the custom compositor via AVAsynchronousVideoCompositionRequest.
---
--- ObjC selector: @- sourceSampleDataTrackIDs@
+-- | @- sourceSampleDataTrackIDs@
 sourceSampleDataTrackIDs :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSArray)
 sourceSampleDataTrackIDs avVideoComposition =
   sendMessage avVideoComposition sourceSampleDataTrackIDsSelector
 
--- | The output buffers of the video composition can be specified with the outputBufferDescription. The value is an array of CMTagCollectionRef objects that describes the output buffers.
---
--- If the video composition will output tagged buffers, the details of those buffers should be specified with CMTags. Specifically, the StereoView (eyes) and ProjectionKind must be specified. The behavior is undefined if the output tagged buffers do not match the outputBufferDescription. The default is nil, which means monoscopic output. Note that an empty array is not valid. An exception will be thrown if the objects in the array are not of type CMTagCollectionRef. Note that tagged buffers are only supported for custom compositors.
---
--- ObjC selector: @- outputBufferDescription@
-outputBufferDescription :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSArray)
-outputBufferDescription avVideoComposition =
-  sendMessage avVideoComposition outputBufferDescriptionSelector
-
--- | Indicates the spatial configurations that are available to associate with the output of the video composition.
---
--- A custom compositor can output spatial video by specifying one of these spatial configurations. A spatial configuration with all nil values indicates the video is not spatial. A nil spatial configuration also indicates the video is not spatial. The value can be nil, which indicates the output will not be spatial. NOTE: If this property is not empty, then the client must attach one of the spatial configurations in this array to all of the pixel buffers, otherwise an exception will be thrown.
---
--- ObjC selector: @- spatialVideoConfigurations@
-spatialVideoConfigurations :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSArray)
-spatialVideoConfigurations avVideoComposition =
-  sendMessage avVideoComposition spatialVideoConfigurationsSelector
-
--- | Rendering will use these primaries and frames will be tagged as such. If the value of this property is nil then the source's primaries will be propagated and used.
---
--- Default is nil. Valid values are those suitable for AVVideoColorPrimariesKey. Generally set as a triple along with colorYCbCrMatrix and colorTransferFunction.
---
--- ObjC selector: @- colorPrimaries@
+-- | @- colorPrimaries@
 colorPrimaries :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSString)
 colorPrimaries avVideoComposition =
   sendMessage avVideoComposition colorPrimariesSelector
 
--- | Rendering will use this matrix and frames will be tagged as such. If the value of this property is nil then the source's matrix will be propagated and used.
---
--- Default is nil. Valid values are those suitable for AVVideoYCbCrMatrixKey. Generally set as a triple along with colorPrimaries and colorTransferFunction.
---
--- ObjC selector: @- colorYCbCrMatrix@
+-- | @- colorYCbCrMatrix@
 colorYCbCrMatrix :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSString)
 colorYCbCrMatrix avVideoComposition =
   sendMessage avVideoComposition colorYCbCrMatrixSelector
 
--- | Rendering will use this transfer function and frames will be tagged as such. If the value of this property is nil then the source's transfer function will be propagated and used.
---
--- Default is nil. Valid values are those suitable for AVVideoTransferFunctionKey. Generally set as a triple along with colorYCbCrMatrix and colorYCbCrMatrix.
---
--- ObjC selector: @- colorTransferFunction@
+-- | @- colorTransferFunction@
 colorTransferFunction :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSString)
 colorTransferFunction avVideoComposition =
   sendMessage avVideoComposition colorTransferFunctionSelector
-
--- | Configures policy for per frame HDR display metadata on the rendered frame
---
--- Allows the system to identify situations where HDR metadata can be generated and attached to the rendered video frame. Default is AVVideoCompositionPerFrameHDRDisplayMetadataPolicyPropagate. Any HDR metadata attached to the composed frame will be propagated to the rendered video frames.
---
--- ObjC selector: @- perFrameHDRDisplayMetadataPolicy@
-perFrameHDRDisplayMetadataPolicy :: IsAVVideoComposition avVideoComposition => avVideoComposition -> IO (Id NSString)
-perFrameHDRDisplayMetadataPolicy avVideoComposition =
-  sendMessage avVideoComposition perFrameHDRDisplayMetadataPolicySelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -266,10 +214,6 @@ videoCompositionWithPropertiesOfAssetSelector = mkSelector "videoCompositionWith
 -- | @Selector@ for @videoCompositionWithPropertiesOfAsset:completionHandler:@
 videoCompositionWithPropertiesOfAsset_completionHandlerSelector :: Selector '[Id AVAsset, Ptr ()] ()
 videoCompositionWithPropertiesOfAsset_completionHandlerSelector = mkSelector "videoCompositionWithPropertiesOfAsset:completionHandler:"
-
--- | @Selector@ for @videoCompositionWithVideoComposition:@
-videoCompositionWithVideoCompositionSelector :: Selector '[Id AVVideoComposition] (Id AVVideoComposition)
-videoCompositionWithVideoCompositionSelector = mkSelector "videoCompositionWithVideoComposition:"
 
 -- | @Selector@ for @videoCompositionWithAsset:applyingCIFiltersWithHandler:@
 videoCompositionWithAsset_applyingCIFiltersWithHandlerSelector :: Selector '[Id AVAsset, Ptr ()] (Id AVVideoComposition)
@@ -303,14 +247,6 @@ animationToolSelector = mkSelector "animationTool"
 sourceSampleDataTrackIDsSelector :: Selector '[] (Id NSArray)
 sourceSampleDataTrackIDsSelector = mkSelector "sourceSampleDataTrackIDs"
 
--- | @Selector@ for @outputBufferDescription@
-outputBufferDescriptionSelector :: Selector '[] (Id NSArray)
-outputBufferDescriptionSelector = mkSelector "outputBufferDescription"
-
--- | @Selector@ for @spatialVideoConfigurations@
-spatialVideoConfigurationsSelector :: Selector '[] (Id NSArray)
-spatialVideoConfigurationsSelector = mkSelector "spatialVideoConfigurations"
-
 -- | @Selector@ for @colorPrimaries@
 colorPrimariesSelector :: Selector '[] (Id NSString)
 colorPrimariesSelector = mkSelector "colorPrimaries"
@@ -322,8 +258,4 @@ colorYCbCrMatrixSelector = mkSelector "colorYCbCrMatrix"
 -- | @Selector@ for @colorTransferFunction@
 colorTransferFunctionSelector :: Selector '[] (Id NSString)
 colorTransferFunctionSelector = mkSelector "colorTransferFunction"
-
--- | @Selector@ for @perFrameHDRDisplayMetadataPolicy@
-perFrameHDRDisplayMetadataPolicySelector :: Selector '[] (Id NSString)
-perFrameHDRDisplayMetadataPolicySelector = mkSelector "perFrameHDRDisplayMetadataPolicy"
 

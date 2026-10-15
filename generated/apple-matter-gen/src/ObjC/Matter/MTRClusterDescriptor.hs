@@ -9,12 +9,11 @@
 module ObjC.Matter.MTRClusterDescriptor
   ( MTRClusterDescriptor
   , IsMTRClusterDescriptor(..)
-  , readAttributeDeviceTypeListWithParams
+  , initWithDevice_endpoint_queue
+  , readAttributeDeviceListWithParams
   , readAttributeServerListWithParams
   , readAttributeClientListWithParams
   , readAttributePartsListWithParams
-  , readAttributeTagListWithParams
-  , readAttributeEndpointUniqueIDWithParams
   , readAttributeGeneratedCommandListWithParams
   , readAttributeAcceptedCommandListWithParams
   , readAttributeAttributeListWithParams
@@ -22,11 +21,7 @@ module ObjC.Matter.MTRClusterDescriptor
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , readAttributeDeviceListWithParams
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
@@ -34,13 +29,10 @@ module ObjC.Matter.MTRClusterDescriptor
   , readAttributeClientListWithParamsSelector
   , readAttributeClusterRevisionWithParamsSelector
   , readAttributeDeviceListWithParamsSelector
-  , readAttributeDeviceTypeListWithParamsSelector
-  , readAttributeEndpointUniqueIDWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
   , readAttributePartsListWithParamsSelector
   , readAttributeServerListWithParamsSelector
-  , readAttributeTagListWithParamsSelector
 
 
   ) where
@@ -56,10 +48,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- readAttributeDeviceTypeListWithParams:@
-readAttributeDeviceTypeListWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
-readAttributeDeviceTypeListWithParams mtrClusterDescriptor params =
-  sendMessage mtrClusterDescriptor readAttributeDeviceTypeListWithParamsSelector (toMTRReadParams params)
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRDevice device, IsNSObject queue) => mtrClusterDescriptor -> device -> CUShort -> queue -> IO (Id MTRClusterDescriptor)
+initWithDevice_endpoint_queue mtrClusterDescriptor device endpoint queue =
+  sendOwnedMessage mtrClusterDescriptor initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
+
+-- | @- readAttributeDeviceListWithParams:@
+readAttributeDeviceListWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
+readAttributeDeviceListWithParams mtrClusterDescriptor params =
+  sendMessage mtrClusterDescriptor readAttributeDeviceListWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeServerListWithParams:@
 readAttributeServerListWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
@@ -75,16 +72,6 @@ readAttributeClientListWithParams mtrClusterDescriptor params =
 readAttributePartsListWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
 readAttributePartsListWithParams mtrClusterDescriptor params =
   sendMessage mtrClusterDescriptor readAttributePartsListWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeTagListWithParams:@
-readAttributeTagListWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
-readAttributeTagListWithParams mtrClusterDescriptor params =
-  sendMessage mtrClusterDescriptor readAttributeTagListWithParamsSelector (toMTRReadParams params)
-
--- | @- readAttributeEndpointUniqueIDWithParams:@
-readAttributeEndpointUniqueIDWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
-readAttributeEndpointUniqueIDWithParams mtrClusterDescriptor params =
-  sendMessage mtrClusterDescriptor readAttributeEndpointUniqueIDWithParamsSelector (toMTRReadParams params)
 
 -- | @- readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
@@ -123,30 +110,17 @@ new  =
     cls' <- getRequiredClass "MTRClusterDescriptor"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRDevice device, IsNSObject queue) => mtrClusterDescriptor -> device -> CUShort -> queue -> IO (Id MTRClusterDescriptor)
-initWithDevice_endpoint_queue mtrClusterDescriptor device endpoint queue =
-  sendOwnedMessage mtrClusterDescriptor initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- readAttributeDeviceListWithParams:@
-readAttributeDeviceListWithParams :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRReadParams params) => mtrClusterDescriptor -> params -> IO (Id NSDictionary)
-readAttributeDeviceListWithParams mtrClusterDescriptor params =
-  sendMessage mtrClusterDescriptor readAttributeDeviceListWithParamsSelector (toMTRReadParams params)
-
--- | The queue is currently unused, but may be used in the future for calling completions for command invocations if commands are added to this cluster.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterDescriptor mtrClusterDescriptor, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterDescriptor -> device -> endpointID -> queue -> IO (Id MTRClusterDescriptor)
-initWithDevice_endpointID_queue mtrClusterDescriptor device endpointID queue =
-  sendOwnedMessage mtrClusterDescriptor initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @readAttributeDeviceTypeListWithParams:@
-readAttributeDeviceTypeListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeDeviceTypeListWithParamsSelector = mkSelector "readAttributeDeviceTypeListWithParams:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterDescriptor)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
+
+-- | @Selector@ for @readAttributeDeviceListWithParams:@
+readAttributeDeviceListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
+readAttributeDeviceListWithParamsSelector = mkSelector "readAttributeDeviceListWithParams:"
 
 -- | @Selector@ for @readAttributeServerListWithParams:@
 readAttributeServerListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -159,14 +133,6 @@ readAttributeClientListWithParamsSelector = mkSelector "readAttributeClientListW
 -- | @Selector@ for @readAttributePartsListWithParams:@
 readAttributePartsListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
 readAttributePartsListWithParamsSelector = mkSelector "readAttributePartsListWithParams:"
-
--- | @Selector@ for @readAttributeTagListWithParams:@
-readAttributeTagListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeTagListWithParamsSelector = mkSelector "readAttributeTagListWithParams:"
-
--- | @Selector@ for @readAttributeEndpointUniqueIDWithParams:@
-readAttributeEndpointUniqueIDWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeEndpointUniqueIDWithParamsSelector = mkSelector "readAttributeEndpointUniqueIDWithParams:"
 
 -- | @Selector@ for @readAttributeGeneratedCommandListWithParams:@
 readAttributeGeneratedCommandListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -195,16 +161,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterDescriptor)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterDescriptor)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @readAttributeDeviceListWithParams:@
-readAttributeDeviceListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
-readAttributeDeviceListWithParamsSelector = mkSelector "readAttributeDeviceListWithParams:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterDescriptor)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

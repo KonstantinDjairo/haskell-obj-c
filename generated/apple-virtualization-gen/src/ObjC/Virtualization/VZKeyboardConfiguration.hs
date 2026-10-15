@@ -5,11 +5,9 @@
 
 -- | Base class for a keyboard configuration.
 --
--- VZKeyboardConfiguration should not be instantiated directly.    One of its subclasses like VZUSBKeyboardConfiguration or VZMacKeyboardConfiguration should be used instead.
+-- VZKeyboardConfiguration should not be instantiated directly.    One of its subclasses like VZUSBKeyboardConfiguration should be used instead.
 --
 -- See: VZUSBKeyboardConfiguration
---
--- See: VZMacKeyboardConfiguration
 --
 -- Generated bindings for @VZKeyboardConfiguration@.
 module ObjC.Virtualization.VZKeyboardConfiguration

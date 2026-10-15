@@ -7,15 +7,15 @@
 module ObjC.Matter.MTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent
   ( MTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent
   , IsMTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent(..)
-  , associationFailureCause
-  , setAssociationFailureCause
+  , init_
+  , copyWithZone
   , associationFailure
   , setAssociationFailure
   , status
   , setStatus
-  , associationFailureCauseSelector
   , associationFailureSelector
-  , setAssociationFailureCauseSelector
+  , copyWithZoneSelector
+  , initSelector
   , setAssociationFailureSelector
   , setStatusSelector
   , statusSelector
@@ -34,15 +34,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- associationFailureCause@
-associationFailureCause :: IsMTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent => mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent -> IO (Id NSNumber)
-associationFailureCause mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent =
-  sendMessage mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent associationFailureCauseSelector
+-- | @- init@
+init_ :: IsMTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent => mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent -> IO (Id MTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent)
+init_ mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent =
+  sendOwnedMessage mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent initSelector
 
--- | @- setAssociationFailureCause:@
-setAssociationFailureCause :: (IsMTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent, IsNSNumber value) => mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent -> value -> IO ()
-setAssociationFailureCause mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent value =
-  sendMessage mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent setAssociationFailureCauseSelector (toNSNumber value)
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent => mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent -> Ptr () -> IO RawId
+copyWithZone mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent zone =
+  sendOwnedMessage mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent copyWithZoneSelector zone
 
 -- | @- associationFailure@
 associationFailure :: IsMTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent => mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent -> IO (Id NSNumber)
@@ -68,13 +68,13 @@ setStatus mtrWiFiNetworkDiagnosticsClusterAssociationFailureEvent value =
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @associationFailureCause@
-associationFailureCauseSelector :: Selector '[] (Id NSNumber)
-associationFailureCauseSelector = mkSelector "associationFailureCause"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRWiFiNetworkDiagnosticsClusterAssociationFailureEvent)
+initSelector = mkSelector "init"
 
--- | @Selector@ for @setAssociationFailureCause:@
-setAssociationFailureCauseSelector :: Selector '[Id NSNumber] ()
-setAssociationFailureCauseSelector = mkSelector "setAssociationFailureCause:"
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @associationFailure@
 associationFailureSelector :: Selector '[] (Id NSNumber)

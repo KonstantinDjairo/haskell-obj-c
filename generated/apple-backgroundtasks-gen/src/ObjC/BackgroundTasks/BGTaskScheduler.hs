@@ -1,12 +1,11 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A class for scheduling task requests that launch your app in the background.
+-- | BGTaskScheduler
 --
--- Background tasks give your app a way to run code while the app is suspended. To learn how to register, schedule, and run a background task, see <doc://com.apple.documentation/documentation/uikit/app_and_environment/scenes/preparing_your_ui_to_run_in_the_background/using_background_tasks_to_update_your_app>.
+-- The object you use to schedule deferrable work to be done in the background.
 --
 -- Generated bindings for @BGTaskScheduler@.
 module ObjC.BackgroundTasks.BGTaskScheduler
@@ -19,7 +18,6 @@ module ObjC.BackgroundTasks.BGTaskScheduler
   , cancelTaskRequestWithIdentifier
   , cancelAllTaskRequests
   , sharedScheduler
-  , supportedResources
   , cancelAllTaskRequestsSelector
   , cancelTaskRequestWithIdentifierSelector
   , initSelector
@@ -27,12 +25,7 @@ module ObjC.BackgroundTasks.BGTaskScheduler
   , registerForTaskWithIdentifier_usingQueue_launchHandlerSelector
   , sharedSchedulerSelector
   , submitTaskRequest_errorSelector
-  , supportedResourcesSelector
 
-  -- * Enum types
-  , BGContinuedProcessingTaskRequestResources(BGContinuedProcessingTaskRequestResources)
-  , pattern BGContinuedProcessingTaskRequestResourcesDefault
-  , pattern BGContinuedProcessingTaskRequestResourcesGPU
 
   ) where
 
@@ -45,7 +38,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.BackgroundTasks.Internal.Classes
-import ObjC.BackgroundTasks.Internal.Enums
 import ObjC.Foundation.Internal.Classes
 
 -- | @- init@
@@ -60,35 +52,41 @@ new  =
     cls' <- getRequiredClass "BGTaskScheduler"
     sendOwnedClassMessage cls' newSelector
 
--- | Register a launch handler for the task with the associated identifier that’s executed on the specified queue.
+-- | Register a handler to be called for tasks that launch the app.
 --
--- Every identifier in the <doc://com.apple.documentation/documentation/bundleresources/information_property_list/bgtaskschedulerpermittedidentifiers> requires a handler. Registration of all launch handlers must be complete before the end of <doc://com.apple.documentation/documentation/uikit/uiapplicationdelegate/1623053-applicationdidfinishlaunching>.
+-- @identifier@ — The identifier for the task that will be handled by the provided launch handler.
 --
--- You must register launch handlers before your application finishes launching (``BGContinuedProcessingTask`` registrations are exempt from this requirement). Attempting to register a handler after launch or multiple handlers for the same identifier is an error. Although you may submit task requests from some extensions, only the host app will be launched to handle background work.
+-- @queue@ — The queue on which the launch handler and the expiration handler for the task will be called. The queue should be serial to ensure consistent ordering. If you pass nil, handlers will be called on a background queue.
 --
--- - Parameters:    - identifier: The identifier for the task that will be handled by the provided launch handler.    - queue: A queue for executing the task. Pass @nil@ to use a default background queue.    - launchHandler: The system runs the block of code for the launch handler when it launches the app in the background. The block takes a single parameter, a ``BGTask`` object used for assigning an expiration handler and for setting a completion status. The block has no return value. Assign an expiration handler to the task's expirationHandler property and call setTaskCompletedWithSuccess: when the background work is complete. - Returns: Returns <doc://com.apple.documentation/documentation/objectivec/yes> if the launch handler was registered. Returns <doc://com.apple.documentation/documentation/objectivec/no> if the identifier isn't included in the <doc://com.apple.documentation/documentation/bundleresources/information_property_list/bgtaskschedulerpermittedidentifiers> @Info.plist@. - Important: Register each task identifier only once. The system kills the app on the second registration of the same task identifier.
+-- @launchHandler@ — The block that will be called when the app is launched for the specified task. The block has no return value and takes a single parameter, task, a BGTask object. Assign an expiration handler to the task's expirationHandler property and call setTaskCompletedWithSuccess: when the background work is complete.
+--
+-- You must register launch handlers before your application finishes launching. Attempting to register a handler after launch or multiple handlers for the same identifier is an error. Although you may submit task requests from some extensions, only the host app will be launched to handle background work.
+--
+-- Returns: YES if the handler was registered, or NO if it was not because the provided identifier was not present in the BGTaskSchedulerPermittedIdentifiers array in the app's Info.plist.
 --
 -- ObjC selector: @- registerForTaskWithIdentifier:usingQueue:launchHandler:@
 registerForTaskWithIdentifier_usingQueue_launchHandler :: (IsBGTaskScheduler bgTaskScheduler, IsNSString identifier, IsNSObject queue) => bgTaskScheduler -> identifier -> queue -> Ptr () -> IO Bool
 registerForTaskWithIdentifier_usingQueue_launchHandler bgTaskScheduler identifier queue launchHandler =
   sendMessage bgTaskScheduler registerForTaskWithIdentifier_usingQueue_launchHandlerSelector (toNSString identifier) (toNSObject queue) launchHandler
 
--- | Submit a previously registered background task for execution.
+-- | Submit a request to be launched in the background to perform work.
 --
--- Submitting a task request for an unexecuted task that’s already in the queue replaces the previous task request.
+-- @taskRequest@ — The task request object representing the parameters of the background task to be scheduled.
 --
--- There can be a total of 1 refresh task and 10 processing tasks scheduled at any time. Trying to schedule more tasks returns ``BGTaskSchedulerErrorCode/BGTaskSchedulerErrorCodeTooManyPendingTaskRequests``.
+-- @error@ — If an error occurs, upon return contains an error object that indicates why the request was rejected.
 --
--- - Parameters:   - taskRequest: The task request object representing the parameters of the background task to be scheduled.   - error: If an error occurs, upon return contains an error object that indicates why the request was rejected - Returns: @YES@ if the request was successfully submitted; @NO@ if there was an error
+-- Submitting a task request with the same identifier as an existing request will replace that request.
+--
+-- Returns: YES if the request was successfully submitted, NO if there was an error
 --
 -- ObjC selector: @- submitTaskRequest:error:@
 submitTaskRequest_error :: (IsBGTaskScheduler bgTaskScheduler, IsBGTaskRequest taskRequest, IsNSError error_) => bgTaskScheduler -> taskRequest -> error_ -> IO Bool
 submitTaskRequest_error bgTaskScheduler taskRequest error_ =
   sendMessage bgTaskScheduler submitTaskRequest_errorSelector (toBGTaskRequest taskRequest) (toNSError error_)
 
--- | Cancel a previously scheduled task request.
+-- | Cancel a previously submitted task request.
 --
--- - Parameters:   - identifier: The identifier of the previously submitted task request to cancel.
+-- @identifier@ — The identifier of the previously submitted task request to cancel.
 --
 -- ObjC selector: @- cancelTaskRequestWithIdentifier:@
 cancelTaskRequestWithIdentifier :: (IsBGTaskScheduler bgTaskScheduler, IsNSString identifier) => bgTaskScheduler -> identifier -> IO ()
@@ -102,23 +100,12 @@ cancelAllTaskRequests :: IsBGTaskScheduler bgTaskScheduler => bgTaskScheduler ->
 cancelAllTaskRequests bgTaskScheduler =
   sendMessage bgTaskScheduler cancelAllTaskRequestsSelector
 
--- | The shared background task scheduler instance.
---
--- ObjC selector: @+ sharedScheduler@
+-- | @+ sharedScheduler@
 sharedScheduler :: IO (Id BGTaskScheduler)
 sharedScheduler  =
   do
     cls' <- getRequiredClass "BGTaskScheduler"
     sendClassMessage cls' sharedSchedulerSelector
-
--- | A bitfield of the resources the device supports for ``BackgroundTasks/BGContinuedProcessingTaskRequest`` instances.
---
--- ObjC selector: @+ supportedResources@
-supportedResources :: IO BGContinuedProcessingTaskRequestResources
-supportedResources  =
-  do
-    cls' <- getRequiredClass "BGTaskScheduler"
-    sendClassMessage cls' supportedResourcesSelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -151,8 +138,4 @@ cancelAllTaskRequestsSelector = mkSelector "cancelAllTaskRequests"
 -- | @Selector@ for @sharedScheduler@
 sharedSchedulerSelector :: Selector '[] (Id BGTaskScheduler)
 sharedSchedulerSelector = mkSelector "sharedScheduler"
-
--- | @Selector@ for @supportedResources@
-supportedResourcesSelector :: Selector '[] BGContinuedProcessingTaskRequestResources
-supportedResourcesSelector = mkSelector "supportedResources"
 

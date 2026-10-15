@@ -53,7 +53,7 @@ exportBytesWithCompletion laPublicKey handler =
 --
 -- @algorithm@ — A @SecKeyAlgorithm@ suitable for encrypting with this key –e.g: @kSecKeyAlgorithmECIESEncryptionStandardVariableIVX963SHA256AESGCM@ .
 --
--- @handler@ — Completion handler with the cipher text or an error on failure.
+-- @handler@ — Completion handler with the ciphertext or an error on failure.
 --
 -- ObjC selector: @- encryptData:secKeyAlgorithm:completion:@
 encryptData_secKeyAlgorithm_completion :: (IsLAPublicKey laPublicKey, IsNSData data_) => laPublicKey -> data_ -> RawId -> Ptr () -> IO ()
@@ -79,7 +79,7 @@ canEncryptUsingSecKeyAlgorithm laPublicKey algorithm =
 --
 -- @algorithm@ — One of @SecKeyAlgorithm@ suitable for verifying signatures with this key –e.g: @kSecKeyAlgorithmECDSASignatureMessageX962SHA256@
 --
--- @handler@ — Completion handler with the signature of given data or an error on failure.
+-- @handler@ — Completion hadnler with the signature of given data or an error on failure.
 --
 -- ObjC selector: @- verifyData:signature:secKeyAlgorithm:completion:@
 verifyData_signature_secKeyAlgorithm_completion :: (IsLAPublicKey laPublicKey, IsNSData signedData, IsNSData signature) => laPublicKey -> signedData -> signature -> RawId -> Ptr () -> IO ()

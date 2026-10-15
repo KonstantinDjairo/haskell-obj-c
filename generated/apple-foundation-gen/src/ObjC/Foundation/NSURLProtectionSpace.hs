@@ -61,7 +61,7 @@ import ObjC.Foundation.Internal.Classes
 --
 -- @realm@ — A string indicating a protocol-specific subdivision    of a single host. For http and https, this maps to the realm    string in http authentication challenges. For many other protocols    it is unused.
 --
--- @authenticationMethod@ — The authentication method to use to access this protection space -    valid values include nil (default method), "digest" and \@"form".
+-- @authenticationMethod@ — The authentication method to use to access this protection space -    valid values include nil (default method), "digest" and "form".
 --
 -- Returns: The initialized object.
 --

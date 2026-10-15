@@ -17,11 +17,11 @@
 --
 -- ## Configuring a virtual machine to run macOS
 --
--- To configure a virtual machine running macOS:    - Set up a platform configuration of type VZMacPlatformConfiguration and set it on the @platform@ property.    - Set up a VZMacOSBootLoader on the @bootLoader@ property.    - Set the CPUCount and memorySize based on the guest's VZMacOSConfigurationRequirements.    - Set up the main storage device as first device on @storageDevices@. Additional storage devices can be set up after the main storage.    - Set up the @keyboards@, @pointingDevices@ and @graphicsDevices@ devices.    - Set up any additional device as needed.
+-- To configure a virtual machine running macOS:    - Set up a platform configuration of type VZMacPlatformConfiguration and set it on the “platform” property.    - Set up a VZMacOSBootLoader on the “bootLoader” property.    - Set the CPUCount and memorySize based on the guest's VZMacOSConfigurationRequirements.    - Set up the main storage device as first device on “storageDevices”. Additional storage devices can be set up after the main storage.    - Set up the “keyboards”, “pointingDevices” and “graphicsDevices” devices.    - Set up any additional device as needed.
 --
 -- ## Configuring a virtual machine to run Linux
 --
--- To configure a virtual machine running Linux:    - Set up a VZLinuxBootLoader on the @bootLoader@ property.    - Set the CPUCount and memorySize.    - Set up any additional device as needed.
+-- To configure a virtual machine running Linux:    - Set up a VZLinuxBootLoader on the “bootLoader” property.    - Set the CPUCount and memorySize.    - Set up any additional device as needed.
 --
 -- See: VZVirtualMachine
 --
@@ -30,7 +30,6 @@ module ObjC.Virtualization.VZVirtualMachineConfiguration
   ( VZVirtualMachineConfiguration
   , IsVZVirtualMachineConfiguration(..)
   , validateWithError
-  , validateSaveRestoreSupportWithError
   , bootLoader
   , setBootLoader
   , memorySize
@@ -39,12 +38,6 @@ module ObjC.Virtualization.VZVirtualMachineConfiguration
   , setCPUCount
   , platform
   , setPlatform
-  , audioDevices
-  , setAudioDevices
-  , consoleDevices
-  , setConsoleDevices
-  , directorySharingDevices
-  , setDirectorySharingDevices
   , entropyDevices
   , setEntropyDevices
   , memoryBalloonDevices
@@ -57,26 +50,13 @@ module ObjC.Virtualization.VZVirtualMachineConfiguration
   , setSocketDevices
   , storageDevices
   , setStorageDevices
-  , keyboards
-  , setKeyboards
-  , pointingDevices
-  , setPointingDevices
-  , graphicsDevices
-  , setGraphicsDevices
-  , usbControllers
-  , setUsbControllers
   , minimumAllowedMemorySize
   , maximumAllowedMemorySize
   , minimumAllowedCPUCount
   , maximumAllowedCPUCount
-  , audioDevicesSelector
   , bootLoaderSelector
-  , consoleDevicesSelector
   , cpuCountSelector
-  , directorySharingDevicesSelector
   , entropyDevicesSelector
-  , graphicsDevicesSelector
-  , keyboardsSelector
   , maximumAllowedCPUCountSelector
   , maximumAllowedMemorySizeSelector
   , memoryBalloonDevicesSelector
@@ -85,29 +65,19 @@ module ObjC.Virtualization.VZVirtualMachineConfiguration
   , minimumAllowedMemorySizeSelector
   , networkDevicesSelector
   , platformSelector
-  , pointingDevicesSelector
   , serialPortsSelector
-  , setAudioDevicesSelector
   , setBootLoaderSelector
   , setCPUCountSelector
-  , setConsoleDevicesSelector
-  , setDirectorySharingDevicesSelector
   , setEntropyDevicesSelector
-  , setGraphicsDevicesSelector
-  , setKeyboardsSelector
   , setMemoryBalloonDevicesSelector
   , setMemorySizeSelector
   , setNetworkDevicesSelector
   , setPlatformSelector
-  , setPointingDevicesSelector
   , setSerialPortsSelector
   , setSocketDevicesSelector
   , setStorageDevicesSelector
-  , setUsbControllersSelector
   , socketDevicesSelector
   , storageDevicesSelector
-  , usbControllersSelector
-  , validateSaveRestoreSupportWithErrorSelector
   , validateWithErrorSelector
 
 
@@ -134,19 +104,6 @@ import ObjC.Foundation.Internal.Classes
 validateWithError :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSError error_) => vzVirtualMachineConfiguration -> error_ -> IO Bool
 validateWithError vzVirtualMachineConfiguration error_ =
   sendMessage vzVirtualMachineConfiguration validateWithErrorSelector (toNSError error_)
-
--- | Validate the configuration is savable.
---
--- Verify that a virtual machine with this configuration is savable.    Not all configuration options can be safely saved and restored from file.    If this evaluates to NO, the caller should expect future calls to saveMachineStateToURL:completionHandler: to fail.
---
--- @error@ — If not nil, assigned with an error describing the unsupported configuration option.
---
--- Returns: YES if the configuration is savable.
---
--- ObjC selector: @- validateSaveRestoreSupportWithError:@
-validateSaveRestoreSupportWithError :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSError error_) => vzVirtualMachineConfiguration -> error_ -> IO Bool
-validateSaveRestoreSupportWithError vzVirtualMachineConfiguration error_ =
-  sendMessage vzVirtualMachineConfiguration validateSaveRestoreSupportWithErrorSelector (toNSError error_)
 
 -- | Boot loader used when the virtual machine starts.
 --
@@ -228,83 +185,21 @@ setCPUCount vzVirtualMachineConfiguration value =
 
 -- | The hardware platform to use.
 --
--- Can be an instance of a VZGenericPlatformConfiguration or VZMacPlatformConfiguration. Defaults to VZGenericPlatformConfiguration.    When restoring from saved state you must ensure your configuration matches that of the saved virtual machine.
---
--- See: VZGenericPlatformConfiguration
---
--- See: VZMacPlatformConfiguration
+-- Can be an instance of a VZGenericPlatformConfiguration or VZMacPlatformConfiguration. Defaults to VZGenericPlatformConfiguration.
 --
 -- ObjC selector: @- platform@
-platform :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id VZPlatformConfiguration)
+platform :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO RawId
 platform vzVirtualMachineConfiguration =
   sendMessage vzVirtualMachineConfiguration platformSelector
 
 -- | The hardware platform to use.
 --
--- Can be an instance of a VZGenericPlatformConfiguration or VZMacPlatformConfiguration. Defaults to VZGenericPlatformConfiguration.    When restoring from saved state you must ensure your configuration matches that of the saved virtual machine.
---
--- See: VZGenericPlatformConfiguration
---
--- See: VZMacPlatformConfiguration
+-- Can be an instance of a VZGenericPlatformConfiguration or VZMacPlatformConfiguration. Defaults to VZGenericPlatformConfiguration.
 --
 -- ObjC selector: @- setPlatform:@
-setPlatform :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsVZPlatformConfiguration value) => vzVirtualMachineConfiguration -> value -> IO ()
+setPlatform :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> RawId -> IO ()
 setPlatform vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setPlatformSelector (toVZPlatformConfiguration value)
-
--- | List of audio devices. Empty by default.
---
--- See: VZVirtioSoundDeviceConfiguration
---
--- ObjC selector: @- audioDevices@
-audioDevices :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id NSArray)
-audioDevices vzVirtualMachineConfiguration =
-  sendMessage vzVirtualMachineConfiguration audioDevicesSelector
-
--- | List of audio devices. Empty by default.
---
--- See: VZVirtioSoundDeviceConfiguration
---
--- ObjC selector: @- setAudioDevices:@
-setAudioDevices :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSArray value) => vzVirtualMachineConfiguration -> value -> IO ()
-setAudioDevices vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setAudioDevicesSelector (toNSArray value)
-
--- | List of console devices. Empty by default.
---
--- See: VZVirtioConsoleDeviceConfiguration
---
--- ObjC selector: @- consoleDevices@
-consoleDevices :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id NSArray)
-consoleDevices vzVirtualMachineConfiguration =
-  sendMessage vzVirtualMachineConfiguration consoleDevicesSelector
-
--- | List of console devices. Empty by default.
---
--- See: VZVirtioConsoleDeviceConfiguration
---
--- ObjC selector: @- setConsoleDevices:@
-setConsoleDevices :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSArray value) => vzVirtualMachineConfiguration -> value -> IO ()
-setConsoleDevices vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setConsoleDevicesSelector (toNSArray value)
-
--- | List of directory sharing devices. Empty by default.
---
--- See: VZVirtioFileSystemDeviceConfiguration
---
--- ObjC selector: @- directorySharingDevices@
-directorySharingDevices :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id NSArray)
-directorySharingDevices vzVirtualMachineConfiguration =
-  sendMessage vzVirtualMachineConfiguration directorySharingDevicesSelector
-
--- | List of directory sharing devices. Empty by default.
---
--- See: VZVirtioFileSystemDeviceConfiguration
---
--- ObjC selector: @- setDirectorySharingDevices:@
-setDirectorySharingDevices :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSArray value) => vzVirtualMachineConfiguration -> value -> IO ()
-setDirectorySharingDevices vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setDirectorySharingDevicesSelector (toNSArray value)
+  sendMessage vzVirtualMachineConfiguration setPlatformSelector value
 
 -- | List of entropy devices. Empty by default.
 --
@@ -398,10 +293,6 @@ setSocketDevices vzVirtualMachineConfiguration value =
 
 -- | List of disk devices. Empty by default.
 --
--- See: VZNVMExpressControllerDeviceConfiguration
---
--- See: VZUSBMassStorageDeviceConfiguration
---
 -- See: VZVirtioBlockDeviceConfiguration
 --
 -- ObjC selector: @- storageDevices@
@@ -411,10 +302,6 @@ storageDevices vzVirtualMachineConfiguration =
 
 -- | List of disk devices. Empty by default.
 --
--- See: VZNVMExpressControllerDeviceConfiguration
---
--- See: VZUSBMassStorageDeviceConfiguration
---
 -- See: VZVirtioBlockDeviceConfiguration
 --
 -- ObjC selector: @- setStorageDevices:@
@@ -422,91 +309,7 @@ setStorageDevices :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfigurat
 setStorageDevices vzVirtualMachineConfiguration value =
   sendMessage vzVirtualMachineConfiguration setStorageDevicesSelector (toNSArray value)
 
--- | List of keyboards. Empty by default.
---
--- See: VZUSBKeyboardConfiguration
---
--- See: VZMacKeyboardConfiguration
---
--- ObjC selector: @- keyboards@
-keyboards :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id NSArray)
-keyboards vzVirtualMachineConfiguration =
-  sendMessage vzVirtualMachineConfiguration keyboardsSelector
-
--- | List of keyboards. Empty by default.
---
--- See: VZUSBKeyboardConfiguration
---
--- See: VZMacKeyboardConfiguration
---
--- ObjC selector: @- setKeyboards:@
-setKeyboards :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSArray value) => vzVirtualMachineConfiguration -> value -> IO ()
-setKeyboards vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setKeyboardsSelector (toNSArray value)
-
--- | List of pointing devices. Empty by default.
---
--- See: VZUSBScreenCoordinatePointingDeviceConfiguration
---
--- See: VZMacTrackpadConfiguration
---
--- ObjC selector: @- pointingDevices@
-pointingDevices :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id NSArray)
-pointingDevices vzVirtualMachineConfiguration =
-  sendMessage vzVirtualMachineConfiguration pointingDevicesSelector
-
--- | List of pointing devices. Empty by default.
---
--- See: VZUSBScreenCoordinatePointingDeviceConfiguration
---
--- See: VZMacTrackpadConfiguration
---
--- ObjC selector: @- setPointingDevices:@
-setPointingDevices :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSArray value) => vzVirtualMachineConfiguration -> value -> IO ()
-setPointingDevices vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setPointingDevicesSelector (toNSArray value)
-
--- | List of graphics devices. Empty by default.
---
--- See: VZMacGraphicsDeviceConfiguration
---
--- ObjC selector: @- graphicsDevices@
-graphicsDevices :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id NSArray)
-graphicsDevices vzVirtualMachineConfiguration =
-  sendMessage vzVirtualMachineConfiguration graphicsDevicesSelector
-
--- | List of graphics devices. Empty by default.
---
--- See: VZMacGraphicsDeviceConfiguration
---
--- ObjC selector: @- setGraphicsDevices:@
-setGraphicsDevices :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSArray value) => vzVirtualMachineConfiguration -> value -> IO ()
-setGraphicsDevices vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setGraphicsDevicesSelector (toNSArray value)
-
--- | List of USB Controllers. Empty by default.
---
--- This list represents a set of USB controllers that the virtual machine will start with.    For each entry in this list, there will be a corresponding runtime object created in VZVirtualMachine.usbControllers property.
---
--- See: VZUSBControllerConfiguration
---
--- ObjC selector: @- usbControllers@
-usbControllers :: IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration => vzVirtualMachineConfiguration -> IO (Id NSArray)
-usbControllers vzVirtualMachineConfiguration =
-  sendMessage vzVirtualMachineConfiguration usbControllersSelector
-
--- | List of USB Controllers. Empty by default.
---
--- This list represents a set of USB controllers that the virtual machine will start with.    For each entry in this list, there will be a corresponding runtime object created in VZVirtualMachine.usbControllers property.
---
--- See: VZUSBControllerConfiguration
---
--- ObjC selector: @- setUsbControllers:@
-setUsbControllers :: (IsVZVirtualMachineConfiguration vzVirtualMachineConfiguration, IsNSArray value) => vzVirtualMachineConfiguration -> value -> IO ()
-setUsbControllers vzVirtualMachineConfiguration value =
-  sendMessage vzVirtualMachineConfiguration setUsbControllersSelector (toNSArray value)
-
--- | Minimum amount of memory required by virtual machines.
+-- | : Minimum amount of memory required by virtual machines.
 --
 -- See: VZVirtualMachineConfiguration.memorySize
 --
@@ -517,7 +320,7 @@ minimumAllowedMemorySize  =
     cls' <- getRequiredClass "VZVirtualMachineConfiguration"
     sendClassMessage cls' minimumAllowedMemorySizeSelector
 
--- | Maximum amount of memory allowed for a virtual machine.
+-- | : Maximum amount of memory allowed for a virtual machine.
 --
 -- See: VZVirtualMachineConfiguration.memorySize
 --
@@ -528,7 +331,7 @@ maximumAllowedMemorySize  =
     cls' <- getRequiredClass "VZVirtualMachineConfiguration"
     sendClassMessage cls' maximumAllowedMemorySizeSelector
 
--- | Minimum number of CPUs for a virtual machine.
+-- | : Minimum number of CPUs for a virtual machine.
 --
 -- See: VZVirtualMachineConfiguration.CPUCount
 --
@@ -539,7 +342,7 @@ minimumAllowedCPUCount  =
     cls' <- getRequiredClass "VZVirtualMachineConfiguration"
     sendClassMessage cls' minimumAllowedCPUCountSelector
 
--- | Maximum number of CPUs for a virtual machine.
+-- | : Maximum number of CPUs for a virtual machine.
 --
 -- See: VZVirtualMachineConfiguration.CPUCount
 --
@@ -557,10 +360,6 @@ maximumAllowedCPUCount  =
 -- | @Selector@ for @validateWithError:@
 validateWithErrorSelector :: Selector '[Id NSError] Bool
 validateWithErrorSelector = mkSelector "validateWithError:"
-
--- | @Selector@ for @validateSaveRestoreSupportWithError:@
-validateSaveRestoreSupportWithErrorSelector :: Selector '[Id NSError] Bool
-validateSaveRestoreSupportWithErrorSelector = mkSelector "validateSaveRestoreSupportWithError:"
 
 -- | @Selector@ for @bootLoader@
 bootLoaderSelector :: Selector '[] (Id VZBootLoader)
@@ -587,36 +386,12 @@ setCPUCountSelector :: Selector '[CULong] ()
 setCPUCountSelector = mkSelector "setCPUCount:"
 
 -- | @Selector@ for @platform@
-platformSelector :: Selector '[] (Id VZPlatformConfiguration)
+platformSelector :: Selector '[] RawId
 platformSelector = mkSelector "platform"
 
 -- | @Selector@ for @setPlatform:@
-setPlatformSelector :: Selector '[Id VZPlatformConfiguration] ()
+setPlatformSelector :: Selector '[RawId] ()
 setPlatformSelector = mkSelector "setPlatform:"
-
--- | @Selector@ for @audioDevices@
-audioDevicesSelector :: Selector '[] (Id NSArray)
-audioDevicesSelector = mkSelector "audioDevices"
-
--- | @Selector@ for @setAudioDevices:@
-setAudioDevicesSelector :: Selector '[Id NSArray] ()
-setAudioDevicesSelector = mkSelector "setAudioDevices:"
-
--- | @Selector@ for @consoleDevices@
-consoleDevicesSelector :: Selector '[] (Id NSArray)
-consoleDevicesSelector = mkSelector "consoleDevices"
-
--- | @Selector@ for @setConsoleDevices:@
-setConsoleDevicesSelector :: Selector '[Id NSArray] ()
-setConsoleDevicesSelector = mkSelector "setConsoleDevices:"
-
--- | @Selector@ for @directorySharingDevices@
-directorySharingDevicesSelector :: Selector '[] (Id NSArray)
-directorySharingDevicesSelector = mkSelector "directorySharingDevices"
-
--- | @Selector@ for @setDirectorySharingDevices:@
-setDirectorySharingDevicesSelector :: Selector '[Id NSArray] ()
-setDirectorySharingDevicesSelector = mkSelector "setDirectorySharingDevices:"
 
 -- | @Selector@ for @entropyDevices@
 entropyDevicesSelector :: Selector '[] (Id NSArray)
@@ -665,38 +440,6 @@ storageDevicesSelector = mkSelector "storageDevices"
 -- | @Selector@ for @setStorageDevices:@
 setStorageDevicesSelector :: Selector '[Id NSArray] ()
 setStorageDevicesSelector = mkSelector "setStorageDevices:"
-
--- | @Selector@ for @keyboards@
-keyboardsSelector :: Selector '[] (Id NSArray)
-keyboardsSelector = mkSelector "keyboards"
-
--- | @Selector@ for @setKeyboards:@
-setKeyboardsSelector :: Selector '[Id NSArray] ()
-setKeyboardsSelector = mkSelector "setKeyboards:"
-
--- | @Selector@ for @pointingDevices@
-pointingDevicesSelector :: Selector '[] (Id NSArray)
-pointingDevicesSelector = mkSelector "pointingDevices"
-
--- | @Selector@ for @setPointingDevices:@
-setPointingDevicesSelector :: Selector '[Id NSArray] ()
-setPointingDevicesSelector = mkSelector "setPointingDevices:"
-
--- | @Selector@ for @graphicsDevices@
-graphicsDevicesSelector :: Selector '[] (Id NSArray)
-graphicsDevicesSelector = mkSelector "graphicsDevices"
-
--- | @Selector@ for @setGraphicsDevices:@
-setGraphicsDevicesSelector :: Selector '[Id NSArray] ()
-setGraphicsDevicesSelector = mkSelector "setGraphicsDevices:"
-
--- | @Selector@ for @usbControllers@
-usbControllersSelector :: Selector '[] (Id NSArray)
-usbControllersSelector = mkSelector "usbControllers"
-
--- | @Selector@ for @setUsbControllers:@
-setUsbControllersSelector :: Selector '[Id NSArray] ()
-setUsbControllersSelector = mkSelector "setUsbControllers:"
 
 -- | @Selector@ for @minimumAllowedMemorySize@
 minimumAllowedMemorySizeSelector :: Selector '[] CULong

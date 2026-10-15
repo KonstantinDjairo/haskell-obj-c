@@ -130,54 +130,6 @@ instance ObjCReturn CMFallDetectionEventUserResolution where
   fromRetained x = pure (CMFallDetectionEventUserResolution x)
   fromOwned x = pure (CMFallDetectionEventUserResolution x)
 
--- | @CMHeadphoneActivityStatus@
-newtype CMHeadphoneActivityStatus = CMHeadphoneActivityStatus CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern CMHeadphoneActivityStatusDisconnected :: CMHeadphoneActivityStatus
-pattern CMHeadphoneActivityStatusDisconnected = CMHeadphoneActivityStatus 0
-
-pattern CMHeadphoneActivityStatusConnected :: CMHeadphoneActivityStatus
-pattern CMHeadphoneActivityStatusConnected = CMHeadphoneActivityStatus 1
-
-instance ObjCArgument CMHeadphoneActivityStatus where
-  withObjCArg (CMHeadphoneActivityStatus x) k = k (argCLong x)
-
-instance ObjCReturn CMHeadphoneActivityStatus where
-  type RawReturn CMHeadphoneActivityStatus = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CMHeadphoneActivityStatus x)
-  fromOwned x = pure (CMHeadphoneActivityStatus x)
-
--- | @CMHighFrequencyHeartRateDataConfidence@
-newtype CMHighFrequencyHeartRateDataConfidence = CMHighFrequencyHeartRateDataConfidence CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern CMHighFrequencyHeartRateDataConfidenceLow :: CMHighFrequencyHeartRateDataConfidence
-pattern CMHighFrequencyHeartRateDataConfidenceLow = CMHighFrequencyHeartRateDataConfidence 0
-
-pattern CMHighFrequencyHeartRateDataConfidenceMedium :: CMHighFrequencyHeartRateDataConfidence
-pattern CMHighFrequencyHeartRateDataConfidenceMedium = CMHighFrequencyHeartRateDataConfidence 1
-
-pattern CMHighFrequencyHeartRateDataConfidenceHigh :: CMHighFrequencyHeartRateDataConfidence
-pattern CMHighFrequencyHeartRateDataConfidenceHigh = CMHighFrequencyHeartRateDataConfidence 2
-
-pattern CMHighFrequencyHeartRateDataConfidenceHighest :: CMHighFrequencyHeartRateDataConfidence
-pattern CMHighFrequencyHeartRateDataConfidenceHighest = CMHighFrequencyHeartRateDataConfidence 3
-
-instance ObjCArgument CMHighFrequencyHeartRateDataConfidence where
-  withObjCArg (CMHighFrequencyHeartRateDataConfidence x) k = k (argCLong x)
-
-instance ObjCReturn CMHighFrequencyHeartRateDataConfidence where
-  type RawReturn CMHighFrequencyHeartRateDataConfidence = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CMHighFrequencyHeartRateDataConfidence x)
-  fromOwned x = pure (CMHighFrequencyHeartRateDataConfidence x)
-
 -- | @CMMagneticFieldCalibrationAccuracy@
 newtype CMMagneticFieldCalibrationAccuracy = CMMagneticFieldCalibrationAccuracy CInt
   deriving stock (Eq, Ord, Show)
@@ -228,30 +180,6 @@ instance ObjCReturn CMMotionActivityConfidence where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (CMMotionActivityConfidence x)
   fromOwned x = pure (CMMotionActivityConfidence x)
-
--- | @CMOdometerOriginDevice@
-newtype CMOdometerOriginDevice = CMOdometerOriginDevice CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern CMOdometerOriginDeviceUnknown :: CMOdometerOriginDevice
-pattern CMOdometerOriginDeviceUnknown = CMOdometerOriginDevice 0
-
-pattern CMOdometerOriginDeviceLocal :: CMOdometerOriginDevice
-pattern CMOdometerOriginDeviceLocal = CMOdometerOriginDevice 1
-
-pattern CMOdometerOriginDeviceRemote :: CMOdometerOriginDevice
-pattern CMOdometerOriginDeviceRemote = CMOdometerOriginDevice 2
-
-instance ObjCArgument CMOdometerOriginDevice where
-  withObjCArg (CMOdometerOriginDevice x) k = k (argCLong x)
-
-instance ObjCReturn CMOdometerOriginDevice where
-  type RawReturn CMOdometerOriginDevice = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (CMOdometerOriginDevice x)
-  fromOwned x = pure (CMOdometerOriginDevice x)
 
 -- | @CMPedometerEventType@
 newtype CMPedometerEventType = CMPedometerEventType CLong

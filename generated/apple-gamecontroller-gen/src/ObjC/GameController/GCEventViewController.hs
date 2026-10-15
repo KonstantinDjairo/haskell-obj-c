@@ -3,9 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A view controller subclass that allows fine grained control of the user interface system's handling of game controller events. Set an instance of this class as your root view controller if you intend to use GCController APIs for handling game controllers.
---
--- Generated bindings for @GCEventViewController@.
+-- | Generated bindings for @GCEventViewController@.
 module ObjC.GameController.GCEventViewController
   ( GCEventViewController
   , IsGCEventViewController(..)
@@ -37,6 +35,8 @@ import ObjC.Foundation.Internal.Classes
 --
 -- Note that unlike UIView.userInteractionEnabled this only controls the flow of game controller events.
 --
+-- See: GCController
+--
 -- See: UIView.userInteractionEnabled
 --
 -- ObjC selector: @- controllerUserInteractionEnabled@
@@ -51,6 +51,8 @@ controllerUserInteractionEnabled gcEventViewController =
 -- If set to YES the controller input will start flowing through UIEvent and the UIResponder chain will be used. This gives you fine grained control over the event handling of the controlled view and its subviews. You should stop using GCController instances and the corresponding profiles if you no longer need to read input from them.
 --
 -- Note that unlike UIView.userInteractionEnabled this only controls the flow of game controller events.
+--
+-- See: GCController
 --
 -- See: UIView.userInteractionEnabled
 --

@@ -268,7 +268,7 @@ name icDevice =
 
 -- | productKind
 --
--- ￼Type of the device. Possible values are: "iPhone", \@"iPod", \@"iPad", \@"Camera", \@"Scanner"
+-- ￼Type of the device. Possible values are: "iPhone", "iPod", "iPad", "Camera", "Scanner"
 --
 -- ObjC selector: @- productKind@
 productKind :: IsICDevice icDevice => icDevice -> IO (Id NSString)
@@ -400,8 +400,6 @@ usbVendorID icDevice =
 --
 -- ￼Filesystem path of an application that is to be automatically launched when this device is added.
 --
--- This property is unavailable for devices of ICTransportTypeProximity.
---
 -- ObjC selector: @- autolaunchApplicationPath@
 autolaunchApplicationPath :: IsICDevice icDevice => icDevice -> IO RawId
 autolaunchApplicationPath icDevice =
@@ -410,8 +408,6 @@ autolaunchApplicationPath icDevice =
 -- | autolaunchApplicationPath
 --
 -- ￼Filesystem path of an application that is to be automatically launched when this device is added.
---
--- This property is unavailable for devices of ICTransportTypeProximity.
 --
 -- ObjC selector: @- setAutolaunchApplicationPath:@
 setAutolaunchApplicationPath :: IsICDevice icDevice => icDevice -> RawId -> IO ()

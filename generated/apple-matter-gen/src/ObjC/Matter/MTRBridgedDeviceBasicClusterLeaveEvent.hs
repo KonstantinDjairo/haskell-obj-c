@@ -7,6 +7,10 @@
 module ObjC.Matter.MTRBridgedDeviceBasicClusterLeaveEvent
   ( MTRBridgedDeviceBasicClusterLeaveEvent
   , IsMTRBridgedDeviceBasicClusterLeaveEvent(..)
+  , init_
+  , copyWithZone
+  , copyWithZoneSelector
+  , initSelector
 
 
   ) where
@@ -22,7 +26,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
+-- | @- init@
+init_ :: IsMTRBridgedDeviceBasicClusterLeaveEvent mtrBridgedDeviceBasicClusterLeaveEvent => mtrBridgedDeviceBasicClusterLeaveEvent -> IO (Id MTRBridgedDeviceBasicClusterLeaveEvent)
+init_ mtrBridgedDeviceBasicClusterLeaveEvent =
+  sendOwnedMessage mtrBridgedDeviceBasicClusterLeaveEvent initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRBridgedDeviceBasicClusterLeaveEvent mtrBridgedDeviceBasicClusterLeaveEvent => mtrBridgedDeviceBasicClusterLeaveEvent -> Ptr () -> IO RawId
+copyWithZone mtrBridgedDeviceBasicClusterLeaveEvent zone =
+  sendOwnedMessage mtrBridgedDeviceBasicClusterLeaveEvent copyWithZoneSelector zone
+
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRBridgedDeviceBasicClusterLeaveEvent)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 

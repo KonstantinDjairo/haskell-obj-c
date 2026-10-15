@@ -9,11 +9,11 @@
 module ObjC.Matter.MTRClusterGroupKeyManagement
   ( MTRClusterGroupKeyManagement
   , IsMTRClusterGroupKeyManagement(..)
-  , keySetWriteWithParams_expectedValues_expectedValueInterval_completion
-  , keySetReadWithParams_expectedValues_expectedValueInterval_completion
-  , keySetRemoveWithParams_expectedValues_expectedValueInterval_completion
-  , keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completion
-  , keySetReadAllIndicesWithExpectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandler
+  , keySetReadWithParams_expectedValues_expectedValueInterval_completionHandler
+  , keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandler
+  , keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeGroupKeyMapWithParams
   , writeAttributeGroupKeyMapWithValue_expectedValueInterval
   , writeAttributeGroupKeyMapWithValue_expectedValueInterval_params
@@ -27,24 +27,12 @@ module ObjC.Matter.MTRClusterGroupKeyManagement
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandler
-  , keySetReadWithParams_expectedValues_expectedValueInterval_completionHandler
-  , keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandler
-  , keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
-  , keySetReadAllIndicesWithExpectedValues_expectedValueInterval_completionSelector
   , keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionSelector
   , keySetReadWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , keySetReadWithParams_expectedValues_expectedValueInterval_completionSelector
   , keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , keySetRemoveWithParams_expectedValues_expectedValueInterval_completionSelector
   , keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , keySetWriteWithParams_expectedValues_expectedValueInterval_completionSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
@@ -72,30 +60,30 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- keySetWriteWithParams:expectedValues:expectedValueInterval:completion:@
-keySetWriteWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetWriteParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetWriteWithParams_expectedValues_expectedValueInterval_completion mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterGroupKeyManagement keySetWriteWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRGroupKeyManagementClusterKeySetWriteParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRDevice device, IsNSObject queue) => mtrClusterGroupKeyManagement -> device -> CUShort -> queue -> IO (Id MTRClusterGroupKeyManagement)
+initWithDevice_endpoint_queue mtrClusterGroupKeyManagement device endpoint queue =
+  sendOwnedMessage mtrClusterGroupKeyManagement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- keySetReadWithParams:expectedValues:expectedValueInterval:completion:@
-keySetReadWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetReadParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetReadWithParams_expectedValues_expectedValueInterval_completion mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterGroupKeyManagement keySetReadWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRGroupKeyManagementClusterKeySetReadParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- keySetWriteWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetWriteParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterGroupKeyManagement keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetWriteParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- keySetRemoveWithParams:expectedValues:expectedValueInterval:completion:@
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetRemoveParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completion mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterGroupKeyManagement keySetRemoveWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRGroupKeyManagementClusterKeySetRemoveParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- keySetReadWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetReadWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetReadParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+keySetReadWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterGroupKeyManagement keySetReadWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetReadParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completion:@
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetReadAllIndicesParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completion mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterGroupKeyManagement keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRGroupKeyManagementClusterKeySetReadAllIndicesParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- keySetRemoveWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetRemoveParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterGroupKeyManagement keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetRemoveParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- keySetReadAllIndicesWithExpectedValues:expectedValueInterval:completion:@
-keySetReadAllIndicesWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetReadAllIndicesWithExpectedValues_expectedValueInterval_completion mtrClusterGroupKeyManagement expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterGroupKeyManagement keySetReadAllIndicesWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetReadAllIndicesParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterGroupKeyManagement keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetReadAllIndicesParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeGroupKeyMapWithParams:@
 readAttributeGroupKeyMapWithParams :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRReadParams params) => mtrClusterGroupKeyManagement -> params -> IO (Id NSDictionary)
@@ -164,61 +152,29 @@ new  =
     cls' <- getRequiredClass "MTRClusterGroupKeyManagement"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRDevice device, IsNSObject queue) => mtrClusterGroupKeyManagement -> device -> CUShort -> queue -> IO (Id MTRClusterGroupKeyManagement)
-initWithDevice_endpoint_queue mtrClusterGroupKeyManagement device endpoint queue =
-  sendOwnedMessage mtrClusterGroupKeyManagement initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- keySetWriteWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetWriteParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterGroupKeyManagement keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetWriteParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- keySetReadWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetReadWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetReadParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetReadWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterGroupKeyManagement keySetReadWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetReadParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- keySetRemoveWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetRemoveParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterGroupKeyManagement keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetRemoveParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRGroupKeyManagementClusterKeySetReadAllIndicesParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterGroupKeyManagement -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterGroupKeyManagement params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterGroupKeyManagement keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRGroupKeyManagementClusterKeySetReadAllIndicesParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterGroupKeyManagement mtrClusterGroupKeyManagement, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterGroupKeyManagement -> device -> endpointID -> queue -> IO (Id MTRClusterGroupKeyManagement)
-initWithDevice_endpointID_queue mtrClusterGroupKeyManagement device endpointID queue =
-  sendOwnedMessage mtrClusterGroupKeyManagement initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @keySetWriteWithParams:expectedValues:expectedValueInterval:completion:@
-keySetWriteWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetWriteParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetWriteWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "keySetWriteWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterGroupKeyManagement)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @keySetReadWithParams:expectedValues:expectedValueInterval:completion:@
-keySetReadWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetReadParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetReadWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "keySetReadWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @keySetWriteWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetWriteParams, Id NSArray, Id NSNumber, Ptr ()] ()
+keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetWriteWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @keySetRemoveWithParams:expectedValues:expectedValueInterval:completion:@
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetRemoveParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "keySetRemoveWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @keySetReadWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetReadWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetReadParams, Id NSArray, Id NSNumber, Ptr ()] ()
+keySetReadWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetReadWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completion:@
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetReadAllIndicesParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @keySetRemoveWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetRemoveParams, Id NSArray, Id NSNumber, Ptr ()] ()
+keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetRemoveWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @keySetReadAllIndicesWithExpectedValues:expectedValueInterval:completion:@
-keySetReadAllIndicesWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-keySetReadAllIndicesWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "keySetReadAllIndicesWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completionHandler:@
+keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetReadAllIndicesParams, Id NSArray, Id NSNumber, Ptr ()] ()
+keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeGroupKeyMapWithParams:@
 readAttributeGroupKeyMapWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -271,28 +227,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterGroupKeyManagement)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterGroupKeyManagement)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @keySetWriteWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetWriteParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetWriteWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetWriteWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @keySetReadWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetReadWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetReadParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetReadWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetReadWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @keySetRemoveWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetRemoveParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetRemoveWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetRemoveWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completionHandler:@
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRGroupKeyManagementClusterKeySetReadAllIndicesParams, Id NSArray, Id NSNumber, Ptr ()] ()
-keySetReadAllIndicesWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "keySetReadAllIndicesWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterGroupKeyManagement)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

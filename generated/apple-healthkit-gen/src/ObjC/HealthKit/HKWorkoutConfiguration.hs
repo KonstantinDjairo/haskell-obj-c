@@ -113,7 +113,6 @@ module ObjC.HealthKit.HKWorkoutConfiguration
   , pattern HKWorkoutActivityTypeCooldown
   , pattern HKWorkoutActivityTypeSwimBikeRun
   , pattern HKWorkoutActivityTypeTransition
-  , pattern HKWorkoutActivityTypeUnderwaterDiving
   , pattern HKWorkoutActivityTypeOther
   , HKWorkoutSessionLocationType(HKWorkoutSessionLocationType)
   , pattern HKWorkoutSessionLocationTypeUnknown

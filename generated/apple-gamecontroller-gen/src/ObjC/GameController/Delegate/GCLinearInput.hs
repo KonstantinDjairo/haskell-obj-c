@@ -43,8 +43,6 @@ data GCLinearInputOverrides = GCLinearInputOverrides
   , _canWrap :: !(Maybe (IO Bool))
   , _lastValueTimestamp :: !(Maybe (IO Double))
   , _lastValueLatency :: !(Maybe (IO Double))
-  , _physicalExtents :: !(Maybe (IO RawId))
-  , _sources :: !(Maybe (IO RawId))
   }
 
 -- | Default overrides with all methods unimplemented.
@@ -57,8 +55,6 @@ defaultGCLinearInputOverrides = GCLinearInputOverrides
   , _canWrap = Nothing
   , _lastValueTimestamp = Nothing
   , _lastValueLatency = Nothing
-  , _physicalExtents = Nothing
-  , _sources = Nothing
   }
 
 foreign import ccall "wrapper"
@@ -107,8 +103,6 @@ gcLinearInputDelegateClass = unsafePerformIO $ do
       sel_canWrap = unSelector (mkSelector "canWrap")
       sel_lastValueTimestamp = unSelector (mkSelector "lastValueTimestamp")
       sel_lastValueLatency = unSelector (mkSelector "lastValueLatency")
-      sel_physicalExtents = unSelector (mkSelector "physicalExtents")
-      sel_sources = unSelector (mkSelector "sources")
   -- valueDidChangeHandler
   stub_0 <- wrap_at $ \self _cmd -> do
     sp <- readHsData self
@@ -184,28 +178,6 @@ gcLinearInputDelegateClass = unsafePerformIO $ do
         pure (realToFrac r)
   addObjCMethod cls "lastValueLatency" "d@:" stub_6
 
-  -- physicalExtents
-  stub_7 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO GCLinearInputOverrides
-    case _physicalExtents rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "physicalExtents" "@@:" stub_7
-
-  -- sources
-  stub_8 <- wrap_at $ \self _cmd -> do
-    sp <- readHsData self
-    rec_ <- deRefStablePtr sp :: IO GCLinearInputOverrides
-    case _sources rec_ of
-      Nothing -> pure nullPtr
-      Just f -> do
-        r <- f 
-        pure (castPtr (unRawId r) :: Ptr ObjCObject)
-  addObjCMethod cls "sources" "@@:" stub_8
-
   -- respondsToSelector: override
   rtsStub <- wrap_respondsToSel $ \self _cmd queriedSel -> do
     sp <- readHsData self
@@ -217,8 +189,6 @@ gcLinearInputDelegateClass = unsafePerformIO $ do
     else if queriedSel == sel_canWrap then pure (maybe 0 (const 1) (_canWrap rec_))
     else if queriedSel == sel_lastValueTimestamp then pure (maybe 0 (const 1) (_lastValueTimestamp rec_))
     else if queriedSel == sel_lastValueLatency then pure (maybe 0 (const 1) (_lastValueLatency rec_))
-    else if queriedSel == sel_physicalExtents then pure (maybe 0 (const 1) (_physicalExtents rec_))
-    else if queriedSel == sel_sources then pure (maybe 0 (const 1) (_sources rec_))
     else do
       let super_ = ObjCSuper (RawId self) superCls
       sendSuperMsg super_ (mkSelector "respondsToSelector:") retCULong

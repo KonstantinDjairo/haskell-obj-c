@@ -13,13 +13,17 @@
 module ObjC.Virtualization.VZVirtioGraphicsScanoutConfiguration
   ( VZVirtioGraphicsScanoutConfiguration
   , IsVZVirtioGraphicsScanoutConfiguration(..)
+  , new
+  , init_
   , initWithWidthInPixels_heightInPixels
   , widthInPixels
   , setWidthInPixels
   , heightInPixels
   , setHeightInPixels
   , heightInPixelsSelector
+  , initSelector
   , initWithWidthInPixels_heightInPixelsSelector
+  , newSelector
   , setHeightInPixelsSelector
   , setWidthInPixelsSelector
   , widthInPixelsSelector
@@ -37,6 +41,18 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Virtualization.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @+ new@
+new :: IO (Id VZVirtioGraphicsScanoutConfiguration)
+new  =
+  do
+    cls' <- getRequiredClass "VZVirtioGraphicsScanoutConfiguration"
+    sendOwnedClassMessage cls' newSelector
+
+-- | @- init@
+init_ :: IsVZVirtioGraphicsScanoutConfiguration vzVirtioGraphicsScanoutConfiguration => vzVirtioGraphicsScanoutConfiguration -> IO (Id VZVirtioGraphicsScanoutConfiguration)
+init_ vzVirtioGraphicsScanoutConfiguration =
+  sendOwnedMessage vzVirtioGraphicsScanoutConfiguration initSelector
 
 -- | Create a scanout configuration with the specified pixel dimensions.
 --
@@ -80,6 +96,14 @@ setHeightInPixels vzVirtioGraphicsScanoutConfiguration value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @new@
+newSelector :: Selector '[] (Id VZVirtioGraphicsScanoutConfiguration)
+newSelector = mkSelector "new"
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id VZVirtioGraphicsScanoutConfiguration)
+initSelector = mkSelector "init"
 
 -- | @Selector@ for @initWithWidthInPixels:heightInPixels:@
 initWithWidthInPixels_heightInPixelsSelector :: Selector '[CLong, CLong] (Id VZVirtioGraphicsScanoutConfiguration)

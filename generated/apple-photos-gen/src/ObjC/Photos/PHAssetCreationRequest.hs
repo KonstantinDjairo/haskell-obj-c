@@ -31,7 +31,6 @@ module ObjC.Photos.PHAssetCreationRequest
   , pattern PHAssetResourceTypeFullSizePairedVideo
   , pattern PHAssetResourceTypeAdjustmentBasePairedVideo
   , pattern PHAssetResourceTypeAdjustmentBaseVideo
-  , pattern PHAssetResourceTypePhotoProxy
 
   ) where
 

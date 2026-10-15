@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -38,16 +38,6 @@ library
       ObjC.AuthenticationServices.ASAuthorizationProviderExtensionKerberosMapping
       ObjC.AuthenticationServices.ASAuthorizationProviderExtensionLoginConfiguration
       ObjC.AuthenticationServices.ASAuthorizationProviderExtensionLoginManager
-      ObjC.AuthenticationServices.ASAuthorizationProviderExtensionUserLoginConfiguration
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialLargeBlobAssertionInput
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialLargeBlobAssertionOutput
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialLargeBlobRegistrationInput
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialLargeBlobRegistrationOutput
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialPRFAssertionInput
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialPRFAssertionInputValues
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialPRFAssertionOutput
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialPRFRegistrationInput
-      ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialPRFRegistrationOutput
       ObjC.AuthenticationServices.ASAuthorizationPublicKeyCredentialParameters
       ObjC.AuthenticationServices.ASAuthorizationRequest
       ObjC.AuthenticationServices.ASAuthorizationSecurityKeyPublicKeyCredentialAssertion
@@ -59,35 +49,14 @@ library
       ObjC.AuthenticationServices.ASAuthorizationSingleSignOnCredential
       ObjC.AuthenticationServices.ASAuthorizationSingleSignOnProvider
       ObjC.AuthenticationServices.ASAuthorizationSingleSignOnRequest
-      ObjC.AuthenticationServices.ASAuthorizationWebBrowserPlatformPublicKeyCredential
-      ObjC.AuthenticationServices.ASAuthorizationWebBrowserPublicKeyCredentialManager
       ObjC.AuthenticationServices.ASCredentialIdentityStore
       ObjC.AuthenticationServices.ASCredentialIdentityStoreState
       ObjC.AuthenticationServices.ASCredentialProviderExtensionContext
       ObjC.AuthenticationServices.ASCredentialProviderViewController
       ObjC.AuthenticationServices.ASCredentialServiceIdentifier
-      ObjC.AuthenticationServices.ASGeneratePasswordsRequest
-      ObjC.AuthenticationServices.ASGeneratedPassword
-      ObjC.AuthenticationServices.ASOneTimeCodeCredential
-      ObjC.AuthenticationServices.ASOneTimeCodeCredentialIdentity
-      ObjC.AuthenticationServices.ASOneTimeCodeCredentialRequest
-      ObjC.AuthenticationServices.ASPasskeyAssertionCredential
-      ObjC.AuthenticationServices.ASPasskeyAssertionCredentialExtensionInput
-      ObjC.AuthenticationServices.ASPasskeyAssertionCredentialExtensionOutput
-      ObjC.AuthenticationServices.ASPasskeyCredentialIdentity
-      ObjC.AuthenticationServices.ASPasskeyCredentialRequest
-      ObjC.AuthenticationServices.ASPasskeyCredentialRequestParameters
-      ObjC.AuthenticationServices.ASPasskeyRegistrationCredential
-      ObjC.AuthenticationServices.ASPasskeyRegistrationCredentialExtensionInput
-      ObjC.AuthenticationServices.ASPasskeyRegistrationCredentialExtensionOutput
       ObjC.AuthenticationServices.ASPasswordCredential
       ObjC.AuthenticationServices.ASPasswordCredentialIdentity
-      ObjC.AuthenticationServices.ASPasswordCredentialRequest
-      ObjC.AuthenticationServices.ASPublicKeyCredentialClientData
-      ObjC.AuthenticationServices.ASSavePasswordRequest
-      ObjC.AuthenticationServices.ASSettingsHelper
       ObjC.AuthenticationServices.ASWebAuthenticationSession
-      ObjC.AuthenticationServices.ASWebAuthenticationSessionCallback
       ObjC.AuthenticationServices.ASWebAuthenticationSessionRequest
       ObjC.AuthenticationServices.ASWebAuthenticationSessionWebBrowserSessionManager
       ObjC.AuthenticationServices.Delegate.ASAccountAuthenticationModificationControllerDelegate
@@ -100,14 +69,6 @@ library
       ObjC.AuthenticationServices.Delegate.ASAuthorizationPublicKeyCredentialAssertionRequest
       ObjC.AuthenticationServices.Delegate.ASAuthorizationPublicKeyCredentialRegistration
       ObjC.AuthenticationServices.Delegate.ASAuthorizationPublicKeyCredentialRegistrationRequest
-      ObjC.AuthenticationServices.Delegate.ASAuthorizationWebBrowserExternallyAuthenticatableRequest
-      ObjC.AuthenticationServices.Delegate.ASAuthorizationWebBrowserPlatformPublicKeyCredentialAssertionRequest
-      ObjC.AuthenticationServices.Delegate.ASAuthorizationWebBrowserPlatformPublicKeyCredentialProvider
-      ObjC.AuthenticationServices.Delegate.ASAuthorizationWebBrowserPlatformPublicKeyCredentialRegistrationRequest
-      ObjC.AuthenticationServices.Delegate.ASAuthorizationWebBrowserSecurityKeyPublicKeyCredentialAssertionRequest
-      ObjC.AuthenticationServices.Delegate.ASAuthorizationWebBrowserSecurityKeyPublicKeyCredentialProvider
-      ObjC.AuthenticationServices.Delegate.ASAuthorizationWebBrowserSecurityKeyPublicKeyCredentialRegistrationRequest
-      ObjC.AuthenticationServices.Delegate.ASCredentialRequest
       ObjC.AuthenticationServices.Delegate.ASPublicKeyCredential
       ObjC.AuthenticationServices.Delegate.ASWebAuthenticationPresentationContextProviding
       ObjC.AuthenticationServices.Delegate.ASWebAuthenticationSessionRequestDelegate
@@ -121,7 +82,7 @@ library
       Paths_apple_authenticationservices_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-appkit-gen
     , apple-foundation-gen

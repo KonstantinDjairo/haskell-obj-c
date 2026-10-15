@@ -14,30 +14,6 @@ import Foreign.Storable (Storable)
 import Foreign.LibFFI
 import ObjC.Runtime.Message (ObjCArgument(..), ObjCReturn(..), MsgSendVariant(..))
 
--- | @BLAS_THREADING@
-newtype BLAS_THREADING = BLAS_THREADING CUInt
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern BLAS_THREADING_MULTI_THREADED :: BLAS_THREADING
-pattern BLAS_THREADING_MULTI_THREADED = BLAS_THREADING 0
-
-pattern BLAS_THREADING_SINGLE_THREADED :: BLAS_THREADING
-pattern BLAS_THREADING_SINGLE_THREADED = BLAS_THREADING 1
-
-pattern BLAS_THREADING_MAX_OPTIONS :: BLAS_THREADING
-pattern BLAS_THREADING_MAX_OPTIONS = BLAS_THREADING 2
-
-instance ObjCArgument BLAS_THREADING where
-  withObjCArg (BLAS_THREADING x) k = k (argCUInt x)
-
-instance ObjCReturn BLAS_THREADING where
-  type RawReturn BLAS_THREADING = CUInt
-  objcRetType = retCUInt
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (BLAS_THREADING x)
-  fromOwned x = pure (BLAS_THREADING x)
-
 -- | @CBLAS_DIAG@
 newtype CBLAS_DIAG = CBLAS_DIAG CInt
   deriving stock (Eq, Ord, Show)

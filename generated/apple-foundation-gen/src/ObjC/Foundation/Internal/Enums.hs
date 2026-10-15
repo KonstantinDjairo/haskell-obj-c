@@ -568,20 +568,11 @@ pattern NSCalendarUnitYearForWeekOfYear = NSCalendarUnit 16384
 pattern NSCalendarUnitNanosecond :: NSCalendarUnit
 pattern NSCalendarUnitNanosecond = NSCalendarUnit 32768
 
-pattern NSCalendarUnitDayOfYear :: NSCalendarUnit
-pattern NSCalendarUnitDayOfYear = NSCalendarUnit 65536
-
 pattern NSCalendarUnitCalendar :: NSCalendarUnit
 pattern NSCalendarUnitCalendar = NSCalendarUnit 1048576
 
 pattern NSCalendarUnitTimeZone :: NSCalendarUnit
 pattern NSCalendarUnitTimeZone = NSCalendarUnit 2097152
-
-pattern NSCalendarUnitIsLeapMonth :: NSCalendarUnit
-pattern NSCalendarUnitIsLeapMonth = NSCalendarUnit 1073741824
-
-pattern NSCalendarUnitIsRepeatedDay :: NSCalendarUnit
-pattern NSCalendarUnitIsRepeatedDay = NSCalendarUnit 2147483648
 
 pattern NSEraCalendarUnit :: NSCalendarUnit
 pattern NSEraCalendarUnit = NSCalendarUnit 2
@@ -945,9 +936,6 @@ pattern NSDataWritingFileProtectionCompleteUnlessOpen = NSDataWritingOptions 805
 
 pattern NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication :: NSDataWritingOptions
 pattern NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication = NSDataWritingOptions 1073741824
-
-pattern NSDataWritingFileProtectionCompleteWhenUserInactive :: NSDataWritingOptions
-pattern NSDataWritingFileProtectionCompleteWhenUserInactive = NSDataWritingOptions 1342177280
 
 pattern NSDataWritingFileProtectionMask :: NSDataWritingOptions
 pattern NSDataWritingFileProtectionMask = NSDataWritingOptions 4026531840
@@ -1413,63 +1401,6 @@ instance ObjCReturn NSFileManagerItemReplacementOptions where
   fromRetained x = pure (NSFileManagerItemReplacementOptions x)
   fromOwned x = pure (NSFileManagerItemReplacementOptions x)
 
--- | The behaviors the file manager can apply to resolve conflicts when resuming a sync.
---
--- You use this type when calling ``FileManager/resumeSyncForUbiquitousItem(at:with:completionHandler:)`` to resume synchronizing. In most situations, the ``NSFileManagerResumeSyncBehavior/preserveLocalChanges`` behavior is the best choice to avoid risk of data loss.
--- | @NSFileManagerResumeSyncBehavior@
-newtype NSFileManagerResumeSyncBehavior = NSFileManagerResumeSyncBehavior CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSFileManagerResumeSyncBehaviorPreserveLocalChanges :: NSFileManagerResumeSyncBehavior
-pattern NSFileManagerResumeSyncBehaviorPreserveLocalChanges = NSFileManagerResumeSyncBehavior 0
-
-pattern NSFileManagerResumeSyncBehaviorAfterUploadWithFailOnConflict :: NSFileManagerResumeSyncBehavior
-pattern NSFileManagerResumeSyncBehaviorAfterUploadWithFailOnConflict = NSFileManagerResumeSyncBehavior 1
-
-pattern NSFileManagerResumeSyncBehaviorDropLocalChanges :: NSFileManagerResumeSyncBehavior
-pattern NSFileManagerResumeSyncBehaviorDropLocalChanges = NSFileManagerResumeSyncBehavior 2
-
-instance ObjCArgument NSFileManagerResumeSyncBehavior where
-  withObjCArg (NSFileManagerResumeSyncBehavior x) k = k (argCLong x)
-
-instance ObjCReturn NSFileManagerResumeSyncBehavior where
-  type RawReturn NSFileManagerResumeSyncBehavior = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSFileManagerResumeSyncBehavior x)
-  fromOwned x = pure (NSFileManagerResumeSyncBehavior x)
-
--- | An option set of the sync controls available for an item.
---
--- Get an instance of this type by calling ``URL/resourceValues(forKeys:)`` on a ``URL`` instance (Swift) or ``NSURL/getResourceValue:forKey:error:`` on an ``NSURL`` (Swift or Objective-C) and passing in the key ``NSURLUbiquitousItemSupportedSyncControlsKey``.
--- | @NSFileManagerSupportedSyncControls@ (bitmask)
-newtype NSFileManagerSupportedSyncControls = NSFileManagerSupportedSyncControls CULong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable, Bits, FiniteBits)
-
-instance Semigroup NSFileManagerSupportedSyncControls where
-  (<>) = (.|.)
-
-instance Monoid NSFileManagerSupportedSyncControls where
-  mempty = NSFileManagerSupportedSyncControls 0
-
-pattern NSFileManagerSupportedSyncControlsPauseSync :: NSFileManagerSupportedSyncControls
-pattern NSFileManagerSupportedSyncControlsPauseSync = NSFileManagerSupportedSyncControls 1
-
-pattern NSFileManagerSupportedSyncControlsFailUploadOnConflict :: NSFileManagerSupportedSyncControls
-pattern NSFileManagerSupportedSyncControlsFailUploadOnConflict = NSFileManagerSupportedSyncControls 2
-
-instance ObjCArgument NSFileManagerSupportedSyncControls where
-  withObjCArg (NSFileManagerSupportedSyncControls x) k = k (argCULong x)
-
-instance ObjCReturn NSFileManagerSupportedSyncControls where
-  type RawReturn NSFileManagerSupportedSyncControls = CULong
-  objcRetType = retCULong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSFileManagerSupportedSyncControls x)
-  fromOwned x = pure (NSFileManagerSupportedSyncControls x)
-
 -- | @NSFileManagerUnmountOptions@ (bitmask)
 newtype NSFileManagerUnmountOptions = NSFileManagerUnmountOptions CULong
   deriving stock (Eq, Ord, Show)
@@ -1496,28 +1427,6 @@ instance ObjCReturn NSFileManagerUnmountOptions where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSFileManagerUnmountOptions x)
   fromOwned x = pure (NSFileManagerUnmountOptions x)
-
--- | The policies the file manager can apply to resolve conflicts when uploading a local version of a file.
--- | @NSFileManagerUploadLocalVersionConflictPolicy@
-newtype NSFileManagerUploadLocalVersionConflictPolicy = NSFileManagerUploadLocalVersionConflictPolicy CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSFileManagerUploadConflictPolicyDefault :: NSFileManagerUploadLocalVersionConflictPolicy
-pattern NSFileManagerUploadConflictPolicyDefault = NSFileManagerUploadLocalVersionConflictPolicy 0
-
-pattern NSFileManagerUploadConflictPolicyFailOnConflict :: NSFileManagerUploadLocalVersionConflictPolicy
-pattern NSFileManagerUploadConflictPolicyFailOnConflict = NSFileManagerUploadLocalVersionConflictPolicy 1
-
-instance ObjCArgument NSFileManagerUploadLocalVersionConflictPolicy where
-  withObjCArg (NSFileManagerUploadLocalVersionConflictPolicy x) k = k (argCLong x)
-
-instance ObjCReturn NSFileManagerUploadLocalVersionConflictPolicy where
-  type RawReturn NSFileManagerUploadLocalVersionConflictPolicy = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSFileManagerUploadLocalVersionConflictPolicy x)
-  fromOwned x = pure (NSFileManagerUploadLocalVersionConflictPolicy x)
 
 -- | @NSFileVersionAddingOptions@ (bitmask)
 newtype NSFileVersionAddingOptions = NSFileVersionAddingOptions CULong
@@ -1678,114 +1587,6 @@ instance ObjCReturn NSFormattingUnitStyle where
   fromRetained x = pure (NSFormattingUnitStyle x)
   fromOwned x = pure (NSFormattingUnitStyle x)
 
--- | @NSGrammaticalCase@
-newtype NSGrammaticalCase = NSGrammaticalCase CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSGrammaticalCaseNotSet :: NSGrammaticalCase
-pattern NSGrammaticalCaseNotSet = NSGrammaticalCase 0
-
-pattern NSGrammaticalCaseNominative :: NSGrammaticalCase
-pattern NSGrammaticalCaseNominative = NSGrammaticalCase 1
-
-pattern NSGrammaticalCaseAccusative :: NSGrammaticalCase
-pattern NSGrammaticalCaseAccusative = NSGrammaticalCase 2
-
-pattern NSGrammaticalCaseDative :: NSGrammaticalCase
-pattern NSGrammaticalCaseDative = NSGrammaticalCase 3
-
-pattern NSGrammaticalCaseGenitive :: NSGrammaticalCase
-pattern NSGrammaticalCaseGenitive = NSGrammaticalCase 4
-
-pattern NSGrammaticalCasePrepositional :: NSGrammaticalCase
-pattern NSGrammaticalCasePrepositional = NSGrammaticalCase 5
-
-pattern NSGrammaticalCaseAblative :: NSGrammaticalCase
-pattern NSGrammaticalCaseAblative = NSGrammaticalCase 6
-
-pattern NSGrammaticalCaseAdessive :: NSGrammaticalCase
-pattern NSGrammaticalCaseAdessive = NSGrammaticalCase 7
-
-pattern NSGrammaticalCaseAllative :: NSGrammaticalCase
-pattern NSGrammaticalCaseAllative = NSGrammaticalCase 8
-
-pattern NSGrammaticalCaseElative :: NSGrammaticalCase
-pattern NSGrammaticalCaseElative = NSGrammaticalCase 9
-
-pattern NSGrammaticalCaseIllative :: NSGrammaticalCase
-pattern NSGrammaticalCaseIllative = NSGrammaticalCase 10
-
-pattern NSGrammaticalCaseEssive :: NSGrammaticalCase
-pattern NSGrammaticalCaseEssive = NSGrammaticalCase 11
-
-pattern NSGrammaticalCaseInessive :: NSGrammaticalCase
-pattern NSGrammaticalCaseInessive = NSGrammaticalCase 12
-
-pattern NSGrammaticalCaseLocative :: NSGrammaticalCase
-pattern NSGrammaticalCaseLocative = NSGrammaticalCase 13
-
-pattern NSGrammaticalCaseTranslative :: NSGrammaticalCase
-pattern NSGrammaticalCaseTranslative = NSGrammaticalCase 14
-
-instance ObjCArgument NSGrammaticalCase where
-  withObjCArg (NSGrammaticalCase x) k = k (argCLong x)
-
-instance ObjCReturn NSGrammaticalCase where
-  type RawReturn NSGrammaticalCase = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSGrammaticalCase x)
-  fromOwned x = pure (NSGrammaticalCase x)
-
--- | @NSGrammaticalDefiniteness@
-newtype NSGrammaticalDefiniteness = NSGrammaticalDefiniteness CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSGrammaticalDefinitenessNotSet :: NSGrammaticalDefiniteness
-pattern NSGrammaticalDefinitenessNotSet = NSGrammaticalDefiniteness 0
-
-pattern NSGrammaticalDefinitenessIndefinite :: NSGrammaticalDefiniteness
-pattern NSGrammaticalDefinitenessIndefinite = NSGrammaticalDefiniteness 1
-
-pattern NSGrammaticalDefinitenessDefinite :: NSGrammaticalDefiniteness
-pattern NSGrammaticalDefinitenessDefinite = NSGrammaticalDefiniteness 2
-
-instance ObjCArgument NSGrammaticalDefiniteness where
-  withObjCArg (NSGrammaticalDefiniteness x) k = k (argCLong x)
-
-instance ObjCReturn NSGrammaticalDefiniteness where
-  type RawReturn NSGrammaticalDefiniteness = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSGrammaticalDefiniteness x)
-  fromOwned x = pure (NSGrammaticalDefiniteness x)
-
--- | @NSGrammaticalDetermination@
-newtype NSGrammaticalDetermination = NSGrammaticalDetermination CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSGrammaticalDeterminationNotSet :: NSGrammaticalDetermination
-pattern NSGrammaticalDeterminationNotSet = NSGrammaticalDetermination 0
-
-pattern NSGrammaticalDeterminationIndependent :: NSGrammaticalDetermination
-pattern NSGrammaticalDeterminationIndependent = NSGrammaticalDetermination 1
-
-pattern NSGrammaticalDeterminationDependent :: NSGrammaticalDetermination
-pattern NSGrammaticalDeterminationDependent = NSGrammaticalDetermination 2
-
-instance ObjCArgument NSGrammaticalDetermination where
-  withObjCArg (NSGrammaticalDetermination x) k = k (argCLong x)
-
-instance ObjCReturn NSGrammaticalDetermination where
-  type RawReturn NSGrammaticalDetermination = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSGrammaticalDetermination x)
-  fromOwned x = pure (NSGrammaticalDetermination x)
-
 -- | @NSGrammaticalGender@
 newtype NSGrammaticalGender = NSGrammaticalGender CLong
   deriving stock (Eq, Ord, Show)
@@ -1908,60 +1709,6 @@ instance ObjCReturn NSGrammaticalPartOfSpeech where
   msgSendVariant = MsgSendNormal
   fromRetained x = pure (NSGrammaticalPartOfSpeech x)
   fromOwned x = pure (NSGrammaticalPartOfSpeech x)
-
--- | @NSGrammaticalPerson@
-newtype NSGrammaticalPerson = NSGrammaticalPerson CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSGrammaticalPersonNotSet :: NSGrammaticalPerson
-pattern NSGrammaticalPersonNotSet = NSGrammaticalPerson 0
-
-pattern NSGrammaticalPersonFirst :: NSGrammaticalPerson
-pattern NSGrammaticalPersonFirst = NSGrammaticalPerson 1
-
-pattern NSGrammaticalPersonSecond :: NSGrammaticalPerson
-pattern NSGrammaticalPersonSecond = NSGrammaticalPerson 2
-
-pattern NSGrammaticalPersonThird :: NSGrammaticalPerson
-pattern NSGrammaticalPersonThird = NSGrammaticalPerson 3
-
-instance ObjCArgument NSGrammaticalPerson where
-  withObjCArg (NSGrammaticalPerson x) k = k (argCLong x)
-
-instance ObjCReturn NSGrammaticalPerson where
-  type RawReturn NSGrammaticalPerson = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSGrammaticalPerson x)
-  fromOwned x = pure (NSGrammaticalPerson x)
-
--- | @NSGrammaticalPronounType@
-newtype NSGrammaticalPronounType = NSGrammaticalPronounType CLong
-  deriving stock (Eq, Ord, Show)
-  deriving newtype (Storable)
-
-pattern NSGrammaticalPronounTypeNotSet :: NSGrammaticalPronounType
-pattern NSGrammaticalPronounTypeNotSet = NSGrammaticalPronounType 0
-
-pattern NSGrammaticalPronounTypePersonal :: NSGrammaticalPronounType
-pattern NSGrammaticalPronounTypePersonal = NSGrammaticalPronounType 1
-
-pattern NSGrammaticalPronounTypeReflexive :: NSGrammaticalPronounType
-pattern NSGrammaticalPronounTypeReflexive = NSGrammaticalPronounType 2
-
-pattern NSGrammaticalPronounTypePossessive :: NSGrammaticalPronounType
-pattern NSGrammaticalPronounTypePossessive = NSGrammaticalPronounType 3
-
-instance ObjCArgument NSGrammaticalPronounType where
-  withObjCArg (NSGrammaticalPronounType x) k = k (argCLong x)
-
-instance ObjCReturn NSGrammaticalPronounType where
-  type RawReturn NSGrammaticalPronounType = CLong
-  objcRetType = retCLong
-  msgSendVariant = MsgSendNormal
-  fromRetained x = pure (NSGrammaticalPronounType x)
-  fromOwned x = pure (NSGrammaticalPronounType x)
 
 -- | NSHTTPCookieAcceptPolicy
 --
@@ -4254,9 +4001,6 @@ pattern NSURLErrorNetworkUnavailableReasonExpensive = NSURLErrorNetworkUnavailab
 
 pattern NSURLErrorNetworkUnavailableReasonConstrained :: NSURLErrorNetworkUnavailableReason
 pattern NSURLErrorNetworkUnavailableReasonConstrained = NSURLErrorNetworkUnavailableReason 2
-
-pattern NSURLErrorNetworkUnavailableReasonUltraConstrained :: NSURLErrorNetworkUnavailableReason
-pattern NSURLErrorNetworkUnavailableReasonUltraConstrained = NSURLErrorNetworkUnavailableReason 3
 
 instance ObjCArgument NSURLErrorNetworkUnavailableReason where
   withObjCArg (NSURLErrorNetworkUnavailableReason x) k = k (argCLong x)

@@ -7,6 +7,8 @@
 module ObjC.Matter.MTRMediaInputClusterInputInfo
   ( MTRMediaInputClusterInputInfo
   , IsMTRMediaInputClusterInputInfo(..)
+  , init_
+  , copyWithZone
   , index
   , setIndex
   , inputType
@@ -15,8 +17,10 @@ module ObjC.Matter.MTRMediaInputClusterInputInfo
   , setName
   , descriptionString
   , setDescriptionString
+  , copyWithZoneSelector
   , descriptionStringSelector
   , indexSelector
+  , initSelector
   , inputTypeSelector
   , nameSelector
   , setDescriptionStringSelector
@@ -37,6 +41,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRMediaInputClusterInputInfo mtrMediaInputClusterInputInfo => mtrMediaInputClusterInputInfo -> IO (Id MTRMediaInputClusterInputInfo)
+init_ mtrMediaInputClusterInputInfo =
+  sendOwnedMessage mtrMediaInputClusterInputInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRMediaInputClusterInputInfo mtrMediaInputClusterInputInfo => mtrMediaInputClusterInputInfo -> Ptr () -> IO RawId
+copyWithZone mtrMediaInputClusterInputInfo zone =
+  sendOwnedMessage mtrMediaInputClusterInputInfo copyWithZoneSelector zone
 
 -- | @- index@
 index :: IsMTRMediaInputClusterInputInfo mtrMediaInputClusterInputInfo => mtrMediaInputClusterInputInfo -> IO (Id NSNumber)
@@ -81,6 +95,14 @@ setDescriptionString mtrMediaInputClusterInputInfo value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRMediaInputClusterInputInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @index@
 indexSelector :: Selector '[] (Id NSNumber)

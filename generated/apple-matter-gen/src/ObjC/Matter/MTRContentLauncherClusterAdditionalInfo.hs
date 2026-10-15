@@ -7,10 +7,14 @@
 module ObjC.Matter.MTRContentLauncherClusterAdditionalInfo
   ( MTRContentLauncherClusterAdditionalInfo
   , IsMTRContentLauncherClusterAdditionalInfo(..)
+  , init_
+  , copyWithZone
   , name
   , setName
   , value
   , setValue
+  , copyWithZoneSelector
+  , initSelector
   , nameSelector
   , setNameSelector
   , setValueSelector
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRContentLauncherClusterAdditionalInfo mtrContentLauncherClusterAdditionalInfo => mtrContentLauncherClusterAdditionalInfo -> IO (Id MTRContentLauncherClusterAdditionalInfo)
+init_ mtrContentLauncherClusterAdditionalInfo =
+  sendOwnedMessage mtrContentLauncherClusterAdditionalInfo initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRContentLauncherClusterAdditionalInfo mtrContentLauncherClusterAdditionalInfo => mtrContentLauncherClusterAdditionalInfo -> Ptr () -> IO RawId
+copyWithZone mtrContentLauncherClusterAdditionalInfo zone =
+  sendOwnedMessage mtrContentLauncherClusterAdditionalInfo copyWithZoneSelector zone
 
 -- | @- name@
 name :: IsMTRContentLauncherClusterAdditionalInfo mtrContentLauncherClusterAdditionalInfo => mtrContentLauncherClusterAdditionalInfo -> IO (Id NSString)
@@ -53,6 +67,14 @@ setValue mtrContentLauncherClusterAdditionalInfo value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRContentLauncherClusterAdditionalInfo)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @name@
 nameSelector :: Selector '[] (Id NSString)

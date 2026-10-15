@@ -7,7 +7,8 @@
 module ObjC.Matter.MTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams
   ( MTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams
   , IsMTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams(..)
-  , initWithResponseValue_error
+  , init_
+  , copyWithZone
   , startTime
   , setStartTime
   , status
@@ -23,7 +24,8 @@ module ObjC.Matter.MTRElectricalMeasurementClusterGetMeasurementProfileResponseC
   , timedInvokeTimeoutMs
   , setTimedInvokeTimeoutMs
   , attributeIdSelector
-  , initWithResponseValue_errorSelector
+  , copyWithZoneSelector
+  , initSelector
   , intervalsSelector
   , numberOfIntervalsDeliveredSelector
   , profileIntervalPeriodSelector
@@ -52,16 +54,15 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | Initialize an MTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams with a response-value dictionary of the sort that MTRDeviceResponseHandler would receive.
---
--- Will return nil and hand out an error if the response-value dictionary is not a command data response or is not the right command response.
---
--- Will return nil and hand out an error if the data response does not match the known schema for this command.
---
--- ObjC selector: @- initWithResponseValue:error:@
-initWithResponseValue_error :: (IsMTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams, IsNSDictionary responseValue, IsNSError error_) => mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams -> responseValue -> error_ -> IO (Id MTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams)
-initWithResponseValue_error mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams responseValue error_ =
-  sendOwnedMessage mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams initWithResponseValue_errorSelector (toNSDictionary responseValue) (toNSError error_)
+-- | @- init@
+init_ :: IsMTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams => mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams -> IO (Id MTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams)
+init_ mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams =
+  sendOwnedMessage mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams => mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams -> Ptr () -> IO RawId
+copyWithZone mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams zone =
+  sendOwnedMessage mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams copyWithZoneSelector zone
 
 -- | @- startTime@
 startTime :: IsMTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams => mtrElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams -> IO (Id NSNumber)
@@ -149,9 +150,13 @@ setTimedInvokeTimeoutMs mtrElectricalMeasurementClusterGetMeasurementProfileResp
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @initWithResponseValue:error:@
-initWithResponseValue_errorSelector :: Selector '[Id NSDictionary, Id NSError] (Id MTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams)
-initWithResponseValue_errorSelector = mkSelector "initWithResponseValue:error:"
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRElectricalMeasurementClusterGetMeasurementProfileResponseCommandParams)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @startTime@
 startTimeSelector :: Selector '[] (Id NSNumber)

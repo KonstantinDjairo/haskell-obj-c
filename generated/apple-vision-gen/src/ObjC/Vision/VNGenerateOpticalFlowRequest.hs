@@ -58,7 +58,7 @@ import ObjC.Foundation.Internal.Classes
 
 -- | The level of accuracy used to compute the optical flow. Default is VNGenerateOpticalFlowRequestComputationAccuracyMedium.
 --
--- The computational time typically trends with the accuracy level.  This parameter allows for selective tuning by the client application.
+-- The computational time typically trends with the accuracy level.  This parameter allows for selective tuning by the client application.             Computational accuracy settings are only available for VNGenerateOpticalFlowRequestRevision1.             VNGenerateOpticalFlowRequestRevision2 uses a neural network to generate the optical flow.
 --
 -- ObjC selector: @- computationAccuracy@
 computationAccuracy :: IsVNGenerateOpticalFlowRequest vnGenerateOpticalFlowRequest => vnGenerateOpticalFlowRequest -> IO VNGenerateOpticalFlowRequestComputationAccuracy
@@ -67,7 +67,7 @@ computationAccuracy vnGenerateOpticalFlowRequest =
 
 -- | The level of accuracy used to compute the optical flow. Default is VNGenerateOpticalFlowRequestComputationAccuracyMedium.
 --
--- The computational time typically trends with the accuracy level.  This parameter allows for selective tuning by the client application.
+-- The computational time typically trends with the accuracy level.  This parameter allows for selective tuning by the client application.             Computational accuracy settings are only available for VNGenerateOpticalFlowRequestRevision1.             VNGenerateOpticalFlowRequestRevision2 uses a neural network to generate the optical flow.
 --
 -- ObjC selector: @- setComputationAccuracy:@
 setComputationAccuracy :: IsVNGenerateOpticalFlowRequest vnGenerateOpticalFlowRequest => vnGenerateOpticalFlowRequest -> VNGenerateOpticalFlowRequestComputationAccuracy -> IO ()
@@ -88,7 +88,7 @@ setOutputPixelFormat :: IsVNGenerateOpticalFlowRequest vnGenerateOpticalFlowRequ
 setOutputPixelFormat vnGenerateOpticalFlowRequest value =
   sendMessage vnGenerateOpticalFlowRequest setOutputPixelFormatSelector value
 
--- | Setting this to YES will keep the raw pixel buffer coming from the the ML network. The default is NO.
+-- | Setting this to YES will keep the raw pixel buffer coming the the ML network. The default is NO.
 --
 -- When set to YES, the outputPixelFormat is ignored. Setting this for revision 1 is a no-op as it is not ML-based.
 --
@@ -97,7 +97,7 @@ keepNetworkOutput :: IsVNGenerateOpticalFlowRequest vnGenerateOpticalFlowRequest
 keepNetworkOutput vnGenerateOpticalFlowRequest =
   sendMessage vnGenerateOpticalFlowRequest keepNetworkOutputSelector
 
--- | Setting this to YES will keep the raw pixel buffer coming from the the ML network. The default is NO.
+-- | Setting this to YES will keep the raw pixel buffer coming the the ML network. The default is NO.
 --
 -- When set to YES, the outputPixelFormat is ignored. Setting this for revision 1 is a no-op as it is not ML-based.
 --

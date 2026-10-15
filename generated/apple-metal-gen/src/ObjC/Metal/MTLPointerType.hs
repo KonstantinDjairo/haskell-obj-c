@@ -24,10 +24,7 @@ module ObjC.Metal.MTLPointerType
   , elementTypeSelector
 
   -- * Enum types
-  , MTLBindingAccess(MTLBindingAccess)
-  , pattern MTLBindingAccessReadOnly
-  , pattern MTLBindingAccessReadWrite
-  , pattern MTLBindingAccessWriteOnly
+  , MTLArgumentAccess(MTLArgumentAccess)
   , pattern MTLArgumentAccessReadOnly
   , pattern MTLArgumentAccessReadWrite
   , pattern MTLArgumentAccessWriteOnly
@@ -123,12 +120,6 @@ module ObjC.Metal.MTLPointerType
   , pattern MTLDataTypeIntersectionFunctionTable
   , pattern MTLDataTypePrimitiveAccelerationStructure
   , pattern MTLDataTypeInstanceAccelerationStructure
-  , pattern MTLDataTypeBFloat
-  , pattern MTLDataTypeBFloat2
-  , pattern MTLDataTypeBFloat3
-  , pattern MTLDataTypeBFloat4
-  , pattern MTLDataTypeDepthStencilState
-  , pattern MTLDataTypeTensor
 
   ) where
 
@@ -160,7 +151,7 @@ elementType mtlPointerType =
   sendMessage mtlPointerType elementTypeSelector
 
 -- | @- access@
-access :: IsMTLPointerType mtlPointerType => mtlPointerType -> IO MTLBindingAccess
+access :: IsMTLPointerType mtlPointerType => mtlPointerType -> IO MTLArgumentAccess
 access mtlPointerType =
   sendMessage mtlPointerType accessSelector
 
@@ -196,7 +187,7 @@ elementTypeSelector :: Selector '[] MTLDataType
 elementTypeSelector = mkSelector "elementType"
 
 -- | @Selector@ for @access@
-accessSelector :: Selector '[] MTLBindingAccess
+accessSelector :: Selector '[] MTLArgumentAccess
 accessSelector = mkSelector "access"
 
 -- | @Selector@ for @alignment@

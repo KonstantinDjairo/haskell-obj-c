@@ -109,7 +109,7 @@ scheduleBuffer_completionCallbackType_completionHandler phasePushStreamNode buff
 --
 -- @buffer@ — The buffer with PCM audio data.
 --
--- @when@ — The time at which to play the buffer.
+-- @when@ — The time at which to play the buffer. see the discussion of timestamps, above.
 --
 -- @options@ — Options for looping, interrupting other buffers, etc.
 --
@@ -126,7 +126,7 @@ scheduleBuffer_atTime_options phasePushStreamNode buffer when options =
 --
 -- @buffer@ — The buffer with PCM audio data.
 --
--- @when@ — The time at which to play the buffer.
+-- @when@ — The time at which to play the buffer. see the discussion of timestamps, above.
 --
 -- @options@ — Options for looping, interrupting other buffers, etc.
 --
@@ -159,7 +159,7 @@ rateMetaParameter phasePushStreamNode =
 
 -- | mixer
 --
--- The readonly property that returns the PHASEMixer this stream was created with and assigned to.
+-- The readonly property that returns the PHASEMixer this sampler was created with and assigned to.
 --
 -- ObjC selector: @- mixer@
 mixer :: IsPHASEPushStreamNode phasePushStreamNode => phasePushStreamNode -> IO (Id PHASEMixer)

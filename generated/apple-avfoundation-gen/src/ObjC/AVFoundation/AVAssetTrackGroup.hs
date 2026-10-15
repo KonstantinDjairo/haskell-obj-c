@@ -11,8 +11,6 @@
 --
 -- Clients can inspect the track groups contained in an AVAsset by loading and obtaining the value of its trackGroups property.
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
---
 -- Generated bindings for @AVAssetTrackGroup@.
 module ObjC.AVFoundation.AVAssetTrackGroup
   ( AVAssetTrackGroup

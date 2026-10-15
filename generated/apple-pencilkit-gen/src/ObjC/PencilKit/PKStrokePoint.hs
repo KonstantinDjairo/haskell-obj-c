@@ -15,15 +15,11 @@ module ObjC.PencilKit.PKStrokePoint
   , azimuth
   , force
   , altitude
-  , secondaryScale
-  , threshold
   , altitudeSelector
   , azimuthSelector
   , forceSelector
   , initSelector
   , opacitySelector
-  , secondaryScaleSelector
-  , thresholdSelector
   , timeOffsetSelector
 
 
@@ -80,24 +76,6 @@ altitude :: IsPKStrokePoint pkStrokePoint => pkStrokePoint -> IO CDouble
 altitude pkStrokePoint =
   sendMessage pkStrokePoint altitudeSelector
 
--- | The scaling of the point for secondary effects.
---
--- For example the scaling of the pigment in the watercolor ink.
---
--- ObjC selector: @- secondaryScale@
-secondaryScale :: IsPKStrokePoint pkStrokePoint => pkStrokePoint -> IO CDouble
-secondaryScale pkStrokePoint =
-  sendMessage pkStrokePoint secondaryScaleSelector
-
--- | The threshold for clipping the stroke rendering.
---
--- When rendering only pixels with an alpha greater than the threshold are drawn. A threshold of 0 has no affect on rendering, a threshold of 1 does not draw anything. Thresholds are only used for some inks, eg. @PKInkIdentifierReed@.
---
--- ObjC selector: @- threshold@
-threshold :: IsPKStrokePoint pkStrokePoint => pkStrokePoint -> IO CDouble
-threshold pkStrokePoint =
-  sendMessage pkStrokePoint thresholdSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -125,12 +103,4 @@ forceSelector = mkSelector "force"
 -- | @Selector@ for @altitude@
 altitudeSelector :: Selector '[] CDouble
 altitudeSelector = mkSelector "altitude"
-
--- | @Selector@ for @secondaryScale@
-secondaryScaleSelector :: Selector '[] CDouble
-secondaryScaleSelector = mkSelector "secondaryScale"
-
--- | @Selector@ for @threshold@
-thresholdSelector :: Selector '[] CDouble
-thresholdSelector = mkSelector "threshold"
 

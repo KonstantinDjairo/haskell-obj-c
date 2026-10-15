@@ -12,6 +12,7 @@ module ObjC.AppKit.NSParagraphStyle
   , defaultParagraphStyle
   , lineSpacing
   , paragraphSpacing
+  , alignment
   , headIndent
   , tailIndent
   , firstLineHeadIndent
@@ -25,13 +26,12 @@ module ObjC.AppKit.NSParagraphStyle
   , usesDefaultHyphenation
   , tabStops
   , defaultTabInterval
-  , textLists
   , allowsDefaultTighteningForTruncation
-  , lineBreakStrategy
-  , alignment
   , tighteningFactorForTruncation
   , textBlocks
+  , textLists
   , headerLevel
+  , lineBreakStrategy
   , alignmentSelector
   , allowsDefaultTighteningForTruncationSelector
   , baseWritingDirectionSelector
@@ -72,8 +72,8 @@ module ObjC.AppKit.NSParagraphStyle
   , pattern NSLineBreakStrategyStandard
   , NSTextAlignment(NSTextAlignment)
   , pattern NSTextAlignmentLeft
-  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentRight
+  , pattern NSTextAlignmentCenter
   , pattern NSTextAlignmentJustified
   , pattern NSTextAlignmentNatural
   , NSWritingDirection(NSWritingDirection)
@@ -118,6 +118,11 @@ lineSpacing nsParagraphStyle =
 paragraphSpacing :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO CDouble
 paragraphSpacing nsParagraphStyle =
   sendMessage nsParagraphStyle paragraphSpacingSelector
+
+-- | @- alignment@
+alignment :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO NSTextAlignment
+alignment nsParagraphStyle =
+  sendMessage nsParagraphStyle alignmentSelector
 
 -- | @- headIndent@
 headIndent :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO CDouble
@@ -184,25 +189,10 @@ defaultTabInterval :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle ->
 defaultTabInterval nsParagraphStyle =
   sendMessage nsParagraphStyle defaultTabIntervalSelector
 
--- | @- textLists@
-textLists :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO (Id NSArray)
-textLists nsParagraphStyle =
-  sendMessage nsParagraphStyle textListsSelector
-
 -- | @- allowsDefaultTighteningForTruncation@
 allowsDefaultTighteningForTruncation :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO Bool
 allowsDefaultTighteningForTruncation nsParagraphStyle =
   sendMessage nsParagraphStyle allowsDefaultTighteningForTruncationSelector
-
--- | @- lineBreakStrategy@
-lineBreakStrategy :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO NSLineBreakStrategy
-lineBreakStrategy nsParagraphStyle =
-  sendMessage nsParagraphStyle lineBreakStrategySelector
-
--- | @- alignment@
-alignment :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO NSTextAlignment
-alignment nsParagraphStyle =
-  sendMessage nsParagraphStyle alignmentSelector
 
 -- | @- tighteningFactorForTruncation@
 tighteningFactorForTruncation :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO CFloat
@@ -214,10 +204,20 @@ textBlocks :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO (Id 
 textBlocks nsParagraphStyle =
   sendMessage nsParagraphStyle textBlocksSelector
 
+-- | @- textLists@
+textLists :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO (Id NSArray)
+textLists nsParagraphStyle =
+  sendMessage nsParagraphStyle textListsSelector
+
 -- | @- headerLevel@
 headerLevel :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO CLong
 headerLevel nsParagraphStyle =
   sendMessage nsParagraphStyle headerLevelSelector
+
+-- | @- lineBreakStrategy@
+lineBreakStrategy :: IsNSParagraphStyle nsParagraphStyle => nsParagraphStyle -> IO NSLineBreakStrategy
+lineBreakStrategy nsParagraphStyle =
+  sendMessage nsParagraphStyle lineBreakStrategySelector
 
 -- ---------------------------------------------------------------------------
 -- Selectors
@@ -238,6 +238,10 @@ lineSpacingSelector = mkSelector "lineSpacing"
 -- | @Selector@ for @paragraphSpacing@
 paragraphSpacingSelector :: Selector '[] CDouble
 paragraphSpacingSelector = mkSelector "paragraphSpacing"
+
+-- | @Selector@ for @alignment@
+alignmentSelector :: Selector '[] NSTextAlignment
+alignmentSelector = mkSelector "alignment"
 
 -- | @Selector@ for @headIndent@
 headIndentSelector :: Selector '[] CDouble
@@ -291,21 +295,9 @@ tabStopsSelector = mkSelector "tabStops"
 defaultTabIntervalSelector :: Selector '[] CDouble
 defaultTabIntervalSelector = mkSelector "defaultTabInterval"
 
--- | @Selector@ for @textLists@
-textListsSelector :: Selector '[] (Id NSArray)
-textListsSelector = mkSelector "textLists"
-
 -- | @Selector@ for @allowsDefaultTighteningForTruncation@
 allowsDefaultTighteningForTruncationSelector :: Selector '[] Bool
 allowsDefaultTighteningForTruncationSelector = mkSelector "allowsDefaultTighteningForTruncation"
-
--- | @Selector@ for @lineBreakStrategy@
-lineBreakStrategySelector :: Selector '[] NSLineBreakStrategy
-lineBreakStrategySelector = mkSelector "lineBreakStrategy"
-
--- | @Selector@ for @alignment@
-alignmentSelector :: Selector '[] NSTextAlignment
-alignmentSelector = mkSelector "alignment"
 
 -- | @Selector@ for @tighteningFactorForTruncation@
 tighteningFactorForTruncationSelector :: Selector '[] CFloat
@@ -315,7 +307,15 @@ tighteningFactorForTruncationSelector = mkSelector "tighteningFactorForTruncatio
 textBlocksSelector :: Selector '[] (Id NSArray)
 textBlocksSelector = mkSelector "textBlocks"
 
+-- | @Selector@ for @textLists@
+textListsSelector :: Selector '[] (Id NSArray)
+textListsSelector = mkSelector "textLists"
+
 -- | @Selector@ for @headerLevel@
 headerLevelSelector :: Selector '[] CLong
 headerLevelSelector = mkSelector "headerLevel"
+
+-- | @Selector@ for @lineBreakStrategy@
+lineBreakStrategySelector :: Selector '[] NSLineBreakStrategy
+lineBreakStrategySelector = mkSelector "lineBreakStrategy"
 

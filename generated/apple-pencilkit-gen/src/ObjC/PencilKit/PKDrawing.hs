@@ -1,4 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -17,23 +16,14 @@ module ObjC.PencilKit.PKDrawing
   , drawingByAppendingDrawing
   , drawingByAppendingStrokes
   , strokes
-  , requiredContentVersion
   , dataRepresentationSelector
   , drawingByAppendingDrawingSelector
   , drawingByAppendingStrokesSelector
   , initSelector
   , initWithData_errorSelector
   , initWithStrokesSelector
-  , requiredContentVersionSelector
   , strokesSelector
 
-  -- * Enum types
-  , PKContentVersion(PKContentVersion)
-  , pattern PKContentVersion1
-  , pattern PKContentVersion2
-  , pattern PKContentVersion3
-  , pattern PKContentVersion4
-  , pattern PKContentVersionLatest
 
   ) where
 
@@ -46,7 +36,6 @@ import ObjC.Runtime.Selector (mkSelector)
 import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.PencilKit.Internal.Classes
-import ObjC.PencilKit.Internal.Enums
 import ObjC.AppKit.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
@@ -115,13 +104,6 @@ strokes :: IsPKDrawing pkDrawing => pkDrawing -> IO (Id NSArray)
 strokes pkDrawing =
   sendMessage pkDrawing strokesSelector
 
--- | The PencilKit version required to use this drawing.
---
--- ObjC selector: @- requiredContentVersion@
-requiredContentVersion :: IsPKDrawing pkDrawing => pkDrawing -> IO PKContentVersion
-requiredContentVersion pkDrawing =
-  sendMessage pkDrawing requiredContentVersionSelector
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
@@ -153,8 +135,4 @@ drawingByAppendingStrokesSelector = mkSelector "drawingByAppendingStrokes:"
 -- | @Selector@ for @strokes@
 strokesSelector :: Selector '[] (Id NSArray)
 strokesSelector = mkSelector "strokes"
-
--- | @Selector@ for @requiredContentVersion@
-requiredContentVersionSelector :: Selector '[] PKContentVersion
-requiredContentVersionSelector = mkSelector "requiredContentVersion"
 

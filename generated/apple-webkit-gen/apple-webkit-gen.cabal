@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.38.1.
+-- This file has been generated from package.yaml by hpack version 0.39.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -130,7 +130,6 @@ library
       ObjC.WebKit.Delegate.WKNavigationDelegate
       ObjC.WebKit.Delegate.WKUIDelegate
       ObjC.WebKit.Delegate.WKURLSchemeTask
-      ObjC.WebKit.Delegate.WKWebExtensionControllerDelegate
       ObjC.WebKit.Delegate.WebDocumentRepresentation
       ObjC.WebKit.Delegate.WebDocumentSearching
       ObjC.WebKit.Delegate.WebDocumentText
@@ -161,17 +160,6 @@ library
       ObjC.WebKit.WKSnapshotConfiguration
       ObjC.WebKit.WKUserContentController
       ObjC.WebKit.WKUserScript
-      ObjC.WebKit.WKWebExtension
-      ObjC.WebKit.WKWebExtensionAction
-      ObjC.WebKit.WKWebExtensionCommand
-      ObjC.WebKit.WKWebExtensionContext
-      ObjC.WebKit.WKWebExtensionController
-      ObjC.WebKit.WKWebExtensionControllerConfiguration
-      ObjC.WebKit.WKWebExtensionDataRecord
-      ObjC.WebKit.WKWebExtensionMatchPattern
-      ObjC.WebKit.WKWebExtensionMessagePort
-      ObjC.WebKit.WKWebExtensionTabConfiguration
-      ObjC.WebKit.WKWebExtensionWindowConfiguration
       ObjC.WebKit.WKWebView
       ObjC.WebKit.WKWebViewConfiguration
       ObjC.WebKit.WKWebpagePreferences
@@ -197,7 +185,7 @@ library
       Paths_apple_webkit_gen
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-orphans
+  ghc-options: -Wall -Wno-orphans -Wno-unused-imports
   build-depends:
       apple-appkit-gen
     , apple-foundation-gen

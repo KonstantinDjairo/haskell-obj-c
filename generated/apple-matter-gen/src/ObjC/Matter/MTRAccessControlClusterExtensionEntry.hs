@@ -7,12 +7,16 @@
 module ObjC.Matter.MTRAccessControlClusterExtensionEntry
   ( MTRAccessControlClusterExtensionEntry
   , IsMTRAccessControlClusterExtensionEntry(..)
+  , init_
+  , copyWithZone
   , data_
   , setData
   , fabricIndex
   , setFabricIndex
+  , copyWithZoneSelector
   , dataSelector
   , fabricIndexSelector
+  , initSelector
   , setDataSelector
   , setFabricIndexSelector
 
@@ -29,6 +33,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRAccessControlClusterExtensionEntry mtrAccessControlClusterExtensionEntry => mtrAccessControlClusterExtensionEntry -> IO (Id MTRAccessControlClusterExtensionEntry)
+init_ mtrAccessControlClusterExtensionEntry =
+  sendOwnedMessage mtrAccessControlClusterExtensionEntry initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRAccessControlClusterExtensionEntry mtrAccessControlClusterExtensionEntry => mtrAccessControlClusterExtensionEntry -> Ptr () -> IO RawId
+copyWithZone mtrAccessControlClusterExtensionEntry zone =
+  sendOwnedMessage mtrAccessControlClusterExtensionEntry copyWithZoneSelector zone
 
 -- | @- data@
 data_ :: IsMTRAccessControlClusterExtensionEntry mtrAccessControlClusterExtensionEntry => mtrAccessControlClusterExtensionEntry -> IO (Id NSData)
@@ -53,6 +67,14 @@ setFabricIndex mtrAccessControlClusterExtensionEntry value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRAccessControlClusterExtensionEntry)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @data@
 dataSelector :: Selector '[] (Id NSData)

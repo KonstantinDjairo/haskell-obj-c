@@ -3,9 +3,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | A participant in a coordinated playback group connected through AVPlaybackCoordinator.
+-- | AVCoordinatedPlaybackParticipant
 --
--- Subclasses of this type that are used from Swift must fulfill the requirements of a Sendable type.
+-- A participant in a coordinated playback group connected through AVPlaybackCoordinator.
 --
 -- Generated bindings for @AVCoordinatedPlaybackParticipant@.
 module ObjC.AVFoundation.AVCoordinatedPlaybackParticipant
@@ -32,21 +32,27 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.AVFoundation.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | The reason, if any, this participant is currently not participating in coordinated playback.
+-- | suspensionReasons
+--
+-- The reason, if any, this participant is currently not participating in coordinated playback.
 --
 -- ObjC selector: @- suspensionReasons@
 suspensionReasons :: IsAVCoordinatedPlaybackParticipant avCoordinatedPlaybackParticipant => avCoordinatedPlaybackParticipant -> IO (Id NSArray)
 suspensionReasons avCoordinatedPlaybackParticipant =
   sendMessage avCoordinatedPlaybackParticipant suspensionReasonsSelector
 
--- | YES if the participant is ready to play.
+-- | readyToPlay
+--
+-- YES if the participant is ready to play.
 --
 -- ObjC selector: @- readyToPlay@
 readyToPlay :: IsAVCoordinatedPlaybackParticipant avCoordinatedPlaybackParticipant => avCoordinatedPlaybackParticipant -> IO Bool
 readyToPlay avCoordinatedPlaybackParticipant =
   sendMessage avCoordinatedPlaybackParticipant readyToPlaySelector
 
--- | A unique id for the participant.
+-- | identifier
+--
+-- A unique id for the participant.
 --
 -- Use this identifier to distinguish participants.
 --

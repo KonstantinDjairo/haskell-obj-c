@@ -7,13 +7,17 @@
 module ObjC.Matter.MTRContentLauncherClusterDimension
   ( MTRContentLauncherClusterDimension
   , IsMTRContentLauncherClusterDimension(..)
+  , init_
+  , copyWithZone
   , width
   , setWidth
   , height
   , setHeight
   , metric
   , setMetric
+  , copyWithZoneSelector
   , heightSelector
+  , initSelector
   , metricSelector
   , setHeightSelector
   , setMetricSelector
@@ -33,6 +37,16 @@ import ObjC.Runtime.Class (getRequiredClass)
 
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
+
+-- | @- init@
+init_ :: IsMTRContentLauncherClusterDimension mtrContentLauncherClusterDimension => mtrContentLauncherClusterDimension -> IO (Id MTRContentLauncherClusterDimension)
+init_ mtrContentLauncherClusterDimension =
+  sendOwnedMessage mtrContentLauncherClusterDimension initSelector
+
+-- | @- copyWithZone:@
+copyWithZone :: IsMTRContentLauncherClusterDimension mtrContentLauncherClusterDimension => mtrContentLauncherClusterDimension -> Ptr () -> IO RawId
+copyWithZone mtrContentLauncherClusterDimension zone =
+  sendOwnedMessage mtrContentLauncherClusterDimension copyWithZoneSelector zone
 
 -- | @- width@
 width :: IsMTRContentLauncherClusterDimension mtrContentLauncherClusterDimension => mtrContentLauncherClusterDimension -> IO (Id NSNumber)
@@ -67,6 +81,14 @@ setMetric mtrContentLauncherClusterDimension value =
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
+
+-- | @Selector@ for @init@
+initSelector :: Selector '[] (Id MTRContentLauncherClusterDimension)
+initSelector = mkSelector "init"
+
+-- | @Selector@ for @copyWithZone:@
+copyWithZoneSelector :: Selector '[Ptr ()] RawId
+copyWithZoneSelector = mkSelector "copyWithZone:"
 
 -- | @Selector@ for @width@
 widthSelector :: Selector '[] (Id NSNumber)

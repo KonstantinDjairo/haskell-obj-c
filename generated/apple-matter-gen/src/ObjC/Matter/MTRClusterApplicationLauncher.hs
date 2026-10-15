@@ -9,12 +9,10 @@
 module ObjC.Matter.MTRClusterApplicationLauncher
   ( MTRClusterApplicationLauncher
   , IsMTRClusterApplicationLauncher(..)
-  , launchAppWithParams_expectedValues_expectedValueInterval_completion
-  , launchAppWithExpectedValues_expectedValueInterval_completion
-  , stopAppWithParams_expectedValues_expectedValueInterval_completion
-  , stopAppWithExpectedValues_expectedValueInterval_completion
-  , hideAppWithParams_expectedValues_expectedValueInterval_completion
-  , hideAppWithExpectedValues_expectedValueInterval_completion
+  , initWithDevice_endpoint_queue
+  , launchAppWithParams_expectedValues_expectedValueInterval_completionHandler
+  , stopAppWithParams_expectedValues_expectedValueInterval_completionHandler
+  , hideAppWithParams_expectedValues_expectedValueInterval_completionHandler
   , readAttributeCatalogListWithParams
   , readAttributeCurrentAppWithParams
   , writeAttributeCurrentAppWithValue_expectedValueInterval
@@ -26,20 +24,10 @@ module ObjC.Matter.MTRClusterApplicationLauncher
   , readAttributeClusterRevisionWithParams
   , init_
   , new
-  , initWithDevice_endpoint_queue
-  , launchAppWithParams_expectedValues_expectedValueInterval_completionHandler
-  , stopAppWithParams_expectedValues_expectedValueInterval_completionHandler
-  , hideAppWithParams_expectedValues_expectedValueInterval_completionHandler
-  , initWithDevice_endpointID_queue
-  , hideAppWithExpectedValues_expectedValueInterval_completionSelector
   , hideAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , hideAppWithParams_expectedValues_expectedValueInterval_completionSelector
   , initSelector
-  , initWithDevice_endpointID_queueSelector
   , initWithDevice_endpoint_queueSelector
-  , launchAppWithExpectedValues_expectedValueInterval_completionSelector
   , launchAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , launchAppWithParams_expectedValues_expectedValueInterval_completionSelector
   , newSelector
   , readAttributeAcceptedCommandListWithParamsSelector
   , readAttributeAttributeListWithParamsSelector
@@ -48,9 +36,7 @@ module ObjC.Matter.MTRClusterApplicationLauncher
   , readAttributeCurrentAppWithParamsSelector
   , readAttributeFeatureMapWithParamsSelector
   , readAttributeGeneratedCommandListWithParamsSelector
-  , stopAppWithExpectedValues_expectedValueInterval_completionSelector
   , stopAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector
-  , stopAppWithParams_expectedValues_expectedValueInterval_completionSelector
   , writeAttributeCurrentAppWithValue_expectedValueIntervalSelector
   , writeAttributeCurrentAppWithValue_expectedValueInterval_paramsSelector
 
@@ -68,35 +54,25 @@ import ObjC.Runtime.Class (getRequiredClass)
 import ObjC.Matter.Internal.Classes
 import ObjC.Foundation.Internal.Classes
 
--- | @- launchAppWithParams:expectedValues:expectedValueInterval:completion:@
-launchAppWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterLaunchAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-launchAppWithParams_expectedValues_expectedValueInterval_completion mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterApplicationLauncher launchAppWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRApplicationLauncherClusterLaunchAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queue :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRDevice device, IsNSObject queue) => mtrClusterApplicationLauncher -> device -> CUShort -> queue -> IO (Id MTRClusterApplicationLauncher)
+initWithDevice_endpoint_queue mtrClusterApplicationLauncher device endpoint queue =
+  sendOwnedMessage mtrClusterApplicationLauncher initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
 
--- | @- launchAppWithExpectedValues:expectedValueInterval:completion:@
-launchAppWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-launchAppWithExpectedValues_expectedValueInterval_completion mtrClusterApplicationLauncher expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterApplicationLauncher launchAppWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- launchAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
+launchAppWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterLaunchAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+launchAppWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterApplicationLauncher launchAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRApplicationLauncherClusterLaunchAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- stopAppWithParams:expectedValues:expectedValueInterval:completion:@
-stopAppWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterStopAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-stopAppWithParams_expectedValues_expectedValueInterval_completion mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterApplicationLauncher stopAppWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRApplicationLauncherClusterStopAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
+-- | @- stopAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
+stopAppWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterStopAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+stopAppWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterApplicationLauncher stopAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRApplicationLauncherClusterStopAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
--- | @- stopAppWithExpectedValues:expectedValueInterval:completion:@
-stopAppWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-stopAppWithExpectedValues_expectedValueInterval_completion mtrClusterApplicationLauncher expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterApplicationLauncher stopAppWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
-
--- | @- hideAppWithParams:expectedValues:expectedValueInterval:completion:@
-hideAppWithParams_expectedValues_expectedValueInterval_completion :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterHideAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-hideAppWithParams_expectedValues_expectedValueInterval_completion mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completion =
-  sendMessage mtrClusterApplicationLauncher hideAppWithParams_expectedValues_expectedValueInterval_completionSelector (toMTRApplicationLauncherClusterHideAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completion
-
--- | @- hideAppWithExpectedValues:expectedValueInterval:completion:@
-hideAppWithExpectedValues_expectedValueInterval_completion :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsNSArray expectedValues, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> expectedValues -> expectedValueIntervalMs -> Ptr () -> IO ()
-hideAppWithExpectedValues_expectedValueInterval_completion mtrClusterApplicationLauncher expectedValues expectedValueIntervalMs completion =
-  sendMessage mtrClusterApplicationLauncher hideAppWithExpectedValues_expectedValueInterval_completionSelector (toNSArray expectedValues) (toNSNumber expectedValueIntervalMs) completion
+-- | @- hideAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
+hideAppWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterHideAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
+hideAppWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
+  sendMessage mtrClusterApplicationLauncher hideAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRApplicationLauncherClusterHideAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
 
 -- | @- readAttributeCatalogListWithParams:@
 readAttributeCatalogListWithParams :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRReadParams params) => mtrClusterApplicationLauncher -> params -> IO (Id NSDictionary)
@@ -155,60 +131,25 @@ new  =
     cls' <- getRequiredClass "MTRClusterApplicationLauncher"
     sendOwnedClassMessage cls' newSelector
 
--- | @- initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queue :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRDevice device, IsNSObject queue) => mtrClusterApplicationLauncher -> device -> CUShort -> queue -> IO (Id MTRClusterApplicationLauncher)
-initWithDevice_endpoint_queue mtrClusterApplicationLauncher device endpoint queue =
-  sendOwnedMessage mtrClusterApplicationLauncher initWithDevice_endpoint_queueSelector (toMTRDevice device) endpoint (toNSObject queue)
-
--- | @- launchAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
-launchAppWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterLaunchAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-launchAppWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterApplicationLauncher launchAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRApplicationLauncherClusterLaunchAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- stopAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
-stopAppWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterStopAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-stopAppWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterApplicationLauncher stopAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRApplicationLauncherClusterStopAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | @- hideAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
-hideAppWithParams_expectedValues_expectedValueInterval_completionHandler :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRApplicationLauncherClusterHideAppParams params, IsNSArray expectedDataValueDictionaries, IsNSNumber expectedValueIntervalMs) => mtrClusterApplicationLauncher -> params -> expectedDataValueDictionaries -> expectedValueIntervalMs -> Ptr () -> IO ()
-hideAppWithParams_expectedValues_expectedValueInterval_completionHandler mtrClusterApplicationLauncher params expectedDataValueDictionaries expectedValueIntervalMs completionHandler =
-  sendMessage mtrClusterApplicationLauncher hideAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector (toMTRApplicationLauncherClusterHideAppParams params) (toNSArray expectedDataValueDictionaries) (toNSNumber expectedValueIntervalMs) completionHandler
-
--- | For all instance methods that take a completion (i.e. command invocations), the completion will be called on the provided queue.
---
--- ObjC selector: @- initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queue :: (IsMTRClusterApplicationLauncher mtrClusterApplicationLauncher, IsMTRDevice device, IsNSNumber endpointID, IsNSObject queue) => mtrClusterApplicationLauncher -> device -> endpointID -> queue -> IO (Id MTRClusterApplicationLauncher)
-initWithDevice_endpointID_queue mtrClusterApplicationLauncher device endpointID queue =
-  sendOwnedMessage mtrClusterApplicationLauncher initWithDevice_endpointID_queueSelector (toMTRDevice device) (toNSNumber endpointID) (toNSObject queue)
-
 -- ---------------------------------------------------------------------------
 -- Selectors
 -- ---------------------------------------------------------------------------
 
--- | @Selector@ for @launchAppWithParams:expectedValues:expectedValueInterval:completion:@
-launchAppWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRApplicationLauncherClusterLaunchAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
-launchAppWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "launchAppWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @initWithDevice:endpoint:queue:@
+initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterApplicationLauncher)
+initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
 
--- | @Selector@ for @launchAppWithExpectedValues:expectedValueInterval:completion:@
-launchAppWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-launchAppWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "launchAppWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @launchAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
+launchAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRApplicationLauncherClusterLaunchAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
+launchAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "launchAppWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @stopAppWithParams:expectedValues:expectedValueInterval:completion:@
-stopAppWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRApplicationLauncherClusterStopAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
-stopAppWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "stopAppWithParams:expectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @stopAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
+stopAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRApplicationLauncherClusterStopAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
+stopAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "stopAppWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
--- | @Selector@ for @stopAppWithExpectedValues:expectedValueInterval:completion:@
-stopAppWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-stopAppWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "stopAppWithExpectedValues:expectedValueInterval:completion:"
-
--- | @Selector@ for @hideAppWithParams:expectedValues:expectedValueInterval:completion:@
-hideAppWithParams_expectedValues_expectedValueInterval_completionSelector :: Selector '[Id MTRApplicationLauncherClusterHideAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
-hideAppWithParams_expectedValues_expectedValueInterval_completionSelector = mkSelector "hideAppWithParams:expectedValues:expectedValueInterval:completion:"
-
--- | @Selector@ for @hideAppWithExpectedValues:expectedValueInterval:completion:@
-hideAppWithExpectedValues_expectedValueInterval_completionSelector :: Selector '[Id NSArray, Id NSNumber, Ptr ()] ()
-hideAppWithExpectedValues_expectedValueInterval_completionSelector = mkSelector "hideAppWithExpectedValues:expectedValueInterval:completion:"
+-- | @Selector@ for @hideAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
+hideAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRApplicationLauncherClusterHideAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
+hideAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "hideAppWithParams:expectedValues:expectedValueInterval:completionHandler:"
 
 -- | @Selector@ for @readAttributeCatalogListWithParams:@
 readAttributeCatalogListWithParamsSelector :: Selector '[Id MTRReadParams] (Id NSDictionary)
@@ -253,24 +194,4 @@ initSelector = mkSelector "init"
 -- | @Selector@ for @new@
 newSelector :: Selector '[] (Id MTRClusterApplicationLauncher)
 newSelector = mkSelector "new"
-
--- | @Selector@ for @initWithDevice:endpoint:queue:@
-initWithDevice_endpoint_queueSelector :: Selector '[Id MTRDevice, CUShort, Id NSObject] (Id MTRClusterApplicationLauncher)
-initWithDevice_endpoint_queueSelector = mkSelector "initWithDevice:endpoint:queue:"
-
--- | @Selector@ for @launchAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
-launchAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRApplicationLauncherClusterLaunchAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
-launchAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "launchAppWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @stopAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
-stopAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRApplicationLauncherClusterStopAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
-stopAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "stopAppWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @hideAppWithParams:expectedValues:expectedValueInterval:completionHandler:@
-hideAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector :: Selector '[Id MTRApplicationLauncherClusterHideAppParams, Id NSArray, Id NSNumber, Ptr ()] ()
-hideAppWithParams_expectedValues_expectedValueInterval_completionHandlerSelector = mkSelector "hideAppWithParams:expectedValues:expectedValueInterval:completionHandler:"
-
--- | @Selector@ for @initWithDevice:endpointID:queue:@
-initWithDevice_endpointID_queueSelector :: Selector '[Id MTRDevice, Id NSNumber, Id NSObject] (Id MTRClusterApplicationLauncher)
-initWithDevice_endpointID_queueSelector = mkSelector "initWithDevice:endpointID:queue:"
 

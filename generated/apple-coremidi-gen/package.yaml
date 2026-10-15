@@ -12,6 +12,7 @@ dependencies:
 ghc-options:
 - -Wall
 - -Wno-orphans
+- -Wno-unused-imports
 
 library:
   source-dirs: src
@@ -21,10 +22,7 @@ library:
   - ObjC.CoreMIDI.Internal.Classes
   - ObjC.CoreMIDI.Internal.Enums
   - ObjC.CoreMIDI.Internal.Structs
-  - ObjC.CoreMIDI.MIDI2DeviceInfo
-  - ObjC.CoreMIDI.MIDICIDevice
   - ObjC.CoreMIDI.MIDICIDeviceInfo
-  - ObjC.CoreMIDI.MIDICIDeviceManager
   - ObjC.CoreMIDI.MIDICIDiscoveredNode
   - ObjC.CoreMIDI.MIDICIDiscoveryManager
   - ObjC.CoreMIDI.MIDICIProfile
@@ -34,10 +32,4 @@ library:
   - ObjC.CoreMIDI.MIDINetworkConnection
   - ObjC.CoreMIDI.MIDINetworkHost
   - ObjC.CoreMIDI.MIDINetworkSession
-  - ObjC.CoreMIDI.MIDIUMPCIProfile
-  - ObjC.CoreMIDI.MIDIUMPEndpoint
-  - ObjC.CoreMIDI.MIDIUMPEndpointManager
-  - ObjC.CoreMIDI.MIDIUMPFunctionBlock
-  - ObjC.CoreMIDI.MIDIUMPMutableEndpoint
-  - ObjC.CoreMIDI.MIDIUMPMutableFunctionBlock
   - ObjC.CoreMIDI.Structs
